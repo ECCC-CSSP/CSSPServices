@@ -158,13 +158,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public InfrastructureLanguage GetInfrastructureLanguageWithInfrastructureLanguageID(int InfrastructureLanguageID)
+        public InfrastructureLanguage GetInfrastructureLanguageWithInfrastructureLanguageID(int InfrastructureLanguageID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = (from c in GetRead()
+            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.InfrastructureLanguageID == InfrastructureLanguageID
                                                 select c);
 
-            return FillInfrastructureLanguage(infrastructureLanguageQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return infrastructureLanguageQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillInfrastructureLanguage(infrastructureLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<InfrastructureLanguage> GetInfrastructureLanguageList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return infrastructureLanguageQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillInfrastructureLanguage(infrastructureLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -213,35 +242,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<InfrastructureLanguage> FillInfrastructureLanguage(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery)
+        private IQueryable<InfrastructureLanguage> FillInfrastructureLanguage(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<InfrastructureLanguage> InfrastructureLanguageList = (from c in infrastructureLanguageQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new InfrastructureLanguage
-                                         {
-                                             InfrastructureLanguageID = c.InfrastructureLanguageID,
-                                             InfrastructureID = c.InfrastructureID,
-                                             Language = c.Language,
-                                             Comment = c.Comment,
-                                             TranslationStatus = c.TranslationStatus,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (InfrastructureLanguage infrastructureLanguage in InfrastructureLanguageList)
-            {
-                infrastructureLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)infrastructureLanguage.Language);
-                infrastructureLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)infrastructureLanguage.TranslationStatus);
-            }
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            return InfrastructureLanguageList;
+            infrastructureLanguageQuery = (from c in infrastructureLanguageQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new InfrastructureLanguage
+                    {
+                        InfrastructureLanguageID = c.InfrastructureLanguageID,
+                        InfrastructureID = c.InfrastructureID,
+                        Language = c.Language,
+                        Comment = c.Comment,
+                        TranslationStatus = c.TranslationStatus,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatus
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return infrastructureLanguageQuery;
         }
         #endregion Functions private Generated Fill Class
 

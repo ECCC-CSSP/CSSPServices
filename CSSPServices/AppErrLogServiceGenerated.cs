@@ -164,13 +164,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID)
+        public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<AppErrLog> appErrLogQuery = (from c in GetRead()
+            IQueryable<AppErrLog> appErrLogQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AppErrLogID == AppErrLogID
                                                 select c);
 
-            return FillAppErrLog(appErrLogQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return appErrLogQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillAppErrLog(appErrLogQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<AppErrLog> GetAppErrLogList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<AppErrLog> appErrLogQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return appErrLogQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillAppErrLog(appErrLogQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -219,28 +248,29 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<AppErrLog> FillAppErrLog(IQueryable<AppErrLog> appErrLogQuery)
+        private IQueryable<AppErrLog> FillAppErrLog(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<AppErrLog> AppErrLogList = (from c in appErrLogQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new AppErrLog
-                                         {
-                                             AppErrLogID = c.AppErrLogID,
-                                             Tag = c.Tag,
-                                             LineNumber = c.LineNumber,
-                                             Source = c.Source,
-                                             Message = c.Message,
-                                             DateTime_UTC = c.DateTime_UTC,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            appErrLogQuery = (from c in appErrLogQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new AppErrLog
+                    {
+                        AppErrLogID = c.AppErrLogID,
+                        Tag = c.Tag,
+                        LineNumber = c.LineNumber,
+                        Source = c.Source,
+                        Message = c.Message,
+                        DateTime_UTC = c.DateTime_UTC,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return AppErrLogList;
+            return appErrLogQuery;
         }
         #endregion Functions private Generated Fill Class
 

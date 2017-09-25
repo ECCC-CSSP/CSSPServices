@@ -216,13 +216,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public PolSourceSite GetPolSourceSiteWithPolSourceSiteID(int PolSourceSiteID)
+        public PolSourceSite GetPolSourceSiteWithPolSourceSiteID(int PolSourceSiteID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in GetRead()
+            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.PolSourceSiteID == PolSourceSiteID
                                                 select c);
 
-            return FillPolSourceSite(polSourceSiteQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return polSourceSiteQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillPolSourceSite(polSourceSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<PolSourceSite> GetPolSourceSiteList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return polSourceSiteQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillPolSourceSite(polSourceSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -271,43 +300,44 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<PolSourceSite> FillPolSourceSite(IQueryable<PolSourceSite> polSourceSiteQuery)
+        private IQueryable<PolSourceSite> FillPolSourceSite(IQueryable<PolSourceSite> polSourceSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<PolSourceSite> PolSourceSiteList = (from c in polSourceSiteQuery
-                                         let PolSourceSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.PolSourceSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new PolSourceSite
-                                         {
-                                             PolSourceSiteID = c.PolSourceSiteID,
-                                             PolSourceSiteTVItemID = c.PolSourceSiteTVItemID,
-                                             Temp_Locator_CanDelete = c.Temp_Locator_CanDelete,
-                                             Oldsiteid = c.Oldsiteid,
-                                             Site = c.Site,
-                                             SiteID = c.SiteID,
-                                             IsPointSource = c.IsPointSource,
-                                             InactiveReason = c.InactiveReason,
-                                             CivicAddressTVItemID = c.CivicAddressTVItemID,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             PolSourceSiteTVText = PolSourceSiteTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (PolSourceSite polSourceSite in PolSourceSiteList)
-            {
-                polSourceSite.InactiveReasonText = enums.GetResValueForTypeAndID(typeof(PolSourceInactiveReasonEnum), (int?)polSourceSite.InactiveReason);
-            }
+            List<EnumIDAndText> PolSourceInactiveReasonEnumList = enums.GetEnumTextOrderedList(typeof(PolSourceInactiveReasonEnum));
 
-            return PolSourceSiteList;
+            polSourceSiteQuery = (from c in polSourceSiteQuery
+                let PolSourceSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.PolSourceSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new PolSourceSite
+                    {
+                        PolSourceSiteID = c.PolSourceSiteID,
+                        PolSourceSiteTVItemID = c.PolSourceSiteTVItemID,
+                        Temp_Locator_CanDelete = c.Temp_Locator_CanDelete,
+                        Oldsiteid = c.Oldsiteid,
+                        Site = c.Site,
+                        SiteID = c.SiteID,
+                        IsPointSource = c.IsPointSource,
+                        InactiveReason = c.InactiveReason,
+                        CivicAddressTVItemID = c.CivicAddressTVItemID,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        PolSourceSiteTVText = PolSourceSiteTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        InactiveReasonText = (from e in PolSourceInactiveReasonEnumList
+                                where e.EnumID == (int?)c.InactiveReason
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return polSourceSiteQuery;
         }
         #endregion Functions private Generated Fill Class
 

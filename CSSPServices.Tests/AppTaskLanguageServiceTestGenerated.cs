@@ -82,28 +82,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = appTaskLanguageService.GetRead().Count();
+                    count = appTaskLanguageService.GetRead().Count();
 
-                Assert.AreEqual(appTaskLanguageService.GetRead().Count(), appTaskLanguageService.GetEdit().Count());
+                    Assert.AreEqual(appTaskLanguageService.GetRead().Count(), appTaskLanguageService.GetEdit().Count());
 
-                appTaskLanguageService.Add(appTaskLanguage);
-                if (appTaskLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, appTaskLanguageService.GetRead().Where(c => c == appTaskLanguage).Any());
-                appTaskLanguageService.Update(appTaskLanguage);
-                if (appTaskLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, appTaskLanguageService.GetRead().Count());
-                appTaskLanguageService.Delete(appTaskLanguage);
-                if (appTaskLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    if (appTaskLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, appTaskLanguageService.GetRead().Where(c => c == appTaskLanguage).Any());
+                    appTaskLanguageService.Update(appTaskLanguage);
+                    if (appTaskLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, appTaskLanguageService.GetRead().Count());
+                    appTaskLanguageService.Delete(appTaskLanguage);
+                    if (appTaskLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -297,35 +297,80 @@ namespace CSSPServices.Tests
                     AppTaskLanguage appTaskLanguage = (from c in appTaskLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(appTaskLanguage);
 
-                    AppTaskLanguage appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID);
-                    Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageID);
-                    Assert.IsNotNull(appTaskLanguageRet.AppTaskID);
-                    Assert.IsNotNull(appTaskLanguageRet.Language);
-                    if (appTaskLanguageRet.StatusText != null)
+                    AppTaskLanguage appTaskLanguageRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(appTaskLanguageRet.StatusText);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.StatusText));
-                    }
-                    if (appTaskLanguageRet.ErrorText != null)
-                    {
-                       Assert.IsNotNull(appTaskLanguageRet.ErrorText);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.ErrorText));
-                    }
-                    Assert.IsNotNull(appTaskLanguageRet.TranslationStatus);
-                    Assert.IsNotNull(appTaskLanguageRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageID);
+                        Assert.IsNotNull(appTaskLanguageRet.AppTaskID);
+                        Assert.IsNotNull(appTaskLanguageRet.Language);
+                        if (appTaskLanguageRet.StatusText != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.StatusText));
+                        }
+                        if (appTaskLanguageRet.ErrorText != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.ErrorText));
+                        }
+                        Assert.IsNotNull(appTaskLanguageRet.TranslationStatus);
+                        Assert.IsNotNull(appTaskLanguageRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(appTaskLanguageRet.LanguageText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LanguageText));
-                    Assert.IsNotNull(appTaskLanguageRet.TranslationStatusText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.TranslationStatusText));
-                    Assert.IsNotNull(appTaskLanguageRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (appTaskLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (appTaskLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskLanguageRet.LanguageText));
+                            }
+                            if (appTaskLanguageRet.TranslationStatusText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskLanguageRet.TranslationStatusText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (appTaskLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (appTaskLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LanguageText));
+                            }
+                            if (appTaskLanguageRet.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.TranslationStatusText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of AppTaskLanguage
+        #endregion Tests Get List of AppTaskLanguage
 
     }
 }

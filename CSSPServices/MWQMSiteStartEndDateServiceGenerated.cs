@@ -168,13 +168,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in GetRead()
+            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID
                                                 select c);
 
-            return FillMWQMSiteStartEndDate(mwqmSiteStartEndDateQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSiteStartEndDateQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSiteStartEndDate(mwqmSiteStartEndDateQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMSiteStartEndDate> GetMWQMSiteStartEndDateList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSiteStartEndDateQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSiteStartEndDate(mwqmSiteStartEndDateQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -223,31 +252,32 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMSiteStartEndDate> FillMWQMSiteStartEndDate(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery)
+        private IQueryable<MWQMSiteStartEndDate> FillMWQMSiteStartEndDate(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMSiteStartEndDate> MWQMSiteStartEndDateList = (from c in mwqmSiteStartEndDateQuery
-                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMSiteStartEndDate
-                                         {
-                                             MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
-                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                                             StartDate = c.StartDate,
-                                             EndDate = c.EndDate,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MWQMSiteTVText = MWQMSiteTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            mwqmSiteStartEndDateQuery = (from c in mwqmSiteStartEndDateQuery
+                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMSiteStartEndDate
+                    {
+                        MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
+                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                        StartDate = c.StartDate,
+                        EndDate = c.EndDate,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MWQMSiteTVText = MWQMSiteTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return MWQMSiteStartEndDateList;
+            return mwqmSiteStartEndDateQuery;
         }
         #endregion Functions private Generated Fill Class
 

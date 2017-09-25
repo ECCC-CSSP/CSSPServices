@@ -90,28 +90,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = labSheetTubeMPNDetailService.GetRead().Count();
+                    count = labSheetTubeMPNDetailService.GetRead().Count();
 
-                Assert.AreEqual(labSheetTubeMPNDetailService.GetRead().Count(), labSheetTubeMPNDetailService.GetEdit().Count());
+                    Assert.AreEqual(labSheetTubeMPNDetailService.GetRead().Count(), labSheetTubeMPNDetailService.GetEdit().Count());
 
-                labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
-                if (labSheetTubeMPNDetail.HasErrors)
-                {
-                    Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, labSheetTubeMPNDetailService.GetRead().Where(c => c == labSheetTubeMPNDetail).Any());
-                labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
-                if (labSheetTubeMPNDetail.HasErrors)
-                {
-                    Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, labSheetTubeMPNDetailService.GetRead().Count());
-                labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail);
-                if (labSheetTubeMPNDetail.HasErrors)
-                {
-                    Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
+                    labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+                    if (labSheetTubeMPNDetail.HasErrors)
+                    {
+                        Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, labSheetTubeMPNDetailService.GetRead().Where(c => c == labSheetTubeMPNDetail).Any());
+                    labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
+                    if (labSheetTubeMPNDetail.HasErrors)
+                    {
+                        Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, labSheetTubeMPNDetailService.GetRead().Count());
+                    labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail);
+                    if (labSheetTubeMPNDetail.HasErrors)
+                    {
+                        Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -456,64 +456,109 @@ namespace CSSPServices.Tests
                     LabSheetTubeMPNDetail labSheetTubeMPNDetail = (from c in labSheetTubeMPNDetailService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(labSheetTubeMPNDetail);
 
-                    LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetDetailID);
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.Ordinal);
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.MWQMSiteTVItemID);
-                    if (labSheetTubeMPNDetailRet.SampleDateTime != null)
+                    LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleDateTime);
-                    }
-                    if (labSheetTubeMPNDetailRet.MPN != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.MPN);
-                    }
-                    if (labSheetTubeMPNDetailRet.Tube10 != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube10);
-                    }
-                    if (labSheetTubeMPNDetailRet.Tube1_0 != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube1_0);
-                    }
-                    if (labSheetTubeMPNDetailRet.Tube0_1 != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube0_1);
-                    }
-                    if (labSheetTubeMPNDetailRet.Salinity != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.Salinity);
-                    }
-                    if (labSheetTubeMPNDetailRet.Temperature != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.Temperature);
-                    }
-                    if (labSheetTubeMPNDetailRet.ProcessedBy != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.ProcessedBy);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.ProcessedBy));
-                    }
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleType);
-                    if (labSheetTubeMPNDetailRet.SiteComment != null)
-                    {
-                       Assert.IsNotNull(labSheetTubeMPNDetailRet.SiteComment);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SiteComment));
-                    }
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
+                        Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetDetailID);
+                        Assert.IsNotNull(labSheetTubeMPNDetailRet.Ordinal);
+                        Assert.IsNotNull(labSheetTubeMPNDetailRet.MWQMSiteTVItemID);
+                        if (labSheetTubeMPNDetailRet.SampleDateTime != null)
+                        {
+                            Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleDateTime);
+                        }
+                        if (labSheetTubeMPNDetailRet.MPN != null)
+                        {
+                            Assert.IsNotNull(labSheetTubeMPNDetailRet.MPN);
+                        }
+                        if (labSheetTubeMPNDetailRet.Tube10 != null)
+                        {
+                            Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube10);
+                        }
+                        if (labSheetTubeMPNDetailRet.Tube1_0 != null)
+                        {
+                            Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube1_0);
+                        }
+                        if (labSheetTubeMPNDetailRet.Tube0_1 != null)
+                        {
+                            Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube0_1);
+                        }
+                        if (labSheetTubeMPNDetailRet.Salinity != null)
+                        {
+                            Assert.IsNotNull(labSheetTubeMPNDetailRet.Salinity);
+                        }
+                        if (labSheetTubeMPNDetailRet.Temperature != null)
+                        {
+                            Assert.IsNotNull(labSheetTubeMPNDetailRet.Temperature);
+                        }
+                        if (labSheetTubeMPNDetailRet.ProcessedBy != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.ProcessedBy));
+                        }
+                        Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleType);
+                        if (labSheetTubeMPNDetailRet.SiteComment != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SiteComment));
+                        }
+                        Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.MWQMSiteTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.MWQMSiteTVText));
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SampleTypeText));
-                    Assert.IsNotNull(labSheetTubeMPNDetailRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (labSheetTubeMPNDetailRet.MWQMSiteTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.MWQMSiteTVText));
+                            }
+                            if (labSheetTubeMPNDetailRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LastUpdateContactTVText));
+                            }
+                            if (labSheetTubeMPNDetailRet.SampleTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SampleTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (labSheetTubeMPNDetailRet.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.MWQMSiteTVText));
+                            }
+                            if (labSheetTubeMPNDetailRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LastUpdateContactTVText));
+                            }
+                            if (labSheetTubeMPNDetailRet.SampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SampleTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of LabSheetTubeMPNDetail
+        #endregion Tests Get List of LabSheetTubeMPNDetail
 
     }
 }

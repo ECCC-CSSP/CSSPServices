@@ -160,13 +160,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID)
+        public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in GetRead()
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSubsectorID == MWQMSubsectorID
                                                 select c);
 
-            return FillMWQMSubsector(mwqmSubsectorQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSubsectorQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSubsector(mwqmSubsectorQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMSubsector> GetMWQMSubsectorList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSubsectorQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSubsector(mwqmSubsectorQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -215,31 +244,32 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMSubsector> FillMWQMSubsector(IQueryable<MWQMSubsector> mwqmSubsectorQuery)
+        private IQueryable<MWQMSubsector> FillMWQMSubsector(IQueryable<MWQMSubsector> mwqmSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMSubsector> MWQMSubsectorList = (from c in mwqmSubsectorQuery
-                                         let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMSubsectorTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMSubsector
-                                         {
-                                             MWQMSubsectorID = c.MWQMSubsectorID,
-                                             MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
-                                             SubsectorHistoricKey = c.SubsectorHistoricKey,
-                                             TideLocationSIDText = c.TideLocationSIDText,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             SubsectorTVText = SubsectorTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            mwqmSubsectorQuery = (from c in mwqmSubsectorQuery
+                let SubsectorTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMSubsectorTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMSubsector
+                    {
+                        MWQMSubsectorID = c.MWQMSubsectorID,
+                        MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
+                        SubsectorHistoricKey = c.SubsectorHistoricKey,
+                        TideLocationSIDText = c.TideLocationSIDText,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        SubsectorTVText = SubsectorTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return MWQMSubsectorList;
+            return mwqmSubsectorQuery;
         }
         #endregion Functions private Generated Fill Class
 

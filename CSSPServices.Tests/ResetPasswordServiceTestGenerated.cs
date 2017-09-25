@@ -80,28 +80,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = resetPasswordService.GetRead().Count();
+                    count = resetPasswordService.GetRead().Count();
 
-                Assert.AreEqual(resetPasswordService.GetRead().Count(), resetPasswordService.GetEdit().Count());
+                    Assert.AreEqual(resetPasswordService.GetRead().Count(), resetPasswordService.GetEdit().Count());
 
-                resetPasswordService.Add(resetPassword);
-                if (resetPassword.HasErrors)
-                {
-                    Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, resetPasswordService.GetRead().Where(c => c == resetPassword).Any());
-                resetPasswordService.Update(resetPassword);
-                if (resetPassword.HasErrors)
-                {
-                    Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, resetPasswordService.GetRead().Count());
-                resetPasswordService.Delete(resetPassword);
-                if (resetPassword.HasErrors)
-                {
-                    Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+                    resetPasswordService.Add(resetPassword);
+                    if (resetPassword.HasErrors)
+                    {
+                        Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, resetPasswordService.GetRead().Where(c => c == resetPassword).Any());
+                    resetPasswordService.Update(resetPassword);
+                    if (resetPassword.HasErrors)
+                    {
+                        Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, resetPasswordService.GetRead().Count());
+                    resetPasswordService.Delete(resetPassword);
+                    if (resetPassword.HasErrors)
+                    {
+                        Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -307,23 +307,56 @@ namespace CSSPServices.Tests
                     ResetPassword resetPassword = (from c in resetPasswordService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(resetPassword);
 
-                    ResetPassword resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
-                    Assert.IsNotNull(resetPasswordRet.ResetPasswordID);
-                    Assert.IsNotNull(resetPasswordRet.Email);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Email));
-                    Assert.IsNotNull(resetPasswordRet.ExpireDate_Local);
-                    Assert.IsNotNull(resetPasswordRet.Code);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Code));
-                    Assert.IsNotNull(resetPasswordRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(resetPasswordRet.LastUpdateContactTVItemID);
+                    ResetPassword resetPasswordRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(resetPasswordRet.ResetPasswordID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Email));
+                        Assert.IsNotNull(resetPasswordRet.ExpireDate_Local);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Code));
+                        Assert.IsNotNull(resetPasswordRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(resetPasswordRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(resetPasswordRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(resetPasswordRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (resetPasswordRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(resetPasswordRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (resetPasswordRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of ResetPassword
+        #endregion Tests Get List of ResetPassword
 
     }
 }

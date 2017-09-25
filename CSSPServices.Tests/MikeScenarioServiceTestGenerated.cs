@@ -102,28 +102,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mikeScenarioService.GetRead().Count();
+                    count = mikeScenarioService.GetRead().Count();
 
-                Assert.AreEqual(mikeScenarioService.GetRead().Count(), mikeScenarioService.GetEdit().Count());
+                    Assert.AreEqual(mikeScenarioService.GetRead().Count(), mikeScenarioService.GetEdit().Count());
 
-                mikeScenarioService.Add(mikeScenario);
-                if (mikeScenario.HasErrors)
-                {
-                    Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mikeScenarioService.GetRead().Where(c => c == mikeScenario).Any());
-                mikeScenarioService.Update(mikeScenario);
-                if (mikeScenario.HasErrors)
-                {
-                    Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mikeScenarioService.GetRead().Count());
-                mikeScenarioService.Delete(mikeScenario);
-                if (mikeScenario.HasErrors)
-                {
-                    Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
+                    mikeScenarioService.Add(mikeScenario);
+                    if (mikeScenario.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mikeScenarioService.GetRead().Where(c => c == mikeScenario).Any());
+                    mikeScenarioService.Update(mikeScenario);
+                    if (mikeScenario.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mikeScenarioService.GetRead().Count());
+                    mikeScenarioService.Delete(mikeScenario);
+                    if (mikeScenario.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -676,84 +676,130 @@ namespace CSSPServices.Tests
                     MikeScenario mikeScenario = (from c in mikeScenarioService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeScenario);
 
-                    MikeScenario mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
-                    Assert.IsNotNull(mikeScenarioRet.MikeScenarioID);
-                    Assert.IsNotNull(mikeScenarioRet.MikeScenarioTVItemID);
-                    if (mikeScenarioRet.ParentMikeScenarioID != null)
+                    MikeScenario mikeScenarioRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(mikeScenarioRet.ParentMikeScenarioID);
-                    }
-                    Assert.IsNotNull(mikeScenarioRet.ScenarioStatus);
-                    if (mikeScenarioRet.ErrorInfo != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.ErrorInfo);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ErrorInfo));
-                    }
-                    Assert.IsNotNull(mikeScenarioRet.MikeScenarioStartDateTime_Local);
-                    Assert.IsNotNull(mikeScenarioRet.MikeScenarioEndDateTime_Local);
-                    if (mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local);
-                    }
-                    if (mikeScenarioRet.MikeScenarioExecutionTime_min != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.MikeScenarioExecutionTime_min);
-                    }
-                    Assert.IsNotNull(mikeScenarioRet.WindSpeed_km_h);
-                    Assert.IsNotNull(mikeScenarioRet.WindDirection_deg);
-                    Assert.IsNotNull(mikeScenarioRet.DecayFactor_per_day);
-                    Assert.IsNotNull(mikeScenarioRet.DecayIsConstant);
-                    Assert.IsNotNull(mikeScenarioRet.DecayFactorAmplitude);
-                    Assert.IsNotNull(mikeScenarioRet.ResultFrequency_min);
-                    Assert.IsNotNull(mikeScenarioRet.AmbientTemperature_C);
-                    Assert.IsNotNull(mikeScenarioRet.AmbientSalinity_PSU);
-                    Assert.IsNotNull(mikeScenarioRet.ManningNumber);
-                    if (mikeScenarioRet.NumberOfElements != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.NumberOfElements);
-                    }
-                    if (mikeScenarioRet.NumberOfTimeSteps != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.NumberOfTimeSteps);
-                    }
-                    if (mikeScenarioRet.NumberOfSigmaLayers != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.NumberOfSigmaLayers);
-                    }
-                    if (mikeScenarioRet.NumberOfZLayers != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.NumberOfZLayers);
-                    }
-                    if (mikeScenarioRet.NumberOfHydroOutputParameters != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.NumberOfHydroOutputParameters);
-                    }
-                    if (mikeScenarioRet.NumberOfTransOutputParameters != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.NumberOfTransOutputParameters);
-                    }
-                    if (mikeScenarioRet.EstimatedHydroFileSize != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.EstimatedHydroFileSize);
-                    }
-                    if (mikeScenarioRet.EstimatedTransFileSize != null)
-                    {
-                       Assert.IsNotNull(mikeScenarioRet.EstimatedTransFileSize);
-                    }
-                    Assert.IsNotNull(mikeScenarioRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mikeScenarioRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mikeScenarioRet.MikeScenarioID);
+                        Assert.IsNotNull(mikeScenarioRet.MikeScenarioTVItemID);
+                        if (mikeScenarioRet.ParentMikeScenarioID != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.ParentMikeScenarioID);
+                        }
+                        Assert.IsNotNull(mikeScenarioRet.ScenarioStatus);
+                        if (mikeScenarioRet.ErrorInfo != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ErrorInfo));
+                        }
+                        Assert.IsNotNull(mikeScenarioRet.MikeScenarioStartDateTime_Local);
+                        Assert.IsNotNull(mikeScenarioRet.MikeScenarioEndDateTime_Local);
+                        if (mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local);
+                        }
+                        if (mikeScenarioRet.MikeScenarioExecutionTime_min != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.MikeScenarioExecutionTime_min);
+                        }
+                        Assert.IsNotNull(mikeScenarioRet.WindSpeed_km_h);
+                        Assert.IsNotNull(mikeScenarioRet.WindDirection_deg);
+                        Assert.IsNotNull(mikeScenarioRet.DecayFactor_per_day);
+                        Assert.IsNotNull(mikeScenarioRet.DecayIsConstant);
+                        Assert.IsNotNull(mikeScenarioRet.DecayFactorAmplitude);
+                        Assert.IsNotNull(mikeScenarioRet.ResultFrequency_min);
+                        Assert.IsNotNull(mikeScenarioRet.AmbientTemperature_C);
+                        Assert.IsNotNull(mikeScenarioRet.AmbientSalinity_PSU);
+                        Assert.IsNotNull(mikeScenarioRet.ManningNumber);
+                        if (mikeScenarioRet.NumberOfElements != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.NumberOfElements);
+                        }
+                        if (mikeScenarioRet.NumberOfTimeSteps != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.NumberOfTimeSteps);
+                        }
+                        if (mikeScenarioRet.NumberOfSigmaLayers != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.NumberOfSigmaLayers);
+                        }
+                        if (mikeScenarioRet.NumberOfZLayers != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.NumberOfZLayers);
+                        }
+                        if (mikeScenarioRet.NumberOfHydroOutputParameters != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.NumberOfHydroOutputParameters);
+                        }
+                        if (mikeScenarioRet.NumberOfTransOutputParameters != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.NumberOfTransOutputParameters);
+                        }
+                        if (mikeScenarioRet.EstimatedHydroFileSize != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.EstimatedHydroFileSize);
+                        }
+                        if (mikeScenarioRet.EstimatedTransFileSize != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioRet.EstimatedTransFileSize);
+                        }
+                        Assert.IsNotNull(mikeScenarioRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mikeScenarioRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mikeScenarioRet.MikeScenarioTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioTVText));
-                    Assert.IsNotNull(mikeScenarioRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mikeScenarioRet.ScenarioStatusText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ScenarioStatusText));
-                    Assert.IsNotNull(mikeScenarioRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mikeScenarioRet.MikeScenarioTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioTVText));
+                            }
+                            if (mikeScenarioRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeScenarioRet.LastUpdateContactTVText));
+                            }
+                            if (mikeScenarioRet.ScenarioStatusText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeScenarioRet.ScenarioStatusText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mikeScenarioRet.MikeScenarioTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioTVText));
+                            }
+                            if (mikeScenarioRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.LastUpdateContactTVText));
+                            }
+                            if (mikeScenarioRet.ScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ScenarioStatusText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MikeScenario
+        #endregion Tests Get List of MikeScenario
 
     }
 }

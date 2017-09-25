@@ -78,28 +78,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = samplingPlanSubsectorService.GetRead().Count();
+                    count = samplingPlanSubsectorService.GetRead().Count();
 
-                Assert.AreEqual(samplingPlanSubsectorService.GetRead().Count(), samplingPlanSubsectorService.GetEdit().Count());
+                    Assert.AreEqual(samplingPlanSubsectorService.GetRead().Count(), samplingPlanSubsectorService.GetEdit().Count());
 
-                samplingPlanSubsectorService.Add(samplingPlanSubsector);
-                if (samplingPlanSubsector.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, samplingPlanSubsectorService.GetRead().Where(c => c == samplingPlanSubsector).Any());
-                samplingPlanSubsectorService.Update(samplingPlanSubsector);
-                if (samplingPlanSubsector.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, samplingPlanSubsectorService.GetRead().Count());
-                samplingPlanSubsectorService.Delete(samplingPlanSubsector);
-                if (samplingPlanSubsector.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
+                    samplingPlanSubsectorService.Add(samplingPlanSubsector);
+                    if (samplingPlanSubsector.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, samplingPlanSubsectorService.GetRead().Where(c => c == samplingPlanSubsector).Any());
+                    samplingPlanSubsectorService.Update(samplingPlanSubsector);
+                    if (samplingPlanSubsector.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, samplingPlanSubsectorService.GetRead().Count());
+                    samplingPlanSubsectorService.Delete(samplingPlanSubsector);
+                    if (samplingPlanSubsector.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -247,22 +247,63 @@ namespace CSSPServices.Tests
                     SamplingPlanSubsector samplingPlanSubsector = (from c in samplingPlanSubsectorService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsector);
 
-                    SamplingPlanSubsector samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
-                    Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanSubsectorID);
-                    Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanID);
-                    Assert.IsNotNull(samplingPlanSubsectorRet.SubsectorTVItemID);
-                    Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateContactTVItemID);
+                    SamplingPlanSubsector samplingPlanSubsectorRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanSubsectorID);
+                        Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanID);
+                        Assert.IsNotNull(samplingPlanSubsectorRet.SubsectorTVItemID);
+                        Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(samplingPlanSubsectorRet.SubsectorTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));
-                    Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(samplingPlanSubsectorRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (samplingPlanSubsectorRet.SubsectorTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));
+                            }
+                            if (samplingPlanSubsectorRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (samplingPlanSubsectorRet.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));
+                            }
+                            if (samplingPlanSubsectorRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of SamplingPlanSubsector
+        #endregion Tests Get List of SamplingPlanSubsector
 
     }
 }

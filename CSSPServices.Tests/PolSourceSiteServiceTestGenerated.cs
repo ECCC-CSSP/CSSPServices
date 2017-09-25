@@ -85,28 +85,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = polSourceSiteService.GetRead().Count();
+                    count = polSourceSiteService.GetRead().Count();
 
-                Assert.AreEqual(polSourceSiteService.GetRead().Count(), polSourceSiteService.GetEdit().Count());
+                    Assert.AreEqual(polSourceSiteService.GetRead().Count(), polSourceSiteService.GetEdit().Count());
 
-                polSourceSiteService.Add(polSourceSite);
-                if (polSourceSite.HasErrors)
-                {
-                    Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, polSourceSiteService.GetRead().Where(c => c == polSourceSite).Any());
-                polSourceSiteService.Update(polSourceSite);
-                if (polSourceSite.HasErrors)
-                {
-                    Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, polSourceSiteService.GetRead().Count());
-                polSourceSiteService.Delete(polSourceSite);
-                if (polSourceSite.HasErrors)
-                {
-                    Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    polSourceSiteService.Add(polSourceSite);
+                    if (polSourceSite.HasErrors)
+                    {
+                        Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, polSourceSiteService.GetRead().Where(c => c == polSourceSite).Any());
+                    polSourceSiteService.Update(polSourceSite);
+                    if (polSourceSite.HasErrors)
+                    {
+                        Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, polSourceSiteService.GetRead().Count());
+                    polSourceSiteService.Delete(polSourceSite);
+                    if (polSourceSite.HasErrors)
+                    {
+                        Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -363,49 +363,95 @@ namespace CSSPServices.Tests
                     PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceSite);
 
-                    PolSourceSite polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
-                    Assert.IsNotNull(polSourceSiteRet.PolSourceSiteID);
-                    Assert.IsNotNull(polSourceSiteRet.PolSourceSiteTVItemID);
-                    if (polSourceSiteRet.Temp_Locator_CanDelete != null)
+                    PolSourceSite polSourceSiteRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(polSourceSiteRet.Temp_Locator_CanDelete);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.Temp_Locator_CanDelete));
-                    }
-                    if (polSourceSiteRet.Oldsiteid != null)
-                    {
-                       Assert.IsNotNull(polSourceSiteRet.Oldsiteid);
-                    }
-                    if (polSourceSiteRet.Site != null)
-                    {
-                       Assert.IsNotNull(polSourceSiteRet.Site);
-                    }
-                    if (polSourceSiteRet.SiteID != null)
-                    {
-                       Assert.IsNotNull(polSourceSiteRet.SiteID);
-                    }
-                    Assert.IsNotNull(polSourceSiteRet.IsPointSource);
-                    if (polSourceSiteRet.InactiveReason != null)
-                    {
-                       Assert.IsNotNull(polSourceSiteRet.InactiveReason);
-                    }
-                    if (polSourceSiteRet.CivicAddressTVItemID != null)
-                    {
-                       Assert.IsNotNull(polSourceSiteRet.CivicAddressTVItemID);
-                    }
-                    Assert.IsNotNull(polSourceSiteRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(polSourceSiteRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(polSourceSiteRet.PolSourceSiteID);
+                        Assert.IsNotNull(polSourceSiteRet.PolSourceSiteTVItemID);
+                        if (polSourceSiteRet.Temp_Locator_CanDelete != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.Temp_Locator_CanDelete));
+                        }
+                        if (polSourceSiteRet.Oldsiteid != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteRet.Oldsiteid);
+                        }
+                        if (polSourceSiteRet.Site != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteRet.Site);
+                        }
+                        if (polSourceSiteRet.SiteID != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteRet.SiteID);
+                        }
+                        Assert.IsNotNull(polSourceSiteRet.IsPointSource);
+                        if (polSourceSiteRet.InactiveReason != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteRet.InactiveReason);
+                        }
+                        if (polSourceSiteRet.CivicAddressTVItemID != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteRet.CivicAddressTVItemID);
+                        }
+                        Assert.IsNotNull(polSourceSiteRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(polSourceSiteRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(polSourceSiteRet.PolSourceSiteTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteTVText));
-                    Assert.IsNotNull(polSourceSiteRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(polSourceSiteRet.InactiveReasonText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.InactiveReasonText));
-                    Assert.IsNotNull(polSourceSiteRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (polSourceSiteRet.PolSourceSiteTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteTVText));
+                            }
+                            if (polSourceSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceSiteRet.LastUpdateContactTVText));
+                            }
+                            if (polSourceSiteRet.InactiveReasonText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceSiteRet.InactiveReasonText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (polSourceSiteRet.PolSourceSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteTVText));
+                            }
+                            if (polSourceSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.LastUpdateContactTVText));
+                            }
+                            if (polSourceSiteRet.InactiveReasonText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.InactiveReasonText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of PolSourceSite
+        #endregion Tests Get List of PolSourceSite
 
     }
 }

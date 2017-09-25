@@ -128,13 +128,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideLocation GetTideLocationWithTideLocationID(int TideLocationID)
+        public TideLocation GetTideLocationWithTideLocationID(int TideLocationID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<TideLocation> tideLocationQuery = (from c in GetRead()
+            IQueryable<TideLocation> tideLocationQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideLocationID == TideLocationID
                                                 select c);
 
-            return FillTideLocation(tideLocationQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tideLocationQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTideLocation(tideLocationQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<TideLocation> GetTideLocationList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<TideLocation> tideLocationQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tideLocationQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTideLocation(tideLocationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -183,22 +212,23 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<TideLocation> FillTideLocation(IQueryable<TideLocation> tideLocationQuery)
+        private IQueryable<TideLocation> FillTideLocation(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<TideLocation> TideLocationList = (from c in tideLocationQuery
-                                         select new TideLocation
-                                         {
-                                             TideLocationID = c.TideLocationID,
-                                             Zone = c.Zone,
-                                             Name = c.Name,
-                                             Prov = c.Prov,
-                                             sid = c.sid,
-                                             Lat = c.Lat,
-                                             Lng = c.Lng,
-                                             ValidationResults = null,
-                                         }).ToList();
+            tideLocationQuery = (from c in tideLocationQuery
+                    select new TideLocation
+                    {
+                        TideLocationID = c.TideLocationID,
+                        Zone = c.Zone,
+                        Name = c.Name,
+                        Prov = c.Prov,
+                        sid = c.sid,
+                        Lat = c.Lat,
+                        Lng = c.Lng,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return TideLocationList;
+            return tideLocationQuery;
         }
         #endregion Functions private Generated Fill Class
 

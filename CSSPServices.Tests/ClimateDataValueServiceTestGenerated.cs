@@ -92,28 +92,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = climateDataValueService.GetRead().Count();
+                    count = climateDataValueService.GetRead().Count();
 
-                Assert.AreEqual(climateDataValueService.GetRead().Count(), climateDataValueService.GetEdit().Count());
+                    Assert.AreEqual(climateDataValueService.GetRead().Count(), climateDataValueService.GetEdit().Count());
 
-                climateDataValueService.Add(climateDataValue);
-                if (climateDataValue.HasErrors)
-                {
-                    Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, climateDataValueService.GetRead().Where(c => c == climateDataValue).Any());
-                climateDataValueService.Update(climateDataValue);
-                if (climateDataValue.HasErrors)
-                {
-                    Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, climateDataValueService.GetRead().Count());
-                climateDataValueService.Delete(climateDataValue);
-                if (climateDataValue.HasErrors)
-                {
-                    Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, climateDataValueService.GetRead().Count());
+                    climateDataValueService.Add(climateDataValue);
+                    if (climateDataValue.HasErrors)
+                    {
+                        Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, climateDataValueService.GetRead().Where(c => c == climateDataValue).Any());
+                    climateDataValueService.Update(climateDataValue);
+                    if (climateDataValue.HasErrors)
+                    {
+                        Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, climateDataValueService.GetRead().Count());
+                    climateDataValueService.Delete(climateDataValue);
+                    if (climateDataValue.HasErrors)
+                    {
+                        Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -504,73 +504,113 @@ namespace CSSPServices.Tests
                     ClimateDataValue climateDataValue = (from c in climateDataValueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(climateDataValue);
 
-                    ClimateDataValue climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID);
-                    Assert.IsNotNull(climateDataValueRet.ClimateDataValueID);
-                    Assert.IsNotNull(climateDataValueRet.ClimateSiteID);
-                    Assert.IsNotNull(climateDataValueRet.DateTime_Local);
-                    Assert.IsNotNull(climateDataValueRet.Keep);
-                    Assert.IsNotNull(climateDataValueRet.StorageDataType);
-                    if (climateDataValueRet.Snow_cm != null)
+                    ClimateDataValue climateDataValueRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(climateDataValueRet.Snow_cm);
-                    }
-                    if (climateDataValueRet.Rainfall_mm != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.Rainfall_mm);
-                    }
-                    if (climateDataValueRet.RainfallEntered_mm != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.RainfallEntered_mm);
-                    }
-                    if (climateDataValueRet.TotalPrecip_mm_cm != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.TotalPrecip_mm_cm);
-                    }
-                    if (climateDataValueRet.MaxTemp_C != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.MaxTemp_C);
-                    }
-                    if (climateDataValueRet.MinTemp_C != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.MinTemp_C);
-                    }
-                    if (climateDataValueRet.HeatDegDays_C != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.HeatDegDays_C);
-                    }
-                    if (climateDataValueRet.CoolDegDays_C != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.CoolDegDays_C);
-                    }
-                    if (climateDataValueRet.SnowOnGround_cm != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.SnowOnGround_cm);
-                    }
-                    if (climateDataValueRet.DirMaxGust_0North != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.DirMaxGust_0North);
-                    }
-                    if (climateDataValueRet.SpdMaxGust_kmh != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.SpdMaxGust_kmh);
-                    }
-                    if (climateDataValueRet.HourlyValues != null)
-                    {
-                       Assert.IsNotNull(climateDataValueRet.HourlyValues);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.HourlyValues));
-                    }
-                    Assert.IsNotNull(climateDataValueRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(climateDataValueRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(climateDataValueRet.ClimateDataValueID);
+                        Assert.IsNotNull(climateDataValueRet.ClimateSiteID);
+                        Assert.IsNotNull(climateDataValueRet.DateTime_Local);
+                        Assert.IsNotNull(climateDataValueRet.Keep);
+                        Assert.IsNotNull(climateDataValueRet.StorageDataType);
+                        if (climateDataValueRet.Snow_cm != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.Snow_cm);
+                        }
+                        if (climateDataValueRet.Rainfall_mm != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.Rainfall_mm);
+                        }
+                        if (climateDataValueRet.RainfallEntered_mm != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.RainfallEntered_mm);
+                        }
+                        if (climateDataValueRet.TotalPrecip_mm_cm != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.TotalPrecip_mm_cm);
+                        }
+                        if (climateDataValueRet.MaxTemp_C != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.MaxTemp_C);
+                        }
+                        if (climateDataValueRet.MinTemp_C != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.MinTemp_C);
+                        }
+                        if (climateDataValueRet.HeatDegDays_C != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.HeatDegDays_C);
+                        }
+                        if (climateDataValueRet.CoolDegDays_C != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.CoolDegDays_C);
+                        }
+                        if (climateDataValueRet.SnowOnGround_cm != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.SnowOnGround_cm);
+                        }
+                        if (climateDataValueRet.DirMaxGust_0North != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.DirMaxGust_0North);
+                        }
+                        if (climateDataValueRet.SpdMaxGust_kmh != null)
+                        {
+                            Assert.IsNotNull(climateDataValueRet.SpdMaxGust_kmh);
+                        }
+                        if (climateDataValueRet.HourlyValues != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.HourlyValues));
+                        }
+                        Assert.IsNotNull(climateDataValueRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(climateDataValueRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(climateDataValueRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(climateDataValueRet.StorageDataTypeEnumText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.StorageDataTypeEnumText));
-                    Assert.IsNotNull(climateDataValueRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (climateDataValueRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));
+                            }
+                            if (climateDataValueRet.StorageDataTypeEnumText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateDataValueRet.StorageDataTypeEnumText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (climateDataValueRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));
+                            }
+                            if (climateDataValueRet.StorageDataTypeEnumText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.StorageDataTypeEnumText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of ClimateDataValue
+        #endregion Tests Get List of ClimateDataValue
 
     }
 }

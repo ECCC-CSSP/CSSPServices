@@ -162,13 +162,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideSite GetTideSiteWithTideSiteID(int TideSiteID)
+        public TideSite GetTideSiteWithTideSiteID(int TideSiteID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<TideSite> tideSiteQuery = (from c in GetRead()
+            IQueryable<TideSite> tideSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideSiteID == TideSiteID
                                                 select c);
 
-            return FillTideSite(tideSiteQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tideSiteQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTideSite(tideSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<TideSite> GetTideSiteList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<TideSite> tideSiteQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tideSiteQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTideSite(tideSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -217,31 +246,32 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<TideSite> FillTideSite(IQueryable<TideSite> tideSiteQuery)
+        private IQueryable<TideSite> FillTideSite(IQueryable<TideSite> tideSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<TideSite> TideSiteList = (from c in tideSiteQuery
-                                         let TideSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TideSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new TideSite
-                                         {
-                                             TideSiteID = c.TideSiteID,
-                                             TideSiteTVItemID = c.TideSiteTVItemID,
-                                             WebTideModel = c.WebTideModel,
-                                             WebTideDatum_m = c.WebTideDatum_m,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             TideSiteTVText = TideSiteTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            tideSiteQuery = (from c in tideSiteQuery
+                let TideSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TideSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new TideSite
+                    {
+                        TideSiteID = c.TideSiteID,
+                        TideSiteTVItemID = c.TideSiteTVItemID,
+                        WebTideModel = c.WebTideModel,
+                        WebTideDatum_m = c.WebTideDatum_m,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TideSiteTVText = TideSiteTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return TideSiteList;
+            return tideSiteQuery;
         }
         #endregion Functions private Generated Fill Class
 

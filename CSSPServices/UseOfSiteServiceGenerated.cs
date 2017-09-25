@@ -255,13 +255,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public UseOfSite GetUseOfSiteWithUseOfSiteID(int UseOfSiteID)
+        public UseOfSite GetUseOfSiteWithUseOfSiteID(int UseOfSiteID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<UseOfSite> useOfSiteQuery = (from c in GetRead()
+            IQueryable<UseOfSite> useOfSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.UseOfSiteID == UseOfSiteID
                                                 select c);
 
-            return FillUseOfSite(useOfSiteQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return useOfSiteQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillUseOfSite(useOfSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<UseOfSite> GetUseOfSiteList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<UseOfSite> useOfSiteQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return useOfSiteQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillUseOfSite(useOfSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -310,53 +339,54 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<UseOfSite> FillUseOfSite(IQueryable<UseOfSite> useOfSiteQuery)
+        private IQueryable<UseOfSite> FillUseOfSite(IQueryable<UseOfSite> useOfSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<UseOfSite> UseOfSiteList = (from c in useOfSiteQuery
-                                         let SiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.SiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.SubsectorTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new UseOfSite
-                                         {
-                                             UseOfSiteID = c.UseOfSiteID,
-                                             SiteTVItemID = c.SiteTVItemID,
-                                             SubsectorTVItemID = c.SubsectorTVItemID,
-                                             SiteType = c.SiteType,
-                                             Ordinal = c.Ordinal,
-                                             StartYear = c.StartYear,
-                                             EndYear = c.EndYear,
-                                             UseWeight = c.UseWeight,
-                                             Weight_perc = c.Weight_perc,
-                                             UseEquation = c.UseEquation,
-                                             Param1 = c.Param1,
-                                             Param2 = c.Param2,
-                                             Param3 = c.Param3,
-                                             Param4 = c.Param4,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             SiteTVText = SiteTVText,
-                                             SubsectorTVText = SubsectorTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (UseOfSite useOfSite in UseOfSiteList)
-            {
-                useOfSite.SiteTypeText = enums.GetResValueForTypeAndID(typeof(SiteTypeEnum), (int?)useOfSite.SiteType);
-            }
+            List<EnumIDAndText> SiteTypeEnumList = enums.GetEnumTextOrderedList(typeof(SiteTypeEnum));
 
-            return UseOfSiteList;
+            useOfSiteQuery = (from c in useOfSiteQuery
+                let SiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.SiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let SubsectorTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.SubsectorTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new UseOfSite
+                    {
+                        UseOfSiteID = c.UseOfSiteID,
+                        SiteTVItemID = c.SiteTVItemID,
+                        SubsectorTVItemID = c.SubsectorTVItemID,
+                        SiteType = c.SiteType,
+                        Ordinal = c.Ordinal,
+                        StartYear = c.StartYear,
+                        EndYear = c.EndYear,
+                        UseWeight = c.UseWeight,
+                        Weight_perc = c.Weight_perc,
+                        UseEquation = c.UseEquation,
+                        Param1 = c.Param1,
+                        Param2 = c.Param2,
+                        Param3 = c.Param3,
+                        Param4 = c.Param4,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        SiteTVText = SiteTVText,
+                        SubsectorTVText = SubsectorTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SiteTypeText = (from e in SiteTypeEnumList
+                                where e.EnumID == (int?)c.SiteType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return useOfSiteQuery;
         }
         #endregion Functions private Generated Fill Class
 

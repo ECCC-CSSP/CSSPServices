@@ -286,13 +286,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID)
+        public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMSample> mwqmSampleQuery = (from c in GetRead()
+            IQueryable<MWQMSample> mwqmSampleQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSampleID == MWQMSampleID
                                                 select c);
 
-            return FillMWQMSample(mwqmSampleQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSampleQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSample(mwqmSampleQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMSample> GetMWQMSampleList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMSample> mwqmSampleQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSampleQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSample(mwqmSampleQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -341,54 +370,55 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMSample> FillMWQMSample(IQueryable<MWQMSample> mwqmSampleQuery)
+        private IQueryable<MWQMSample> FillMWQMSample(IQueryable<MWQMSample> mwqmSampleQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMSample> MWQMSampleList = (from c in mwqmSampleQuery
-                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let MWQMRunTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMRunTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMSample
-                                         {
-                                             MWQMSampleID = c.MWQMSampleID,
-                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                                             MWQMRunTVItemID = c.MWQMRunTVItemID,
-                                             SampleDateTime_Local = c.SampleDateTime_Local,
-                                             Depth_m = c.Depth_m,
-                                             FecCol_MPN_100ml = c.FecCol_MPN_100ml,
-                                             Salinity_PPT = c.Salinity_PPT,
-                                             WaterTemp_C = c.WaterTemp_C,
-                                             PH = c.PH,
-                                             SampleTypesText = c.SampleTypesText,
-                                             SampleType_old = c.SampleType_old,
-                                             Tube_10 = c.Tube_10,
-                                             Tube_1_0 = c.Tube_1_0,
-                                             Tube_0_1 = c.Tube_0_1,
-                                             ProcessedBy = c.ProcessedBy,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MWQMSiteTVText = MWQMSiteTVText,
-                                             MWQMRunTVText = MWQMRunTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (MWQMSample mwqmSample in MWQMSampleList)
-            {
-                mwqmSample.SampleType_oldText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)mwqmSample.SampleType_old);
-            }
+            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
-            return MWQMSampleList;
+            mwqmSampleQuery = (from c in mwqmSampleQuery
+                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let MWQMRunTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMRunTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMSample
+                    {
+                        MWQMSampleID = c.MWQMSampleID,
+                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                        MWQMRunTVItemID = c.MWQMRunTVItemID,
+                        SampleDateTime_Local = c.SampleDateTime_Local,
+                        Depth_m = c.Depth_m,
+                        FecCol_MPN_100ml = c.FecCol_MPN_100ml,
+                        Salinity_PPT = c.Salinity_PPT,
+                        WaterTemp_C = c.WaterTemp_C,
+                        PH = c.PH,
+                        SampleTypesText = c.SampleTypesText,
+                        SampleType_old = c.SampleType_old,
+                        Tube_10 = c.Tube_10,
+                        Tube_1_0 = c.Tube_1_0,
+                        Tube_0_1 = c.Tube_0_1,
+                        ProcessedBy = c.ProcessedBy,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MWQMSiteTVText = MWQMSiteTVText,
+                        MWQMRunTVText = MWQMRunTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SampleType_oldText = (from e in SampleTypeEnumList
+                                where e.EnumID == (int?)c.SampleType_old
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return mwqmSampleQuery;
         }
         #endregion Functions private Generated Fill Class
 

@@ -86,28 +86,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mikeSourceStartEndService.GetRead().Count();
+                    count = mikeSourceStartEndService.GetRead().Count();
 
-                Assert.AreEqual(mikeSourceStartEndService.GetRead().Count(), mikeSourceStartEndService.GetEdit().Count());
+                    Assert.AreEqual(mikeSourceStartEndService.GetRead().Count(), mikeSourceStartEndService.GetEdit().Count());
 
-                mikeSourceStartEndService.Add(mikeSourceStartEnd);
-                if (mikeSourceStartEnd.HasErrors)
-                {
-                    Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mikeSourceStartEndService.GetRead().Where(c => c == mikeSourceStartEnd).Any());
-                mikeSourceStartEndService.Update(mikeSourceStartEnd);
-                if (mikeSourceStartEnd.HasErrors)
-                {
-                    Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEndService.Delete(mikeSourceStartEnd);
-                if (mikeSourceStartEnd.HasErrors)
-                {
-                    Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    if (mikeSourceStartEnd.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mikeSourceStartEndService.GetRead().Where(c => c == mikeSourceStartEnd).Any());
+                    mikeSourceStartEndService.Update(mikeSourceStartEnd);
+                    if (mikeSourceStartEnd.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEndService.Delete(mikeSourceStartEnd);
+                    if (mikeSourceStartEnd.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -400,29 +400,64 @@ namespace CSSPServices.Tests
                     MikeSourceStartEnd mikeSourceStartEnd = (from c in mikeSourceStartEndService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSourceStartEnd);
 
-                    MikeSourceStartEnd mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
-                    Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndID);
-                    Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceID);
-                    Assert.IsNotNull(mikeSourceStartEndRet.StartDateAndTime_Local);
-                    Assert.IsNotNull(mikeSourceStartEndRet.EndDateAndTime_Local);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowStart_m3_day);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowEnd_m3_day);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureStart_C);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureEnd_C);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityStart_PSU);
-                    Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityEnd_PSU);
-                    Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVItemID);
+                    MikeSourceStartEnd mikeSourceStartEndRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndID);
+                        Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceID);
+                        Assert.IsNotNull(mikeSourceStartEndRet.StartDateAndTime_Local);
+                        Assert.IsNotNull(mikeSourceStartEndRet.EndDateAndTime_Local);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowStart_m3_day);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowEnd_m3_day);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureStart_C);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureEnd_C);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityStart_PSU);
+                        Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityEnd_PSU);
+                        Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mikeSourceStartEndRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mikeSourceStartEndRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mikeSourceStartEndRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MikeSourceStartEnd
+        #endregion Tests Get List of MikeSourceStartEnd
 
     }
 }

@@ -222,13 +222,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public BoxModel GetBoxModelWithBoxModelID(int BoxModelID)
+        public BoxModel GetBoxModelWithBoxModelID(int BoxModelID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<BoxModel> boxModelQuery = (from c in GetRead()
+            IQueryable<BoxModel> boxModelQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.BoxModelID == BoxModelID
                                                 select c);
 
-            return FillBoxModel(boxModelQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return boxModelQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillBoxModel(boxModelQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<BoxModel> GetBoxModelList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<BoxModel> boxModelQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return boxModelQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillBoxModel(boxModelQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -277,39 +306,40 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<BoxModel> FillBoxModel(IQueryable<BoxModel> boxModelQuery)
+        private IQueryable<BoxModel> FillBoxModel(IQueryable<BoxModel> boxModelQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<BoxModel> BoxModelList = (from c in boxModelQuery
-                                         let InfrastructureTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.InfrastructureTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new BoxModel
-                                         {
-                                             BoxModelID = c.BoxModelID,
-                                             InfrastructureTVItemID = c.InfrastructureTVItemID,
-                                             Flow_m3_day = c.Flow_m3_day,
-                                             Depth_m = c.Depth_m,
-                                             Temperature_C = c.Temperature_C,
-                                             Dilution = c.Dilution,
-                                             DecayRate_per_day = c.DecayRate_per_day,
-                                             FCUntreated_MPN_100ml = c.FCUntreated_MPN_100ml,
-                                             FCPreDisinfection_MPN_100ml = c.FCPreDisinfection_MPN_100ml,
-                                             Concentration_MPN_100ml = c.Concentration_MPN_100ml,
-                                             T90_hour = c.T90_hour,
-                                             FlowDuration_hour = c.FlowDuration_hour,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             InfrastructureTVText = InfrastructureTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            boxModelQuery = (from c in boxModelQuery
+                let InfrastructureTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.InfrastructureTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new BoxModel
+                    {
+                        BoxModelID = c.BoxModelID,
+                        InfrastructureTVItemID = c.InfrastructureTVItemID,
+                        Flow_m3_day = c.Flow_m3_day,
+                        Depth_m = c.Depth_m,
+                        Temperature_C = c.Temperature_C,
+                        Dilution = c.Dilution,
+                        DecayRate_per_day = c.DecayRate_per_day,
+                        FCUntreated_MPN_100ml = c.FCUntreated_MPN_100ml,
+                        FCPreDisinfection_MPN_100ml = c.FCPreDisinfection_MPN_100ml,
+                        Concentration_MPN_100ml = c.Concentration_MPN_100ml,
+                        T90_hour = c.T90_hour,
+                        FlowDuration_hour = c.FlowDuration_hour,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        InfrastructureTVText = InfrastructureTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return BoxModelList;
+            return boxModelQuery;
         }
         #endregion Functions private Generated Fill Class
 

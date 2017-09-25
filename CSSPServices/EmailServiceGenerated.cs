@@ -177,13 +177,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Email GetEmailWithEmailID(int EmailID)
+        public Email GetEmailWithEmailID(int EmailID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<Email> emailQuery = (from c in GetRead()
+            IQueryable<Email> emailQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailID == EmailID
                                                 select c);
 
-            return FillEmail(emailQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmail(emailQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<Email> GetEmailList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<Email> emailQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmail(emailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -232,38 +261,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<Email> FillEmail(IQueryable<Email> emailQuery)
+        private IQueryable<Email> FillEmail(IQueryable<Email> emailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<Email> EmailList = (from c in emailQuery
-                                         let EmailTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.EmailTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new Email
-                                         {
-                                             EmailID = c.EmailID,
-                                             EmailTVItemID = c.EmailTVItemID,
-                                             EmailAddress = c.EmailAddress,
-                                             EmailType = c.EmailType,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             EmailTVText = EmailTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (Email email in EmailList)
-            {
-                email.EmailTypeText = enums.GetResValueForTypeAndID(typeof(EmailTypeEnum), (int?)email.EmailType);
-            }
+            List<EnumIDAndText> EmailTypeEnumList = enums.GetEnumTextOrderedList(typeof(EmailTypeEnum));
 
-            return EmailList;
+            emailQuery = (from c in emailQuery
+                let EmailTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.EmailTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new Email
+                    {
+                        EmailID = c.EmailID,
+                        EmailTVItemID = c.EmailTVItemID,
+                        EmailAddress = c.EmailAddress,
+                        EmailType = c.EmailType,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        EmailTVText = EmailTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        EmailTypeText = (from e in EmailTypeEnumList
+                                where e.EnumID == (int?)c.EmailType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return emailQuery;
         }
         #endregion Functions private Generated Fill Class
 

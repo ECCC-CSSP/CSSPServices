@@ -180,13 +180,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSubsectorLanguage GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
+        public MWQMSubsectorLanguage GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in GetRead()
+            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID
                                                 select c);
 
-            return FillMWQMSubsectorLanguage(mwqmSubsectorLanguageQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSubsectorLanguageQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSubsectorLanguage(mwqmSubsectorLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMSubsectorLanguage> GetMWQMSubsectorLanguageList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSubsectorLanguageQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSubsectorLanguage(mwqmSubsectorLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -235,38 +264,44 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMSubsectorLanguage> FillMWQMSubsectorLanguage(IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery)
+        private IQueryable<MWQMSubsectorLanguage> FillMWQMSubsectorLanguage(IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMSubsectorLanguage> MWQMSubsectorLanguageList = (from c in mwqmSubsectorLanguageQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMSubsectorLanguage
-                                         {
-                                             MWQMSubsectorLanguageID = c.MWQMSubsectorLanguageID,
-                                             MWQMSubsectorID = c.MWQMSubsectorID,
-                                             Language = c.Language,
-                                             SubsectorDesc = c.SubsectorDesc,
-                                             TranslationStatusSubsectorDesc = c.TranslationStatusSubsectorDesc,
-                                             LogBook = c.LogBook,
-                                             TranslationStatusLogBook = c.TranslationStatusLogBook,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (MWQMSubsectorLanguage mwqmSubsectorLanguage in MWQMSubsectorLanguageList)
-            {
-                mwqmSubsectorLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)mwqmSubsectorLanguage.Language);
-                mwqmSubsectorLanguage.TranslationStatusSubsectorDescText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatusSubsectorDesc);
-                mwqmSubsectorLanguage.TranslationStatusLogBookText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatusLogBook);
-            }
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            return MWQMSubsectorLanguageList;
+            mwqmSubsectorLanguageQuery = (from c in mwqmSubsectorLanguageQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMSubsectorLanguage
+                    {
+                        MWQMSubsectorLanguageID = c.MWQMSubsectorLanguageID,
+                        MWQMSubsectorID = c.MWQMSubsectorID,
+                        Language = c.Language,
+                        SubsectorDesc = c.SubsectorDesc,
+                        TranslationStatusSubsectorDesc = c.TranslationStatusSubsectorDesc,
+                        LogBook = c.LogBook,
+                        TranslationStatusLogBook = c.TranslationStatusLogBook,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusSubsectorDescText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusSubsectorDesc
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusLogBookText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusLogBook
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return mwqmSubsectorLanguageQuery;
         }
         #endregion Functions private Generated Fill Class
 

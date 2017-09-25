@@ -222,13 +222,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in GetRead()
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeSourceStartEndID == MikeSourceStartEndID
                                                 select c);
 
-            return FillMikeSourceStartEnd(mikeSourceStartEndQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mikeSourceStartEndQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMikeSourceStartEnd(mikeSourceStartEndQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MikeSourceStartEnd> GetMikeSourceStartEndList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mikeSourceStartEndQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMikeSourceStartEnd(mikeSourceStartEndQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -277,34 +306,35 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MikeSourceStartEnd> FillMikeSourceStartEnd(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery)
+        private IQueryable<MikeSourceStartEnd> FillMikeSourceStartEnd(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MikeSourceStartEnd> MikeSourceStartEndList = (from c in mikeSourceStartEndQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MikeSourceStartEnd
-                                         {
-                                             MikeSourceStartEndID = c.MikeSourceStartEndID,
-                                             MikeSourceID = c.MikeSourceID,
-                                             StartDateAndTime_Local = c.StartDateAndTime_Local,
-                                             EndDateAndTime_Local = c.EndDateAndTime_Local,
-                                             SourceFlowStart_m3_day = c.SourceFlowStart_m3_day,
-                                             SourceFlowEnd_m3_day = c.SourceFlowEnd_m3_day,
-                                             SourcePollutionStart_MPN_100ml = c.SourcePollutionStart_MPN_100ml,
-                                             SourcePollutionEnd_MPN_100ml = c.SourcePollutionEnd_MPN_100ml,
-                                             SourceTemperatureStart_C = c.SourceTemperatureStart_C,
-                                             SourceTemperatureEnd_C = c.SourceTemperatureEnd_C,
-                                             SourceSalinityStart_PSU = c.SourceSalinityStart_PSU,
-                                             SourceSalinityEnd_PSU = c.SourceSalinityEnd_PSU,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            mikeSourceStartEndQuery = (from c in mikeSourceStartEndQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MikeSourceStartEnd
+                    {
+                        MikeSourceStartEndID = c.MikeSourceStartEndID,
+                        MikeSourceID = c.MikeSourceID,
+                        StartDateAndTime_Local = c.StartDateAndTime_Local,
+                        EndDateAndTime_Local = c.EndDateAndTime_Local,
+                        SourceFlowStart_m3_day = c.SourceFlowStart_m3_day,
+                        SourceFlowEnd_m3_day = c.SourceFlowEnd_m3_day,
+                        SourcePollutionStart_MPN_100ml = c.SourcePollutionStart_MPN_100ml,
+                        SourcePollutionEnd_MPN_100ml = c.SourcePollutionEnd_MPN_100ml,
+                        SourceTemperatureStart_C = c.SourceTemperatureStart_C,
+                        SourceTemperatureEnd_C = c.SourceTemperatureEnd_C,
+                        SourceSalinityStart_PSU = c.SourceSalinityStart_PSU,
+                        SourceSalinityEnd_PSU = c.SourceSalinityEnd_PSU,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return MikeSourceStartEndList;
+            return mikeSourceStartEndQuery;
         }
         #endregion Functions private Generated Fill Class
 

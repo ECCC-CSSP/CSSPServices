@@ -80,28 +80,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = emailService.GetRead().Count();
+                    count = emailService.GetRead().Count();
 
-                Assert.AreEqual(emailService.GetRead().Count(), emailService.GetEdit().Count());
+                    Assert.AreEqual(emailService.GetRead().Count(), emailService.GetEdit().Count());
 
-                emailService.Add(email);
-                if (email.HasErrors)
-                {
-                    Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, emailService.GetRead().Where(c => c == email).Any());
-                emailService.Update(email);
-                if (email.HasErrors)
-                {
-                    Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, emailService.GetRead().Count());
-                emailService.Delete(email);
-                if (email.HasErrors)
-                {
-                    Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, emailService.GetRead().Count());
+                    emailService.Add(email);
+                    if (email.HasErrors)
+                    {
+                        Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, emailService.GetRead().Where(c => c == email).Any());
+                    emailService.Update(email);
+                    if (email.HasErrors)
+                    {
+                        Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, emailService.GetRead().Count());
+                    emailService.Delete(email);
+                    if (email.HasErrors)
+                    {
+                        Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, emailService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -285,26 +285,72 @@ namespace CSSPServices.Tests
                     Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(email);
 
-                    Email emailRet = emailService.GetEmailWithEmailID(email.EmailID);
-                    Assert.IsNotNull(emailRet.EmailID);
-                    Assert.IsNotNull(emailRet.EmailTVItemID);
-                    Assert.IsNotNull(emailRet.EmailAddress);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailAddress));
-                    Assert.IsNotNull(emailRet.EmailType);
-                    Assert.IsNotNull(emailRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(emailRet.LastUpdateContactTVItemID);
+                    Email emailRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(emailRet.EmailID);
+                        Assert.IsNotNull(emailRet.EmailTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailAddress));
+                        Assert.IsNotNull(emailRet.EmailType);
+                        Assert.IsNotNull(emailRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(emailRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(emailRet.EmailTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
-                    Assert.IsNotNull(emailRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(emailRet.EmailTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
-                    Assert.IsNotNull(emailRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (emailRet.EmailTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
+                            }
+                            if (emailRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
+                            }
+                            if (emailRet.EmailTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (emailRet.EmailTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
+                            }
+                            if (emailRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
+                            }
+                            if (emailRet.EmailTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of Email
+        #endregion Tests Get List of Email
 
     }
 }

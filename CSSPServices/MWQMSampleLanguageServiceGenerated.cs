@@ -158,13 +158,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSampleLanguage GetMWQMSampleLanguageWithMWQMSampleLanguageID(int MWQMSampleLanguageID)
+        public MWQMSampleLanguage GetMWQMSampleLanguageWithMWQMSampleLanguageID(int MWQMSampleLanguageID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in GetRead()
+            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSampleLanguageID == MWQMSampleLanguageID
                                                 select c);
 
-            return FillMWQMSampleLanguage(mwqmSampleLanguageQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSampleLanguageQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSampleLanguage(mwqmSampleLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMSampleLanguage> GetMWQMSampleLanguageList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSampleLanguageQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSampleLanguage(mwqmSampleLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -213,35 +242,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMSampleLanguage> FillMWQMSampleLanguage(IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery)
+        private IQueryable<MWQMSampleLanguage> FillMWQMSampleLanguage(IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMSampleLanguage> MWQMSampleLanguageList = (from c in mwqmSampleLanguageQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMSampleLanguage
-                                         {
-                                             MWQMSampleLanguageID = c.MWQMSampleLanguageID,
-                                             MWQMSampleID = c.MWQMSampleID,
-                                             Language = c.Language,
-                                             MWQMSampleNote = c.MWQMSampleNote,
-                                             TranslationStatus = c.TranslationStatus,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (MWQMSampleLanguage mwqmSampleLanguage in MWQMSampleLanguageList)
-            {
-                mwqmSampleLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)mwqmSampleLanguage.Language);
-                mwqmSampleLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSampleLanguage.TranslationStatus);
-            }
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            return MWQMSampleLanguageList;
+            mwqmSampleLanguageQuery = (from c in mwqmSampleLanguageQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMSampleLanguage
+                    {
+                        MWQMSampleLanguageID = c.MWQMSampleLanguageID,
+                        MWQMSampleID = c.MWQMSampleID,
+                        Language = c.Language,
+                        MWQMSampleNote = c.MWQMSampleNote,
+                        TranslationStatus = c.TranslationStatus,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatus
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return mwqmSampleLanguageQuery;
         }
         #endregion Functions private Generated Fill Class
 

@@ -82,28 +82,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = vpResultService.GetRead().Count();
+                    count = vpResultService.GetRead().Count();
 
-                Assert.AreEqual(vpResultService.GetRead().Count(), vpResultService.GetEdit().Count());
+                    Assert.AreEqual(vpResultService.GetRead().Count(), vpResultService.GetEdit().Count());
 
-                vpResultService.Add(vpResult);
-                if (vpResult.HasErrors)
-                {
-                    Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, vpResultService.GetRead().Where(c => c == vpResult).Any());
-                vpResultService.Update(vpResult);
-                if (vpResult.HasErrors)
-                {
-                    Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, vpResultService.GetRead().Count());
-                vpResultService.Delete(vpResult);
-                if (vpResult.HasErrors)
-                {
-                    Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, vpResultService.GetRead().Count());
+                    vpResultService.Add(vpResult);
+                    if (vpResult.HasErrors)
+                    {
+                        Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, vpResultService.GetRead().Where(c => c == vpResult).Any());
+                    vpResultService.Update(vpResult);
+                    if (vpResult.HasErrors)
+                    {
+                        Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, vpResultService.GetRead().Count());
+                    vpResultService.Delete(vpResult);
+                    if (vpResult.HasErrors)
+                    {
+                        Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -339,25 +339,60 @@ namespace CSSPServices.Tests
                     VPResult vpResult = (from c in vpResultService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpResult);
 
-                    VPResult vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
-                    Assert.IsNotNull(vpResultRet.VPResultID);
-                    Assert.IsNotNull(vpResultRet.VPScenarioID);
-                    Assert.IsNotNull(vpResultRet.Ordinal);
-                    Assert.IsNotNull(vpResultRet.Concentration_MPN_100ml);
-                    Assert.IsNotNull(vpResultRet.Dilution);
-                    Assert.IsNotNull(vpResultRet.FarFieldWidth_m);
-                    Assert.IsNotNull(vpResultRet.DispersionDistance_m);
-                    Assert.IsNotNull(vpResultRet.TravelTime_hour);
-                    Assert.IsNotNull(vpResultRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(vpResultRet.LastUpdateContactTVItemID);
+                    VPResult vpResultRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(vpResultRet.VPResultID);
+                        Assert.IsNotNull(vpResultRet.VPScenarioID);
+                        Assert.IsNotNull(vpResultRet.Ordinal);
+                        Assert.IsNotNull(vpResultRet.Concentration_MPN_100ml);
+                        Assert.IsNotNull(vpResultRet.Dilution);
+                        Assert.IsNotNull(vpResultRet.FarFieldWidth_m);
+                        Assert.IsNotNull(vpResultRet.DispersionDistance_m);
+                        Assert.IsNotNull(vpResultRet.TravelTime_hour);
+                        Assert.IsNotNull(vpResultRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(vpResultRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(vpResultRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(vpResultRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (vpResultRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpResultRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (vpResultRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of VPResult
+        #endregion Tests Get List of VPResult
 
     }
 }

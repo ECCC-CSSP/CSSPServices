@@ -80,28 +80,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = logService.GetRead().Count();
+                    count = logService.GetRead().Count();
 
-                Assert.AreEqual(logService.GetRead().Count(), logService.GetEdit().Count());
+                    Assert.AreEqual(logService.GetRead().Count(), logService.GetEdit().Count());
 
-                logService.Add(log);
-                if (log.HasErrors)
-                {
-                    Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, logService.GetRead().Where(c => c == log).Any());
-                logService.Update(log);
-                if (log.HasErrors)
-                {
-                    Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, logService.GetRead().Count());
-                logService.Delete(log);
-                if (log.HasErrors)
-                {
-                    Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, logService.GetRead().Count());
+                    logService.Add(log);
+                    if (log.HasErrors)
+                    {
+                        Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, logService.GetRead().Where(c => c == log).Any());
+                    logService.Update(log);
+                    if (log.HasErrors)
+                    {
+                        Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, logService.GetRead().Count());
+                    logService.Delete(log);
+                    if (log.HasErrors)
+                    {
+                        Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, logService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -277,26 +277,65 @@ namespace CSSPServices.Tests
                     Log log = (from c in logService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
-                    Log logRet = logService.GetLogWithLogID(log.LogID);
-                    Assert.IsNotNull(logRet.LogID);
-                    Assert.IsNotNull(logRet.TableName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.TableName));
-                    Assert.IsNotNull(logRet.ID);
-                    Assert.IsNotNull(logRet.LogCommand);
-                    Assert.IsNotNull(logRet.Information);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.Information));
-                    Assert.IsNotNull(logRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(logRet.LastUpdateContactTVItemID);
+                    Log logRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            logRet = logService.GetLogWithLogID(log.LogID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(logRet.LogID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.TableName));
+                        Assert.IsNotNull(logRet.ID);
+                        Assert.IsNotNull(logRet.LogCommand);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.Information));
+                        Assert.IsNotNull(logRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(logRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(logRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(logRet.LogCommandText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LogCommandText));
-                    Assert.IsNotNull(logRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (logRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));
+                            }
+                            if (logRet.LogCommandText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(logRet.LogCommandText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (logRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));
+                            }
+                            if (logRet.LogCommandText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LogCommandText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of Log
+        #endregion Tests Get List of Log
 
     }
 }

@@ -212,13 +212,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID)
+        public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<VPAmbient> vpAmbientQuery = (from c in GetRead()
+            IQueryable<VPAmbient> vpAmbientQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPAmbientID == VPAmbientID
                                                 select c);
 
-            return FillVPAmbient(vpAmbientQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return vpAmbientQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillVPAmbient(vpAmbientQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<VPAmbient> GetVPAmbientList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<VPAmbient> vpAmbientQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return vpAmbientQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillVPAmbient(vpAmbientQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -267,35 +296,36 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<VPAmbient> FillVPAmbient(IQueryable<VPAmbient> vpAmbientQuery)
+        private IQueryable<VPAmbient> FillVPAmbient(IQueryable<VPAmbient> vpAmbientQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<VPAmbient> VPAmbientList = (from c in vpAmbientQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new VPAmbient
-                                         {
-                                             VPAmbientID = c.VPAmbientID,
-                                             VPScenarioID = c.VPScenarioID,
-                                             Row = c.Row,
-                                             MeasurementDepth_m = c.MeasurementDepth_m,
-                                             CurrentSpeed_m_s = c.CurrentSpeed_m_s,
-                                             CurrentDirection_deg = c.CurrentDirection_deg,
-                                             AmbientSalinity_PSU = c.AmbientSalinity_PSU,
-                                             AmbientTemperature_C = c.AmbientTemperature_C,
-                                             BackgroundConcentration_MPN_100ml = c.BackgroundConcentration_MPN_100ml,
-                                             PollutantDecayRate_per_day = c.PollutantDecayRate_per_day,
-                                             FarFieldCurrentSpeed_m_s = c.FarFieldCurrentSpeed_m_s,
-                                             FarFieldCurrentDirection_deg = c.FarFieldCurrentDirection_deg,
-                                             FarFieldDiffusionCoefficient = c.FarFieldDiffusionCoefficient,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            vpAmbientQuery = (from c in vpAmbientQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new VPAmbient
+                    {
+                        VPAmbientID = c.VPAmbientID,
+                        VPScenarioID = c.VPScenarioID,
+                        Row = c.Row,
+                        MeasurementDepth_m = c.MeasurementDepth_m,
+                        CurrentSpeed_m_s = c.CurrentSpeed_m_s,
+                        CurrentDirection_deg = c.CurrentDirection_deg,
+                        AmbientSalinity_PSU = c.AmbientSalinity_PSU,
+                        AmbientTemperature_C = c.AmbientTemperature_C,
+                        BackgroundConcentration_MPN_100ml = c.BackgroundConcentration_MPN_100ml,
+                        PollutantDecayRate_per_day = c.PollutantDecayRate_per_day,
+                        FarFieldCurrentSpeed_m_s = c.FarFieldCurrentSpeed_m_s,
+                        FarFieldCurrentDirection_deg = c.FarFieldCurrentDirection_deg,
+                        FarFieldDiffusionCoefficient = c.FarFieldDiffusionCoefficient,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return VPAmbientList;
+            return vpAmbientQuery;
         }
         #endregion Functions private Generated Fill Class
 

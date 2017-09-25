@@ -240,13 +240,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID)
+        public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<TideDataValue> tideDataValueQuery = (from c in GetRead()
+            IQueryable<TideDataValue> tideDataValueQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideDataValueID == TideDataValueID
                                                 select c);
 
-            return FillTideDataValue(tideDataValueQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tideDataValueQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTideDataValue(tideDataValueQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<TideDataValue> GetTideDataValueList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<TideDataValue> tideDataValueQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tideDataValueQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTideDataValue(tideDataValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -295,48 +324,57 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<TideDataValue> FillTideDataValue(IQueryable<TideDataValue> tideDataValueQuery)
+        private IQueryable<TideDataValue> FillTideDataValue(IQueryable<TideDataValue> tideDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<TideDataValue> TideDataValueList = (from c in tideDataValueQuery
-                                         let TideSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TideSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new TideDataValue
-                                         {
-                                             TideDataValueID = c.TideDataValueID,
-                                             TideSiteTVItemID = c.TideSiteTVItemID,
-                                             DateTime_Local = c.DateTime_Local,
-                                             Keep = c.Keep,
-                                             TideDataType = c.TideDataType,
-                                             StorageDataType = c.StorageDataType,
-                                             Depth_m = c.Depth_m,
-                                             UVelocity_m_s = c.UVelocity_m_s,
-                                             VVelocity_m_s = c.VVelocity_m_s,
-                                             TideStart = c.TideStart,
-                                             TideEnd = c.TideEnd,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             TideSiteTVText = TideSiteTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (TideDataValue tideDataValue in TideDataValueList)
-            {
-                tideDataValue.TideDataTypeText = enums.GetResValueForTypeAndID(typeof(TideDataTypeEnum), (int?)tideDataValue.TideDataType);
-                tideDataValue.StorageDataTypeText = enums.GetResValueForTypeAndID(typeof(StorageDataTypeEnum), (int?)tideDataValue.StorageDataType);
-                tideDataValue.TideStartText = enums.GetResValueForTypeAndID(typeof(TideTextEnum), (int?)tideDataValue.TideStart);
-                tideDataValue.TideEndText = enums.GetResValueForTypeAndID(typeof(TideTextEnum), (int?)tideDataValue.TideEnd);
-            }
+            List<EnumIDAndText> TideDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(TideDataTypeEnum));
+            List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
+            List<EnumIDAndText> TideTextEnumList = enums.GetEnumTextOrderedList(typeof(TideTextEnum));
 
-            return TideDataValueList;
+            tideDataValueQuery = (from c in tideDataValueQuery
+                let TideSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TideSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new TideDataValue
+                    {
+                        TideDataValueID = c.TideDataValueID,
+                        TideSiteTVItemID = c.TideSiteTVItemID,
+                        DateTime_Local = c.DateTime_Local,
+                        Keep = c.Keep,
+                        TideDataType = c.TideDataType,
+                        StorageDataType = c.StorageDataType,
+                        Depth_m = c.Depth_m,
+                        UVelocity_m_s = c.UVelocity_m_s,
+                        VVelocity_m_s = c.VVelocity_m_s,
+                        TideStart = c.TideStart,
+                        TideEnd = c.TideEnd,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TideSiteTVText = TideSiteTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TideDataTypeText = (from e in TideDataTypeEnumList
+                                where e.EnumID == (int?)c.TideDataType
+                                select e.EnumText).FirstOrDefault(),
+                        StorageDataTypeText = (from e in StorageDataTypeEnumList
+                                where e.EnumID == (int?)c.StorageDataType
+                                select e.EnumText).FirstOrDefault(),
+                        TideStartText = (from e in TideTextEnumList
+                                where e.EnumID == (int?)c.TideStart
+                                select e.EnumText).FirstOrDefault(),
+                        TideEndText = (from e in TideTextEnumList
+                                where e.EnumID == (int?)c.TideEnd
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return tideDataValueQuery;
         }
         #endregion Functions private Generated Fill Class
 

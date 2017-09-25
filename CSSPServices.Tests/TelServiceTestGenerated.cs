@@ -80,28 +80,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = telService.GetRead().Count();
+                    count = telService.GetRead().Count();
 
-                Assert.AreEqual(telService.GetRead().Count(), telService.GetEdit().Count());
+                    Assert.AreEqual(telService.GetRead().Count(), telService.GetEdit().Count());
 
-                telService.Add(tel);
-                if (tel.HasErrors)
-                {
-                    Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, telService.GetRead().Where(c => c == tel).Any());
-                telService.Update(tel);
-                if (tel.HasErrors)
-                {
-                    Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, telService.GetRead().Count());
-                telService.Delete(tel);
-                if (tel.HasErrors)
-                {
-                    Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, telService.GetRead().Count());
+                    telService.Add(tel);
+                    if (tel.HasErrors)
+                    {
+                        Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, telService.GetRead().Where(c => c == tel).Any());
+                    telService.Update(tel);
+                    if (tel.HasErrors)
+                    {
+                        Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, telService.GetRead().Count());
+                    telService.Delete(tel);
+                    if (tel.HasErrors)
+                    {
+                        Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, telService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -284,26 +284,72 @@ namespace CSSPServices.Tests
                     Tel tel = (from c in telService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tel);
 
-                    Tel telRet = telService.GetTelWithTelID(tel.TelID);
-                    Assert.IsNotNull(telRet.TelID);
-                    Assert.IsNotNull(telRet.TelTVItemID);
-                    Assert.IsNotNull(telRet.TelNumber);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelNumber));
-                    Assert.IsNotNull(telRet.TelType);
-                    Assert.IsNotNull(telRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(telRet.LastUpdateContactTVItemID);
+                    Tel telRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            telRet = telService.GetTelWithTelID(tel.TelID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(telRet.TelID);
+                        Assert.IsNotNull(telRet.TelTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelNumber));
+                        Assert.IsNotNull(telRet.TelType);
+                        Assert.IsNotNull(telRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(telRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(telRet.TelTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTVText));
-                    Assert.IsNotNull(telRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(telRet.TelTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTypeText));
-                    Assert.IsNotNull(telRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (telRet.TelTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(telRet.TelTVText));
+                            }
+                            if (telRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(telRet.LastUpdateContactTVText));
+                            }
+                            if (telRet.TelTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(telRet.TelTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (telRet.TelTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTVText));
+                            }
+                            if (telRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.LastUpdateContactTVText));
+                            }
+                            if (telRet.TelTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of Tel
+        #endregion Tests Get List of Tel
 
     }
 }

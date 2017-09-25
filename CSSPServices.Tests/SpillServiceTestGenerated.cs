@@ -82,28 +82,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = spillService.GetRead().Count();
+                    count = spillService.GetRead().Count();
 
-                Assert.AreEqual(spillService.GetRead().Count(), spillService.GetEdit().Count());
+                    Assert.AreEqual(spillService.GetRead().Count(), spillService.GetEdit().Count());
 
-                spillService.Add(spill);
-                if (spill.HasErrors)
-                {
-                    Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, spillService.GetRead().Where(c => c == spill).Any());
-                spillService.Update(spill);
-                if (spill.HasErrors)
-                {
-                    Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, spillService.GetRead().Count());
-                spillService.Delete(spill);
-                if (spill.HasErrors)
-                {
-                    Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, spillService.GetRead().Count());
+                    spillService.Add(spill);
+                    if (spill.HasErrors)
+                    {
+                        Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, spillService.GetRead().Where(c => c == spill).Any());
+                    spillService.Update(spill);
+                    if (spill.HasErrors)
+                    {
+                        Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, spillService.GetRead().Count());
+                    spillService.Delete(spill);
+                    if (spill.HasErrors)
+                    {
+                        Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, spillService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -308,36 +308,80 @@ namespace CSSPServices.Tests
                     Spill spill = (from c in spillService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(spill);
 
-                    Spill spillRet = spillService.GetSpillWithSpillID(spill.SpillID);
-                    Assert.IsNotNull(spillRet.SpillID);
-                    Assert.IsNotNull(spillRet.MunicipalityTVItemID);
-                    if (spillRet.InfrastructureTVItemID != null)
+                    Spill spillRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(spillRet.InfrastructureTVItemID);
-                    }
-                    Assert.IsNotNull(spillRet.StartDateTime_Local);
-                    if (spillRet.EndDateTime_Local != null)
-                    {
-                       Assert.IsNotNull(spillRet.EndDateTime_Local);
-                    }
-                    Assert.IsNotNull(spillRet.AverageFlow_m3_day);
-                    Assert.IsNotNull(spillRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(spillRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(spillRet.SpillID);
+                        Assert.IsNotNull(spillRet.MunicipalityTVItemID);
+                        if (spillRet.InfrastructureTVItemID != null)
+                        {
+                            Assert.IsNotNull(spillRet.InfrastructureTVItemID);
+                        }
+                        Assert.IsNotNull(spillRet.StartDateTime_Local);
+                        if (spillRet.EndDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(spillRet.EndDateTime_Local);
+                        }
+                        Assert.IsNotNull(spillRet.AverageFlow_m3_day);
+                        Assert.IsNotNull(spillRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(spillRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(spillRet.MunicipalityTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.MunicipalityTVText));
-                    if (spillRet.InfrastructureTVItemID != null)
-                    {
-                       Assert.IsNotNull(spillRet.InfrastructureTVText);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.InfrastructureTVText));
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (spillRet.MunicipalityTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillRet.MunicipalityTVText));
+                            }
+                            if (spillRet.InfrastructureTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillRet.InfrastructureTVText));
+                            }
+                            if (spillRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (spillRet.MunicipalityTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.MunicipalityTVText));
+                            }
+                            if (spillRet.InfrastructureTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.InfrastructureTVText));
+                            }
+                            if (spillRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.LastUpdateContactTVText));
+                            }
+                        }
                     }
-                    Assert.IsNotNull(spillRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(spillRet.HasErrors);
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of Spill
+        #endregion Tests Get List of Spill
 
     }
 }

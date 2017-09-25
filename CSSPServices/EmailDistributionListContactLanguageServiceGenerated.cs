@@ -162,13 +162,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public EmailDistributionListContactLanguage GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
+        public EmailDistributionListContactLanguage GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery = (from c in GetRead()
+            IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID
                                                 select c);
 
-            return FillEmailDistributionListContactLanguage(emailDistributionListContactLanguageQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailDistributionListContactLanguageQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmailDistributionListContactLanguage(emailDistributionListContactLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<EmailDistributionListContactLanguage> GetEmailDistributionListContactLanguageList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailDistributionListContactLanguageQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmailDistributionListContactLanguage(emailDistributionListContactLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -217,35 +246,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<EmailDistributionListContactLanguage> FillEmailDistributionListContactLanguage(IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery)
+        private IQueryable<EmailDistributionListContactLanguage> FillEmailDistributionListContactLanguage(IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<EmailDistributionListContactLanguage> EmailDistributionListContactLanguageList = (from c in emailDistributionListContactLanguageQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new EmailDistributionListContactLanguage
-                                         {
-                                             EmailDistributionListContactLanguageID = c.EmailDistributionListContactLanguageID,
-                                             EmailDistributionListContactID = c.EmailDistributionListContactID,
-                                             Language = c.Language,
-                                             Agency = c.Agency,
-                                             TranslationStatus = c.TranslationStatus,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (EmailDistributionListContactLanguage emailDistributionListContactLanguage in EmailDistributionListContactLanguageList)
-            {
-                emailDistributionListContactLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)emailDistributionListContactLanguage.Language);
-                emailDistributionListContactLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)emailDistributionListContactLanguage.TranslationStatus);
-            }
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            return EmailDistributionListContactLanguageList;
+            emailDistributionListContactLanguageQuery = (from c in emailDistributionListContactLanguageQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new EmailDistributionListContactLanguage
+                    {
+                        EmailDistributionListContactLanguageID = c.EmailDistributionListContactLanguageID,
+                        EmailDistributionListContactID = c.EmailDistributionListContactID,
+                        Language = c.Language,
+                        Agency = c.Agency,
+                        TranslationStatus = c.TranslationStatus,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatus
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return emailDistributionListContactLanguageQuery;
         }
         #endregion Functions private Generated Fill Class
 

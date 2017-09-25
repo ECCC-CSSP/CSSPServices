@@ -79,28 +79,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mwqmSubsectorService.GetRead().Count();
+                    count = mwqmSubsectorService.GetRead().Count();
 
-                Assert.AreEqual(mwqmSubsectorService.GetRead().Count(), mwqmSubsectorService.GetEdit().Count());
+                    Assert.AreEqual(mwqmSubsectorService.GetRead().Count(), mwqmSubsectorService.GetEdit().Count());
 
-                mwqmSubsectorService.Add(mwqmSubsector);
-                if (mwqmSubsector.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mwqmSubsectorService.GetRead().Where(c => c == mwqmSubsector).Any());
-                mwqmSubsectorService.Update(mwqmSubsector);
-                if (mwqmSubsector.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mwqmSubsectorService.GetRead().Count());
-                mwqmSubsectorService.Delete(mwqmSubsector);
-                if (mwqmSubsector.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
+                    mwqmSubsectorService.Add(mwqmSubsector);
+                    if (mwqmSubsector.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mwqmSubsectorService.GetRead().Where(c => c == mwqmSubsector).Any());
+                    mwqmSubsectorService.Update(mwqmSubsector);
+                    if (mwqmSubsector.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mwqmSubsectorService.GetRead().Count());
+                    mwqmSubsectorService.Delete(mwqmSubsector);
+                    if (mwqmSubsector.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -269,28 +269,67 @@ namespace CSSPServices.Tests
                     MWQMSubsector mwqmSubsector = (from c in mwqmSubsectorService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSubsector);
 
-                    MWQMSubsector mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
-                    Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorID);
-                    Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorTVItemID);
-                    Assert.IsNotNull(mwqmSubsectorRet.SubsectorHistoricKey);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorHistoricKey));
-                    if (mwqmSubsectorRet.TideLocationSIDText != null)
+                    MWQMSubsector mwqmSubsectorRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(mwqmSubsectorRet.TideLocationSIDText);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.TideLocationSIDText));
-                    }
-                    Assert.IsNotNull(mwqmSubsectorRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mwqmSubsectorRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorID);
+                        Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorHistoricKey));
+                        if (mwqmSubsectorRet.TideLocationSIDText != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.TideLocationSIDText));
+                        }
+                        Assert.IsNotNull(mwqmSubsectorRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mwqmSubsectorRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mwqmSubsectorRet.SubsectorTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));
-                    Assert.IsNotNull(mwqmSubsectorRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mwqmSubsectorRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mwqmSubsectorRet.SubsectorTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));
+                            }
+                            if (mwqmSubsectorRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mwqmSubsectorRet.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));
+                            }
+                            if (mwqmSubsectorRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MWQMSubsector
+        #endregion Tests Get List of MWQMSubsector
 
     }
 }

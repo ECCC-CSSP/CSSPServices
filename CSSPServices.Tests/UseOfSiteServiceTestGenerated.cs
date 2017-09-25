@@ -91,28 +91,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = useOfSiteService.GetRead().Count();
+                    count = useOfSiteService.GetRead().Count();
 
-                Assert.AreEqual(useOfSiteService.GetRead().Count(), useOfSiteService.GetEdit().Count());
+                    Assert.AreEqual(useOfSiteService.GetRead().Count(), useOfSiteService.GetEdit().Count());
 
-                useOfSiteService.Add(useOfSite);
-                if (useOfSite.HasErrors)
-                {
-                    Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, useOfSiteService.GetRead().Where(c => c == useOfSite).Any());
-                useOfSiteService.Update(useOfSite);
-                if (useOfSite.HasErrors)
-                {
-                    Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, useOfSiteService.GetRead().Count());
-                useOfSiteService.Delete(useOfSite);
-                if (useOfSite.HasErrors)
-                {
-                    Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSiteService.Add(useOfSite);
+                    if (useOfSite.HasErrors)
+                    {
+                        Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, useOfSiteService.GetRead().Where(c => c == useOfSite).Any());
+                    useOfSiteService.Update(useOfSite);
+                    if (useOfSite.HasErrors)
+                    {
+                        Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, useOfSiteService.GetRead().Count());
+                    useOfSiteService.Delete(useOfSite);
+                    if (useOfSite.HasErrors)
+                    {
+                        Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -482,61 +482,114 @@ namespace CSSPServices.Tests
                     UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(useOfSite);
 
-                    UseOfSite useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
-                    Assert.IsNotNull(useOfSiteRet.UseOfSiteID);
-                    Assert.IsNotNull(useOfSiteRet.SiteTVItemID);
-                    Assert.IsNotNull(useOfSiteRet.SubsectorTVItemID);
-                    Assert.IsNotNull(useOfSiteRet.SiteType);
-                    Assert.IsNotNull(useOfSiteRet.Ordinal);
-                    Assert.IsNotNull(useOfSiteRet.StartYear);
-                    if (useOfSiteRet.EndYear != null)
+                    UseOfSite useOfSiteRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(useOfSiteRet.EndYear);
-                    }
-                    if (useOfSiteRet.UseWeight != null)
-                    {
-                       Assert.IsNotNull(useOfSiteRet.UseWeight);
-                    }
-                    if (useOfSiteRet.Weight_perc != null)
-                    {
-                       Assert.IsNotNull(useOfSiteRet.Weight_perc);
-                    }
-                    if (useOfSiteRet.UseEquation != null)
-                    {
-                       Assert.IsNotNull(useOfSiteRet.UseEquation);
-                    }
-                    if (useOfSiteRet.Param1 != null)
-                    {
-                       Assert.IsNotNull(useOfSiteRet.Param1);
-                    }
-                    if (useOfSiteRet.Param2 != null)
-                    {
-                       Assert.IsNotNull(useOfSiteRet.Param2);
-                    }
-                    if (useOfSiteRet.Param3 != null)
-                    {
-                       Assert.IsNotNull(useOfSiteRet.Param3);
-                    }
-                    if (useOfSiteRet.Param4 != null)
-                    {
-                       Assert.IsNotNull(useOfSiteRet.Param4);
-                    }
-                    Assert.IsNotNull(useOfSiteRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(useOfSiteRet.UseOfSiteID);
+                        Assert.IsNotNull(useOfSiteRet.SiteTVItemID);
+                        Assert.IsNotNull(useOfSiteRet.SubsectorTVItemID);
+                        Assert.IsNotNull(useOfSiteRet.SiteType);
+                        Assert.IsNotNull(useOfSiteRet.Ordinal);
+                        Assert.IsNotNull(useOfSiteRet.StartYear);
+                        if (useOfSiteRet.EndYear != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.EndYear);
+                        }
+                        if (useOfSiteRet.UseWeight != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.UseWeight);
+                        }
+                        if (useOfSiteRet.Weight_perc != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.Weight_perc);
+                        }
+                        if (useOfSiteRet.UseEquation != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.UseEquation);
+                        }
+                        if (useOfSiteRet.Param1 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.Param1);
+                        }
+                        if (useOfSiteRet.Param2 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.Param2);
+                        }
+                        if (useOfSiteRet.Param3 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.Param3);
+                        }
+                        if (useOfSiteRet.Param4 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteRet.Param4);
+                        }
+                        Assert.IsNotNull(useOfSiteRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(useOfSiteRet.SiteTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
-                    Assert.IsNotNull(useOfSiteRet.SubsectorTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
-                    Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(useOfSiteRet.SiteTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
-                    Assert.IsNotNull(useOfSiteRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (useOfSiteRet.SiteTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
+                            }
+                            if (useOfSiteRet.SubsectorTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
+                            }
+                            if (useOfSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
+                            }
+                            if (useOfSiteRet.SiteTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (useOfSiteRet.SiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
+                            }
+                            if (useOfSiteRet.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
+                            }
+                            if (useOfSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
+                            }
+                            if (useOfSiteRet.SiteTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of UseOfSite
+        #endregion Tests Get List of UseOfSite
 
     }
 }

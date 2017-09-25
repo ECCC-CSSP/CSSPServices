@@ -150,13 +150,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID)
+        public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in GetRead()
+            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailDistributionListID == EmailDistributionListID
                                                 select c);
 
-            return FillEmailDistributionList(emailDistributionListQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailDistributionListQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmailDistributionList(emailDistributionListQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<EmailDistributionList> GetEmailDistributionListList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailDistributionListQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmailDistributionList(emailDistributionListQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -205,30 +234,31 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<EmailDistributionList> FillEmailDistributionList(IQueryable<EmailDistributionList> emailDistributionListQuery)
+        private IQueryable<EmailDistributionList> FillEmailDistributionList(IQueryable<EmailDistributionList> emailDistributionListQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<EmailDistributionList> EmailDistributionListList = (from c in emailDistributionListQuery
-                                         let CountryTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.CountryTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new EmailDistributionList
-                                         {
-                                             EmailDistributionListID = c.EmailDistributionListID,
-                                             CountryTVItemID = c.CountryTVItemID,
-                                             Ordinal = c.Ordinal,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             CountryTVText = CountryTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            emailDistributionListQuery = (from c in emailDistributionListQuery
+                let CountryTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.CountryTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new EmailDistributionList
+                    {
+                        EmailDistributionListID = c.EmailDistributionListID,
+                        CountryTVItemID = c.CountryTVItemID,
+                        Ordinal = c.Ordinal,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        CountryTVText = CountryTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return EmailDistributionListList;
+            return emailDistributionListQuery;
         }
         #endregion Functions private Generated Fill Class
 

@@ -160,13 +160,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID)
+        public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MikeSource> mikeSourceQuery = (from c in GetRead()
+            IQueryable<MikeSource> mikeSourceQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeSourceID == MikeSourceID
                                                 select c);
 
-            return FillMikeSource(mikeSourceQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mikeSourceQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMikeSource(mikeSourceQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MikeSource> GetMikeSourceList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MikeSource> mikeSourceQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mikeSourceQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMikeSource(mikeSourceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -215,33 +244,34 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MikeSource> FillMikeSource(IQueryable<MikeSource> mikeSourceQuery)
+        private IQueryable<MikeSource> FillMikeSource(IQueryable<MikeSource> mikeSourceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MikeSource> MikeSourceList = (from c in mikeSourceQuery
-                                         let MikeSourceTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MikeSourceTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MikeSource
-                                         {
-                                             MikeSourceID = c.MikeSourceID,
-                                             MikeSourceTVItemID = c.MikeSourceTVItemID,
-                                             IsContinuous = c.IsContinuous,
-                                             Include = c.Include,
-                                             IsRiver = c.IsRiver,
-                                             SourceNumberString = c.SourceNumberString,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MikeSourceTVText = MikeSourceTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            mikeSourceQuery = (from c in mikeSourceQuery
+                let MikeSourceTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MikeSourceTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MikeSource
+                    {
+                        MikeSourceID = c.MikeSourceID,
+                        MikeSourceTVItemID = c.MikeSourceTVItemID,
+                        IsContinuous = c.IsContinuous,
+                        Include = c.Include,
+                        IsRiver = c.IsRiver,
+                        SourceNumberString = c.SourceNumberString,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MikeSourceTVText = MikeSourceTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return MikeSourceList;
+            return mikeSourceQuery;
         }
         #endregion Functions private Generated Fill Class
 

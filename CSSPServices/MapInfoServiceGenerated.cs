@@ -234,13 +234,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MapInfo GetMapInfoWithMapInfoID(int MapInfoID)
+        public MapInfo GetMapInfoWithMapInfoID(int MapInfoID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MapInfo> mapInfoQuery = (from c in GetRead()
+            IQueryable<MapInfo> mapInfoQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MapInfoID == MapInfoID
                                                 select c);
 
-            return FillMapInfo(mapInfoQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mapInfoQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMapInfo(mapInfoQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MapInfo> GetMapInfoList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MapInfo> mapInfoQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mapInfoQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMapInfo(mapInfoQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -289,43 +318,47 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MapInfo> FillMapInfo(IQueryable<MapInfo> mapInfoQuery)
+        private IQueryable<MapInfo> FillMapInfo(IQueryable<MapInfo> mapInfoQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MapInfo> MapInfoList = (from c in mapInfoQuery
-                                         let TVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MapInfo
-                                         {
-                                             MapInfoID = c.MapInfoID,
-                                             TVItemID = c.TVItemID,
-                                             TVType = c.TVType,
-                                             LatMin = c.LatMin,
-                                             LatMax = c.LatMax,
-                                             LngMin = c.LngMin,
-                                             LngMax = c.LngMax,
-                                             MapInfoDrawType = c.MapInfoDrawType,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             TVText = TVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (MapInfo mapInfo in MapInfoList)
-            {
-                mapInfo.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)mapInfo.TVType);
-                mapInfo.MapInfoDrawTypeText = enums.GetResValueForTypeAndID(typeof(MapInfoDrawTypeEnum), (int?)mapInfo.MapInfoDrawType);
-            }
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
+            List<EnumIDAndText> MapInfoDrawTypeEnumList = enums.GetEnumTextOrderedList(typeof(MapInfoDrawTypeEnum));
 
-            return MapInfoList;
+            mapInfoQuery = (from c in mapInfoQuery
+                let TVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MapInfo
+                    {
+                        MapInfoID = c.MapInfoID,
+                        TVItemID = c.TVItemID,
+                        TVType = c.TVType,
+                        LatMin = c.LatMin,
+                        LatMax = c.LatMax,
+                        LngMin = c.LngMin,
+                        LngMax = c.LngMax,
+                        MapInfoDrawType = c.MapInfoDrawType,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TVText = TVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
+                        MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
+                                where e.EnumID == (int?)c.MapInfoDrawType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return mapInfoQuery;
         }
         #endregion Functions private Generated Fill Class
 

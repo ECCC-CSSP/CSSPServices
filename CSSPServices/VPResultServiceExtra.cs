@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
-    public partial class VPResultServiceExtra
+    public partial class VPResultService
     {
         #region Variables
         #endregion Variables

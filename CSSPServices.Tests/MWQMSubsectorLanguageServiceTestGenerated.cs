@@ -84,28 +84,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mwqmSubsectorLanguageService.GetRead().Count();
+                    count = mwqmSubsectorLanguageService.GetRead().Count();
 
-                Assert.AreEqual(mwqmSubsectorLanguageService.GetRead().Count(), mwqmSubsectorLanguageService.GetEdit().Count());
+                    Assert.AreEqual(mwqmSubsectorLanguageService.GetRead().Count(), mwqmSubsectorLanguageService.GetEdit().Count());
 
-                mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
-                if (mwqmSubsectorLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mwqmSubsectorLanguageService.GetRead().Where(c => c == mwqmSubsectorLanguage).Any());
-                mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage);
-                if (mwqmSubsectorLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mwqmSubsectorLanguageService.GetRead().Count());
-                mwqmSubsectorLanguageService.Delete(mwqmSubsectorLanguage);
-                if (mwqmSubsectorLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
+                    mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
+                    if (mwqmSubsectorLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mwqmSubsectorLanguageService.GetRead().Where(c => c == mwqmSubsectorLanguage).Any());
+                    mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage);
+                    if (mwqmSubsectorLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mwqmSubsectorLanguageService.GetRead().Count());
+                    mwqmSubsectorLanguageService.Delete(mwqmSubsectorLanguage);
+                    if (mwqmSubsectorLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -327,38 +327,89 @@ namespace CSSPServices.Tests
                     MWQMSubsectorLanguage mwqmSubsectorLanguage = (from c in mwqmSubsectorLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSubsectorLanguage);
 
-                    MWQMSubsectorLanguage mwqmSubsectorLanguageRet = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(mwqmSubsectorLanguage.MWQMSubsectorLanguageID);
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageID);
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.MWQMSubsectorID);
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.Language);
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.SubsectorDesc);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.SubsectorDesc));
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDesc);
-                    if (mwqmSubsectorLanguageRet.LogBook != null)
+                    MWQMSubsectorLanguage mwqmSubsectorLanguageRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(mwqmSubsectorLanguageRet.LogBook);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LogBook));
-                    }
-                    if (mwqmSubsectorLanguageRet.TranslationStatusLogBook != null)
-                    {
-                       Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusLogBook);
-                    }
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSubsectorLanguageRet = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(mwqmSubsectorLanguage.MWQMSubsectorLanguageID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSubsectorLanguageRet = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(mwqmSubsectorLanguage.MWQMSubsectorLanguageID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mwqmSubsectorLanguageRet = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(mwqmSubsectorLanguage.MWQMSubsectorLanguageID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageID);
+                        Assert.IsNotNull(mwqmSubsectorLanguageRet.MWQMSubsectorID);
+                        Assert.IsNotNull(mwqmSubsectorLanguageRet.Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.SubsectorDesc));
+                        Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDesc);
+                        if (mwqmSubsectorLanguageRet.LogBook != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LogBook));
+                        }
+                        if (mwqmSubsectorLanguageRet.TranslationStatusLogBook != null)
+                        {
+                            Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusLogBook);
+                        }
+                        Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.LanguageText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LanguageText));
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText));
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusLogBookText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusLogBookText));
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mwqmSubsectorLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (mwqmSubsectorLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LanguageText));
+                            }
+                            if (mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText));
+                            }
+                            if (mwqmSubsectorLanguageRet.TranslationStatusLogBookText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusLogBookText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mwqmSubsectorLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (mwqmSubsectorLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LanguageText));
+                            }
+                            if (mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText));
+                            }
+                            if (mwqmSubsectorLanguageRet.TranslationStatusLogBookText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusLogBookText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MWQMSubsectorLanguage
+        #endregion Tests Get List of MWQMSubsectorLanguage
 
     }
 }

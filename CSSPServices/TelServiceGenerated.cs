@@ -167,13 +167,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Tel GetTelWithTelID(int TelID)
+        public Tel GetTelWithTelID(int TelID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<Tel> telQuery = (from c in GetRead()
+            IQueryable<Tel> telQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TelID == TelID
                                                 select c);
 
-            return FillTel(telQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return telQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTel(telQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<Tel> GetTelList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<Tel> telQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return telQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTel(telQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -222,38 +251,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<Tel> FillTel(IQueryable<Tel> telQuery)
+        private IQueryable<Tel> FillTel(IQueryable<Tel> telQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<Tel> TelList = (from c in telQuery
-                                         let TelTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TelTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new Tel
-                                         {
-                                             TelID = c.TelID,
-                                             TelTVItemID = c.TelTVItemID,
-                                             TelNumber = c.TelNumber,
-                                             TelType = c.TelType,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             TelTVText = TelTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (Tel tel in TelList)
-            {
-                tel.TelTypeText = enums.GetResValueForTypeAndID(typeof(TelTypeEnum), (int?)tel.TelType);
-            }
+            List<EnumIDAndText> TelTypeEnumList = enums.GetEnumTextOrderedList(typeof(TelTypeEnum));
 
-            return TelList;
+            telQuery = (from c in telQuery
+                let TelTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TelTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new Tel
+                    {
+                        TelID = c.TelID,
+                        TelTVItemID = c.TelTVItemID,
+                        TelNumber = c.TelNumber,
+                        TelType = c.TelType,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TelTVText = TelTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TelTypeText = (from e in TelTypeEnumList
+                                where e.EnumID == (int?)c.TelType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return telQuery;
         }
         #endregion Functions private Generated Fill Class
 

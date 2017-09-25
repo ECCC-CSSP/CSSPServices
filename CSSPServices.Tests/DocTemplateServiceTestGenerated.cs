@@ -81,28 +81,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = docTemplateService.GetRead().Count();
+                    count = docTemplateService.GetRead().Count();
 
-                Assert.AreEqual(docTemplateService.GetRead().Count(), docTemplateService.GetEdit().Count());
+                    Assert.AreEqual(docTemplateService.GetRead().Count(), docTemplateService.GetEdit().Count());
 
-                docTemplateService.Add(docTemplate);
-                if (docTemplate.HasErrors)
-                {
-                    Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, docTemplateService.GetRead().Where(c => c == docTemplate).Any());
-                docTemplateService.Update(docTemplate);
-                if (docTemplate.HasErrors)
-                {
-                    Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, docTemplateService.GetRead().Count());
-                docTemplateService.Delete(docTemplate);
-                if (docTemplate.HasErrors)
-                {
-                    Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, docTemplateService.GetRead().Count());
+                    docTemplateService.Add(docTemplate);
+                    if (docTemplate.HasErrors)
+                    {
+                        Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, docTemplateService.GetRead().Where(c => c == docTemplate).Any());
+                    docTemplateService.Update(docTemplate);
+                    if (docTemplate.HasErrors)
+                    {
+                        Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, docTemplateService.GetRead().Count());
+                    docTemplateService.Delete(docTemplate);
+                    if (docTemplate.HasErrors)
+                    {
+                        Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -297,27 +297,73 @@ namespace CSSPServices.Tests
                     DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(docTemplate);
 
-                    DocTemplate docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
-                    Assert.IsNotNull(docTemplateRet.DocTemplateID);
-                    Assert.IsNotNull(docTemplateRet.Language);
-                    Assert.IsNotNull(docTemplateRet.TVType);
-                    Assert.IsNotNull(docTemplateRet.TVFileTVItemID);
-                    Assert.IsNotNull(docTemplateRet.FileName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.FileName));
-                    Assert.IsNotNull(docTemplateRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(docTemplateRet.LastUpdateContactTVItemID);
+                    DocTemplate docTemplateRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(docTemplateRet.DocTemplateID);
+                        Assert.IsNotNull(docTemplateRet.Language);
+                        Assert.IsNotNull(docTemplateRet.TVType);
+                        Assert.IsNotNull(docTemplateRet.TVFileTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.FileName));
+                        Assert.IsNotNull(docTemplateRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(docTemplateRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(docTemplateRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(docTemplateRet.LanguageText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
-                    Assert.IsNotNull(docTemplateRet.TVTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
-                    Assert.IsNotNull(docTemplateRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (docTemplateRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
+                            }
+                            if (docTemplateRet.LanguageText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
+                            }
+                            if (docTemplateRet.TVTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (docTemplateRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
+                            }
+                            if (docTemplateRet.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
+                            }
+                            if (docTemplateRet.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of DocTemplate
+        #endregion Tests Get List of DocTemplate
 
     }
 }

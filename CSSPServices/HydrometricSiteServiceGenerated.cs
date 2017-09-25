@@ -229,13 +229,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID)
+        public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in GetRead()
+            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.HydrometricSiteID == HydrometricSiteID
                                                 select c);
 
-            return FillHydrometricSite(hydrometricSiteQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return hydrometricSiteQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillHydrometricSite(hydrometricSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<HydrometricSite> GetHydrometricSiteList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return hydrometricSiteQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillHydrometricSite(hydrometricSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -284,45 +313,46 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<HydrometricSite> FillHydrometricSite(IQueryable<HydrometricSite> hydrometricSiteQuery)
+        private IQueryable<HydrometricSite> FillHydrometricSite(IQueryable<HydrometricSite> hydrometricSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<HydrometricSite> HydrometricSiteList = (from c in hydrometricSiteQuery
-                                         let HydrometricTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.HydrometricSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new HydrometricSite
-                                         {
-                                             HydrometricSiteID = c.HydrometricSiteID,
-                                             HydrometricSiteTVItemID = c.HydrometricSiteTVItemID,
-                                             FedSiteNumber = c.FedSiteNumber,
-                                             QuebecSiteNumber = c.QuebecSiteNumber,
-                                             HydrometricSiteName = c.HydrometricSiteName,
-                                             Description = c.Description,
-                                             Province = c.Province,
-                                             Elevation_m = c.Elevation_m,
-                                             StartDate_Local = c.StartDate_Local,
-                                             EndDate_Local = c.EndDate_Local,
-                                             TimeOffset_hour = c.TimeOffset_hour,
-                                             DrainageArea_km2 = c.DrainageArea_km2,
-                                             IsNatural = c.IsNatural,
-                                             IsActive = c.IsActive,
-                                             Sediment = c.Sediment,
-                                             RHBN = c.RHBN,
-                                             RealTime = c.RealTime,
-                                             HasRatingCurve = c.HasRatingCurve,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             HydrometricTVText = HydrometricTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            hydrometricSiteQuery = (from c in hydrometricSiteQuery
+                let HydrometricTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.HydrometricSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new HydrometricSite
+                    {
+                        HydrometricSiteID = c.HydrometricSiteID,
+                        HydrometricSiteTVItemID = c.HydrometricSiteTVItemID,
+                        FedSiteNumber = c.FedSiteNumber,
+                        QuebecSiteNumber = c.QuebecSiteNumber,
+                        HydrometricSiteName = c.HydrometricSiteName,
+                        Description = c.Description,
+                        Province = c.Province,
+                        Elevation_m = c.Elevation_m,
+                        StartDate_Local = c.StartDate_Local,
+                        EndDate_Local = c.EndDate_Local,
+                        TimeOffset_hour = c.TimeOffset_hour,
+                        DrainageArea_km2 = c.DrainageArea_km2,
+                        IsNatural = c.IsNatural,
+                        IsActive = c.IsActive,
+                        Sediment = c.Sediment,
+                        RHBN = c.RHBN,
+                        RealTime = c.RealTime,
+                        HasRatingCurve = c.HasRatingCurve,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HydrometricTVText = HydrometricTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return HydrometricSiteList;
+            return hydrometricSiteQuery;
         }
         #endregion Functions private Generated Fill Class
 

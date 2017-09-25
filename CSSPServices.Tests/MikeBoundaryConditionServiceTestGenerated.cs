@@ -89,28 +89,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mikeBoundaryConditionService.GetRead().Count();
+                    count = mikeBoundaryConditionService.GetRead().Count();
 
-                Assert.AreEqual(mikeBoundaryConditionService.GetRead().Count(), mikeBoundaryConditionService.GetEdit().Count());
+                    Assert.AreEqual(mikeBoundaryConditionService.GetRead().Count(), mikeBoundaryConditionService.GetEdit().Count());
 
-                mikeBoundaryConditionService.Add(mikeBoundaryCondition);
-                if (mikeBoundaryCondition.HasErrors)
-                {
-                    Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mikeBoundaryConditionService.GetRead().Where(c => c == mikeBoundaryCondition).Any());
-                mikeBoundaryConditionService.Update(mikeBoundaryCondition);
-                if (mikeBoundaryCondition.HasErrors)
-                {
-                    Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mikeBoundaryConditionService.GetRead().Count());
-                mikeBoundaryConditionService.Delete(mikeBoundaryCondition);
-                if (mikeBoundaryCondition.HasErrors)
-                {
-                    Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+                    if (mikeBoundaryCondition.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mikeBoundaryConditionService.GetRead().Where(c => c == mikeBoundaryCondition).Any());
+                    mikeBoundaryConditionService.Update(mikeBoundaryCondition);
+                    if (mikeBoundaryCondition.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mikeBoundaryConditionService.GetRead().Count());
+                    mikeBoundaryConditionService.Delete(mikeBoundaryCondition);
+                    if (mikeBoundaryCondition.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -443,40 +443,95 @@ namespace CSSPServices.Tests
                     MikeBoundaryCondition mikeBoundaryCondition = (from c in mikeBoundaryConditionService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeBoundaryCondition);
 
-                    MikeBoundaryCondition mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionID);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionTVItemID);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionCode);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionCode));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionName));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLength_m);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionFormat);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionFormat));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocity);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataSet);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.NumberOfWebTideNodes);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataFromStartToEndDate);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataFromStartToEndDate));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.TVType);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateContactTVItemID);
+                    MikeBoundaryCondition mikeBoundaryConditionRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionID);
+                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionCode));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionName));
+                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLength_m);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionFormat));
+                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocity);
+                        Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataSet);
+                        Assert.IsNotNull(mikeBoundaryConditionRet.NumberOfWebTideNodes);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataFromStartToEndDate));
+                        Assert.IsNotNull(mikeBoundaryConditionRet.TVType);
+                        Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionTVText));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataSetText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataSetText));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.TVTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.TVTypeText));
-                    Assert.IsNotNull(mikeBoundaryConditionRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionTVText));
+                            }
+                            if (mikeBoundaryConditionRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.LastUpdateContactTVText));
+                            }
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText));
+                            }
+                            if (mikeBoundaryConditionRet.WebTideDataSetText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataSetText));
+                            }
+                            if (mikeBoundaryConditionRet.TVTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.TVTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionTVText));
+                            }
+                            if (mikeBoundaryConditionRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.LastUpdateContactTVText));
+                            }
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText));
+                            }
+                            if (mikeBoundaryConditionRet.WebTideDataSetText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataSetText));
+                            }
+                            if (mikeBoundaryConditionRet.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.TVTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MikeBoundaryCondition
+        #endregion Tests Get List of MikeBoundaryCondition
 
     }
 }

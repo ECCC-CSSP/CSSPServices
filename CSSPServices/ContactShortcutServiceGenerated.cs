@@ -148,13 +148,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID)
+        public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = (from c in GetRead()
+            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactShortcutID == ContactShortcutID
                                                 select c);
 
-            return FillContactShortcut(contactShortcutQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactShortcutQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContactShortcut(contactShortcutQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<ContactShortcut> GetContactShortcutList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<ContactShortcut> contactShortcutQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactShortcutQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContactShortcut(contactShortcutQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -203,26 +232,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<ContactShortcut> FillContactShortcut(IQueryable<ContactShortcut> contactShortcutQuery)
+        private IQueryable<ContactShortcut> FillContactShortcut(IQueryable<ContactShortcut> contactShortcutQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<ContactShortcut> ContactShortcutList = (from c in contactShortcutQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new ContactShortcut
-                                         {
-                                             ContactShortcutID = c.ContactShortcutID,
-                                             ContactID = c.ContactID,
-                                             ShortCutText = c.ShortCutText,
-                                             ShortCutAddress = c.ShortCutAddress,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            contactShortcutQuery = (from c in contactShortcutQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new ContactShortcut
+                    {
+                        ContactShortcutID = c.ContactShortcutID,
+                        ContactID = c.ContactID,
+                        ShortCutText = c.ShortCutText,
+                        ShortCutAddress = c.ShortCutAddress,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return ContactShortcutList;
+            return contactShortcutQuery;
         }
         #endregion Functions private Generated Fill Class
 

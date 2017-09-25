@@ -91,28 +91,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = boxModelResultService.GetRead().Count();
+                    count = boxModelResultService.GetRead().Count();
 
-                Assert.AreEqual(boxModelResultService.GetRead().Count(), boxModelResultService.GetEdit().Count());
+                    Assert.AreEqual(boxModelResultService.GetRead().Count(), boxModelResultService.GetEdit().Count());
 
-                boxModelResultService.Add(boxModelResult);
-                if (boxModelResult.HasErrors)
-                {
-                    Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, boxModelResultService.GetRead().Where(c => c == boxModelResult).Any());
-                boxModelResultService.Update(boxModelResult);
-                if (boxModelResult.HasErrors)
-                {
-                    Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, boxModelResultService.GetRead().Count());
-                boxModelResultService.Delete(boxModelResult);
-                if (boxModelResult.HasErrors)
-                {
-                    Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResultService.Add(boxModelResult);
+                    if (boxModelResult.HasErrors)
+                    {
+                        Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, boxModelResultService.GetRead().Where(c => c == boxModelResult).Any());
+                    boxModelResultService.Update(boxModelResult);
+                    if (boxModelResult.HasErrors)
+                    {
+                        Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, boxModelResultService.GetRead().Count());
+                    boxModelResultService.Delete(boxModelResult);
+                    if (boxModelResult.HasErrors)
+                    {
+                        Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -484,35 +484,76 @@ namespace CSSPServices.Tests
                     BoxModelResult boxModelResult = (from c in boxModelResultService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelResult);
 
-                    BoxModelResult boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
-                    Assert.IsNotNull(boxModelResultRet.BoxModelResultID);
-                    Assert.IsNotNull(boxModelResultRet.BoxModelID);
-                    Assert.IsNotNull(boxModelResultRet.BoxModelResultType);
-                    Assert.IsNotNull(boxModelResultRet.Volume_m3);
-                    Assert.IsNotNull(boxModelResultRet.Surface_m2);
-                    Assert.IsNotNull(boxModelResultRet.Radius_m);
-                    Assert.IsNotNull(boxModelResultRet.LeftSideDiameterLineAngle_deg);
-                    Assert.IsNotNull(boxModelResultRet.CircleCenterLatitude);
-                    Assert.IsNotNull(boxModelResultRet.CircleCenterLongitude);
-                    Assert.IsNotNull(boxModelResultRet.FixLength);
-                    Assert.IsNotNull(boxModelResultRet.FixWidth);
-                    Assert.IsNotNull(boxModelResultRet.RectLength_m);
-                    Assert.IsNotNull(boxModelResultRet.RectWidth_m);
-                    Assert.IsNotNull(boxModelResultRet.LeftSideLineAngle_deg);
-                    Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLatitude);
-                    Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLongitude);
-                    Assert.IsNotNull(boxModelResultRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVItemID);
+                    BoxModelResult boxModelResultRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(boxModelResultRet.BoxModelResultID);
+                        Assert.IsNotNull(boxModelResultRet.BoxModelID);
+                        Assert.IsNotNull(boxModelResultRet.BoxModelResultType);
+                        Assert.IsNotNull(boxModelResultRet.Volume_m3);
+                        Assert.IsNotNull(boxModelResultRet.Surface_m2);
+                        Assert.IsNotNull(boxModelResultRet.Radius_m);
+                        Assert.IsNotNull(boxModelResultRet.LeftSideDiameterLineAngle_deg);
+                        Assert.IsNotNull(boxModelResultRet.CircleCenterLatitude);
+                        Assert.IsNotNull(boxModelResultRet.CircleCenterLongitude);
+                        Assert.IsNotNull(boxModelResultRet.FixLength);
+                        Assert.IsNotNull(boxModelResultRet.FixWidth);
+                        Assert.IsNotNull(boxModelResultRet.RectLength_m);
+                        Assert.IsNotNull(boxModelResultRet.RectWidth_m);
+                        Assert.IsNotNull(boxModelResultRet.LeftSideLineAngle_deg);
+                        Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLatitude);
+                        Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLongitude);
+                        Assert.IsNotNull(boxModelResultRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(boxModelResultRet.BoxModelResultTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
-                    Assert.IsNotNull(boxModelResultRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (boxModelResultRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
+                            }
+                            if (boxModelResultRet.BoxModelResultTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (boxModelResultRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
+                            }
+                            if (boxModelResultRet.BoxModelResultTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of BoxModelResult
+        #endregion Tests Get List of BoxModelResult
 
     }
 }

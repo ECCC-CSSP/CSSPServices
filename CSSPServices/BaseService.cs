@@ -34,8 +34,8 @@ namespace CSSPServices
         public bool CanSendEmail { get; set; }
         public int ContactID { get; set; }
         public string FromEmail { get; set; }
-        public bool IsTest { get; set; }
         public LanguageEnum LanguageRequest { get; set; }
+        public int MaxGetCount { get; set; }
         #endregion Properties
 
         #region Constructors
@@ -64,7 +64,7 @@ namespace CSSPServices
             this.db = db;
             this.CanSendEmail = true;
             this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
-            this.IsTest = false;
+            this.MaxGetCount = 25;
         }
         #endregion Constructors  
     }

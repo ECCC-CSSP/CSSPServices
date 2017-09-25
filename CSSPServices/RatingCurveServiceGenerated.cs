@@ -136,13 +136,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public RatingCurve GetRatingCurveWithRatingCurveID(int RatingCurveID)
+        public RatingCurve GetRatingCurveWithRatingCurveID(int RatingCurveID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<RatingCurve> ratingCurveQuery = (from c in GetRead()
+            IQueryable<RatingCurve> ratingCurveQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.RatingCurveID == RatingCurveID
                                                 select c);
 
-            return FillRatingCurve(ratingCurveQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return ratingCurveQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillRatingCurve(ratingCurveQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<RatingCurve> GetRatingCurveList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<RatingCurve> ratingCurveQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return ratingCurveQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillRatingCurve(ratingCurveQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -191,25 +220,26 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<RatingCurve> FillRatingCurve(IQueryable<RatingCurve> ratingCurveQuery)
+        private IQueryable<RatingCurve> FillRatingCurve(IQueryable<RatingCurve> ratingCurveQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<RatingCurve> RatingCurveList = (from c in ratingCurveQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new RatingCurve
-                                         {
-                                             RatingCurveID = c.RatingCurveID,
-                                             HydrometricSiteID = c.HydrometricSiteID,
-                                             RatingCurveNumber = c.RatingCurveNumber,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            ratingCurveQuery = (from c in ratingCurveQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new RatingCurve
+                    {
+                        RatingCurveID = c.RatingCurveID,
+                        HydrometricSiteID = c.HydrometricSiteID,
+                        RatingCurveNumber = c.RatingCurveNumber,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return RatingCurveList;
+            return ratingCurveQuery;
         }
         #endregion Functions private Generated Fill Class
 

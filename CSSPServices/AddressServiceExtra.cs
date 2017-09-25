@@ -41,7 +41,7 @@ namespace CSSPServices
         //#endregion Functions public get
 
         #region Functions private
-        private void FillAddressTVText(Address address)
+        public void FillAddressTVText(Address address)
         {
             if (address.CountryTVItemID == 0)
             {
@@ -64,26 +64,26 @@ namespace CSSPServices
             string CountryTVText = (from cl in db.TVItemLanguages.AsNoTracking()
                                     where cl.Language == LanguageRequest
                                     && cl.TVItemID == address.CountryTVItemID
-                                    select cl.TVText).ToString();
+                                    select cl.TVText).FirstOrDefault();
 
             string ProvinceTVText = (from cl in db.TVItemLanguages.AsNoTracking()
                                     where cl.Language == LanguageRequest
                                     && cl.TVItemID == address.ProvinceTVItemID
-                                    select cl.TVText).ToString();
+                                    select cl.TVText).FirstOrDefault();
 
             string MunicipalityTVText = (from cl in db.TVItemLanguages.AsNoTracking()
                                     where cl.Language == LanguageRequest
                                     && cl.TVItemID == address.MunicipalityTVItemID
-                                    select cl.TVText).ToString();
+                                    select cl.TVText).FirstOrDefault();
 
             Enums enums = new Enums(LanguageRequest);
             if (LanguageRequest == LanguageEnum.fr)
             {
-                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + "," + ProvinceTVText + "," + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
+                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
             else
             {
-                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + "," + ProvinceTVText + "," + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
+                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
         }
         #endregion Functions private

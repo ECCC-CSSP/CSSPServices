@@ -145,13 +145,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ContactPreference GetContactPreferenceWithContactPreferenceID(int ContactPreferenceID)
+        public ContactPreference GetContactPreferenceWithContactPreferenceID(int ContactPreferenceID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<ContactPreference> contactPreferenceQuery = (from c in GetRead()
+            IQueryable<ContactPreference> contactPreferenceQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactPreferenceID == ContactPreferenceID
                                                 select c);
 
-            return FillContactPreference(contactPreferenceQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactPreferenceQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContactPreference(contactPreferenceQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<ContactPreference> GetContactPreferenceList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<ContactPreference> contactPreferenceQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactPreferenceQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContactPreference(contactPreferenceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -200,33 +229,34 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<ContactPreference> FillContactPreference(IQueryable<ContactPreference> contactPreferenceQuery)
+        private IQueryable<ContactPreference> FillContactPreference(IQueryable<ContactPreference> contactPreferenceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<ContactPreference> ContactPreferenceList = (from c in contactPreferenceQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new ContactPreference
-                                         {
-                                             ContactPreferenceID = c.ContactPreferenceID,
-                                             ContactID = c.ContactID,
-                                             TVType = c.TVType,
-                                             MarkerSize = c.MarkerSize,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (ContactPreference contactPreference in ContactPreferenceList)
-            {
-                contactPreference.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)contactPreference.TVType);
-            }
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-            return ContactPreferenceList;
+            contactPreferenceQuery = (from c in contactPreferenceQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new ContactPreference
+                    {
+                        ContactPreferenceID = c.ContactPreferenceID,
+                        ContactID = c.ContactID,
+                        TVType = c.TVType,
+                        MarkerSize = c.MarkerSize,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return contactPreferenceQuery;
         }
         #endregion Functions private Generated Fill Class
 

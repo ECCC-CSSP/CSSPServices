@@ -267,8 +267,10 @@
     <Compile Include="ElementLayerServiceTestGenerated.cs" />
     <Compile Include="ElementServiceTestExtra.cs" />
     <Compile Include="ElementServiceTestGenerated.cs" />
+    <Compile Include="EmailDistributionListContactLanguageServiceTestGenerated.cs" />
     <Compile Include="EmailDistributionListContactServiceTestExtra.cs" />
     <Compile Include="EmailDistributionListContactServiceTestGenerated.cs" />
+    <Compile Include="EmailDistributionListLanguageServiceTestGenerated.cs" />
     <Compile Include="EmailDistributionListServiceTestExtra.cs" />
     <Compile Include="EmailDistributionListServiceTestGenerated.cs" />
     <Compile Include="EmailServiceTestExtra.cs" />
@@ -325,6 +327,7 @@
     <Compile Include="MikeSourceServiceTestGenerated.cs" />
     <Compile Include="MikeSourceStartEndServiceTestExtra.cs" />
     <Compile Include="MikeSourceStartEndServiceTestGenerated.cs" />
+    <Compile Include="MWQMAnalysisReportParameterServiceTestGenerated.cs" />
     <Compile Include="MWQMLookupMPNServiceTestExtra.cs" />
     <Compile Include="MWQMLookupMPNServiceTestGenerated.cs" />
     <Compile Include="MWQMRunLanguageServiceTestExtra.cs" />

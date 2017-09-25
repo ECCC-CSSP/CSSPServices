@@ -170,13 +170,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public EmailDistributionListContact GetEmailDistributionListContactWithEmailDistributionListContactID(int EmailDistributionListContactID)
+        public EmailDistributionListContact GetEmailDistributionListContactWithEmailDistributionListContactID(int EmailDistributionListContactID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in GetRead()
+            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailDistributionListContactID == EmailDistributionListContactID
                                                 select c);
 
-            return FillEmailDistributionListContact(emailDistributionListContactQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailDistributionListContactQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmailDistributionListContact(emailDistributionListContactQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<EmailDistributionListContact> GetEmailDistributionListContactList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return emailDistributionListContactQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillEmailDistributionListContact(emailDistributionListContactQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -225,32 +254,33 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<EmailDistributionListContact> FillEmailDistributionListContact(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery)
+        private IQueryable<EmailDistributionListContact> FillEmailDistributionListContact(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<EmailDistributionListContact> EmailDistributionListContactList = (from c in emailDistributionListContactQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new EmailDistributionListContact
-                                         {
-                                             EmailDistributionListContactID = c.EmailDistributionListContactID,
-                                             EmailDistributionListID = c.EmailDistributionListID,
-                                             IsCC = c.IsCC,
-                                             Name = c.Name,
-                                             Email = c.Email,
-                                             CMPRainfallSeasonal = c.CMPRainfallSeasonal,
-                                             CMPWastewater = c.CMPWastewater,
-                                             EmergencyWeather = c.EmergencyWeather,
-                                             EmergencyWastewater = c.EmergencyWastewater,
-                                             ReopeningAllTypes = c.ReopeningAllTypes,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            emailDistributionListContactQuery = (from c in emailDistributionListContactQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new EmailDistributionListContact
+                    {
+                        EmailDistributionListContactID = c.EmailDistributionListContactID,
+                        EmailDistributionListID = c.EmailDistributionListID,
+                        IsCC = c.IsCC,
+                        Name = c.Name,
+                        Email = c.Email,
+                        CMPRainfallSeasonal = c.CMPRainfallSeasonal,
+                        CMPWastewater = c.CMPWastewater,
+                        EmergencyWeather = c.EmergencyWeather,
+                        EmergencyWastewater = c.EmergencyWastewater,
+                        ReopeningAllTypes = c.ReopeningAllTypes,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return EmailDistributionListContactList;
+            return emailDistributionListContactQuery;
         }
         #endregion Functions private Generated Fill Class
 

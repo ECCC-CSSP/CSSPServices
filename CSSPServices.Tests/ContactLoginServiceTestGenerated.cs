@@ -90,28 +90,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = contactLoginService.GetRead().Count();
+                    count = contactLoginService.GetRead().Count();
 
-                Assert.AreEqual(contactLoginService.GetRead().Count(), contactLoginService.GetEdit().Count());
+                    Assert.AreEqual(contactLoginService.GetRead().Count(), contactLoginService.GetEdit().Count());
 
-                contactLoginService.Add(contactLogin);
-                if (contactLogin.HasErrors)
-                {
-                    Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, contactLoginService.GetRead().Where(c => c == contactLogin).Any());
-                contactLoginService.Update(contactLogin);
-                if (contactLogin.HasErrors)
-                {
-                    Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, contactLoginService.GetRead().Count());
-                contactLoginService.Delete(contactLogin);
-                if (contactLogin.HasErrors)
-                {
-                    Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
+                    contactLoginService.Add(contactLogin);
+                    if (contactLogin.HasErrors)
+                    {
+                        Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, contactLoginService.GetRead().Where(c => c == contactLogin).Any());
+                    contactLoginService.Update(contactLogin);
+                    if (contactLogin.HasErrors)
+                    {
+                        Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, contactLoginService.GetRead().Count());
+                    contactLoginService.Delete(contactLogin);
+                    if (contactLogin.HasErrors)
+                    {
+                        Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -319,23 +319,57 @@ namespace CSSPServices.Tests
                     ContactLogin contactLogin = (from c in contactLoginService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(contactLogin);
 
-                    ContactLogin contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID);
-                    Assert.IsNotNull(contactLoginRet.ContactLoginID);
-                    Assert.IsNotNull(contactLoginRet.ContactID);
-                    Assert.IsNotNull(contactLoginRet.LoginEmail);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LoginEmail));
-                    Assert.IsNotNull(contactLoginRet.PasswordHash);
-                    Assert.IsNotNull(contactLoginRet.PasswordSalt);
-                    Assert.IsNotNull(contactLoginRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(contactLoginRet.LastUpdateContactTVItemID);
+                    ContactLogin contactLoginRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(contactLoginRet.ContactLoginID);
+                        Assert.IsNotNull(contactLoginRet.ContactID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LoginEmail));
+                        Assert.IsNotNull(contactLoginRet.PasswordHash);
+                        Assert.IsNotNull(contactLoginRet.PasswordSalt);
+                        Assert.IsNotNull(contactLoginRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(contactLoginRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(contactLoginRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(contactLoginRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (contactLoginRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (contactLoginRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of ContactLogin
+        #endregion Tests Get List of ContactLogin
 
     }
 }

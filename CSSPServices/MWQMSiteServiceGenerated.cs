@@ -187,13 +187,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID)
+        public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMSite> mwqmSiteQuery = (from c in GetRead()
+            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSiteID == MWQMSiteID
                                                 select c);
 
-            return FillMWQMSite(mwqmSiteQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSiteQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSite(mwqmSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMSite> GetMWQMSiteList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMSite> mwqmSiteQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmSiteQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMSite(mwqmSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -242,40 +271,41 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMSite> FillMWQMSite(IQueryable<MWQMSite> mwqmSiteQuery)
+        private IQueryable<MWQMSite> FillMWQMSite(IQueryable<MWQMSite> mwqmSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMSite> MWQMSiteList = (from c in mwqmSiteQuery
-                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMSite
-                                         {
-                                             MWQMSiteID = c.MWQMSiteID,
-                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                                             MWQMSiteNumber = c.MWQMSiteNumber,
-                                             MWQMSiteDescription = c.MWQMSiteDescription,
-                                             MWQMSiteLatestClassification = c.MWQMSiteLatestClassification,
-                                             Ordinal = c.Ordinal,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MWQMSiteTVText = MWQMSiteTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (MWQMSite mwqmSite in MWQMSiteList)
-            {
-                mwqmSite.MWQMSiteLatestClassificationText = enums.GetResValueForTypeAndID(typeof(MWQMSiteLatestClassificationEnum), (int?)mwqmSite.MWQMSiteLatestClassification);
-            }
+            List<EnumIDAndText> MWQMSiteLatestClassificationEnumList = enums.GetEnumTextOrderedList(typeof(MWQMSiteLatestClassificationEnum));
 
-            return MWQMSiteList;
+            mwqmSiteQuery = (from c in mwqmSiteQuery
+                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMSite
+                    {
+                        MWQMSiteID = c.MWQMSiteID,
+                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                        MWQMSiteNumber = c.MWQMSiteNumber,
+                        MWQMSiteDescription = c.MWQMSiteDescription,
+                        MWQMSiteLatestClassification = c.MWQMSiteLatestClassification,
+                        Ordinal = c.Ordinal,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MWQMSiteTVText = MWQMSiteTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
+                                where e.EnumID == (int?)c.MWQMSiteLatestClassification
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return mwqmSiteQuery;
         }
         #endregion Functions private Generated Fill Class
 

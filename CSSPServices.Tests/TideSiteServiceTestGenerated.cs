@@ -79,28 +79,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = tideSiteService.GetRead().Count();
+                    count = tideSiteService.GetRead().Count();
 
-                Assert.AreEqual(tideSiteService.GetRead().Count(), tideSiteService.GetEdit().Count());
+                    Assert.AreEqual(tideSiteService.GetRead().Count(), tideSiteService.GetEdit().Count());
 
-                tideSiteService.Add(tideSite);
-                if (tideSite.HasErrors)
-                {
-                    Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, tideSiteService.GetRead().Where(c => c == tideSite).Any());
-                tideSiteService.Update(tideSite);
-                if (tideSite.HasErrors)
-                {
-                    Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, tideSiteService.GetRead().Count());
-                tideSiteService.Delete(tideSite);
-                if (tideSite.HasErrors)
-                {
-                    Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, tideSiteService.GetRead().Count());
+                    tideSiteService.Add(tideSite);
+                    if (tideSite.HasErrors)
+                    {
+                        Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, tideSiteService.GetRead().Where(c => c == tideSite).Any());
+                    tideSiteService.Update(tideSite);
+                    if (tideSite.HasErrors)
+                    {
+                        Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, tideSiteService.GetRead().Count());
+                    tideSiteService.Delete(tideSite);
+                    if (tideSite.HasErrors)
+                    {
+                        Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -277,24 +277,64 @@ namespace CSSPServices.Tests
                     TideSite tideSite = (from c in tideSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tideSite);
 
-                    TideSite tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID);
-                    Assert.IsNotNull(tideSiteRet.TideSiteID);
-                    Assert.IsNotNull(tideSiteRet.TideSiteTVItemID);
-                    Assert.IsNotNull(tideSiteRet.WebTideModel);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.WebTideModel));
-                    Assert.IsNotNull(tideSiteRet.WebTideDatum_m);
-                    Assert.IsNotNull(tideSiteRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(tideSiteRet.LastUpdateContactTVItemID);
+                    TideSite tideSiteRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(tideSiteRet.TideSiteID);
+                        Assert.IsNotNull(tideSiteRet.TideSiteTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.WebTideModel));
+                        Assert.IsNotNull(tideSiteRet.WebTideDatum_m);
+                        Assert.IsNotNull(tideSiteRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(tideSiteRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(tideSiteRet.TideSiteTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));
-                    Assert.IsNotNull(tideSiteRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(tideSiteRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (tideSiteRet.TideSiteTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));
+                            }
+                            if (tideSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tideSiteRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (tideSiteRet.TideSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));
+                            }
+                            if (tideSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of TideSite
+        #endregion Tests Get List of TideSite
 
     }
 }

@@ -176,13 +176,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID)
+        public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<ResetPassword> resetPasswordQuery = (from c in GetRead()
+            IQueryable<ResetPassword> resetPasswordQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ResetPasswordID == ResetPasswordID
                                                 select c);
 
-            return FillResetPassword(resetPasswordQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return resetPasswordQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillResetPassword(resetPasswordQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<ResetPassword> GetResetPasswordList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<ResetPassword> resetPasswordQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return resetPasswordQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillResetPassword(resetPasswordQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -231,26 +260,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<ResetPassword> FillResetPassword(IQueryable<ResetPassword> resetPasswordQuery)
+        private IQueryable<ResetPassword> FillResetPassword(IQueryable<ResetPassword> resetPasswordQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<ResetPassword> ResetPasswordList = (from c in resetPasswordQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new ResetPassword
-                                         {
-                                             ResetPasswordID = c.ResetPasswordID,
-                                             Email = c.Email,
-                                             ExpireDate_Local = c.ExpireDate_Local,
-                                             Code = c.Code,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            resetPasswordQuery = (from c in resetPasswordQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new ResetPassword
+                    {
+                        ResetPasswordID = c.ResetPasswordID,
+                        Email = c.Email,
+                        ExpireDate_Local = c.ExpireDate_Local,
+                        Code = c.Code,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return ResetPasswordList;
+            return resetPasswordQuery;
         }
         #endregion Functions private Generated Fill Class
 

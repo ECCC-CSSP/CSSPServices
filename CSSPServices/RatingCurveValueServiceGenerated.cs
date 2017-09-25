@@ -140,13 +140,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public RatingCurveValue GetRatingCurveValueWithRatingCurveValueID(int RatingCurveValueID)
+        public RatingCurveValue GetRatingCurveValueWithRatingCurveValueID(int RatingCurveValueID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<RatingCurveValue> ratingCurveValueQuery = (from c in GetRead()
+            IQueryable<RatingCurveValue> ratingCurveValueQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.RatingCurveValueID == RatingCurveValueID
                                                 select c);
 
-            return FillRatingCurveValue(ratingCurveValueQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return ratingCurveValueQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillRatingCurveValue(ratingCurveValueQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<RatingCurveValue> GetRatingCurveValueList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<RatingCurveValue> ratingCurveValueQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return ratingCurveValueQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillRatingCurveValue(ratingCurveValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -195,26 +224,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<RatingCurveValue> FillRatingCurveValue(IQueryable<RatingCurveValue> ratingCurveValueQuery)
+        private IQueryable<RatingCurveValue> FillRatingCurveValue(IQueryable<RatingCurveValue> ratingCurveValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<RatingCurveValue> RatingCurveValueList = (from c in ratingCurveValueQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new RatingCurveValue
-                                         {
-                                             RatingCurveValueID = c.RatingCurveValueID,
-                                             RatingCurveID = c.RatingCurveID,
-                                             StageValue_m = c.StageValue_m,
-                                             DischargeValue_m3_s = c.DischargeValue_m3_s,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            ratingCurveValueQuery = (from c in ratingCurveValueQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new RatingCurveValue
+                    {
+                        RatingCurveValueID = c.RatingCurveValueID,
+                        RatingCurveID = c.RatingCurveID,
+                        StageValue_m = c.StageValue_m,
+                        DischargeValue_m3_s = c.DischargeValue_m3_s,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return RatingCurveValueList;
+            return ratingCurveValueQuery;
         }
         #endregion Functions private Generated Fill Class
 

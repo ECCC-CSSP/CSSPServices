@@ -146,13 +146,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMLookupMPN GetMWQMLookupMPNWithMWQMLookupMPNID(int MWQMLookupMPNID)
+        public MWQMLookupMPN GetMWQMLookupMPNWithMWQMLookupMPNID(int MWQMLookupMPNID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = (from c in GetRead()
+            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMLookupMPNID == MWQMLookupMPNID
                                                 select c);
 
-            return FillMWQMLookupMPN(mwqmLookupMPNQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmLookupMPNQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMLookupMPN(mwqmLookupMPNQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMLookupMPN> GetMWQMLookupMPNList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmLookupMPNQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMLookupMPN(mwqmLookupMPNQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -201,27 +230,28 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMLookupMPN> FillMWQMLookupMPN(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery)
+        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPN(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMLookupMPN> MWQMLookupMPNList = (from c in mwqmLookupMPNQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMLookupMPN
-                                         {
-                                             MWQMLookupMPNID = c.MWQMLookupMPNID,
-                                             Tubes10 = c.Tubes10,
-                                             Tubes1 = c.Tubes1,
-                                             Tubes01 = c.Tubes01,
-                                             MPN_100ml = c.MPN_100ml,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            mwqmLookupMPNQuery = (from c in mwqmLookupMPNQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMLookupMPN
+                    {
+                        MWQMLookupMPNID = c.MWQMLookupMPNID,
+                        Tubes10 = c.Tubes10,
+                        Tubes1 = c.Tubes1,
+                        Tubes01 = c.Tubes01,
+                        MPN_100ml = c.MPN_100ml,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return MWQMLookupMPNList;
+            return mwqmLookupMPNQuery;
         }
         #endregion Functions private Generated Fill Class
 

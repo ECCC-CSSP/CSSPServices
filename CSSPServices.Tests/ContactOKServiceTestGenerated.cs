@@ -89,5 +89,8 @@ namespace CSSPServices.Tests
         #region Tests Generated Get With Key
         #endregion Tests Get With Key
 
+        #region Tests Generated Get List of ContactOK
+        #endregion Tests Get List of ContactOK
+
     }
 }

@@ -174,13 +174,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID)
+        public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<DocTemplate> docTemplateQuery = (from c in GetRead()
+            IQueryable<DocTemplate> docTemplateQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.DocTemplateID == DocTemplateID
                                                 select c);
 
-            return FillDocTemplate(docTemplateQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return docTemplateQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillDocTemplate(docTemplateQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<DocTemplate> GetDocTemplateList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<DocTemplate> docTemplateQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return docTemplateQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillDocTemplate(docTemplateQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -229,35 +258,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<DocTemplate> FillDocTemplate(IQueryable<DocTemplate> docTemplateQuery)
+        private IQueryable<DocTemplate> FillDocTemplate(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<DocTemplate> DocTemplateList = (from c in docTemplateQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new DocTemplate
-                                         {
-                                             DocTemplateID = c.DocTemplateID,
-                                             Language = c.Language,
-                                             TVType = c.TVType,
-                                             TVFileTVItemID = c.TVFileTVItemID,
-                                             FileName = c.FileName,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (DocTemplate docTemplate in DocTemplateList)
-            {
-                docTemplate.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)docTemplate.Language);
-                docTemplate.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)docTemplate.TVType);
-            }
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-            return DocTemplateList;
+            docTemplateQuery = (from c in docTemplateQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new DocTemplate
+                    {
+                        DocTemplateID = c.DocTemplateID,
+                        Language = c.Language,
+                        TVType = c.TVType,
+                        TVFileTVItemID = c.TVFileTVItemID,
+                        FileName = c.FileName,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return docTemplateQuery;
         }
         #endregion Functions private Generated Fill Class
 

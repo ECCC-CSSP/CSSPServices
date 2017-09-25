@@ -80,28 +80,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = tvItemStatService.GetRead().Count();
+                    count = tvItemStatService.GetRead().Count();
 
-                Assert.AreEqual(tvItemStatService.GetRead().Count(), tvItemStatService.GetEdit().Count());
+                    Assert.AreEqual(tvItemStatService.GetRead().Count(), tvItemStatService.GetEdit().Count());
 
-                tvItemStatService.Add(tvItemStat);
-                if (tvItemStat.HasErrors)
-                {
-                    Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, tvItemStatService.GetRead().Where(c => c == tvItemStat).Any());
-                tvItemStatService.Update(tvItemStat);
-                if (tvItemStat.HasErrors)
-                {
-                    Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, tvItemStatService.GetRead().Count());
-                tvItemStatService.Delete(tvItemStat);
-                if (tvItemStat.HasErrors)
-                {
-                    Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, tvItemStatService.GetRead().Count());
+                    tvItemStatService.Add(tvItemStat);
+                    if (tvItemStat.HasErrors)
+                    {
+                        Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, tvItemStatService.GetRead().Where(c => c == tvItemStat).Any());
+                    tvItemStatService.Update(tvItemStat);
+                    if (tvItemStat.HasErrors)
+                    {
+                        Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, tvItemStatService.GetRead().Count());
+                    tvItemStatService.Delete(tvItemStat);
+                    if (tvItemStat.HasErrors)
+                    {
+                        Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -282,25 +282,72 @@ namespace CSSPServices.Tests
                     TVItemStat tvItemStat = (from c in tvItemStatService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemStat);
 
-                    TVItemStat tvItemStatRet = tvItemStatService.GetTVItemStatWithTVItemStatID(tvItemStat.TVItemStatID);
-                    Assert.IsNotNull(tvItemStatRet.TVItemStatID);
-                    Assert.IsNotNull(tvItemStatRet.TVItemID);
-                    Assert.IsNotNull(tvItemStatRet.TVType);
-                    Assert.IsNotNull(tvItemStatRet.ChildCount);
-                    Assert.IsNotNull(tvItemStatRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(tvItemStatRet.LastUpdateContactTVItemID);
+                    TVItemStat tvItemStatRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemStatRet = tvItemStatService.GetTVItemStatWithTVItemStatID(tvItemStat.TVItemStatID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemStatRet = tvItemStatService.GetTVItemStatWithTVItemStatID(tvItemStat.TVItemStatID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            tvItemStatRet = tvItemStatService.GetTVItemStatWithTVItemStatID(tvItemStat.TVItemStatID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(tvItemStatRet.TVItemStatID);
+                        Assert.IsNotNull(tvItemStatRet.TVItemID);
+                        Assert.IsNotNull(tvItemStatRet.TVType);
+                        Assert.IsNotNull(tvItemStatRet.ChildCount);
+                        Assert.IsNotNull(tvItemStatRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(tvItemStatRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(tvItemStatRet.TVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVText));
-                    Assert.IsNotNull(tvItemStatRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(tvItemStatRet.TVTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVTypeText));
-                    Assert.IsNotNull(tvItemStatRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (tvItemStatRet.TVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvItemStatRet.TVText));
+                            }
+                            if (tvItemStatRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvItemStatRet.LastUpdateContactTVText));
+                            }
+                            if (tvItemStatRet.TVTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvItemStatRet.TVTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (tvItemStatRet.TVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVText));
+                            }
+                            if (tvItemStatRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.LastUpdateContactTVText));
+                            }
+                            if (tvItemStatRet.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of TVItemStat
+        #endregion Tests Get List of TVItemStat
 
     }
 }

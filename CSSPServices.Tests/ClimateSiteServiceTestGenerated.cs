@@ -97,28 +97,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = climateSiteService.GetRead().Count();
+                    count = climateSiteService.GetRead().Count();
 
-                Assert.AreEqual(climateSiteService.GetRead().Count(), climateSiteService.GetEdit().Count());
+                    Assert.AreEqual(climateSiteService.GetRead().Count(), climateSiteService.GetEdit().Count());
 
-                climateSiteService.Add(climateSite);
-                if (climateSite.HasErrors)
-                {
-                    Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, climateSiteService.GetRead().Where(c => c == climateSite).Any());
-                climateSiteService.Update(climateSite);
-                if (climateSite.HasErrors)
-                {
-                    Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, climateSiteService.GetRead().Count());
-                climateSiteService.Delete(climateSite);
-                if (climateSite.HasErrors)
-                {
-                    Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    climateSiteService.Add(climateSite);
+                    if (climateSite.HasErrors)
+                    {
+                        Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, climateSiteService.GetRead().Where(c => c == climateSite).Any());
+                    climateSiteService.Update(climateSite);
+                    if (climateSite.HasErrors)
+                    {
+                        Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, climateSiteService.GetRead().Count());
+                    climateSiteService.Delete(climateSite);
+                    if (climateSite.HasErrors)
+                    {
+                        Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -493,98 +493,133 @@ namespace CSSPServices.Tests
                     ClimateSite climateSite = (from c in climateSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(climateSite);
 
-                    ClimateSite climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
-                    Assert.IsNotNull(climateSiteRet.ClimateSiteID);
-                    Assert.IsNotNull(climateSiteRet.ClimateSiteTVItemID);
-                    Assert.IsNotNull(climateSiteRet.ECDBID);
-                    Assert.IsNotNull(climateSiteRet.ClimateSiteName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteName));
-                    Assert.IsNotNull(climateSiteRet.Province);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.Province));
-                    if (climateSiteRet.Elevation_m != null)
+                    ClimateSite climateSiteRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(climateSiteRet.Elevation_m);
-                    }
-                    if (climateSiteRet.ClimateID != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.ClimateID);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateID));
-                    }
-                    if (climateSiteRet.WMOID != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.WMOID);
-                    }
-                    if (climateSiteRet.TCID != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.TCID);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.TCID));
-                    }
-                    if (climateSiteRet.IsProvincial != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.IsProvincial);
-                    }
-                    if (climateSiteRet.ProvSiteID != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.ProvSiteID);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ProvSiteID));
-                    }
-                    if (climateSiteRet.TimeOffset_hour != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.TimeOffset_hour);
-                    }
-                    if (climateSiteRet.File_desc != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.File_desc);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.File_desc));
-                    }
-                    if (climateSiteRet.HourlyStartDate_Local != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.HourlyStartDate_Local);
-                    }
-                    if (climateSiteRet.HourlyEndDate_Local != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.HourlyEndDate_Local);
-                    }
-                    if (climateSiteRet.HourlyNow != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.HourlyNow);
-                    }
-                    if (climateSiteRet.DailyStartDate_Local != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.DailyStartDate_Local);
-                    }
-                    if (climateSiteRet.DailyEndDate_Local != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.DailyEndDate_Local);
-                    }
-                    if (climateSiteRet.DailyNow != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.DailyNow);
-                    }
-                    if (climateSiteRet.MonthlyStartDate_Local != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.MonthlyStartDate_Local);
-                    }
-                    if (climateSiteRet.MonthlyEndDate_Local != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.MonthlyEndDate_Local);
-                    }
-                    if (climateSiteRet.MonthlyNow != null)
-                    {
-                       Assert.IsNotNull(climateSiteRet.MonthlyNow);
-                    }
-                    Assert.IsNotNull(climateSiteRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(climateSiteRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(climateSiteRet.ClimateSiteID);
+                        Assert.IsNotNull(climateSiteRet.ClimateSiteTVItemID);
+                        Assert.IsNotNull(climateSiteRet.ECDBID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteName));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.Province));
+                        if (climateSiteRet.Elevation_m != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.Elevation_m);
+                        }
+                        if (climateSiteRet.ClimateID != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateID));
+                        }
+                        if (climateSiteRet.WMOID != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.WMOID);
+                        }
+                        if (climateSiteRet.TCID != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.TCID));
+                        }
+                        if (climateSiteRet.IsProvincial != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.IsProvincial);
+                        }
+                        if (climateSiteRet.ProvSiteID != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ProvSiteID));
+                        }
+                        if (climateSiteRet.TimeOffset_hour != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.TimeOffset_hour);
+                        }
+                        if (climateSiteRet.File_desc != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.File_desc));
+                        }
+                        if (climateSiteRet.HourlyStartDate_Local != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.HourlyStartDate_Local);
+                        }
+                        if (climateSiteRet.HourlyEndDate_Local != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.HourlyEndDate_Local);
+                        }
+                        if (climateSiteRet.HourlyNow != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.HourlyNow);
+                        }
+                        if (climateSiteRet.DailyStartDate_Local != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.DailyStartDate_Local);
+                        }
+                        if (climateSiteRet.DailyEndDate_Local != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.DailyEndDate_Local);
+                        }
+                        if (climateSiteRet.DailyNow != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.DailyNow);
+                        }
+                        if (climateSiteRet.MonthlyStartDate_Local != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.MonthlyStartDate_Local);
+                        }
+                        if (climateSiteRet.MonthlyEndDate_Local != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.MonthlyEndDate_Local);
+                        }
+                        if (climateSiteRet.MonthlyNow != null)
+                        {
+                            Assert.IsNotNull(climateSiteRet.MonthlyNow);
+                        }
+                        Assert.IsNotNull(climateSiteRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(climateSiteRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(climateSiteRet.ClimateSiteTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));
-                    Assert.IsNotNull(climateSiteRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(climateSiteRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (climateSiteRet.ClimateSiteTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));
+                            }
+                            if (climateSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateSiteRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (climateSiteRet.ClimateSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));
+                            }
+                            if (climateSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of ClimateSite
+        #endregion Tests Get List of ClimateSite
 
     }
 }

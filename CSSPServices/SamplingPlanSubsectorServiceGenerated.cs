@@ -152,13 +152,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SamplingPlanSubsector GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID)
+        public SamplingPlanSubsector GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in GetRead()
+            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SamplingPlanSubsectorID == SamplingPlanSubsectorID
                                                 select c);
 
-            return FillSamplingPlanSubsector(samplingPlanSubsectorQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return samplingPlanSubsectorQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSamplingPlanSubsector(samplingPlanSubsectorQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<SamplingPlanSubsector> GetSamplingPlanSubsectorList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return samplingPlanSubsectorQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSamplingPlanSubsector(samplingPlanSubsectorQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -207,30 +236,31 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<SamplingPlanSubsector> FillSamplingPlanSubsector(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery)
+        private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsector(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<SamplingPlanSubsector> SamplingPlanSubsectorList = (from c in samplingPlanSubsectorQuery
-                                         let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.SubsectorTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new SamplingPlanSubsector
-                                         {
-                                             SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
-                                             SamplingPlanID = c.SamplingPlanID,
-                                             SubsectorTVItemID = c.SubsectorTVItemID,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             SubsectorTVText = SubsectorTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            samplingPlanSubsectorQuery = (from c in samplingPlanSubsectorQuery
+                let SubsectorTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.SubsectorTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new SamplingPlanSubsector
+                    {
+                        SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
+                        SamplingPlanID = c.SamplingPlanID,
+                        SubsectorTVItemID = c.SubsectorTVItemID,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        SubsectorTVText = SubsectorTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return SamplingPlanSubsectorList;
+            return samplingPlanSubsectorQuery;
         }
         #endregion Functions private Generated Fill Class
 

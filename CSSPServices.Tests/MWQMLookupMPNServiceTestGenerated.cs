@@ -79,28 +79,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mwqmLookupMPNService.GetRead().Count();
+                    count = mwqmLookupMPNService.GetRead().Count();
 
-                Assert.AreEqual(mwqmLookupMPNService.GetRead().Count(), mwqmLookupMPNService.GetEdit().Count());
+                    Assert.AreEqual(mwqmLookupMPNService.GetRead().Count(), mwqmLookupMPNService.GetEdit().Count());
 
-                mwqmLookupMPNService.Add(mwqmLookupMPN);
-                if (mwqmLookupMPN.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mwqmLookupMPNService.GetRead().Where(c => c == mwqmLookupMPN).Any());
-                mwqmLookupMPNService.Update(mwqmLookupMPN);
-                if (mwqmLookupMPN.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mwqmLookupMPNService.GetRead().Count());
-                mwqmLookupMPNService.Delete(mwqmLookupMPN);
-                if (mwqmLookupMPN.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
+                    mwqmLookupMPNService.Add(mwqmLookupMPN);
+                    if (mwqmLookupMPN.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mwqmLookupMPNService.GetRead().Where(c => c == mwqmLookupMPN).Any());
+                    mwqmLookupMPNService.Update(mwqmLookupMPN);
+                    if (mwqmLookupMPN.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mwqmLookupMPNService.GetRead().Count());
+                    mwqmLookupMPNService.Delete(mwqmLookupMPN);
+                    if (mwqmLookupMPN.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -277,22 +277,57 @@ namespace CSSPServices.Tests
                     MWQMLookupMPN mwqmLookupMPN = (from c in mwqmLookupMPNService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmLookupMPN);
 
-                    MWQMLookupMPN mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
-                    Assert.IsNotNull(mwqmLookupMPNRet.MWQMLookupMPNID);
-                    Assert.IsNotNull(mwqmLookupMPNRet.Tubes10);
-                    Assert.IsNotNull(mwqmLookupMPNRet.Tubes1);
-                    Assert.IsNotNull(mwqmLookupMPNRet.Tubes01);
-                    Assert.IsNotNull(mwqmLookupMPNRet.MPN_100ml);
-                    Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVItemID);
+                    MWQMLookupMPN mwqmLookupMPNRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mwqmLookupMPNRet.MWQMLookupMPNID);
+                        Assert.IsNotNull(mwqmLookupMPNRet.Tubes10);
+                        Assert.IsNotNull(mwqmLookupMPNRet.Tubes1);
+                        Assert.IsNotNull(mwqmLookupMPNRet.Tubes01);
+                        Assert.IsNotNull(mwqmLookupMPNRet.MPN_100ml);
+                        Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mwqmLookupMPNRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mwqmLookupMPNRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mwqmLookupMPNRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MWQMLookupMPN
+        #endregion Tests Get List of MWQMLookupMPN
 
     }
 }

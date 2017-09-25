@@ -279,13 +279,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID)
+        public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<VPScenario> vpScenarioQuery = (from c in GetRead()
+            IQueryable<VPScenario> vpScenarioQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPScenarioID == VPScenarioID
                                                 select c);
 
-            return FillVPScenario(vpScenarioQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return vpScenarioQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillVPScenario(vpScenarioQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<VPScenario> GetVPScenarioList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<VPScenario> vpScenarioQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return vpScenarioQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillVPScenario(vpScenarioQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -334,54 +363,55 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<VPScenario> FillVPScenario(IQueryable<VPScenario> vpScenarioQuery)
+        private IQueryable<VPScenario> FillVPScenario(IQueryable<VPScenario> vpScenarioQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<VPScenario> VPScenarioList = (from c in vpScenarioQuery
-                                         let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.InfrastructureTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new VPScenario
-                                         {
-                                             VPScenarioID = c.VPScenarioID,
-                                             InfrastructureTVItemID = c.InfrastructureTVItemID,
-                                             VPScenarioStatus = c.VPScenarioStatus,
-                                             UseAsBestEstimate = c.UseAsBestEstimate,
-                                             EffluentFlow_m3_s = c.EffluentFlow_m3_s,
-                                             EffluentConcentration_MPN_100ml = c.EffluentConcentration_MPN_100ml,
-                                             FroudeNumber = c.FroudeNumber,
-                                             PortDiameter_m = c.PortDiameter_m,
-                                             PortDepth_m = c.PortDepth_m,
-                                             PortElevation_m = c.PortElevation_m,
-                                             VerticalAngle_deg = c.VerticalAngle_deg,
-                                             HorizontalAngle_deg = c.HorizontalAngle_deg,
-                                             NumberOfPorts = c.NumberOfPorts,
-                                             PortSpacing_m = c.PortSpacing_m,
-                                             AcuteMixZone_m = c.AcuteMixZone_m,
-                                             ChronicMixZone_m = c.ChronicMixZone_m,
-                                             EffluentSalinity_PSU = c.EffluentSalinity_PSU,
-                                             EffluentTemperature_C = c.EffluentTemperature_C,
-                                             EffluentVelocity_m_s = c.EffluentVelocity_m_s,
-                                             RawResults = c.RawResults,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             SubsectorTVText = SubsectorTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (VPScenario vpScenario in VPScenarioList)
-            {
-                vpScenario.VPScenarioStatusText = enums.GetResValueForTypeAndID(typeof(ScenarioStatusEnum), (int?)vpScenario.VPScenarioStatus);
-            }
+            List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
-            return VPScenarioList;
+            vpScenarioQuery = (from c in vpScenarioQuery
+                let SubsectorTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.InfrastructureTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new VPScenario
+                    {
+                        VPScenarioID = c.VPScenarioID,
+                        InfrastructureTVItemID = c.InfrastructureTVItemID,
+                        VPScenarioStatus = c.VPScenarioStatus,
+                        UseAsBestEstimate = c.UseAsBestEstimate,
+                        EffluentFlow_m3_s = c.EffluentFlow_m3_s,
+                        EffluentConcentration_MPN_100ml = c.EffluentConcentration_MPN_100ml,
+                        FroudeNumber = c.FroudeNumber,
+                        PortDiameter_m = c.PortDiameter_m,
+                        PortDepth_m = c.PortDepth_m,
+                        PortElevation_m = c.PortElevation_m,
+                        VerticalAngle_deg = c.VerticalAngle_deg,
+                        HorizontalAngle_deg = c.HorizontalAngle_deg,
+                        NumberOfPorts = c.NumberOfPorts,
+                        PortSpacing_m = c.PortSpacing_m,
+                        AcuteMixZone_m = c.AcuteMixZone_m,
+                        ChronicMixZone_m = c.ChronicMixZone_m,
+                        EffluentSalinity_PSU = c.EffluentSalinity_PSU,
+                        EffluentTemperature_C = c.EffluentTemperature_C,
+                        EffluentVelocity_m_s = c.EffluentVelocity_m_s,
+                        RawResults = c.RawResults,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        SubsectorTVText = SubsectorTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        VPScenarioStatusText = (from e in ScenarioStatusEnumList
+                                where e.EnumID == (int?)c.VPScenarioStatus
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return vpScenarioQuery;
         }
         #endregion Functions private Generated Fill Class
 

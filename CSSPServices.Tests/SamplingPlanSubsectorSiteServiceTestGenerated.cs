@@ -79,28 +79,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = samplingPlanSubsectorSiteService.GetRead().Count();
+                    count = samplingPlanSubsectorSiteService.GetRead().Count();
 
-                Assert.AreEqual(samplingPlanSubsectorSiteService.GetRead().Count(), samplingPlanSubsectorSiteService.GetEdit().Count());
+                    Assert.AreEqual(samplingPlanSubsectorSiteService.GetRead().Count(), samplingPlanSubsectorSiteService.GetEdit().Count());
 
-                samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                if (samplingPlanSubsectorSite.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, samplingPlanSubsectorSiteService.GetRead().Where(c => c == samplingPlanSubsectorSite).Any());
-                samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                if (samplingPlanSubsectorSite.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, samplingPlanSubsectorSiteService.GetRead().Count());
-                samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite);
-                if (samplingPlanSubsectorSite.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
+                    samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+                    if (samplingPlanSubsectorSite.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, samplingPlanSubsectorSiteService.GetRead().Where(c => c == samplingPlanSubsectorSite).Any());
+                    samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
+                    if (samplingPlanSubsectorSite.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, samplingPlanSubsectorSiteService.GetRead().Count());
+                    samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite);
+                    if (samplingPlanSubsectorSite.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -254,23 +254,64 @@ namespace CSSPServices.Tests
                     SamplingPlanSubsectorSite samplingPlanSubsectorSite = (from c in samplingPlanSubsectorSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsectorSite);
 
-                    SamplingPlanSubsectorSite samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorID);
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVItemID);
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.IsDuplicate);
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVItemID);
+                    SamplingPlanSubsectorSite samplingPlanSubsectorSiteRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
+                        Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorID);
+                        Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVItemID);
+                        Assert.IsNotNull(samplingPlanSubsectorSiteRet.IsDuplicate);
+                        Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.MWQMSiteTVText));
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (samplingPlanSubsectorSiteRet.MWQMSiteTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.MWQMSiteTVText));
+                            }
+                            if (samplingPlanSubsectorSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (samplingPlanSubsectorSiteRet.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.MWQMSiteTVText));
+                            }
+                            if (samplingPlanSubsectorSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of SamplingPlanSubsectorSite
+        #endregion Tests Get List of SamplingPlanSubsectorSite
 
     }
 }

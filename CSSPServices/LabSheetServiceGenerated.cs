@@ -360,13 +360,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public LabSheet GetLabSheetWithLabSheetID(int LabSheetID)
+        public LabSheet GetLabSheetWithLabSheetID(int LabSheetID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<LabSheet> labSheetQuery = (from c in GetRead()
+            IQueryable<LabSheet> labSheetQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LabSheetID == LabSheetID
                                                 select c);
 
-            return FillLabSheet(labSheetQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return labSheetQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillLabSheet(labSheetQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<LabSheet> GetLabSheetList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<LabSheet> labSheetQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return labSheetQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillLabSheet(labSheetQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -415,67 +444,77 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<LabSheet> FillLabSheet(IQueryable<LabSheet> labSheetQuery)
+        private IQueryable<LabSheet> FillLabSheet(IQueryable<LabSheet> labSheetQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<LabSheet> LabSheetList = (from c in labSheetQuery
-                                         let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.SubsectorTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let MWQMRunTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMRunTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let AcceptedOrRejectedByContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.AcceptedOrRejectedByContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new LabSheet
-                                         {
-                                             LabSheetID = c.LabSheetID,
-                                             OtherServerLabSheetID = c.OtherServerLabSheetID,
-                                             SamplingPlanID = c.SamplingPlanID,
-                                             SamplingPlanName = c.SamplingPlanName,
-                                             Year = c.Year,
-                                             Month = c.Month,
-                                             Day = c.Day,
-                                             RunNumber = c.RunNumber,
-                                             SubsectorTVItemID = c.SubsectorTVItemID,
-                                             MWQMRunTVItemID = c.MWQMRunTVItemID,
-                                             SamplingPlanType = c.SamplingPlanType,
-                                             SampleType = c.SampleType,
-                                             LabSheetType = c.LabSheetType,
-                                             LabSheetStatus = c.LabSheetStatus,
-                                             FileName = c.FileName,
-                                             FileLastModifiedDate_Local = c.FileLastModifiedDate_Local,
-                                             FileContent = c.FileContent,
-                                             AcceptedOrRejectedByContactTVItemID = c.AcceptedOrRejectedByContactTVItemID,
-                                             AcceptedOrRejectedDateTime = c.AcceptedOrRejectedDateTime,
-                                             RejectReason = c.RejectReason,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             SubsectorTVText = SubsectorTVText,
-                                             MWQMRunTVText = MWQMRunTVText,
-                                             AcceptedOrRejectedByContactTVText = AcceptedOrRejectedByContactTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (LabSheet labSheet in LabSheetList)
-            {
-                labSheet.SamplingPlanTypeText = enums.GetResValueForTypeAndID(typeof(SamplingPlanTypeEnum), (int?)labSheet.SamplingPlanType);
-                labSheet.SampleTypeText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)labSheet.SampleType);
-                labSheet.LabSheetTypeText = enums.GetResValueForTypeAndID(typeof(LabSheetTypeEnum), (int?)labSheet.LabSheetType);
-                labSheet.LabSheetStatusText = enums.GetResValueForTypeAndID(typeof(LabSheetStatusEnum), (int?)labSheet.LabSheetStatus);
-            }
+            List<EnumIDAndText> SamplingPlanTypeEnumList = enums.GetEnumTextOrderedList(typeof(SamplingPlanTypeEnum));
+            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
+            List<EnumIDAndText> LabSheetTypeEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetTypeEnum));
+            List<EnumIDAndText> LabSheetStatusEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetStatusEnum));
 
-            return LabSheetList;
+            labSheetQuery = (from c in labSheetQuery
+                let SubsectorTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.SubsectorTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let MWQMRunTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMRunTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let AcceptedOrRejectedByContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.AcceptedOrRejectedByContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new LabSheet
+                    {
+                        LabSheetID = c.LabSheetID,
+                        OtherServerLabSheetID = c.OtherServerLabSheetID,
+                        SamplingPlanID = c.SamplingPlanID,
+                        SamplingPlanName = c.SamplingPlanName,
+                        Year = c.Year,
+                        Month = c.Month,
+                        Day = c.Day,
+                        RunNumber = c.RunNumber,
+                        SubsectorTVItemID = c.SubsectorTVItemID,
+                        MWQMRunTVItemID = c.MWQMRunTVItemID,
+                        SamplingPlanType = c.SamplingPlanType,
+                        SampleType = c.SampleType,
+                        LabSheetType = c.LabSheetType,
+                        LabSheetStatus = c.LabSheetStatus,
+                        FileName = c.FileName,
+                        FileLastModifiedDate_Local = c.FileLastModifiedDate_Local,
+                        FileContent = c.FileContent,
+                        AcceptedOrRejectedByContactTVItemID = c.AcceptedOrRejectedByContactTVItemID,
+                        AcceptedOrRejectedDateTime = c.AcceptedOrRejectedDateTime,
+                        RejectReason = c.RejectReason,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        SubsectorTVText = SubsectorTVText,
+                        MWQMRunTVText = MWQMRunTVText,
+                        AcceptedOrRejectedByContactTVText = AcceptedOrRejectedByContactTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
+                                where e.EnumID == (int?)c.SamplingPlanType
+                                select e.EnumText).FirstOrDefault(),
+                        SampleTypeText = (from e in SampleTypeEnumList
+                                where e.EnumID == (int?)c.SampleType
+                                select e.EnumText).FirstOrDefault(),
+                        LabSheetTypeText = (from e in LabSheetTypeEnumList
+                                where e.EnumID == (int?)c.LabSheetType
+                                select e.EnumText).FirstOrDefault(),
+                        LabSheetStatusText = (from e in LabSheetStatusEnumList
+                                where e.EnumID == (int?)c.LabSheetStatus
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return labSheetQuery;
         }
         #endregion Functions private Generated Fill Class
 

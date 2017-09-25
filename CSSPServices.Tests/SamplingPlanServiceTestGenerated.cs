@@ -95,28 +95,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = samplingPlanService.GetRead().Count();
+                    count = samplingPlanService.GetRead().Count();
 
-                Assert.AreEqual(samplingPlanService.GetRead().Count(), samplingPlanService.GetEdit().Count());
+                    Assert.AreEqual(samplingPlanService.GetRead().Count(), samplingPlanService.GetEdit().Count());
 
-                samplingPlanService.Add(samplingPlan);
-                if (samplingPlan.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, samplingPlanService.GetRead().Where(c => c == samplingPlan).Any());
-                samplingPlanService.Update(samplingPlan);
-                if (samplingPlan.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, samplingPlanService.GetRead().Count());
-                samplingPlanService.Delete(samplingPlan);
-                if (samplingPlan.HasErrors)
-                {
-                    Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    samplingPlanService.Add(samplingPlan);
+                    if (samplingPlan.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, samplingPlanService.GetRead().Where(c => c == samplingPlan).Any());
+                    samplingPlanService.Update(samplingPlan);
+                    if (samplingPlan.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, samplingPlanService.GetRead().Count());
+                    samplingPlanService.Delete(samplingPlan);
+                    if (samplingPlan.HasErrors)
+                    {
+                        Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -551,54 +551,118 @@ namespace CSSPServices.Tests
                     SamplingPlan samplingPlan = (from c in samplingPlanService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlan);
 
-                    SamplingPlan samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID);
-                    Assert.IsNotNull(samplingPlanRet.SamplingPlanID);
-                    Assert.IsNotNull(samplingPlanRet.SamplingPlanName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanName));
-                    Assert.IsNotNull(samplingPlanRet.ForGroupName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ForGroupName));
-                    Assert.IsNotNull(samplingPlanRet.SampleType);
-                    Assert.IsNotNull(samplingPlanRet.SamplingPlanType);
-                    Assert.IsNotNull(samplingPlanRet.LabSheetType);
-                    Assert.IsNotNull(samplingPlanRet.ProvinceTVItemID);
-                    Assert.IsNotNull(samplingPlanRet.CreatorTVItemID);
-                    Assert.IsNotNull(samplingPlanRet.Year);
-                    Assert.IsNotNull(samplingPlanRet.AccessCode);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.AccessCode));
-                    Assert.IsNotNull(samplingPlanRet.DailyDuplicatePrecisionCriteria);
-                    Assert.IsNotNull(samplingPlanRet.IntertechDuplicatePrecisionCriteria);
-                    Assert.IsNotNull(samplingPlanRet.IncludeLaboratoryQAQC);
-                    Assert.IsNotNull(samplingPlanRet.ApprovalCode);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ApprovalCode));
-                    if (samplingPlanRet.SamplingPlanFileTVItemID != null)
+                    SamplingPlan samplingPlanRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVItemID);
-                    }
-                    Assert.IsNotNull(samplingPlanRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(samplingPlanRet.SamplingPlanID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanName));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ForGroupName));
+                        Assert.IsNotNull(samplingPlanRet.SampleType);
+                        Assert.IsNotNull(samplingPlanRet.SamplingPlanType);
+                        Assert.IsNotNull(samplingPlanRet.LabSheetType);
+                        Assert.IsNotNull(samplingPlanRet.ProvinceTVItemID);
+                        Assert.IsNotNull(samplingPlanRet.CreatorTVItemID);
+                        Assert.IsNotNull(samplingPlanRet.Year);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.AccessCode));
+                        Assert.IsNotNull(samplingPlanRet.DailyDuplicatePrecisionCriteria);
+                        Assert.IsNotNull(samplingPlanRet.IntertechDuplicatePrecisionCriteria);
+                        Assert.IsNotNull(samplingPlanRet.IncludeLaboratoryQAQC);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ApprovalCode));
+                        if (samplingPlanRet.SamplingPlanFileTVItemID != null)
+                        {
+                            Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVItemID);
+                        }
+                        Assert.IsNotNull(samplingPlanRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(samplingPlanRet.ProvinceTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ProvinceTVText));
-                    Assert.IsNotNull(samplingPlanRet.CreatorTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.CreatorTVText));
-                    if (samplingPlanRet.SamplingPlanFileTVItemID != null)
-                    {
-                       Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVText);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (samplingPlanRet.ProvinceTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanRet.ProvinceTVText));
+                            }
+                            if (samplingPlanRet.CreatorTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanRet.CreatorTVText));
+                            }
+                            if (samplingPlanRet.SamplingPlanFileTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                            }
+                            if (samplingPlanRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanRet.LastUpdateContactTVText));
+                            }
+                            if (samplingPlanRet.SampleTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanRet.SampleTypeText));
+                            }
+                            if (samplingPlanRet.SamplingPlanTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanTypeText));
+                            }
+                            if (samplingPlanRet.LabSheetTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanRet.LabSheetTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (samplingPlanRet.ProvinceTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ProvinceTVText));
+                            }
+                            if (samplingPlanRet.CreatorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.CreatorTVText));
+                            }
+                            if (samplingPlanRet.SamplingPlanFileTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                            }
+                            if (samplingPlanRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LastUpdateContactTVText));
+                            }
+                            if (samplingPlanRet.SampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SampleTypeText));
+                            }
+                            if (samplingPlanRet.SamplingPlanTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanTypeText));
+                            }
+                            if (samplingPlanRet.LabSheetTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LabSheetTypeText));
+                            }
+                        }
                     }
-                    Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(samplingPlanRet.SampleTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SampleTypeText));
-                    Assert.IsNotNull(samplingPlanRet.SamplingPlanTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanTypeText));
-                    Assert.IsNotNull(samplingPlanRet.LabSheetTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LabSheetTypeText));
-                    Assert.IsNotNull(samplingPlanRet.HasErrors);
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of SamplingPlan
+        #endregion Tests Get List of SamplingPlan
 
     }
 }

@@ -176,13 +176,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ContactLogin GetContactLoginWithContactLoginID(int ContactLoginID)
+        public ContactLogin GetContactLoginWithContactLoginID(int ContactLoginID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<ContactLogin> contactLoginQuery = (from c in GetRead()
+            IQueryable<ContactLogin> contactLoginQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactLoginID == ContactLoginID
                                                 select c);
 
-            return FillContactLogin(contactLoginQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactLoginQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContactLogin(contactLoginQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<ContactLogin> GetContactLoginList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<ContactLogin> contactLoginQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactLoginQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContactLogin(contactLoginQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -231,27 +260,28 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<ContactLogin> FillContactLogin(IQueryable<ContactLogin> contactLoginQuery)
+        private IQueryable<ContactLogin> FillContactLogin(IQueryable<ContactLogin> contactLoginQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<ContactLogin> ContactLoginList = (from c in contactLoginQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new ContactLogin
-                                         {
-                                             ContactLoginID = c.ContactLoginID,
-                                             ContactID = c.ContactID,
-                                             LoginEmail = c.LoginEmail,
-                                             PasswordHash = c.PasswordHash,
-                                             PasswordSalt = c.PasswordSalt,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            contactLoginQuery = (from c in contactLoginQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new ContactLogin
+                    {
+                        ContactLoginID = c.ContactLoginID,
+                        ContactID = c.ContactID,
+                        LoginEmail = c.LoginEmail,
+                        PasswordHash = c.PasswordHash,
+                        PasswordSalt = c.PasswordSalt,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return ContactLoginList;
+            return contactLoginQuery;
         }
         #endregion Functions private Generated Fill Class
 

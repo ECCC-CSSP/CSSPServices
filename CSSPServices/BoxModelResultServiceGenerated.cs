@@ -229,13 +229,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public BoxModelResult GetBoxModelResultWithBoxModelResultID(int BoxModelResultID)
+        public BoxModelResult GetBoxModelResultWithBoxModelResultID(int BoxModelResultID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<BoxModelResult> boxModelResultQuery = (from c in GetRead()
+            IQueryable<BoxModelResult> boxModelResultQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.BoxModelResultID == BoxModelResultID
                                                 select c);
 
-            return FillBoxModelResult(boxModelResultQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return boxModelResultQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillBoxModelResult(boxModelResultQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<BoxModelResult> GetBoxModelResultList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<BoxModelResult> boxModelResultQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return boxModelResultQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillBoxModelResult(boxModelResultQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -284,45 +313,46 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<BoxModelResult> FillBoxModelResult(IQueryable<BoxModelResult> boxModelResultQuery)
+        private IQueryable<BoxModelResult> FillBoxModelResult(IQueryable<BoxModelResult> boxModelResultQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<BoxModelResult> BoxModelResultList = (from c in boxModelResultQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new BoxModelResult
-                                         {
-                                             BoxModelResultID = c.BoxModelResultID,
-                                             BoxModelID = c.BoxModelID,
-                                             BoxModelResultType = c.BoxModelResultType,
-                                             Volume_m3 = c.Volume_m3,
-                                             Surface_m2 = c.Surface_m2,
-                                             Radius_m = c.Radius_m,
-                                             LeftSideDiameterLineAngle_deg = c.LeftSideDiameterLineAngle_deg,
-                                             CircleCenterLatitude = c.CircleCenterLatitude,
-                                             CircleCenterLongitude = c.CircleCenterLongitude,
-                                             FixLength = c.FixLength,
-                                             FixWidth = c.FixWidth,
-                                             RectLength_m = c.RectLength_m,
-                                             RectWidth_m = c.RectWidth_m,
-                                             LeftSideLineAngle_deg = c.LeftSideLineAngle_deg,
-                                             LeftSideLineStartLatitude = c.LeftSideLineStartLatitude,
-                                             LeftSideLineStartLongitude = c.LeftSideLineStartLongitude,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (BoxModelResult boxModelResult in BoxModelResultList)
-            {
-                boxModelResult.BoxModelResultTypeText = enums.GetResValueForTypeAndID(typeof(BoxModelResultTypeEnum), (int?)boxModelResult.BoxModelResultType);
-            }
+            List<EnumIDAndText> BoxModelResultTypeEnumList = enums.GetEnumTextOrderedList(typeof(BoxModelResultTypeEnum));
 
-            return BoxModelResultList;
+            boxModelResultQuery = (from c in boxModelResultQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new BoxModelResult
+                    {
+                        BoxModelResultID = c.BoxModelResultID,
+                        BoxModelID = c.BoxModelID,
+                        BoxModelResultType = c.BoxModelResultType,
+                        Volume_m3 = c.Volume_m3,
+                        Surface_m2 = c.Surface_m2,
+                        Radius_m = c.Radius_m,
+                        LeftSideDiameterLineAngle_deg = c.LeftSideDiameterLineAngle_deg,
+                        CircleCenterLatitude = c.CircleCenterLatitude,
+                        CircleCenterLongitude = c.CircleCenterLongitude,
+                        FixLength = c.FixLength,
+                        FixWidth = c.FixWidth,
+                        RectLength_m = c.RectLength_m,
+                        RectWidth_m = c.RectWidth_m,
+                        LeftSideLineAngle_deg = c.LeftSideLineAngle_deg,
+                        LeftSideLineStartLatitude = c.LeftSideLineStartLatitude,
+                        LeftSideLineStartLongitude = c.LeftSideLineStartLongitude,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
+                                where e.EnumID == (int?)c.BoxModelResultType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return boxModelResultQuery;
         }
         #endregion Functions private Generated Fill Class
 

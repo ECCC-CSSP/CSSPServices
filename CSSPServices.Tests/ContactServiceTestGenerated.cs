@@ -91,28 +91,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = contactService.GetRead().Count();
+                    count = contactService.GetRead().Count();
 
-                Assert.AreEqual(contactService.GetRead().Count(), contactService.GetEdit().Count());
+                    Assert.AreEqual(contactService.GetRead().Count(), contactService.GetEdit().Count());
 
-                contactService.Add(contact, AddContactTypeEnum.LoggedIn);
-                if (contact.HasErrors)
-                {
-                    Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, contactService.GetRead().Where(c => c == contact).Any());
-                contactService.Update(contact);
-                if (contact.HasErrors)
-                {
-                    Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, contactService.GetRead().Count());
-                contactService.Delete(contact);
-                if (contact.HasErrors)
-                {
-                    Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, contactService.GetRead().Count());
+                    contactService.Add(contact, AddContactTypeEnum.LoggedIn);
+                    if (contact.HasErrors)
+                    {
+                        Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, contactService.GetRead().Where(c => c == contact).Any());
+                    contactService.Update(contact);
+                    if (contact.HasErrors)
+                    {
+                        Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, contactService.GetRead().Count());
+                    contactService.Delete(contact);
+                    if (contact.HasErrors)
+                    {
+                        Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, contactService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -450,52 +450,93 @@ namespace CSSPServices.Tests
                     Contact contact = (from c in contactService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(contact);
 
-                    Contact contactRet = contactService.GetContactWithContactID(contact.ContactID);
-                    Assert.IsNotNull(contactRet.ContactID);
-                    Assert.IsNotNull(contactRet.Id);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Id));
-                    Assert.IsNotNull(contactRet.ContactTVItemID);
-                    Assert.IsNotNull(contactRet.LoginEmail);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LoginEmail));
-                    Assert.IsNotNull(contactRet.FirstName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.FirstName));
-                    Assert.IsNotNull(contactRet.LastName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastName));
-                    if (contactRet.Initial != null)
+                    Contact contactRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(contactRet.Initial);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Initial));
-                    }
-                    Assert.IsNotNull(contactRet.WebName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.WebName));
-                    if (contactRet.ContactTitle != null)
-                    {
-                       Assert.IsNotNull(contactRet.ContactTitle);
-                    }
-                    Assert.IsNotNull(contactRet.IsAdmin);
-                    Assert.IsNotNull(contactRet.EmailValidated);
-                    Assert.IsNotNull(contactRet.Disabled);
-                    Assert.IsNotNull(contactRet.IsNew);
-                    if (contactRet.SamplingPlanner_ProvincesTVItemID != null)
-                    {
-                       Assert.IsNotNull(contactRet.SamplingPlanner_ProvincesTVItemID);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.SamplingPlanner_ProvincesTVItemID));
-                    }
-                    Assert.IsNotNull(contactRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(contactRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(contactRet.ContactID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Id));
+                        Assert.IsNotNull(contactRet.ContactTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LoginEmail));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.FirstName));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastName));
+                        if (contactRet.Initial != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Initial));
+                        }
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.WebName));
+                        if (contactRet.ContactTitle != null)
+                        {
+                            Assert.IsNotNull(contactRet.ContactTitle);
+                        }
+                        Assert.IsNotNull(contactRet.IsAdmin);
+                        Assert.IsNotNull(contactRet.EmailValidated);
+                        Assert.IsNotNull(contactRet.Disabled);
+                        Assert.IsNotNull(contactRet.IsNew);
+                        if (contactRet.SamplingPlanner_ProvincesTVItemID != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.SamplingPlanner_ProvincesTVItemID));
+                        }
+                        Assert.IsNotNull(contactRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(contactRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(contactRet.ContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTVText));
-                    Assert.IsNotNull(contactRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(contactRet.ParentTVItemID);
-                    Assert.IsNotNull(contactRet.ContactTitleText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTitleText));
-                    Assert.IsNotNull(contactRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (contactRet.ContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactRet.ContactTVText));
+                            }
+                            if (contactRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactRet.LastUpdateContactTVText));
+                            }
+                            Assert.AreEqual(0, contactRet.ParentTVItemID);
+                            if (contactRet.ContactTitleText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactRet.ContactTitleText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (contactRet.ContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTVText));
+                            }
+                            if (contactRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastUpdateContactTVText));
+                            }
+                            Assert.AreEqual(0, contactRet.ParentTVItemID);
+                            if (contactRet.ContactTitleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTitleText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of Contact
+        #endregion Tests Get List of Contact
 
     }
 }

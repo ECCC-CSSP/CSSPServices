@@ -89,5 +89,8 @@ namespace CSSPServices.Tests
         #region Tests Generated Get With Key
         #endregion Tests Get With Key
 
+        #region Tests Generated Get List of DataPathOfTide
+        #endregion Tests Get List of DataPathOfTide
+
     }
 }

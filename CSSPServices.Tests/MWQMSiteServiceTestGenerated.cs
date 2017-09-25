@@ -82,28 +82,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mwqmSiteService.GetRead().Count();
+                    count = mwqmSiteService.GetRead().Count();
 
-                Assert.AreEqual(mwqmSiteService.GetRead().Count(), mwqmSiteService.GetEdit().Count());
+                    Assert.AreEqual(mwqmSiteService.GetRead().Count(), mwqmSiteService.GetEdit().Count());
 
-                mwqmSiteService.Add(mwqmSite);
-                if (mwqmSite.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mwqmSiteService.GetRead().Where(c => c == mwqmSite).Any());
-                mwqmSiteService.Update(mwqmSite);
-                if (mwqmSite.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mwqmSiteService.GetRead().Count());
-                mwqmSiteService.Delete(mwqmSite);
-                if (mwqmSite.HasErrors)
-                {
-                    Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    mwqmSiteService.Add(mwqmSite);
+                    if (mwqmSite.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mwqmSiteService.GetRead().Where(c => c == mwqmSite).Any());
+                    mwqmSiteService.Update(mwqmSite);
+                    if (mwqmSite.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mwqmSiteService.GetRead().Count());
+                    mwqmSiteService.Delete(mwqmSite);
+                    if (mwqmSite.HasErrors)
+                    {
+                        Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -326,29 +326,74 @@ namespace CSSPServices.Tests
                     MWQMSite mwqmSite = (from c in mwqmSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSite);
 
-                    MWQMSite mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
-                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteID);
-                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVItemID);
-                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteNumber);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteNumber));
-                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteDescription);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteDescription));
-                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassification);
-                    Assert.IsNotNull(mwqmSiteRet.Ordinal);
-                    Assert.IsNotNull(mwqmSiteRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVItemID);
+                    MWQMSite mwqmSiteRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mwqmSiteRet.MWQMSiteID);
+                        Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteNumber));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteDescription));
+                        Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassification);
+                        Assert.IsNotNull(mwqmSiteRet.Ordinal);
+                        Assert.IsNotNull(mwqmSiteRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));
-                    Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassificationText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteLatestClassificationText));
-                    Assert.IsNotNull(mwqmSiteRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mwqmSiteRet.MWQMSiteTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));
+                            }
+                            if (mwqmSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteRet.LastUpdateContactTVText));
+                            }
+                            if (mwqmSiteRet.MWQMSiteLatestClassificationText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteLatestClassificationText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mwqmSiteRet.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));
+                            }
+                            if (mwqmSiteRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.LastUpdateContactTVText));
+                            }
+                            if (mwqmSiteRet.MWQMSiteLatestClassificationText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteLatestClassificationText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MWQMSite
+        #endregion Tests Get List of MWQMSite
 
     }
 }

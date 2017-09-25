@@ -248,13 +248,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVFile GetTVFileWithTVFileID(int TVFileID)
+        public TVFile GetTVFileWithTVFileID(int TVFileID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<TVFile> tvFileQuery = (from c in GetRead()
+            IQueryable<TVFile> tvFileQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVFileID == TVFileID
                                                 select c);
 
-            return FillTVFile(tvFileQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tvFileQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTVFile(tvFileQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<TVFile> GetTVFileList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<TVFile> tvFileQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tvFileQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTVFile(tvFileQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -303,50 +332,60 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<TVFile> FillTVFile(IQueryable<TVFile> tvFileQuery)
+        private IQueryable<TVFile> FillTVFile(IQueryable<TVFile> tvFileQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<TVFile> TVFileList = (from c in tvFileQuery
-                                         let TVFileTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVFileTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new TVFile
-                                         {
-                                             TVFileID = c.TVFileID,
-                                             TVFileTVItemID = c.TVFileTVItemID,
-                                             TemplateTVType = c.TemplateTVType,
-                                             Language = c.Language,
-                                             FilePurpose = c.FilePurpose,
-                                             FileType = c.FileType,
-                                             FileSize_kb = c.FileSize_kb,
-                                             FileInfo = c.FileInfo,
-                                             FileCreatedDate_UTC = c.FileCreatedDate_UTC,
-                                             FromWater = c.FromWater,
-                                             ClientFilePath = c.ClientFilePath,
-                                             ServerFileName = c.ServerFileName,
-                                             ServerFilePath = c.ServerFilePath,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             TVFileTVText = TVFileTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (TVFile tvFile in TVFileList)
-            {
-                tvFile.TemplateTVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvFile.TemplateTVType);
-                tvFile.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)tvFile.Language);
-                tvFile.FilePurposeText = enums.GetResValueForTypeAndID(typeof(FilePurposeEnum), (int?)tvFile.FilePurpose);
-                tvFile.FileTypeText = enums.GetResValueForTypeAndID(typeof(FileTypeEnum), (int?)tvFile.FileType);
-            }
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> FilePurposeEnumList = enums.GetEnumTextOrderedList(typeof(FilePurposeEnum));
+            List<EnumIDAndText> FileTypeEnumList = enums.GetEnumTextOrderedList(typeof(FileTypeEnum));
 
-            return TVFileList;
+            tvFileQuery = (from c in tvFileQuery
+                let TVFileTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVFileTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new TVFile
+                    {
+                        TVFileID = c.TVFileID,
+                        TVFileTVItemID = c.TVFileTVItemID,
+                        TemplateTVType = c.TemplateTVType,
+                        Language = c.Language,
+                        FilePurpose = c.FilePurpose,
+                        FileType = c.FileType,
+                        FileSize_kb = c.FileSize_kb,
+                        FileInfo = c.FileInfo,
+                        FileCreatedDate_UTC = c.FileCreatedDate_UTC,
+                        FromWater = c.FromWater,
+                        ClientFilePath = c.ClientFilePath,
+                        ServerFileName = c.ServerFileName,
+                        ServerFilePath = c.ServerFilePath,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TVFileTVText = TVFileTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TemplateTVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TemplateTVType
+                                select e.EnumText).FirstOrDefault(),
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        FilePurposeText = (from e in FilePurposeEnumList
+                                where e.EnumID == (int?)c.FilePurpose
+                                select e.EnumText).FirstOrDefault(),
+                        FileTypeText = (from e in FileTypeEnumList
+                                where e.EnumID == (int?)c.FileType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return tvFileQuery;
         }
         #endregion Functions private Generated Fill Class
 

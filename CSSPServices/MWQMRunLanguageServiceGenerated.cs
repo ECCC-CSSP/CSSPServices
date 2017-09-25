@@ -179,13 +179,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMRunLanguage GetMWQMRunLanguageWithMWQMRunLanguageID(int MWQMRunLanguageID)
+        public MWQMRunLanguage GetMWQMRunLanguageWithMWQMRunLanguageID(int MWQMRunLanguageID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery = (from c in GetRead()
+            IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMRunLanguageID == MWQMRunLanguageID
                                                 select c);
 
-            return FillMWQMRunLanguage(mwqmRunLanguageQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmRunLanguageQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMRunLanguage(mwqmRunLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MWQMRunLanguage> GetMWQMRunLanguageList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mwqmRunLanguageQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMWQMRunLanguage(mwqmRunLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -234,38 +263,44 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MWQMRunLanguage> FillMWQMRunLanguage(IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery)
+        private IQueryable<MWQMRunLanguage> FillMWQMRunLanguage(IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MWQMRunLanguage> MWQMRunLanguageList = (from c in mwqmRunLanguageQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MWQMRunLanguage
-                                         {
-                                             MWQMRunLanguageID = c.MWQMRunLanguageID,
-                                             MWQMRunID = c.MWQMRunID,
-                                             Language = c.Language,
-                                             RunComment = c.RunComment,
-                                             TranslationStatusRunComment = c.TranslationStatusRunComment,
-                                             RunWeatherComment = c.RunWeatherComment,
-                                             TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (MWQMRunLanguage mwqmRunLanguage in MWQMRunLanguageList)
-            {
-                mwqmRunLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)mwqmRunLanguage.Language);
-                mwqmRunLanguage.TranslationStatusRunCommentText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunComment);
-                mwqmRunLanguage.TranslationStatusRunWeatherCommentText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunWeatherComment);
-            }
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            return MWQMRunLanguageList;
+            mwqmRunLanguageQuery = (from c in mwqmRunLanguageQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MWQMRunLanguage
+                    {
+                        MWQMRunLanguageID = c.MWQMRunLanguageID,
+                        MWQMRunID = c.MWQMRunID,
+                        Language = c.Language,
+                        RunComment = c.RunComment,
+                        TranslationStatusRunComment = c.TranslationStatusRunComment,
+                        RunWeatherComment = c.RunWeatherComment,
+                        TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusRunComment
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusRunWeatherComment
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return mwqmRunLanguageQuery;
         }
         #endregion Functions private Generated Fill Class
 

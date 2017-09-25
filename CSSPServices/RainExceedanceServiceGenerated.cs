@@ -210,13 +210,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID)
+        public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<RainExceedance> rainExceedanceQuery = (from c in GetRead()
+            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.RainExceedanceID == RainExceedanceID
                                                 select c);
 
-            return FillRainExceedance(rainExceedanceQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return rainExceedanceQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillRainExceedance(rainExceedanceQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<RainExceedance> GetRainExceedanceList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<RainExceedance> rainExceedanceQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return rainExceedanceQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillRainExceedance(rainExceedanceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -265,34 +294,35 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<RainExceedance> FillRainExceedance(IQueryable<RainExceedance> rainExceedanceQuery)
+        private IQueryable<RainExceedance> FillRainExceedance(IQueryable<RainExceedance> rainExceedanceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<RainExceedance> RainExceedanceList = (from c in rainExceedanceQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new RainExceedance
-                                         {
-                                             RainExceedanceID = c.RainExceedanceID,
-                                             YearRound = c.YearRound,
-                                             StartDate_Local = c.StartDate_Local,
-                                             EndDate_Local = c.EndDate_Local,
-                                             RainMaximum_mm = c.RainMaximum_mm,
-                                             RainExtreme_mm = c.RainExtreme_mm,
-                                             DaysPriorToStart = c.DaysPriorToStart,
-                                             RepeatEveryYear = c.RepeatEveryYear,
-                                             ProvinceTVItemIDs = c.ProvinceTVItemIDs,
-                                             SubsectorTVItemIDs = c.SubsectorTVItemIDs,
-                                             ClimateSiteTVItemIDs = c.ClimateSiteTVItemIDs,
-                                             EmailDistributionListIDs = c.EmailDistributionListIDs,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            rainExceedanceQuery = (from c in rainExceedanceQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new RainExceedance
+                    {
+                        RainExceedanceID = c.RainExceedanceID,
+                        YearRound = c.YearRound,
+                        StartDate_Local = c.StartDate_Local,
+                        EndDate_Local = c.EndDate_Local,
+                        RainMaximum_mm = c.RainMaximum_mm,
+                        RainExtreme_mm = c.RainExtreme_mm,
+                        DaysPriorToStart = c.DaysPriorToStart,
+                        RepeatEveryYear = c.RepeatEveryYear,
+                        ProvinceTVItemIDs = c.ProvinceTVItemIDs,
+                        SubsectorTVItemIDs = c.SubsectorTVItemIDs,
+                        ClimateSiteTVItemIDs = c.ClimateSiteTVItemIDs,
+                        EmailDistributionListIDs = c.EmailDistributionListIDs,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return RainExceedanceList;
+            return rainExceedanceQuery;
         }
         #endregion Functions private Generated Fill Class
 

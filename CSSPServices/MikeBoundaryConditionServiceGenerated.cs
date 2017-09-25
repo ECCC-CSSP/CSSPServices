@@ -242,13 +242,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeBoundaryCondition GetMikeBoundaryConditionWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
+        public MikeBoundaryCondition GetMikeBoundaryConditionWithMikeBoundaryConditionID(int MikeBoundaryConditionID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in GetRead()
+            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeBoundaryConditionID == MikeBoundaryConditionID
                                                 select c);
 
-            return FillMikeBoundaryCondition(mikeBoundaryConditionQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mikeBoundaryConditionQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMikeBoundaryCondition(mikeBoundaryConditionQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MikeBoundaryCondition> GetMikeBoundaryConditionList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mikeBoundaryConditionQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMikeBoundaryCondition(mikeBoundaryConditionQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -297,47 +326,54 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MikeBoundaryCondition> FillMikeBoundaryCondition(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery)
+        private IQueryable<MikeBoundaryCondition> FillMikeBoundaryCondition(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MikeBoundaryCondition> MikeBoundaryConditionList = (from c in mikeBoundaryConditionQuery
-                                         let MikeBoundaryConditionTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MikeBoundaryConditionTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MikeBoundaryCondition
-                                         {
-                                             MikeBoundaryConditionID = c.MikeBoundaryConditionID,
-                                             MikeBoundaryConditionTVItemID = c.MikeBoundaryConditionTVItemID,
-                                             MikeBoundaryConditionCode = c.MikeBoundaryConditionCode,
-                                             MikeBoundaryConditionName = c.MikeBoundaryConditionName,
-                                             MikeBoundaryConditionLength_m = c.MikeBoundaryConditionLength_m,
-                                             MikeBoundaryConditionFormat = c.MikeBoundaryConditionFormat,
-                                             MikeBoundaryConditionLevelOrVelocity = c.MikeBoundaryConditionLevelOrVelocity,
-                                             WebTideDataSet = c.WebTideDataSet,
-                                             NumberOfWebTideNodes = c.NumberOfWebTideNodes,
-                                             WebTideDataFromStartToEndDate = c.WebTideDataFromStartToEndDate,
-                                             TVType = c.TVType,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MikeBoundaryConditionTVText = MikeBoundaryConditionTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (MikeBoundaryCondition mikeBoundaryCondition in MikeBoundaryConditionList)
-            {
-                mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = enums.GetResValueForTypeAndID(typeof(MikeBoundaryConditionLevelOrVelocityEnum), (int?)mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
-                mikeBoundaryCondition.WebTideDataSetText = enums.GetResValueForTypeAndID(typeof(WebTideDataSetEnum), (int?)mikeBoundaryCondition.WebTideDataSet);
-                mikeBoundaryCondition.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)mikeBoundaryCondition.TVType);
-            }
+            List<EnumIDAndText> MikeBoundaryConditionLevelOrVelocityEnumList = enums.GetEnumTextOrderedList(typeof(MikeBoundaryConditionLevelOrVelocityEnum));
+            List<EnumIDAndText> WebTideDataSetEnumList = enums.GetEnumTextOrderedList(typeof(WebTideDataSetEnum));
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-            return MikeBoundaryConditionList;
+            mikeBoundaryConditionQuery = (from c in mikeBoundaryConditionQuery
+                let MikeBoundaryConditionTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MikeBoundaryConditionTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MikeBoundaryCondition
+                    {
+                        MikeBoundaryConditionID = c.MikeBoundaryConditionID,
+                        MikeBoundaryConditionTVItemID = c.MikeBoundaryConditionTVItemID,
+                        MikeBoundaryConditionCode = c.MikeBoundaryConditionCode,
+                        MikeBoundaryConditionName = c.MikeBoundaryConditionName,
+                        MikeBoundaryConditionLength_m = c.MikeBoundaryConditionLength_m,
+                        MikeBoundaryConditionFormat = c.MikeBoundaryConditionFormat,
+                        MikeBoundaryConditionLevelOrVelocity = c.MikeBoundaryConditionLevelOrVelocity,
+                        WebTideDataSet = c.WebTideDataSet,
+                        NumberOfWebTideNodes = c.NumberOfWebTideNodes,
+                        WebTideDataFromStartToEndDate = c.WebTideDataFromStartToEndDate,
+                        TVType = c.TVType,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MikeBoundaryConditionTVText = MikeBoundaryConditionTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        MikeBoundaryConditionLevelOrVelocityText = (from e in MikeBoundaryConditionLevelOrVelocityEnumList
+                                where e.EnumID == (int?)c.MikeBoundaryConditionLevelOrVelocity
+                                select e.EnumText).FirstOrDefault(),
+                        WebTideDataSetText = (from e in WebTideDataSetEnumList
+                                where e.EnumID == (int?)c.WebTideDataSet
+                                select e.EnumText).FirstOrDefault(),
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return mikeBoundaryConditionQuery;
         }
         #endregion Functions private Generated Fill Class
 

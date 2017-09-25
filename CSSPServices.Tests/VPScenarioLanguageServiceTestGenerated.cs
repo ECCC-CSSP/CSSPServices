@@ -81,28 +81,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = vpScenarioLanguageService.GetRead().Count();
+                    count = vpScenarioLanguageService.GetRead().Count();
 
-                Assert.AreEqual(vpScenarioLanguageService.GetRead().Count(), vpScenarioLanguageService.GetEdit().Count());
+                    Assert.AreEqual(vpScenarioLanguageService.GetRead().Count(), vpScenarioLanguageService.GetEdit().Count());
 
-                vpScenarioLanguageService.Add(vpScenarioLanguage);
-                if (vpScenarioLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, vpScenarioLanguageService.GetRead().Where(c => c == vpScenarioLanguage).Any());
-                vpScenarioLanguageService.Update(vpScenarioLanguage);
-                if (vpScenarioLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, vpScenarioLanguageService.GetRead().Count());
-                vpScenarioLanguageService.Delete(vpScenarioLanguage);
-                if (vpScenarioLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
+                    vpScenarioLanguageService.Add(vpScenarioLanguage);
+                    if (vpScenarioLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, vpScenarioLanguageService.GetRead().Where(c => c == vpScenarioLanguage).Any());
+                    vpScenarioLanguageService.Update(vpScenarioLanguage);
+                    if (vpScenarioLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, vpScenarioLanguageService.GetRead().Count());
+                    vpScenarioLanguageService.Delete(vpScenarioLanguage);
+                    if (vpScenarioLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -291,27 +291,73 @@ namespace CSSPServices.Tests
                     VPScenarioLanguage vpScenarioLanguage = (from c in vpScenarioLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenarioLanguage);
 
-                    VPScenarioLanguage vpScenarioLanguageRet = vpScenarioLanguageService.GetVPScenarioLanguageWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
-                    Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioLanguageID);
-                    Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioID);
-                    Assert.IsNotNull(vpScenarioLanguageRet.Language);
-                    Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioName);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.VPScenarioName));
-                    Assert.IsNotNull(vpScenarioLanguageRet.TranslationStatus);
-                    Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateContactTVItemID);
+                    VPScenarioLanguage vpScenarioLanguageRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpScenarioLanguageRet = vpScenarioLanguageService.GetVPScenarioLanguageWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpScenarioLanguageRet = vpScenarioLanguageService.GetVPScenarioLanguageWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            vpScenarioLanguageRet = vpScenarioLanguageService.GetVPScenarioLanguageWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioLanguageID);
+                        Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioID);
+                        Assert.IsNotNull(vpScenarioLanguageRet.Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.VPScenarioName));
+                        Assert.IsNotNull(vpScenarioLanguageRet.TranslationStatus);
+                        Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(vpScenarioLanguageRet.LanguageText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LanguageText));
-                    Assert.IsNotNull(vpScenarioLanguageRet.TranslationStatusText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.TranslationStatusText));
-                    Assert.IsNotNull(vpScenarioLanguageRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (vpScenarioLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (vpScenarioLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LanguageText));
+                            }
+                            if (vpScenarioLanguageRet.TranslationStatusText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.TranslationStatusText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (vpScenarioLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (vpScenarioLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LanguageText));
+                            }
+                            if (vpScenarioLanguageRet.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.TranslationStatusText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of VPScenarioLanguage
+        #endregion Tests Get List of VPScenarioLanguage
 
     }
 }

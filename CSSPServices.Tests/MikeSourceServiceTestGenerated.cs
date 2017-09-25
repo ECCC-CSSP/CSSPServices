@@ -81,28 +81,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mikeSourceService.GetRead().Count();
+                    count = mikeSourceService.GetRead().Count();
 
-                Assert.AreEqual(mikeSourceService.GetRead().Count(), mikeSourceService.GetEdit().Count());
+                    Assert.AreEqual(mikeSourceService.GetRead().Count(), mikeSourceService.GetEdit().Count());
 
-                mikeSourceService.Add(mikeSource);
-                if (mikeSource.HasErrors)
-                {
-                    Assert.AreEqual("", mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mikeSourceService.GetRead().Where(c => c == mikeSource).Any());
-                mikeSourceService.Update(mikeSource);
-                if (mikeSource.HasErrors)
-                {
-                    Assert.AreEqual("", mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mikeSourceService.GetRead().Count());
-                mikeSourceService.Delete(mikeSource);
-                if (mikeSource.HasErrors)
-                {
-                    Assert.AreEqual("", mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+                    mikeSourceService.Add(mikeSource);
+                    if (mikeSource.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mikeSourceService.GetRead().Where(c => c == mikeSource).Any());
+                    mikeSourceService.Update(mikeSource);
+                    if (mikeSource.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mikeSourceService.GetRead().Count());
+                    mikeSourceService.Delete(mikeSource);
+                    if (mikeSource.HasErrors)
+                    {
+                        Assert.AreEqual("", mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -276,26 +276,66 @@ namespace CSSPServices.Tests
                     MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSource);
 
-                    MikeSource mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
-                    Assert.IsNotNull(mikeSourceRet.MikeSourceID);
-                    Assert.IsNotNull(mikeSourceRet.MikeSourceTVItemID);
-                    Assert.IsNotNull(mikeSourceRet.IsContinuous);
-                    Assert.IsNotNull(mikeSourceRet.Include);
-                    Assert.IsNotNull(mikeSourceRet.IsRiver);
-                    Assert.IsNotNull(mikeSourceRet.SourceNumberString);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.SourceNumberString));
-                    Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
+                    MikeSource mikeSourceRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mikeSourceRet.MikeSourceID);
+                        Assert.IsNotNull(mikeSourceRet.MikeSourceTVItemID);
+                        Assert.IsNotNull(mikeSourceRet.IsContinuous);
+                        Assert.IsNotNull(mikeSourceRet.Include);
+                        Assert.IsNotNull(mikeSourceRet.IsRiver);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.SourceNumberString));
+                        Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mikeSourceRet.MikeSourceTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
-                    Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mikeSourceRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mikeSourceRet.MikeSourceTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
+                            }
+                            if (mikeSourceRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mikeSourceRet.MikeSourceTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
+                            }
+                            if (mikeSourceRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MikeSource
+        #endregion Tests Get List of MikeSource
 
     }
 }

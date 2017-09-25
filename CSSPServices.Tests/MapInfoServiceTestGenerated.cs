@@ -85,28 +85,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = mapInfoService.GetRead().Count();
+                    count = mapInfoService.GetRead().Count();
 
-                Assert.AreEqual(mapInfoService.GetRead().Count(), mapInfoService.GetEdit().Count());
+                    Assert.AreEqual(mapInfoService.GetRead().Count(), mapInfoService.GetEdit().Count());
 
-                mapInfoService.Add(mapInfo);
-                if (mapInfo.HasErrors)
-                {
-                    Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, mapInfoService.GetRead().Where(c => c == mapInfo).Any());
-                mapInfoService.Update(mapInfo);
-                if (mapInfo.HasErrors)
-                {
-                    Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, mapInfoService.GetRead().Count());
-                mapInfoService.Delete(mapInfo);
-                if (mapInfo.HasErrors)
-                {
-                    Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    mapInfoService.Add(mapInfo);
+                    if (mapInfo.HasErrors)
+                    {
+                        Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, mapInfoService.GetRead().Where(c => c == mapInfo).Any());
+                    mapInfoService.Update(mapInfo);
+                    if (mapInfo.HasErrors)
+                    {
+                        Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, mapInfoService.GetRead().Count());
+                    mapInfoService.Delete(mapInfo);
+                    if (mapInfo.HasErrors)
+                    {
+                        Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -379,31 +379,84 @@ namespace CSSPServices.Tests
                     MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
-                    MapInfo mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
-                    Assert.IsNotNull(mapInfoRet.MapInfoID);
-                    Assert.IsNotNull(mapInfoRet.TVItemID);
-                    Assert.IsNotNull(mapInfoRet.TVType);
-                    Assert.IsNotNull(mapInfoRet.LatMin);
-                    Assert.IsNotNull(mapInfoRet.LatMax);
-                    Assert.IsNotNull(mapInfoRet.LngMin);
-                    Assert.IsNotNull(mapInfoRet.LngMax);
-                    Assert.IsNotNull(mapInfoRet.MapInfoDrawType);
-                    Assert.IsNotNull(mapInfoRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(mapInfoRet.LastUpdateContactTVItemID);
+                    MapInfo mapInfoRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(mapInfoRet.MapInfoID);
+                        Assert.IsNotNull(mapInfoRet.TVItemID);
+                        Assert.IsNotNull(mapInfoRet.TVType);
+                        Assert.IsNotNull(mapInfoRet.LatMin);
+                        Assert.IsNotNull(mapInfoRet.LatMax);
+                        Assert.IsNotNull(mapInfoRet.LngMin);
+                        Assert.IsNotNull(mapInfoRet.LngMax);
+                        Assert.IsNotNull(mapInfoRet.MapInfoDrawType);
+                        Assert.IsNotNull(mapInfoRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(mapInfoRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(mapInfoRet.TVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVText));
-                    Assert.IsNotNull(mapInfoRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(mapInfoRet.TVTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVTypeText));
-                    Assert.IsNotNull(mapInfoRet.MapInfoDrawTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoDrawTypeText));
-                    Assert.IsNotNull(mapInfoRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (mapInfoRet.TVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mapInfoRet.TVText));
+                            }
+                            if (mapInfoRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mapInfoRet.LastUpdateContactTVText));
+                            }
+                            if (mapInfoRet.TVTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mapInfoRet.TVTypeText));
+                            }
+                            if (mapInfoRet.MapInfoDrawTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoDrawTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (mapInfoRet.TVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVText));
+                            }
+                            if (mapInfoRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.LastUpdateContactTVText));
+                            }
+                            if (mapInfoRet.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVTypeText));
+                            }
+                            if (mapInfoRet.MapInfoDrawTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoDrawTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of MapInfo
+        #endregion Tests Get List of MapInfo
 
     }
 }

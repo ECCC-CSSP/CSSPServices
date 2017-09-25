@@ -145,35 +145,35 @@ namespace CSSPServicesGenerateCodeHelper
         }
         private void CreateClass_CRUD_Testing(string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            sb.AppendLine(@"                count = " + TypeNameLower + @"Service.GetRead().Count();");
+            sb.AppendLine(@"                    count = " + TypeNameLower + @"Service.GetRead().Count();");
             sb.AppendLine(@"");
-            sb.AppendLine(@"                Assert.AreEqual(" + TypeNameLower + @"Service.GetRead().Count(), " + TypeNameLower + @"Service.GetEdit().Count());");
+            sb.AppendLine(@"                    Assert.AreEqual(" + TypeNameLower + @"Service.GetRead().Count(), " + TypeNameLower + @"Service.GetEdit().Count());");
             sb.AppendLine(@"");
             if (TypeName == "Contact")
             {
-                sb.AppendLine(@"                " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", AddContactTypeEnum.LoggedIn);");
+                sb.AppendLine(@"                    " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", AddContactTypeEnum.LoggedIn);");
             }
             else
             {
-                sb.AppendLine(@"                " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
+                sb.AppendLine(@"                    " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
             }
-            sb.AppendLine(@"                if (" + TypeNameLower + @".HasErrors)");
-            sb.AppendLine(@"                {");
-            sb.AppendLine(@"                    Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
-            sb.AppendLine(@"                }");
-            sb.AppendLine(@"                Assert.AreEqual(true, " + TypeNameLower + @"Service.GetRead().Where(c => c == " + TypeNameLower + @").Any());");
-            sb.AppendLine(@"                " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
-            sb.AppendLine(@"                if (" + TypeNameLower + @".HasErrors)");
-            sb.AppendLine(@"                {");
-            sb.AppendLine(@"                    Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
-            sb.AppendLine(@"                }");
-            sb.AppendLine(@"                Assert.AreEqual(count + 1, " + TypeNameLower + @"Service.GetRead().Count());");
-            sb.AppendLine(@"                " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @");");
-            sb.AppendLine(@"                if (" + TypeNameLower + @".HasErrors)");
-            sb.AppendLine(@"                {");
-            sb.AppendLine(@"                    Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
-            sb.AppendLine(@"                }");
-            sb.AppendLine(@"                Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+            sb.AppendLine(@"                    if (" + TypeNameLower + @".HasErrors)");
+            sb.AppendLine(@"                    {");
+            sb.AppendLine(@"                        Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"                    }");
+            sb.AppendLine(@"                    Assert.AreEqual(true, " + TypeNameLower + @"Service.GetRead().Where(c => c == " + TypeNameLower + @").Any());");
+            sb.AppendLine(@"                    " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
+            sb.AppendLine(@"                    if (" + TypeNameLower + @".HasErrors)");
+            sb.AppendLine(@"                    {");
+            sb.AppendLine(@"                        Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"                    }");
+            sb.AppendLine(@"                    Assert.AreEqual(count + 1, " + TypeNameLower + @"Service.GetRead().Count());");
+            sb.AppendLine(@"                    " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @");");
+            sb.AppendLine(@"                    if (" + TypeNameLower + @".HasErrors)");
+            sb.AppendLine(@"                    {");
+            sb.AppendLine(@"                        Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"                    }");
+            sb.AppendLine(@"                    Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
         }
         private void CreateClass_Min_And_Max_Properties_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
@@ -486,6 +486,20 @@ namespace CSSPServicesGenerateCodeHelper
                                             }
                                         }
                                         break;
+                                    case "EmailDistributionListContact":
+                                        {
+                                            EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            EmailDistributionListContact emailDistributionListContact = emailDistributionListContactService.GetRead().FirstOrDefault();
+                                            if (emailDistributionListContact == null)
+                                            {
+                                                sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + emailDistributionListContact.EmailDistributionListContactID + ";");
+                                            }
+                                        }
+                                        break;
                                     case "HydrometricSite":
                                         {
                                             HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
@@ -567,6 +581,20 @@ namespace CSSPServicesGenerateCodeHelper
                                             else
                                             {
                                                 sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + mikeSource.MikeSourceID + ";");
+                                            }
+                                        }
+                                        break;
+                                    case "MWQMAnalysisReportParameter":
+                                        {
+                                            MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMAnalysisReportParameter mwqmAnalysisReportParameter = mwqmAnalysisReportParameterService.GetRead().FirstOrDefault();
+                                            if (mwqmAnalysisReportParameter == null)
+                                            {
+                                                sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID + ";");
                                             }
                                         }
                                         break;
@@ -1212,8 +1240,27 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @" = (from c in " + TypeNameLower + @"Service.GetRead() select c).FirstOrDefault();");
                     sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @");");
                     sb.AppendLine(@"");
-                    sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID);");
-                    bool FirstNotMapped = true;
+                    sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @"Ret = null;");
+                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })");
+                    sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID);");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityOnly);");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            // nothing for now");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        // Entity fields");
+                    bool NotMappedExist = true;
                     foreach (PropertyInfo prop in type.GetProperties())
                     {
                         CSSPProp csspProp = new CSSPProp();
@@ -1221,9 +1268,61 @@ namespace CSSPServicesGenerateCodeHelper
                         {
                             return;
                         }
+                        if (csspProp.PropName == "ValidationResults")
+                        {
+                            continue;
+                        }
+
+                        if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                        {
+                            continue;
+                        }
+
+                        if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                        {
+                            continue;
+                        }
+
                         if (csspProp.HasNotMappedAttribute)
                         {
-                            if (csspProp.PropName == "ValidationResults")
+                            NotMappedExist = true;
+                        }
+                        else
+                        {
+                            if (csspProp.IsNullable)
+                            {
+                                sb.AppendLine(@"                        if (" + TypeNameLower + @"Ret." + csspProp.PropName + @" != null)");
+                                sb.AppendLine(@"                        {");
+                            }
+                            if (csspProp.PropType == "String")
+                            {
+                                sb.AppendLine(@"                        " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"                        " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                            }
+                            if (csspProp.IsNullable)
+                            {
+                                sb.AppendLine(@"                        }");
+                            }
+                        }
+                    }
+
+                    if (NotMappedExist)
+                    {
+                        sb.AppendLine(@"");
+                        sb.AppendLine(@"                        // Non entity fields");
+                        sb.AppendLine(@"                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)");
+                        sb.AppendLine(@"                        {");
+                        foreach (PropertyInfo prop in type.GetProperties())
+                        {
+                            CSSPProp csspProp = new CSSPProp();
+                            if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                            {
+                                return;
+                            }
+                            if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
                             {
                                 continue;
                             }
@@ -1238,78 +1337,226 @@ namespace CSSPServicesGenerateCodeHelper
                                 continue;
                             }
 
-                            if (FirstNotMapped)
+                            if (csspProp.HasNotMappedAttribute)
                             {
-                                FirstNotMapped = !FirstNotMapped;
-                                sb.AppendLine(@"");
-                            }
-                            if (csspProp.HasCSSPFillAttribute)
-                            {
-                                bool FillEqualFieldIsNullable = false;
-                                foreach (PropertyInfo prop2 in type.GetProperties())
+                                if (csspProp.IsNullable)
                                 {
-                                    CSSPProp csspProp2 = new CSSPProp();
-                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop2, csspProp2, type))
+                                    sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + csspProp.PropName + @" != null)");
+                                    sb.AppendLine(@"                            {");
+                                }
+                                if (csspProp.PropType == "Int32")
+                                {
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                }
+                                else if (csspProp.PropType == "Single")
+                                {
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0.0f, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                }
+                                else if (csspProp.PropType == "Double")
+                                {
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0.0D, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                }
+                                else
+                                {
+                                    if (csspProp.PropType == "String")
                                     {
-                                        return;
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
                                     }
-
-                                    if (csspProp2.PropName == csspProp.FillEqualField)
+                                    else
                                     {
-                                        if (csspProp2.IsNullable)
-                                        {
-                                            FillEqualFieldIsNullable = true;
-                                        }
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
                                     }
                                 }
-                                if (FillEqualFieldIsNullable)
+                                if (csspProp.IsNullable)
                                 {
-                                    sb.AppendLine(@"                    if (" + TypeNameLower + @"Ret." + csspProp.FillEqualField + @" != null)");
-                                    sb.AppendLine(@"                    {");
-                                }
-                                sb.AppendLine(@"                    " + (FillEqualFieldIsNullable ? "   " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
-                                if (csspProp.PropType == "String")
-                                {
-                                    sb.AppendLine(@"                    " + (FillEqualFieldIsNullable ? "   " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
-                                }
-                                if (FillEqualFieldIsNullable)
-                                {
-                                    sb.AppendLine(@"                    }");
-                                }
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
-                                if (csspProp.PropType == "String")
-                                {
-                                    sb.AppendLine(@"                    Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
+                                    sb.AppendLine(@"                            }");
                                 }
                             }
                         }
-                        else
+                        sb.AppendLine(@"                        }");
+                        sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)");
+                        sb.AppendLine(@"                        {");
+                        foreach (PropertyInfo prop in type.GetProperties())
                         {
-                            if (csspProp.IsNullable)
+                            CSSPProp csspProp = new CSSPProp();
+                            if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                             {
-                                sb.AppendLine(@"                    if (" + TypeNameLower + @"Ret." + csspProp.PropName + @" != null)");
-                                sb.AppendLine(@"                    {");
+                                return;
                             }
-                            sb.AppendLine(@"                    " + (csspProp.IsNullable ? "   " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
-                            if (csspProp.PropType == "String")
+                            if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
                             {
-                                sb.AppendLine(@"                    " + (csspProp.IsNullable ? "   " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
+                                continue;
                             }
-                            if (csspProp.IsNullable)
+
+                            if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
                             {
-                                sb.AppendLine(@"                    }");
+                                continue;
+                            }
+
+                            if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                            {
+                                continue;
+                            }
+
+                            if (csspProp.HasNotMappedAttribute)
+                            {
+                                if (csspProp.IsNullable)
+                                {
+                                    sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + csspProp.PropName + @" != null)");
+                                    sb.AppendLine(@"                            {");
+                                }
+                                if (csspProp.PropType == "Int32")
+                                {
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                }
+                                else if (csspProp.PropType == "Single")
+                                {
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0.0f, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                }
+                                else if (csspProp.PropType == "Double")
+                                {
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0.0D, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                }
+                                else
+                                {
+                                    if (csspProp.PropType == "String")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                    }
+                                }
+                                if (csspProp.IsNullable)
+                                {
+                                    sb.AppendLine(@"                            }");
+                                }
                             }
                         }
+                        sb.AppendLine(@"                        }");
                     }
-
+                    sb.AppendLine(@"                    }");
                     sb.AppendLine(@"                }");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"        }");
                 }
                 sb.AppendLine(@"        #endregion Tests Get With Key");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"        #region Tests Generated Get List of " + TypeName + @"");
+                //if (!ClassNotMapped)
+                //{
+                //    sb.AppendLine(@"        [TestMethod]");
+                //    sb.AppendLine(@"        public void " + TypeName + @"_Get_With_Key_Test()");
+                //    sb.AppendLine(@"        {");
+                //    sb.AppendLine(@"            foreach (CultureInfo culture in AllowableCulture)");
+                //    sb.AppendLine(@"            {");
+                //    sb.AppendLine(@"                ChangeCulture(culture);");
+                //    sb.AppendLine(@"");
+                //    sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
+                //    sb.AppendLine(@"                {");
+                //    sb.AppendLine(@"                    " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, dbTestDB, ContactID);");
+                //    sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @" = (from c in " + TypeNameLower + @"Service.GetRead() select c).FirstOrDefault();");
+                //    sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @");");
+                //    sb.AppendLine(@"");
+                //    sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID);");
+                //    bool FirstNotMapped = true;
+                //    foreach (PropertyInfo prop in type.GetProperties())
+                //    {
+                //        CSSPProp csspProp = new CSSPProp();
+                //        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                //        {
+                //            return;
+                //        }
+                //        if (csspProp.HasNotMappedAttribute)
+                //        {
+                //            if (csspProp.PropName == "ValidationResults")
+                //            {
+                //                continue;
+                //            }
+
+                //            if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                //            {
+                //                continue;
+                //            }
+
+                //            if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                //            {
+                //                continue;
+                //            }
+
+                //            if (FirstNotMapped)
+                //            {
+                //                FirstNotMapped = !FirstNotMapped;
+                //                sb.AppendLine(@"");
+                //            }
+                //            if (csspProp.HasCSSPFillAttribute)
+                //            {
+                //                bool FillEqualFieldIsNullable = false;
+                //                foreach (PropertyInfo prop2 in type.GetProperties())
+                //                {
+                //                    CSSPProp csspProp2 = new CSSPProp();
+                //                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop2, csspProp2, type))
+                //                    {
+                //                        return;
+                //                    }
+
+                //                    if (csspProp2.PropName == csspProp.FillEqualField)
+                //                    {
+                //                        if (csspProp2.IsNullable)
+                //                        {
+                //                            FillEqualFieldIsNullable = true;
+                //                        }
+                //                    }
+                //                }
+                //                if (FillEqualFieldIsNullable)
+                //                {
+                //                    sb.AppendLine(@"                    if (" + TypeNameLower + @"Ret." + csspProp.FillEqualField + @" != null)");
+                //                    sb.AppendLine(@"                    {");
+                //                }
+                //                sb.AppendLine(@"                    " + (FillEqualFieldIsNullable ? "   " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                //                if (csspProp.PropType == "String")
+                //                {
+                //                    sb.AppendLine(@"                    " + (FillEqualFieldIsNullable ? "   " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
+                //                }
+                //                if (FillEqualFieldIsNullable)
+                //                {
+                //                    sb.AppendLine(@"                    }");
+                //                }
+                //            }
+                //            else
+                //            {
+                //                sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                //                if (csspProp.PropType == "String")
+                //                {
+                //                    sb.AppendLine(@"                    Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
+                //                }
+                //            }
+                //        }
+                //        else
+                //        {
+                //            if (csspProp.IsNullable)
+                //            {
+                //                sb.AppendLine(@"                    if (" + TypeNameLower + @"Ret." + csspProp.PropName + @" != null)");
+                //                sb.AppendLine(@"                    {");
+                //            }
+                //            sb.AppendLine(@"                    " + (csspProp.IsNullable ? "   " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                //            if (csspProp.PropType == "String")
+                //            {
+                //                sb.AppendLine(@"                    " + (csspProp.IsNullable ? "   " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
+                //            }
+                //            if (csspProp.IsNullable)
+                //            {
+                //                sb.AppendLine(@"                    }");
+                //            }
+                //        }
+                //    }
+
+                //    sb.AppendLine(@"                }");
+                //    sb.AppendLine(@"            }");
+                //    sb.AppendLine(@"        }");
+                //}
+                sb.AppendLine(@"        #endregion Tests Get List of " + TypeName + @"");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"    }");
                 sb.AppendLine(@"}");

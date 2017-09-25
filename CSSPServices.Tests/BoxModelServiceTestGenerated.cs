@@ -87,28 +87,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = boxModelService.GetRead().Count();
+                    count = boxModelService.GetRead().Count();
 
-                Assert.AreEqual(boxModelService.GetRead().Count(), boxModelService.GetEdit().Count());
+                    Assert.AreEqual(boxModelService.GetRead().Count(), boxModelService.GetEdit().Count());
 
-                boxModelService.Add(boxModel);
-                if (boxModel.HasErrors)
-                {
-                    Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, boxModelService.GetRead().Where(c => c == boxModel).Any());
-                boxModelService.Update(boxModel);
-                if (boxModel.HasErrors)
-                {
-                    Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, boxModelService.GetRead().Count());
-                boxModelService.Delete(boxModel);
-                if (boxModel.HasErrors)
-                {
-                    Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, boxModelService.GetRead().Count());
+                    boxModelService.Add(boxModel);
+                    if (boxModel.HasErrors)
+                    {
+                        Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, boxModelService.GetRead().Where(c => c == boxModel).Any());
+                    boxModelService.Update(boxModel);
+                    if (boxModel.HasErrors)
+                    {
+                        Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, boxModelService.GetRead().Count());
+                    boxModelService.Delete(boxModel);
+                    if (boxModel.HasErrors)
+                    {
+                        Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -439,31 +439,72 @@ namespace CSSPServices.Tests
                     BoxModel boxModel = (from c in boxModelService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModel);
 
-                    BoxModel boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID);
-                    Assert.IsNotNull(boxModelRet.BoxModelID);
-                    Assert.IsNotNull(boxModelRet.InfrastructureTVItemID);
-                    Assert.IsNotNull(boxModelRet.Flow_m3_day);
-                    Assert.IsNotNull(boxModelRet.Depth_m);
-                    Assert.IsNotNull(boxModelRet.Temperature_C);
-                    Assert.IsNotNull(boxModelRet.Dilution);
-                    Assert.IsNotNull(boxModelRet.DecayRate_per_day);
-                    Assert.IsNotNull(boxModelRet.FCUntreated_MPN_100ml);
-                    Assert.IsNotNull(boxModelRet.FCPreDisinfection_MPN_100ml);
-                    Assert.IsNotNull(boxModelRet.Concentration_MPN_100ml);
-                    Assert.IsNotNull(boxModelRet.T90_hour);
-                    Assert.IsNotNull(boxModelRet.FlowDuration_hour);
-                    Assert.IsNotNull(boxModelRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(boxModelRet.LastUpdateContactTVItemID);
+                    BoxModel boxModelRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(boxModelRet.BoxModelID);
+                        Assert.IsNotNull(boxModelRet.InfrastructureTVItemID);
+                        Assert.IsNotNull(boxModelRet.Flow_m3_day);
+                        Assert.IsNotNull(boxModelRet.Depth_m);
+                        Assert.IsNotNull(boxModelRet.Temperature_C);
+                        Assert.IsNotNull(boxModelRet.Dilution);
+                        Assert.IsNotNull(boxModelRet.DecayRate_per_day);
+                        Assert.IsNotNull(boxModelRet.FCUntreated_MPN_100ml);
+                        Assert.IsNotNull(boxModelRet.FCPreDisinfection_MPN_100ml);
+                        Assert.IsNotNull(boxModelRet.Concentration_MPN_100ml);
+                        Assert.IsNotNull(boxModelRet.T90_hour);
+                        Assert.IsNotNull(boxModelRet.FlowDuration_hour);
+                        Assert.IsNotNull(boxModelRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(boxModelRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(boxModelRet.InfrastructureTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.InfrastructureTVText));
-                    Assert.IsNotNull(boxModelRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(boxModelRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (boxModelRet.InfrastructureTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelRet.InfrastructureTVText));
+                            }
+                            if (boxModelRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (boxModelRet.InfrastructureTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.InfrastructureTVText));
+                            }
+                            if (boxModelRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of BoxModel
+        #endregion Tests Get List of BoxModel
 
     }
 }

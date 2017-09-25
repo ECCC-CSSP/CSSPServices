@@ -154,13 +154,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SamplingPlanSubsectorSite GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
+        public SamplingPlanSubsectorSite GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery = (from c in GetRead()
+            IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID
                                                 select c);
 
-            return FillSamplingPlanSubsectorSite(samplingPlanSubsectorSiteQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return samplingPlanSubsectorSiteQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSamplingPlanSubsectorSite(samplingPlanSubsectorSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<SamplingPlanSubsectorSite> GetSamplingPlanSubsectorSiteList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return samplingPlanSubsectorSiteQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSamplingPlanSubsectorSite(samplingPlanSubsectorSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -209,31 +238,32 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<SamplingPlanSubsectorSite> FillSamplingPlanSubsectorSite(IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery)
+        private IQueryable<SamplingPlanSubsectorSite> FillSamplingPlanSubsectorSite(IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<SamplingPlanSubsectorSite> SamplingPlanSubsectorSiteList = (from c in samplingPlanSubsectorSiteQuery
-                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new SamplingPlanSubsectorSite
-                                         {
-                                             SamplingPlanSubsectorSiteID = c.SamplingPlanSubsectorSiteID,
-                                             SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
-                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                                             IsDuplicate = c.IsDuplicate,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MWQMSiteTVText = MWQMSiteTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            samplingPlanSubsectorSiteQuery = (from c in samplingPlanSubsectorSiteQuery
+                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new SamplingPlanSubsectorSite
+                    {
+                        SamplingPlanSubsectorSiteID = c.SamplingPlanSubsectorSiteID,
+                        SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
+                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                        IsDuplicate = c.IsDuplicate,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MWQMSiteTVText = MWQMSiteTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return SamplingPlanSubsectorSiteList;
+            return samplingPlanSubsectorSiteQuery;
         }
         #endregion Functions private Generated Fill Class
 

@@ -172,13 +172,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPResult GetVPResultWithVPResultID(int VPResultID)
+        public VPResult GetVPResultWithVPResultID(int VPResultID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<VPResult> vpResultQuery = (from c in GetRead()
+            IQueryable<VPResult> vpResultQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPResultID == VPResultID
                                                 select c);
 
-            return FillVPResult(vpResultQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return vpResultQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillVPResult(vpResultQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<VPResult> GetVPResultList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<VPResult> vpResultQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return vpResultQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillVPResult(vpResultQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -227,30 +256,31 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<VPResult> FillVPResult(IQueryable<VPResult> vpResultQuery)
+        private IQueryable<VPResult> FillVPResult(IQueryable<VPResult> vpResultQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<VPResult> VPResultList = (from c in vpResultQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new VPResult
-                                         {
-                                             VPResultID = c.VPResultID,
-                                             VPScenarioID = c.VPScenarioID,
-                                             Ordinal = c.Ordinal,
-                                             Concentration_MPN_100ml = c.Concentration_MPN_100ml,
-                                             Dilution = c.Dilution,
-                                             FarFieldWidth_m = c.FarFieldWidth_m,
-                                             DispersionDistance_m = c.DispersionDistance_m,
-                                             TravelTime_hour = c.TravelTime_hour,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            vpResultQuery = (from c in vpResultQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new VPResult
+                    {
+                        VPResultID = c.VPResultID,
+                        VPScenarioID = c.VPScenarioID,
+                        Ordinal = c.Ordinal,
+                        Concentration_MPN_100ml = c.Concentration_MPN_100ml,
+                        Dilution = c.Dilution,
+                        FarFieldWidth_m = c.FarFieldWidth_m,
+                        DispersionDistance_m = c.DispersionDistance_m,
+                        TravelTime_hour = c.TravelTime_hour,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return VPResultList;
+            return vpResultQuery;
         }
         #endregion Functions private Generated Fill Class
 

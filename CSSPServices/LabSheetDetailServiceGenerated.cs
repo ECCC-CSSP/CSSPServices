@@ -556,13 +556,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public LabSheetDetail GetLabSheetDetailWithLabSheetDetailID(int LabSheetDetailID)
+        public LabSheetDetail GetLabSheetDetailWithLabSheetDetailID(int LabSheetDetailID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<LabSheetDetail> labSheetDetailQuery = (from c in GetRead()
+            IQueryable<LabSheetDetail> labSheetDetailQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LabSheetDetailID == LabSheetDetailID
                                                 select c);
 
-            return FillLabSheetDetail(labSheetDetailQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return labSheetDetailQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillLabSheetDetail(labSheetDetailQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<LabSheetDetail> GetLabSheetDetailList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<LabSheetDetail> labSheetDetailQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return labSheetDetailQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillLabSheetDetail(labSheetDetailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -611,90 +640,91 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<LabSheetDetail> FillLabSheetDetail(IQueryable<LabSheetDetail> labSheetDetailQuery)
+        private IQueryable<LabSheetDetail> FillLabSheetDetail(IQueryable<LabSheetDetail> labSheetDetailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<LabSheetDetail> LabSheetDetailList = (from c in labSheetDetailQuery
-                                         let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.SubsectorTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new LabSheetDetail
-                                         {
-                                             LabSheetDetailID = c.LabSheetDetailID,
-                                             LabSheetID = c.LabSheetID,
-                                             SamplingPlanID = c.SamplingPlanID,
-                                             SubsectorTVItemID = c.SubsectorTVItemID,
-                                             Version = c.Version,
-                                             RunDate = c.RunDate,
-                                             Tides = c.Tides,
-                                             SampleCrewInitials = c.SampleCrewInitials,
-                                             WaterBathCount = c.WaterBathCount,
-                                             IncubationBath1StartTime = c.IncubationBath1StartTime,
-                                             IncubationBath2StartTime = c.IncubationBath2StartTime,
-                                             IncubationBath3StartTime = c.IncubationBath3StartTime,
-                                             IncubationBath1EndTime = c.IncubationBath1EndTime,
-                                             IncubationBath2EndTime = c.IncubationBath2EndTime,
-                                             IncubationBath3EndTime = c.IncubationBath3EndTime,
-                                             IncubationBath1TimeCalculated_minutes = c.IncubationBath1TimeCalculated_minutes,
-                                             IncubationBath2TimeCalculated_minutes = c.IncubationBath2TimeCalculated_minutes,
-                                             IncubationBath3TimeCalculated_minutes = c.IncubationBath3TimeCalculated_minutes,
-                                             WaterBath1 = c.WaterBath1,
-                                             WaterBath2 = c.WaterBath2,
-                                             WaterBath3 = c.WaterBath3,
-                                             TCField1 = c.TCField1,
-                                             TCLab1 = c.TCLab1,
-                                             TCField2 = c.TCField2,
-                                             TCLab2 = c.TCLab2,
-                                             TCFirst = c.TCFirst,
-                                             TCAverage = c.TCAverage,
-                                             ControlLot = c.ControlLot,
-                                             Positive35 = c.Positive35,
-                                             NonTarget35 = c.NonTarget35,
-                                             Negative35 = c.Negative35,
-                                             Bath1Positive44_5 = c.Bath1Positive44_5,
-                                             Bath2Positive44_5 = c.Bath2Positive44_5,
-                                             Bath3Positive44_5 = c.Bath3Positive44_5,
-                                             Bath1NonTarget44_5 = c.Bath1NonTarget44_5,
-                                             Bath2NonTarget44_5 = c.Bath2NonTarget44_5,
-                                             Bath3NonTarget44_5 = c.Bath3NonTarget44_5,
-                                             Bath1Negative44_5 = c.Bath1Negative44_5,
-                                             Bath2Negative44_5 = c.Bath2Negative44_5,
-                                             Bath3Negative44_5 = c.Bath3Negative44_5,
-                                             Blank35 = c.Blank35,
-                                             Bath1Blank44_5 = c.Bath1Blank44_5,
-                                             Bath2Blank44_5 = c.Bath2Blank44_5,
-                                             Bath3Blank44_5 = c.Bath3Blank44_5,
-                                             Lot35 = c.Lot35,
-                                             Lot44_5 = c.Lot44_5,
-                                             Weather = c.Weather,
-                                             RunComment = c.RunComment,
-                                             RunWeatherComment = c.RunWeatherComment,
-                                             SampleBottleLotNumber = c.SampleBottleLotNumber,
-                                             SalinitiesReadBy = c.SalinitiesReadBy,
-                                             SalinitiesReadDate = c.SalinitiesReadDate,
-                                             ResultsReadBy = c.ResultsReadBy,
-                                             ResultsReadDate = c.ResultsReadDate,
-                                             ResultsRecordedBy = c.ResultsRecordedBy,
-                                             ResultsRecordedDate = c.ResultsRecordedDate,
-                                             DailyDuplicateRLog = c.DailyDuplicateRLog,
-                                             DailyDuplicatePrecisionCriteria = c.DailyDuplicatePrecisionCriteria,
-                                             DailyDuplicateAcceptable = c.DailyDuplicateAcceptable,
-                                             IntertechDuplicateRLog = c.IntertechDuplicateRLog,
-                                             IntertechDuplicatePrecisionCriteria = c.IntertechDuplicatePrecisionCriteria,
-                                             IntertechDuplicateAcceptable = c.IntertechDuplicateAcceptable,
-                                             IntertechReadAcceptable = c.IntertechReadAcceptable,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             SubsectorTVText = SubsectorTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            labSheetDetailQuery = (from c in labSheetDetailQuery
+                let SubsectorTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.SubsectorTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new LabSheetDetail
+                    {
+                        LabSheetDetailID = c.LabSheetDetailID,
+                        LabSheetID = c.LabSheetID,
+                        SamplingPlanID = c.SamplingPlanID,
+                        SubsectorTVItemID = c.SubsectorTVItemID,
+                        Version = c.Version,
+                        RunDate = c.RunDate,
+                        Tides = c.Tides,
+                        SampleCrewInitials = c.SampleCrewInitials,
+                        WaterBathCount = c.WaterBathCount,
+                        IncubationBath1StartTime = c.IncubationBath1StartTime,
+                        IncubationBath2StartTime = c.IncubationBath2StartTime,
+                        IncubationBath3StartTime = c.IncubationBath3StartTime,
+                        IncubationBath1EndTime = c.IncubationBath1EndTime,
+                        IncubationBath2EndTime = c.IncubationBath2EndTime,
+                        IncubationBath3EndTime = c.IncubationBath3EndTime,
+                        IncubationBath1TimeCalculated_minutes = c.IncubationBath1TimeCalculated_minutes,
+                        IncubationBath2TimeCalculated_minutes = c.IncubationBath2TimeCalculated_minutes,
+                        IncubationBath3TimeCalculated_minutes = c.IncubationBath3TimeCalculated_minutes,
+                        WaterBath1 = c.WaterBath1,
+                        WaterBath2 = c.WaterBath2,
+                        WaterBath3 = c.WaterBath3,
+                        TCField1 = c.TCField1,
+                        TCLab1 = c.TCLab1,
+                        TCField2 = c.TCField2,
+                        TCLab2 = c.TCLab2,
+                        TCFirst = c.TCFirst,
+                        TCAverage = c.TCAverage,
+                        ControlLot = c.ControlLot,
+                        Positive35 = c.Positive35,
+                        NonTarget35 = c.NonTarget35,
+                        Negative35 = c.Negative35,
+                        Bath1Positive44_5 = c.Bath1Positive44_5,
+                        Bath2Positive44_5 = c.Bath2Positive44_5,
+                        Bath3Positive44_5 = c.Bath3Positive44_5,
+                        Bath1NonTarget44_5 = c.Bath1NonTarget44_5,
+                        Bath2NonTarget44_5 = c.Bath2NonTarget44_5,
+                        Bath3NonTarget44_5 = c.Bath3NonTarget44_5,
+                        Bath1Negative44_5 = c.Bath1Negative44_5,
+                        Bath2Negative44_5 = c.Bath2Negative44_5,
+                        Bath3Negative44_5 = c.Bath3Negative44_5,
+                        Blank35 = c.Blank35,
+                        Bath1Blank44_5 = c.Bath1Blank44_5,
+                        Bath2Blank44_5 = c.Bath2Blank44_5,
+                        Bath3Blank44_5 = c.Bath3Blank44_5,
+                        Lot35 = c.Lot35,
+                        Lot44_5 = c.Lot44_5,
+                        Weather = c.Weather,
+                        RunComment = c.RunComment,
+                        RunWeatherComment = c.RunWeatherComment,
+                        SampleBottleLotNumber = c.SampleBottleLotNumber,
+                        SalinitiesReadBy = c.SalinitiesReadBy,
+                        SalinitiesReadDate = c.SalinitiesReadDate,
+                        ResultsReadBy = c.ResultsReadBy,
+                        ResultsReadDate = c.ResultsReadDate,
+                        ResultsRecordedBy = c.ResultsRecordedBy,
+                        ResultsRecordedDate = c.ResultsRecordedDate,
+                        DailyDuplicateRLog = c.DailyDuplicateRLog,
+                        DailyDuplicatePrecisionCriteria = c.DailyDuplicatePrecisionCriteria,
+                        DailyDuplicateAcceptable = c.DailyDuplicateAcceptable,
+                        IntertechDuplicateRLog = c.IntertechDuplicateRLog,
+                        IntertechDuplicatePrecisionCriteria = c.IntertechDuplicatePrecisionCriteria,
+                        IntertechDuplicateAcceptable = c.IntertechDuplicateAcceptable,
+                        IntertechReadAcceptable = c.IntertechReadAcceptable,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        SubsectorTVText = SubsectorTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return LabSheetDetailList;
+            return labSheetDetailQuery;
         }
         #endregion Functions private Generated Fill Class
 

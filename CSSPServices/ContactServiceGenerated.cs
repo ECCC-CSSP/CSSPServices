@@ -256,13 +256,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Contact GetContactWithContactID(int ContactID)
+        public Contact GetContactWithContactID(int ContactID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<Contact> contactQuery = (from c in GetRead()
+            IQueryable<Contact> contactQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactID == ContactID
                                                 select c);
 
-            return FillContact(contactQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContact(contactQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<Contact> GetContactList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<Contact> contactQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return contactQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillContact(contactQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -311,48 +340,49 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<Contact> FillContact(IQueryable<Contact> contactQuery)
+        private IQueryable<Contact> FillContact(IQueryable<Contact> contactQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<Contact> ContactList = (from c in contactQuery
-                                         let ContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.ContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new Contact
-                                         {
-                                             ContactID = c.ContactID,
-                                             Id = c.Id,
-                                             ContactTVItemID = c.ContactTVItemID,
-                                             LoginEmail = c.LoginEmail,
-                                             FirstName = c.FirstName,
-                                             LastName = c.LastName,
-                                             Initial = c.Initial,
-                                             WebName = c.WebName,
-                                             ContactTitle = c.ContactTitle,
-                                             IsAdmin = c.IsAdmin,
-                                             EmailValidated = c.EmailValidated,
-                                             Disabled = c.Disabled,
-                                             IsNew = c.IsNew,
-                                             SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             ContactTVText = ContactTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (Contact contact in ContactList)
-            {
-                contact.ContactTitleText = enums.GetResValueForTypeAndID(typeof(ContactTitleEnum), (int?)contact.ContactTitle);
-            }
+            List<EnumIDAndText> ContactTitleEnumList = enums.GetEnumTextOrderedList(typeof(ContactTitleEnum));
 
-            return ContactList;
+            contactQuery = (from c in contactQuery
+                let ContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.ContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new Contact
+                    {
+                        ContactID = c.ContactID,
+                        Id = c.Id,
+                        ContactTVItemID = c.ContactTVItemID,
+                        LoginEmail = c.LoginEmail,
+                        FirstName = c.FirstName,
+                        LastName = c.LastName,
+                        Initial = c.Initial,
+                        WebName = c.WebName,
+                        ContactTitle = c.ContactTitle,
+                        IsAdmin = c.IsAdmin,
+                        EmailValidated = c.EmailValidated,
+                        Disabled = c.Disabled,
+                        IsNew = c.IsNew,
+                        SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        ContactTVText = ContactTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        ContactTitleText = (from e in ContactTitleEnumList
+                                where e.EnumID == (int?)c.ContactTitle
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return contactQuery;
         }
         #endregion Functions private Generated Fill Class
 

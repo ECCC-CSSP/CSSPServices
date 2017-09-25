@@ -96,28 +96,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = vpScenarioService.GetRead().Count();
+                    count = vpScenarioService.GetRead().Count();
 
-                Assert.AreEqual(vpScenarioService.GetRead().Count(), vpScenarioService.GetEdit().Count());
+                    Assert.AreEqual(vpScenarioService.GetRead().Count(), vpScenarioService.GetEdit().Count());
 
-                vpScenarioService.Add(vpScenario);
-                if (vpScenario.HasErrors)
-                {
-                    Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, vpScenarioService.GetRead().Where(c => c == vpScenario).Any());
-                vpScenarioService.Update(vpScenario);
-                if (vpScenario.HasErrors)
-                {
-                    Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, vpScenarioService.GetRead().Count());
-                vpScenarioService.Delete(vpScenario);
-                if (vpScenario.HasErrors)
-                {
-                    Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    vpScenarioService.Add(vpScenario);
+                    if (vpScenario.HasErrors)
+                    {
+                        Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, vpScenarioService.GetRead().Where(c => c == vpScenario).Any());
+                    vpScenarioService.Update(vpScenario);
+                    if (vpScenario.HasErrors)
+                    {
+                        Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, vpScenarioService.GetRead().Count());
+                    vpScenarioService.Delete(vpScenario);
+                    if (vpScenario.HasErrors)
+                    {
+                        Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -602,45 +602,91 @@ namespace CSSPServices.Tests
                     VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
-                    VPScenario vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
-                    Assert.IsNotNull(vpScenarioRet.VPScenarioID);
-                    Assert.IsNotNull(vpScenarioRet.InfrastructureTVItemID);
-                    Assert.IsNotNull(vpScenarioRet.VPScenarioStatus);
-                    Assert.IsNotNull(vpScenarioRet.UseAsBestEstimate);
-                    Assert.IsNotNull(vpScenarioRet.EffluentFlow_m3_s);
-                    Assert.IsNotNull(vpScenarioRet.EffluentConcentration_MPN_100ml);
-                    Assert.IsNotNull(vpScenarioRet.FroudeNumber);
-                    Assert.IsNotNull(vpScenarioRet.PortDiameter_m);
-                    Assert.IsNotNull(vpScenarioRet.PortDepth_m);
-                    Assert.IsNotNull(vpScenarioRet.PortElevation_m);
-                    Assert.IsNotNull(vpScenarioRet.VerticalAngle_deg);
-                    Assert.IsNotNull(vpScenarioRet.HorizontalAngle_deg);
-                    Assert.IsNotNull(vpScenarioRet.NumberOfPorts);
-                    Assert.IsNotNull(vpScenarioRet.PortSpacing_m);
-                    Assert.IsNotNull(vpScenarioRet.AcuteMixZone_m);
-                    Assert.IsNotNull(vpScenarioRet.ChronicMixZone_m);
-                    Assert.IsNotNull(vpScenarioRet.EffluentSalinity_PSU);
-                    Assert.IsNotNull(vpScenarioRet.EffluentTemperature_C);
-                    Assert.IsNotNull(vpScenarioRet.EffluentVelocity_m_s);
-                    if (vpScenarioRet.RawResults != null)
+                    VPScenario vpScenarioRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(vpScenarioRet.RawResults);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.RawResults));
-                    }
-                    Assert.IsNotNull(vpScenarioRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(vpScenarioRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(vpScenarioRet.VPScenarioID);
+                        Assert.IsNotNull(vpScenarioRet.InfrastructureTVItemID);
+                        Assert.IsNotNull(vpScenarioRet.VPScenarioStatus);
+                        Assert.IsNotNull(vpScenarioRet.UseAsBestEstimate);
+                        Assert.IsNotNull(vpScenarioRet.EffluentFlow_m3_s);
+                        Assert.IsNotNull(vpScenarioRet.EffluentConcentration_MPN_100ml);
+                        Assert.IsNotNull(vpScenarioRet.FroudeNumber);
+                        Assert.IsNotNull(vpScenarioRet.PortDiameter_m);
+                        Assert.IsNotNull(vpScenarioRet.PortDepth_m);
+                        Assert.IsNotNull(vpScenarioRet.PortElevation_m);
+                        Assert.IsNotNull(vpScenarioRet.VerticalAngle_deg);
+                        Assert.IsNotNull(vpScenarioRet.HorizontalAngle_deg);
+                        Assert.IsNotNull(vpScenarioRet.NumberOfPorts);
+                        Assert.IsNotNull(vpScenarioRet.PortSpacing_m);
+                        Assert.IsNotNull(vpScenarioRet.AcuteMixZone_m);
+                        Assert.IsNotNull(vpScenarioRet.ChronicMixZone_m);
+                        Assert.IsNotNull(vpScenarioRet.EffluentSalinity_PSU);
+                        Assert.IsNotNull(vpScenarioRet.EffluentTemperature_C);
+                        Assert.IsNotNull(vpScenarioRet.EffluentVelocity_m_s);
+                        if (vpScenarioRet.RawResults != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.RawResults));
+                        }
+                        Assert.IsNotNull(vpScenarioRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(vpScenarioRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(vpScenarioRet.SubsectorTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.SubsectorTVText));
-                    Assert.IsNotNull(vpScenarioRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(vpScenarioRet.VPScenarioStatusText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioStatusText));
-                    Assert.IsNotNull(vpScenarioRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (vpScenarioRet.SubsectorTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioRet.SubsectorTVText));
+                            }
+                            if (vpScenarioRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioRet.LastUpdateContactTVText));
+                            }
+                            if (vpScenarioRet.VPScenarioStatusText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioStatusText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (vpScenarioRet.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.SubsectorTVText));
+                            }
+                            if (vpScenarioRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.LastUpdateContactTVText));
+                            }
+                            if (vpScenarioRet.VPScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioStatusText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of VPScenario
+        #endregion Tests Get List of VPScenario
 
     }
 }

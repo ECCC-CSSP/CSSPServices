@@ -304,13 +304,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Address GetAddressWithAddressID(int AddressID)
+        public Address GetAddressWithAddressID(int AddressID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<Address> addressQuery = (from c in GetRead()
+            IQueryable<Address> addressQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AddressID == AddressID
                                                 select c);
 
-            return FillAddress(addressQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return addressQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillAddress(addressQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<Address> GetAddressList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<Address> addressQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return addressQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillAddress(addressQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -359,65 +388,69 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<Address> FillAddress(IQueryable<Address> addressQuery)
+        private IQueryable<Address> FillAddress(IQueryable<Address> addressQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<Address> AddressList = (from c in addressQuery
-                                         let ParentTVItemID = (from cl in db.TVItems
-                                                              where cl.TVItemID == c.AddressTVItemID
-                                                              select cl.ParentID).FirstOrDefault()
-                                         let AddressTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.AddressTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let CountryTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.CountryTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let ProvinceTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.ProvinceTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let MunicipalityTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MunicipalityTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new Address
-                                         {
-                                             AddressID = c.AddressID,
-                                             AddressTVItemID = c.AddressTVItemID,
-                                             AddressType = c.AddressType,
-                                             CountryTVItemID = c.CountryTVItemID,
-                                             ProvinceTVItemID = c.ProvinceTVItemID,
-                                             MunicipalityTVItemID = c.MunicipalityTVItemID,
-                                             StreetName = c.StreetName,
-                                             StreetNumber = c.StreetNumber,
-                                             StreetType = c.StreetType,
-                                             PostalCode = c.PostalCode,
-                                             GoogleAddressText = c.GoogleAddressText,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             ParentTVItemID = ParentTVItemID,
-                                             AddressTVText = AddressTVText,
-                                             CountryTVText = CountryTVText,
-                                             ProvinceTVText = ProvinceTVText,
-                                             MunicipalityTVText = MunicipalityTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (Address address in AddressList)
-            {
-                address.AddressTypeText = enums.GetResValueForTypeAndID(typeof(AddressTypeEnum), (int?)address.AddressType);
-                address.StreetTypeText = enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType);
-            }
+            List<EnumIDAndText> AddressTypeEnumList = enums.GetEnumTextOrderedList(typeof(AddressTypeEnum));
+            List<EnumIDAndText> StreetTypeEnumList = enums.GetEnumTextOrderedList(typeof(StreetTypeEnum));
 
-            return AddressList;
+            addressQuery = (from c in addressQuery
+                let ParentTVItemID = (from cl in db.TVItems
+                    where cl.TVItemID == c.AddressTVItemID
+                    select cl.ParentID).FirstOrDefault()
+                let AddressTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.AddressTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let CountryTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.CountryTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let ProvinceTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.ProvinceTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let MunicipalityTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MunicipalityTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new Address
+                    {
+                        AddressID = c.AddressID,
+                        AddressTVItemID = c.AddressTVItemID,
+                        AddressType = c.AddressType,
+                        CountryTVItemID = c.CountryTVItemID,
+                        ProvinceTVItemID = c.ProvinceTVItemID,
+                        MunicipalityTVItemID = c.MunicipalityTVItemID,
+                        StreetName = c.StreetName,
+                        StreetNumber = c.StreetNumber,
+                        StreetType = c.StreetType,
+                        PostalCode = c.PostalCode,
+                        GoogleAddressText = c.GoogleAddressText,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        ParentTVItemID = ParentTVItemID,
+                        AddressTVText = AddressTVText,
+                        CountryTVText = CountryTVText,
+                        ProvinceTVText = ProvinceTVText,
+                        MunicipalityTVText = MunicipalityTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        AddressTypeText = (from e in AddressTypeEnumList
+                                where e.EnumID == (int?)c.AddressType
+                                select e.EnumText).FirstOrDefault(),
+                        StreetTypeText = (from e in StreetTypeEnumList
+                                where e.EnumID == (int?)c.StreetType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return addressQuery;
         }
         #endregion Functions private Generated Fill Class
 

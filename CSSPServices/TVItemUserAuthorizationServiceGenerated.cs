@@ -354,13 +354,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVItemUserAuthorization GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID)
+        public TVItemUserAuthorization GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in GetRead()
+            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVItemUserAuthorizationID == TVItemUserAuthorizationID
                                                 select c);
 
-            return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tvItemUserAuthorizationQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<TVItemUserAuthorization> GetTVItemUserAuthorizationList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tvItemUserAuthorizationQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -409,61 +438,62 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<TVItemUserAuthorization> FillTVItemUserAuthorization(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery)
+        private IQueryable<TVItemUserAuthorization> FillTVItemUserAuthorization(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<TVItemUserAuthorization> TVItemUserAuthorizationList = (from c in tvItemUserAuthorizationQuery
-                                         let ContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.ContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let TVText1 = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID1
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let TVText2 = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID2
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let TVText3 = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID3
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let TVText4 = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID4
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new TVItemUserAuthorization
-                                         {
-                                             TVItemUserAuthorizationID = c.TVItemUserAuthorizationID,
-                                             ContactTVItemID = c.ContactTVItemID,
-                                             TVItemID1 = c.TVItemID1,
-                                             TVItemID2 = c.TVItemID2,
-                                             TVItemID3 = c.TVItemID3,
-                                             TVItemID4 = c.TVItemID4,
-                                             TVAuth = c.TVAuth,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             ContactTVText = ContactTVText,
-                                             TVText1 = TVText1,
-                                             TVText2 = TVText2,
-                                             TVText3 = TVText3,
-                                             TVText4 = TVText4,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (TVItemUserAuthorization tvItemUserAuthorization in TVItemUserAuthorizationList)
-            {
-                tvItemUserAuthorization.TVAuthText = enums.GetResValueForTypeAndID(typeof(TVAuthEnum), (int?)tvItemUserAuthorization.TVAuth);
-            }
+            List<EnumIDAndText> TVAuthEnumList = enums.GetEnumTextOrderedList(typeof(TVAuthEnum));
 
-            return TVItemUserAuthorizationList;
+            tvItemUserAuthorizationQuery = (from c in tvItemUserAuthorizationQuery
+                let ContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.ContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let TVText1 = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID1
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let TVText2 = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID2
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let TVText3 = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID3
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let TVText4 = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID4
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new TVItemUserAuthorization
+                    {
+                        TVItemUserAuthorizationID = c.TVItemUserAuthorizationID,
+                        ContactTVItemID = c.ContactTVItemID,
+                        TVItemID1 = c.TVItemID1,
+                        TVItemID2 = c.TVItemID2,
+                        TVItemID3 = c.TVItemID3,
+                        TVItemID4 = c.TVItemID4,
+                        TVAuth = c.TVAuth,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        ContactTVText = ContactTVText,
+                        TVText1 = TVText1,
+                        TVText2 = TVText2,
+                        TVText3 = TVText3,
+                        TVText4 = TVText4,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TVAuthText = (from e in TVAuthEnumList
+                                where e.EnumID == (int?)c.TVAuth
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return tvItemUserAuthorizationQuery;
         }
         #endregion Functions private Generated Fill Class
 

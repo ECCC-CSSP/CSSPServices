@@ -148,13 +148,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID)
+        public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in GetRead()
+            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MapInfoPointID == MapInfoPointID
                                                 select c);
 
-            return FillMapInfoPoint(mapInfoPointQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mapInfoPointQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMapInfoPoint(mapInfoPointQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<MapInfoPoint> GetMapInfoPointList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return mapInfoPointQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillMapInfoPoint(mapInfoPointQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -203,27 +232,28 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<MapInfoPoint> FillMapInfoPoint(IQueryable<MapInfoPoint> mapInfoPointQuery)
+        private IQueryable<MapInfoPoint> FillMapInfoPoint(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<MapInfoPoint> MapInfoPointList = (from c in mapInfoPointQuery
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new MapInfoPoint
-                                         {
-                                             MapInfoPointID = c.MapInfoPointID,
-                                             MapInfoID = c.MapInfoID,
-                                             Ordinal = c.Ordinal,
-                                             Lat = c.Lat,
-                                             Lng = c.Lng,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            mapInfoPointQuery = (from c in mapInfoPointQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new MapInfoPoint
+                    {
+                        MapInfoPointID = c.MapInfoPointID,
+                        MapInfoID = c.MapInfoID,
+                        Ordinal = c.Ordinal,
+                        Lat = c.Lat,
+                        Lng = c.Lng,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return MapInfoPointList;
+            return mapInfoPointQuery;
         }
         #endregion Functions private Generated Fill Class
 

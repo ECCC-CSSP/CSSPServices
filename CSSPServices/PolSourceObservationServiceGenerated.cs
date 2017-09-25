@@ -180,13 +180,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public PolSourceObservation GetPolSourceObservationWithPolSourceObservationID(int PolSourceObservationID)
+        public PolSourceObservation GetPolSourceObservationWithPolSourceObservationID(int PolSourceObservationID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<PolSourceObservation> polSourceObservationQuery = (from c in GetRead()
+            IQueryable<PolSourceObservation> polSourceObservationQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.PolSourceObservationID == PolSourceObservationID
                                                 select c);
 
-            return FillPolSourceObservation(polSourceObservationQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return polSourceObservationQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillPolSourceObservation(polSourceObservationQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<PolSourceObservation> GetPolSourceObservationList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<PolSourceObservation> polSourceObservationQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return polSourceObservationQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillPolSourceObservation(polSourceObservationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -235,37 +264,38 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<PolSourceObservation> FillPolSourceObservation(IQueryable<PolSourceObservation> polSourceObservationQuery)
+        private IQueryable<PolSourceObservation> FillPolSourceObservation(IQueryable<PolSourceObservation> polSourceObservationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<PolSourceObservation> PolSourceObservationList = (from c in polSourceObservationQuery
-                                         let PolSourceSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.PolSourceSiteID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let ContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.ContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new PolSourceObservation
-                                         {
-                                             PolSourceObservationID = c.PolSourceObservationID,
-                                             PolSourceSiteID = c.PolSourceSiteID,
-                                             ObservationDate_Local = c.ObservationDate_Local,
-                                             ContactTVItemID = c.ContactTVItemID,
-                                             Observation_ToBeDeleted = c.Observation_ToBeDeleted,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             PolSourceSiteTVText = PolSourceSiteTVText,
-                                             ContactTVText = ContactTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            polSourceObservationQuery = (from c in polSourceObservationQuery
+                let PolSourceSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.PolSourceSiteID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let ContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.ContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new PolSourceObservation
+                    {
+                        PolSourceObservationID = c.PolSourceObservationID,
+                        PolSourceSiteID = c.PolSourceSiteID,
+                        ObservationDate_Local = c.ObservationDate_Local,
+                        ContactTVItemID = c.ContactTVItemID,
+                        Observation_ToBeDeleted = c.Observation_ToBeDeleted,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        PolSourceSiteTVText = PolSourceSiteTVText,
+                        ContactTVText = ContactTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return PolSourceObservationList;
+            return polSourceObservationQuery;
         }
         #endregion Functions private Generated Fill Class
 

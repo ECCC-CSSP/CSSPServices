@@ -34,9 +34,8 @@ namespace CSSPServicesGenerateCodeHelper
         {
             bool ClassContainsEnum = false;
             sb.AppendLine(@"        #region Functions private Generated Fill Class");
-            sb.AppendLine(@"        private List<" + TypeName + @"> Fill" + TypeName + @"(IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query)");
+            sb.AppendLine(@"        private IQueryable<" + TypeName + @"> Fill" + TypeName + @"(IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)");
             sb.AppendLine(@"        {");
-            sb.AppendLine(@"            List<" + TypeName + @"> " + TypeName + @"List = (from c in " + TypeNameLower + @"Query");
             foreach (PropertyInfo prop in type.GetProperties())
             {
                 if (prop.GetGetMethod().IsVirtual)
@@ -58,66 +57,14 @@ namespace CSSPServicesGenerateCodeHelper
                 if (csspProp.HasCSSPEnumTypeAttribute)
                 {
                     ClassContainsEnum = true;
-                }
-                if (csspProp.HasNotMappedAttribute)
-                {
-                    if (csspProp.HasCSSPFillAttribute)
-                    {
-                        sb.AppendLine(@"                                         let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
-                        sb.AppendLine(@"                                                              where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
-                        if (csspProp.FillNeedLanguage)
-                        {
-                            sb.AppendLine(@"                                                              && cl.Language == LanguageRequest");
-                        }
-                        sb.AppendLine(@"                                                              select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
-                    }
+                    break;
                 }
             }
-            sb.AppendLine(@"                                         select new " + TypeName + @"");
-            sb.AppendLine(@"                                         {");
-            foreach (PropertyInfo prop in type.GetProperties())
-            {
-                if (prop.GetGetMethod().IsVirtual)
-                {
-                    continue;
-                }
-
-                if (prop.Name == "ValidationResults")
-                {
-                    continue;
-                }
-
-                CSSPProp csspProp = new CSSPProp();
-                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
-                {
-                    ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
-                    return;
-                }
-                if (csspProp.HasCSSPEnumTypeAttribute)
-                {
-                    ClassContainsEnum = true;
-                }
-                if (csspProp.HasNotMappedAttribute)
-                {
-                    if (csspProp.HasCSSPFillAttribute)
-                    {
-                        sb.AppendLine(@"                                             " + csspProp.PropName + @" = " + csspProp.PropName + @",");
-                    }
-                }
-                else
-                {
-                    sb.AppendLine(@"                                             " + csspProp.PropName + @" = c." + csspProp.PropName + @",");
-                }
-            }
-            sb.AppendLine(@"                                             ValidationResults = null,");
-            sb.AppendLine(@"                                         }).ToList();");
-            sb.AppendLine(@"");
             if (ClassContainsEnum)
             {
                 sb.AppendLine(@"            Enums enums = new Enums(LanguageRequest);");
                 sb.AppendLine(@"");
-                sb.AppendLine(@"            foreach (" + TypeName + @" " + TypeNameLower + @" in " + TypeName + @"List)");
-                sb.AppendLine(@"            {");
+                List<string> EnumTypeNameAddedList = new List<string>();
                 foreach (PropertyInfo prop in type.GetProperties())
                 {
                     if (prop.GetGetMethod().IsVirtual)
@@ -138,13 +85,101 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                     if (csspProp.HasCSSPEnumTypeTextAttribute)
                     {
-                        sb.AppendLine(@"                " + TypeNameLower + @"." + csspProp.PropName + @" = enums.GetResValueForTypeAndID(typeof(" + csspProp.EnumTypeName + @"), (int?)" + TypeNameLower + @"." + csspProp.EnumType + @");");
+                        if (!EnumTypeNameAddedList.Contains(csspProp.EnumTypeName))
+                        {
+                            sb.AppendLine(@"            List<EnumIDAndText> " + csspProp.EnumTypeName + @"List = enums.GetEnumTextOrderedList(typeof(" + csspProp.EnumTypeName + @"));");
+                            EnumTypeNameAddedList.Add(csspProp.EnumTypeName);
+                        }
                     }
+
+                    //if (csspProp.HasCSSPEnumTypeTextAttribute)
+                    //{
+                    //    sb.AppendLine(@"            List<EnumIDAndText> " + TypeName + @" " + TypeNameLower + @" in " + TypeName + @"List)");
+                    //    sb.AppendLine(@"                " + TypeNameLower + @"." + csspProp.PropName + @" = enums.GetResValueForTypeAndID(typeof(" + csspProp.EnumTypeName + @"), (int?)" + TypeNameLower + @"." + csspProp.EnumType + @");");
+                    //}
                 }
-                sb.AppendLine(@"            }");
                 sb.AppendLine(@"");
             }
-            sb.AppendLine(@"            return " + TypeName + @"List;");
+            sb.AppendLine(@"            " + TypeNameLower + @"Query = (from c in " + TypeNameLower + @"Query");
+            foreach (PropertyInfo prop in type.GetProperties())
+            {
+                if (prop.GetGetMethod().IsVirtual)
+                {
+                    continue;
+                }
+
+                if (prop.Name == "ValidationResults")
+                {
+                    continue;
+                }
+
+                CSSPProp csspProp = new CSSPProp();
+                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                {
+                    ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                    return;
+                }
+                if (csspProp.HasCSSPEnumTypeAttribute)
+                {
+                    ClassContainsEnum = true;
+                }
+                if (csspProp.HasNotMappedAttribute)
+                {
+                    if (csspProp.HasCSSPFillAttribute)
+                    {
+                        sb.AppendLine(@"                let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
+                        sb.AppendLine(@"                    where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
+                        if (csspProp.FillNeedLanguage)
+                        {
+                            sb.AppendLine(@"                    && cl.Language == LanguageRequest");
+                        }
+                        sb.AppendLine(@"                    select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
+                    }
+                }
+            }
+            sb.AppendLine(@"                    select new " + TypeName + @"");
+            sb.AppendLine(@"                    {");
+            foreach (PropertyInfo prop in type.GetProperties())
+            {
+                if (prop.GetGetMethod().IsVirtual)
+                {
+                    continue;
+                }
+
+                if (prop.Name == "ValidationResults")
+                {
+                    continue;
+                }
+
+                CSSPProp csspProp = new CSSPProp();
+                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                {
+                    ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                    return;
+                }
+                if (csspProp.HasNotMappedAttribute)
+                {
+                    if (csspProp.HasCSSPFillAttribute)
+                    {
+                        sb.AppendLine(@"                        " + csspProp.PropName + @" = " + csspProp.PropName + @",");
+                    }
+                }
+                else
+                {
+                    sb.AppendLine(@"                        " + csspProp.PropName + @" = c." + csspProp.PropName + @",");
+                }
+                if (csspProp.HasCSSPEnumTypeTextAttribute)
+                {
+                    sb.AppendLine(@"                        " + csspProp.PropName + @" = (from e in " + csspProp.EnumTypeName + @"List");
+                    sb.AppendLine(@"                                where e.EnumID == (int?)c." + csspProp.EnumType + @"");
+                    sb.AppendLine(@"                                select e.EnumText).FirstOrDefault(),");
+                }
+            }
+            sb.AppendLine(@"                        HasErrors = false,");
+            sb.AppendLine(@"                        ValidationResults = null,");
+            sb.AppendLine(@"                    });");
+            sb.AppendLine(@"");
+            sb.AppendLine(@"            return " + TypeNameLower + @"Query;");
             sb.AppendLine(@"        }");
             sb.AppendLine(@"        #endregion Functions private Generated Fill Class");
             sb.AppendLine(@"");
@@ -275,13 +310,42 @@ namespace CSSPServicesGenerateCodeHelper
                 }
                 if (csspProp.IsKey)
                 {
-                    sb.AppendLine(@"        public " + TypeName + @" Get" + TypeName + @"With" + TypeName + @"ID(int " + TypeName + @"ID)");
+                    sb.AppendLine(@"        public " + TypeName + @" Get" + TypeName + @"With" + TypeName + @"ID(int " + TypeName + @"ID,");
+                    sb.AppendLine(@"            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,");
+                    sb.AppendLine(@"            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)");
                     sb.AppendLine(@"        {");
-                    sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in GetRead()");
+                    sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
                     sb.AppendLine(@"                                                where c." + TypeName + @"ID == " + TypeName + @"ID");
                     sb.AppendLine(@"                                                select c);");
                     sb.AppendLine(@"");
-                    sb.AppendLine(@"            return Fill" + TypeName + @"(" + TypeNameLower + @"Query).FirstOrDefault();");
+                    sb.AppendLine(@"            switch (EntityQueryDetailType)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
+                    sb.AppendLine(@"                    return " + TypeNameLower + @"Query.FirstOrDefault();");
+                    sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:");
+                    sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityForReport:");
+                    sb.AppendLine(@"                    return Fill" + TypeName + @"(" + TypeNameLower + @"Query, """", EntityQueryDetailType).FirstOrDefault();");
+                    sb.AppendLine(@"                default:");
+                    sb.AppendLine(@"                    return null;");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"        }");
+                    sb.AppendLine(@"        public IQueryable<" + TypeName + @"> Get" + TypeName + @"List(string FilterAndOrderText = """",");
+                    sb.AppendLine(@"            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,");
+                    sb.AppendLine(@"            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)");
+                    sb.AppendLine(@"        {");
+                    sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in GetRead()");
+                    sb.AppendLine(@"                                                select c);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"            switch (EntityQueryDetailType)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
+                    sb.AppendLine(@"                    return " + TypeNameLower + @"Query;");
+                    sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:");
+                    sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityForReport:");
+                    sb.AppendLine(@"                    return Fill" + TypeName + @"(" + TypeNameLower + @"Query, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);");
+                    sb.AppendLine(@"                default:");
+                    sb.AppendLine(@"                    return null;");
+                    sb.AppendLine(@"            }");
                     sb.AppendLine(@"        }");
                 }
             }

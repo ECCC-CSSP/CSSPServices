@@ -78,28 +78,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = tideLocationService.GetRead().Count();
+                    count = tideLocationService.GetRead().Count();
 
-                Assert.AreEqual(tideLocationService.GetRead().Count(), tideLocationService.GetEdit().Count());
+                    Assert.AreEqual(tideLocationService.GetRead().Count(), tideLocationService.GetEdit().Count());
 
-                tideLocationService.Add(tideLocation);
-                if (tideLocation.HasErrors)
-                {
-                    Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, tideLocationService.GetRead().Where(c => c == tideLocation).Any());
-                tideLocationService.Update(tideLocation);
-                if (tideLocation.HasErrors)
-                {
-                    Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, tideLocationService.GetRead().Count());
-                tideLocationService.Delete(tideLocation);
-                if (tideLocation.HasErrors)
-                {
-                    Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, tideLocationService.GetRead().Count());
+                    tideLocationService.Add(tideLocation);
+                    if (tideLocation.HasErrors)
+                    {
+                        Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, tideLocationService.GetRead().Where(c => c == tideLocation).Any());
+                    tideLocationService.Update(tideLocation);
+                    if (tideLocation.HasErrors)
+                    {
+                        Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, tideLocationService.GetRead().Count());
+                    tideLocationService.Delete(tideLocation);
+                    if (tideLocation.HasErrors)
+                    {
+                        Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -281,22 +281,49 @@ namespace CSSPServices.Tests
                     TideLocation tideLocation = (from c in tideLocationService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tideLocation);
 
-                    TideLocation tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID);
-                    Assert.IsNotNull(tideLocationRet.TideLocationID);
-                    Assert.IsNotNull(tideLocationRet.Zone);
-                    Assert.IsNotNull(tideLocationRet.Name);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.Name));
-                    Assert.IsNotNull(tideLocationRet.Prov);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.Prov));
-                    Assert.IsNotNull(tideLocationRet.sid);
-                    Assert.IsNotNull(tideLocationRet.Lat);
-                    Assert.IsNotNull(tideLocationRet.Lng);
+                    TideLocation tideLocationRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(tideLocationRet.TideLocationID);
+                        Assert.IsNotNull(tideLocationRet.Zone);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.Name));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.Prov));
+                        Assert.IsNotNull(tideLocationRet.sid);
+                        Assert.IsNotNull(tideLocationRet.Lat);
+                        Assert.IsNotNull(tideLocationRet.Lng);
 
-                    Assert.IsNotNull(tideLocationRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of TideLocation
+        #endregion Tests Get List of TideLocation
 
     }
 }

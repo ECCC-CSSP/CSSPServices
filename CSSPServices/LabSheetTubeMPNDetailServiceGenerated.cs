@@ -245,13 +245,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public LabSheetTubeMPNDetail GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
+        public LabSheetTubeMPNDetail GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = (from c in GetRead()
+            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID
                                                 select c);
 
-            return FillLabSheetTubeMPNDetail(labSheetTubeMPNDetailQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return labSheetTubeMPNDetailQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillLabSheetTubeMPNDetail(labSheetTubeMPNDetailQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<LabSheetTubeMPNDetail> GetLabSheetTubeMPNDetailList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return labSheetTubeMPNDetailQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillLabSheetTubeMPNDetail(labSheetTubeMPNDetailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -300,48 +329,49 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetail(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery)
+        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetail(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<LabSheetTubeMPNDetail> LabSheetTubeMPNDetailList = (from c in labSheetTubeMPNDetailQuery
-                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MWQMSiteTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new LabSheetTubeMPNDetail
-                                         {
-                                             LabSheetTubeMPNDetailID = c.LabSheetTubeMPNDetailID,
-                                             LabSheetDetailID = c.LabSheetDetailID,
-                                             Ordinal = c.Ordinal,
-                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
-                                             SampleDateTime = c.SampleDateTime,
-                                             MPN = c.MPN,
-                                             Tube10 = c.Tube10,
-                                             Tube1_0 = c.Tube1_0,
-                                             Tube0_1 = c.Tube0_1,
-                                             Salinity = c.Salinity,
-                                             Temperature = c.Temperature,
-                                             ProcessedBy = c.ProcessedBy,
-                                             SampleType = c.SampleType,
-                                             SiteComment = c.SiteComment,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MWQMSiteTVText = MWQMSiteTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (LabSheetTubeMPNDetail labSheetTubeMPNDetail in LabSheetTubeMPNDetailList)
-            {
-                labSheetTubeMPNDetail.SampleTypeText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)labSheetTubeMPNDetail.SampleType);
-            }
+            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
-            return LabSheetTubeMPNDetailList;
+            labSheetTubeMPNDetailQuery = (from c in labSheetTubeMPNDetailQuery
+                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MWQMSiteTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new LabSheetTubeMPNDetail
+                    {
+                        LabSheetTubeMPNDetailID = c.LabSheetTubeMPNDetailID,
+                        LabSheetDetailID = c.LabSheetDetailID,
+                        Ordinal = c.Ordinal,
+                        MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                        SampleDateTime = c.SampleDateTime,
+                        MPN = c.MPN,
+                        Tube10 = c.Tube10,
+                        Tube1_0 = c.Tube1_0,
+                        Tube0_1 = c.Tube0_1,
+                        Salinity = c.Salinity,
+                        Temperature = c.Temperature,
+                        ProcessedBy = c.ProcessedBy,
+                        SampleType = c.SampleType,
+                        SiteComment = c.SiteComment,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MWQMSiteTVText = MWQMSiteTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SampleTypeText = (from e in SampleTypeEnumList
+                                where e.EnumID == (int?)c.SampleType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return labSheetTubeMPNDetailQuery;
         }
         #endregion Functions private Generated Fill Class
 

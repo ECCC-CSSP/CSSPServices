@@ -92,28 +92,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = addressService.GetRead().Count();
+                    count = addressService.GetRead().Count();
 
-                Assert.AreEqual(addressService.GetRead().Count(), addressService.GetEdit().Count());
+                    Assert.AreEqual(addressService.GetRead().Count(), addressService.GetEdit().Count());
 
-                addressService.Add(address);
-                if (address.HasErrors)
-                {
-                    Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, addressService.GetRead().Where(c => c == address).Any());
-                addressService.Update(address);
-                if (address.HasErrors)
-                {
-                    Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, addressService.GetRead().Count());
-                addressService.Delete(address);
-                if (address.HasErrors)
-                {
-                    Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, addressService.GetRead().Count());
+                    addressService.Add(address);
+                    if (address.HasErrors)
+                    {
+                        Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, addressService.GetRead().Where(c => c == address).Any());
+                    addressService.Update(address);
+                    if (address.HasErrors)
+                    {
+                        Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, addressService.GetRead().Count());
+                    addressService.Delete(address);
+                    if (address.HasErrors)
+                    {
+                        Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -489,60 +489,128 @@ namespace CSSPServices.Tests
                     Address address = (from c in addressService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
-                    Address addressRet = addressService.GetAddressWithAddressID(address.AddressID);
-                    Assert.IsNotNull(addressRet.AddressID);
-                    Assert.IsNotNull(addressRet.AddressTVItemID);
-                    Assert.IsNotNull(addressRet.AddressType);
-                    Assert.IsNotNull(addressRet.CountryTVItemID);
-                    Assert.IsNotNull(addressRet.ProvinceTVItemID);
-                    Assert.IsNotNull(addressRet.MunicipalityTVItemID);
-                    if (addressRet.StreetName != null)
+                    Address addressRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
                     {
-                       Assert.IsNotNull(addressRet.StreetName);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetName));
-                    }
-                    if (addressRet.StreetNumber != null)
-                    {
-                       Assert.IsNotNull(addressRet.StreetNumber);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetNumber));
-                    }
-                    if (addressRet.StreetType != null)
-                    {
-                       Assert.IsNotNull(addressRet.StreetType);
-                    }
-                    if (addressRet.PostalCode != null)
-                    {
-                       Assert.IsNotNull(addressRet.PostalCode);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.PostalCode));
-                    }
-                    if (addressRet.GoogleAddressText != null)
-                    {
-                       Assert.IsNotNull(addressRet.GoogleAddressText);
-                       Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.GoogleAddressText));
-                    }
-                    Assert.IsNotNull(addressRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(addressRet.LastUpdateContactTVItemID);
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(addressRet.AddressID);
+                        Assert.IsNotNull(addressRet.AddressTVItemID);
+                        Assert.IsNotNull(addressRet.AddressType);
+                        Assert.IsNotNull(addressRet.CountryTVItemID);
+                        Assert.IsNotNull(addressRet.ProvinceTVItemID);
+                        Assert.IsNotNull(addressRet.MunicipalityTVItemID);
+                        if (addressRet.StreetName != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetName));
+                        }
+                        if (addressRet.StreetNumber != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetNumber));
+                        }
+                        if (addressRet.StreetType != null)
+                        {
+                            Assert.IsNotNull(addressRet.StreetType);
+                        }
+                        if (addressRet.PostalCode != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.PostalCode));
+                        }
+                        if (addressRet.GoogleAddressText != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.GoogleAddressText));
+                        }
+                        Assert.IsNotNull(addressRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(addressRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(addressRet.ParentTVItemID);
-                    Assert.IsNotNull(addressRet.AddressTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTVText));
-                    Assert.IsNotNull(addressRet.CountryTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.CountryTVText));
-                    Assert.IsNotNull(addressRet.ProvinceTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.ProvinceTVText));
-                    Assert.IsNotNull(addressRet.MunicipalityTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.MunicipalityTVText));
-                    Assert.IsNotNull(addressRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(addressRet.AddressTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTypeText));
-                    Assert.IsNotNull(addressRet.StreetTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetTypeText));
-                    Assert.IsNotNull(addressRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            Assert.AreEqual(0, addressRet.ParentTVItemID);
+                            if (addressRet.AddressTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.AddressTVText));
+                            }
+                            if (addressRet.CountryTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.CountryTVText));
+                            }
+                            if (addressRet.ProvinceTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.ProvinceTVText));
+                            }
+                            if (addressRet.MunicipalityTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.MunicipalityTVText));
+                            }
+                            if (addressRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.LastUpdateContactTVText));
+                            }
+                            if (addressRet.AddressTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.AddressTypeText));
+                            }
+                            if (addressRet.StreetTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.StreetTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            Assert.AreEqual(0, addressRet.ParentTVItemID);
+                            if (addressRet.AddressTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTVText));
+                            }
+                            if (addressRet.CountryTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.CountryTVText));
+                            }
+                            if (addressRet.ProvinceTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.ProvinceTVText));
+                            }
+                            if (addressRet.MunicipalityTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.MunicipalityTVText));
+                            }
+                            if (addressRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.LastUpdateContactTVText));
+                            }
+                            if (addressRet.AddressTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTypeText));
+                            }
+                            if (addressRet.StreetTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of Address
+        #endregion Tests Get List of Address
 
     }
 }

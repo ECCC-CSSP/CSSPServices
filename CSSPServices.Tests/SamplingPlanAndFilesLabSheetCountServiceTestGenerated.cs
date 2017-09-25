@@ -88,5 +88,8 @@ namespace CSSPServices.Tests
         #region Tests Generated Get With Key
         #endregion Tests Get With Key
 
+        #region Tests Generated Get List of SamplingPlanAndFilesLabSheetCount
+        #endregion Tests Get List of SamplingPlanAndFilesLabSheetCount
+
     }
 }

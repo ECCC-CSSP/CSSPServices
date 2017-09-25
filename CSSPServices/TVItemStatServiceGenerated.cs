@@ -184,13 +184,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVItemStat GetTVItemStatWithTVItemStatID(int TVItemStatID)
+        public TVItemStat GetTVItemStatWithTVItemStatID(int TVItemStatID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<TVItemStat> tvItemStatQuery = (from c in GetRead()
+            IQueryable<TVItemStat> tvItemStatQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVItemStatID == TVItemStatID
                                                 select c);
 
-            return FillTVItemStat(tvItemStatQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tvItemStatQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTVItemStat(tvItemStatQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<TVItemStat> GetTVItemStatList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<TVItemStat> tvItemStatQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return tvItemStatQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillTVItemStat(tvItemStatQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -239,38 +268,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<TVItemStat> FillTVItemStat(IQueryable<TVItemStat> tvItemStatQuery)
+        private IQueryable<TVItemStat> FillTVItemStat(IQueryable<TVItemStat> tvItemStatQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<TVItemStat> TVItemStatList = (from c in tvItemStatQuery
-                                         let TVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new TVItemStat
-                                         {
-                                             TVItemStatID = c.TVItemStatID,
-                                             TVItemID = c.TVItemID,
-                                             TVType = c.TVType,
-                                             ChildCount = c.ChildCount,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             TVText = TVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (TVItemStat tvItemStat in TVItemStatList)
-            {
-                tvItemStat.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvItemStat.TVType);
-            }
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-            return TVItemStatList;
+            tvItemStatQuery = (from c in tvItemStatQuery
+                let TVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new TVItemStat
+                    {
+                        TVItemStatID = c.TVItemStatID,
+                        TVItemID = c.TVItemID,
+                        TVType = c.TVType,
+                        ChildCount = c.ChildCount,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TVText = TVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return tvItemStatQuery;
         }
         #endregion Functions private Generated Fill Class
 

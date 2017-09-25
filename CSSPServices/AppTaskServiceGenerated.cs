@@ -313,13 +313,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AppTask GetAppTaskWithAppTaskID(int AppTaskID)
+        public AppTask GetAppTaskWithAppTaskID(int AppTaskID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<AppTask> appTaskQuery = (from c in GetRead()
+            IQueryable<AppTask> appTaskQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AppTaskID == AppTaskID
                                                 select c);
 
-            return FillAppTask(appTaskQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return appTaskQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillAppTask(appTaskQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<AppTask> GetAppTaskList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<AppTask> appTaskQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return appTaskQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillAppTask(appTaskQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -368,53 +397,60 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<AppTask> FillAppTask(IQueryable<AppTask> appTaskQuery)
+        private IQueryable<AppTask> FillAppTask(IQueryable<AppTask> appTaskQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<AppTask> AppTaskList = (from c in appTaskQuery
-                                         let TVItemTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let TVItem2TVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.TVItemID2
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new AppTask
-                                         {
-                                             AppTaskID = c.AppTaskID,
-                                             TVItemID = c.TVItemID,
-                                             TVItemID2 = c.TVItemID2,
-                                             AppTaskCommand = c.AppTaskCommand,
-                                             AppTaskStatus = c.AppTaskStatus,
-                                             PercentCompleted = c.PercentCompleted,
-                                             Parameters = c.Parameters,
-                                             Language = c.Language,
-                                             StartDateTime_UTC = c.StartDateTime_UTC,
-                                             EndDateTime_UTC = c.EndDateTime_UTC,
-                                             EstimatedLength_second = c.EstimatedLength_second,
-                                             RemainingTime_second = c.RemainingTime_second,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             TVItemTVText = TVItemTVText,
-                                             TVItem2TVText = TVItem2TVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (AppTask appTask in AppTaskList)
-            {
-                appTask.AppTaskCommandText = enums.GetResValueForTypeAndID(typeof(AppTaskCommandEnum), (int?)appTask.AppTaskCommand);
-                appTask.AppTaskStatusText = enums.GetResValueForTypeAndID(typeof(AppTaskStatusEnum), (int?)appTask.AppTaskStatus);
-                appTask.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)appTask.Language);
-            }
+            List<EnumIDAndText> AppTaskCommandEnumList = enums.GetEnumTextOrderedList(typeof(AppTaskCommandEnum));
+            List<EnumIDAndText> AppTaskStatusEnumList = enums.GetEnumTextOrderedList(typeof(AppTaskStatusEnum));
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
 
-            return AppTaskList;
+            appTaskQuery = (from c in appTaskQuery
+                let TVItemTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let TVItem2TVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID2
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new AppTask
+                    {
+                        AppTaskID = c.AppTaskID,
+                        TVItemID = c.TVItemID,
+                        TVItemID2 = c.TVItemID2,
+                        AppTaskCommand = c.AppTaskCommand,
+                        AppTaskStatus = c.AppTaskStatus,
+                        PercentCompleted = c.PercentCompleted,
+                        Parameters = c.Parameters,
+                        Language = c.Language,
+                        StartDateTime_UTC = c.StartDateTime_UTC,
+                        EndDateTime_UTC = c.EndDateTime_UTC,
+                        EstimatedLength_second = c.EstimatedLength_second,
+                        RemainingTime_second = c.RemainingTime_second,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TVItemTVText = TVItemTVText,
+                        TVItem2TVText = TVItem2TVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        AppTaskCommandText = (from e in AppTaskCommandEnumList
+                                where e.EnumID == (int?)c.AppTaskCommand
+                                select e.EnumText).FirstOrDefault(),
+                        AppTaskStatusText = (from e in AppTaskStatusEnumList
+                                where e.EnumID == (int?)c.AppTaskStatus
+                                select e.EnumText).FirstOrDefault(),
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return appTaskQuery;
         }
         #endregion Functions private Generated Fill Class
 

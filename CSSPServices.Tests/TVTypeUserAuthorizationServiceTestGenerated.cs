@@ -81,28 +81,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = tvTypeUserAuthorizationService.GetRead().Count();
+                    count = tvTypeUserAuthorizationService.GetRead().Count();
 
-                Assert.AreEqual(tvTypeUserAuthorizationService.GetRead().Count(), tvTypeUserAuthorizationService.GetEdit().Count());
+                    Assert.AreEqual(tvTypeUserAuthorizationService.GetRead().Count(), tvTypeUserAuthorizationService.GetEdit().Count());
 
-                tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                if (tvTypeUserAuthorization.HasErrors)
-                {
-                    Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, tvTypeUserAuthorizationService.GetRead().Where(c => c == tvTypeUserAuthorization).Any());
-                tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
-                if (tvTypeUserAuthorization.HasErrors)
-                {
-                    Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, tvTypeUserAuthorizationService.GetRead().Count());
-                tvTypeUserAuthorizationService.Delete(tvTypeUserAuthorization);
-                if (tvTypeUserAuthorization.HasErrors)
-                {
-                    Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    if (tvTypeUserAuthorization.HasErrors)
+                    {
+                        Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, tvTypeUserAuthorizationService.GetRead().Where(c => c == tvTypeUserAuthorization).Any());
+                    tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
+                    if (tvTypeUserAuthorization.HasErrors)
+                    {
+                        Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, tvTypeUserAuthorizationService.GetRead().Count());
+                    tvTypeUserAuthorizationService.Delete(tvTypeUserAuthorization);
+                    if (tvTypeUserAuthorization.HasErrors)
+                    {
+                        Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -291,27 +291,80 @@ namespace CSSPServices.Tests
                     TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
-                    TVTypeUserAuthorization tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVItemID);
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVType);
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuth);
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
+                    TVTypeUserAuthorization tvTypeUserAuthorizationRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
+                        Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVItemID);
+                        Assert.IsNotNull(tvTypeUserAuthorizationRet.TVType);
+                        Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuth);
+                        Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.ContactTVText));
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeText));
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuthText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVAuthText));
-                    Assert.IsNotNull(tvTypeUserAuthorizationRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (tvTypeUserAuthorizationRet.ContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.ContactTVText));
+                            }
+                            if (tvTypeUserAuthorizationRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.LastUpdateContactTVText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVAuthText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVAuthText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (tvTypeUserAuthorizationRet.ContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.ContactTVText));
+                            }
+                            if (tvTypeUserAuthorizationRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.LastUpdateContactTVText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVAuthText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVAuthText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of TVTypeUserAuthorization
+        #endregion Tests Get List of TVTypeUserAuthorization
 
     }
 }

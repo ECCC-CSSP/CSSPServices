@@ -1204,16 +1204,6 @@ namespace CSSPServicesGenerateCodeHelper
             if (!CorrectTVPath(tvItemAddress, tvItemRoot)) return false;
             if (!AddMapInfo(tvItemAddress, 232655, tvItemContactCharles.TVItemID)) return false;
 
-            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
-            TVItemLanguage tvItemLanguageENAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.en).FirstOrDefault();
-            tvItemLanguageENAddress.TVItemID = tvItemAddress.TVItemID;
-            if (!AddObject("TVItemLanguage", tvItemLanguageENAddress)) return false;
-
-            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
-            TVItemLanguage tvItemLanguageFRAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.fr).FirstOrDefault();
-            tvItemLanguageFRAddress.TVItemID = tvItemAddress.TVItemID;
-            if (!AddObject("TVItemLanguage", tvItemLanguageFRAddress)) return false;
-
             // Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
             Address address = dbCSSPWebToolsDBRead.Addresses.AsNoTracking().Where(c => c.AddressTVItemID == 232655).FirstOrDefault();
             address.AddressTVItemID = tvItemAddress.TVItemID;
@@ -1221,6 +1211,24 @@ namespace CSSPServicesGenerateCodeHelper
             address.ProvinceTVItemID = tvItemNB.TVItemID;
             address.MunicipalityTVItemID = tvItemBouctouche.TVItemID;
             if (!AddObject("Address", address)) return false;
+
+            using (CSSPWebToolsDBContext db2 = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                AddressService addressService = new AddressService(LanguageEnum.en, db2, contactCharles.ContactID);
+                addressService.FillAddressTVText(address);
+            }
+
+            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
+            TVItemLanguage tvItemLanguageENAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.en).FirstOrDefault();
+            tvItemLanguageENAddress.TVItemID = tvItemAddress.TVItemID;
+            tvItemLanguageENAddress.TVText = address.AddressTVText;
+            if (!AddObject("TVItemLanguage", tvItemLanguageENAddress)) return false;
+
+            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
+            TVItemLanguage tvItemLanguageFRAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.fr).FirstOrDefault();
+            tvItemLanguageFRAddress.TVItemID = tvItemAddress.TVItemID;
+            tvItemLanguageFRAddress.TVText = address.AddressTVText;
+            if (!AddObject("TVItemLanguage", tvItemLanguageFRAddress)) return false;
             #endregion TVItem Address and Address
             #region TVItem Email and Email
             StatusTempEvent(new StatusEventArgs("doing ... Email"));

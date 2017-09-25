@@ -87,28 +87,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = vpAmbientService.GetRead().Count();
+                    count = vpAmbientService.GetRead().Count();
 
-                Assert.AreEqual(vpAmbientService.GetRead().Count(), vpAmbientService.GetEdit().Count());
+                    Assert.AreEqual(vpAmbientService.GetRead().Count(), vpAmbientService.GetEdit().Count());
 
-                vpAmbientService.Add(vpAmbient);
-                if (vpAmbient.HasErrors)
-                {
-                    Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, vpAmbientService.GetRead().Where(c => c == vpAmbient).Any());
-                vpAmbientService.Update(vpAmbient);
-                if (vpAmbient.HasErrors)
-                {
-                    Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, vpAmbientService.GetRead().Count());
-                vpAmbientService.Delete(vpAmbient);
-                if (vpAmbient.HasErrors)
-                {
-                    Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbientService.Add(vpAmbient);
+                    if (vpAmbient.HasErrors)
+                    {
+                        Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, vpAmbientService.GetRead().Where(c => c == vpAmbient).Any());
+                    vpAmbientService.Update(vpAmbient);
+                    if (vpAmbient.HasErrors)
+                    {
+                        Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, vpAmbientService.GetRead().Count());
+                    vpAmbientService.Delete(vpAmbient);
+                    if (vpAmbient.HasErrors)
+                    {
+                        Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -449,30 +449,65 @@ namespace CSSPServices.Tests
                     VPAmbient vpAmbient = (from c in vpAmbientService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpAmbient);
 
-                    VPAmbient vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
-                    Assert.IsNotNull(vpAmbientRet.VPAmbientID);
-                    Assert.IsNotNull(vpAmbientRet.VPScenarioID);
-                    Assert.IsNotNull(vpAmbientRet.Row);
-                    Assert.IsNotNull(vpAmbientRet.MeasurementDepth_m);
-                    Assert.IsNotNull(vpAmbientRet.CurrentSpeed_m_s);
-                    Assert.IsNotNull(vpAmbientRet.CurrentDirection_deg);
-                    Assert.IsNotNull(vpAmbientRet.AmbientSalinity_PSU);
-                    Assert.IsNotNull(vpAmbientRet.AmbientTemperature_C);
-                    Assert.IsNotNull(vpAmbientRet.BackgroundConcentration_MPN_100ml);
-                    Assert.IsNotNull(vpAmbientRet.PollutantDecayRate_per_day);
-                    Assert.IsNotNull(vpAmbientRet.FarFieldCurrentSpeed_m_s);
-                    Assert.IsNotNull(vpAmbientRet.FarFieldCurrentDirection_deg);
-                    Assert.IsNotNull(vpAmbientRet.FarFieldDiffusionCoefficient);
-                    Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
+                    VPAmbient vpAmbientRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(vpAmbientRet.VPAmbientID);
+                        Assert.IsNotNull(vpAmbientRet.VPScenarioID);
+                        Assert.IsNotNull(vpAmbientRet.Row);
+                        Assert.IsNotNull(vpAmbientRet.MeasurementDepth_m);
+                        Assert.IsNotNull(vpAmbientRet.CurrentSpeed_m_s);
+                        Assert.IsNotNull(vpAmbientRet.CurrentDirection_deg);
+                        Assert.IsNotNull(vpAmbientRet.AmbientSalinity_PSU);
+                        Assert.IsNotNull(vpAmbientRet.AmbientTemperature_C);
+                        Assert.IsNotNull(vpAmbientRet.BackgroundConcentration_MPN_100ml);
+                        Assert.IsNotNull(vpAmbientRet.PollutantDecayRate_per_day);
+                        Assert.IsNotNull(vpAmbientRet.FarFieldCurrentSpeed_m_s);
+                        Assert.IsNotNull(vpAmbientRet.FarFieldCurrentDirection_deg);
+                        Assert.IsNotNull(vpAmbientRet.FarFieldDiffusionCoefficient);
+                        Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(vpAmbientRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (vpAmbientRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (vpAmbientRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of VPAmbient
+        #endregion Tests Get List of VPAmbient
 
     }
 }

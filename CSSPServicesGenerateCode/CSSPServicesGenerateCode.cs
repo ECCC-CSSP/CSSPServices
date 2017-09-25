@@ -127,24 +127,36 @@ namespace CSSPServicesGenerateCode
                 var tvList = (from c in tvItemService.GetRead()
                               from cl in tvItemLanguageService.GetRead()
                               let p = (from a in tvItemStatService.GetRead()
-                                        where a.TVItemID == c.TVItemID
-                                       select a.ChildCount).Sum()
+                                       where a.TVItemID == c.TVItemID
+                                       select a)
                               where c.TVItemID == cl.TVItemID
                               && cl.Language == LanguageEnum.en
                               select new { c, cl, p });
 
-                //tvList = tvList.Where("c.TVType == @0", TVTypeEnum.Municipality).OrderBy("cl.TVText desc");
+                string allo = tvList.ToString();
+                //var sql = ((System.Data.Objects.ObjectQuery)tvList).ToTraceString();
+
+                tvList = tvList.Where("c.TVType == @0", TVTypeEnum.Province).OrderBy("cl.TVText desc");
 
                 foreach (var tv in tvList.Take(20))
                 {
                     richTextBoxStatus.AppendText(tv.c.TVItemID + "\t" + tv.c.TVPath + "\t" + (int)tv.c.TVType + "\t\t" + tv.cl.LastUpdateDate_UTC + "\t" + tv.cl.TVText + "\r\n");
                 }
 
-                foreach (var aa in tvList.Take(20).Select("new(c.TVItemID, c.TVPath, cl.TVText, p as Count)"))
+                foreach (var aa in tvList.Take(20).Select("new(c.TVItemID, c.TVPath, cl.TVText, p)"))
                 {
-                    richTextBoxStatus.AppendText(aa + "\r\n");
+                    richTextBoxStatus.AppendText(((dynamic)aa).TVItemID + " --- " + ((dynamic)aa).TVPath + "\r\n");
+                    foreach (var pp in ((dynamic)aa).p)
+                    {
+                        richTextBoxStatus.AppendText(((TVItemStat)pp).TVType.ToString() + " (" + pp.ChildCount + ")\t");
+                    }
+                    richTextBoxStatus.AppendText("\r\n");
                 }
 
+                foreach (var aa in tvList.Take(20).ToList<dynamic>())
+                {
+                    richTextBoxStatus.AppendText(aa.c.TVItemID + "\t" + aa.cl.TVText + "\r\n");
+                }
 
 
             }

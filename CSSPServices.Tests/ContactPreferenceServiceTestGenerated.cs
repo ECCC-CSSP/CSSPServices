@@ -79,28 +79,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = contactPreferenceService.GetRead().Count();
+                    count = contactPreferenceService.GetRead().Count();
 
-                Assert.AreEqual(contactPreferenceService.GetRead().Count(), contactPreferenceService.GetEdit().Count());
+                    Assert.AreEqual(contactPreferenceService.GetRead().Count(), contactPreferenceService.GetEdit().Count());
 
-                contactPreferenceService.Add(contactPreference);
-                if (contactPreference.HasErrors)
-                {
-                    Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, contactPreferenceService.GetRead().Where(c => c == contactPreference).Any());
-                contactPreferenceService.Update(contactPreference);
-                if (contactPreference.HasErrors)
-                {
-                    Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, contactPreferenceService.GetRead().Count());
-                contactPreferenceService.Delete(contactPreference);
-                if (contactPreference.HasErrors)
-                {
-                    Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
+                    contactPreferenceService.Add(contactPreference);
+                    if (contactPreference.HasErrors)
+                    {
+                        Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, contactPreferenceService.GetRead().Where(c => c == contactPreference).Any());
+                    contactPreferenceService.Update(contactPreference);
+                    if (contactPreference.HasErrors)
+                    {
+                        Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, contactPreferenceService.GetRead().Count());
+                    contactPreferenceService.Delete(contactPreference);
+                    if (contactPreference.HasErrors)
+                    {
+                        Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -260,23 +260,64 @@ namespace CSSPServices.Tests
                     ContactPreference contactPreference = (from c in contactPreferenceService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(contactPreference);
 
-                    ContactPreference contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
-                    Assert.IsNotNull(contactPreferenceRet.ContactPreferenceID);
-                    Assert.IsNotNull(contactPreferenceRet.ContactID);
-                    Assert.IsNotNull(contactPreferenceRet.TVType);
-                    Assert.IsNotNull(contactPreferenceRet.MarkerSize);
-                    Assert.IsNotNull(contactPreferenceRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(contactPreferenceRet.LastUpdateContactTVItemID);
+                    ContactPreference contactPreferenceRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(contactPreferenceRet.ContactPreferenceID);
+                        Assert.IsNotNull(contactPreferenceRet.ContactID);
+                        Assert.IsNotNull(contactPreferenceRet.TVType);
+                        Assert.IsNotNull(contactPreferenceRet.MarkerSize);
+                        Assert.IsNotNull(contactPreferenceRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(contactPreferenceRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(contactPreferenceRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(contactPreferenceRet.TVTypeText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.TVTypeText));
-                    Assert.IsNotNull(contactPreferenceRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (contactPreferenceRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));
+                            }
+                            if (contactPreferenceRet.TVTypeText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactPreferenceRet.TVTypeText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (contactPreferenceRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));
+                            }
+                            if (contactPreferenceRet.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.TVTypeText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of ContactPreference
+        #endregion Tests Get List of ContactPreference
 
     }
 }

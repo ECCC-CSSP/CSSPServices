@@ -78,28 +78,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = polSourceObservationIssueService.GetRead().Count();
+                    count = polSourceObservationIssueService.GetRead().Count();
 
-                Assert.AreEqual(polSourceObservationIssueService.GetRead().Count(), polSourceObservationIssueService.GetEdit().Count());
+                    Assert.AreEqual(polSourceObservationIssueService.GetRead().Count(), polSourceObservationIssueService.GetEdit().Count());
 
-                polSourceObservationIssueService.Add(polSourceObservationIssue);
-                if (polSourceObservationIssue.HasErrors)
-                {
-                    Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, polSourceObservationIssueService.GetRead().Where(c => c == polSourceObservationIssue).Any());
-                polSourceObservationIssueService.Update(polSourceObservationIssue);
-                if (polSourceObservationIssue.HasErrors)
-                {
-                    Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, polSourceObservationIssueService.GetRead().Count());
-                polSourceObservationIssueService.Delete(polSourceObservationIssue);
-                if (polSourceObservationIssue.HasErrors)
-                {
-                    Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
+                    polSourceObservationIssueService.Add(polSourceObservationIssue);
+                    if (polSourceObservationIssue.HasErrors)
+                    {
+                        Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, polSourceObservationIssueService.GetRead().Where(c => c == polSourceObservationIssue).Any());
+                    polSourceObservationIssueService.Update(polSourceObservationIssue);
+                    if (polSourceObservationIssue.HasErrors)
+                    {
+                        Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, polSourceObservationIssueService.GetRead().Count());
+                    polSourceObservationIssueService.Delete(polSourceObservationIssue);
+                    if (polSourceObservationIssue.HasErrors)
+                    {
+                        Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -253,22 +253,56 @@ namespace CSSPServices.Tests
                     PolSourceObservationIssue polSourceObservationIssue = (from c in polSourceObservationIssueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceObservationIssue);
 
-                    PolSourceObservationIssue polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
-                    Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueID);
-                    Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationID);
-                    Assert.IsNotNull(polSourceObservationIssueRet.ObservationInfo);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.ObservationInfo));
-                    Assert.IsNotNull(polSourceObservationIssueRet.Ordinal);
-                    Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVItemID);
+                    PolSourceObservationIssue polSourceObservationIssueRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueID);
+                        Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.ObservationInfo));
+                        Assert.IsNotNull(polSourceObservationIssueRet.Ordinal);
+                        Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(polSourceObservationIssueRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (polSourceObservationIssueRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (polSourceObservationIssueRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of PolSourceObservationIssue
+        #endregion Tests Get List of PolSourceObservationIssue
 
     }
 }

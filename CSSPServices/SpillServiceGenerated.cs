@@ -205,13 +205,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Spill GetSpillWithSpillID(int SpillID)
+        public Spill GetSpillWithSpillID(int SpillID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<Spill> spillQuery = (from c in GetRead()
+            IQueryable<Spill> spillQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SpillID == SpillID
                                                 select c);
 
-            return FillSpill(spillQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return spillQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSpill(spillQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<Spill> GetSpillList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<Spill> spillQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return spillQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSpill(spillQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -260,38 +289,39 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<Spill> FillSpill(IQueryable<Spill> spillQuery)
+        private IQueryable<Spill> FillSpill(IQueryable<Spill> spillQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<Spill> SpillList = (from c in spillQuery
-                                         let MunicipalityTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.MunicipalityTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let InfrastructureTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.InfrastructureTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new Spill
-                                         {
-                                             SpillID = c.SpillID,
-                                             MunicipalityTVItemID = c.MunicipalityTVItemID,
-                                             InfrastructureTVItemID = c.InfrastructureTVItemID,
-                                             StartDateTime_Local = c.StartDateTime_Local,
-                                             EndDateTime_Local = c.EndDateTime_Local,
-                                             AverageFlow_m3_day = c.AverageFlow_m3_day,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             MunicipalityTVText = MunicipalityTVText,
-                                             InfrastructureTVText = InfrastructureTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
+            spillQuery = (from c in spillQuery
+                let MunicipalityTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MunicipalityTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let InfrastructureTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.InfrastructureTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new Spill
+                    {
+                        SpillID = c.SpillID,
+                        MunicipalityTVItemID = c.MunicipalityTVItemID,
+                        InfrastructureTVItemID = c.InfrastructureTVItemID,
+                        StartDateTime_Local = c.StartDateTime_Local,
+                        EndDateTime_Local = c.EndDateTime_Local,
+                        AverageFlow_m3_day = c.AverageFlow_m3_day,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        MunicipalityTVText = MunicipalityTVText,
+                        InfrastructureTVText = InfrastructureTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return SpillList;
+            return spillQuery;
         }
         #endregion Functions private Generated Fill Class
 

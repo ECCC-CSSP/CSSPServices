@@ -80,28 +80,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = appErrLogService.GetRead().Count();
+                    count = appErrLogService.GetRead().Count();
 
-                Assert.AreEqual(appErrLogService.GetRead().Count(), appErrLogService.GetEdit().Count());
+                    Assert.AreEqual(appErrLogService.GetRead().Count(), appErrLogService.GetEdit().Count());
 
-                appErrLogService.Add(appErrLog);
-                if (appErrLog.HasErrors)
-                {
-                    Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, appErrLogService.GetRead().Where(c => c == appErrLog).Any());
-                appErrLogService.Update(appErrLog);
-                if (appErrLog.HasErrors)
-                {
-                    Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, appErrLogService.GetRead().Count());
-                appErrLogService.Delete(appErrLog);
-                if (appErrLog.HasErrors)
-                {
-                    Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    appErrLogService.Add(appErrLog);
+                    if (appErrLog.HasErrors)
+                    {
+                        Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, appErrLogService.GetRead().Where(c => c == appErrLog).Any());
+                    appErrLogService.Update(appErrLog);
+                    if (appErrLog.HasErrors)
+                    {
+                        Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, appErrLogService.GetRead().Count());
+                    appErrLogService.Delete(appErrLog);
+                    if (appErrLog.HasErrors)
+                    {
+                        Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -271,26 +271,58 @@ namespace CSSPServices.Tests
                     AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(appErrLog);
 
-                    AppErrLog appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
-                    Assert.IsNotNull(appErrLogRet.AppErrLogID);
-                    Assert.IsNotNull(appErrLogRet.Tag);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Tag));
-                    Assert.IsNotNull(appErrLogRet.LineNumber);
-                    Assert.IsNotNull(appErrLogRet.Source);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Source));
-                    Assert.IsNotNull(appErrLogRet.Message);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Message));
-                    Assert.IsNotNull(appErrLogRet.DateTime_UTC);
-                    Assert.IsNotNull(appErrLogRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(appErrLogRet.LastUpdateContactTVItemID);
+                    AppErrLog appErrLogRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(appErrLogRet.AppErrLogID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Tag));
+                        Assert.IsNotNull(appErrLogRet.LineNumber);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Source));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Message));
+                        Assert.IsNotNull(appErrLogRet.DateTime_UTC);
+                        Assert.IsNotNull(appErrLogRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(appErrLogRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(appErrLogRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(appErrLogRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (appErrLogRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (appErrLogRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of AppErrLog
+        #endregion Tests Get List of AppErrLog
 
     }
 }

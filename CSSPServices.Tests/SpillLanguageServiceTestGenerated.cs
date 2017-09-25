@@ -81,28 +81,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = spillLanguageService.GetRead().Count();
+                    count = spillLanguageService.GetRead().Count();
 
-                Assert.AreEqual(spillLanguageService.GetRead().Count(), spillLanguageService.GetEdit().Count());
+                    Assert.AreEqual(spillLanguageService.GetRead().Count(), spillLanguageService.GetEdit().Count());
 
-                spillLanguageService.Add(spillLanguage);
-                if (spillLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, spillLanguageService.GetRead().Where(c => c == spillLanguage).Any());
-                spillLanguageService.Update(spillLanguage);
-                if (spillLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, spillLanguageService.GetRead().Count());
-                spillLanguageService.Delete(spillLanguage);
-                if (spillLanguage.HasErrors)
-                {
-                    Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, spillLanguageService.GetRead().Count());
+                    spillLanguageService.Add(spillLanguage);
+                    if (spillLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, spillLanguageService.GetRead().Where(c => c == spillLanguage).Any());
+                    spillLanguageService.Update(spillLanguage);
+                    if (spillLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, spillLanguageService.GetRead().Count());
+                    spillLanguageService.Delete(spillLanguage);
+                    if (spillLanguage.HasErrors)
+                    {
+                        Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -284,27 +284,73 @@ namespace CSSPServices.Tests
                     SpillLanguage spillLanguage = (from c in spillLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(spillLanguage);
 
-                    SpillLanguage spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
-                    Assert.IsNotNull(spillLanguageRet.SpillLanguageID);
-                    Assert.IsNotNull(spillLanguageRet.SpillID);
-                    Assert.IsNotNull(spillLanguageRet.Language);
-                    Assert.IsNotNull(spillLanguageRet.SpillComment);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.SpillComment));
-                    Assert.IsNotNull(spillLanguageRet.TranslationStatus);
-                    Assert.IsNotNull(spillLanguageRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(spillLanguageRet.LastUpdateContactTVItemID);
+                    SpillLanguage spillLanguageRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(spillLanguageRet.SpillLanguageID);
+                        Assert.IsNotNull(spillLanguageRet.SpillID);
+                        Assert.IsNotNull(spillLanguageRet.Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.SpillComment));
+                        Assert.IsNotNull(spillLanguageRet.TranslationStatus);
+                        Assert.IsNotNull(spillLanguageRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(spillLanguageRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(spillLanguageRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(spillLanguageRet.LanguageText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LanguageText));
-                    Assert.IsNotNull(spillLanguageRet.TranslationStatusText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.TranslationStatusText));
-                    Assert.IsNotNull(spillLanguageRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (spillLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (spillLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillLanguageRet.LanguageText));
+                            }
+                            if (spillLanguageRet.TranslationStatusText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillLanguageRet.TranslationStatusText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (spillLanguageRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LastUpdateContactTVText));
+                            }
+                            if (spillLanguageRet.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LanguageText));
+                            }
+                            if (spillLanguageRet.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.TranslationStatusText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of SpillLanguage
+        #endregion Tests Get List of SpillLanguage
 
     }
 }

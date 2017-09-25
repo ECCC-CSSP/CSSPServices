@@ -312,13 +312,42 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SamplingPlan GetSamplingPlanWithSamplingPlanID(int SamplingPlanID)
+        public SamplingPlan GetSamplingPlanWithSamplingPlanID(int SamplingPlanID,
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
-            IQueryable<SamplingPlan> samplingPlanQuery = (from c in GetRead()
+            IQueryable<SamplingPlan> samplingPlanQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SamplingPlanID == SamplingPlanID
                                                 select c);
 
-            return FillSamplingPlan(samplingPlanQuery).FirstOrDefault();
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return samplingPlanQuery.FirstOrDefault();
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSamplingPlan(samplingPlanQuery, "", EntityQueryDetailType).FirstOrDefault();
+                default:
+                    return null;
+            }
+        }
+        public IQueryable<SamplingPlan> GetSamplingPlanList(string FilterAndOrderText = "",
+            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        {
+            IQueryable<SamplingPlan> samplingPlanQuery = (from c in GetRead()
+                                                select c);
+
+            switch (EntityQueryDetailType)
+            {
+                case EntityQueryDetailTypeEnum.EntityOnly:
+                    return samplingPlanQuery;
+                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
+                case EntityQueryDetailTypeEnum.EntityForReport:
+                    return FillSamplingPlan(samplingPlanQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                default:
+                    return null;
+            }
         }
         #endregion Functions public Generated Get
 
@@ -367,61 +396,68 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private List<SamplingPlan> FillSamplingPlan(IQueryable<SamplingPlan> samplingPlanQuery)
+        private IQueryable<SamplingPlan> FillSamplingPlan(IQueryable<SamplingPlan> samplingPlanQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
-            List<SamplingPlan> SamplingPlanList = (from c in samplingPlanQuery
-                                         let ProvinceTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.ProvinceTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let CreatorTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.CreatorTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let SamplingPlanFileTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.SamplingPlanFileTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
-                                         select new SamplingPlan
-                                         {
-                                             SamplingPlanID = c.SamplingPlanID,
-                                             SamplingPlanName = c.SamplingPlanName,
-                                             ForGroupName = c.ForGroupName,
-                                             SampleType = c.SampleType,
-                                             SamplingPlanType = c.SamplingPlanType,
-                                             LabSheetType = c.LabSheetType,
-                                             ProvinceTVItemID = c.ProvinceTVItemID,
-                                             CreatorTVItemID = c.CreatorTVItemID,
-                                             Year = c.Year,
-                                             AccessCode = c.AccessCode,
-                                             DailyDuplicatePrecisionCriteria = c.DailyDuplicatePrecisionCriteria,
-                                             IntertechDuplicatePrecisionCriteria = c.IntertechDuplicatePrecisionCriteria,
-                                             IncludeLaboratoryQAQC = c.IncludeLaboratoryQAQC,
-                                             ApprovalCode = c.ApprovalCode,
-                                             SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
-                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                             ProvinceTVText = ProvinceTVText,
-                                             CreatorTVText = CreatorTVText,
-                                             SamplingPlanFileTVText = SamplingPlanFileTVText,
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             ValidationResults = null,
-                                         }).ToList();
-
             Enums enums = new Enums(LanguageRequest);
 
-            foreach (SamplingPlan samplingPlan in SamplingPlanList)
-            {
-                samplingPlan.SampleTypeText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)samplingPlan.SampleType);
-                samplingPlan.SamplingPlanTypeText = enums.GetResValueForTypeAndID(typeof(SamplingPlanTypeEnum), (int?)samplingPlan.SamplingPlanType);
-                samplingPlan.LabSheetTypeText = enums.GetResValueForTypeAndID(typeof(LabSheetTypeEnum), (int?)samplingPlan.LabSheetType);
-            }
+            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
+            List<EnumIDAndText> SamplingPlanTypeEnumList = enums.GetEnumTextOrderedList(typeof(SamplingPlanTypeEnum));
+            List<EnumIDAndText> LabSheetTypeEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetTypeEnum));
 
-            return SamplingPlanList;
+            samplingPlanQuery = (from c in samplingPlanQuery
+                let ProvinceTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.ProvinceTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let CreatorTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.CreatorTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let SamplingPlanFileTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.SamplingPlanFileTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                    select new SamplingPlan
+                    {
+                        SamplingPlanID = c.SamplingPlanID,
+                        SamplingPlanName = c.SamplingPlanName,
+                        ForGroupName = c.ForGroupName,
+                        SampleType = c.SampleType,
+                        SamplingPlanType = c.SamplingPlanType,
+                        LabSheetType = c.LabSheetType,
+                        ProvinceTVItemID = c.ProvinceTVItemID,
+                        CreatorTVItemID = c.CreatorTVItemID,
+                        Year = c.Year,
+                        AccessCode = c.AccessCode,
+                        DailyDuplicatePrecisionCriteria = c.DailyDuplicatePrecisionCriteria,
+                        IntertechDuplicatePrecisionCriteria = c.IntertechDuplicatePrecisionCriteria,
+                        IncludeLaboratoryQAQC = c.IncludeLaboratoryQAQC,
+                        ApprovalCode = c.ApprovalCode,
+                        SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        ProvinceTVText = ProvinceTVText,
+                        CreatorTVText = CreatorTVText,
+                        SamplingPlanFileTVText = SamplingPlanFileTVText,
+                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SampleTypeText = (from e in SampleTypeEnumList
+                                where e.EnumID == (int?)c.SampleType
+                                select e.EnumText).FirstOrDefault(),
+                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
+                                where e.EnumID == (int?)c.SamplingPlanType
+                                select e.EnumText).FirstOrDefault(),
+                        LabSheetTypeText = (from e in LabSheetTypeEnumList
+                                where e.EnumID == (int?)c.LabSheetType
+                                select e.EnumText).FirstOrDefault(),
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
+
+            return samplingPlanQuery;
         }
         #endregion Functions private Generated Fill Class
 

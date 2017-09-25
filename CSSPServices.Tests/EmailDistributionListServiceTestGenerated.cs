@@ -78,28 +78,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                count = emailDistributionListService.GetRead().Count();
+                    count = emailDistributionListService.GetRead().Count();
 
-                Assert.AreEqual(emailDistributionListService.GetRead().Count(), emailDistributionListService.GetEdit().Count());
+                    Assert.AreEqual(emailDistributionListService.GetRead().Count(), emailDistributionListService.GetEdit().Count());
 
-                emailDistributionListService.Add(emailDistributionList);
-                if (emailDistributionList.HasErrors)
-                {
-                    Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(true, emailDistributionListService.GetRead().Where(c => c == emailDistributionList).Any());
-                emailDistributionListService.Update(emailDistributionList);
-                if (emailDistributionList.HasErrors)
-                {
-                    Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count + 1, emailDistributionListService.GetRead().Count());
-                emailDistributionListService.Delete(emailDistributionList);
-                if (emailDistributionList.HasErrors)
-                {
-                    Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
-                }
-                Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
+                    emailDistributionListService.Add(emailDistributionList);
+                    if (emailDistributionList.HasErrors)
+                    {
+                        Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(true, emailDistributionListService.GetRead().Where(c => c == emailDistributionList).Any());
+                    emailDistributionListService.Update(emailDistributionList);
+                    if (emailDistributionList.HasErrors)
+                    {
+                        Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count + 1, emailDistributionListService.GetRead().Count());
+                    emailDistributionListService.Delete(emailDistributionList);
+                    if (emailDistributionList.HasErrors)
+                    {
+                        Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                    }
+                    Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -253,22 +253,63 @@ namespace CSSPServices.Tests
                     EmailDistributionList emailDistributionList = (from c in emailDistributionListService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionList);
 
-                    EmailDistributionList emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID);
-                    Assert.IsNotNull(emailDistributionListRet.EmailDistributionListID);
-                    Assert.IsNotNull(emailDistributionListRet.CountryTVItemID);
-                    Assert.IsNotNull(emailDistributionListRet.Ordinal);
-                    Assert.IsNotNull(emailDistributionListRet.LastUpdateDate_UTC);
-                    Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVItemID);
+                    EmailDistributionList emailDistributionListRet = null;
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    {
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID, EntityQueryDetailTypeEnum.EntityOnly);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Entity fields
+                        Assert.IsNotNull(emailDistributionListRet.EmailDistributionListID);
+                        Assert.IsNotNull(emailDistributionListRet.CountryTVItemID);
+                        Assert.IsNotNull(emailDistributionListRet.Ordinal);
+                        Assert.IsNotNull(emailDistributionListRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVItemID);
 
-                    Assert.IsNotNull(emailDistributionListRet.CountryTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.CountryTVText));
-                    Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.LastUpdateContactTVText));
-                    Assert.IsNotNull(emailDistributionListRet.HasErrors);
+                        // Non entity fields
+                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            if (emailDistributionListRet.CountryTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailDistributionListRet.CountryTVText));
+                            }
+                            if (emailDistributionListRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailDistributionListRet.LastUpdateContactTVText));
+                            }
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        {
+                            if (emailDistributionListRet.CountryTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.CountryTVText));
+                            }
+                            if (emailDistributionListRet.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.LastUpdateContactTVText));
+                            }
+                        }
+                    }
                 }
             }
         }
         #endregion Tests Get With Key
+
+        #region Tests Generated Get List of EmailDistributionList
+        #endregion Tests Get List of EmailDistributionList
 
     }
 }
