@@ -495,6 +495,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [LabSheetDetailWeb] of type [LabSheetDetailWeb]
+                //Error: Type not implemented [LabSheetDetailReport] of type [LabSheetDetailReport]
             if (labSheetDetail.LastUpdateDate_UTC.Year == 1)
             {
                 labSheetDetail.HasErrors = true;
@@ -531,18 +533,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.SubsectorTVText) && labSheetDetail.SubsectorTVText.Length > 200)
-            {
-                labSheetDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetDetailSubsectorTVText, "200"), new[] { "SubsectorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.LastUpdateContactTVText) && labSheetDetail.LastUpdateContactTVText.Length > 200)
-            {
-                labSheetDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetDetailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -568,8 +558,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetDetailQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLabSheetDetail(labSheetDetailQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -586,8 +576,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetDetailQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLabSheetDetail(labSheetDetailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -640,7 +630,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<LabSheetDetail> FillLabSheetDetail(IQueryable<LabSheetDetail> labSheetDetailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<LabSheetDetail> FillLabSheetDetail_Show_Copy_To_LabSheetDetailServiceExtra_As_Fill_LabSheetDetail(IQueryable<LabSheetDetail> labSheetDetailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             labSheetDetailQuery = (from c in labSheetDetailQuery
                 let SubsectorTVText = (from cl in db.TVItemLanguages
@@ -718,8 +711,15 @@ namespace CSSPServices
                         IntertechReadAcceptable = c.IntertechReadAcceptable,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SubsectorTVText = SubsectorTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        LabSheetDetailWeb = new LabSheetDetailWeb
+                        {
+                            SubsectorTVText = SubsectorTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        LabSheetDetailReport = new LabSheetDetailReport
+                        {
+                            LabSheetDetailReportTest = "LabSheetDetailReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

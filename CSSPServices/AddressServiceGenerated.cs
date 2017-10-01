@@ -188,6 +188,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.AddressGoogleAddressText, "10", "200"), new[] { "GoogleAddressText" });
             }
 
+                //Error: Type not implemented [AddressWeb] of type [AddressWeb]
+                //Error: Type not implemented [AddressReport] of type [AddressReport]
             if (address.LastUpdateDate_UTC.Year == 1)
             {
                 address.HasErrors = true;
@@ -224,73 +226,6 @@ namespace CSSPServices
                 }
             }
 
-            //ParentTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            TVItem TVItemParentTVItemID = (from c in db.TVItems where c.TVItemID == address.ParentTVItemID select c).FirstOrDefault();
-
-            if (TVItemParentTVItemID == null)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressParentTVItemID, address.ParentTVItemID.ToString()), new[] { "ParentTVItemID" });
-            }
-            else
-            {
-                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
-                {
-                    TVTypeEnum.Root,
-                    TVTypeEnum.Infrastructure,
-                    TVTypeEnum.Contact,
-                    TVTypeEnum.PolSourceSite,
-                };
-                if (!AllowableTVTypes.Contains(TVItemParentTVItemID.TVType))
-                {
-                    address.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressParentTVItemID, "Root,Infrastructure,Contact,PolSourceSite"), new[] { "ParentTVItemID" });
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.AddressTVText) && address.AddressTVText.Length > 200)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressAddressTVText, "200"), new[] { "AddressTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.CountryTVText) && address.CountryTVText.Length > 200)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressCountryTVText, "200"), new[] { "CountryTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.ProvinceTVText) && address.ProvinceTVText.Length > 200)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressProvinceTVText, "200"), new[] { "ProvinceTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.MunicipalityTVText) && address.MunicipalityTVText.Length > 200)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.LastUpdateContactTVText) && address.LastUpdateContactTVText.Length > 200)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.AddressTypeText) && address.AddressTypeText.Length > 100)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressAddressTypeText, "100"), new[] { "AddressTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.StreetTypeText) && address.StreetTypeText.Length > 100)
-            {
-                address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressStreetTypeText, "100"), new[] { "StreetTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -316,8 +251,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return addressQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillAddress(addressQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -334,8 +269,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return addressQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillAddress(addressQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -388,7 +323,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<Address> FillAddress(IQueryable<Address> addressQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<Address> FillAddress_Show_Copy_To_AddressServiceExtra_As_Fill_Address(IQueryable<Address> addressQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -434,18 +372,25 @@ namespace CSSPServices
                         GoogleAddressText = c.GoogleAddressText,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ParentTVItemID = ParentTVItemID,
-                        AddressTVText = AddressTVText,
-                        CountryTVText = CountryTVText,
-                        ProvinceTVText = ProvinceTVText,
-                        MunicipalityTVText = MunicipalityTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        AddressTypeText = (from e in AddressTypeEnumList
+                        AddressWeb = new AddressWeb
+                        {
+                            ParentTVItemID = ParentTVItemID,
+                            AddressTVText = AddressTVText,
+                            CountryTVText = CountryTVText,
+                            ProvinceTVText = ProvinceTVText,
+                            MunicipalityTVText = MunicipalityTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            AddressTypeText = (from e in AddressTypeEnumList
                                 where e.EnumID == (int?)c.AddressType
                                 select e.EnumText).FirstOrDefault(),
-                        StreetTypeText = (from e in StreetTypeEnumList
+                            StreetTypeText = (from e in StreetTypeEnumList
                                 where e.EnumID == (int?)c.StreetType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        AddressReport = new AddressReport
+                        {
+                            AddressReportTest = "AddressReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

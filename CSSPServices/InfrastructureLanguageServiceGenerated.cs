@@ -91,6 +91,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
+                //Error: Type not implemented [InfrastructureLanguageWeb] of type [InfrastructureLanguageWeb]
+                //Error: Type not implemented [InfrastructureLanguageReport] of type [InfrastructureLanguageReport]
             if (infrastructureLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 infrastructureLanguage.HasErrors = true;
@@ -127,24 +129,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguage.LastUpdateContactTVText) && infrastructureLanguage.LastUpdateContactTVText.Length > 200)
-            {
-                infrastructureLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguage.LanguageText) && infrastructureLanguage.LanguageText.Length > 100)
-            {
-                infrastructureLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLanguageLanguageText, "100"), new[] { "LanguageText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructureLanguage.TranslationStatusText) && infrastructureLanguage.TranslationStatusText.Length > 100)
-            {
-                infrastructureLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -170,8 +154,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillInfrastructureLanguage(infrastructureLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -188,8 +172,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureLanguageQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillInfrastructureLanguage(infrastructureLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -242,7 +226,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<InfrastructureLanguage> FillInfrastructureLanguage(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<InfrastructureLanguage> FillInfrastructureLanguage_Show_Copy_To_InfrastructureLanguageServiceExtra_As_Fill_InfrastructureLanguage(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -263,13 +250,20 @@ namespace CSSPServices
                         TranslationStatus = c.TranslationStatus,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        LanguageText = (from e in LanguageEnumList
+                        InfrastructureLanguageWeb = new InfrastructureLanguageWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
+                            TranslationStatusText = (from e in TranslationStatusEnumList
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        InfrastructureLanguageReport = new InfrastructureLanguageReport
+                        {
+                            InfrastructureLanguageReportTest = "InfrastructureLanguageReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

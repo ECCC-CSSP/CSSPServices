@@ -51,14 +51,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EndDateTime_UTC") appTask.EndDateTime_UTC = new DateTime(2005, 3, 7);
             if (OmitPropName != "EstimatedLength_second") appTask.EstimatedLength_second = GetRandomInt(0, 1000000);
             if (OmitPropName != "RemainingTime_second") appTask.RemainingTime_second = GetRandomInt(0, 1000000);
+            //Error: property [AppTaskWeb] and type [AppTask] is  not implemented
+            //Error: property [AppTaskReport] and type [AppTask] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") appTask.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appTask.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "TVItemTVText") appTask.TVItemTVText = GetRandomString("", 5);
-            if (OmitPropName != "TVItem2TVText") appTask.TVItem2TVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") appTask.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "AppTaskCommandText") appTask.AppTaskCommandText = GetRandomString("", 5);
-            if (OmitPropName != "AppTaskStatusText") appTask.AppTaskStatusText = GetRandomString("", 5);
-            if (OmitPropName != "LanguageText") appTask.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") appTask.HasErrors = true;
 
             return appTask;
@@ -304,6 +300,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // appTask.AppTaskWeb   (AppTaskWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [AppTaskWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // appTask.AppTaskReport   (AppTaskReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [AppTaskReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // appTask.LastUpdateDate_UTC   (DateTime)
@@ -328,93 +342,6 @@ namespace CSSPServices.Tests
                     appTaskService.Add(appTask);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // appTask.TVItemTVText   (String)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.TVItemTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskTVItemTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID2", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // appTask.TVItem2TVText   (String)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.TVItem2TVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskTVItem2TVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // appTask.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLastUpdateContactTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // appTask.AppTaskCommandText   (String)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.AppTaskCommandText = GetRandomString("", 101);
-                    Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskAppTaskCommandText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // appTask.AppTaskStatusText   (String)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.AppTaskStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskAppTaskStatusText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // appTask.LanguageText   (String)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.LanguageText = GetRandomString("", 101);
-                    Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLanguageText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -449,7 +376,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appTask);
 
                     AppTask appTaskRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -459,9 +386,9 @@ namespace CSSPServices.Tests
                         {
                             appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -495,56 +422,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (appTaskRet.TVItemTVText != null)
+                            if (appTaskRet.AppTaskWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskRet.TVItemTVText));
+                                Assert.IsNull(appTaskRet.AppTaskWeb);
                             }
-                            if (appTaskRet.TVItem2TVText != null)
+                            if (appTaskRet.AppTaskReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskRet.TVItem2TVText));
-                            }
-                            if (appTaskRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskRet.LastUpdateContactTVText));
-                            }
-                            if (appTaskRet.AppTaskCommandText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskRet.AppTaskCommandText));
-                            }
-                            if (appTaskRet.AppTaskStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskRet.AppTaskStatusText));
-                            }
-                            if (appTaskRet.LanguageText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(appTaskRet.LanguageText));
+                                Assert.IsNull(appTaskRet.AppTaskReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (appTaskRet.TVItemTVText != null)
+                            if (appTaskRet.AppTaskWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItemTVText));
+                                Assert.IsNotNull(appTaskRet.AppTaskWeb);
                             }
-                            if (appTaskRet.TVItem2TVText != null)
+                            if (appTaskRet.AppTaskReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItem2TVText));
-                            }
-                            if (appTaskRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LastUpdateContactTVText));
-                            }
-                            if (appTaskRet.AppTaskCommandText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskCommandText));
-                            }
-                            if (appTaskRet.AppTaskStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskStatusText));
-                            }
-                            if (appTaskRet.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LanguageText));
+                                Assert.IsNotNull(appTaskRet.AppTaskReport);
                             }
                         }
                     }

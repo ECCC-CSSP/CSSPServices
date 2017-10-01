@@ -1221,13 +1221,13 @@ namespace CSSPServicesGenerateCodeHelper
             // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
             TVItemLanguage tvItemLanguageENAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.en).FirstOrDefault();
             tvItemLanguageENAddress.TVItemID = tvItemAddress.TVItemID;
-            tvItemLanguageENAddress.TVText = address.AddressTVText;
+            tvItemLanguageENAddress.TVText = address.AddressWeb.AddressTVText;
             if (!AddObject("TVItemLanguage", tvItemLanguageENAddress)) return false;
 
             // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
             TVItemLanguage tvItemLanguageFRAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.fr).FirstOrDefault();
             tvItemLanguageFRAddress.TVItemID = tvItemAddress.TVItemID;
-            tvItemLanguageFRAddress.TVText = address.AddressTVText;
+            tvItemLanguageFRAddress.TVText = address.AddressWeb.AddressTVText;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRAddress)) return false;
             #endregion TVItem Address and Address
             #region TVItem Email and Email

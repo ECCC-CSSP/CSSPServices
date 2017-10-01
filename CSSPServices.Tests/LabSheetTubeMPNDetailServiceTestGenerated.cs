@@ -40,9 +40,9 @@ namespace CSSPServices.Tests
         {
             LabSheetTubeMPNDetail labSheetTubeMPNDetail = new LabSheetTubeMPNDetail();
 
-            if (OmitPropName != "LabSheetDetailID") labSheetTubeMPNDetail.LabSheetDetailID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetTubeMPNDetail LabSheetDetailID LabSheetDetail LabSheetDetailID]
             if (OmitPropName != "Ordinal") labSheetTubeMPNDetail.Ordinal = GetRandomInt(0, 1000);
-            if (OmitPropName != "MWQMSiteTVItemID") labSheetTubeMPNDetail.MWQMSiteTVItemID = 19;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetTubeMPNDetail MWQMSiteTVItemID TVItem TVItemID]
             if (OmitPropName != "SampleDateTime") labSheetTubeMPNDetail.SampleDateTime = new DateTime(2005, 3, 6);
             if (OmitPropName != "MPN") labSheetTubeMPNDetail.MPN = GetRandomInt(1, 10000000);
             if (OmitPropName != "Tube10") labSheetTubeMPNDetail.Tube10 = GetRandomInt(0, 5);
@@ -53,11 +53,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ProcessedBy") labSheetTubeMPNDetail.ProcessedBy = GetRandomString("", 5);
             if (OmitPropName != "SampleType") labSheetTubeMPNDetail.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetTubeMPNDetail.SiteComment = GetRandomString("", 5);
+            //Error: property [LabSheetTubeMPNDetailWeb] and type [LabSheetTubeMPNDetail] is  not implemented
+            //Error: property [LabSheetTubeMPNDetailReport] and type [LabSheetTubeMPNDetail] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") labSheetTubeMPNDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetTubeMPNDetail.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MWQMSiteTVText") labSheetTubeMPNDetail.MWQMSiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") labSheetTubeMPNDetail.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "SampleTypeText") labSheetTubeMPNDetail.SampleTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") labSheetTubeMPNDetail.HasErrors = true;
 
             return labSheetTubeMPNDetail;
@@ -355,6 +354,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // labSheetTubeMPNDetail.LabSheetTubeMPNDetailWeb   (LabSheetTubeMPNDetailWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LabSheetTubeMPNDetailWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // labSheetTubeMPNDetail.LabSheetTubeMPNDetailReport   (LabSheetTubeMPNDetailReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LabSheetTubeMPNDetailReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // labSheetTubeMPNDetail.LastUpdateDate_UTC   (DateTime)
@@ -379,50 +396,6 @@ namespace CSSPServices.Tests
                     labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, "Contact"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheetTubeMPNDetail.MWQMSiteTVText   (String)
-                    // -----------------------------------
-
-                    labSheetTubeMPNDetail = null;
-                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-                    labSheetTubeMPNDetail.MWQMSiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailMWQMSiteTVText, "200"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheetTubeMPNDetail.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    labSheetTubeMPNDetail = null;
-                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-                    labSheetTubeMPNDetail.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVText, "200"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // labSheetTubeMPNDetail.SampleTypeText   (String)
-                    // -----------------------------------
-
-                    labSheetTubeMPNDetail = null;
-                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-                    labSheetTubeMPNDetail.SampleTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailSampleTypeText, "100"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -457,7 +430,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(labSheetTubeMPNDetail);
 
                     LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -467,9 +440,9 @@ namespace CSSPServices.Tests
                         {
                             labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -523,32 +496,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (labSheetTubeMPNDetailRet.MWQMSiteTVText != null)
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.MWQMSiteTVText));
+                                Assert.IsNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb);
                             }
-                            if (labSheetTubeMPNDetailRet.LastUpdateContactTVText != null)
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LastUpdateContactTVText));
-                            }
-                            if (labSheetTubeMPNDetailRet.SampleTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SampleTypeText));
+                                Assert.IsNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (labSheetTubeMPNDetailRet.MWQMSiteTVText != null)
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.MWQMSiteTVText));
+                                Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb);
                             }
-                            if (labSheetTubeMPNDetailRet.LastUpdateContactTVText != null)
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LastUpdateContactTVText));
-                            }
-                            if (labSheetTubeMPNDetailRet.SampleTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SampleTypeText));
+                                Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport);
                             }
                         }
                     }

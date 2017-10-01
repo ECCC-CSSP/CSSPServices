@@ -263,6 +263,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemUserAuthorizationTVAuth), new[] { "TVAuth" });
             }
 
+                //Error: Type not implemented [TVItemUserAuthorizationWeb] of type [TVItemUserAuthorizationWeb]
+                //Error: Type not implemented [TVItemUserAuthorizationReport] of type [TVItemUserAuthorizationReport]
             if (tvItemUserAuthorization.LastUpdateDate_UTC.Year == 1)
             {
                 tvItemUserAuthorization.HasErrors = true;
@@ -299,48 +301,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.ContactTVText) && tvItemUserAuthorization.ContactTVText.Length > 200)
-            {
-                tvItemUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemUserAuthorizationContactTVText, "200"), new[] { "ContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText1) && tvItemUserAuthorization.TVText1.Length > 200)
-            {
-                tvItemUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemUserAuthorizationTVText1, "200"), new[] { "TVText1" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText2) && tvItemUserAuthorization.TVText2.Length > 200)
-            {
-                tvItemUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemUserAuthorizationTVText2, "200"), new[] { "TVText2" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText3) && tvItemUserAuthorization.TVText3.Length > 200)
-            {
-                tvItemUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemUserAuthorizationTVText3, "200"), new[] { "TVText3" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText4) && tvItemUserAuthorization.TVText4.Length > 200)
-            {
-                tvItemUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemUserAuthorizationTVText4, "200"), new[] { "TVText4" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.LastUpdateContactTVText) && tvItemUserAuthorization.LastUpdateContactTVText.Length > 200)
-            {
-                tvItemUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemUserAuthorizationLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVAuthText) && tvItemUserAuthorization.TVAuthText.Length > 100)
-            {
-                tvItemUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemUserAuthorizationTVAuthText, "100"), new[] { "TVAuthText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -366,8 +326,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemUserAuthorizationQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -384,8 +344,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemUserAuthorizationQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -438,7 +398,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TVItemUserAuthorization> FillTVItemUserAuthorization(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TVItemUserAuthorization> FillTVItemUserAuthorization_Show_Copy_To_TVItemUserAuthorizationServiceExtra_As_Fill_TVItemUserAuthorization(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -480,15 +443,22 @@ namespace CSSPServices
                         TVAuth = c.TVAuth,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ContactTVText = ContactTVText,
-                        TVText1 = TVText1,
-                        TVText2 = TVText2,
-                        TVText3 = TVText3,
-                        TVText4 = TVText4,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TVAuthText = (from e in TVAuthEnumList
+                        TVItemUserAuthorizationWeb = new TVItemUserAuthorizationWeb
+                        {
+                            ContactTVText = ContactTVText,
+                            TVText1 = TVText1,
+                            TVText2 = TVText2,
+                            TVText3 = TVText3,
+                            TVText4 = TVText4,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TVAuthText = (from e in TVAuthEnumList
                                 where e.EnumID == (int?)c.TVAuth
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        TVItemUserAuthorizationReport = new TVItemUserAuthorizationReport
+                        {
+                            TVItemUserAuthorizationReportTest = "TVItemUserAuthorizationReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

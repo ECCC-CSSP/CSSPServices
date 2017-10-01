@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             Infrastructure infrastructure = new Infrastructure();
 
-            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = 16;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Infrastructure InfrastructureTVItemID TVItem TVItemID]
             if (OmitPropName != "PrismID") infrastructure.PrismID = GetRandomInt(0, 100000);
             if (OmitPropName != "TPID") infrastructure.TPID = GetRandomInt(0, 100000);
             if (OmitPropName != "LSID") infrastructure.LSID = GetRandomInt(0, 100000);
@@ -83,25 +83,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 16;
-            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 28;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Infrastructure SeeOtherTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Infrastructure CivicAddressTVItemID TVItem TVItemID]
+            //Error: property [InfrastructureWeb] and type [Infrastructure] is  not implemented
+            //Error: property [InfrastructureReport] and type [Infrastructure] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "InfrastructureTVText") infrastructure.InfrastructureTVText = GetRandomString("", 5);
-            if (OmitPropName != "SeeOtherTVText") infrastructure.SeeOtherTVText = GetRandomString("", 5);
-            if (OmitPropName != "CivicAddressTVText") infrastructure.CivicAddressTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") infrastructure.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "InfrastructureTypeText") infrastructure.InfrastructureTypeText = GetRandomString("", 5);
-            if (OmitPropName != "FacilityTypeText") infrastructure.FacilityTypeText = GetRandomString("", 5);
-            if (OmitPropName != "AerationTypeText") infrastructure.AerationTypeText = GetRandomString("", 5);
-            if (OmitPropName != "PreliminaryTreatmentTypeText") infrastructure.PreliminaryTreatmentTypeText = GetRandomString("", 5);
-            if (OmitPropName != "PrimaryTreatmentTypeText") infrastructure.PrimaryTreatmentTypeText = GetRandomString("", 5);
-            if (OmitPropName != "SecondaryTreatmentTypeText") infrastructure.SecondaryTreatmentTypeText = GetRandomString("", 5);
-            if (OmitPropName != "TertiaryTreatmentTypeText") infrastructure.TertiaryTreatmentTypeText = GetRandomString("", 5);
-            if (OmitPropName != "TreatmentTypeText") infrastructure.TreatmentTypeText = GetRandomString("", 5);
-            if (OmitPropName != "DisinfectionTypeText") infrastructure.DisinfectionTypeText = GetRandomString("", 5);
-            if (OmitPropName != "CollectionSystemTypeText") infrastructure.CollectionSystemTypeText = GetRandomString("", 5);
-            if (OmitPropName != "AlarmSystemTypeText") infrastructure.AlarmSystemTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") infrastructure.HasErrors = true;
 
             return infrastructure;
@@ -964,6 +951,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // infrastructure.InfrastructureWeb   (InfrastructureWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [InfrastructureWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // infrastructure.InfrastructureReport   (InfrastructureReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [InfrastructureReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // infrastructure.LastUpdateDate_UTC   (DateTime)
@@ -988,220 +993,6 @@ namespace CSSPServices.Tests
                     infrastructureService.Add(infrastructure);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "InfrastructureTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // infrastructure.InfrastructureTVText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.InfrastructureTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureInfrastructureTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SeeOtherTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // infrastructure.SeeOtherTVText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.SeeOtherTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureSeeOtherTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CivicAddressTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // infrastructure.CivicAddressTVText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.CivicAddressTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureCivicAddressTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // infrastructure.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLastUpdateContactTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.InfrastructureTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.InfrastructureTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureInfrastructureTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.FacilityTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.FacilityTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureFacilityTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.AerationTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.AerationTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureAerationTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.PreliminaryTreatmentTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.PreliminaryTreatmentTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructurePreliminaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.PrimaryTreatmentTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.PrimaryTreatmentTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructurePrimaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.SecondaryTreatmentTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.SecondaryTreatmentTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureSecondaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.TertiaryTreatmentTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.TertiaryTreatmentTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureTertiaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.TreatmentTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.TreatmentTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.DisinfectionTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.DisinfectionTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureDisinfectionTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.CollectionSystemTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.CollectionSystemTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureCollectionSystemTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // infrastructure.AlarmSystemTypeText   (String)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.AlarmSystemTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureAlarmSystemTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1236,7 +1027,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(infrastructure);
 
                     Infrastructure infrastructureRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -1246,9 +1037,9 @@ namespace CSSPServices.Tests
                         {
                             infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -1439,128 +1230,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (infrastructureRet.InfrastructureTVText != null)
+                            if (infrastructureRet.InfrastructureWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureTVText));
+                                Assert.IsNull(infrastructureRet.InfrastructureWeb);
                             }
-                            if (infrastructureRet.SeeOtherTVText != null)
+                            if (infrastructureRet.InfrastructureReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.SeeOtherTVText));
-                            }
-                            if (infrastructureRet.CivicAddressTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.CivicAddressTVText));
-                            }
-                            if (infrastructureRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.LastUpdateContactTVText));
-                            }
-                            if (infrastructureRet.InfrastructureTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureTypeText));
-                            }
-                            if (infrastructureRet.FacilityTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.FacilityTypeText));
-                            }
-                            if (infrastructureRet.AerationTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.AerationTypeText));
-                            }
-                            if (infrastructureRet.PreliminaryTreatmentTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.PreliminaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.PrimaryTreatmentTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.PrimaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.SecondaryTreatmentTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.SecondaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.TertiaryTreatmentTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.TertiaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.TreatmentTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.TreatmentTypeText));
-                            }
-                            if (infrastructureRet.DisinfectionTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.DisinfectionTypeText));
-                            }
-                            if (infrastructureRet.CollectionSystemTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.CollectionSystemTypeText));
-                            }
-                            if (infrastructureRet.AlarmSystemTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(infrastructureRet.AlarmSystemTypeText));
+                                Assert.IsNull(infrastructureRet.InfrastructureReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (infrastructureRet.InfrastructureTVText != null)
+                            if (infrastructureRet.InfrastructureWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureTVText));
+                                Assert.IsNotNull(infrastructureRet.InfrastructureWeb);
                             }
-                            if (infrastructureRet.SeeOtherTVText != null)
+                            if (infrastructureRet.InfrastructureReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.SeeOtherTVText));
-                            }
-                            if (infrastructureRet.CivicAddressTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.CivicAddressTVText));
-                            }
-                            if (infrastructureRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.LastUpdateContactTVText));
-                            }
-                            if (infrastructureRet.InfrastructureTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureTypeText));
-                            }
-                            if (infrastructureRet.FacilityTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.FacilityTypeText));
-                            }
-                            if (infrastructureRet.AerationTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.AerationTypeText));
-                            }
-                            if (infrastructureRet.PreliminaryTreatmentTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.PreliminaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.PrimaryTreatmentTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.PrimaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.SecondaryTreatmentTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.SecondaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.TertiaryTreatmentTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.TertiaryTreatmentTypeText));
-                            }
-                            if (infrastructureRet.TreatmentTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.TreatmentTypeText));
-                            }
-                            if (infrastructureRet.DisinfectionTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.DisinfectionTypeText));
-                            }
-                            if (infrastructureRet.CollectionSystemTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.CollectionSystemTypeText));
-                            }
-                            if (infrastructureRet.AlarmSystemTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.AlarmSystemTypeText));
+                                Assert.IsNotNull(infrastructureRet.InfrastructureReport);
                             }
                         }
                     }

@@ -106,6 +106,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLanguageTranslationStatusRunWeatherComment), new[] { "TranslationStatusRunWeatherComment" });
             }
 
+                //Error: Type not implemented [MWQMRunLanguageWeb] of type [MWQMRunLanguageWeb]
+                //Error: Type not implemented [MWQMRunLanguageReport] of type [MWQMRunLanguageReport]
             if (mwqmRunLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmRunLanguage.HasErrors = true;
@@ -142,30 +144,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.LastUpdateContactTVText) && mwqmRunLanguage.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.LanguageText) && mwqmRunLanguage.LanguageText.Length > 100)
-            {
-                mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLanguageLanguageText, "100"), new[] { "LanguageText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.TranslationStatusRunCommentText) && mwqmRunLanguage.TranslationStatusRunCommentText.Length > 100)
-            {
-                mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLanguageTranslationStatusRunCommentText, "100"), new[] { "TranslationStatusRunCommentText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.TranslationStatusRunWeatherCommentText) && mwqmRunLanguage.TranslationStatusRunWeatherCommentText.Length > 100)
-            {
-                mwqmRunLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLanguageTranslationStatusRunWeatherCommentText, "100"), new[] { "TranslationStatusRunWeatherCommentText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -191,8 +169,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMRunLanguage(mwqmRunLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -209,8 +187,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunLanguageQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMRunLanguage(mwqmRunLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -263,7 +241,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMRunLanguage> FillMWQMRunLanguage(IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMRunLanguage> FillMWQMRunLanguage_Show_Copy_To_MWQMRunLanguageServiceExtra_As_Fill_MWQMRunLanguage(IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -286,16 +267,23 @@ namespace CSSPServices
                         TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        LanguageText = (from e in LanguageEnumList
+                        MWQMRunLanguageWeb = new MWQMRunLanguageWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
-                        TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
+                            TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
                                 where e.EnumID == (int?)c.TranslationStatusRunComment
                                 select e.EnumText).FirstOrDefault(),
-                        TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
+                            TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
                                 where e.EnumID == (int?)c.TranslationStatusRunWeatherComment
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        MWQMRunLanguageReport = new MWQMRunLanguageReport
+                        {
+                            MWQMRunLanguageReportTest = "MWQMRunLanguageReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

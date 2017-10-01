@@ -212,6 +212,8 @@ namespace CSSPServices
 
             //RawResults has no StringLength Attribute
 
+                //Error: Type not implemented [VPScenarioWeb] of type [VPScenarioWeb]
+                //Error: Type not implemented [VPScenarioReport] of type [VPScenarioReport]
             if (vpScenario.LastUpdateDate_UTC.Year == 1)
             {
                 vpScenario.HasErrors = true;
@@ -248,24 +250,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(vpScenario.SubsectorTVText) && vpScenario.SubsectorTVText.Length > 200)
-            {
-                vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioSubsectorTVText, "200"), new[] { "SubsectorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(vpScenario.LastUpdateContactTVText) && vpScenario.LastUpdateContactTVText.Length > 200)
-            {
-                vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(vpScenario.VPScenarioStatusText) && vpScenario.VPScenarioStatusText.Length > 100)
-            {
-                vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioVPScenarioStatusText, "100"), new[] { "VPScenarioStatusText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -291,8 +275,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpScenarioQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillVPScenario(vpScenarioQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -309,8 +293,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpScenarioQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillVPScenario(vpScenarioQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -363,7 +347,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<VPScenario> FillVPScenario(IQueryable<VPScenario> vpScenarioQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<VPScenario> FillVPScenario_Show_Copy_To_VPScenarioServiceExtra_As_Fill_VPScenario(IQueryable<VPScenario> vpScenarioQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -402,11 +389,18 @@ namespace CSSPServices
                         RawResults = c.RawResults,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SubsectorTVText = SubsectorTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        VPScenarioStatusText = (from e in ScenarioStatusEnumList
+                        VPScenarioWeb = new VPScenarioWeb
+                        {
+                            SubsectorTVText = SubsectorTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            VPScenarioStatusText = (from e in ScenarioStatusEnumList
                                 where e.EnumID == (int?)c.VPScenarioStatus
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        VPScenarioReport = new VPScenarioReport
+                        {
+                            VPScenarioReportTest = "VPScenarioReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

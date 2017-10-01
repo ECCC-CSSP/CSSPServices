@@ -40,13 +40,13 @@ namespace CSSPServices.Tests
         {
             ContactPreference contactPreference = new ContactPreference();
 
-            if (OmitPropName != "ContactID") contactPreference.ContactID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [ContactPreference ContactID Contact ContactID]
             if (OmitPropName != "TVType") contactPreference.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "MarkerSize") contactPreference.MarkerSize = GetRandomInt(1, 1000);
+            //Error: property [ContactPreferenceWeb] and type [ContactPreference] is  not implemented
+            //Error: property [ContactPreferenceReport] and type [ContactPreference] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") contactPreference.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactPreference.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") contactPreference.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "TVTypeText") contactPreference.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") contactPreference.HasErrors = true;
 
             return contactPreference;
@@ -174,6 +174,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // contactPreference.ContactPreferenceWeb   (ContactPreferenceWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ContactPreferenceWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // contactPreference.ContactPreferenceReport   (ContactPreferenceReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ContactPreferenceReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // contactPreference.LastUpdateDate_UTC   (DateTime)
@@ -198,35 +216,6 @@ namespace CSSPServices.Tests
                     contactPreferenceService.Add(contactPreference);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactPreferenceLastUpdateContactTVItemID, "Contact"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // contactPreference.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    contactPreference = null;
-                    contactPreference = GetFilledRandomContactPreference("");
-                    contactPreference.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPreferenceLastUpdateContactTVText, "200"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // contactPreference.TVTypeText   (String)
-                    // -----------------------------------
-
-                    contactPreference = null;
-                    contactPreference = GetFilledRandomContactPreference("");
-                    contactPreference.TVTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPreferenceTVTypeText, "100"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -261,7 +250,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactPreference);
 
                     ContactPreference contactPreferenceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -271,9 +260,9 @@ namespace CSSPServices.Tests
                         {
                             contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -290,24 +279,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (contactPreferenceRet.LastUpdateContactTVText != null)
+                            if (contactPreferenceRet.ContactPreferenceWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));
+                                Assert.IsNull(contactPreferenceRet.ContactPreferenceWeb);
                             }
-                            if (contactPreferenceRet.TVTypeText != null)
+                            if (contactPreferenceRet.ContactPreferenceReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactPreferenceRet.TVTypeText));
+                                Assert.IsNull(contactPreferenceRet.ContactPreferenceReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (contactPreferenceRet.LastUpdateContactTVText != null)
+                            if (contactPreferenceRet.ContactPreferenceWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(contactPreferenceRet.ContactPreferenceWeb);
                             }
-                            if (contactPreferenceRet.TVTypeText != null)
+                            if (contactPreferenceRet.ContactPreferenceReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.TVTypeText));
+                                Assert.IsNotNull(contactPreferenceRet.ContactPreferenceReport);
                             }
                         }
                     }

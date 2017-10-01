@@ -94,6 +94,8 @@ namespace CSSPServices
 
             //Information has no StringLength Attribute
 
+                //Error: Type not implemented [LogWeb] of type [LogWeb]
+                //Error: Type not implemented [LogReport] of type [LogReport]
             if (log.LastUpdateDate_UTC.Year == 1)
             {
                 log.HasErrors = true;
@@ -130,18 +132,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(log.LastUpdateContactTVText) && log.LastUpdateContactTVText.Length > 200)
-            {
-                log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(log.LogCommandText) && log.LogCommandText.Length > 100)
-            {
-                log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogLogCommandText, "100"), new[] { "LogCommandText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -167,8 +157,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return logQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLog(logQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -185,8 +175,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return logQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLog(logQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -239,7 +229,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<Log> FillLog(IQueryable<Log> logQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<Log> FillLog_Show_Copy_To_LogServiceExtra_As_Fill_Log(IQueryable<Log> logQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -259,10 +252,17 @@ namespace CSSPServices
                         Information = c.Information,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        LogCommandText = (from e in LogCommandEnumList
+                        LogWeb = new LogWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LogCommandText = (from e in LogCommandEnumList
                                 where e.EnumID == (int?)c.LogCommand
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        LogReport = new LogReport
+                        {
+                            LogReportTest = "LogReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -163,6 +163,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFilePath, "250"), new[] { "ServerFilePath" });
             }
 
+                //Error: Type not implemented [TVFileWeb] of type [TVFileWeb]
+                //Error: Type not implemented [TVFileReport] of type [TVFileReport]
             if (tvFile.LastUpdateDate_UTC.Year == 1)
             {
                 tvFile.HasErrors = true;
@@ -199,42 +201,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tvFile.TVFileTVText) && tvFile.TVFileTVText.Length > 200)
-            {
-                tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTVFileTVText, "200"), new[] { "TVFileTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvFile.LastUpdateContactTVText) && tvFile.LastUpdateContactTVText.Length > 200)
-            {
-                tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvFile.TemplateTVTypeText) && tvFile.TemplateTVTypeText.Length > 100)
-            {
-                tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTemplateTVTypeText, "100"), new[] { "TemplateTVTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvFile.LanguageText) && tvFile.LanguageText.Length > 100)
-            {
-                tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLanguageText, "100"), new[] { "LanguageText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvFile.FilePurposeText) && tvFile.FilePurposeText.Length > 100)
-            {
-                tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFilePurposeText, "100"), new[] { "FilePurposeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvFile.FileTypeText) && tvFile.FileTypeText.Length > 100)
-            {
-                tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFileTypeText, "100"), new[] { "FileTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -260,8 +226,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVFile(tvFileQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -278,8 +244,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVFile(tvFileQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -332,7 +298,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TVFile> FillTVFile(IQueryable<TVFile> tvFileQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TVFile> FillTVFile_Show_Copy_To_TVFileServiceExtra_As_Fill_TVFile(IQueryable<TVFile> tvFileQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -367,20 +336,27 @@ namespace CSSPServices
                         ServerFilePath = c.ServerFilePath,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVFileTVText = TVFileTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TemplateTVTypeText = (from e in TVTypeEnumList
+                        TVFileWeb = new TVFileWeb
+                        {
+                            TVFileTVText = TVFileTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TemplateTVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TemplateTVType
                                 select e.EnumText).FirstOrDefault(),
-                        LanguageText = (from e in LanguageEnumList
+                            LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
-                        FilePurposeText = (from e in FilePurposeEnumList
+                            FilePurposeText = (from e in FilePurposeEnumList
                                 where e.EnumID == (int?)c.FilePurpose
                                 select e.EnumText).FirstOrDefault(),
-                        FileTypeText = (from e in FileTypeEnumList
+                            FileTypeText = (from e in FileTypeEnumList
                                 where e.EnumID == (int?)c.FileType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        TVFileReport = new TVFileReport
+                        {
+                            TVFileReportTest = "TVFileReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

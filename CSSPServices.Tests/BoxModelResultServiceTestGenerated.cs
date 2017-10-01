@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             BoxModelResult boxModelResult = new BoxModelResult();
 
-            if (OmitPropName != "BoxModelID") boxModelResult.BoxModelID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [BoxModelResult BoxModelID BoxModel BoxModelID]
             if (OmitPropName != "BoxModelResultType") boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
             if (OmitPropName != "Volume_m3") boxModelResult.Volume_m3 = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "Surface_m2") boxModelResult.Surface_m2 = GetRandomDouble(0.0D, 10.0D);
@@ -55,10 +55,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LeftSideLineAngle_deg") boxModelResult.LeftSideLineAngle_deg = GetRandomDouble(0.0D, 360.0D);
             if (OmitPropName != "LeftSideLineStartLatitude") boxModelResult.LeftSideLineStartLatitude = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "LeftSideLineStartLongitude") boxModelResult.LeftSideLineStartLongitude = GetRandomDouble(-180.0D, 180.0D);
+            //Error: property [BoxModelResultWeb] and type [BoxModelResult] is  not implemented
+            //Error: property [BoxModelResultReport] and type [BoxModelResult] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") boxModelResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModelResult.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") boxModelResult.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "BoxModelResultTypeText") boxModelResult.BoxModelResultTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") boxModelResult.HasErrors = true;
 
             return boxModelResult;
@@ -398,6 +398,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // boxModelResult.BoxModelResultWeb   (BoxModelResultWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [BoxModelResultWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // boxModelResult.BoxModelResultReport   (BoxModelResultReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [BoxModelResultReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // boxModelResult.LastUpdateDate_UTC   (DateTime)
@@ -422,35 +440,6 @@ namespace CSSPServices.Tests
                     boxModelResultService.Add(boxModelResult);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // boxModelResult.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    boxModelResult = null;
-                    boxModelResult = GetFilledRandomBoxModelResult("");
-                    boxModelResult.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelResultLastUpdateContactTVText, "200"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // boxModelResult.BoxModelResultTypeText   (String)
-                    // -----------------------------------
-
-                    boxModelResult = null;
-                    boxModelResult = GetFilledRandomBoxModelResult("");
-                    boxModelResult.BoxModelResultTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelResultBoxModelResultTypeText, "100"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -485,7 +474,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(boxModelResult);
 
                     BoxModelResult boxModelResultRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -495,9 +484,9 @@ namespace CSSPServices.Tests
                         {
                             boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -526,24 +515,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (boxModelResultRet.LastUpdateContactTVText != null)
+                            if (boxModelResultRet.BoxModelResultWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
+                                Assert.IsNull(boxModelResultRet.BoxModelResultWeb);
                             }
-                            if (boxModelResultRet.BoxModelResultTypeText != null)
+                            if (boxModelResultRet.BoxModelResultReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
+                                Assert.IsNull(boxModelResultRet.BoxModelResultReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (boxModelResultRet.LastUpdateContactTVText != null)
+                            if (boxModelResultRet.BoxModelResultWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(boxModelResultRet.BoxModelResultWeb);
                             }
-                            if (boxModelResultRet.BoxModelResultTypeText != null)
+                            if (boxModelResultRet.BoxModelResultReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
+                                Assert.IsNotNull(boxModelResultRet.BoxModelResultReport);
                             }
                         }
                     }

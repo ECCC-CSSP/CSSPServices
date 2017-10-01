@@ -40,14 +40,13 @@ namespace CSSPServices.Tests
         {
             Tel tel = new Tel();
 
-            if (OmitPropName != "TelTVItemID") tel.TelTVItemID = 30;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Tel TelTVItemID TVItem TVItemID]
             if (OmitPropName != "TelNumber") tel.TelNumber = GetRandomString("", 5);
             if (OmitPropName != "TelType") tel.TelType = (TelTypeEnum)GetRandomEnumType(typeof(TelTypeEnum));
+            //Error: property [TelWeb] and type [Tel] is  not implemented
+            //Error: property [TelReport] and type [Tel] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tel.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "TelTVText") tel.TelTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") tel.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "TelTypeText") tel.TelTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") tel.HasErrors = true;
 
             return tel;
@@ -183,6 +182,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tel.TelWeb   (TelWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TelWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tel.TelReport   (TelReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TelReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // tel.LastUpdateDate_UTC   (DateTime)
@@ -207,50 +224,6 @@ namespace CSSPServices.Tests
                     telService.Add(tel);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelLastUpdateContactTVItemID, "Contact"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TelTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // tel.TelTVText   (String)
-                    // -----------------------------------
-
-                    tel = null;
-                    tel = GetFilledRandomTel("");
-                    tel.TelTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, telService.Add(tel));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, telService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // tel.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    tel = null;
-                    tel = GetFilledRandomTel("");
-                    tel.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, telService.Add(tel));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelLastUpdateContactTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, telService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // tel.TelTypeText   (String)
-                    // -----------------------------------
-
-                    tel = null;
-                    tel = GetFilledRandomTel("");
-                    tel.TelTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, telService.Add(tel));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelTypeText, "100"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, telService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -285,7 +258,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tel);
 
                     Tel telRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -295,9 +268,9 @@ namespace CSSPServices.Tests
                         {
                             telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -314,32 +287,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (telRet.TelTVText != null)
+                            if (telRet.TelWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(telRet.TelTVText));
+                                Assert.IsNull(telRet.TelWeb);
                             }
-                            if (telRet.LastUpdateContactTVText != null)
+                            if (telRet.TelReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(telRet.LastUpdateContactTVText));
-                            }
-                            if (telRet.TelTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(telRet.TelTypeText));
+                                Assert.IsNull(telRet.TelReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (telRet.TelTVText != null)
+                            if (telRet.TelWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTVText));
+                                Assert.IsNotNull(telRet.TelWeb);
                             }
-                            if (telRet.LastUpdateContactTVText != null)
+                            if (telRet.TelReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.LastUpdateContactTVText));
-                            }
-                            if (telRet.TelTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTypeText));
+                                Assert.IsNotNull(telRet.TelReport);
                             }
                         }
                     }

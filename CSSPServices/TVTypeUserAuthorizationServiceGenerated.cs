@@ -95,6 +95,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTypeUserAuthorizationTVAuth), new[] { "TVAuth" });
             }
 
+                //Error: Type not implemented [TVTypeUserAuthorizationWeb] of type [TVTypeUserAuthorizationWeb]
+                //Error: Type not implemented [TVTypeUserAuthorizationReport] of type [TVTypeUserAuthorizationReport]
             if (tvTypeUserAuthorization.LastUpdateDate_UTC.Year == 1)
             {
                 tvTypeUserAuthorization.HasErrors = true;
@@ -131,30 +133,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.ContactTVText) && tvTypeUserAuthorization.ContactTVText.Length > 200)
-            {
-                tvTypeUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVTypeUserAuthorizationContactTVText, "200"), new[] { "ContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.LastUpdateContactTVText) && tvTypeUserAuthorization.LastUpdateContactTVText.Length > 200)
-            {
-                tvTypeUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVTypeUserAuthorizationLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.TVTypeText) && tvTypeUserAuthorization.TVTypeText.Length > 100)
-            {
-                tvTypeUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVTypeUserAuthorizationTVTypeText, "100"), new[] { "TVTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.TVAuthText) && tvTypeUserAuthorization.TVAuthText.Length > 100)
-            {
-                tvTypeUserAuthorization.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVTypeUserAuthorizationTVAuthText, "100"), new[] { "TVAuthText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -180,8 +158,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvTypeUserAuthorizationQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVTypeUserAuthorization(tvTypeUserAuthorizationQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -198,8 +176,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvTypeUserAuthorizationQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVTypeUserAuthorization(tvTypeUserAuthorizationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -252,7 +230,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TVTypeUserAuthorization> FillTVTypeUserAuthorization(IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TVTypeUserAuthorization> FillTVTypeUserAuthorization_Show_Copy_To_TVTypeUserAuthorizationServiceExtra_As_Fill_TVTypeUserAuthorization(IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -276,14 +257,21 @@ namespace CSSPServices
                         TVAuth = c.TVAuth,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ContactTVText = ContactTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TVTypeText = (from e in TVTypeEnumList
+                        TVTypeUserAuthorizationWeb = new TVTypeUserAuthorizationWeb
+                        {
+                            ContactTVText = ContactTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
-                        TVAuthText = (from e in TVAuthEnumList
+                            TVAuthText = (from e in TVAuthEnumList
                                 where e.EnumID == (int?)c.TVAuth
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        TVTypeUserAuthorizationReport = new TVTypeUserAuthorizationReport
+                        {
+                            TVTypeUserAuthorizationReportTest = "TVTypeUserAuthorizationReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

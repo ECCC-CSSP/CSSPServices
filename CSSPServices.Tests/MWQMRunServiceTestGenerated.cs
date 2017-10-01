@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
         {
             MWQMRun mwqmRun = new MWQMRun();
 
-            if (OmitPropName != "SubsectorTVItemID") mwqmRun.SubsectorTVItemID = 11;
-            if (OmitPropName != "MWQMRunTVItemID") mwqmRun.MWQMRunTVItemID = 24;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMRun SubsectorTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMRun MWQMRunTVItemID TVItem TVItemID]
             if (OmitPropName != "RunSampleType") mwqmRun.RunSampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "DateTime_Local") mwqmRun.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "RunNumber") mwqmRun.RunNumber = GetRandomInt(1, 1000);
@@ -79,21 +79,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RainDay9_mm") mwqmRun.RainDay9_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RemoveFromStat") mwqmRun.RemoveFromStat = true;
+            //Error: property [MWQMRunWeb] and type [MWQMRun] is  not implemented
+            //Error: property [MWQMRunReport] and type [MWQMRun] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "SubsectorTVText") mwqmRun.SubsectorTVText = GetRandomString("", 5);
-            if (OmitPropName != "MWQMRunTVText") mwqmRun.MWQMRunTVText = GetRandomString("", 5);
-            if (OmitPropName != "LabSampleApprovalContactTVText") mwqmRun.LabSampleApprovalContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mwqmRun.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "RunSampleTypeText") mwqmRun.RunSampleTypeText = GetRandomString("", 5);
-            if (OmitPropName != "SeaStateAtStart_BeaufortScaleText") mwqmRun.SeaStateAtStart_BeaufortScaleText = GetRandomString("", 5);
-            if (OmitPropName != "SeaStateAtEnd_BeaufortScaleText") mwqmRun.SeaStateAtEnd_BeaufortScaleText = GetRandomString("", 5);
-            if (OmitPropName != "AnalyzeMethodText") mwqmRun.AnalyzeMethodText = GetRandomString("", 5);
-            if (OmitPropName != "SampleMatrixText") mwqmRun.SampleMatrixText = GetRandomString("", 5);
-            if (OmitPropName != "LaboratoryText") mwqmRun.LaboratoryText = GetRandomString("", 5);
-            if (OmitPropName != "SampleStatusText") mwqmRun.SampleStatusText = GetRandomString("", 5);
-            if (OmitPropName != "Tide_StartText") mwqmRun.Tide_StartText = GetRandomString("", 5);
-            if (OmitPropName != "Tide_EndText") mwqmRun.Tide_EndText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmRun.HasErrors = true;
 
             return mwqmRun;
@@ -781,6 +770,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmRun.MWQMRunWeb   (MWQMRunWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMRunWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmRun.MWQMRunReport   (MWQMRunReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMRunReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmRun.LastUpdateDate_UTC   (DateTime)
@@ -805,192 +812,6 @@ namespace CSSPServices.Tests
                     mwqmRunService.Add(mwqmRun);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmRun.SubsectorTVText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.SubsectorTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSubsectorTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMRunTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmRun.MWQMRunTVText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.MWQMRunTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunMWQMRunTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LabSampleApprovalContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmRun.LabSampleApprovalContactTVText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.LabSampleApprovalContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmRun.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLastUpdateContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.RunSampleTypeText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.RunSampleTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunRunSampleTypeText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.SeaStateAtStart_BeaufortScaleText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.SeaStateAtStart_BeaufortScaleText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtStart_BeaufortScaleText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.SeaStateAtEnd_BeaufortScaleText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.SeaStateAtEnd_BeaufortScaleText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtEnd_BeaufortScaleText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.AnalyzeMethodText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.AnalyzeMethodText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunAnalyzeMethodText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.SampleMatrixText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.SampleMatrixText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleMatrixText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.LaboratoryText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.LaboratoryText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLaboratoryText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.SampleStatusText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.SampleStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleStatusText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.Tide_StartText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.Tide_StartText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_StartText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmRun.Tide_EndText   (String)
-                    // -----------------------------------
-
-                    mwqmRun = null;
-                    mwqmRun = GetFilledRandomMWQMRun("");
-                    mwqmRun.Tide_EndText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_EndText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1025,7 +846,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmRun);
 
                     MWQMRun mwqmRunRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -1035,9 +856,9 @@ namespace CSSPServices.Tests
                         {
                             mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -1192,112 +1013,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmRunRet.SubsectorTVText != null)
+                            if (mwqmRunRet.MWQMRunWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.SubsectorTVText));
+                                Assert.IsNull(mwqmRunRet.MWQMRunWeb);
                             }
-                            if (mwqmRunRet.MWQMRunTVText != null)
+                            if (mwqmRunRet.MWQMRunReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunTVText));
-                            }
-                            if (mwqmRunRet.LabSampleApprovalContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.LabSampleApprovalContactTVText));
-                            }
-                            if (mwqmRunRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.LastUpdateContactTVText));
-                            }
-                            if (mwqmRunRet.RunSampleTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.RunSampleTypeText));
-                            }
-                            if (mwqmRunRet.SeaStateAtStart_BeaufortScaleText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.SeaStateAtStart_BeaufortScaleText));
-                            }
-                            if (mwqmRunRet.SeaStateAtEnd_BeaufortScaleText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.SeaStateAtEnd_BeaufortScaleText));
-                            }
-                            if (mwqmRunRet.AnalyzeMethodText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.AnalyzeMethodText));
-                            }
-                            if (mwqmRunRet.SampleMatrixText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.SampleMatrixText));
-                            }
-                            if (mwqmRunRet.LaboratoryText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.LaboratoryText));
-                            }
-                            if (mwqmRunRet.SampleStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.SampleStatusText));
-                            }
-                            if (mwqmRunRet.Tide_StartText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_StartText));
-                            }
-                            if (mwqmRunRet.Tide_EndText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_EndText));
+                                Assert.IsNull(mwqmRunRet.MWQMRunReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmRunRet.SubsectorTVText != null)
+                            if (mwqmRunRet.MWQMRunWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SubsectorTVText));
+                                Assert.IsNotNull(mwqmRunRet.MWQMRunWeb);
                             }
-                            if (mwqmRunRet.MWQMRunTVText != null)
+                            if (mwqmRunRet.MWQMRunReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunTVText));
-                            }
-                            if (mwqmRunRet.LabSampleApprovalContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LabSampleApprovalContactTVText));
-                            }
-                            if (mwqmRunRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LastUpdateContactTVText));
-                            }
-                            if (mwqmRunRet.RunSampleTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.RunSampleTypeText));
-                            }
-                            if (mwqmRunRet.SeaStateAtStart_BeaufortScaleText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SeaStateAtStart_BeaufortScaleText));
-                            }
-                            if (mwqmRunRet.SeaStateAtEnd_BeaufortScaleText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SeaStateAtEnd_BeaufortScaleText));
-                            }
-                            if (mwqmRunRet.AnalyzeMethodText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.AnalyzeMethodText));
-                            }
-                            if (mwqmRunRet.SampleMatrixText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SampleMatrixText));
-                            }
-                            if (mwqmRunRet.LaboratoryText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LaboratoryText));
-                            }
-                            if (mwqmRunRet.SampleStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SampleStatusText));
-                            }
-                            if (mwqmRunRet.Tide_StartText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_StartText));
-                            }
-                            if (mwqmRunRet.Tide_EndText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_EndText));
+                                Assert.IsNotNull(mwqmRunRet.MWQMRunReport);
                             }
                         }
                     }

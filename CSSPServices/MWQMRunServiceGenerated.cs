@@ -433,6 +433,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [MWQMRunWeb] of type [MWQMRunWeb]
+                //Error: Type not implemented [MWQMRunReport] of type [MWQMRunReport]
             if (mwqmRun.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmRun.HasErrors = true;
@@ -469,84 +471,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmRun.SubsectorTVText) && mwqmRun.SubsectorTVText.Length > 200)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSubsectorTVText, "200"), new[] { "SubsectorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.MWQMRunTVText) && mwqmRun.MWQMRunTVText.Length > 200)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.LabSampleApprovalContactTVText) && mwqmRun.LabSampleApprovalContactTVText.Length > 200)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), new[] { "LabSampleApprovalContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.LastUpdateContactTVText) && mwqmRun.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.RunSampleTypeText) && mwqmRun.RunSampleTypeText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunRunSampleTypeText, "100"), new[] { "RunSampleTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.SeaStateAtStart_BeaufortScaleText) && mwqmRun.SeaStateAtStart_BeaufortScaleText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtStart_BeaufortScaleText, "100"), new[] { "SeaStateAtStart_BeaufortScaleText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.SeaStateAtEnd_BeaufortScaleText) && mwqmRun.SeaStateAtEnd_BeaufortScaleText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtEnd_BeaufortScaleText, "100"), new[] { "SeaStateAtEnd_BeaufortScaleText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.AnalyzeMethodText) && mwqmRun.AnalyzeMethodText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunAnalyzeMethodText, "100"), new[] { "AnalyzeMethodText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.SampleMatrixText) && mwqmRun.SampleMatrixText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleMatrixText, "100"), new[] { "SampleMatrixText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.LaboratoryText) && mwqmRun.LaboratoryText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLaboratoryText, "100"), new[] { "LaboratoryText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.SampleStatusText) && mwqmRun.SampleStatusText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleStatusText, "100"), new[] { "SampleStatusText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.Tide_StartText) && mwqmRun.Tide_StartText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_StartText, "100"), new[] { "Tide_StartText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmRun.Tide_EndText) && mwqmRun.Tide_EndText.Length > 100)
-            {
-                mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_EndText, "100"), new[] { "Tide_EndText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -572,8 +496,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMRun(mwqmRunQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -590,8 +514,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMRun(mwqmRunQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -644,7 +568,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMRun> FillMWQMRun(IQueryable<MWQMRun> mwqmRunQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMRun> FillMWQMRun_Show_Copy_To_MWQMRunServiceExtra_As_Fill_MWQMRun(IQueryable<MWQMRun> mwqmRunQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -717,37 +644,44 @@ namespace CSSPServices
                         RemoveFromStat = c.RemoveFromStat,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SubsectorTVText = SubsectorTVText,
-                        MWQMRunTVText = MWQMRunTVText,
-                        LabSampleApprovalContactTVText = LabSampleApprovalContactTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        RunSampleTypeText = (from e in SampleTypeEnumList
+                        MWQMRunWeb = new MWQMRunWeb
+                        {
+                            SubsectorTVText = SubsectorTVText,
+                            MWQMRunTVText = MWQMRunTVText,
+                            LabSampleApprovalContactTVText = LabSampleApprovalContactTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            RunSampleTypeText = (from e in SampleTypeEnumList
                                 where e.EnumID == (int?)c.RunSampleType
                                 select e.EnumText).FirstOrDefault(),
-                        SeaStateAtStart_BeaufortScaleText = (from e in BeaufortScaleEnumList
+                            SeaStateAtStart_BeaufortScaleText = (from e in BeaufortScaleEnumList
                                 where e.EnumID == (int?)c.SeaStateAtStart_BeaufortScale
                                 select e.EnumText).FirstOrDefault(),
-                        SeaStateAtEnd_BeaufortScaleText = (from e in BeaufortScaleEnumList
+                            SeaStateAtEnd_BeaufortScaleText = (from e in BeaufortScaleEnumList
                                 where e.EnumID == (int?)c.SeaStateAtEnd_BeaufortScale
                                 select e.EnumText).FirstOrDefault(),
-                        AnalyzeMethodText = (from e in AnalyzeMethodEnumList
+                            AnalyzeMethodText = (from e in AnalyzeMethodEnumList
                                 where e.EnumID == (int?)c.AnalyzeMethod
                                 select e.EnumText).FirstOrDefault(),
-                        SampleMatrixText = (from e in SampleMatrixEnumList
+                            SampleMatrixText = (from e in SampleMatrixEnumList
                                 where e.EnumID == (int?)c.SampleMatrix
                                 select e.EnumText).FirstOrDefault(),
-                        LaboratoryText = (from e in LaboratoryEnumList
+                            LaboratoryText = (from e in LaboratoryEnumList
                                 where e.EnumID == (int?)c.Laboratory
                                 select e.EnumText).FirstOrDefault(),
-                        SampleStatusText = (from e in SampleStatusEnumList
+                            SampleStatusText = (from e in SampleStatusEnumList
                                 where e.EnumID == (int?)c.SampleStatus
                                 select e.EnumText).FirstOrDefault(),
-                        Tide_StartText = (from e in TideTextEnumList
+                            Tide_StartText = (from e in TideTextEnumList
                                 where e.EnumID == (int?)c.Tide_Start
                                 select e.EnumText).FirstOrDefault(),
-                        Tide_EndText = (from e in TideTextEnumList
+                            Tide_EndText = (from e in TideTextEnumList
                                 where e.EnumID == (int?)c.Tide_End
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        MWQMRunReport = new MWQMRunReport
+                        {
+                            MWQMRunReportTest = "MWQMRunReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

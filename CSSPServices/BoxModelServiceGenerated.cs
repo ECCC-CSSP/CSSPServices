@@ -161,6 +161,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFlowDuration_hour, "0", "24"), new[] { "FlowDuration_hour" });
             }
 
+                //Error: Type not implemented [BoxModelWeb] of type [BoxModelWeb]
+                //Error: Type not implemented [BoxModelReport] of type [BoxModelReport]
             if (boxModel.LastUpdateDate_UTC.Year == 1)
             {
                 boxModel.HasErrors = true;
@@ -197,18 +199,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(boxModel.InfrastructureTVText) && boxModel.InfrastructureTVText.Length > 200)
-            {
-                boxModel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(boxModel.LastUpdateContactTVText) && boxModel.LastUpdateContactTVText.Length > 200)
-            {
-                boxModel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -234,8 +224,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillBoxModel(boxModelQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -252,8 +242,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillBoxModel(boxModelQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -306,7 +296,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<BoxModel> FillBoxModel(IQueryable<BoxModel> boxModelQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<BoxModel> FillBoxModel_Show_Copy_To_BoxModelServiceExtra_As_Fill_BoxModel(IQueryable<BoxModel> boxModelQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             boxModelQuery = (from c in boxModelQuery
                 let InfrastructureTVText = (from cl in db.TVItemLanguages
@@ -333,8 +326,15 @@ namespace CSSPServices
                         FlowDuration_hour = c.FlowDuration_hour,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        InfrastructureTVText = InfrastructureTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        BoxModelWeb = new BoxModelWeb
+                        {
+                            InfrastructureTVText = InfrastructureTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        BoxModelReport = new BoxModelReport
+                        {
+                            BoxModelReportTest = "BoxModelReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

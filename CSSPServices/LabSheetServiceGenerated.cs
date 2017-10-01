@@ -263,6 +263,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetRejectReason, "250"), new[] { "RejectReason" });
             }
 
+                //Error: Type not implemented [LabSheetWeb] of type [LabSheetWeb]
+                //Error: Type not implemented [LabSheetReport] of type [LabSheetReport]
             if (labSheet.LastUpdateDate_UTC.Year == 1)
             {
                 labSheet.HasErrors = true;
@@ -299,54 +301,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheet.SubsectorTVText) && labSheet.SubsectorTVText.Length > 200)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetSubsectorTVText, "200"), new[] { "SubsectorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheet.MWQMRunTVText) && labSheet.MWQMRunTVText.Length > 200)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheet.AcceptedOrRejectedByContactTVText) && labSheet.AcceptedOrRejectedByContactTVText.Length > 200)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetAcceptedOrRejectedByContactTVText, "200"), new[] { "AcceptedOrRejectedByContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheet.LastUpdateContactTVText) && labSheet.LastUpdateContactTVText.Length > 200)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheet.SamplingPlanTypeText) && labSheet.SamplingPlanTypeText.Length > 100)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheet.SampleTypeText) && labSheet.SampleTypeText.Length > 100)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetSampleTypeText, "100"), new[] { "SampleTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheet.LabSheetTypeText) && labSheet.LabSheetTypeText.Length > 100)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheet.LabSheetStatusText) && labSheet.LabSheetStatusText.Length > 100)
-            {
-                labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetLabSheetStatusText, "100"), new[] { "LabSheetStatusText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -372,8 +326,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLabSheet(labSheetQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -390,8 +344,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLabSheet(labSheetQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -444,7 +398,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<LabSheet> FillLabSheet(IQueryable<LabSheet> labSheetQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<LabSheet> FillLabSheet_Show_Copy_To_LabSheetServiceExtra_As_Fill_LabSheet(IQueryable<LabSheet> labSheetQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -494,22 +451,29 @@ namespace CSSPServices
                         RejectReason = c.RejectReason,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SubsectorTVText = SubsectorTVText,
-                        MWQMRunTVText = MWQMRunTVText,
-                        AcceptedOrRejectedByContactTVText = AcceptedOrRejectedByContactTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
+                        LabSheetWeb = new LabSheetWeb
+                        {
+                            SubsectorTVText = SubsectorTVText,
+                            MWQMRunTVText = MWQMRunTVText,
+                            AcceptedOrRejectedByContactTVText = AcceptedOrRejectedByContactTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
                                 where e.EnumID == (int?)c.SamplingPlanType
                                 select e.EnumText).FirstOrDefault(),
-                        SampleTypeText = (from e in SampleTypeEnumList
+                            SampleTypeText = (from e in SampleTypeEnumList
                                 where e.EnumID == (int?)c.SampleType
                                 select e.EnumText).FirstOrDefault(),
-                        LabSheetTypeText = (from e in LabSheetTypeEnumList
+                            LabSheetTypeText = (from e in LabSheetTypeEnumList
                                 where e.EnumID == (int?)c.LabSheetType
                                 select e.EnumText).FirstOrDefault(),
-                        LabSheetStatusText = (from e in LabSheetStatusEnumList
+                            LabSheetStatusText = (from e in LabSheetStatusEnumList
                                 where e.EnumID == (int?)c.LabSheetStatus
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        LabSheetReport = new LabSheetReport
+                        {
+                            LabSheetReportTest = "LabSheetReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

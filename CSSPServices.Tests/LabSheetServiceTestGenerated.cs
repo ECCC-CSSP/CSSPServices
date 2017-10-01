@@ -41,14 +41,14 @@ namespace CSSPServices.Tests
             LabSheet labSheet = new LabSheet();
 
             if (OmitPropName != "OtherServerLabSheetID") labSheet.OtherServerLabSheetID = GetRandomInt(1, 11);
-            if (OmitPropName != "SamplingPlanID") labSheet.SamplingPlanID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheet SamplingPlanID SamplingPlan SamplingPlanID]
             if (OmitPropName != "SamplingPlanName") labSheet.SamplingPlanName = GetRandomString("", 6);
             if (OmitPropName != "Year") labSheet.Year = GetRandomInt(1980, 1990);
             if (OmitPropName != "Month") labSheet.Month = GetRandomInt(1, 12);
             if (OmitPropName != "Day") labSheet.Day = GetRandomInt(1, 31);
             if (OmitPropName != "RunNumber") labSheet.RunNumber = GetRandomInt(1, 100);
-            if (OmitPropName != "SubsectorTVItemID") labSheet.SubsectorTVItemID = 11;
-            if (OmitPropName != "MWQMRunTVItemID") labSheet.MWQMRunTVItemID = 24;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheet SubsectorTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheet MWQMRunTVItemID TVItem TVItemID]
             if (OmitPropName != "SamplingPlanType") labSheet.SamplingPlanType = (SamplingPlanTypeEnum)GetRandomEnumType(typeof(SamplingPlanTypeEnum));
             if (OmitPropName != "SampleType") labSheet.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "LabSheetType") labSheet.LabSheetType = (LabSheetTypeEnum)GetRandomEnumType(typeof(LabSheetTypeEnum));
@@ -59,16 +59,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "AcceptedOrRejectedByContactTVItemID") labSheet.AcceptedOrRejectedByContactTVItemID = 2;
             if (OmitPropName != "AcceptedOrRejectedDateTime") labSheet.AcceptedOrRejectedDateTime = new DateTime(2005, 3, 6);
             if (OmitPropName != "RejectReason") labSheet.RejectReason = GetRandomString("", 5);
+            //Error: property [LabSheetWeb] and type [LabSheet] is  not implemented
+            //Error: property [LabSheetReport] and type [LabSheet] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") labSheet.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheet.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "SubsectorTVText") labSheet.SubsectorTVText = GetRandomString("", 5);
-            if (OmitPropName != "MWQMRunTVText") labSheet.MWQMRunTVText = GetRandomString("", 5);
-            if (OmitPropName != "AcceptedOrRejectedByContactTVText") labSheet.AcceptedOrRejectedByContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") labSheet.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "SamplingPlanTypeText") labSheet.SamplingPlanTypeText = GetRandomString("", 5);
-            if (OmitPropName != "SampleTypeText") labSheet.SampleTypeText = GetRandomString("", 5);
-            if (OmitPropName != "LabSheetTypeText") labSheet.LabSheetTypeText = GetRandomString("", 5);
-            if (OmitPropName != "LabSheetStatusText") labSheet.LabSheetStatusText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") labSheet.HasErrors = true;
 
             return labSheet;
@@ -443,6 +437,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, labSheetService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // labSheet.LabSheetWeb   (LabSheetWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LabSheetWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // labSheet.LabSheetReport   (LabSheetReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LabSheetReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // labSheet.LastUpdateDate_UTC   (DateTime)
@@ -467,122 +479,6 @@ namespace CSSPServices.Tests
                     labSheetService.Add(labSheet);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetLastUpdateContactTVItemID, "Contact"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheet.SubsectorTVText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.SubsectorTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetSubsectorTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMRunTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheet.MWQMRunTVText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.MWQMRunTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetMWQMRunTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "AcceptedOrRejectedByContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheet.AcceptedOrRejectedByContactTVText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.AcceptedOrRejectedByContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetAcceptedOrRejectedByContactTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheet.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetLastUpdateContactTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // labSheet.SamplingPlanTypeText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.SamplingPlanTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetSamplingPlanTypeText, "100"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // labSheet.SampleTypeText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.SampleTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetSampleTypeText, "100"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // labSheet.LabSheetTypeText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.LabSheetTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetLabSheetTypeText, "100"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // labSheet.LabSheetStatusText   (String)
-                    // -----------------------------------
-
-                    labSheet = null;
-                    labSheet = GetFilledRandomLabSheet("");
-                    labSheet.LabSheetStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, labSheetService.Add(labSheet));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetLabSheetStatusText, "100"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -617,7 +513,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(labSheet);
 
                     LabSheet labSheetRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -627,9 +523,9 @@ namespace CSSPServices.Tests
                         {
                             labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -674,72 +570,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (labSheetRet.SubsectorTVText != null)
+                            if (labSheetRet.LabSheetWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.SubsectorTVText));
+                                Assert.IsNull(labSheetRet.LabSheetWeb);
                             }
-                            if (labSheetRet.MWQMRunTVText != null)
+                            if (labSheetRet.LabSheetReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.MWQMRunTVText));
-                            }
-                            if (labSheetRet.AcceptedOrRejectedByContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.AcceptedOrRejectedByContactTVText));
-                            }
-                            if (labSheetRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.LastUpdateContactTVText));
-                            }
-                            if (labSheetRet.SamplingPlanTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.SamplingPlanTypeText));
-                            }
-                            if (labSheetRet.SampleTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.SampleTypeText));
-                            }
-                            if (labSheetRet.LabSheetTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.LabSheetTypeText));
-                            }
-                            if (labSheetRet.LabSheetStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetRet.LabSheetStatusText));
+                                Assert.IsNull(labSheetRet.LabSheetReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (labSheetRet.SubsectorTVText != null)
+                            if (labSheetRet.LabSheetWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SubsectorTVText));
+                                Assert.IsNotNull(labSheetRet.LabSheetWeb);
                             }
-                            if (labSheetRet.MWQMRunTVText != null)
+                            if (labSheetRet.LabSheetReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.MWQMRunTVText));
-                            }
-                            if (labSheetRet.AcceptedOrRejectedByContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.AcceptedOrRejectedByContactTVText));
-                            }
-                            if (labSheetRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LastUpdateContactTVText));
-                            }
-                            if (labSheetRet.SamplingPlanTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SamplingPlanTypeText));
-                            }
-                            if (labSheetRet.SampleTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SampleTypeText));
-                            }
-                            if (labSheetRet.LabSheetTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LabSheetTypeText));
-                            }
-                            if (labSheetRet.LabSheetStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LabSheetStatusText));
+                                Assert.IsNotNull(labSheetRet.LabSheetReport);
                             }
                         }
                     }

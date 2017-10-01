@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ClimateDataValue climateDataValue = new ClimateDataValue();
 
-            if (OmitPropName != "ClimateSiteID") climateDataValue.ClimateSiteID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [ClimateDataValue ClimateSiteID ClimateSite ClimateSiteID]
             if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") climateDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") climateDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
@@ -56,10 +56,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DirMaxGust_0North") climateDataValue.DirMaxGust_0North = GetRandomDouble(0.0D, 360.0D);
             if (OmitPropName != "SpdMaxGust_kmh") climateDataValue.SpdMaxGust_kmh = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "HourlyValues") climateDataValue.HourlyValues = GetRandomString("", 20);
+            //Error: property [ClimateDataValueWeb] and type [ClimateDataValue] is  not implemented
+            //Error: property [ClimateDataValueReport] and type [ClimateDataValue] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") climateDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") climateDataValue.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "StorageDataTypeEnumText") climateDataValue.StorageDataTypeEnumText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") climateDataValue.HasErrors = true;
 
             return climateDataValue;
@@ -418,6 +418,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // climateDataValue.ClimateDataValueWeb   (ClimateDataValueWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ClimateDataValueWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // climateDataValue.ClimateDataValueReport   (ClimateDataValueReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ClimateDataValueReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // climateDataValue.LastUpdateDate_UTC   (DateTime)
@@ -442,35 +460,6 @@ namespace CSSPServices.Tests
                     climateDataValueService.Add(climateDataValue);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, "Contact"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // climateDataValue.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    climateDataValue = null;
-                    climateDataValue = GetFilledRandomClimateDataValue("");
-                    climateDataValue.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateDataValueLastUpdateContactTVText, "200"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // climateDataValue.StorageDataTypeEnumText   (String)
-                    // -----------------------------------
-
-                    climateDataValue = null;
-                    climateDataValue = GetFilledRandomClimateDataValue("");
-                    climateDataValue.StorageDataTypeEnumText = GetRandomString("", 101);
-                    Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateDataValueStorageDataTypeEnumText, "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -505,7 +494,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(climateDataValue);
 
                     ClimateDataValue climateDataValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -515,9 +504,9 @@ namespace CSSPServices.Tests
                         {
                             climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -583,24 +572,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (climateDataValueRet.LastUpdateContactTVText != null)
+                            if (climateDataValueRet.ClimateDataValueWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));
+                                Assert.IsNull(climateDataValueRet.ClimateDataValueWeb);
                             }
-                            if (climateDataValueRet.StorageDataTypeEnumText != null)
+                            if (climateDataValueRet.ClimateDataValueReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateDataValueRet.StorageDataTypeEnumText));
+                                Assert.IsNull(climateDataValueRet.ClimateDataValueReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (climateDataValueRet.LastUpdateContactTVText != null)
+                            if (climateDataValueRet.ClimateDataValueWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(climateDataValueRet.ClimateDataValueWeb);
                             }
-                            if (climateDataValueRet.StorageDataTypeEnumText != null)
+                            if (climateDataValueRet.ClimateDataValueReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.StorageDataTypeEnumText));
+                                Assert.IsNotNull(climateDataValueRet.ClimateDataValueReport);
                             }
                         }
                     }

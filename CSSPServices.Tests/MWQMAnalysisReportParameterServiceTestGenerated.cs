@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MWQMAnalysisReportParameter mwqmAnalysisReportParameter = new MWQMAnalysisReportParameter();
 
-            if (OmitPropName != "SubsectorTVItemID") mwqmAnalysisReportParameter.SubsectorTVItemID = 11;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMAnalysisReportParameter SubsectorTVItemID TVItem TVItemID]
             if (OmitPropName != "AnalysisName") mwqmAnalysisReportParameter.AnalysisName = GetRandomString("", 10);
             if (OmitPropName != "AnalysisReportYear") mwqmAnalysisReportParameter.AnalysisReportYear = GetRandomInt(1980, 2050);
             if (OmitPropName != "StartDate") mwqmAnalysisReportParameter.StartDate = new DateTime(2005, 3, 6);
@@ -60,13 +60,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WetLimit72h") mwqmAnalysisReportParameter.WetLimit72h = GetRandomInt(1, 100);
             if (OmitPropName != "WetLimit96h") mwqmAnalysisReportParameter.WetLimit96h = GetRandomInt(1, 100);
             if (OmitPropName != "RunsToOmit") mwqmAnalysisReportParameter.RunsToOmit = GetRandomString("", 5);
-            if (OmitPropName != "ExcelTVFileTVItemID") mwqmAnalysisReportParameter.ExcelTVFileTVItemID = 17;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMAnalysisReportParameter ExcelTVFileTVItemID TVItem TVItemID]
             if (OmitPropName != "Command") mwqmAnalysisReportParameter.Command = (AnalysisReportExportCommandEnum)GetRandomEnumType(typeof(AnalysisReportExportCommandEnum));
+            //Error: property [MWQMAnalysisReportParameterWeb] and type [MWQMAnalysisReportParameter] is  not implemented
+            //Error: property [MWQMAnalysisReportParameterReport] and type [MWQMAnalysisReportParameter] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmAnalysisReportParameter.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmAnalysisReportParameter.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "ExcelTVFileTVText") mwqmAnalysisReportParameter.ExcelTVFileTVText = GetRandomString("", 5);
-            if (OmitPropName != "CommandText") mwqmAnalysisReportParameter.CommandText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mwqmAnalysisReportParameter.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmAnalysisReportParameter.HasErrors = true;
 
             return mwqmAnalysisReportParameter;
@@ -531,6 +530,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmAnalysisReportParameter.MWQMAnalysisReportParameterWeb   (MWQMAnalysisReportParameterWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMAnalysisReportParameterWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmAnalysisReportParameter.MWQMAnalysisReportParameterReport   (MWQMAnalysisReportParameterReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMAnalysisReportParameterReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmAnalysisReportParameter.LastUpdateDate_UTC   (DateTime)
@@ -555,50 +572,6 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, "Contact"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ExcelTVFileTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmAnalysisReportParameter.ExcelTVFileTVText   (String)
-                    // -----------------------------------
-
-                    mwqmAnalysisReportParameter = null;
-                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
-                    mwqmAnalysisReportParameter.ExcelTVFileTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVText, "200"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmAnalysisReportParameter.CommandText   (String)
-                    // -----------------------------------
-
-                    mwqmAnalysisReportParameter = null;
-                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
-                    mwqmAnalysisReportParameter.CommandText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterCommandText, "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmAnalysisReportParameter.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mwqmAnalysisReportParameter = null;
-                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
-                    mwqmAnalysisReportParameter.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVText, "200"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -633,7 +606,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmAnalysisReportParameter);
 
                     MWQMAnalysisReportParameter mwqmAnalysisReportParameterRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -643,9 +616,9 @@ namespace CSSPServices.Tests
                         {
                             mwqmAnalysisReportParameterRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmAnalysisReportParameterRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mwqmAnalysisReportParameterRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -687,32 +660,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmAnalysisReportParameterRet.ExcelTVFileTVText != null)
+                            if (mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.ExcelTVFileTVText));
+                                Assert.IsNull(mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterWeb);
                             }
-                            if (mwqmAnalysisReportParameterRet.CommandText != null)
+                            if (mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.CommandText));
-                            }
-                            if (mwqmAnalysisReportParameterRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.LastUpdateContactTVText));
+                                Assert.IsNull(mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmAnalysisReportParameterRet.ExcelTVFileTVText != null)
+                            if (mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.ExcelTVFileTVText));
+                                Assert.IsNotNull(mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterWeb);
                             }
-                            if (mwqmAnalysisReportParameterRet.CommandText != null)
+                            if (mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.CommandText));
-                            }
-                            if (mwqmAnalysisReportParameterRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterReport);
                             }
                         }
                     }

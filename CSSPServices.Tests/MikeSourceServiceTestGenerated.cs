@@ -40,15 +40,15 @@ namespace CSSPServices.Tests
         {
             MikeSource mikeSource = new MikeSource();
 
-            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 27;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MikeSource MikeSourceTVItemID TVItem TVItemID]
             if (OmitPropName != "IsContinuous") mikeSource.IsContinuous = true;
             if (OmitPropName != "Include") mikeSource.Include = true;
             if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;
             if (OmitPropName != "SourceNumberString") mikeSource.SourceNumberString = GetRandomString("", 5);
+            //Error: property [MikeSourceWeb] and type [MikeSource] is  not implemented
+            //Error: property [MikeSourceReport] and type [MikeSource] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSource.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MikeSourceTVText") mikeSource.MikeSourceTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mikeSource.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mikeSource.HasErrors = true;
 
             return mikeSource;
@@ -189,6 +189,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeSource.MikeSourceWeb   (MikeSourceWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeSourceWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeSource.MikeSourceReport   (MikeSourceReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeSourceReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mikeSource.LastUpdateDate_UTC   (DateTime)
@@ -213,36 +231,6 @@ namespace CSSPServices.Tests
                     mikeSourceService.Add(mikeSource);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceLastUpdateContactTVItemID, "Contact"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeSourceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mikeSource.MikeSourceTVText   (String)
-                    // -----------------------------------
-
-                    mikeSource = null;
-                    mikeSource = GetFilledRandomMikeSource("");
-                    mikeSource.MikeSourceTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceMikeSourceTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mikeSource.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mikeSource = null;
-                    mikeSource = GetFilledRandomMikeSource("");
-                    mikeSource.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceLastUpdateContactTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -277,7 +265,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSource);
 
                     MikeSource mikeSourceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -287,9 +275,9 @@ namespace CSSPServices.Tests
                         {
                             mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -308,24 +296,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mikeSourceRet.MikeSourceTVText != null)
+                            if (mikeSourceRet.MikeSourceWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
+                                Assert.IsNull(mikeSourceRet.MikeSourceWeb);
                             }
-                            if (mikeSourceRet.LastUpdateContactTVText != null)
+                            if (mikeSourceRet.MikeSourceReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
+                                Assert.IsNull(mikeSourceRet.MikeSourceReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mikeSourceRet.MikeSourceTVText != null)
+                            if (mikeSourceRet.MikeSourceWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
+                                Assert.IsNotNull(mikeSourceRet.MikeSourceWeb);
                             }
-                            if (mikeSourceRet.LastUpdateContactTVText != null)
+                            if (mikeSourceRet.MikeSourceReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(mikeSourceRet.MikeSourceReport);
                             }
                         }
                     }

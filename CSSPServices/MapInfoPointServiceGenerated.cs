@@ -93,6 +93,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLng, "-180", "180"), new[] { "Lng" });
             }
 
+                //Error: Type not implemented [MapInfoPointWeb] of type [MapInfoPointWeb]
+                //Error: Type not implemented [MapInfoPointReport] of type [MapInfoPointReport]
             if (mapInfoPoint.LastUpdateDate_UTC.Year == 1)
             {
                 mapInfoPoint.HasErrors = true;
@@ -129,12 +131,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mapInfoPoint.LastUpdateContactTVText) && mapInfoPoint.LastUpdateContactTVText.Length > 200)
-            {
-                mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapInfoPointLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -160,8 +156,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoPointQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMapInfoPoint(mapInfoPointQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -178,8 +174,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoPointQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMapInfoPoint(mapInfoPointQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -232,7 +228,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MapInfoPoint> FillMapInfoPoint(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MapInfoPoint> FillMapInfoPoint_Show_Copy_To_MapInfoPointServiceExtra_As_Fill_MapInfoPoint(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             mapInfoPointQuery = (from c in mapInfoPointQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -248,7 +247,14 @@ namespace CSSPServices
                         Lng = c.Lng,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        MapInfoPointWeb = new MapInfoPointWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        MapInfoPointReport = new MapInfoPointReport
+                        {
+                            MapInfoPointReportTest = "MapInfoPointReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

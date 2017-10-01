@@ -107,6 +107,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateFileName, "150"), new[] { "FileName" });
             }
 
+                //Error: Type not implemented [DocTemplateWeb] of type [DocTemplateWeb]
+                //Error: Type not implemented [DocTemplateReport] of type [DocTemplateReport]
             if (docTemplate.LastUpdateDate_UTC.Year == 1)
             {
                 docTemplate.HasErrors = true;
@@ -143,24 +145,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(docTemplate.LastUpdateContactTVText) && docTemplate.LastUpdateContactTVText.Length > 200)
-            {
-                docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(docTemplate.LanguageText) && docTemplate.LanguageText.Length > 100)
-            {
-                docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateLanguageText, "100"), new[] { "LanguageText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(docTemplate.TVTypeText) && docTemplate.TVTypeText.Length > 100)
-            {
-                docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateTVTypeText, "100"), new[] { "TVTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -186,8 +170,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return docTemplateQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillDocTemplate(docTemplateQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -204,8 +188,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return docTemplateQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillDocTemplate(docTemplateQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -258,7 +242,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<DocTemplate> FillDocTemplate(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<DocTemplate> FillDocTemplate_Show_Copy_To_DocTemplateServiceExtra_As_Fill_DocTemplate(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -279,13 +266,20 @@ namespace CSSPServices
                         FileName = c.FileName,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        LanguageText = (from e in LanguageEnumList
+                        DocTemplateWeb = new DocTemplateWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
-                        TVTypeText = (from e in TVTypeEnumList
+                            TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        DocTemplateReport = new DocTemplateReport
+                        {
+                            DocTemplateReportTest = "DocTemplateReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

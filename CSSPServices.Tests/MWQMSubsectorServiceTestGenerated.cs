@@ -40,13 +40,13 @@ namespace CSSPServices.Tests
         {
             MWQMSubsector mwqmSubsector = new MWQMSubsector();
 
-            if (OmitPropName != "MWQMSubsectorTVItemID") mwqmSubsector.MWQMSubsectorTVItemID = 11;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSubsector MWQMSubsectorTVItemID TVItem TVItemID]
             if (OmitPropName != "SubsectorHistoricKey") mwqmSubsector.SubsectorHistoricKey = GetRandomString("", 5);
             if (OmitPropName != "TideLocationSIDText") mwqmSubsector.TideLocationSIDText = GetRandomString("", 5);
+            //Error: property [MWQMSubsectorWeb] and type [MWQMSubsector] is  not implemented
+            //Error: property [MWQMSubsectorReport] and type [MWQMSubsector] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsector.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsector.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "SubsectorTVText") mwqmSubsector.SubsectorTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mwqmSubsector.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmSubsector.HasErrors = true;
 
             return mwqmSubsector;
@@ -182,6 +182,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSubsector.MWQMSubsectorWeb   (MWQMSubsectorWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSubsectorWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSubsector.MWQMSubsectorReport   (MWQMSubsectorReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSubsectorReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmSubsector.LastUpdateDate_UTC   (DateTime)
@@ -206,36 +224,6 @@ namespace CSSPServices.Tests
                     mwqmSubsectorService.Add(mwqmSubsector);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "Contact"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSubsector.SubsectorTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSubsector = null;
-                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
-                    mwqmSubsector.SubsectorTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorSubsectorTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSubsector.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSubsector = null;
-                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
-                    mwqmSubsector.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -270,7 +258,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSubsector);
 
                     MWQMSubsector mwqmSubsectorRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -280,9 +268,9 @@ namespace CSSPServices.Tests
                         {
                             mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -302,24 +290,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSubsectorRet.SubsectorTVText != null)
+                            if (mwqmSubsectorRet.MWQMSubsectorWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));
+                                Assert.IsNull(mwqmSubsectorRet.MWQMSubsectorWeb);
                             }
-                            if (mwqmSubsectorRet.LastUpdateContactTVText != null)
+                            if (mwqmSubsectorRet.MWQMSubsectorReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSubsectorRet.LastUpdateContactTVText));
+                                Assert.IsNull(mwqmSubsectorRet.MWQMSubsectorReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSubsectorRet.SubsectorTVText != null)
+                            if (mwqmSubsectorRet.MWQMSubsectorWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));
+                                Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorWeb);
                             }
-                            if (mwqmSubsectorRet.LastUpdateContactTVText != null)
+                            if (mwqmSubsectorRet.MWQMSubsectorReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorReport);
                             }
                         }
                     }

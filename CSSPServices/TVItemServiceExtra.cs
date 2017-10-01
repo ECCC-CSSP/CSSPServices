@@ -48,8 +48,9 @@ namespace CSSPServices
                                            IsActive = c.IsActive,
                                            LastUpdateDate_UTC = cl.LastUpdateDate_UTC,
                                            LastUpdateContactTVItemID = cl.LastUpdateContactTVItemID,
-                                           TVText = cl.TVText,
-                                           TVTypeText = c.TVType.ToString(),
+                                           HasErrors = false,
+                                           TVItemWeb = null,
+                                           TVItemReport = null,
                                            ValidationResults = null,
                                        }).Take(Take).ToList();
 

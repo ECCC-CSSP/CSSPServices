@@ -43,11 +43,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Email") resetPassword.Email = GetRandomString("", 5);
             if (OmitPropName != "ExpireDate_Local") resetPassword.ExpireDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Code") resetPassword.Code = GetRandomString("", 5);
+            //Error: property [ResetPasswordWeb] and type [ResetPassword] is  not implemented
+            //Error: property [ResetPasswordReport] and type [ResetPassword] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") resetPassword.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") resetPassword.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") resetPassword.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "Password") resetPassword.Password = GetRandomString("", 11);
-            if (OmitPropName != "ConfirmPassword") resetPassword.ConfirmPassword = GetRandomString("", 11);
             if (OmitPropName != "HasErrors") resetPassword.HasErrors = true;
 
             return resetPassword;
@@ -179,6 +178,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // resetPassword.ResetPasswordWeb   (ResetPasswordWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ResetPasswordWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // resetPassword.ResetPasswordReport   (ResetPasswordReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ResetPasswordReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // resetPassword.LastUpdateDate_UTC   (DateTime)
@@ -203,77 +220,6 @@ namespace CSSPServices.Tests
                     resetPasswordService.Add(resetPassword);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // resetPassword.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordLastUpdateContactTVText, "200"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is NOT Nullable
-                    // [NotMapped]
-                    // [StringLength(100, MinimumLength = 6)]
-                    // resetPassword.Password   (String)
-                    // -----------------------------------
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("Password");
-                    Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordPassword)).Any());
-                    Assert.AreEqual(null, resetPassword.Password);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.Password = GetRandomString("", 5);
-                    Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.Password = GetRandomString("", 101);
-                    Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is NOT Nullable
-                    // [NotMapped]
-                    // [StringLength(100, MinimumLength = 6)]
-                    // resetPassword.ConfirmPassword   (String)
-                    // -----------------------------------
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("ConfirmPassword");
-                    Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordConfirmPassword)).Any());
-                    Assert.AreEqual(null, resetPassword.ConfirmPassword);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.ConfirmPassword = GetRandomString("", 5);
-                    Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordConfirmPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.ConfirmPassword = GetRandomString("", 101);
-                    Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordConfirmPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -308,7 +254,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(resetPassword);
 
                     ResetPassword resetPasswordRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -318,9 +264,9 @@ namespace CSSPServices.Tests
                         {
                             resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -337,16 +283,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (resetPasswordRet.LastUpdateContactTVText != null)
+                            if (resetPasswordRet.ResetPasswordWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(resetPasswordRet.LastUpdateContactTVText));
+                                Assert.IsNull(resetPasswordRet.ResetPasswordWeb);
+                            }
+                            if (resetPasswordRet.ResetPasswordReport != null)
+                            {
+                                Assert.IsNull(resetPasswordRet.ResetPasswordReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (resetPasswordRet.LastUpdateContactTVText != null)
+                            if (resetPasswordRet.ResetPasswordWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(resetPasswordRet.ResetPasswordWeb);
+                            }
+                            if (resetPasswordRet.ResetPasswordReport != null)
+                            {
+                                Assert.IsNotNull(resetPasswordRet.ResetPasswordReport);
                             }
                         }
                     }

@@ -120,6 +120,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
+                //Error: Type not implemented [MWQMSiteWeb] of type [MWQMSiteWeb]
+                //Error: Type not implemented [MWQMSiteReport] of type [MWQMSiteReport]
             if (mwqmSite.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSite.HasErrors = true;
@@ -156,24 +158,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteTVText) && mwqmSite.MWQMSiteTVText.Length > 200)
-            {
-                mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSite.LastUpdateContactTVText) && mwqmSite.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteLatestClassificationText) && mwqmSite.MWQMSiteLatestClassificationText.Length > 100)
-            {
-                mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), new[] { "MWQMSiteLatestClassificationText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -199,8 +183,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSite(mwqmSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -217,8 +201,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSite(mwqmSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -271,7 +255,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMSite> FillMWQMSite(IQueryable<MWQMSite> mwqmSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMSite> FillMWQMSite_Show_Copy_To_MWQMSiteServiceExtra_As_Fill_MWQMSite(IQueryable<MWQMSite> mwqmSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -296,11 +283,18 @@ namespace CSSPServices
                         Ordinal = c.Ordinal,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSiteTVText = MWQMSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
+                        MWQMSiteWeb = new MWQMSiteWeb
+                        {
+                            MWQMSiteTVText = MWQMSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
                                 where e.EnumID == (int?)c.MWQMSiteLatestClassification
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        MWQMSiteReport = new MWQMSiteReport
+                        {
+                            MWQMSiteReportTest = "MWQMSiteReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

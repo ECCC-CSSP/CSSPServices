@@ -40,19 +40,18 @@ namespace CSSPServices.Tests
         {
             PolSourceSite polSourceSite = new PolSourceSite();
 
-            if (OmitPropName != "PolSourceSiteTVItemID") polSourceSite.PolSourceSiteTVItemID = 21;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [PolSourceSite PolSourceSiteTVItemID TVItem TVItemID]
             if (OmitPropName != "Temp_Locator_CanDelete") polSourceSite.Temp_Locator_CanDelete = GetRandomString("", 5);
             if (OmitPropName != "Oldsiteid") polSourceSite.Oldsiteid = GetRandomInt(0, 1000);
             if (OmitPropName != "Site") polSourceSite.Site = GetRandomInt(0, 1000);
             if (OmitPropName != "SiteID") polSourceSite.SiteID = GetRandomInt(0, 1000);
             if (OmitPropName != "IsPointSource") polSourceSite.IsPointSource = true;
             if (OmitPropName != "InactiveReason") polSourceSite.InactiveReason = (PolSourceInactiveReasonEnum)GetRandomEnumType(typeof(PolSourceInactiveReasonEnum));
-            if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = 28;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [PolSourceSite CivicAddressTVItemID TVItem TVItemID]
+            //Error: property [PolSourceSiteWeb] and type [PolSourceSite] is  not implemented
+            //Error: property [PolSourceSiteReport] and type [PolSourceSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") polSourceSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "PolSourceSiteTVText") polSourceSite.PolSourceSiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") polSourceSite.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "InactiveReasonText") polSourceSite.InactiveReasonText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") polSourceSite.HasErrors = true;
 
             return polSourceSite;
@@ -262,6 +261,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // polSourceSite.PolSourceSiteWeb   (PolSourceSiteWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [PolSourceSiteWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // polSourceSite.PolSourceSiteReport   (PolSourceSiteReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [PolSourceSiteReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // polSourceSite.LastUpdateDate_UTC   (DateTime)
@@ -286,50 +303,6 @@ namespace CSSPServices.Tests
                     polSourceSiteService.Add(polSourceSite);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceSiteLastUpdateContactTVItemID, "Contact"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "PolSourceSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // polSourceSite.PolSourceSiteTVText   (String)
-                    // -----------------------------------
-
-                    polSourceSite = null;
-                    polSourceSite = GetFilledRandomPolSourceSite("");
-                    polSourceSite.PolSourceSiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceSitePolSourceSiteTVText, "200"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // polSourceSite.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    polSourceSite = null;
-                    polSourceSite = GetFilledRandomPolSourceSite("");
-                    polSourceSite.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceSiteLastUpdateContactTVText, "200"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // polSourceSite.InactiveReasonText   (String)
-                    // -----------------------------------
-
-                    polSourceSite = null;
-                    polSourceSite = GetFilledRandomPolSourceSite("");
-                    polSourceSite.InactiveReasonText = GetRandomString("", 101);
-                    Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceSiteInactiveReasonText, "100"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -364,7 +337,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(polSourceSite);
 
                     PolSourceSite polSourceSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -374,9 +347,9 @@ namespace CSSPServices.Tests
                         {
                             polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -416,32 +389,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (polSourceSiteRet.PolSourceSiteTVText != null)
+                            if (polSourceSiteRet.PolSourceSiteWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteTVText));
+                                Assert.IsNull(polSourceSiteRet.PolSourceSiteWeb);
                             }
-                            if (polSourceSiteRet.LastUpdateContactTVText != null)
+                            if (polSourceSiteRet.PolSourceSiteReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceSiteRet.LastUpdateContactTVText));
-                            }
-                            if (polSourceSiteRet.InactiveReasonText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceSiteRet.InactiveReasonText));
+                                Assert.IsNull(polSourceSiteRet.PolSourceSiteReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (polSourceSiteRet.PolSourceSiteTVText != null)
+                            if (polSourceSiteRet.PolSourceSiteWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteTVText));
+                                Assert.IsNotNull(polSourceSiteRet.PolSourceSiteWeb);
                             }
-                            if (polSourceSiteRet.LastUpdateContactTVText != null)
+                            if (polSourceSiteRet.PolSourceSiteReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.LastUpdateContactTVText));
-                            }
-                            if (polSourceSiteRet.InactiveReasonText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.InactiveReasonText));
+                                Assert.IsNotNull(polSourceSiteRet.PolSourceSiteReport);
                             }
                         }
                     }

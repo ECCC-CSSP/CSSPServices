@@ -42,34 +42,34 @@ namespace CSSPServices
             LastUpdateAndContact lastUpdateAndContact = validationContext.ObjectInstance as LastUpdateAndContact;
             lastUpdateAndContact.HasErrors = false;
 
-            if (string.IsNullOrWhiteSpace(lastUpdateAndContact.Error))
+            if (string.IsNullOrWhiteSpace(lastUpdateAndContact.Err))
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndContactError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndContactErr), new[] { "Err" });
             }
 
-            //Error has no StringLength Attribute
+            //Err has no StringLength Attribute
 
-            if (lastUpdateAndContact.LastUpdateDate_UTC.Year == 1)
+            if (lastUpdateAndContact.LastUpdateAndContactDate_UTC.Year == 1)
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndContactLastUpdateAndContactDate_UTC), new[] { "LastUpdateAndContactDate_UTC" });
             }
             else
             {
-                if (lastUpdateAndContact.LastUpdateDate_UTC.Year < 1980)
+                if (lastUpdateAndContact.LastUpdateAndContactDate_UTC.Year < 1980)
                 {
                 lastUpdateAndContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LastUpdateAndContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LastUpdateAndContactLastUpdateAndContactDate_UTC, "1980"), new[] { "LastUpdateAndContactDate_UTC" });
                 }
             }
 
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LastUpdateAndContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (lastUpdateAndContact.LastUpdateContactTVItemID < 1)
+            if (lastUpdateAndContact.LastUpdateAndContactTVItemID < 1)
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LastUpdateAndContactLastUpdateContactTVItemID, "1"), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LastUpdateAndContactLastUpdateAndContactTVItemID, "1"), new[] { "LastUpdateAndContactTVItemID" });
             }
 
             //HasErrors (bool) is required but no testing needed 

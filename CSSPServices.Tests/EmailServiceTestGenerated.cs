@@ -40,14 +40,13 @@ namespace CSSPServices.Tests
         {
             Email email = new Email();
 
-            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 29;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Email EmailTVItemID TVItem TVItemID]
             if (OmitPropName != "EmailAddress") email.EmailAddress = GetRandomEmail();
             if (OmitPropName != "EmailType") email.EmailType = (EmailTypeEnum)GetRandomEnumType(typeof(EmailTypeEnum));
+            //Error: property [EmailWeb] and type [Email] is  not implemented
+            //Error: property [EmailReport] and type [Email] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") email.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "EmailTVText") email.EmailTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") email.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "EmailTypeText") email.EmailTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") email.HasErrors = true;
 
             return email;
@@ -184,6 +183,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // email.EmailWeb   (EmailWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [EmailWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // email.EmailReport   (EmailReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [EmailReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // email.LastUpdateDate_UTC   (DateTime)
@@ -208,50 +225,6 @@ namespace CSSPServices.Tests
                     emailService.Add(email);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailLastUpdateContactTVItemID, "Contact"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "EmailTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // email.EmailTVText   (String)
-                    // -----------------------------------
-
-                    email = null;
-                    email = GetFilledRandomEmail("");
-                    email.EmailTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, emailService.Add(email));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, emailService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // email.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    email = null;
-                    email = GetFilledRandomEmail("");
-                    email.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, emailService.Add(email));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailLastUpdateContactTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, emailService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // email.EmailTypeText   (String)
-                    // -----------------------------------
-
-                    email = null;
-                    email = GetFilledRandomEmail("");
-                    email.EmailTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, emailService.Add(email));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTypeText, "100"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, emailService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -286,7 +259,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(email);
 
                     Email emailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -296,9 +269,9 @@ namespace CSSPServices.Tests
                         {
                             emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -315,32 +288,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (emailRet.EmailTVText != null)
+                            if (emailRet.EmailWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
+                                Assert.IsNull(emailRet.EmailWeb);
                             }
-                            if (emailRet.LastUpdateContactTVText != null)
+                            if (emailRet.EmailReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
-                            }
-                            if (emailRet.EmailTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
+                                Assert.IsNull(emailRet.EmailReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (emailRet.EmailTVText != null)
+                            if (emailRet.EmailWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
+                                Assert.IsNotNull(emailRet.EmailWeb);
                             }
-                            if (emailRet.LastUpdateContactTVText != null)
+                            if (emailRet.EmailReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
-                            }
-                            if (emailRet.EmailTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
+                                Assert.IsNotNull(emailRet.EmailReport);
                             }
                         }
                     }

@@ -84,6 +84,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContactPreferenceMarkerSize, "1", "1000"), new[] { "MarkerSize" });
             }
 
+                //Error: Type not implemented [ContactPreferenceWeb] of type [ContactPreferenceWeb]
+                //Error: Type not implemented [ContactPreferenceReport] of type [ContactPreferenceReport]
             if (contactPreference.LastUpdateDate_UTC.Year == 1)
             {
                 contactPreference.HasErrors = true;
@@ -120,18 +122,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(contactPreference.LastUpdateContactTVText) && contactPreference.LastUpdateContactTVText.Length > 200)
-            {
-                contactPreference.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPreferenceLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contactPreference.TVTypeText) && contactPreference.TVTypeText.Length > 100)
-            {
-                contactPreference.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPreferenceTVTypeText, "100"), new[] { "TVTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -157,8 +147,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactPreferenceQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContactPreference(contactPreferenceQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -175,8 +165,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactPreferenceQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContactPreference(contactPreferenceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -229,7 +219,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<ContactPreference> FillContactPreference(IQueryable<ContactPreference> contactPreferenceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<ContactPreference> FillContactPreference_Show_Copy_To_ContactPreferenceServiceExtra_As_Fill_ContactPreference(IQueryable<ContactPreference> contactPreferenceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -248,10 +241,17 @@ namespace CSSPServices
                         MarkerSize = c.MarkerSize,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TVTypeText = (from e in TVTypeEnumList
+                        ContactPreferenceWeb = new ContactPreferenceWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        ContactPreferenceReport = new ContactPreferenceReport
+                        {
+                            ContactPreferenceReportText = "ContactPreferenceReportText",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

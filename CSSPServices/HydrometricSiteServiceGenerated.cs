@@ -168,6 +168,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [HydrometricSiteWeb] of type [HydrometricSiteWeb]
+                //Error: Type not implemented [HydrometricSiteReport] of type [HydrometricSiteReport]
             if (hydrometricSite.LastUpdateDate_UTC.Year == 1)
             {
                 hydrometricSite.HasErrors = true;
@@ -204,18 +206,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(hydrometricSite.HydrometricTVText) && hydrometricSite.HydrometricTVText.Length > 200)
-            {
-                hydrometricSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.HydrometricSiteHydrometricTVText, "200"), new[] { "HydrometricTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(hydrometricSite.LastUpdateContactTVText) && hydrometricSite.LastUpdateContactTVText.Length > 200)
-            {
-                hydrometricSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.HydrometricSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -241,8 +231,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillHydrometricSite(hydrometricSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -259,8 +249,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricSiteQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillHydrometricSite(hydrometricSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -313,7 +303,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<HydrometricSite> FillHydrometricSite(IQueryable<HydrometricSite> hydrometricSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<HydrometricSite> FillHydrometricSite_Show_Copy_To_HydrometricSiteServiceExtra_As_Fill_HydrometricSite(IQueryable<HydrometricSite> hydrometricSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             hydrometricSiteQuery = (from c in hydrometricSiteQuery
                 let HydrometricTVText = (from cl in db.TVItemLanguages
@@ -346,8 +339,15 @@ namespace CSSPServices
                         HasRatingCurve = c.HasRatingCurve,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HydrometricTVText = HydrometricTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        HydrometricSiteWeb = new HydrometricSiteWeb
+                        {
+                            HydrometricTVText = HydrometricTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        HydrometricSiteReport = new HydrometricSiteReport
+                        {
+                            HydrometricSiteReportTest = "HydrometricSiteReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

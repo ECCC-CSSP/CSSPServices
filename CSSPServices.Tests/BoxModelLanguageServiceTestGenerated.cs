@@ -40,15 +40,14 @@ namespace CSSPServices.Tests
         {
             BoxModelLanguage boxModelLanguage = new BoxModelLanguage();
 
-            if (OmitPropName != "BoxModelID") boxModelLanguage.BoxModelID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [BoxModelLanguage BoxModelID BoxModel BoxModelID]
             if (OmitPropName != "Language") boxModelLanguage.Language = LanguageRequest;
             if (OmitPropName != "ScenarioName") boxModelLanguage.ScenarioName = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") boxModelLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
+            //Error: property [BoxModelLanguageWeb] and type [BoxModelLanguage] is  not implemented
+            //Error: property [BoxModelLanguageReport] and type [BoxModelLanguage] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") boxModelLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModelLanguage.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") boxModelLanguage.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LanguageText") boxModelLanguage.LanguageText = GetRandomString("", 5);
-            if (OmitPropName != "TranslationStatusText") boxModelLanguage.TranslationStatusText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") boxModelLanguage.HasErrors = true;
 
             return boxModelLanguage;
@@ -191,6 +190,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // boxModelLanguage.BoxModelLanguageWeb   (BoxModelLanguageWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [BoxModelLanguageWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // boxModelLanguage.BoxModelLanguageReport   (BoxModelLanguageReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [BoxModelLanguageReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // boxModelLanguage.LastUpdateDate_UTC   (DateTime)
@@ -215,49 +232,6 @@ namespace CSSPServices.Tests
                     boxModelLanguageService.Add(boxModelLanguage);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "Contact"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // boxModelLanguage.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    boxModelLanguage = null;
-                    boxModelLanguage = GetFilledRandomBoxModelLanguage("");
-                    boxModelLanguage.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVText, "200"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // boxModelLanguage.LanguageText   (String)
-                    // -----------------------------------
-
-                    boxModelLanguage = null;
-                    boxModelLanguage = GetFilledRandomBoxModelLanguage("");
-                    boxModelLanguage.LanguageText = GetRandomString("", 101);
-                    Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageLanguageText, "100"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // boxModelLanguage.TranslationStatusText   (String)
-                    // -----------------------------------
-
-                    boxModelLanguage = null;
-                    boxModelLanguage = GetFilledRandomBoxModelLanguage("");
-                    boxModelLanguage.TranslationStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageTranslationStatusText, "100"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -292,7 +266,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(boxModelLanguage);
 
                     BoxModelLanguage boxModelLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -302,9 +276,9 @@ namespace CSSPServices.Tests
                         {
                             boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -322,32 +296,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (boxModelLanguageRet.LastUpdateContactTVText != null)
+                            if (boxModelLanguageRet.BoxModelLanguageWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelLanguageRet.LastUpdateContactTVText));
+                                Assert.IsNull(boxModelLanguageRet.BoxModelLanguageWeb);
                             }
-                            if (boxModelLanguageRet.LanguageText != null)
+                            if (boxModelLanguageRet.BoxModelLanguageReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelLanguageRet.LanguageText));
-                            }
-                            if (boxModelLanguageRet.TranslationStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(boxModelLanguageRet.TranslationStatusText));
+                                Assert.IsNull(boxModelLanguageRet.BoxModelLanguageReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (boxModelLanguageRet.LastUpdateContactTVText != null)
+                            if (boxModelLanguageRet.BoxModelLanguageWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(boxModelLanguageRet.BoxModelLanguageWeb);
                             }
-                            if (boxModelLanguageRet.LanguageText != null)
+                            if (boxModelLanguageRet.BoxModelLanguageReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.LanguageText));
-                            }
-                            if (boxModelLanguageRet.TranslationStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.TranslationStatusText));
+                                Assert.IsNotNull(boxModelLanguageRet.BoxModelLanguageReport);
                             }
                         }
                     }

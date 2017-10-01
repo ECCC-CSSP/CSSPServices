@@ -168,6 +168,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), new[] { "LeftSideLineStartLongitude" });
             }
 
+                //Error: Type not implemented [BoxModelResultWeb] of type [BoxModelResultWeb]
+                //Error: Type not implemented [BoxModelResultReport] of type [BoxModelResultReport]
             if (boxModelResult.LastUpdateDate_UTC.Year == 1)
             {
                 boxModelResult.HasErrors = true;
@@ -204,18 +206,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(boxModelResult.LastUpdateContactTVText) && boxModelResult.LastUpdateContactTVText.Length > 200)
-            {
-                boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelResultLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(boxModelResult.BoxModelResultTypeText) && boxModelResult.BoxModelResultTypeText.Length > 100)
-            {
-                boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelResultBoxModelResultTypeText, "100"), new[] { "BoxModelResultTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -241,8 +231,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelResultQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillBoxModelResult(boxModelResultQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -259,8 +249,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelResultQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillBoxModelResult(boxModelResultQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -313,7 +303,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<BoxModelResult> FillBoxModelResult(IQueryable<BoxModelResult> boxModelResultQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<BoxModelResult> FillBoxModelResult_Show_Copy_To_BoxModelResultServiceExtra_As_Fill_BoxModelResult(IQueryable<BoxModelResult> boxModelResultQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -344,10 +337,17 @@ namespace CSSPServices
                         LeftSideLineStartLongitude = c.LeftSideLineStartLongitude,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
+                        BoxModelResultWeb = new BoxModelResultWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
                                 where e.EnumID == (int?)c.BoxModelResultType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        BoxModelResultReport = new BoxModelResultReport
+                        {
+                            BoxModelResultReportTest = "BoxModelResultReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

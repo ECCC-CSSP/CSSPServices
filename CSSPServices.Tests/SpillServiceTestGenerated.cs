@@ -40,16 +40,15 @@ namespace CSSPServices.Tests
         {
             Spill spill = new Spill();
 
-            if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = 14;
-            if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = 16;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Spill MunicipalityTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Spill InfrastructureTVItemID TVItem TVItemID]
             if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomDouble(0.0D, 1000000.0D);
+            //Error: property [SpillWeb] and type [Spill] is  not implemented
+            //Error: property [SpillReport] and type [Spill] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") spill.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") spill.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MunicipalityTVText") spill.MunicipalityTVText = GetRandomString("", 5);
-            if (OmitPropName != "InfrastructureTVText") spill.InfrastructureTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") spill.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") spill.HasErrors = true;
 
             return spill;
@@ -206,6 +205,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, spillService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // spill.SpillWeb   (SpillWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SpillWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // spill.SpillReport   (SpillReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SpillReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // spill.LastUpdateDate_UTC   (DateTime)
@@ -230,51 +247,6 @@ namespace CSSPServices.Tests
                     spillService.Add(spill);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillLastUpdateContactTVItemID, "Contact"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MunicipalityTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // spill.MunicipalityTVText   (String)
-                    // -----------------------------------
-
-                    spill = null;
-                    spill = GetFilledRandomSpill("");
-                    spill.MunicipalityTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillMunicipalityTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "InfrastructureTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // spill.InfrastructureTVText   (String)
-                    // -----------------------------------
-
-                    spill = null;
-                    spill = GetFilledRandomSpill("");
-                    spill.InfrastructureTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillInfrastructureTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // spill.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    spill = null;
-                    spill = GetFilledRandomSpill("");
-                    spill.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLastUpdateContactTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -309,7 +281,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(spill);
 
                     Spill spillRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -319,9 +291,9 @@ namespace CSSPServices.Tests
                         {
                             spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -346,32 +318,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (spillRet.MunicipalityTVText != null)
+                            if (spillRet.SpillWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillRet.MunicipalityTVText));
+                                Assert.IsNull(spillRet.SpillWeb);
                             }
-                            if (spillRet.InfrastructureTVText != null)
+                            if (spillRet.SpillReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillRet.InfrastructureTVText));
-                            }
-                            if (spillRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillRet.LastUpdateContactTVText));
+                                Assert.IsNull(spillRet.SpillReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (spillRet.MunicipalityTVText != null)
+                            if (spillRet.SpillWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.MunicipalityTVText));
+                                Assert.IsNotNull(spillRet.SpillWeb);
                             }
-                            if (spillRet.InfrastructureTVText != null)
+                            if (spillRet.SpillReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.InfrastructureTVText));
-                            }
-                            if (spillRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(spillRet.SpillReport);
                             }
                         }
                     }

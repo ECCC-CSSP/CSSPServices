@@ -51,9 +51,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubsectorTVItemIDs") rainExceedance.SubsectorTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "ClimateSiteTVItemIDs") rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "EmailDistributionListIDs") rainExceedance.EmailDistributionListIDs = GetRandomString("", 5);
+            //Error: property [RainExceedanceWeb] and type [RainExceedance] is  not implemented
+            //Error: property [RainExceedanceReport] and type [RainExceedance] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") rainExceedance.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") rainExceedance.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") rainExceedance.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") rainExceedance.HasErrors = true;
 
             return rainExceedance;
@@ -308,6 +309,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // rainExceedance.RainExceedanceWeb   (RainExceedanceWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [RainExceedanceWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // rainExceedance.RainExceedanceReport   (RainExceedanceReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [RainExceedanceReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // rainExceedance.LastUpdateDate_UTC   (DateTime)
@@ -332,21 +351,6 @@ namespace CSSPServices.Tests
                     rainExceedanceService.Add(rainExceedance);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // rainExceedance.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    rainExceedance = null;
-                    rainExceedance = GetFilledRandomRainExceedance("");
-                    rainExceedance.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceLastUpdateContactTVText, "200"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -381,7 +385,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(rainExceedance);
 
                     RainExceedance rainExceedanceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -391,9 +395,9 @@ namespace CSSPServices.Tests
                         {
                             rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -430,16 +434,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (rainExceedanceRet.LastUpdateContactTVText != null)
+                            if (rainExceedanceRet.RainExceedanceWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(rainExceedanceRet.LastUpdateContactTVText));
+                                Assert.IsNull(rainExceedanceRet.RainExceedanceWeb);
+                            }
+                            if (rainExceedanceRet.RainExceedanceReport != null)
+                            {
+                                Assert.IsNull(rainExceedanceRet.RainExceedanceReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (rainExceedanceRet.LastUpdateContactTVText != null)
+                            if (rainExceedanceRet.RainExceedanceWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(rainExceedanceRet.RainExceedanceWeb);
+                            }
+                            if (rainExceedanceRet.RainExceedanceReport != null)
+                            {
+                                Assert.IsNotNull(rainExceedanceRet.RainExceedanceReport);
                             }
                         }
                     }

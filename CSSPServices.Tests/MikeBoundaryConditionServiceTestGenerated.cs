@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MikeBoundaryCondition mikeBoundaryCondition = new MikeBoundaryCondition();
 
-            if (OmitPropName != "MikeBoundaryConditionTVItemID") mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 26;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MikeBoundaryCondition MikeBoundaryConditionTVItemID TVItem TVItemID]
             if (OmitPropName != "MikeBoundaryConditionCode") mikeBoundaryCondition.MikeBoundaryConditionCode = GetRandomString("", 5);
             if (OmitPropName != "MikeBoundaryConditionName") mikeBoundaryCondition.MikeBoundaryConditionName = GetRandomString("", 5);
             if (OmitPropName != "MikeBoundaryConditionLength_m") mikeBoundaryCondition.MikeBoundaryConditionLength_m = GetRandomDouble(1.0D, 100000.0D);
@@ -50,13 +50,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "NumberOfWebTideNodes") mikeBoundaryCondition.NumberOfWebTideNodes = GetRandomInt(0, 1000);
             if (OmitPropName != "WebTideDataFromStartToEndDate") mikeBoundaryCondition.WebTideDataFromStartToEndDate = GetRandomString("", 20);
             if (OmitPropName != "TVType") mikeBoundaryCondition.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            //Error: property [MikeBoundaryConditionWeb] and type [MikeBoundaryCondition] is  not implemented
+            //Error: property [MikeBoundaryConditionReport] and type [MikeBoundaryCondition] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mikeBoundaryCondition.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeBoundaryCondition.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MikeBoundaryConditionTVText") mikeBoundaryCondition.MikeBoundaryConditionTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mikeBoundaryCondition.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "MikeBoundaryConditionLevelOrVelocityText") mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = GetRandomString("", 5);
-            if (OmitPropName != "WebTideDataSetText") mikeBoundaryCondition.WebTideDataSetText = GetRandomString("", 5);
-            if (OmitPropName != "TVTypeText") mikeBoundaryCondition.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mikeBoundaryCondition.HasErrors = true;
 
             return mikeBoundaryCondition;
@@ -314,6 +311,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeBoundaryCondition.MikeBoundaryConditionWeb   (MikeBoundaryConditionWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeBoundaryConditionWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeBoundaryCondition.MikeBoundaryConditionReport   (MikeBoundaryConditionReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeBoundaryConditionReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mikeBoundaryCondition.LastUpdateDate_UTC   (DateTime)
@@ -338,78 +353,6 @@ namespace CSSPServices.Tests
                     mikeBoundaryConditionService.Add(mikeBoundaryCondition);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "Contact"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeBoundaryConditionTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mikeBoundaryCondition.MikeBoundaryConditionTVText   (String)
-                    // -----------------------------------
-
-                    mikeBoundaryCondition = null;
-                    mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-                    mikeBoundaryCondition.MikeBoundaryConditionTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVText, "200"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mikeBoundaryCondition.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mikeBoundaryCondition = null;
-                    mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-                    mikeBoundaryCondition.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionLastUpdateContactTVText, "200"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText   (String)
-                    // -----------------------------------
-
-                    mikeBoundaryCondition = null;
-                    mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-                    mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocityText, "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mikeBoundaryCondition.WebTideDataSetText   (String)
-                    // -----------------------------------
-
-                    mikeBoundaryCondition = null;
-                    mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-                    mikeBoundaryCondition.WebTideDataSetText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionWebTideDataSetText, "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mikeBoundaryCondition.TVTypeText   (String)
-                    // -----------------------------------
-
-                    mikeBoundaryCondition = null;
-                    mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-                    mikeBoundaryCondition.TVTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionTVTypeText, "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -444,7 +387,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeBoundaryCondition);
 
                     MikeBoundaryCondition mikeBoundaryConditionRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -454,9 +397,9 @@ namespace CSSPServices.Tests
                         {
                             mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -480,48 +423,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionTVText != null)
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionTVText));
+                                Assert.IsNull(mikeBoundaryConditionRet.MikeBoundaryConditionWeb);
                             }
-                            if (mikeBoundaryConditionRet.LastUpdateContactTVText != null)
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.LastUpdateContactTVText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText));
-                            }
-                            if (mikeBoundaryConditionRet.WebTideDataSetText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataSetText));
-                            }
-                            if (mikeBoundaryConditionRet.TVTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.TVTypeText));
+                                Assert.IsNull(mikeBoundaryConditionRet.MikeBoundaryConditionReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionTVText != null)
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionTVText));
+                                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionWeb);
                             }
-                            if (mikeBoundaryConditionRet.LastUpdateContactTVText != null)
+                            if (mikeBoundaryConditionRet.MikeBoundaryConditionReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.LastUpdateContactTVText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText));
-                            }
-                            if (mikeBoundaryConditionRet.WebTideDataSetText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataSetText));
-                            }
-                            if (mikeBoundaryConditionRet.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.TVTypeText));
+                                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionReport);
                             }
                         }
                     }

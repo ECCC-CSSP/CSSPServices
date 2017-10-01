@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MikeScenario mikeScenario = new MikeScenario();
 
-            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 25;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MikeScenario MikeScenarioTVItemID TVItem TVItemID]
             if (OmitPropName != "ParentMikeScenarioID") mikeScenario.ParentMikeScenarioID = null;
             if (OmitPropName != "ScenarioStatus") mikeScenario.ScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "ErrorInfo") mikeScenario.ErrorInfo = GetRandomString("", 20);
@@ -65,11 +65,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "NumberOfTransOutputParameters") mikeScenario.NumberOfTransOutputParameters = GetRandomInt(0, 100);
             if (OmitPropName != "EstimatedHydroFileSize") mikeScenario.EstimatedHydroFileSize = GetRandomInt(0, 100000000);
             if (OmitPropName != "EstimatedTransFileSize") mikeScenario.EstimatedTransFileSize = GetRandomInt(0, 100000000);
+            //Error: property [MikeScenarioWeb] and type [MikeScenario] is  not implemented
+            //Error: property [MikeScenarioReport] and type [MikeScenario] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mikeScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeScenario.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MikeScenarioTVText") mikeScenario.MikeScenarioTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mikeScenario.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "ScenarioStatusText") mikeScenario.ScenarioStatusText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mikeScenario.HasErrors = true;
 
             return mikeScenario;
@@ -575,6 +574,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeScenario.MikeScenarioWeb   (MikeScenarioWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeScenarioWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeScenario.MikeScenarioReport   (MikeScenarioReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeScenarioReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mikeScenario.LastUpdateDate_UTC   (DateTime)
@@ -599,50 +616,6 @@ namespace CSSPServices.Tests
                     mikeScenarioService.Add(mikeScenario);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeScenarioLastUpdateContactTVItemID, "Contact"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeScenarioTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mikeScenario.MikeScenarioTVText   (String)
-                    // -----------------------------------
-
-                    mikeScenario = null;
-                    mikeScenario = GetFilledRandomMikeScenario("");
-                    mikeScenario.MikeScenarioTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeScenarioMikeScenarioTVText, "200"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mikeScenario.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mikeScenario = null;
-                    mikeScenario = GetFilledRandomMikeScenario("");
-                    mikeScenario.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeScenarioLastUpdateContactTVText, "200"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mikeScenario.ScenarioStatusText   (String)
-                    // -----------------------------------
-
-                    mikeScenario = null;
-                    mikeScenario = GetFilledRandomMikeScenario("");
-                    mikeScenario.ScenarioStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeScenarioScenarioStatusText, "100"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -677,7 +650,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeScenario);
 
                     MikeScenario mikeScenarioRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -687,9 +660,9 @@ namespace CSSPServices.Tests
                         {
                             mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -764,32 +737,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mikeScenarioRet.MikeScenarioTVText != null)
+                            if (mikeScenarioRet.MikeScenarioWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioTVText));
+                                Assert.IsNull(mikeScenarioRet.MikeScenarioWeb);
                             }
-                            if (mikeScenarioRet.LastUpdateContactTVText != null)
+                            if (mikeScenarioRet.MikeScenarioReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeScenarioRet.LastUpdateContactTVText));
-                            }
-                            if (mikeScenarioRet.ScenarioStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeScenarioRet.ScenarioStatusText));
+                                Assert.IsNull(mikeScenarioRet.MikeScenarioReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mikeScenarioRet.MikeScenarioTVText != null)
+                            if (mikeScenarioRet.MikeScenarioWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioTVText));
+                                Assert.IsNotNull(mikeScenarioRet.MikeScenarioWeb);
                             }
-                            if (mikeScenarioRet.LastUpdateContactTVText != null)
+                            if (mikeScenarioRet.MikeScenarioReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.LastUpdateContactTVText));
-                            }
-                            if (mikeScenarioRet.ScenarioStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ScenarioStatusText));
+                                Assert.IsNotNull(mikeScenarioRet.MikeScenarioReport);
                             }
                         }
                     }

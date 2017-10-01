@@ -95,6 +95,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
+                //Error: Type not implemented [BoxModelLanguageWeb] of type [BoxModelLanguageWeb]
+                //Error: Type not implemented [BoxModelLanguageReport] of type [BoxModelLanguageReport]
             if (boxModelLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 boxModelLanguage.HasErrors = true;
@@ -131,24 +133,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(boxModelLanguage.LastUpdateContactTVText) && boxModelLanguage.LastUpdateContactTVText.Length > 200)
-            {
-                boxModelLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(boxModelLanguage.LanguageText) && boxModelLanguage.LanguageText.Length > 100)
-            {
-                boxModelLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageLanguageText, "100"), new[] { "LanguageText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(boxModelLanguage.TranslationStatusText) && boxModelLanguage.TranslationStatusText.Length > 100)
-            {
-                boxModelLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -174,8 +158,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillBoxModelLanguage(boxModelLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -192,8 +176,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelLanguageQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillBoxModelLanguage(boxModelLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -246,7 +230,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<BoxModelLanguage> FillBoxModelLanguage(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<BoxModelLanguage> FillBoxModelLanguage_Show_Copy_To_BoxModelLanguageServiceExtra_As_Fill_BoxModelLanguage(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -267,13 +254,20 @@ namespace CSSPServices
                         TranslationStatus = c.TranslationStatus,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        LanguageText = (from e in LanguageEnumList
+                        BoxModelLanguageWeb = new BoxModelLanguageWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
+                            TranslationStatusText = (from e in TranslationStatusEnumList
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        BoxModelLanguageReport = new BoxModelLanguageReport
+                        {
+                            BoxModelLanguageReportTest = "BoxModelLanguageReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

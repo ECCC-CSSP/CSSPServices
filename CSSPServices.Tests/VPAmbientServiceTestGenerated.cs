@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             VPAmbient vpAmbient = new VPAmbient();
 
-            if (OmitPropName != "VPScenarioID") vpAmbient.VPScenarioID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [VPAmbient VPScenarioID VPScenario VPScenarioID]
             if (OmitPropName != "Row") vpAmbient.Row = GetRandomInt(0, 10);
             if (OmitPropName != "MeasurementDepth_m") vpAmbient.MeasurementDepth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "CurrentSpeed_m_s") vpAmbient.CurrentSpeed_m_s = GetRandomDouble(0.0D, 10.0D);
@@ -52,9 +52,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FarFieldCurrentSpeed_m_s") vpAmbient.FarFieldCurrentSpeed_m_s = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomDouble(0.0D, 1.0D);
+            //Error: property [VPAmbientWeb] and type [VPAmbient] is  not implemented
+            //Error: property [VPAmbientReport] and type [VPAmbient] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") vpAmbient.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") vpAmbient.HasErrors = true;
 
             return vpAmbient;
@@ -377,6 +378,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // vpAmbient.VPAmbientWeb   (VPAmbientWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [VPAmbientWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // vpAmbient.VPAmbientReport   (VPAmbientReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [VPAmbientReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // vpAmbient.LastUpdateDate_UTC   (DateTime)
@@ -401,21 +420,6 @@ namespace CSSPServices.Tests
                     vpAmbientService.Add(vpAmbient);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // vpAmbient.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    vpAmbient = null;
-                    vpAmbient = GetFilledRandomVPAmbient("");
-                    vpAmbient.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPAmbientLastUpdateContactTVText, "200"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -450,7 +454,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpAmbient);
 
                     VPAmbient vpAmbientRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -460,9 +464,9 @@ namespace CSSPServices.Tests
                         {
                             vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -488,16 +492,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (vpAmbientRet.LastUpdateContactTVText != null)
+                            if (vpAmbientRet.VPAmbientWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
+                                Assert.IsNull(vpAmbientRet.VPAmbientWeb);
+                            }
+                            if (vpAmbientRet.VPAmbientReport != null)
+                            {
+                                Assert.IsNull(vpAmbientRet.VPAmbientReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (vpAmbientRet.LastUpdateContactTVText != null)
+                            if (vpAmbientRet.VPAmbientWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(vpAmbientRet.VPAmbientWeb);
+                            }
+                            if (vpAmbientRet.VPAmbientReport != null)
+                            {
+                                Assert.IsNotNull(vpAmbientRet.VPAmbientReport);
                             }
                         }
                     }

@@ -228,6 +228,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [AppTaskWeb] of type [AppTaskWeb]
+                //Error: Type not implemented [AppTaskReport] of type [AppTaskReport]
             if (appTask.LastUpdateDate_UTC.Year == 1)
             {
                 appTask.HasErrors = true;
@@ -264,42 +266,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(appTask.TVItemTVText) && appTask.TVItemTVText.Length > 200)
-            {
-                appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskTVItemTVText, "200"), new[] { "TVItemTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(appTask.TVItem2TVText) && appTask.TVItem2TVText.Length > 200)
-            {
-                appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskTVItem2TVText, "200"), new[] { "TVItem2TVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(appTask.LastUpdateContactTVText) && appTask.LastUpdateContactTVText.Length > 200)
-            {
-                appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(appTask.AppTaskCommandText) && appTask.AppTaskCommandText.Length > 100)
-            {
-                appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskAppTaskCommandText, "100"), new[] { "AppTaskCommandText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(appTask.AppTaskStatusText) && appTask.AppTaskStatusText.Length > 100)
-            {
-                appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskAppTaskStatusText, "100"), new[] { "AppTaskStatusText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(appTask.LanguageText) && appTask.LanguageText.Length > 100)
-            {
-                appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLanguageText, "100"), new[] { "LanguageText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -325,8 +291,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appTaskQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillAppTask(appTaskQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -343,8 +309,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appTaskQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillAppTask(appTaskQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -397,7 +363,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<AppTask> FillAppTask(IQueryable<AppTask> appTaskQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<AppTask> FillAppTask_Show_Copy_To_AppTaskServiceExtra_As_Fill_AppTask(IQueryable<AppTask> appTaskQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -434,18 +403,25 @@ namespace CSSPServices
                         RemainingTime_second = c.RemainingTime_second,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVItemTVText = TVItemTVText,
-                        TVItem2TVText = TVItem2TVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        AppTaskCommandText = (from e in AppTaskCommandEnumList
+                        AppTaskWeb = new AppTaskWeb
+                        {
+                            TVItemTVText = TVItemTVText,
+                            TVItem2TVText = TVItem2TVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            AppTaskCommandText = (from e in AppTaskCommandEnumList
                                 where e.EnumID == (int?)c.AppTaskCommand
                                 select e.EnumText).FirstOrDefault(),
-                        AppTaskStatusText = (from e in AppTaskStatusEnumList
+                            AppTaskStatusText = (from e in AppTaskStatusEnumList
                                 where e.EnumID == (int?)c.AppTaskStatus
                                 select e.EnumText).FirstOrDefault(),
-                        LanguageText = (from e in LanguageEnumList
+                            LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        AppTaskReport = new AppTaskReport
+                        {
+                            AppTaskReportTest = "AppTaskReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

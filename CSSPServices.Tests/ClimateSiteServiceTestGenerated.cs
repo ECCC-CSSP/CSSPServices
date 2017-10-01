@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ClimateSite climateSite = new ClimateSite();
 
-            if (OmitPropName != "ClimateSiteTVItemID") climateSite.ClimateSiteTVItemID = 7;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [ClimateSite ClimateSiteTVItemID TVItem TVItemID]
             if (OmitPropName != "ECDBID") climateSite.ECDBID = GetRandomInt(1, 100000);
             if (OmitPropName != "ClimateSiteName") climateSite.ClimateSiteName = GetRandomString("", 5);
             if (OmitPropName != "Province") climateSite.Province = GetRandomString("", 4);
@@ -61,10 +61,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MonthlyStartDate_Local") climateSite.MonthlyStartDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "MonthlyEndDate_Local") climateSite.MonthlyEndDate_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "MonthlyNow") climateSite.MonthlyNow = true;
+            //Error: property [ClimateSiteWeb] and type [ClimateSite] is  not implemented
+            //Error: property [ClimateSiteReport] and type [ClimateSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") climateSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "ClimateSiteTVText") climateSite.ClimateSiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") climateSite.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") climateSite.HasErrors = true;
 
             return climateSite;
@@ -406,6 +406,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // climateSite.ClimateSiteWeb   (ClimateSiteWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ClimateSiteWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // climateSite.ClimateSiteReport   (ClimateSiteReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ClimateSiteReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // climateSite.LastUpdateDate_UTC   (DateTime)
@@ -430,36 +448,6 @@ namespace CSSPServices.Tests
                     climateSiteService.Add(climateSite);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, "Contact"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ClimateSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // climateSite.ClimateSiteTVText   (String)
-                    // -----------------------------------
-
-                    climateSite = null;
-                    climateSite = GetFilledRandomClimateSite("");
-                    climateSite.ClimateSiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteClimateSiteTVText, "200"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // climateSite.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    climateSite = null;
-                    climateSite = GetFilledRandomClimateSite("");
-                    climateSite.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteLastUpdateContactTVText, "200"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -494,7 +482,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(climateSite);
 
                     ClimateSite climateSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -504,9 +492,9 @@ namespace CSSPServices.Tests
                         {
                             climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -592,24 +580,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (climateSiteRet.ClimateSiteTVText != null)
+                            if (climateSiteRet.ClimateSiteWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));
+                                Assert.IsNull(climateSiteRet.ClimateSiteWeb);
                             }
-                            if (climateSiteRet.LastUpdateContactTVText != null)
+                            if (climateSiteRet.ClimateSiteReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(climateSiteRet.LastUpdateContactTVText));
+                                Assert.IsNull(climateSiteRet.ClimateSiteReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (climateSiteRet.ClimateSiteTVText != null)
+                            if (climateSiteRet.ClimateSiteWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));
+                                Assert.IsNotNull(climateSiteRet.ClimateSiteWeb);
                             }
-                            if (climateSiteRet.LastUpdateContactTVText != null)
+                            if (climateSiteRet.ClimateSiteReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(climateSiteRet.ClimateSiteReport);
                             }
                         }
                     }

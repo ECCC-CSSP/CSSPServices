@@ -95,6 +95,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
+                //Error: Type not implemented [EmailDistributionListLanguageWeb] of type [EmailDistributionListLanguageWeb]
+                //Error: Type not implemented [EmailDistributionListLanguageReport] of type [EmailDistributionListLanguageReport]
             if (emailDistributionListLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionListLanguage.HasErrors = true;
@@ -131,24 +133,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(emailDistributionListLanguage.LastUpdateContactTVText) && emailDistributionListLanguage.LastUpdateContactTVText.Length > 200)
-            {
-                emailDistributionListLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(emailDistributionListLanguage.LanguageText) && emailDistributionListLanguage.LanguageText.Length > 100)
-            {
-                emailDistributionListLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListLanguageLanguageText, "100"), new[] { "LanguageText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(emailDistributionListLanguage.TranslationStatusText) && emailDistributionListLanguage.TranslationStatusText.Length > 100)
-            {
-                emailDistributionListLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -174,8 +158,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmailDistributionListLanguage(emailDistributionListLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -192,8 +176,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListLanguageQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmailDistributionListLanguage(emailDistributionListLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -246,7 +230,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<EmailDistributionListLanguage> FillEmailDistributionListLanguage(IQueryable<EmailDistributionListLanguage> emailDistributionListLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<EmailDistributionListLanguage> FillEmailDistributionListLanguage_Show_Copy_To_EmailDistributionListLanguageServiceExtra_As_Fill_EmailDistributionListLanguage(IQueryable<EmailDistributionListLanguage> emailDistributionListLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -267,13 +254,20 @@ namespace CSSPServices
                         TranslationStatus = c.TranslationStatus,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        LanguageText = (from e in LanguageEnumList
+                        EmailDistributionListLanguageWeb = new EmailDistributionListLanguageWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
-                        TranslationStatusText = (from e in TranslationStatusEnumList
+                            TranslationStatusText = (from e in TranslationStatusEnumList
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        EmailDistributionListLanguageReport = new EmailDistributionListLanguageReport
+                        {
+                            EmailDistributionListLanguageReportTest = "EmailDistributionListLanguageReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

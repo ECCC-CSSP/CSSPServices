@@ -97,6 +97,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordCode, "8"), new[] { "Code" });
             }
 
+                //Error: Type not implemented [ResetPasswordWeb] of type [ResetPasswordWeb]
+                //Error: Type not implemented [ResetPasswordReport] of type [ResetPasswordReport]
             if (resetPassword.LastUpdateDate_UTC.Year == 1)
             {
                 resetPassword.HasErrors = true;
@@ -133,36 +135,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(resetPassword.LastUpdateContactTVText) && resetPassword.LastUpdateContactTVText.Length > 200)
-            {
-                resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (string.IsNullOrWhiteSpace(resetPassword.Password))
-            {
-                resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordPassword), new[] { "Password" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(resetPassword.Password) && (resetPassword.Password.Length < 6 || resetPassword.Password.Length > 100))
-            {
-                resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordPassword, "6", "100"), new[] { "Password" });
-            }
-
-            if (string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword))
-            {
-                resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordConfirmPassword), new[] { "ConfirmPassword" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword) && (resetPassword.ConfirmPassword.Length < 6 || resetPassword.ConfirmPassword.Length > 100))
-            {
-                resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -188,8 +160,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return resetPasswordQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillResetPassword(resetPasswordQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -206,8 +178,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return resetPasswordQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillResetPassword(resetPasswordQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -260,7 +232,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<ResetPassword> FillResetPassword(IQueryable<ResetPassword> resetPasswordQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<ResetPassword> FillResetPassword_Show_Copy_To_ResetPasswordServiceExtra_As_Fill_ResetPassword(IQueryable<ResetPassword> resetPasswordQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             resetPasswordQuery = (from c in resetPasswordQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -275,7 +250,16 @@ namespace CSSPServices
                         Code = c.Code,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        ResetPasswordWeb = new ResetPasswordWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            Password = Password,
+                            ConfirmPassword = ConfirmPassword,
+                        },
+                        ResetPasswordReport = new ResetPasswordReport
+                        {
+                            ResetPasswordReportTest = "ResetPasswordReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

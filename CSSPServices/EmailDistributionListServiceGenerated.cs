@@ -89,6 +89,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.EmailDistributionListOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
+                //Error: Type not implemented [EmailDistributionListWeb] of type [EmailDistributionListWeb]
+                //Error: Type not implemented [EmailDistributionListReport] of type [EmailDistributionListReport]
             if (emailDistributionList.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionList.HasErrors = true;
@@ -125,18 +127,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(emailDistributionList.CountryTVText) && emailDistributionList.CountryTVText.Length > 200)
-            {
-                emailDistributionList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListCountryTVText, "200"), new[] { "CountryTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(emailDistributionList.LastUpdateContactTVText) && emailDistributionList.LastUpdateContactTVText.Length > 200)
-            {
-                emailDistributionList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -162,8 +152,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmailDistributionList(emailDistributionListQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -180,8 +170,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmailDistributionList(emailDistributionListQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -234,7 +224,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<EmailDistributionList> FillEmailDistributionList(IQueryable<EmailDistributionList> emailDistributionListQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<EmailDistributionList> FillEmailDistributionList_Show_Copy_To_EmailDistributionListServiceExtra_As_Fill_EmailDistributionList(IQueryable<EmailDistributionList> emailDistributionListQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             emailDistributionListQuery = (from c in emailDistributionListQuery
                 let CountryTVText = (from cl in db.TVItemLanguages
@@ -252,8 +245,15 @@ namespace CSSPServices
                         Ordinal = c.Ordinal,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        CountryTVText = CountryTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        EmailDistributionListWeb = new EmailDistributionListWeb
+                        {
+                            CountryTVText = CountryTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        EmailDistributionListReport = new EmailDistributionListReport
+                        {
+                            EmailDistributionReportTest = "EmailDistributionReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

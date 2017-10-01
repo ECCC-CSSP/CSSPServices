@@ -31,6 +31,47 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<BoxModelLanguage> FillBoxModelLanguage(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        {
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
+
+            boxModelLanguageQuery = (from c in boxModelLanguageQuery
+                                     let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                    && cl.Language == LanguageRequest
+                                                                    select cl.TVText).FirstOrDefault()
+                                     select new BoxModelLanguage
+                                     {
+                                         BoxModelLanguageID = c.BoxModelLanguageID,
+                                         BoxModelID = c.BoxModelID,
+                                         Language = c.Language,
+                                         ScenarioName = c.ScenarioName,
+                                         TranslationStatus = c.TranslationStatus,
+                                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                         BoxModelLanguageWeb = new BoxModelLanguageWeb
+                                         {
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
+                                             LanguageText = (from e in LanguageEnumList
+                                                             where e.EnumID == (int?)c.Language
+                                                             select e.EnumText).FirstOrDefault(),
+                                             TranslationStatusText = (from e in TranslationStatusEnumList
+                                                                      where e.EnumID == (int?)c.TranslationStatus
+                                                                      select e.EnumText).FirstOrDefault(),
+                                         },
+                                         BoxModelLanguageReport = new BoxModelLanguageReport
+                                         {
+                                             BoxModelLanguageReportTest = "BoxModelLanguageReportTest",
+                                         },
+                                         HasErrors = false,
+                                         ValidationResults = null,
+                                     });
+
+            return boxModelLanguageQuery;
+        }
         #endregion Functions private
     }
 }

@@ -113,6 +113,8 @@ namespace CSSPServices
 
             //Observation_ToBeDeleted has no StringLength Attribute
 
+                //Error: Type not implemented [PolSourceObservationWeb] of type [PolSourceObservationWeb]
+                //Error: Type not implemented [PolSourceObservationReport] of type [PolSourceObservationReport]
             if (polSourceObservation.LastUpdateDate_UTC.Year == 1)
             {
                 polSourceObservation.HasErrors = true;
@@ -149,24 +151,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(polSourceObservation.PolSourceSiteTVText) && polSourceObservation.PolSourceSiteTVText.Length > 200)
-            {
-                polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationPolSourceSiteTVText, "200"), new[] { "PolSourceSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(polSourceObservation.ContactTVText) && polSourceObservation.ContactTVText.Length > 200)
-            {
-                polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationContactTVText, "200"), new[] { "ContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(polSourceObservation.LastUpdateContactTVText) && polSourceObservation.LastUpdateContactTVText.Length > 200)
-            {
-                polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -192,8 +176,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceObservationQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillPolSourceObservation(polSourceObservationQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -210,8 +194,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceObservationQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillPolSourceObservation(polSourceObservationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -264,7 +248,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<PolSourceObservation> FillPolSourceObservation(IQueryable<PolSourceObservation> polSourceObservationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<PolSourceObservation> FillPolSourceObservation_Show_Copy_To_PolSourceObservationServiceExtra_As_Fill_PolSourceObservation(IQueryable<PolSourceObservation> polSourceObservationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             polSourceObservationQuery = (from c in polSourceObservationQuery
                 let PolSourceSiteTVText = (from cl in db.TVItemLanguages
@@ -288,9 +275,16 @@ namespace CSSPServices
                         Observation_ToBeDeleted = c.Observation_ToBeDeleted,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        PolSourceSiteTVText = PolSourceSiteTVText,
-                        ContactTVText = ContactTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        PolSourceObservationWeb = new PolSourceObservationWeb
+                        {
+                            PolSourceSiteTVText = PolSourceSiteTVText,
+                            ContactTVText = ContactTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        PolSourceObservationReport = new PolSourceObservationReport
+                        {
+                            PolSourceObservationReportTest = "PolSourceObservationReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

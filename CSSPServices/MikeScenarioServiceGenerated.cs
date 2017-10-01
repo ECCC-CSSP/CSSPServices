@@ -294,6 +294,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [MikeScenarioWeb] of type [MikeScenarioWeb]
+                //Error: Type not implemented [MikeScenarioReport] of type [MikeScenarioReport]
             if (mikeScenario.LastUpdateDate_UTC.Year == 1)
             {
                 mikeScenario.HasErrors = true;
@@ -330,24 +332,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mikeScenario.MikeScenarioTVText) && mikeScenario.MikeScenarioTVText.Length > 200)
-            {
-                mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeScenarioMikeScenarioTVText, "200"), new[] { "MikeScenarioTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mikeScenario.LastUpdateContactTVText) && mikeScenario.LastUpdateContactTVText.Length > 200)
-            {
-                mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeScenarioLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mikeScenario.ScenarioStatusText) && mikeScenario.ScenarioStatusText.Length > 100)
-            {
-                mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeScenarioScenarioStatusText, "100"), new[] { "ScenarioStatusText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -373,8 +357,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeScenarioQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMikeScenario(mikeScenarioQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -391,8 +375,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeScenarioQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMikeScenario(mikeScenarioQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -445,7 +429,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MikeScenario> FillMikeScenario(IQueryable<MikeScenario> mikeScenarioQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MikeScenario> FillMikeScenario_Show_Copy_To_MikeScenarioServiceExtra_As_Fill_MikeScenario(IQueryable<MikeScenario> mikeScenarioQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -490,11 +477,18 @@ namespace CSSPServices
                         EstimatedTransFileSize = c.EstimatedTransFileSize,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MikeScenarioTVText = MikeScenarioTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        ScenarioStatusText = (from e in ScenarioStatusEnumList
+                        MikeScenarioWeb = new MikeScenarioWeb
+                        {
+                            MikeScenarioTVText = MikeScenarioTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            ScenarioStatusText = (from e in ScenarioStatusEnumList
                                 where e.EnumID == (int?)c.ScenarioStatus
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        MikeScenarioReport = new MikeScenarioReport
+                        {
+                            MikeScenarioReportTest = "MikeScenarioReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

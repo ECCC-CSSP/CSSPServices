@@ -115,6 +115,44 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLng, "-180", "180"), new[] { "Lng" });
             }
 
+                //Error: Type not implemented [TideLocationWeb] of type [TideLocationWeb]
+                //Error: Type not implemented [TideLocationReport] of type [TideLocationReport]
+            if (tideLocation.LastUpdateDate_UTC.Year == 1)
+            {
+                tideLocation.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+            }
+            else
+            {
+                if (tideLocation.LastUpdateDate_UTC.Year < 1980)
+                {
+                tideLocation.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideLocationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                }
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tideLocation.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
+            {
+                tideLocation.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, tideLocation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
+                {
+                    tideLocation.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
+            }
+
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -140,8 +178,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideLocationQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTideLocation(tideLocationQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -158,8 +196,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideLocationQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTideLocation(tideLocationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -212,9 +250,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TideLocation> FillTideLocation(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TideLocation> FillTideLocation_Show_Copy_To_TideLocationServiceExtra_As_Fill_TideLocation(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             tideLocationQuery = (from c in tideLocationQuery
+                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
                     select new TideLocation
                     {
                         TideLocationID = c.TideLocationID,
@@ -224,6 +269,16 @@ namespace CSSPServices
                         sid = c.sid,
                         Lat = c.Lat,
                         Lng = c.Lng,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        TideLocationWeb = new TideLocationWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        TideLocationReport = new TideLocationReport
+                        {
+                            TideLocationReportTest = "TideLocationReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

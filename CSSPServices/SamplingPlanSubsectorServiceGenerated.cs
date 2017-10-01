@@ -91,6 +91,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [SamplingPlanSubsectorWeb] of type [SamplingPlanSubsectorWeb]
+                //Error: Type not implemented [SamplingPlanSubsectorReport] of type [SamplingPlanSubsectorReport]
             if (samplingPlanSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlanSubsector.HasErrors = true;
@@ -127,18 +129,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(samplingPlanSubsector.SubsectorTVText) && samplingPlanSubsector.SubsectorTVText.Length > 200)
-            {
-                samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorSubsectorTVText, "200"), new[] { "SubsectorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlanSubsector.LastUpdateContactTVText) && samplingPlanSubsector.LastUpdateContactTVText.Length > 200)
-            {
-                samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -164,8 +154,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanSubsectorQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSamplingPlanSubsector(samplingPlanSubsectorQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -182,8 +172,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanSubsectorQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSamplingPlanSubsector(samplingPlanSubsectorQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -236,7 +226,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsector(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsector_Show_Copy_To_SamplingPlanSubsectorServiceExtra_As_Fill_SamplingPlanSubsector(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             samplingPlanSubsectorQuery = (from c in samplingPlanSubsectorQuery
                 let SubsectorTVText = (from cl in db.TVItemLanguages
@@ -254,8 +247,15 @@ namespace CSSPServices
                         SubsectorTVItemID = c.SubsectorTVItemID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SubsectorTVText = SubsectorTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SamplingPlanSubsectorWeb = new SamplingPlanSubsectorWeb
+                        {
+                            SubsectorTVText = SubsectorTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        SamplingPlanSubsectorReport = new SamplingPlanSubsectorReport
+                        {
+                            SamplingPlanSubsectorReportTest = "SamplingPlanSubsectorReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

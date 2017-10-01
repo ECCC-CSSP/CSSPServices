@@ -1241,7 +1241,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @");");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @"Ret = null;");
-                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })");
+                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })");
                     sb.AppendLine(@"                    {");
                     sb.AppendLine(@"                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)");
                     sb.AppendLine(@"                        {");
@@ -1251,9 +1251,9 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                        {");
                     sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityOnly);");
                     sb.AppendLine(@"                        }");
-                    sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)");
+                    sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)");
                     sb.AppendLine(@"                        {");
-                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityWeb);");
                     sb.AppendLine(@"                        }");
                     sb.AppendLine(@"                        else");
                     sb.AppendLine(@"                        {");
@@ -1374,7 +1374,7 @@ namespace CSSPServicesGenerateCodeHelper
                             }
                         }
                         sb.AppendLine(@"                        }");
-                        sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)");
+                        sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)");
                         sb.AppendLine(@"                        {");
                         foreach (PropertyInfo prop in type.GetProperties())
                         {
@@ -1407,15 +1407,15 @@ namespace CSSPServicesGenerateCodeHelper
                                 }
                                 if (csspProp.PropType == "Int32")
                                 {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + csspProp.PropName + @" > 0);");
                                 }
                                 else if (csspProp.PropType == "Single")
                                 {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0.0f, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + csspProp.PropName + @" > 0.0f);");
                                 }
                                 else if (csspProp.PropType == "Double")
                                 {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(0.0D, " + TypeNameLower + @"Ret." + csspProp.PropName + @");");
+                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + csspProp.PropName + @" > 0.0D);");
                                 }
                                 else
                                 {

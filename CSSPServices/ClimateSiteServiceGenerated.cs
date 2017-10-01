@@ -200,6 +200,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyEndDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteMonthlyEndDate_Local });
             }
 
+                //Error: Type not implemented [ClimateSiteWeb] of type [ClimateSiteWeb]
+                //Error: Type not implemented [ClimateSiteReport] of type [ClimateSiteReport]
             if (climateSite.LastUpdateDate_UTC.Year == 1)
             {
                 climateSite.HasErrors = true;
@@ -236,18 +238,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(climateSite.ClimateSiteTVText) && climateSite.ClimateSiteTVText.Length > 200)
-            {
-                climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteClimateSiteTVText, "200"), new[] { "ClimateSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(climateSite.LastUpdateContactTVText) && climateSite.LastUpdateContactTVText.Length > 200)
-            {
-                climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -273,8 +263,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillClimateSite(climateSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -291,8 +281,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateSiteQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillClimateSite(climateSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -345,7 +335,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<ClimateSite> FillClimateSite(IQueryable<ClimateSite> climateSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<ClimateSite> FillClimateSite_Show_Copy_To_ClimateSiteServiceExtra_As_Fill_ClimateSite(IQueryable<ClimateSite> climateSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             climateSiteQuery = (from c in climateSiteQuery
                 let ClimateSiteTVText = (from cl in db.TVItemLanguages
@@ -382,8 +375,15 @@ namespace CSSPServices
                         MonthlyNow = c.MonthlyNow,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ClimateSiteTVText = ClimateSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        ClimateSiteWeb = new ClimateSiteWeb
+                        {
+                            ClimateSiteTVText = ClimateSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        ClimateSiteReport = new ClimateSiteReport
+                        {
+                            ClimateSiteReportTest = "ClimateSiteReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -109,6 +109,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [AppErrLogWeb] of type [AppErrLogWeb]
+                //Error: Type not implemented [AppErrLogReport] of type [AppErrLogReport]
             if (appErrLog.LastUpdateDate_UTC.Year == 1)
             {
                 appErrLog.HasErrors = true;
@@ -145,12 +147,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(appErrLog.LastUpdateContactTVText) && appErrLog.LastUpdateContactTVText.Length > 200)
-            {
-                appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppErrLogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -176,8 +172,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appErrLogQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillAppErrLog(appErrLogQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -194,8 +190,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appErrLogQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillAppErrLog(appErrLogQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -248,7 +244,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<AppErrLog> FillAppErrLog(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<AppErrLog> FillAppErrLog_Show_Copy_To_AppErrLogServiceExtra_As_Fill_AppErrLog(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             appErrLogQuery = (from c in appErrLogQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -265,7 +264,14 @@ namespace CSSPServices
                         DateTime_UTC = c.DateTime_UTC,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        AppErrLogWeb = new AppErrLogWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        AppErrLogReport = new AppErrLogReport
+                        {
+                            AppErrLogTest = "AppErrLogTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

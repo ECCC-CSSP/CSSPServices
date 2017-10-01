@@ -40,16 +40,15 @@ namespace CSSPServices.Tests
         {
             MWQMSite mwqmSite = new MWQMSite();
 
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSite.MWQMSiteTVItemID = 19;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSite MWQMSiteTVItemID TVItem TVItemID]
             if (OmitPropName != "MWQMSiteNumber") mwqmSite.MWQMSiteNumber = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteDescription") mwqmSite.MWQMSiteDescription = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteLatestClassification") mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)GetRandomEnumType(typeof(MWQMSiteLatestClassificationEnum));
             if (OmitPropName != "Ordinal") mwqmSite.Ordinal = GetRandomInt(0, 1000);
+            //Error: property [MWQMSiteWeb] and type [MWQMSite] is  not implemented
+            //Error: property [MWQMSiteReport] and type [MWQMSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MWQMSiteTVText") mwqmSite.MWQMSiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mwqmSite.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "MWQMSiteLatestClassificationText") mwqmSite.MWQMSiteLatestClassificationText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmSite.HasErrors = true;
 
             return mwqmSite;
@@ -225,6 +224,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSite.MWQMSiteWeb   (MWQMSiteWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSiteWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSite.MWQMSiteReport   (MWQMSiteReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSiteReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmSite.LastUpdateDate_UTC   (DateTime)
@@ -249,50 +266,6 @@ namespace CSSPServices.Tests
                     mwqmSiteService.Add(mwqmSite);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSite.MWQMSiteTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSite = null;
-                    mwqmSite = GetFilledRandomMWQMSite("");
-                    mwqmSite.MWQMSiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSite.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSite = null;
-                    mwqmSite = GetFilledRandomMWQMSite("");
-                    mwqmSite.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteLastUpdateContactTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmSite.MWQMSiteLatestClassificationText   (String)
-                    // -----------------------------------
-
-                    mwqmSite = null;
-                    mwqmSite = GetFilledRandomMWQMSite("");
-                    mwqmSite.MWQMSiteLatestClassificationText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -327,7 +300,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSite);
 
                     MWQMSite mwqmSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -337,9 +310,9 @@ namespace CSSPServices.Tests
                         {
                             mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -358,32 +331,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSiteRet.MWQMSiteTVText != null)
+                            if (mwqmSiteRet.MWQMSiteWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));
+                                Assert.IsNull(mwqmSiteRet.MWQMSiteWeb);
                             }
-                            if (mwqmSiteRet.LastUpdateContactTVText != null)
+                            if (mwqmSiteRet.MWQMSiteReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteRet.LastUpdateContactTVText));
-                            }
-                            if (mwqmSiteRet.MWQMSiteLatestClassificationText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteLatestClassificationText));
+                                Assert.IsNull(mwqmSiteRet.MWQMSiteReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSiteRet.MWQMSiteTVText != null)
+                            if (mwqmSiteRet.MWQMSiteWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));
+                                Assert.IsNotNull(mwqmSiteRet.MWQMSiteWeb);
                             }
-                            if (mwqmSiteRet.LastUpdateContactTVText != null)
+                            if (mwqmSiteRet.MWQMSiteReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.LastUpdateContactTVText));
-                            }
-                            if (mwqmSiteRet.MWQMSiteLatestClassificationText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteLatestClassificationText));
+                                Assert.IsNotNull(mwqmSiteRet.MWQMSiteReport);
                             }
                         }
                     }

@@ -40,13 +40,13 @@ namespace CSSPServices.Tests
         {
             MWQMSiteStartEndDate mwqmSiteStartEndDate = new MWQMSiteStartEndDate();
 
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSiteStartEndDate.MWQMSiteTVItemID = 19;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSiteStartEndDate MWQMSiteTVItemID TVItem TVItemID]
             if (OmitPropName != "StartDate") mwqmSiteStartEndDate.StartDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDate") mwqmSiteStartEndDate.EndDate = new DateTime(2005, 3, 7);
+            //Error: property [MWQMSiteStartEndDateWeb] and type [MWQMSiteStartEndDate] is  not implemented
+            //Error: property [MWQMSiteStartEndDateReport] and type [MWQMSiteStartEndDate] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSiteStartEndDate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSiteStartEndDate.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MWQMSiteTVText") mwqmSiteStartEndDate.MWQMSiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mwqmSiteStartEndDate.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmSiteStartEndDate.HasErrors = true;
 
             return mwqmSiteStartEndDate;
@@ -163,6 +163,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSiteStartEndDate.MWQMSiteStartEndDateWeb   (MWQMSiteStartEndDateWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSiteStartEndDateWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSiteStartEndDate.MWQMSiteStartEndDateReport   (MWQMSiteStartEndDateReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSiteStartEndDateReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmSiteStartEndDate.LastUpdateDate_UTC   (DateTime)
@@ -187,36 +205,6 @@ namespace CSSPServices.Tests
                     mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSiteStartEndDate.MWQMSiteTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSiteStartEndDate = null;
-                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
-                    mwqmSiteStartEndDate.MWQMSiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSiteStartEndDate.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSiteStartEndDate = null;
-                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
-                    mwqmSiteStartEndDate.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -251,7 +239,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSiteStartEndDate);
 
                     MWQMSiteStartEndDate mwqmSiteStartEndDateRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -261,9 +249,9 @@ namespace CSSPServices.Tests
                         {
                             mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -283,24 +271,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSiteStartEndDateRet.MWQMSiteTVText != null)
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteTVText));
+                                Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb);
                             }
-                            if (mwqmSiteStartEndDateRet.LastUpdateContactTVText != null)
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.LastUpdateContactTVText));
+                                Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSiteStartEndDateRet.MWQMSiteTVText != null)
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteTVText));
+                                Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb);
                             }
-                            if (mwqmSiteStartEndDateRet.LastUpdateContactTVText != null)
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
                             }
                         }
                     }

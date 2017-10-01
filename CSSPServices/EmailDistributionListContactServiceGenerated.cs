@@ -115,6 +115,8 @@ namespace CSSPServices
 
             //ReopeningAllTypes (bool) is required but no testing needed 
 
+                //Error: Type not implemented [EmailDistributionListContactWeb] of type [EmailDistributionListContactWeb]
+                //Error: Type not implemented [EmailDistributionListContactReport] of type [EmailDistributionListContactReport]
             if (emailDistributionListContact.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionListContact.HasErrors = true;
@@ -151,12 +153,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(emailDistributionListContact.LastUpdateContactTVText) && emailDistributionListContact.LastUpdateContactTVText.Length > 200)
-            {
-                emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -182,8 +178,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListContactQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmailDistributionListContact(emailDistributionListContactQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -200,8 +196,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListContactQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmailDistributionListContact(emailDistributionListContactQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -254,10 +250,17 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<EmailDistributionListContact> FillEmailDistributionListContact(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<EmailDistributionListContact> FillEmailDistributionListContact_Show_Copy_To_EmailDistributionListContactServiceExtra_As_Fill_EmailDistributionListContact(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             emailDistributionListContactQuery = (from c in emailDistributionListContactQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl.TVText).FirstOrDefault()
+                let EmailDistributionListContactReportTest = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
@@ -275,7 +278,14 @@ namespace CSSPServices
                         ReopeningAllTypes = c.ReopeningAllTypes,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        EmailDistributionListContactWeb = new EmailDistributionListContactWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        EmailDistributionListContactReport = new EmailDistributionListContactReport
+                        {
+                            EmailDistributionListContactReportTest = EmailDistributionListContactReportTest,
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

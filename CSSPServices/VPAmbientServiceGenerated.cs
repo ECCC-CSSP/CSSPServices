@@ -157,6 +157,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), new[] { "FarFieldDiffusionCoefficient" });
             }
 
+                //Error: Type not implemented [VPAmbientWeb] of type [VPAmbientWeb]
+                //Error: Type not implemented [VPAmbientReport] of type [VPAmbientReport]
             if (vpAmbient.LastUpdateDate_UTC.Year == 1)
             {
                 vpAmbient.HasErrors = true;
@@ -193,12 +195,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(vpAmbient.LastUpdateContactTVText) && vpAmbient.LastUpdateContactTVText.Length > 200)
-            {
-                vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPAmbientLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -224,8 +220,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpAmbientQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillVPAmbient(vpAmbientQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -242,8 +238,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpAmbientQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillVPAmbient(vpAmbientQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -296,7 +292,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<VPAmbient> FillVPAmbient(IQueryable<VPAmbient> vpAmbientQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<VPAmbient> FillVPAmbient_Show_Copy_To_VPAmbientServiceExtra_As_Fill_VPAmbient(IQueryable<VPAmbient> vpAmbientQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             vpAmbientQuery = (from c in vpAmbientQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -320,7 +319,14 @@ namespace CSSPServices
                         FarFieldDiffusionCoefficient = c.FarFieldDiffusionCoefficient,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        VPAmbientWeb = new VPAmbientWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        VPAmbientReport = new VPAmbientReport
+                        {
+                            VPAmbientReportTest = "VPAmbientReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

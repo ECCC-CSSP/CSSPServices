@@ -101,6 +101,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideSiteWebTideDatum_m, "-100", "100"), new[] { "WebTideDatum_m" });
             }
 
+                //Error: Type not implemented [TideSiteWeb] of type [TideSiteWeb]
+                //Error: Type not implemented [TideSiteReport] of type [TideSiteReport]
             if (tideSite.LastUpdateDate_UTC.Year == 1)
             {
                 tideSite.HasErrors = true;
@@ -137,18 +139,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tideSite.TideSiteTVText) && tideSite.TideSiteTVText.Length > 200)
-            {
-                tideSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteTideSiteTVText, "200"), new[] { "TideSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tideSite.LastUpdateContactTVText) && tideSite.LastUpdateContactTVText.Length > 200)
-            {
-                tideSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -174,8 +164,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTideSite(tideSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -192,8 +182,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideSiteQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTideSite(tideSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -246,7 +236,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TideSite> FillTideSite(IQueryable<TideSite> tideSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TideSite> FillTideSite_Show_Copy_To_TideSiteServiceExtra_As_Fill_TideSite(IQueryable<TideSite> tideSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             tideSiteQuery = (from c in tideSiteQuery
                 let TideSiteTVText = (from cl in db.TVItemLanguages
@@ -265,8 +258,15 @@ namespace CSSPServices
                         WebTideDatum_m = c.WebTideDatum_m,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TideSiteTVText = TideSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        TideSiteWeb = new TideSiteWeb
+                        {
+                            TideSiteTVText = TideSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        TideSiteReport = new TideSiteReport
+                        {
+                            TideSiteReportTest = "TideSiteReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

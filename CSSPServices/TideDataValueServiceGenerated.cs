@@ -155,6 +155,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [TideDataValueWeb] of type [TideDataValueWeb]
+                //Error: Type not implemented [TideDataValueReport] of type [TideDataValueReport]
             if (tideDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 tideDataValue.HasErrors = true;
@@ -191,42 +193,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tideDataValue.TideSiteTVText) && tideDataValue.TideSiteTVText.Length > 200)
-            {
-                tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideSiteTVText, "200"), new[] { "TideSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tideDataValue.LastUpdateContactTVText) && tideDataValue.LastUpdateContactTVText.Length > 200)
-            {
-                tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tideDataValue.TideDataTypeText) && tideDataValue.TideDataTypeText.Length > 100)
-            {
-                tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideDataTypeText, "100"), new[] { "TideDataTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tideDataValue.StorageDataTypeText) && tideDataValue.StorageDataTypeText.Length > 100)
-            {
-                tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tideDataValue.TideStartText) && tideDataValue.TideStartText.Length > 100)
-            {
-                tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideStartText, "100"), new[] { "TideStartText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tideDataValue.TideEndText) && tideDataValue.TideEndText.Length > 100)
-            {
-                tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideEndText, "100"), new[] { "TideEndText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -252,8 +218,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideDataValueQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTideDataValue(tideDataValueQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -270,8 +236,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideDataValueQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTideDataValue(tideDataValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -324,7 +290,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TideDataValue> FillTideDataValue(IQueryable<TideDataValue> tideDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TideDataValue> FillTideDataValue_Show_Copy_To_TideDataValueServiceExtra_As_Fill_TideDataValue(IQueryable<TideDataValue> tideDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -356,20 +325,27 @@ namespace CSSPServices
                         TideEnd = c.TideEnd,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TideSiteTVText = TideSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TideDataTypeText = (from e in TideDataTypeEnumList
+                        TideDataValueWeb = new TideDataValueWeb
+                        {
+                            TideSiteTVText = TideSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TideDataTypeText = (from e in TideDataTypeEnumList
                                 where e.EnumID == (int?)c.TideDataType
                                 select e.EnumText).FirstOrDefault(),
-                        StorageDataTypeText = (from e in StorageDataTypeEnumList
+                            StorageDataTypeText = (from e in StorageDataTypeEnumList
                                 where e.EnumID == (int?)c.StorageDataType
                                 select e.EnumText).FirstOrDefault(),
-                        TideStartText = (from e in TideTextEnumList
+                            TideStartText = (from e in TideTextEnumList
                                 where e.EnumID == (int?)c.TideStart
                                 select e.EnumText).FirstOrDefault(),
-                        TideEndText = (from e in TideTextEnumList
+                            TideEndText = (from e in TideTextEnumList
                                 where e.EnumID == (int?)c.TideEnd
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        TideDataValueReport = new TideDataValueReport
+                        {
+                            TideDataValueReportTest = "TideDataValueReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -107,6 +107,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateEndDate, CSSPModelsRes.MWQMSiteStartEndDateStartDate), new[] { CSSPModelsRes.MWQMSiteStartEndDateEndDate });
             }
 
+                //Error: Type not implemented [MWQMSiteStartEndDateWeb] of type [MWQMSiteStartEndDateWeb]
+                //Error: Type not implemented [MWQMSiteStartEndDateReport] of type [MWQMSiteStartEndDateReport]
             if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
@@ -143,18 +145,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDate.MWQMSiteTVText) && mwqmSiteStartEndDate.MWQMSiteTVText.Length > 200)
-            {
-                mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDate.LastUpdateContactTVText) && mwqmSiteStartEndDate.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -180,8 +170,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteStartEndDateQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSiteStartEndDate(mwqmSiteStartEndDateQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -198,8 +188,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteStartEndDateQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSiteStartEndDate(mwqmSiteStartEndDateQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -252,7 +242,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMSiteStartEndDate> FillMWQMSiteStartEndDate(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMSiteStartEndDate> FillMWQMSiteStartEndDate_Show_Copy_To_MWQMSiteStartEndDateServiceExtra_As_Fill_MWQMSiteStartEndDate(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             mwqmSiteStartEndDateQuery = (from c in mwqmSiteStartEndDateQuery
                 let MWQMSiteTVText = (from cl in db.TVItemLanguages
@@ -271,8 +264,15 @@ namespace CSSPServices
                         EndDate = c.EndDate,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSiteTVText = MWQMSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        MWQMSiteStartEndDateWeb = new MWQMSiteStartEndDateWeb
+                        {
+                            MWQMSiteTVText = MWQMSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        MWQMSiteStartEndDateReport = new MWQMSiteStartEndDateReport
+                        {
+                            MWQMSiteStartEndDateReportTest = "MWQMSiteStartEndDateReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -178,6 +178,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailSiteComment, "250"), new[] { "SiteComment" });
             }
 
+                //Error: Type not implemented [LabSheetTubeMPNDetailWeb] of type [LabSheetTubeMPNDetailWeb]
+                //Error: Type not implemented [LabSheetTubeMPNDetailReport] of type [LabSheetTubeMPNDetailReport]
             if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year == 1)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
@@ -214,24 +216,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.MWQMSiteTVText) && labSheetTubeMPNDetail.MWQMSiteTVText.Length > 200)
-            {
-                labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.LastUpdateContactTVText) && labSheetTubeMPNDetail.LastUpdateContactTVText.Length > 200)
-            {
-                labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.SampleTypeText) && labSheetTubeMPNDetail.SampleTypeText.Length > 100)
-            {
-                labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailSampleTypeText, "100"), new[] { "SampleTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -257,8 +241,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetTubeMPNDetailQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLabSheetTubeMPNDetail(labSheetTubeMPNDetailQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -275,8 +259,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetTubeMPNDetailQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillLabSheetTubeMPNDetail(labSheetTubeMPNDetailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -329,7 +313,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetail(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetail_Show_Copy_To_LabSheetTubeMPNDetailServiceExtra_As_Fill_LabSheetTubeMPNDetail(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -362,11 +349,18 @@ namespace CSSPServices
                         SiteComment = c.SiteComment,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSiteTVText = MWQMSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        SampleTypeText = (from e in SampleTypeEnumList
+                        LabSheetTubeMPNDetailWeb = new LabSheetTubeMPNDetailWeb
+                        {
+                            MWQMSiteTVText = MWQMSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            SampleTypeText = (from e in SampleTypeEnumList
                                 where e.EnumID == (int?)c.SampleType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        LabSheetTubeMPNDetailReport = new LabSheetTubeMPNDetailReport
+                        {
+                            LabSheetTubeMPNDetailReportTest = "LabSheetTubeMPNDetailReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

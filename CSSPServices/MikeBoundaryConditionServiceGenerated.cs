@@ -163,6 +163,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeBoundaryConditionTVType), new[] { "TVType" });
             }
 
+                //Error: Type not implemented [MikeBoundaryConditionWeb] of type [MikeBoundaryConditionWeb]
+                //Error: Type not implemented [MikeBoundaryConditionReport] of type [MikeBoundaryConditionReport]
             if (mikeBoundaryCondition.LastUpdateDate_UTC.Year == 1)
             {
                 mikeBoundaryCondition.HasErrors = true;
@@ -199,36 +201,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionTVText) && mikeBoundaryCondition.MikeBoundaryConditionTVText.Length > 200)
-            {
-                mikeBoundaryCondition.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVText, "200"), new[] { "MikeBoundaryConditionTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.LastUpdateContactTVText) && mikeBoundaryCondition.LastUpdateContactTVText.Length > 200)
-            {
-                mikeBoundaryCondition.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText) && mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText.Length > 100)
-            {
-                mikeBoundaryCondition.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocityText, "100"), new[] { "MikeBoundaryConditionLevelOrVelocityText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.WebTideDataSetText) && mikeBoundaryCondition.WebTideDataSetText.Length > 100)
-            {
-                mikeBoundaryCondition.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionWebTideDataSetText, "100"), new[] { "WebTideDataSetText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.TVTypeText) && mikeBoundaryCondition.TVTypeText.Length > 100)
-            {
-                mikeBoundaryCondition.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionTVTypeText, "100"), new[] { "TVTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -254,8 +226,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeBoundaryConditionQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMikeBoundaryCondition(mikeBoundaryConditionQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -272,8 +244,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeBoundaryConditionQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMikeBoundaryCondition(mikeBoundaryConditionQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -326,7 +298,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MikeBoundaryCondition> FillMikeBoundaryCondition(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MikeBoundaryCondition> FillMikeBoundaryCondition_Show_Copy_To_MikeBoundaryConditionServiceExtra_As_Fill_MikeBoundaryCondition(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -358,17 +333,24 @@ namespace CSSPServices
                         TVType = c.TVType,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MikeBoundaryConditionTVText = MikeBoundaryConditionTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        MikeBoundaryConditionLevelOrVelocityText = (from e in MikeBoundaryConditionLevelOrVelocityEnumList
+                        MikeBoundaryConditionWeb = new MikeBoundaryConditionWeb
+                        {
+                            MikeBoundaryConditionTVText = MikeBoundaryConditionTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MikeBoundaryConditionLevelOrVelocityText = (from e in MikeBoundaryConditionLevelOrVelocityEnumList
                                 where e.EnumID == (int?)c.MikeBoundaryConditionLevelOrVelocity
                                 select e.EnumText).FirstOrDefault(),
-                        WebTideDataSetText = (from e in WebTideDataSetEnumList
+                            WebTideDataSetText = (from e in WebTideDataSetEnumList
                                 where e.EnumID == (int?)c.WebTideDataSet
                                 select e.EnumText).FirstOrDefault(),
-                        TVTypeText = (from e in TVTypeEnumList
+                            TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        MikeBoundaryConditionReport = new MikeBoundaryConditionReport
+                        {
+                            MikeBoundaryConditionReportTest = "MikeBoundaryConditionReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

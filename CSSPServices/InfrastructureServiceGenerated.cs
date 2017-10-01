@@ -488,6 +488,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [InfrastructureWeb] of type [InfrastructureWeb]
+                //Error: Type not implemented [InfrastructureReport] of type [InfrastructureReport]
             if (infrastructure.LastUpdateDate_UTC.Year == 1)
             {
                 infrastructure.HasErrors = true;
@@ -524,96 +526,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(infrastructure.InfrastructureTVText) && infrastructure.InfrastructureTVText.Length > 200)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.SeeOtherTVText) && infrastructure.SeeOtherTVText.Length > 200)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureSeeOtherTVText, "200"), new[] { "SeeOtherTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.CivicAddressTVText) && infrastructure.CivicAddressTVText.Length > 200)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureCivicAddressTVText, "200"), new[] { "CivicAddressTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.LastUpdateContactTVText) && infrastructure.LastUpdateContactTVText.Length > 200)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.InfrastructureTypeText) && infrastructure.InfrastructureTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.FacilityTypeText) && infrastructure.FacilityTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureFacilityTypeText, "100"), new[] { "FacilityTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.AerationTypeText) && infrastructure.AerationTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureAerationTypeText, "100"), new[] { "AerationTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.PreliminaryTreatmentTypeText) && infrastructure.PreliminaryTreatmentTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructurePreliminaryTreatmentTypeText, "100"), new[] { "PreliminaryTreatmentTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.PrimaryTreatmentTypeText) && infrastructure.PrimaryTreatmentTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructurePrimaryTreatmentTypeText, "100"), new[] { "PrimaryTreatmentTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.SecondaryTreatmentTypeText) && infrastructure.SecondaryTreatmentTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureSecondaryTreatmentTypeText, "100"), new[] { "SecondaryTreatmentTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.TertiaryTreatmentTypeText) && infrastructure.TertiaryTreatmentTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureTertiaryTreatmentTypeText, "100"), new[] { "TertiaryTreatmentTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.TreatmentTypeText) && infrastructure.TreatmentTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureTreatmentTypeText, "100"), new[] { "TreatmentTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.DisinfectionTypeText) && infrastructure.DisinfectionTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureDisinfectionTypeText, "100"), new[] { "DisinfectionTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.CollectionSystemTypeText) && infrastructure.CollectionSystemTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureCollectionSystemTypeText, "100"), new[] { "CollectionSystemTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(infrastructure.AlarmSystemTypeText) && infrastructure.AlarmSystemTypeText.Length > 100)
-            {
-                infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureAlarmSystemTypeText, "100"), new[] { "AlarmSystemTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -639,8 +551,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillInfrastructure(infrastructureQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -657,8 +569,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillInfrastructure(infrastructureQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -711,7 +623,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<Infrastructure> FillInfrastructure(IQueryable<Infrastructure> infrastructureQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<Infrastructure> FillInfrastructure_Show_Copy_To_InfrastructureServiceExtra_As_Fill_Infrastructure(IQueryable<Infrastructure> infrastructureQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -794,43 +709,50 @@ namespace CSSPServices
                         CivicAddressTVItemID = c.CivicAddressTVItemID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        InfrastructureTVText = InfrastructureTVText,
-                        SeeOtherTVText = SeeOtherTVText,
-                        CivicAddressTVText = CivicAddressTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        InfrastructureTypeText = (from e in InfrastructureTypeEnumList
+                        InfrastructureWeb = new InfrastructureWeb
+                        {
+                            InfrastructureTVText = InfrastructureTVText,
+                            SeeOtherTVText = SeeOtherTVText,
+                            CivicAddressTVText = CivicAddressTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            InfrastructureTypeText = (from e in InfrastructureTypeEnumList
                                 where e.EnumID == (int?)c.InfrastructureType
                                 select e.EnumText).FirstOrDefault(),
-                        FacilityTypeText = (from e in FacilityTypeEnumList
+                            FacilityTypeText = (from e in FacilityTypeEnumList
                                 where e.EnumID == (int?)c.FacilityType
                                 select e.EnumText).FirstOrDefault(),
-                        AerationTypeText = (from e in AerationTypeEnumList
+                            AerationTypeText = (from e in AerationTypeEnumList
                                 where e.EnumID == (int?)c.AerationType
                                 select e.EnumText).FirstOrDefault(),
-                        PreliminaryTreatmentTypeText = (from e in PreliminaryTreatmentTypeEnumList
+                            PreliminaryTreatmentTypeText = (from e in PreliminaryTreatmentTypeEnumList
                                 where e.EnumID == (int?)c.PreliminaryTreatmentType
                                 select e.EnumText).FirstOrDefault(),
-                        PrimaryTreatmentTypeText = (from e in PrimaryTreatmentTypeEnumList
+                            PrimaryTreatmentTypeText = (from e in PrimaryTreatmentTypeEnumList
                                 where e.EnumID == (int?)c.PrimaryTreatmentType
                                 select e.EnumText).FirstOrDefault(),
-                        SecondaryTreatmentTypeText = (from e in SecondaryTreatmentTypeEnumList
+                            SecondaryTreatmentTypeText = (from e in SecondaryTreatmentTypeEnumList
                                 where e.EnumID == (int?)c.SecondaryTreatmentType
                                 select e.EnumText).FirstOrDefault(),
-                        TertiaryTreatmentTypeText = (from e in TertiaryTreatmentTypeEnumList
+                            TertiaryTreatmentTypeText = (from e in TertiaryTreatmentTypeEnumList
                                 where e.EnumID == (int?)c.TertiaryTreatmentType
                                 select e.EnumText).FirstOrDefault(),
-                        TreatmentTypeText = (from e in TreatmentTypeEnumList
+                            TreatmentTypeText = (from e in TreatmentTypeEnumList
                                 where e.EnumID == (int?)c.TreatmentType
                                 select e.EnumText).FirstOrDefault(),
-                        DisinfectionTypeText = (from e in DisinfectionTypeEnumList
+                            DisinfectionTypeText = (from e in DisinfectionTypeEnumList
                                 where e.EnumID == (int?)c.DisinfectionType
                                 select e.EnumText).FirstOrDefault(),
-                        CollectionSystemTypeText = (from e in CollectionSystemTypeEnumList
+                            CollectionSystemTypeText = (from e in CollectionSystemTypeEnumList
                                 where e.EnumID == (int?)c.CollectionSystemType
                                 select e.EnumText).FirstOrDefault(),
-                        AlarmSystemTypeText = (from e in AlarmSystemTypeEnumList
+                            AlarmSystemTypeText = (from e in AlarmSystemTypeEnumList
                                 where e.EnumID == (int?)c.AlarmSystemType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        InfrastructureReport = new InfrastructureReport
+                        {
+                            InfrastructureReportTest = "InfrastructureReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblStatusText = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
@@ -37,12 +38,19 @@
             this.butGenerateClassServiceGenerated = new System.Windows.Forms.Button();
             this.butGenerateClassServiceTestGenerated = new System.Windows.Forms.Button();
             this.richTextBoxStatus = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.richTextBoxStatus2 = new System.Windows.Forms.RichTextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -54,6 +62,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.button2);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.panel2);
             this.splitContainer1.Panel1.Controls.Add(this.lblNote);
@@ -63,17 +73,27 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.richTextBoxStatus);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(1015, 725);
-            this.splitContainer1.SplitterDistance = 124;
+            this.splitContainer1.SplitterDistance = 276;
             this.splitContainer1.TabIndex = 4;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(721, 28);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 31;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.lblStatusText);
             this.panel2.Controls.Add(this.lblStatus);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 93);
+            this.panel2.Location = new System.Drawing.Point(0, 245);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1015, 31);
             this.panel2.TabIndex = 30;
@@ -140,19 +160,52 @@
             this.richTextBoxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxStatus.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxStatus.Name = "richTextBoxStatus";
-            this.richTextBoxStatus.Size = new System.Drawing.Size(1015, 597);
+            this.richTextBoxStatus.Size = new System.Drawing.Size(497, 445);
             this.richTextBoxStatus.TabIndex = 0;
             this.richTextBoxStatus.Text = "";
             // 
-            // button1
+            // splitContainer2
             // 
-            this.button1.Location = new System.Drawing.Point(721, 28);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.richTextBoxStatus);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.richTextBoxStatus2);
+            this.splitContainer2.Size = new System.Drawing.Size(1015, 445);
+            this.splitContainer2.SplitterDistance = 497;
+            this.splitContainer2.TabIndex = 1;
+            // 
+            // richTextBoxStatus2
+            // 
+            this.richTextBoxStatus2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxStatus2.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxStatus2.Name = "richTextBoxStatus2";
+            this.richTextBoxStatus2.Size = new System.Drawing.Size(514, 445);
+            this.richTextBoxStatus2.TabIndex = 1;
+            this.richTextBoxStatus2.Text = "";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(721, 58);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(169, 20);
+            this.textBox1.TabIndex = 32;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(730, 104);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 31;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // CSSPServicesGenerateCode
             // 
@@ -169,6 +222,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -185,6 +242,10 @@
         private System.Windows.Forms.Button butGenerateClassServiceGenerated;
         private System.Windows.Forms.Button butRepopulateTesDB;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.RichTextBox richTextBoxStatus2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

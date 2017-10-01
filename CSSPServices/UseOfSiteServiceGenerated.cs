@@ -182,6 +182,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [UseOfSiteWeb] of type [UseOfSiteWeb]
+                //Error: Type not implemented [UseOfSiteReport] of type [UseOfSiteReport]
             if (useOfSite.LastUpdateDate_UTC.Year == 1)
             {
                 useOfSite.HasErrors = true;
@@ -218,30 +220,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(useOfSite.SiteTVText) && useOfSite.SiteTVText.Length > 200)
-            {
-                useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSiteTVText, "200"), new[] { "SiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(useOfSite.SubsectorTVText) && useOfSite.SubsectorTVText.Length > 200)
-            {
-                useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSubsectorTVText, "200"), new[] { "SubsectorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(useOfSite.LastUpdateContactTVText) && useOfSite.LastUpdateContactTVText.Length > 200)
-            {
-                useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(useOfSite.SiteTypeText) && useOfSite.SiteTypeText.Length > 100)
-            {
-                useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSiteTypeText, "100"), new[] { "SiteTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -267,8 +245,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return useOfSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillUseOfSite(useOfSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -285,8 +263,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return useOfSiteQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillUseOfSite(useOfSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -339,7 +317,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<UseOfSite> FillUseOfSite(IQueryable<UseOfSite> useOfSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<UseOfSite> FillUseOfSite_Show_Copy_To_UseOfSiteServiceExtra_As_Fill_UseOfSite(IQueryable<UseOfSite> useOfSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -376,12 +357,19 @@ namespace CSSPServices
                         Param4 = c.Param4,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SiteTVText = SiteTVText,
-                        SubsectorTVText = SubsectorTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        SiteTypeText = (from e in SiteTypeEnumList
+                        UseOfSiteWeb = new UseOfSiteWeb
+                        {
+                            SiteTVText = SiteTVText,
+                            SubsectorTVText = SubsectorTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            SiteTypeText = (from e in SiteTypeEnumList
                                 where e.EnumID == (int?)c.SiteType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        UseOfSiteReport = new UseOfSiteReport
+                        {
+                            UseOfSiteReportTest = "UseOfSiteReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

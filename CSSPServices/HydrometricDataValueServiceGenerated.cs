@@ -102,6 +102,8 @@ namespace CSSPServices
 
             //HourlyValues has no StringLength Attribute
 
+                //Error: Type not implemented [HydrometricDataValueWeb] of type [HydrometricDataValueWeb]
+                //Error: Type not implemented [HydrometricDataValueReport] of type [HydrometricDataValueReport]
             if (hydrometricDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 hydrometricDataValue.HasErrors = true;
@@ -138,18 +140,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(hydrometricDataValue.LastUpdateContactTVText) && hydrometricDataValue.LastUpdateContactTVText.Length > 200)
-            {
-                hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.HydrometricDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(hydrometricDataValue.StorageDataTypeText) && hydrometricDataValue.StorageDataTypeText.Length > 100)
-            {
-                hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.HydrometricDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -175,8 +165,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricDataValueQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillHydrometricDataValue(hydrometricDataValueQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -193,8 +183,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricDataValueQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillHydrometricDataValue(hydrometricDataValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -247,7 +237,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<HydrometricDataValue> FillHydrometricDataValue(IQueryable<HydrometricDataValue> hydrometricDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<HydrometricDataValue> FillHydrometricDataValue_Show_Copy_To_HydrometricDataValueServiceExtra_As_Fill_HydrometricDataValue(IQueryable<HydrometricDataValue> hydrometricDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -269,10 +262,17 @@ namespace CSSPServices
                         HourlyValues = c.HourlyValues,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        StorageDataTypeText = (from e in StorageDataTypeEnumList
+                        HydrometricDataValueWeb = new HydrometricDataValueWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            StorageDataTypeText = (from e in StorageDataTypeEnumList
                                 where e.EnumID == (int?)c.StorageDataType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        HydrometricDataValueReport = new HydrometricDataValueReport
+                        {
+                            HydrometricDataValueReportTest = "HydrometricDataValueReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

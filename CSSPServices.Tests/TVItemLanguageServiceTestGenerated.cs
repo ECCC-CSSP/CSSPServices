@@ -44,11 +44,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Language") tvItemLanguage.Language = LanguageRequest;
             if (OmitPropName != "TVText") tvItemLanguage.TVText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") tvItemLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
+            //Error: property [TVItemLanguageWeb] and type [TVItemLanguage] is  not implemented
+            //Error: property [TVItemLanguageReport] and type [TVItemLanguage] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tvItemLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemLanguage.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") tvItemLanguage.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LanguageText") tvItemLanguage.LanguageText = GetRandomString("", 5);
-            if (OmitPropName != "TranslationStatusText") tvItemLanguage.TranslationStatusText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") tvItemLanguage.HasErrors = true;
 
             return tvItemLanguage;
@@ -197,6 +196,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tvItemLanguage.TVItemLanguageWeb   (TVItemLanguageWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TVItemLanguageWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tvItemLanguage.TVItemLanguageReport   (TVItemLanguageReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TVItemLanguageReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // tvItemLanguage.LastUpdateDate_UTC   (DateTime)
@@ -221,49 +238,6 @@ namespace CSSPServices.Tests
                     tvItemLanguageService.Add(tvItemLanguage);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLanguageLastUpdateContactTVItemID, "Contact"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // tvItemLanguage.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    tvItemLanguage = null;
-                    tvItemLanguage = GetFilledRandomTVItemLanguage("");
-                    tvItemLanguage.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLanguageLastUpdateContactTVText, "200"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // tvItemLanguage.LanguageText   (String)
-                    // -----------------------------------
-
-                    tvItemLanguage = null;
-                    tvItemLanguage = GetFilledRandomTVItemLanguage("");
-                    tvItemLanguage.LanguageText = GetRandomString("", 101);
-                    Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLanguageLanguageText, "100"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // tvItemLanguage.TranslationStatusText   (String)
-                    // -----------------------------------
-
-                    tvItemLanguage = null;
-                    tvItemLanguage = GetFilledRandomTVItemLanguage("");
-                    tvItemLanguage.TranslationStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLanguageTranslationStatusText, "100"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -298,7 +272,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvItemLanguage);
 
                     TVItemLanguage tvItemLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -308,9 +282,9 @@ namespace CSSPServices.Tests
                         {
                             tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -328,32 +302,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tvItemLanguageRet.LastUpdateContactTVText != null)
+                            if (tvItemLanguageRet.TVItemLanguageWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvItemLanguageRet.LastUpdateContactTVText));
+                                Assert.IsNull(tvItemLanguageRet.TVItemLanguageWeb);
                             }
-                            if (tvItemLanguageRet.LanguageText != null)
+                            if (tvItemLanguageRet.TVItemLanguageReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvItemLanguageRet.LanguageText));
-                            }
-                            if (tvItemLanguageRet.TranslationStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvItemLanguageRet.TranslationStatusText));
+                                Assert.IsNull(tvItemLanguageRet.TVItemLanguageReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tvItemLanguageRet.LastUpdateContactTVText != null)
+                            if (tvItemLanguageRet.TVItemLanguageWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(tvItemLanguageRet.TVItemLanguageWeb);
                             }
-                            if (tvItemLanguageRet.LanguageText != null)
+                            if (tvItemLanguageRet.TVItemLanguageReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageRet.LanguageText));
-                            }
-                            if (tvItemLanguageRet.TranslationStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageRet.TranslationStatusText));
+                                Assert.IsNotNull(tvItemLanguageRet.TVItemLanguageReport);
                             }
                         }
                     }

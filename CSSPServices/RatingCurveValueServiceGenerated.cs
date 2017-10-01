@@ -85,6 +85,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), new[] { "DischargeValue_m3_s" });
             }
 
+                //Error: Type not implemented [RatingCurveValueWeb] of type [RatingCurveValueWeb]
+                //Error: Type not implemented [RatingCurveValueReport] of type [RatingCurveValueReport]
             if (ratingCurveValue.LastUpdateDate_UTC.Year == 1)
             {
                 ratingCurveValue.HasErrors = true;
@@ -121,12 +123,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(ratingCurveValue.LastUpdateContactTVText) && ratingCurveValue.LastUpdateContactTVText.Length > 200)
-            {
-                ratingCurveValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RatingCurveValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -152,8 +148,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return ratingCurveValueQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillRatingCurveValue(ratingCurveValueQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -170,8 +166,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return ratingCurveValueQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillRatingCurveValue(ratingCurveValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -224,7 +220,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<RatingCurveValue> FillRatingCurveValue(IQueryable<RatingCurveValue> ratingCurveValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<RatingCurveValue> FillRatingCurveValue_Show_Copy_To_RatingCurveValueServiceExtra_As_Fill_RatingCurveValue(IQueryable<RatingCurveValue> ratingCurveValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             ratingCurveValueQuery = (from c in ratingCurveValueQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -239,7 +238,14 @@ namespace CSSPServices
                         DischargeValue_m3_s = c.DischargeValue_m3_s,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        RatingCurveValueWeb = new RatingCurveValueWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        RatingCurveValueReport = new RatingCurveValueReport
+                        {
+                            RatingCurveValueReportTest = "RatingCurveValueReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

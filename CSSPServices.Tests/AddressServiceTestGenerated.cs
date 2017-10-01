@@ -40,26 +40,20 @@ namespace CSSPServices.Tests
         {
             Address address = new Address();
 
-            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 28;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Address AddressTVItemID TVItem TVItemID]
             if (OmitPropName != "AddressType") address.AddressType = (AddressTypeEnum)GetRandomEnumType(typeof(AddressTypeEnum));
-            if (OmitPropName != "CountryTVItemID") address.CountryTVItemID = 5;
-            if (OmitPropName != "ProvinceTVItemID") address.ProvinceTVItemID = 6;
-            if (OmitPropName != "MunicipalityTVItemID") address.MunicipalityTVItemID = 14;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Address CountryTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Address ProvinceTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [Address MunicipalityTVItemID TVItem TVItemID]
             if (OmitPropName != "StreetName") address.StreetName = GetRandomString("", 5);
             if (OmitPropName != "StreetNumber") address.StreetNumber = GetRandomString("", 5);
             if (OmitPropName != "StreetType") address.StreetType = (StreetTypeEnum)GetRandomEnumType(typeof(StreetTypeEnum));
             if (OmitPropName != "PostalCode") address.PostalCode = GetRandomString("", 11);
             if (OmitPropName != "GoogleAddressText") address.GoogleAddressText = GetRandomString("", 15);
+            //Error: property [AddressWeb] and type [Address] is  not implemented
+            //Error: property [AddressReport] and type [Address] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") address.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") address.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "ParentTVItemID") address.ParentTVItemID = 1;
-            if (OmitPropName != "AddressTVText") address.AddressTVText = GetRandomString("", 5);
-            if (OmitPropName != "CountryTVText") address.CountryTVText = GetRandomString("", 5);
-            if (OmitPropName != "ProvinceTVText") address.ProvinceTVText = GetRandomString("", 5);
-            if (OmitPropName != "MunicipalityTVText") address.MunicipalityTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") address.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "AddressTypeText") address.AddressTypeText = GetRandomString("", 5);
-            if (OmitPropName != "StreetTypeText") address.StreetTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") address.HasErrors = true;
 
             return address;
@@ -308,6 +302,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // address.AddressWeb   (AddressWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [AddressWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // address.AddressReport   (AddressReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [AddressReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // address.LastUpdateDate_UTC   (DateTime)
@@ -332,130 +344,6 @@ namespace CSSPServices.Tests
                     addressService.Add(address);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressLastUpdateContactTVItemID, "Contact"), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Infrastructure,Contact,PolSourceSite)]
-                    // [CSSPFill(FillTypeName = "TVItem", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "AddressTVItemID", FillReturnField = "ParentID", FillNeedLanguage = "ParentID")]
-                    // [NotMapped]
-                    // address.ParentTVItemID   (Int32)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.ParentTVItemID = 0;
-                    addressService.Add(address);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressParentTVItemID, address.ParentTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.ParentTVItemID = 5;
-                    addressService.Add(address);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressParentTVItemID, "Root,Infrastructure,Contact,PolSourceSite"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "AddressTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // address.AddressTVText   (String)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.AddressTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressAddressTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CountryTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // address.CountryTVText   (String)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.CountryTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressCountryTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ProvinceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // address.ProvinceTVText   (String)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.ProvinceTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressProvinceTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MunicipalityTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // address.MunicipalityTVText   (String)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.MunicipalityTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressMunicipalityTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // address.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressLastUpdateContactTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // address.AddressTypeText   (String)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.AddressTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressAddressTypeText, "100"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // address.StreetTypeText   (String)
-                    // -----------------------------------
-
-                    address = null;
-                    address = GetFilledRandomAddress("");
-                    address.StreetTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressStreetTypeText, "100"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -490,7 +378,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(address);
 
                     Address addressRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -500,9 +388,9 @@ namespace CSSPServices.Tests
                         {
                             addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -541,66 +429,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            Assert.AreEqual(0, addressRet.ParentTVItemID);
-                            if (addressRet.AddressTVText != null)
+                            if (addressRet.AddressWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.AddressTVText));
+                                Assert.IsNull(addressRet.AddressWeb);
                             }
-                            if (addressRet.CountryTVText != null)
+                            if (addressRet.AddressReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.CountryTVText));
-                            }
-                            if (addressRet.ProvinceTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.ProvinceTVText));
-                            }
-                            if (addressRet.MunicipalityTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.MunicipalityTVText));
-                            }
-                            if (addressRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.LastUpdateContactTVText));
-                            }
-                            if (addressRet.AddressTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.AddressTypeText));
-                            }
-                            if (addressRet.StreetTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(addressRet.StreetTypeText));
+                                Assert.IsNull(addressRet.AddressReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            Assert.AreEqual(0, addressRet.ParentTVItemID);
-                            if (addressRet.AddressTVText != null)
+                            if (addressRet.AddressWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTVText));
+                                Assert.IsNotNull(addressRet.AddressWeb);
                             }
-                            if (addressRet.CountryTVText != null)
+                            if (addressRet.AddressReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.CountryTVText));
-                            }
-                            if (addressRet.ProvinceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.ProvinceTVText));
-                            }
-                            if (addressRet.MunicipalityTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.MunicipalityTVText));
-                            }
-                            if (addressRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.LastUpdateContactTVText));
-                            }
-                            if (addressRet.AddressTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTypeText));
-                            }
-                            if (addressRet.StreetTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetTypeText));
+                                Assert.IsNotNull(addressRet.AddressReport);
                             }
                         }
                     }

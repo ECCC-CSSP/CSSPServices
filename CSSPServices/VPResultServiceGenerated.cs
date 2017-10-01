@@ -117,6 +117,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultTravelTime_hour, "0", "100"), new[] { "TravelTime_hour" });
             }
 
+                //Error: Type not implemented [VPResultWeb] of type [VPResultWeb]
+                //Error: Type not implemented [VPResultReport] of type [VPResultReport]
             if (vpResult.LastUpdateDate_UTC.Year == 1)
             {
                 vpResult.HasErrors = true;
@@ -153,12 +155,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(vpResult.LastUpdateContactTVText) && vpResult.LastUpdateContactTVText.Length > 200)
-            {
-                vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPResultLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -184,8 +180,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpResultQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillVPResult(vpResultQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -202,8 +198,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpResultQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillVPResult(vpResultQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -256,7 +252,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<VPResult> FillVPResult(IQueryable<VPResult> vpResultQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<VPResult> FillVPResult_Show_Copy_To_VPResultServiceExtra_As_Fill_VPResult(IQueryable<VPResult> vpResultQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             vpResultQuery = (from c in vpResultQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -275,7 +274,14 @@ namespace CSSPServices
                         TravelTime_hour = c.TravelTime_hour,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        VPResultWeb = new VPResultWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        VPResultReport = new VPResultReport
+                        {
+                            VPResultReportTest = "VPResultReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

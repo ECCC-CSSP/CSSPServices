@@ -283,6 +283,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterCommand), new[] { "Command" });
             }
 
+                //Error: Type not implemented [MWQMAnalysisReportParameterWeb] of type [MWQMAnalysisReportParameterWeb]
+                //Error: Type not implemented [MWQMAnalysisReportParameterReport] of type [MWQMAnalysisReportParameterReport]
             if (mwqmAnalysisReportParameter.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
@@ -319,24 +321,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.ExcelTVFileTVText) && mwqmAnalysisReportParameter.ExcelTVFileTVText.Length > 200)
-            {
-                mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVText, "200"), new[] { "ExcelTVFileTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.CommandText) && mwqmAnalysisReportParameter.CommandText.Length > 100)
-            {
-                mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterCommandText, "100"), new[] { "CommandText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.LastUpdateContactTVText) && mwqmAnalysisReportParameter.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -362,8 +346,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmAnalysisReportParameterQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMAnalysisReportParameter(mwqmAnalysisReportParameterQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -380,8 +364,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmAnalysisReportParameterQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMAnalysisReportParameter(mwqmAnalysisReportParameterQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -434,7 +418,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameter(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameter_Show_Copy_To_MWQMAnalysisReportParameterServiceExtra_As_Fill_MWQMAnalysisReportParameter(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -476,11 +463,18 @@ namespace CSSPServices
                         Command = c.Command,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ExcelTVFileTVText = ExcelTVFileTVText,
-                        CommandText = (from e in AnalysisReportExportCommandEnumList
+                        MWQMAnalysisReportParameterWeb = new MWQMAnalysisReportParameterWeb
+                        {
+                            ExcelTVFileTVText = ExcelTVFileTVText,
+                            CommandText = (from e in AnalysisReportExportCommandEnumList
                                 where e.EnumID == (int?)c.Command
                                 select e.EnumText).FirstOrDefault(),
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        MWQMAnalysisReportParameterReport = new MWQMAnalysisReportParameterReport
+                        {
+                            MWQMAnalysisReportParameterReportTest = "MWQMAnalysisReportParameterReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

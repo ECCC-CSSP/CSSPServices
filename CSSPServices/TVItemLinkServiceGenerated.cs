@@ -216,6 +216,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [TVItemLinkWeb] of type [TVItemLinkWeb]
+                //Error: Type not implemented [TVItemLinkReport] of type [TVItemLinkReport]
             if (tvItemLink.LastUpdateDate_UTC.Year == 1)
             {
                 tvItemLink.HasErrors = true;
@@ -252,36 +254,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tvItemLink.FromTVText) && tvItemLink.FromTVText.Length > 200)
-            {
-                tvItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLinkFromTVText, "200"), new[] { "FromTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemLink.ToTVText) && tvItemLink.ToTVText.Length > 200)
-            {
-                tvItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLinkToTVText, "200"), new[] { "ToTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemLink.LastUpdateContactTVText) && tvItemLink.LastUpdateContactTVText.Length > 200)
-            {
-                tvItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLinkLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemLink.FromTVTypeText) && tvItemLink.FromTVTypeText.Length > 100)
-            {
-                tvItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLinkFromTVTypeText, "100"), new[] { "FromTVTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemLink.ToTVTypeText) && tvItemLink.ToTVTypeText.Length > 100)
-            {
-                tvItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLinkToTVTypeText, "100"), new[] { "ToTVTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -307,8 +279,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemLinkQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItemLink(tvItemLinkQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -325,8 +297,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemLinkQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItemLink(tvItemLinkQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -379,7 +351,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TVItemLink> FillTVItemLink(IQueryable<TVItemLink> tvItemLinkQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TVItemLink> FillTVItemLink_Show_Copy_To_TVItemLinkServiceExtra_As_Fill_TVItemLink(IQueryable<TVItemLink> tvItemLinkQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -413,15 +388,22 @@ namespace CSSPServices
                         ParentTVItemLinkID = c.ParentTVItemLinkID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        FromTVText = FromTVText,
-                        ToTVText = ToTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        FromTVTypeText = (from e in TVTypeEnumList
+                        TVItemLinkWeb = new TVItemLinkWeb
+                        {
+                            FromTVText = FromTVText,
+                            ToTVText = ToTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            FromTVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.FromTVType
                                 select e.EnumText).FirstOrDefault(),
-                        ToTVTypeText = (from e in TVTypeEnumList
+                            ToTVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.ToTVType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        TVItemLinkReport = new TVItemLinkReport
+                        {
+                            TVItemLinkReportTest = "TVItemLinkReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

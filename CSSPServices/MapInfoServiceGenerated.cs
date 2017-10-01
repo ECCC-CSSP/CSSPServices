@@ -161,6 +161,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoMapInfoDrawType), new[] { "MapInfoDrawType" });
             }
 
+                //Error: Type not implemented [MapInfoWeb] of type [MapInfoWeb]
+                //Error: Type not implemented [MapInfoReport] of type [MapInfoReport]
             if (mapInfo.LastUpdateDate_UTC.Year == 1)
             {
                 mapInfo.HasErrors = true;
@@ -197,30 +199,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mapInfo.TVText) && mapInfo.TVText.Length > 200)
-            {
-                mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapInfoTVText, "200"), new[] { "TVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mapInfo.LastUpdateContactTVText) && mapInfo.LastUpdateContactTVText.Length > 200)
-            {
-                mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapInfoLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mapInfo.TVTypeText) && mapInfo.TVTypeText.Length > 100)
-            {
-                mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapInfoTVTypeText, "100"), new[] { "TVTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mapInfo.MapInfoDrawTypeText) && mapInfo.MapInfoDrawTypeText.Length > 100)
-            {
-                mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapInfoMapInfoDrawTypeText, "100"), new[] { "MapInfoDrawTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -246,8 +224,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMapInfo(mapInfoQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -264,8 +242,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMapInfo(mapInfoQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -318,7 +296,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MapInfo> FillMapInfo(IQueryable<MapInfo> mapInfoQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MapInfo> FillMapInfo_Show_Copy_To_MapInfoServiceExtra_As_Fill_MapInfo(IQueryable<MapInfo> mapInfoQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -346,14 +327,21 @@ namespace CSSPServices
                         MapInfoDrawType = c.MapInfoDrawType,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVText = TVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TVTypeText = (from e in TVTypeEnumList
+                        MapInfoWeb = new MapInfoWeb
+                        {
+                            TVText = TVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
-                        MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
+                            MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
                                 where e.EnumID == (int?)c.MapInfoDrawType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        MapInfoReport = new MapInfoReport
+                        {
+                            MapInfoReportTest = "MapInfoReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

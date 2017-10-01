@@ -40,13 +40,14 @@ namespace CSSPServices.Tests
         {
             MapInfoPoint mapInfoPoint = new MapInfoPoint();
 
-            if (OmitPropName != "MapInfoID") mapInfoPoint.MapInfoID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MapInfoPoint MapInfoID MapInfo MapInfoID]
             if (OmitPropName != "Ordinal") mapInfoPoint.Ordinal = GetRandomInt(0, 10);
             if (OmitPropName != "Lat") mapInfoPoint.Lat = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "Lng") mapInfoPoint.Lng = GetRandomDouble(-180.0D, 180.0D);
+            //Error: property [MapInfoPointWeb] and type [MapInfoPoint] is  not implemented
+            //Error: property [MapInfoPointReport] and type [MapInfoPoint] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mapInfoPoint.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfoPoint.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") mapInfoPoint.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mapInfoPoint.HasErrors = true;
 
             return mapInfoPoint;
@@ -197,6 +198,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mapInfoPoint.MapInfoPointWeb   (MapInfoPointWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MapInfoPointWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mapInfoPoint.MapInfoPointReport   (MapInfoPointReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MapInfoPointReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mapInfoPoint.LastUpdateDate_UTC   (DateTime)
@@ -221,21 +240,6 @@ namespace CSSPServices.Tests
                     mapInfoPointService.Add(mapInfoPoint);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mapInfoPoint.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mapInfoPoint = null;
-                    mapInfoPoint = GetFilledRandomMapInfoPoint("");
-                    mapInfoPoint.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapInfoPointLastUpdateContactTVText, "200"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -270,7 +274,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mapInfoPoint);
 
                     MapInfoPoint mapInfoPointRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -280,9 +284,9 @@ namespace CSSPServices.Tests
                         {
                             mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -300,16 +304,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mapInfoPointRet.LastUpdateContactTVText != null)
+                            if (mapInfoPointRet.MapInfoPointWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mapInfoPointRet.LastUpdateContactTVText));
+                                Assert.IsNull(mapInfoPointRet.MapInfoPointWeb);
+                            }
+                            if (mapInfoPointRet.MapInfoPointReport != null)
+                            {
+                                Assert.IsNull(mapInfoPointRet.MapInfoPointReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mapInfoPointRet.LastUpdateContactTVText != null)
+                            if (mapInfoPointRet.MapInfoPointWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(mapInfoPointRet.MapInfoPointWeb);
+                            }
+                            if (mapInfoPointRet.MapInfoPointReport != null)
+                            {
+                                Assert.IsNotNull(mapInfoPointRet.MapInfoPointReport);
                             }
                         }
                     }

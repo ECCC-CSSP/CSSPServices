@@ -53,12 +53,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Disabled") contact.Disabled = true;
             if (OmitPropName != "IsNew") contact.IsNew = true;
             if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
+            //Error: property [ContactWeb] and type [Contact] is  not implemented
+            //Error: property [ContactReport] and type [Contact] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "ContactTVText") contact.ContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") contact.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "ParentTVItemID") contact.ParentTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "ContactTitleText") contact.ContactTitleText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") contact.HasErrors = true;
 
             return contact;
@@ -335,6 +333,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, contactService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // contact.ContactWeb   (ContactWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ContactWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // contact.ContactReport   (ContactReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ContactReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // contact.LastUpdateDate_UTC   (DateTime)
@@ -359,64 +375,6 @@ namespace CSSPServices.Tests
                     contactService.Add(contact, AddContactTypeEnum.LoggedIn);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactLastUpdateContactTVItemID, "Contact"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // contact.ContactTVText   (String)
-                    // -----------------------------------
-
-                    contact = null;
-                    contact = GetFilledRandomContact("");
-                    contact.ContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactContactTVText, "200"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // contact.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    contact = null;
-                    contact = GetFilledRandomContact("");
-                    contact.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLastUpdateContactTVText, "200"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is NOT Nullable
-                    // [NotMapped]
-                    // [Range(1, -1)]
-                    // contact.ParentTVItemID   (Int32)
-                    // -----------------------------------
-
-                    contact = null;
-                    contact = GetFilledRandomContact("");
-                    contact.ParentTVItemID = 0;
-                    Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactParentTVItemID, "1"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // contact.ContactTitleText   (String)
-                    // -----------------------------------
-
-                    contact = null;
-                    contact = GetFilledRandomContact("");
-                    contact.ContactTitleText = GetRandomString("", 101);
-                    Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactContactTitleText, "100"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -451,7 +409,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contact);
 
                     Contact contactRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -461,9 +419,9 @@ namespace CSSPServices.Tests
                         {
                             contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -499,34 +457,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (contactRet.ContactTVText != null)
+                            if (contactRet.ContactWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactRet.ContactTVText));
+                                Assert.IsNull(contactRet.ContactWeb);
                             }
-                            if (contactRet.LastUpdateContactTVText != null)
+                            if (contactRet.ContactReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactRet.LastUpdateContactTVText));
-                            }
-                            Assert.AreEqual(0, contactRet.ParentTVItemID);
-                            if (contactRet.ContactTitleText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactRet.ContactTitleText));
+                                Assert.IsNull(contactRet.ContactReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (contactRet.ContactTVText != null)
+                            if (contactRet.ContactWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTVText));
+                                Assert.IsNotNull(contactRet.ContactWeb);
                             }
-                            if (contactRet.LastUpdateContactTVText != null)
+                            if (contactRet.ContactReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastUpdateContactTVText));
-                            }
-                            Assert.AreEqual(0, contactRet.ParentTVItemID);
-                            if (contactRet.ContactTitleText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTitleText));
+                                Assert.IsNotNull(contactRet.ContactReport);
                             }
                         }
                     }

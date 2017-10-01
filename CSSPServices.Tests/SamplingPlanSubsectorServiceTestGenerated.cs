@@ -40,12 +40,12 @@ namespace CSSPServices.Tests
         {
             SamplingPlanSubsector samplingPlanSubsector = new SamplingPlanSubsector();
 
-            if (OmitPropName != "SamplingPlanID") samplingPlanSubsector.SamplingPlanID = 1;
-            if (OmitPropName != "SubsectorTVItemID") samplingPlanSubsector.SubsectorTVItemID = 11;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [SamplingPlanSubsector SamplingPlanID SamplingPlan SamplingPlanID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [SamplingPlanSubsector SubsectorTVItemID TVItem TVItemID]
+            //Error: property [SamplingPlanSubsectorWeb] and type [SamplingPlanSubsector] is  not implemented
+            //Error: property [SamplingPlanSubsectorReport] and type [SamplingPlanSubsector] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlanSubsector.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsector.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "SubsectorTVText") samplingPlanSubsector.SubsectorTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") samplingPlanSubsector.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") samplingPlanSubsector.HasErrors = true;
 
             return samplingPlanSubsector;
@@ -160,6 +160,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // samplingPlanSubsector.SamplingPlanSubsectorWeb   (SamplingPlanSubsectorWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SamplingPlanSubsectorWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // samplingPlanSubsector.SamplingPlanSubsectorReport   (SamplingPlanSubsectorReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SamplingPlanSubsectorReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // samplingPlanSubsector.LastUpdateDate_UTC   (DateTime)
@@ -184,36 +202,6 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorService.Add(samplingPlanSubsector);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, "Contact"), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // samplingPlanSubsector.SubsectorTVText   (String)
-                    // -----------------------------------
-
-                    samplingPlanSubsector = null;
-                    samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
-                    samplingPlanSubsector.SubsectorTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, samplingPlanSubsectorService.Add(samplingPlanSubsector));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorSubsectorTVText, "200"), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // samplingPlanSubsector.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    samplingPlanSubsector = null;
-                    samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
-                    samplingPlanSubsector.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, samplingPlanSubsectorService.Add(samplingPlanSubsector));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateContactTVText, "200"), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -248,7 +236,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(samplingPlanSubsector);
 
                     SamplingPlanSubsector samplingPlanSubsectorRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -258,9 +246,9 @@ namespace CSSPServices.Tests
                         {
                             samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -276,24 +264,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (samplingPlanSubsectorRet.SubsectorTVText != null)
+                            if (samplingPlanSubsectorRet.SamplingPlanSubsectorWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));
+                                Assert.IsNull(samplingPlanSubsectorRet.SamplingPlanSubsectorWeb);
                             }
-                            if (samplingPlanSubsectorRet.LastUpdateContactTVText != null)
+                            if (samplingPlanSubsectorRet.SamplingPlanSubsectorReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.LastUpdateContactTVText));
+                                Assert.IsNull(samplingPlanSubsectorRet.SamplingPlanSubsectorReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (samplingPlanSubsectorRet.SubsectorTVText != null)
+                            if (samplingPlanSubsectorRet.SamplingPlanSubsectorWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));
+                                Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanSubsectorWeb);
                             }
-                            if (samplingPlanSubsectorRet.LastUpdateContactTVText != null)
+                            if (samplingPlanSubsectorRet.SamplingPlanSubsectorReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanSubsectorReport);
                             }
                         }
                     }

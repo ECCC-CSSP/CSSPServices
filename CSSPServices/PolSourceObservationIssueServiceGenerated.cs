@@ -89,6 +89,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.PolSourceObservationIssueOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
+                //Error: Type not implemented [PolSourceObservationIssueWeb] of type [PolSourceObservationIssueWeb]
+                //Error: Type not implemented [PolSourceObservationIssueReport] of type [PolSourceObservationIssueReport]
             if (polSourceObservationIssue.LastUpdateDate_UTC.Year == 1)
             {
                 polSourceObservationIssue.HasErrors = true;
@@ -125,12 +127,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(polSourceObservationIssue.LastUpdateContactTVText) && polSourceObservationIssue.LastUpdateContactTVText.Length > 200)
-            {
-                polSourceObservationIssue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationIssueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -156,8 +152,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceObservationIssueQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillPolSourceObservationIssue(polSourceObservationIssueQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -174,8 +170,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceObservationIssueQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillPolSourceObservationIssue(polSourceObservationIssueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -228,7 +224,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssue(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssue_Show_Copy_To_PolSourceObservationIssueServiceExtra_As_Fill_PolSourceObservationIssue(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             polSourceObservationIssueQuery = (from c in polSourceObservationIssueQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -243,7 +242,14 @@ namespace CSSPServices
                         Ordinal = c.Ordinal,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        PolSourceObservationIssueWeb = new PolSourceObservationIssueWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        PolSourceObservationIssueReport = new PolSourceObservationIssueReport
+                        {
+                            PolSourceObservationIssueReportTest = "PolSourceObservationIssueReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

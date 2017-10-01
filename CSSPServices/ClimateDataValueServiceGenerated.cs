@@ -193,6 +193,8 @@ namespace CSSPServices
 
             //HourlyValues has no StringLength Attribute
 
+                //Error: Type not implemented [ClimateDataValueWeb] of type [ClimateDataValueWeb]
+                //Error: Type not implemented [ClimateDataValueReport] of type [ClimateDataValueReport]
             if (climateDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 climateDataValue.HasErrors = true;
@@ -229,18 +231,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(climateDataValue.LastUpdateContactTVText) && climateDataValue.LastUpdateContactTVText.Length > 200)
-            {
-                climateDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(climateDataValue.StorageDataTypeEnumText) && climateDataValue.StorageDataTypeEnumText.Length > 100)
-            {
-                climateDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateDataValueStorageDataTypeEnumText, "100"), new[] { "StorageDataTypeEnumText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -266,8 +256,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateDataValueQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillClimateDataValue(climateDataValueQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -284,8 +274,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateDataValueQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillClimateDataValue(climateDataValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -338,7 +328,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<ClimateDataValue> FillClimateDataValue(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<ClimateDataValue> FillClimateDataValue_Show_Copy_To_ClimateDataValueServiceExtra_As_Fill_ClimateDataValue(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -370,10 +363,17 @@ namespace CSSPServices
                         HourlyValues = c.HourlyValues,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        StorageDataTypeEnumText = (from e in StorageDataTypeEnumList
+                        ClimateDataValueWeb = new ClimateDataValueWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            StorageDataTypeEnumText = (from e in StorageDataTypeEnumList
                                 where e.EnumID == (int?)c.StorageDataType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        ClimateDataValueReport = new ClimateDataValueReport
+                        {
+                            ClimateDataValueReportTest = "ClimateDataValueReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             TVFile tvFile = new TVFile();
 
-            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 17;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [TVFile TVFileTVItemID TVItem TVItemID]
             if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "Language") tvFile.Language = LanguageRequest;
             if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
@@ -52,14 +52,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ClientFilePath") tvFile.ClientFilePath = GetRandomString("", 5);
             if (OmitPropName != "ServerFileName") tvFile.ServerFileName = GetRandomString("", 5);
             if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 5);
+            //Error: property [TVFileWeb] and type [TVFile] is  not implemented
+            //Error: property [TVFileReport] and type [TVFile] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "TVFileTVText") tvFile.TVFileTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") tvFile.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "TemplateTVTypeText") tvFile.TemplateTVTypeText = GetRandomString("", 5);
-            if (OmitPropName != "LanguageText") tvFile.LanguageText = GetRandomString("", 5);
-            if (OmitPropName != "FilePurposeText") tvFile.FilePurposeText = GetRandomString("", 5);
-            if (OmitPropName != "FileTypeText") tvFile.FileTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") tvFile.HasErrors = true;
 
             return tvFile;
@@ -306,6 +302,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tvFile.TVFileWeb   (TVFileWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TVFileWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tvFile.TVFileReport   (TVFileReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TVFileReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // tvFile.LastUpdateDate_UTC   (DateTime)
@@ -330,92 +344,6 @@ namespace CSSPServices.Tests
                     tvFileService.Add(tvFile);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVFileTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // tvFile.TVFileTVText   (String)
-                    // -----------------------------------
-
-                    tvFile = null;
-                    tvFile = GetFilledRandomTVFile("");
-                    tvFile.TVFileTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTVFileTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // tvFile.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    tvFile = null;
-                    tvFile = GetFilledRandomTVFile("");
-                    tvFile.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLastUpdateContactTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // tvFile.TemplateTVTypeText   (String)
-                    // -----------------------------------
-
-                    tvFile = null;
-                    tvFile = GetFilledRandomTVFile("");
-                    tvFile.TemplateTVTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTemplateTVTypeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // tvFile.LanguageText   (String)
-                    // -----------------------------------
-
-                    tvFile = null;
-                    tvFile = GetFilledRandomTVFile("");
-                    tvFile.LanguageText = GetRandomString("", 101);
-                    Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLanguageText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // tvFile.FilePurposeText   (String)
-                    // -----------------------------------
-
-                    tvFile = null;
-                    tvFile = GetFilledRandomTVFile("");
-                    tvFile.FilePurposeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFilePurposeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // tvFile.FileTypeText   (String)
-                    // -----------------------------------
-
-                    tvFile = null;
-                    tvFile = GetFilledRandomTVFile("");
-                    tvFile.FileTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFileTypeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -450,7 +378,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvFile);
 
                     TVFile tvFileRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -460,9 +388,9 @@ namespace CSSPServices.Tests
                         {
                             tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -497,56 +425,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tvFileRet.TVFileTVText != null)
+                            if (tvFileRet.TVFileWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvFileRet.TVFileTVText));
+                                Assert.IsNull(tvFileRet.TVFileWeb);
                             }
-                            if (tvFileRet.LastUpdateContactTVText != null)
+                            if (tvFileRet.TVFileReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvFileRet.LastUpdateContactTVText));
-                            }
-                            if (tvFileRet.TemplateTVTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvFileRet.TemplateTVTypeText));
-                            }
-                            if (tvFileRet.LanguageText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvFileRet.LanguageText));
-                            }
-                            if (tvFileRet.FilePurposeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvFileRet.FilePurposeText));
-                            }
-                            if (tvFileRet.FileTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tvFileRet.FileTypeText));
+                                Assert.IsNull(tvFileRet.TVFileReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tvFileRet.TVFileTVText != null)
+                            if (tvFileRet.TVFileWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileTVText));
+                                Assert.IsNotNull(tvFileRet.TVFileWeb);
                             }
-                            if (tvFileRet.LastUpdateContactTVText != null)
+                            if (tvFileRet.TVFileReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.LastUpdateContactTVText));
-                            }
-                            if (tvFileRet.TemplateTVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TemplateTVTypeText));
-                            }
-                            if (tvFileRet.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.LanguageText));
-                            }
-                            if (tvFileRet.FilePurposeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FilePurposeText));
-                            }
-                            if (tvFileRet.FileTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FileTypeText));
+                                Assert.IsNotNull(tvFileRet.TVFileReport);
                             }
                         }
                     }

@@ -40,9 +40,9 @@ namespace CSSPServices.Tests
         {
             LabSheetDetail labSheetDetail = new LabSheetDetail();
 
-            if (OmitPropName != "LabSheetID") labSheetDetail.LabSheetID = 1;
-            if (OmitPropName != "SamplingPlanID") labSheetDetail.SamplingPlanID = 1;
-            if (OmitPropName != "SubsectorTVItemID") labSheetDetail.SubsectorTVItemID = 11;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetDetail LabSheetID LabSheet LabSheetID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetDetail SamplingPlanID SamplingPlan SamplingPlanID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetDetail SubsectorTVItemID TVItem TVItemID]
             if (OmitPropName != "Version") labSheetDetail.Version = GetRandomInt(1, 5);
             if (OmitPropName != "RunDate") labSheetDetail.RunDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "Tides") labSheetDetail.Tides = GetRandomString("", 6);
@@ -102,10 +102,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") labSheetDetail.IntertechDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "IntertechDuplicateAcceptable") labSheetDetail.IntertechDuplicateAcceptable = true;
             if (OmitPropName != "IntertechReadAcceptable") labSheetDetail.IntertechReadAcceptable = true;
+            //Error: property [LabSheetDetailWeb] and type [LabSheetDetail] is  not implemented
+            //Error: property [LabSheetDetailReport] and type [LabSheetDetail] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") labSheetDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetDetail.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "SubsectorTVText") labSheetDetail.SubsectorTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") labSheetDetail.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") labSheetDetail.HasErrors = true;
 
             return labSheetDetail;
@@ -1071,6 +1071,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // labSheetDetail.LabSheetDetailWeb   (LabSheetDetailWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LabSheetDetailWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // labSheetDetail.LabSheetDetailReport   (LabSheetDetailReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LabSheetDetailReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // labSheetDetail.LastUpdateDate_UTC   (DateTime)
@@ -1095,36 +1113,6 @@ namespace CSSPServices.Tests
                     labSheetDetailService.Add(labSheetDetail);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetDetailLastUpdateContactTVItemID, "Contact"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheetDetail.SubsectorTVText   (String)
-                    // -----------------------------------
-
-                    labSheetDetail = null;
-                    labSheetDetail = GetFilledRandomLabSheetDetail("");
-                    labSheetDetail.SubsectorTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetDetailSubsectorTVText, "200"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // labSheetDetail.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    labSheetDetail = null;
-                    labSheetDetail = GetFilledRandomLabSheetDetail("");
-                    labSheetDetail.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetDetailLastUpdateContactTVText, "200"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1159,7 +1147,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(labSheetDetail);
 
                     LabSheetDetail labSheetDetailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -1169,9 +1157,9 @@ namespace CSSPServices.Tests
                         {
                             labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -1415,24 +1403,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (labSheetDetailRet.SubsectorTVText != null)
+                            if (labSheetDetailRet.LabSheetDetailWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetDetailRet.SubsectorTVText));
+                                Assert.IsNull(labSheetDetailRet.LabSheetDetailWeb);
                             }
-                            if (labSheetDetailRet.LastUpdateContactTVText != null)
+                            if (labSheetDetailRet.LabSheetDetailReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(labSheetDetailRet.LastUpdateContactTVText));
+                                Assert.IsNull(labSheetDetailRet.LabSheetDetailReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (labSheetDetailRet.SubsectorTVText != null)
+                            if (labSheetDetailRet.LabSheetDetailWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.SubsectorTVText));
+                                Assert.IsNotNull(labSheetDetailRet.LabSheetDetailWeb);
                             }
-                            if (labSheetDetailRet.LastUpdateContactTVText != null)
+                            if (labSheetDetailRet.LabSheetDetailReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(labSheetDetailRet.LabSheetDetailReport);
                             }
                         }
                     }

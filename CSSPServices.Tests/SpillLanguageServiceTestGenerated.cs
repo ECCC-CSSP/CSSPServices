@@ -40,15 +40,14 @@ namespace CSSPServices.Tests
         {
             SpillLanguage spillLanguage = new SpillLanguage();
 
-            if (OmitPropName != "SpillID") spillLanguage.SpillID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [SpillLanguage SpillID Spill SpillID]
             if (OmitPropName != "Language") spillLanguage.Language = LanguageRequest;
             if (OmitPropName != "SpillComment") spillLanguage.SpillComment = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") spillLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
+            //Error: property [SpillLanguageWeb] and type [SpillLanguage] is  not implemented
+            //Error: property [SpillLanguageReport] and type [SpillLanguage] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") spillLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") spillLanguage.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") spillLanguage.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LanguageText") spillLanguage.LanguageText = GetRandomString("", 5);
-            if (OmitPropName != "TranslationStatusText") spillLanguage.TranslationStatusText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") spillLanguage.HasErrors = true;
 
             return spillLanguage;
@@ -184,6 +183,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // spillLanguage.SpillLanguageWeb   (SpillLanguageWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SpillLanguageWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // spillLanguage.SpillLanguageReport   (SpillLanguageReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SpillLanguageReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // spillLanguage.LastUpdateDate_UTC   (DateTime)
@@ -208,49 +225,6 @@ namespace CSSPServices.Tests
                     spillLanguageService.Add(spillLanguage);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillLanguageLastUpdateContactTVItemID, "Contact"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // spillLanguage.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    spillLanguage = null;
-                    spillLanguage = GetFilledRandomSpillLanguage("");
-                    spillLanguage.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLanguageLastUpdateContactTVText, "200"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillLanguageService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // spillLanguage.LanguageText   (String)
-                    // -----------------------------------
-
-                    spillLanguage = null;
-                    spillLanguage = GetFilledRandomSpillLanguage("");
-                    spillLanguage.LanguageText = GetRandomString("", 101);
-                    Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLanguageLanguageText, "100"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillLanguageService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // spillLanguage.TranslationStatusText   (String)
-                    // -----------------------------------
-
-                    spillLanguage = null;
-                    spillLanguage = GetFilledRandomSpillLanguage("");
-                    spillLanguage.TranslationStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLanguageTranslationStatusText, "100"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -285,7 +259,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(spillLanguage);
 
                     SpillLanguage spillLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -295,9 +269,9 @@ namespace CSSPServices.Tests
                         {
                             spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -315,32 +289,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (spillLanguageRet.LastUpdateContactTVText != null)
+                            if (spillLanguageRet.SpillLanguageWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillLanguageRet.LastUpdateContactTVText));
+                                Assert.IsNull(spillLanguageRet.SpillLanguageWeb);
                             }
-                            if (spillLanguageRet.LanguageText != null)
+                            if (spillLanguageRet.SpillLanguageReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillLanguageRet.LanguageText));
-                            }
-                            if (spillLanguageRet.TranslationStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(spillLanguageRet.TranslationStatusText));
+                                Assert.IsNull(spillLanguageRet.SpillLanguageReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (spillLanguageRet.LastUpdateContactTVText != null)
+                            if (spillLanguageRet.SpillLanguageWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(spillLanguageRet.SpillLanguageWeb);
                             }
-                            if (spillLanguageRet.LanguageText != null)
+                            if (spillLanguageRet.SpillLanguageReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LanguageText));
-                            }
-                            if (spillLanguageRet.TranslationStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.TranslationStatusText));
+                                Assert.IsNotNull(spillLanguageRet.SpillLanguageReport);
                             }
                         }
                     }

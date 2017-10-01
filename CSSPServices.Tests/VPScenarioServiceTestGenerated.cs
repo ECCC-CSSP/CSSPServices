@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             VPScenario vpScenario = new VPScenario();
 
-            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = 16;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [VPScenario InfrastructureTVItemID TVItem TVItemID]
             if (OmitPropName != "VPScenarioStatus") vpScenario.VPScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "UseAsBestEstimate") vpScenario.UseAsBestEstimate = true;
             if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomDouble(0.0D, 1000.0D);
@@ -59,11 +59,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EffluentTemperature_C") vpScenario.EffluentTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
+            //Error: property [VPScenarioWeb] and type [VPScenario] is  not implemented
+            //Error: property [VPScenarioReport] and type [VPScenario] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "SubsectorTVText") vpScenario.SubsectorTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") vpScenario.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "VPScenarioStatusText") vpScenario.VPScenarioStatusText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") vpScenario.HasErrors = true;
 
             return vpScenario;
@@ -501,6 +500,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // vpScenario.VPScenarioWeb   (VPScenarioWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [VPScenarioWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // vpScenario.VPScenarioReport   (VPScenarioReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [VPScenarioReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // vpScenario.LastUpdateDate_UTC   (DateTime)
@@ -525,50 +542,6 @@ namespace CSSPServices.Tests
                     vpScenarioService.Add(vpScenario);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, "Contact"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "InfrastructureTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // vpScenario.SubsectorTVText   (String)
-                    // -----------------------------------
-
-                    vpScenario = null;
-                    vpScenario = GetFilledRandomVPScenario("");
-                    vpScenario.SubsectorTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioSubsectorTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // vpScenario.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    vpScenario = null;
-                    vpScenario = GetFilledRandomVPScenario("");
-                    vpScenario.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioLastUpdateContactTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // vpScenario.VPScenarioStatusText   (String)
-                    // -----------------------------------
-
-                    vpScenario = null;
-                    vpScenario = GetFilledRandomVPScenario("");
-                    vpScenario.VPScenarioStatusText = GetRandomString("", 101);
-                    Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioVPScenarioStatusText, "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -603,7 +576,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpScenario);
 
                     VPScenario vpScenarioRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -613,9 +586,9 @@ namespace CSSPServices.Tests
                         {
                             vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -651,32 +624,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (vpScenarioRet.SubsectorTVText != null)
+                            if (vpScenarioRet.VPScenarioWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioRet.SubsectorTVText));
+                                Assert.IsNull(vpScenarioRet.VPScenarioWeb);
                             }
-                            if (vpScenarioRet.LastUpdateContactTVText != null)
+                            if (vpScenarioRet.VPScenarioReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioRet.LastUpdateContactTVText));
-                            }
-                            if (vpScenarioRet.VPScenarioStatusText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioStatusText));
+                                Assert.IsNull(vpScenarioRet.VPScenarioReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (vpScenarioRet.SubsectorTVText != null)
+                            if (vpScenarioRet.VPScenarioWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.SubsectorTVText));
+                                Assert.IsNotNull(vpScenarioRet.VPScenarioWeb);
                             }
-                            if (vpScenarioRet.LastUpdateContactTVText != null)
+                            if (vpScenarioRet.VPScenarioReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.LastUpdateContactTVText));
-                            }
-                            if (vpScenarioRet.VPScenarioStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioStatusText));
+                                Assert.IsNotNull(vpScenarioRet.VPScenarioReport);
                             }
                         }
                     }

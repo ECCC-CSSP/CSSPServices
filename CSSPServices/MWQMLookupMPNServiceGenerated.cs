@@ -91,6 +91,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), new[] { "MPN_100ml" });
             }
 
+                //Error: Type not implemented [MWQMLookupMPNWeb] of type [MWQMLookupMPNWeb]
+                //Error: Type not implemented [MWQMLookupMPNReport] of type [MWQMLookupMPNReport]
             if (mwqmLookupMPN.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmLookupMPN.HasErrors = true;
@@ -127,12 +129,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmLookupMPN.LastUpdateContactTVText) && mwqmLookupMPN.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmLookupMPN.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMLookupMPNLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -158,8 +154,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmLookupMPNQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMLookupMPN(mwqmLookupMPNQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -176,8 +172,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmLookupMPNQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMLookupMPN(mwqmLookupMPNQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -230,7 +226,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPN(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPN_Show_Copy_To_MWQMLookupMPNServiceExtra_As_Fill_MWQMLookupMPN(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             mwqmLookupMPNQuery = (from c in mwqmLookupMPNQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -246,7 +245,14 @@ namespace CSSPServices
                         MPN_100ml = c.MPN_100ml,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        MWQMLookupMPNWeb = new MWQMLookupMPNWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        MWQMLookupMPNReport = new MWQMLookupMPNReport
+                        {
+                            MWQMLookupMPNReportTest = "MWQMLookupMPNReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

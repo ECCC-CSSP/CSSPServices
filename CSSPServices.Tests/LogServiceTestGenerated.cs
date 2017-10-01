@@ -44,10 +44,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ID") log.ID = GetRandomInt(1, 11);
             if (OmitPropName != "LogCommand") log.LogCommand = (LogCommandEnum)GetRandomEnumType(typeof(LogCommandEnum));
             if (OmitPropName != "Information") log.Information = GetRandomString("", 20);
+            //Error: property [LogWeb] and type [Log] is  not implemented
+            //Error: property [LogReport] and type [Log] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") log.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") log.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") log.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LogCommandText") log.LogCommandText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") log.HasErrors = true;
 
             return log;
@@ -191,6 +191,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // log.LogWeb   (LogWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LogWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // log.LogReport   (LogReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LogReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // log.LastUpdateDate_UTC   (DateTime)
@@ -215,35 +233,6 @@ namespace CSSPServices.Tests
                     logService.Add(log);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LogLastUpdateContactTVItemID, "Contact"), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // log.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    log = null;
-                    log = GetFilledRandomLog("");
-                    log.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, logService.Add(log));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogLastUpdateContactTVText, "200"), log.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, logService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // log.LogCommandText   (String)
-                    // -----------------------------------
-
-                    log = null;
-                    log = GetFilledRandomLog("");
-                    log.LogCommandText = GetRandomString("", 101);
-                    Assert.AreEqual(false, logService.Add(log));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogLogCommandText, "100"), log.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, logService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -278,7 +267,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(log);
 
                     Log logRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -288,9 +277,9 @@ namespace CSSPServices.Tests
                         {
                             logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -308,24 +297,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (logRet.LastUpdateContactTVText != null)
+                            if (logRet.LogWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));
+                                Assert.IsNull(logRet.LogWeb);
                             }
-                            if (logRet.LogCommandText != null)
+                            if (logRet.LogReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(logRet.LogCommandText));
+                                Assert.IsNull(logRet.LogReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (logRet.LastUpdateContactTVText != null)
+                            if (logRet.LogWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(logRet.LogWeb);
                             }
-                            if (logRet.LogCommandText != null)
+                            if (logRet.LogReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LogCommandText));
+                                Assert.IsNotNull(logRet.LogReport);
                             }
                         }
                     }

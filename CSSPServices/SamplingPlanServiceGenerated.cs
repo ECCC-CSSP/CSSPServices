@@ -221,6 +221,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [SamplingPlanWeb] of type [SamplingPlanWeb]
+                //Error: Type not implemented [SamplingPlanReport] of type [SamplingPlanReport]
             if (samplingPlan.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlan.HasErrors = true;
@@ -257,48 +259,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(samplingPlan.ProvinceTVText) && samplingPlan.ProvinceTVText.Length > 200)
-            {
-                samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanProvinceTVText, "200"), new[] { "ProvinceTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlan.CreatorTVText) && samplingPlan.CreatorTVText.Length > 200)
-            {
-                samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanCreatorTVText, "200"), new[] { "CreatorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanFileTVText) && samplingPlan.SamplingPlanFileTVText.Length > 200)
-            {
-                samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), new[] { "SamplingPlanFileTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlan.LastUpdateContactTVText) && samplingPlan.LastUpdateContactTVText.Length > 200)
-            {
-                samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlan.SampleTypeText) && samplingPlan.SampleTypeText.Length > 100)
-            {
-                samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSampleTypeText, "100"), new[] { "SampleTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanTypeText) && samplingPlan.SamplingPlanTypeText.Length > 100)
-            {
-                samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlan.LabSheetTypeText) && samplingPlan.LabSheetTypeText.Length > 100)
-            {
-                samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -324,8 +284,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSamplingPlan(samplingPlanQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -342,8 +302,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSamplingPlan(samplingPlanQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -396,7 +356,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<SamplingPlan> FillSamplingPlan(IQueryable<SamplingPlan> samplingPlanQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<SamplingPlan> FillSamplingPlan_Show_Copy_To_SamplingPlanServiceExtra_As_Fill_SamplingPlan(IQueryable<SamplingPlan> samplingPlanQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -440,19 +403,26 @@ namespace CSSPServices
                         SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ProvinceTVText = ProvinceTVText,
-                        CreatorTVText = CreatorTVText,
-                        SamplingPlanFileTVText = SamplingPlanFileTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        SampleTypeText = (from e in SampleTypeEnumList
+                        SamplingPlanWeb = new SamplingPlanWeb
+                        {
+                            ProvinceTVText = ProvinceTVText,
+                            CreatorTVText = CreatorTVText,
+                            SamplingPlanFileTVText = SamplingPlanFileTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            SampleTypeText = (from e in SampleTypeEnumList
                                 where e.EnumID == (int?)c.SampleType
                                 select e.EnumText).FirstOrDefault(),
-                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
+                            SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
                                 where e.EnumID == (int?)c.SamplingPlanType
                                 select e.EnumText).FirstOrDefault(),
-                        LabSheetTypeText = (from e in LabSheetTypeEnumList
+                            LabSheetTypeText = (from e in LabSheetTypeEnumList
                                 where e.EnumID == (int?)c.LabSheetType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        SamplingPlanReport = new SamplingPlanReport
+                        {
+                            SamplingPlanReportTest = "SamplingPlanReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
         {
             UseOfSite useOfSite = new UseOfSite();
 
-            if (OmitPropName != "SiteTVItemID") useOfSite.SiteTVItemID = 7;
-            if (OmitPropName != "SubsectorTVItemID") useOfSite.SubsectorTVItemID = 11;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [UseOfSite SiteTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [UseOfSite SubsectorTVItemID TVItem TVItemID]
             if (OmitPropName != "SiteType") useOfSite.SiteType = (SiteTypeEnum)GetRandomEnumType(typeof(SiteTypeEnum));
             if (OmitPropName != "Ordinal") useOfSite.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "StartYear") useOfSite.StartYear = GetRandomInt(1980, 2050);
@@ -53,12 +53,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Param2") useOfSite.Param2 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomDouble(0.0D, 100.0D);
+            //Error: property [UseOfSiteWeb] and type [UseOfSite] is  not implemented
+            //Error: property [UseOfSiteReport] and type [UseOfSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "SiteTVText") useOfSite.SiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "SubsectorTVText") useOfSite.SubsectorTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") useOfSite.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "SiteTypeText") useOfSite.SiteTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") useOfSite.HasErrors = true;
 
             return useOfSite;
@@ -366,6 +364,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // useOfSite.UseOfSiteWeb   (UseOfSiteWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [UseOfSiteWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // useOfSite.UseOfSiteReport   (UseOfSiteReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [UseOfSiteReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // useOfSite.LastUpdateDate_UTC   (DateTime)
@@ -390,65 +406,6 @@ namespace CSSPServices.Tests
                     useOfSiteService.Add(useOfSite);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // useOfSite.SiteTVText   (String)
-                    // -----------------------------------
-
-                    useOfSite = null;
-                    useOfSite = GetFilledRandomUseOfSite("");
-                    useOfSite.SiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSiteTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // useOfSite.SubsectorTVText   (String)
-                    // -----------------------------------
-
-                    useOfSite = null;
-                    useOfSite = GetFilledRandomUseOfSite("");
-                    useOfSite.SubsectorTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSubsectorTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // useOfSite.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    useOfSite = null;
-                    useOfSite = GetFilledRandomUseOfSite("");
-                    useOfSite.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteLastUpdateContactTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // useOfSite.SiteTypeText   (String)
-                    // -----------------------------------
-
-                    useOfSite = null;
-                    useOfSite = GetFilledRandomUseOfSite("");
-                    useOfSite.SiteTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSiteTypeText, "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -483,7 +440,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(useOfSite);
 
                     UseOfSite useOfSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -493,9 +450,9 @@ namespace CSSPServices.Tests
                         {
                             useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -546,40 +503,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (useOfSiteRet.SiteTVText != null)
+                            if (useOfSiteRet.UseOfSiteWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
+                                Assert.IsNull(useOfSiteRet.UseOfSiteWeb);
                             }
-                            if (useOfSiteRet.SubsectorTVText != null)
+                            if (useOfSiteRet.UseOfSiteReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
-                            }
-                            if (useOfSiteRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
-                            }
-                            if (useOfSiteRet.SiteTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
+                                Assert.IsNull(useOfSiteRet.UseOfSiteReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (useOfSiteRet.SiteTVText != null)
+                            if (useOfSiteRet.UseOfSiteWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
+                                Assert.IsNotNull(useOfSiteRet.UseOfSiteWeb);
                             }
-                            if (useOfSiteRet.SubsectorTVText != null)
+                            if (useOfSiteRet.UseOfSiteReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
-                            }
-                            if (useOfSiteRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
-                            }
-                            if (useOfSiteRet.SiteTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
+                                Assert.IsNotNull(useOfSiteRet.UseOfSiteReport);
                             }
                         }
                     }

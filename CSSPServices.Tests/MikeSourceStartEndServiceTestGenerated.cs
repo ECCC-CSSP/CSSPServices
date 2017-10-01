@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MikeSourceStartEnd mikeSourceStartEnd = new MikeSourceStartEnd();
 
-            if (OmitPropName != "MikeSourceID") mikeSourceStartEnd.MikeSourceID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MikeSourceStartEnd MikeSourceID MikeSource MikeSourceID]
             if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "SourceFlowStart_m3_day") mikeSourceStartEnd.SourceFlowStart_m3_day = GetRandomDouble(0.0D, 1000000.0D);
@@ -51,9 +51,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SourceTemperatureEnd_C") mikeSourceStartEnd.SourceTemperatureEnd_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomDouble(0.0D, 40.0D);
             if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(0.0D, 40.0D);
+            //Error: property [MikeSourceStartEndWeb] and type [MikeSourceStartEnd] is  not implemented
+            //Error: property [MikeSourceStartEndReport] and type [MikeSourceStartEnd] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") mikeSourceStartEnd.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mikeSourceStartEnd.HasErrors = true;
 
             return mikeSourceStartEnd;
@@ -328,6 +329,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeSourceStartEnd.MikeSourceStartEndWeb   (MikeSourceStartEndWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeSourceStartEndWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mikeSourceStartEnd.MikeSourceStartEndReport   (MikeSourceStartEndReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MikeSourceStartEndReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mikeSourceStartEnd.LastUpdateDate_UTC   (DateTime)
@@ -352,21 +371,6 @@ namespace CSSPServices.Tests
                     mikeSourceStartEndService.Add(mikeSourceStartEnd);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mikeSourceStartEnd.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mikeSourceStartEnd = null;
-                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                    mikeSourceStartEnd.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVText, "200"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -401,7 +405,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSourceStartEnd);
 
                     MikeSourceStartEnd mikeSourceStartEndRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -411,9 +415,9 @@ namespace CSSPServices.Tests
                         {
                             mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -438,16 +442,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mikeSourceStartEndRet.LastUpdateContactTVText != null)
+                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
+                                Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndWeb);
+                            }
+                            if (mikeSourceStartEndRet.MikeSourceStartEndReport != null)
+                            {
+                                Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mikeSourceStartEndRet.LastUpdateContactTVText != null)
+                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndWeb);
+                            }
+                            if (mikeSourceStartEndRet.MikeSourceStartEndReport != null)
+                            {
+                                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
                             }
                         }
                     }

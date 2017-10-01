@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
         {
             MWQMSample mwqmSample = new MWQMSample();
 
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = 19;
-            if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = 24;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSample MWQMSiteTVItemID TVItem TVItemID]
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSample MWQMRunTVItemID TVItem TVItemID]
             if (OmitPropName != "SampleDateTime_Local") mwqmSample.SampleDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "FecCol_MPN_100ml") mwqmSample.FecCol_MPN_100ml = GetRandomInt(0, 10000000);
@@ -54,12 +54,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Tube_1_0") mwqmSample.Tube_1_0 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube_0_1") mwqmSample.Tube_0_1 = GetRandomInt(0, 5);
             if (OmitPropName != "ProcessedBy") mwqmSample.ProcessedBy = GetRandomString("", 5);
+            //Error: property [MWQMSampleWeb] and type [MWQMSample] is  not implemented
+            //Error: property [MWQMSampleReport] and type [MWQMSample] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSample.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSample.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "MWQMSiteTVText") mwqmSample.MWQMSiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "MWQMRunTVText") mwqmSample.MWQMRunTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") mwqmSample.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "SampleType_oldText") mwqmSample.SampleType_oldText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmSample.HasErrors = true;
 
             return mwqmSample;
@@ -394,6 +392,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSample.MWQMSampleWeb   (MWQMSampleWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSampleWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // mwqmSample.MWQMSampleReport   (MWQMSampleReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MWQMSampleReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmSample.LastUpdateDate_UTC   (DateTime)
@@ -418,65 +434,6 @@ namespace CSSPServices.Tests
                     mwqmSampleService.Add(mwqmSample);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSampleLastUpdateContactTVItemID, "Contact"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSample.MWQMSiteTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSample = null;
-                    mwqmSample = GetFilledRandomMWQMSample("");
-                    mwqmSample.MWQMSiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleMWQMSiteTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMRunTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSample.MWQMRunTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSample = null;
-                    mwqmSample = GetFilledRandomMWQMSample("");
-                    mwqmSample.MWQMRunTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleMWQMRunTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // mwqmSample.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    mwqmSample = null;
-                    mwqmSample = GetFilledRandomMWQMSample("");
-                    mwqmSample.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleLastUpdateContactTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // mwqmSample.SampleType_oldText   (String)
-                    // -----------------------------------
-
-                    mwqmSample = null;
-                    mwqmSample = GetFilledRandomMWQMSample("");
-                    mwqmSample.SampleType_oldText = GetRandomString("", 101);
-                    Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleSampleType_oldText, "100"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -511,7 +468,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSample);
 
                     MWQMSample mwqmSampleRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -521,9 +478,9 @@ namespace CSSPServices.Tests
                         {
                             mwqmSampleRet = mwqmSampleService.GetMWQMSampleWithMWQMSampleID(mwqmSample.MWQMSampleID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSampleRet = mwqmSampleService.GetMWQMSampleWithMWQMSampleID(mwqmSample.MWQMSampleID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            mwqmSampleRet = mwqmSampleService.GetMWQMSampleWithMWQMSampleID(mwqmSample.MWQMSampleID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -575,40 +532,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSampleRet.MWQMSiteTVText != null)
+                            if (mwqmSampleRet.MWQMSampleWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSiteTVText));
+                                Assert.IsNull(mwqmSampleRet.MWQMSampleWeb);
                             }
-                            if (mwqmSampleRet.MWQMRunTVText != null)
+                            if (mwqmSampleRet.MWQMSampleReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMRunTVText));
-                            }
-                            if (mwqmSampleRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSampleRet.LastUpdateContactTVText));
-                            }
-                            if (mwqmSampleRet.SampleType_oldText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(mwqmSampleRet.SampleType_oldText));
+                                Assert.IsNull(mwqmSampleRet.MWQMSampleReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSampleRet.MWQMSiteTVText != null)
+                            if (mwqmSampleRet.MWQMSampleWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSiteTVText));
+                                Assert.IsNotNull(mwqmSampleRet.MWQMSampleWeb);
                             }
-                            if (mwqmSampleRet.MWQMRunTVText != null)
+                            if (mwqmSampleRet.MWQMSampleReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMRunTVText));
-                            }
-                            if (mwqmSampleRet.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.LastUpdateContactTVText));
-                            }
-                            if (mwqmSampleRet.SampleType_oldText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.SampleType_oldText));
+                                Assert.IsNotNull(mwqmSampleRet.MWQMSampleReport);
                             }
                         }
                     }

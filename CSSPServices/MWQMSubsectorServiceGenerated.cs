@@ -99,6 +99,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorTideLocationSIDText, "20"), new[] { "TideLocationSIDText" });
             }
 
+                //Error: Type not implemented [MWQMSubsectorWeb] of type [MWQMSubsectorWeb]
+                //Error: Type not implemented [MWQMSubsectorReport] of type [MWQMSubsectorReport]
             if (mwqmSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSubsector.HasErrors = true;
@@ -135,18 +137,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmSubsector.SubsectorTVText) && mwqmSubsector.SubsectorTVText.Length > 200)
-            {
-                mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorSubsectorTVText, "200"), new[] { "SubsectorTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSubsector.LastUpdateContactTVText) && mwqmSubsector.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -172,8 +162,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSubsector(mwqmSubsectorQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -190,8 +180,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSubsector(mwqmSubsectorQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -244,7 +234,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMSubsector> FillMWQMSubsector(IQueryable<MWQMSubsector> mwqmSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMSubsector> FillMWQMSubsector_Show_Copy_To_MWQMSubsectorServiceExtra_As_Fill_MWQMSubsector(IQueryable<MWQMSubsector> mwqmSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             mwqmSubsectorQuery = (from c in mwqmSubsectorQuery
                 let SubsectorTVText = (from cl in db.TVItemLanguages
@@ -263,8 +256,15 @@ namespace CSSPServices
                         TideLocationSIDText = c.TideLocationSIDText,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SubsectorTVText = SubsectorTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        MWQMSubsectorWeb = new MWQMSubsectorWeb
+                        {
+                            SubsectorTVText = SubsectorTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        MWQMSubsectorReport = new MWQMSubsectorReport
+                        {
+                            MWQMSubsectorReportTest = "MWQMSubsectorReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

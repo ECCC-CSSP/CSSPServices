@@ -46,6 +46,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "sid") tideLocation.sid = GetRandomInt(0, 100000);
             if (OmitPropName != "Lat") tideLocation.Lat = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "Lng") tideLocation.Lng = GetRandomDouble(-180.0D, 180.0D);
+            //Error: property [TideLocationWeb] and type [TideLocation] is  not implemented
+            //Error: property [TideLocationReport] and type [TideLocation] is  not implemented
+            if (OmitPropName != "LastUpdateDate_UTC") tideLocation.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") tideLocation.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "HasErrors") tideLocation.HasErrors = true;
 
             return tideLocation;
@@ -250,6 +254,50 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tideLocation.TideLocationWeb   (TideLocationWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TideLocationWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tideLocation.TideLocationReport   (TideLocationReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TideLocationReport]
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // tideLocation.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // tideLocation.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.LastUpdateContactTVItemID = 0;
+                    tideLocationService.Add(tideLocation);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, tideLocation.LastUpdateContactTVItemID.ToString()), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.LastUpdateContactTVItemID = 1;
+                    tideLocationService.Add(tideLocation);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, "Contact"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [NotMapped]
                     // tideLocation.HasErrors   (Boolean)
@@ -282,7 +330,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tideLocation);
 
                     TideLocation tideLocationRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -292,9 +340,9 @@ namespace CSSPServices.Tests
                         {
                             tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -308,13 +356,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tideLocationRet.sid);
                         Assert.IsNotNull(tideLocationRet.Lat);
                         Assert.IsNotNull(tideLocationRet.Lng);
+                        Assert.IsNotNull(tideLocationRet.LastUpdateDate_UTC);
+                        Assert.IsNotNull(tideLocationRet.LastUpdateContactTVItemID);
 
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            if (tideLocationRet.TideLocationWeb != null)
+                            {
+                                Assert.IsNull(tideLocationRet.TideLocationWeb);
+                            }
+                            if (tideLocationRet.TideLocationReport != null)
+                            {
+                                Assert.IsNull(tideLocationRet.TideLocationReport);
+                            }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
+                            if (tideLocationRet.TideLocationWeb != null)
+                            {
+                                Assert.IsNotNull(tideLocationRet.TideLocationWeb);
+                            }
+                            if (tideLocationRet.TideLocationReport != null)
+                            {
+                                Assert.IsNotNull(tideLocationRet.TideLocationReport);
+                            }
                         }
                     }
                 }

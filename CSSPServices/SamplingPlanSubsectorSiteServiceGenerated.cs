@@ -93,6 +93,8 @@ namespace CSSPServices
 
             //IsDuplicate (bool) is required but no testing needed 
 
+                //Error: Type not implemented [SamplingPlanSubsectorSiteWeb] of type [SamplingPlanSubsectorSiteWeb]
+                //Error: Type not implemented [SamplingPlanSubsectorSiteReport] of type [SamplingPlanSubsectorSiteReport]
             if (samplingPlanSubsectorSite.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlanSubsectorSite.HasErrors = true;
@@ -129,18 +131,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorSite.MWQMSiteTVText) && samplingPlanSubsectorSite.MWQMSiteTVText.Length > 200)
-            {
-                samplingPlanSubsectorSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorSite.LastUpdateContactTVText) && samplingPlanSubsectorSite.LastUpdateContactTVText.Length > 200)
-            {
-                samplingPlanSubsectorSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -166,8 +156,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanSubsectorSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSamplingPlanSubsectorSite(samplingPlanSubsectorSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -184,8 +174,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanSubsectorSiteQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSamplingPlanSubsectorSite(samplingPlanSubsectorSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -238,7 +228,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<SamplingPlanSubsectorSite> FillSamplingPlanSubsectorSite(IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<SamplingPlanSubsectorSite> FillSamplingPlanSubsectorSite_Show_Copy_To_SamplingPlanSubsectorSiteServiceExtra_As_Fill_SamplingPlanSubsectorSite(IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             samplingPlanSubsectorSiteQuery = (from c in samplingPlanSubsectorSiteQuery
                 let MWQMSiteTVText = (from cl in db.TVItemLanguages
@@ -257,8 +250,15 @@ namespace CSSPServices
                         IsDuplicate = c.IsDuplicate,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSiteTVText = MWQMSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SamplingPlanSubsectorSiteWeb = new SamplingPlanSubsectorSiteWeb
+                        {
+                            MWQMSiteTVText = MWQMSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        SamplingPlanSubsectorSiteReport = new SamplingPlanSubsectorSiteReport
+                        {
+                            SamplingPlanSubsectorSiteReportTest = "SamplingPlanSubsectorSiteReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

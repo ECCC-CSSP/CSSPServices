@@ -155,6 +155,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceEmailDistributionListIDs, "250"), new[] { "EmailDistributionListIDs" });
             }
 
+                //Error: Type not implemented [RainExceedanceWeb] of type [RainExceedanceWeb]
+                //Error: Type not implemented [RainExceedanceReport] of type [RainExceedanceReport]
             if (rainExceedance.LastUpdateDate_UTC.Year == 1)
             {
                 rainExceedance.HasErrors = true;
@@ -191,12 +193,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(rainExceedance.LastUpdateContactTVText) && rainExceedance.LastUpdateContactTVText.Length > 200)
-            {
-                rainExceedance.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -222,8 +218,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return rainExceedanceQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillRainExceedance(rainExceedanceQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -240,8 +236,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return rainExceedanceQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillRainExceedance(rainExceedanceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -294,7 +290,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<RainExceedance> FillRainExceedance(IQueryable<RainExceedance> rainExceedanceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<RainExceedance> FillRainExceedance_Show_Copy_To_RainExceedanceServiceExtra_As_Fill_RainExceedance(IQueryable<RainExceedance> rainExceedanceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             rainExceedanceQuery = (from c in rainExceedanceQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -317,7 +316,14 @@ namespace CSSPServices
                         EmailDistributionListIDs = c.EmailDistributionListIDs,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        RainExceedanceWeb = new RainExceedanceWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        RainExceedanceReport = new RainExceedanceReport
+                        {
+                            RainExceedanceReportTest = "RainExceedanceReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

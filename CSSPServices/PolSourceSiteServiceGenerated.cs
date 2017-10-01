@@ -149,6 +149,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [PolSourceSiteWeb] of type [PolSourceSiteWeb]
+                //Error: Type not implemented [PolSourceSiteReport] of type [PolSourceSiteReport]
             if (polSourceSite.LastUpdateDate_UTC.Year == 1)
             {
                 polSourceSite.HasErrors = true;
@@ -185,24 +187,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(polSourceSite.PolSourceSiteTVText) && polSourceSite.PolSourceSiteTVText.Length > 200)
-            {
-                polSourceSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceSitePolSourceSiteTVText, "200"), new[] { "PolSourceSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(polSourceSite.LastUpdateContactTVText) && polSourceSite.LastUpdateContactTVText.Length > 200)
-            {
-                polSourceSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(polSourceSite.InactiveReasonText) && polSourceSite.InactiveReasonText.Length > 100)
-            {
-                polSourceSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceSiteInactiveReasonText, "100"), new[] { "InactiveReasonText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -228,8 +212,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillPolSourceSite(polSourceSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -246,8 +230,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceSiteQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillPolSourceSite(polSourceSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -300,7 +284,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<PolSourceSite> FillPolSourceSite(IQueryable<PolSourceSite> polSourceSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<PolSourceSite> FillPolSourceSite_Show_Copy_To_PolSourceSiteServiceExtra_As_Fill_PolSourceSite(IQueryable<PolSourceSite> polSourceSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -328,11 +315,18 @@ namespace CSSPServices
                         CivicAddressTVItemID = c.CivicAddressTVItemID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        PolSourceSiteTVText = PolSourceSiteTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        InactiveReasonText = (from e in PolSourceInactiveReasonEnumList
+                        PolSourceSiteWeb = new PolSourceSiteWeb
+                        {
+                            PolSourceSiteTVText = PolSourceSiteTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            InactiveReasonText = (from e in PolSourceInactiveReasonEnumList
                                 where e.EnumID == (int?)c.InactiveReason
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        PolSourceSiteReport = new PolSourceSiteReport
+                        {
+                            PolSourceSiteReportTest = "PolSourceSiteReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -40,12 +40,13 @@ namespace CSSPServices.Tests
         {
             PolSourceObservationIssue polSourceObservationIssue = new PolSourceObservationIssue();
 
-            if (OmitPropName != "PolSourceObservationID") polSourceObservationIssue.PolSourceObservationID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [PolSourceObservationIssue PolSourceObservationID PolSourceObservation PolSourceObservationID]
             if (OmitPropName != "ObservationInfo") polSourceObservationIssue.ObservationInfo = GetRandomString("", 5);
             if (OmitPropName != "Ordinal") polSourceObservationIssue.Ordinal = GetRandomInt(0, 1000);
+            //Error: property [PolSourceObservationIssueWeb] and type [PolSourceObservationIssue] is  not implemented
+            //Error: property [PolSourceObservationIssueReport] and type [PolSourceObservationIssue] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") polSourceObservationIssue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservationIssue.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") polSourceObservationIssue.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") polSourceObservationIssue.HasErrors = true;
 
             return polSourceObservationIssue;
@@ -181,6 +182,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // polSourceObservationIssue.PolSourceObservationIssueWeb   (PolSourceObservationIssueWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [PolSourceObservationIssueWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // polSourceObservationIssue.PolSourceObservationIssueReport   (PolSourceObservationIssueReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [PolSourceObservationIssueReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // polSourceObservationIssue.LastUpdateDate_UTC   (DateTime)
@@ -205,21 +224,6 @@ namespace CSSPServices.Tests
                     polSourceObservationIssueService.Add(polSourceObservationIssue);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceObservationIssueLastUpdateContactTVItemID, "Contact"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // polSourceObservationIssue.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    polSourceObservationIssue = null;
-                    polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
-                    polSourceObservationIssue.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, polSourceObservationIssueService.Add(polSourceObservationIssue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationIssueLastUpdateContactTVText, "200"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -254,7 +258,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(polSourceObservationIssue);
 
                     PolSourceObservationIssue polSourceObservationIssueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -264,9 +268,9 @@ namespace CSSPServices.Tests
                         {
                             polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -283,16 +287,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (polSourceObservationIssueRet.LastUpdateContactTVText != null)
+                            if (polSourceObservationIssueRet.PolSourceObservationIssueWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));
+                                Assert.IsNull(polSourceObservationIssueRet.PolSourceObservationIssueWeb);
+                            }
+                            if (polSourceObservationIssueRet.PolSourceObservationIssueReport != null)
+                            {
+                                Assert.IsNull(polSourceObservationIssueRet.PolSourceObservationIssueReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (polSourceObservationIssueRet.LastUpdateContactTVText != null)
+                            if (polSourceObservationIssueRet.PolSourceObservationIssueWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueWeb);
+                            }
+                            if (polSourceObservationIssueRet.PolSourceObservationIssueReport != null)
+                            {
+                                Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueReport);
                             }
                         }
                     }

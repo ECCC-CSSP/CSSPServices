@@ -181,6 +181,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
             }
 
+                //Error: Type not implemented [ContactWeb] of type [ContactWeb]
+                //Error: Type not implemented [ContactReport] of type [ContactReport]
             if (contact.LastUpdateDate_UTC.Year == 1)
             {
                 contact.HasErrors = true;
@@ -217,32 +219,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(contact.ContactTVText) && contact.ContactTVText.Length > 200)
-            {
-                contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactContactTVText, "200"), new[] { "ContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contact.LastUpdateContactTVText) && contact.LastUpdateContactTVText.Length > 200)
-            {
-                contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            //ParentTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            if (contact.ParentTVItemID < 1)
-            {
-                contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactParentTVItemID, "1"), new[] { "ParentTVItemID" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contact.ContactTitleText) && contact.ContactTitleText.Length > 100)
-            {
-                contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactContactTitleText, "100"), new[] { "ContactTitleText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -268,8 +244,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContact(contactQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -286,8 +262,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContact(contactQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -340,7 +316,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<Contact> FillContact(IQueryable<Contact> contactQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<Contact> FillContact_Show_Copy_To_ContactServiceExtra_As_Fill_Contact(IQueryable<Contact> contactQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -373,11 +352,19 @@ namespace CSSPServices
                         SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ContactTVText = ContactTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        ContactTitleText = (from e in ContactTitleEnumList
+                        ContactWeb = new ContactWeb
+                        {
+                            ContactTVText = ContactTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            ParentTVItemID = ParentTVItemID,
+                            ContactTitleText = (from e in ContactTitleEnumList
                                 where e.EnumID == (int?)c.ContactTitle
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        ContactReport = new ContactReport
+                        {
+                            ContactReportTest = "ContactReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

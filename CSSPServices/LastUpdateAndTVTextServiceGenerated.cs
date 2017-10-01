@@ -50,17 +50,17 @@ namespace CSSPServices
 
             //Error has no StringLength Attribute
 
-            if (lastUpdateAndTVText.LastUpdateDate_UTC.Year == 1)
+            if (lastUpdateAndTVText.LastUpdateAndTVTextDate_UTC.Year == 1)
             {
                 lastUpdateAndTVText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndTVTextLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndTVTextLastUpdateAndTVTextDate_UTC), new[] { "LastUpdateAndTVTextDate_UTC" });
             }
             else
             {
-                if (lastUpdateAndTVText.LastUpdateDate_UTC.Year < 1980)
+                if (lastUpdateAndTVText.LastUpdateAndTVTextDate_UTC.Year < 1980)
                 {
                 lastUpdateAndTVText.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LastUpdateAndTVTextLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LastUpdateAndTVTextLastUpdateAndTVTextDate_UTC, "1980"), new[] { "LastUpdateAndTVTextDate_UTC" });
                 }
             }
 

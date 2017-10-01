@@ -81,6 +81,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RatingCurveRatingCurveNumber, "50"), new[] { "RatingCurveNumber" });
             }
 
+                //Error: Type not implemented [RatingCurveWeb] of type [RatingCurveWeb]
+                //Error: Type not implemented [RatingCurveReport] of type [RatingCurveReport]
             if (ratingCurve.LastUpdateDate_UTC.Year == 1)
             {
                 ratingCurve.HasErrors = true;
@@ -117,12 +119,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(ratingCurve.LastUpdateContactTVText) && ratingCurve.LastUpdateContactTVText.Length > 200)
-            {
-                ratingCurve.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RatingCurveLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -148,8 +144,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return ratingCurveQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillRatingCurve(ratingCurveQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -166,8 +162,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return ratingCurveQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillRatingCurve(ratingCurveQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -220,7 +216,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<RatingCurve> FillRatingCurve(IQueryable<RatingCurve> ratingCurveQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<RatingCurve> FillRatingCurve_Show_Copy_To_RatingCurveServiceExtra_As_Fill_RatingCurve(IQueryable<RatingCurve> ratingCurveQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             ratingCurveQuery = (from c in ratingCurveQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -234,7 +233,14 @@ namespace CSSPServices
                         RatingCurveNumber = c.RatingCurveNumber,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        RatingCurveWeb = new RatingCurveWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        RatingCurveReport = new RatingCurveReport
+                        {
+                            RatingCurveReportTest = "RatingCurveReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

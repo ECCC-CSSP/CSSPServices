@@ -110,6 +110,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailType), new[] { "EmailType" });
             }
 
+                //Error: Type not implemented [EmailWeb] of type [EmailWeb]
+                //Error: Type not implemented [EmailReport] of type [EmailReport]
             if (email.LastUpdateDate_UTC.Year == 1)
             {
                 email.HasErrors = true;
@@ -146,24 +148,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(email.EmailTVText) && email.EmailTVText.Length > 200)
-            {
-                email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTVText, "200"), new[] { "EmailTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(email.LastUpdateContactTVText) && email.LastUpdateContactTVText.Length > 200)
-            {
-                email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(email.EmailTypeText) && email.EmailTypeText.Length > 100)
-            {
-                email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTypeText, "100"), new[] { "EmailTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -189,8 +173,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmail(emailQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -207,8 +191,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillEmail(emailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -261,7 +245,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<Email> FillEmail(IQueryable<Email> emailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<Email> FillEmail_Show_Copy_To_EmailServiceExtra_As_Fill_Email(IQueryable<Email> emailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -284,11 +271,18 @@ namespace CSSPServices
                         EmailType = c.EmailType,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        EmailTVText = EmailTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        EmailTypeText = (from e in EmailTypeEnumList
+                        EmailWeb = new EmailWeb
+                        {
+                            EmailTVText = EmailTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            EmailTypeText = (from e in EmailTypeEnumList
                                 where e.EnumID == (int?)c.EmailType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        EmailReport = new EmailReport
+                        {
+                            EmailReportTest = "EmailReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

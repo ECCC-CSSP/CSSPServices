@@ -99,6 +99,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceSourceNumberString, "50"), new[] { "SourceNumberString" });
             }
 
+                //Error: Type not implemented [MikeSourceWeb] of type [MikeSourceWeb]
+                //Error: Type not implemented [MikeSourceReport] of type [MikeSourceReport]
             if (mikeSource.LastUpdateDate_UTC.Year == 1)
             {
                 mikeSource.HasErrors = true;
@@ -135,18 +137,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mikeSource.MikeSourceTVText) && mikeSource.MikeSourceTVText.Length > 200)
-            {
-                mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceMikeSourceTVText, "200"), new[] { "MikeSourceTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mikeSource.LastUpdateContactTVText) && mikeSource.LastUpdateContactTVText.Length > 200)
-            {
-                mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -172,8 +162,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMikeSource(mikeSourceQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -190,8 +180,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMikeSource(mikeSourceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -244,7 +234,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MikeSource> FillMikeSource(IQueryable<MikeSource> mikeSourceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MikeSource> FillMikeSource_Show_Copy_To_MikeSourceServiceExtra_As_Fill_MikeSource(IQueryable<MikeSource> mikeSourceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             mikeSourceQuery = (from c in mikeSourceQuery
                 let MikeSourceTVText = (from cl in db.TVItemLanguages
@@ -265,8 +258,15 @@ namespace CSSPServices
                         SourceNumberString = c.SourceNumberString,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MikeSourceTVText = MikeSourceTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        MikeSourceWeb = new MikeSourceWeb
+                        {
+                            MikeSourceTVText = MikeSourceTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        MikeSourceReport = new MikeSourceReport
+                        {
+                            MikeSourceReportTest = "MikeSourceReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

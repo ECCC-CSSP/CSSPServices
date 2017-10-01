@@ -138,6 +138,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), new[] { "AverageFlow_m3_day" });
             }
 
+                //Error: Type not implemented [SpillWeb] of type [SpillWeb]
+                //Error: Type not implemented [SpillReport] of type [SpillReport]
             if (spill.LastUpdateDate_UTC.Year == 1)
             {
                 spill.HasErrors = true;
@@ -174,24 +176,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(spill.MunicipalityTVText) && spill.MunicipalityTVText.Length > 200)
-            {
-                spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(spill.InfrastructureTVText) && spill.InfrastructureTVText.Length > 200)
-            {
-                spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(spill.LastUpdateContactTVText) && spill.LastUpdateContactTVText.Length > 200)
-            {
-                spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -217,8 +201,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSpill(spillQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -235,8 +219,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillSpill(spillQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -289,7 +273,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<Spill> FillSpill(IQueryable<Spill> spillQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<Spill> FillSpill_Show_Copy_To_SpillServiceExtra_As_Fill_Spill(IQueryable<Spill> spillQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             spillQuery = (from c in spillQuery
                 let MunicipalityTVText = (from cl in db.TVItemLanguages
@@ -314,9 +301,16 @@ namespace CSSPServices
                         AverageFlow_m3_day = c.AverageFlow_m3_day,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MunicipalityTVText = MunicipalityTVText,
-                        InfrastructureTVText = InfrastructureTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        SpillWeb = new SpillWeb
+                        {
+                            MunicipalityTVText = MunicipalityTVText,
+                            InfrastructureTVText = InfrastructureTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        SpillReport = new SpillReport
+                        {
+                            SpillReportTest = "SpillReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

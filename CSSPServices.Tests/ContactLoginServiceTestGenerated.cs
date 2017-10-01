@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ContactLogin contactLogin = new ContactLogin();
 
-            if (OmitPropName != "ContactID") contactLogin.ContactID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [ContactLogin ContactID Contact ContactID]
             if (OmitPropName != "LoginEmail") contactLogin.LoginEmail = GetRandomEmail();
             ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
 
@@ -53,11 +53,10 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "PasswordHash") contactLogin.PasswordHash = passwordHash;
             if (OmitPropName != "PasswordSalt") contactLogin.PasswordSalt = passwordSalt;
+            //Error: property [ContactLoginWeb] and type [ContactLogin] is  not implemented
+            //Error: property [ContactLoginReport] and type [ContactLogin] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") contactLogin.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactLogin.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") contactLogin.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 11);
-            if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 11);
             if (OmitPropName != "HasErrors") contactLogin.HasErrors = true;
 
             return contactLogin;
@@ -191,6 +190,24 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // contactLogin.ContactLoginWeb   (ContactLoginWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ContactLoginWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // contactLogin.ContactLoginReport   (ContactLoginReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [ContactLoginReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // contactLogin.LastUpdateDate_UTC   (DateTime)
@@ -215,77 +232,6 @@ namespace CSSPServices.Tests
                     contactLoginService.Add(contactLogin);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // contactLogin.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    contactLogin = null;
-                    contactLogin = GetFilledRandomContactLogin("");
-                    contactLogin.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginLastUpdateContactTVText, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is NOT Nullable
-                    // [NotMapped]
-                    // [StringLength(100, MinimumLength = 6)]
-                    // contactLogin.Password   (String)
-                    // -----------------------------------
-
-                    contactLogin = null;
-                    contactLogin = GetFilledRandomContactLogin("Password");
-                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginPassword)).Any());
-                    Assert.AreEqual(null, contactLogin.Password);
-                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                    contactLogin = null;
-                    contactLogin = GetFilledRandomContactLogin("");
-                    contactLogin.Password = GetRandomString("", 5);
-                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
-                    contactLogin = null;
-                    contactLogin = GetFilledRandomContactLogin("");
-                    contactLogin.Password = GetRandomString("", 101);
-                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is NOT Nullable
-                    // [NotMapped]
-                    // [StringLength(100, MinimumLength = 6)]
-                    // contactLogin.ConfirmPassword   (String)
-                    // -----------------------------------
-
-                    contactLogin = null;
-                    contactLogin = GetFilledRandomContactLogin("ConfirmPassword");
-                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginConfirmPassword)).Any());
-                    Assert.AreEqual(null, contactLogin.ConfirmPassword);
-                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                    contactLogin = null;
-                    contactLogin = GetFilledRandomContactLogin("");
-                    contactLogin.ConfirmPassword = GetRandomString("", 5);
-                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
-                    contactLogin = null;
-                    contactLogin = GetFilledRandomContactLogin("");
-                    contactLogin.ConfirmPassword = GetRandomString("", 101);
-                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -320,7 +266,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactLogin);
 
                     ContactLogin contactLoginRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -330,9 +276,9 @@ namespace CSSPServices.Tests
                         {
                             contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -350,16 +296,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (contactLoginRet.LastUpdateContactTVText != null)
+                            if (contactLoginRet.ContactLoginWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
+                                Assert.IsNull(contactLoginRet.ContactLoginWeb);
+                            }
+                            if (contactLoginRet.ContactLoginReport != null)
+                            {
+                                Assert.IsNull(contactLoginRet.ContactLoginReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (contactLoginRet.LastUpdateContactTVText != null)
+                            if (contactLoginRet.ContactLoginWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(contactLoginRet.ContactLoginWeb);
+                            }
+                            if (contactLoginRet.ContactLoginReport != null)
+                            {
+                                Assert.IsNotNull(contactLoginRet.ContactLoginReport);
                             }
                         }
                     }

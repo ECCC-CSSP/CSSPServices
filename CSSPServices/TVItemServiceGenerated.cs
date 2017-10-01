@@ -143,6 +143,8 @@ namespace CSSPServices
 
             //IsActive (bool) is required but no testing needed 
 
+                //Error: Type not implemented [TVItemWeb] of type [TVItemWeb]
+                //Error: Type not implemented [TVItemReport] of type [TVItemReport]
             if (tvItem.LastUpdateDate_UTC.Year == 1)
             {
                 tvItem.HasErrors = true;
@@ -182,24 +184,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tvItem.TVText) && tvItem.TVText.Length > 200)
-            {
-                tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVText, "200"), new[] { "TVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItem.LastUpdateContactTVText) && tvItem.LastUpdateContactTVText.Length > 200)
-            {
-                tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItem.TVTypeText) && tvItem.TVTypeText.Length > 100)
-            {
-                tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVTypeText, "100"), new[] { "TVTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -225,8 +209,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItem(tvItemQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -243,8 +227,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItem(tvItemQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -297,7 +281,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TVItem> FillTVItem(IQueryable<TVItem> tvItemQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TVItem> FillTVItem_Show_Copy_To_TVItemServiceExtra_As_Fill_TVItem(IQueryable<TVItem> tvItemQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -322,11 +309,18 @@ namespace CSSPServices
                         IsActive = c.IsActive,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVText = TVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TVTypeText = (from e in TVTypeEnumList
+                        TVItemWeb = new TVItemWeb
+                        {
+                            TVText = TVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        TVItemReport = new TVItemReport
+                        {
+                            TVItemReportTest = "TVItemReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -570,7 +570,7 @@ namespace CSSPServices
             }
 
             contact = new Contact();
-            contact.ParentTVItemID = tvItemRoot.TVItemID;
+            contact.ContactWeb.ParentTVItemID = tvItemRoot.TVItemID;
             contact.LoginEmail = register.LoginEmail;
             contact.FirstName = register.FirstName;
             contact.Initial = register.Initial;
@@ -643,9 +643,9 @@ namespace CSSPServices
 
         public bool VerifyPasswordHashAndSalt(ContactLogin contactLogin, byte[] storedHash, byte[] storedSalt)
         {
-            if (string.IsNullOrWhiteSpace(contactLogin.Password))
+            if (string.IsNullOrWhiteSpace(contactLogin.ContactLoginWeb.Password))
             {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginPassword)) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginWebPassword)) }.AsEnumerable();
             }
             if (storedHash.Length != 64)
             {
@@ -658,7 +658,7 @@ namespace CSSPServices
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contactLogin.Password));
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contactLogin.ContactLoginWeb.Password));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
                     if (computedHash[i] != storedHash[i]) return false;
@@ -1293,19 +1293,19 @@ namespace CSSPServices
                 }
 
                 // use to add a link of the contact under the ParentTVItemID
-                if (contact.ParentTVItemID != 0)
+                if (contact.ContactWeb.ParentTVItemID != 0)
                 {
-                    TVItem tvItemParent = tvItemService.GetRead().Where(c => c.TVItemID == contact.ParentTVItemID).FirstOrDefault();
+                    TVItem tvItemParent = tvItemService.GetRead().Where(c => c.TVItemID == contact.ContactWeb.ParentTVItemID).FirstOrDefault();
                     if (tvItemParent != null)
                     {
                         TVItemLink tvItemLink = new TVItemLink();
-                        tvItemLink.FromTVItemID = contact.ParentTVItemID;
+                        tvItemLink.FromTVItemID = contact.ContactWeb.ParentTVItemID;
                         tvItemLink.ToTVItemID = contact.ContactTVItemID;
                         tvItemLink.FromTVType = tvItemParent.TVType;
                         tvItemLink.ToTVType = TVTypeEnum.Contact;
                         tvItemLink.Ordinal = 0;
                         tvItemLink.TVLevel = 0;
-                        tvItemLink.TVPath = "p" + contact.ParentTVItemID + "p" + contact.ContactTVItemID;
+                        tvItemLink.TVPath = "p" + contact.ContactWeb.ParentTVItemID + "p" + contact.ContactTVItemID;
                         tvItemLink.LastUpdateDate_UTC = DateTime.UtcNow;
                         if (addContactType == AddContactTypeEnum.First)
                         {
@@ -1679,8 +1679,7 @@ namespace CSSPServices
                 resetPasswordNew = new ResetPassword()
                 {
                     Code = GenerateUniqueCodeForResetPasswordDB(),
-                    Password = "sleifjlisjf@24@",
-                    ConfirmPassword = "sleifjlisjf@24@",
+                    ResetPasswordWeb = new ResetPasswordWeb() { Password = "sleifjlisjf@24@", ConfirmPassword = "sleifjlisjf@24@" },
                     ExpireDate_Local = DateTime.Today.AddDays(1),
                     Email = LoginEmail,
                 };

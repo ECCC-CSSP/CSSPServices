@@ -42,13 +42,12 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Language") docTemplate.Language = LanguageRequest;
             if (OmitPropName != "TVType") docTemplate.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 17;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [DocTemplate TVFileTVItemID TVItem TVItemID]
             if (OmitPropName != "FileName") docTemplate.FileName = GetRandomString("", 5);
+            //Error: property [DocTemplateWeb] and type [DocTemplate] is  not implemented
+            //Error: property [DocTemplateReport] and type [DocTemplate] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "LastUpdateContactTVText") docTemplate.LastUpdateContactTVText = GetRandomString("", 5);
-            if (OmitPropName != "LanguageText") docTemplate.LanguageText = GetRandomString("", 5);
-            if (OmitPropName != "TVTypeText") docTemplate.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") docTemplate.HasErrors = true;
 
             return docTemplate;
@@ -197,6 +196,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // docTemplate.DocTemplateWeb   (DocTemplateWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [DocTemplateWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // docTemplate.DocTemplateReport   (DocTemplateReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [DocTemplateReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // docTemplate.LastUpdateDate_UTC   (DateTime)
@@ -221,49 +238,6 @@ namespace CSSPServices.Tests
                     docTemplateService.Add(docTemplate);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // docTemplate.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    docTemplate = null;
-                    docTemplate = GetFilledRandomDocTemplate("");
-                    docTemplate.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateLastUpdateContactTVText, "200"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // docTemplate.LanguageText   (String)
-                    // -----------------------------------
-
-                    docTemplate = null;
-                    docTemplate = GetFilledRandomDocTemplate("");
-                    docTemplate.LanguageText = GetRandomString("", 101);
-                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateLanguageText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // [StringLength(100))]
-                    // docTemplate.TVTypeText   (String)
-                    // -----------------------------------
-
-                    docTemplate = null;
-                    docTemplate = GetFilledRandomDocTemplate("");
-                    docTemplate.TVTypeText = GetRandomString("", 101);
-                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateTVTypeText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -298,7 +272,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(docTemplate);
 
                     DocTemplate docTemplateRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -308,9 +282,9 @@ namespace CSSPServices.Tests
                         {
                             docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -328,32 +302,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (docTemplateRet.LastUpdateContactTVText != null)
+                            if (docTemplateRet.DocTemplateWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
+                                Assert.IsNull(docTemplateRet.DocTemplateWeb);
                             }
-                            if (docTemplateRet.LanguageText != null)
+                            if (docTemplateRet.DocTemplateReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
-                            }
-                            if (docTemplateRet.TVTypeText != null)
-                            {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
+                                Assert.IsNull(docTemplateRet.DocTemplateReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (docTemplateRet.LastUpdateContactTVText != null)
+                            if (docTemplateRet.DocTemplateWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(docTemplateRet.DocTemplateWeb);
                             }
-                            if (docTemplateRet.LanguageText != null)
+                            if (docTemplateRet.DocTemplateReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
-                            }
-                            if (docTemplateRet.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
+                                Assert.IsNotNull(docTemplateRet.DocTemplateReport);
                             }
                         }
                     }

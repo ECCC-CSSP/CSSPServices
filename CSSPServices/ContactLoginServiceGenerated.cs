@@ -97,6 +97,8 @@ namespace CSSPServices
                 //Error: Type not implemented [PasswordSalt] of type [Byte[]]
 
                 //Error: Type not implemented [PasswordSalt] of type [Byte[]]
+                //Error: Type not implemented [ContactLoginWeb] of type [ContactLoginWeb]
+                //Error: Type not implemented [ContactLoginReport] of type [ContactLoginReport]
             if (contactLogin.LastUpdateDate_UTC.Year == 1)
             {
                 contactLogin.HasErrors = true;
@@ -133,36 +135,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(contactLogin.LastUpdateContactTVText) && contactLogin.LastUpdateContactTVText.Length > 200)
-            {
-                contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (string.IsNullOrWhiteSpace(contactLogin.Password))
-            {
-                contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginPassword), new[] { "Password" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contactLogin.Password) && (contactLogin.Password.Length < 6 || contactLogin.Password.Length > 100))
-            {
-                contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginPassword, "6", "100"), new[] { "Password" });
-            }
-
-            if (string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword))
-            {
-                contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginConfirmPassword), new[] { "ConfirmPassword" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword) && (contactLogin.ConfirmPassword.Length < 6 || contactLogin.ConfirmPassword.Length > 100))
-            {
-                contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -188,8 +160,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactLoginQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContactLogin(contactLoginQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -206,8 +178,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactLoginQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContactLogin(contactLoginQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -260,7 +232,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<ContactLogin> FillContactLogin(IQueryable<ContactLogin> contactLoginQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<ContactLogin> FillContactLogin_Show_Copy_To_ContactLoginServiceExtra_As_Fill_ContactLogin(IQueryable<ContactLogin> contactLoginQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             contactLoginQuery = (from c in contactLoginQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -276,7 +251,16 @@ namespace CSSPServices
                         PasswordSalt = c.PasswordSalt,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        ContactLoginWeb = new ContactLoginWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            Password = Password,
+                            ConfirmPassword = ConfirmPassword,
+                        },
+                        ContactLoginReport = new ContactLoginReport
+                        {
+                            ContactLoginReportTest = "ContactLoginReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

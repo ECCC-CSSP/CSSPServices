@@ -40,13 +40,13 @@ namespace CSSPServices.Tests
         {
             TideSite tideSite = new TideSite();
 
-            if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = 13;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [TideSite TideSiteTVItemID TVItem TVItemID]
             if (OmitPropName != "WebTideModel") tideSite.WebTideModel = GetRandomString("", 5);
             if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomDouble(-100.0D, 100.0D);
+            //Error: property [TideSiteWeb] and type [TideSite] is  not implemented
+            //Error: property [TideSiteReport] and type [TideSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tideSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "TideSiteTVText") tideSite.TideSiteTVText = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateContactTVText") tideSite.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") tideSite.HasErrors = true;
 
             return tideSite;
@@ -190,6 +190,24 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tideSite.TideSiteWeb   (TideSiteWeb)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TideSiteWeb]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // tideSite.TideSiteReport   (TideSiteReport)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [TideSiteReport]
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // tideSite.LastUpdateDate_UTC   (DateTime)
@@ -214,36 +232,6 @@ namespace CSSPServices.Tests
                     tideSiteService.Add(tideSite);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideSiteLastUpdateContactTVItemID, "Contact"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TideSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // tideSite.TideSiteTVText   (String)
-                    // -----------------------------------
-
-                    tideSite = null;
-                    tideSite = GetFilledRandomTideSite("");
-                    tideSite.TideSiteTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteTideSiteTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                    // [NotMapped]
-                    // [StringLength(200))]
-                    // tideSite.LastUpdateContactTVText   (String)
-                    // -----------------------------------
-
-                    tideSite = null;
-                    tideSite = GetFilledRandomTideSite("");
-                    tideSite.LastUpdateContactTVText = GetRandomString("", 201);
-                    Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteLastUpdateContactTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -278,7 +266,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tideSite);
 
                     TideSite tideSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityIncludingNotMapped })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -288,9 +276,9 @@ namespace CSSPServices.Tests
                         {
                             tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID, EntityQueryDetailTypeEnum.EntityOnly);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID, EntityQueryDetailTypeEnum.EntityIncludingNotMapped);
+                            tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
                         else
                         {
@@ -307,24 +295,24 @@ namespace CSSPServices.Tests
                         // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tideSiteRet.TideSiteTVText != null)
+                            if (tideSiteRet.TideSiteWeb != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));
+                                Assert.IsNull(tideSiteRet.TideSiteWeb);
                             }
-                            if (tideSiteRet.LastUpdateContactTVText != null)
+                            if (tideSiteRet.TideSiteReport != null)
                             {
-                                Assert.IsTrue(string.IsNullOrWhiteSpace(tideSiteRet.LastUpdateContactTVText));
+                                Assert.IsNull(tideSiteRet.TideSiteReport);
                             }
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityIncludingNotMapped)
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tideSiteRet.TideSiteTVText != null)
+                            if (tideSiteRet.TideSiteWeb != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));
+                                Assert.IsNotNull(tideSiteRet.TideSiteWeb);
                             }
-                            if (tideSiteRet.LastUpdateContactTVText != null)
+                            if (tideSiteRet.TideSiteReport != null)
                             {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.LastUpdateContactTVText));
+                                Assert.IsNotNull(tideSiteRet.TideSiteReport);
                             }
                         }
                     }

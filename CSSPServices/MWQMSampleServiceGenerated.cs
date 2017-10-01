@@ -213,6 +213,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleProcessedBy, "10"), new[] { "ProcessedBy" });
             }
 
+                //Error: Type not implemented [MWQMSampleWeb] of type [MWQMSampleWeb]
+                //Error: Type not implemented [MWQMSampleReport] of type [MWQMSampleReport]
             if (mwqmSample.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSample.HasErrors = true;
@@ -249,30 +251,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmSample.MWQMSiteTVText) && mwqmSample.MWQMSiteTVText.Length > 200)
-            {
-                mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSample.MWQMRunTVText) && mwqmSample.MWQMRunTVText.Length > 200)
-            {
-                mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSample.LastUpdateContactTVText) && mwqmSample.LastUpdateContactTVText.Length > 200)
-            {
-                mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSample.SampleType_oldText) && mwqmSample.SampleType_oldText.Length > 100)
-            {
-                mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleSampleType_oldText, "100"), new[] { "SampleType_oldText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -298,8 +276,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSampleQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSample(mwqmSampleQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -316,8 +294,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSampleQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillMWQMSample(mwqmSampleQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -370,7 +348,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<MWQMSample> FillMWQMSample(IQueryable<MWQMSample> mwqmSampleQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<MWQMSample> FillMWQMSample_Show_Copy_To_MWQMSampleServiceExtra_As_Fill_MWQMSample(IQueryable<MWQMSample> mwqmSampleQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -408,12 +389,19 @@ namespace CSSPServices
                         ProcessedBy = c.ProcessedBy,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSiteTVText = MWQMSiteTVText,
-                        MWQMRunTVText = MWQMRunTVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        SampleType_oldText = (from e in SampleTypeEnumList
+                        MWQMSampleWeb = new MWQMSampleWeb
+                        {
+                            MWQMSiteTVText = MWQMSiteTVText,
+                            MWQMRunTVText = MWQMRunTVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            SampleType_oldText = (from e in SampleTypeEnumList
                                 where e.EnumID == (int?)c.SampleType_old
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        MWQMSampleReport = new MWQMSampleReport
+                        {
+                            MWQMSampleReportTest = "MWQMSampleReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

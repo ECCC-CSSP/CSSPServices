@@ -117,6 +117,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVItemStatChildCount, "0", "10000000"), new[] { "ChildCount" });
             }
 
+                //Error: Type not implemented [TVItemStatWeb] of type [TVItemStatWeb]
+                //Error: Type not implemented [TVItemStatReport] of type [TVItemStatReport]
             if (tvItemStat.LastUpdateDate_UTC.Year == 1)
             {
                 tvItemStat.HasErrors = true;
@@ -153,24 +155,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(tvItemStat.TVText) && tvItemStat.TVText.Length > 200)
-            {
-                tvItemStat.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemStatTVText, "200"), new[] { "TVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemStat.LastUpdateContactTVText) && tvItemStat.LastUpdateContactTVText.Length > 200)
-            {
-                tvItemStat.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemStatLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemStat.TVTypeText) && tvItemStat.TVTypeText.Length > 100)
-            {
-                tvItemStat.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemStatTVTypeText, "100"), new[] { "TVTypeText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -196,8 +180,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemStatQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItemStat(tvItemStatQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -214,8 +198,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemStatQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillTVItemStat(tvItemStatQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -268,7 +252,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<TVItemStat> FillTVItemStat(IQueryable<TVItemStat> tvItemStatQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<TVItemStat> FillTVItemStat_Show_Copy_To_TVItemStatServiceExtra_As_Fill_TVItemStat(IQueryable<TVItemStat> tvItemStatQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -291,11 +278,18 @@ namespace CSSPServices
                         ChildCount = c.ChildCount,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVText = TVText,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
-                        TVTypeText = (from e in TVTypeEnumList
+                        TVItemStatWeb = new TVItemStatWeb
+                        {
+                            TVText = TVText,
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
+                        },
+                        TVItemStatReport = new TVItemStatReport
+                        {
+                            TVItemStatReportTest = "TVItemStatReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });

@@ -93,6 +93,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactShortcutShortCutAddress, "200"), new[] { "ShortCutAddress" });
             }
 
+                //Error: Type not implemented [ContactShortcutWeb] of type [ContactShortcutWeb]
+                //Error: Type not implemented [ContactShortcutReport] of type [ContactShortcutReport]
             if (contactShortcut.LastUpdateDate_UTC.Year == 1)
             {
                 contactShortcut.HasErrors = true;
@@ -129,12 +131,6 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(contactShortcut.LastUpdateContactTVText) && contactShortcut.LastUpdateContactTVText.Length > 200)
-            {
-                contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactShortcutLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
-            }
-
             //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
@@ -160,8 +156,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactShortcutQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContactShortcut(contactShortcutQuery, "", EntityQueryDetailType).FirstOrDefault();
                 default:
                     return null;
@@ -178,8 +174,8 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactShortcutQuery;
-                case EntityQueryDetailTypeEnum.EntityIncludingNotMapped:
-                case EntityQueryDetailTypeEnum.EntityForReport:
+                case EntityQueryDetailTypeEnum.EntityWeb:
+                case EntityQueryDetailTypeEnum.EntityReport:
                     return FillContactShortcut(contactShortcutQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
                 default:
                     return null;
@@ -232,7 +228,10 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        private IQueryable<ContactShortcut> FillContactShortcut(IQueryable<ContactShortcut> contactShortcutQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        // --------------------------------------------------------------------------------
+        // You should copy to AddressServiceExtra or sync with it then remove this function
+        // --------------------------------------------------------------------------------
+        private IQueryable<ContactShortcut> FillContactShortcut_Show_Copy_To_ContactShortcutServiceExtra_As_Fill_ContactShortcut(IQueryable<ContactShortcut> contactShortcutQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
         {
             contactShortcutQuery = (from c in contactShortcutQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -247,7 +246,14 @@ namespace CSSPServices
                         ShortCutAddress = c.ShortCutAddress,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LastUpdateContactTVText = LastUpdateContactTVText,
+                        ContactShortcutWeb = new ContactShortcutWeb
+                        {
+                            LastUpdateContactTVText = LastUpdateContactTVText,
+                        },
+                        ContactShortcutReport = new ContactShortcutReport
+                        {
+                            ContactShortcutReportTest = "ContactShortcutReportTest",
+                        },
                         HasErrors = false,
                         ValidationResults = null,
                     });
