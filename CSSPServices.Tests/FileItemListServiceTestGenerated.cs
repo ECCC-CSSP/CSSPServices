@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Text") fileItemList.Text = GetRandomString("", 6);
             if (OmitPropName != "FileName") fileItemList.FileName = GetRandomString("", 6);
-            if (OmitPropName != "HasErrors") fileItemList.HasErrors = true;
 
             return fileItemList;
         }

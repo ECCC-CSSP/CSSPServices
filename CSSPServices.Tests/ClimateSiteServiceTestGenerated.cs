@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ClimateSite climateSite = new ClimateSite();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [ClimateSite ClimateSiteTVItemID TVItem TVItemID]
+            if (OmitPropName != "ClimateSiteTVItemID") climateSite.ClimateSiteTVItemID = 7;
             if (OmitPropName != "ECDBID") climateSite.ECDBID = GetRandomInt(1, 100000);
             if (OmitPropName != "ClimateSiteName") climateSite.ClimateSiteName = GetRandomString("", 5);
             if (OmitPropName != "Province") climateSite.Province = GetRandomString("", 4);
@@ -61,11 +61,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MonthlyStartDate_Local") climateSite.MonthlyStartDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "MonthlyEndDate_Local") climateSite.MonthlyEndDate_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "MonthlyNow") climateSite.MonthlyNow = true;
-            //Error: property [ClimateSiteWeb] and type [ClimateSite] is  not implemented
-            //Error: property [ClimateSiteReport] and type [ClimateSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") climateSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") climateSite.HasErrors = true;
 
             return climateSite;
         }
@@ -234,6 +231,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Elevation_m]
 
+                    //Error: Type not implemented [Elevation_m]
+
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.Elevation_m = -1.0D;
@@ -319,6 +318,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [TimeOffset_hour]
 
+                    //Error: Type not implemented [TimeOffset_hour]
+
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.TimeOffset_hour = -11.0D;
@@ -351,6 +352,11 @@ namespace CSSPServices.Tests
                     // climateSite.HourlyStartDate_Local   (DateTime)
                     // -----------------------------------
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.HourlyStartDate_Local = new DateTime(1979, 1, 1);
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteHourlyStartDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -358,6 +364,11 @@ namespace CSSPServices.Tests
                     // climateSite.HourlyEndDate_Local   (DateTime)
                     // -----------------------------------
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.HourlyEndDate_Local = new DateTime(1979, 1, 1);
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteHourlyEndDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -371,6 +382,11 @@ namespace CSSPServices.Tests
                     // climateSite.DailyStartDate_Local   (DateTime)
                     // -----------------------------------
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.DailyStartDate_Local = new DateTime(1979, 1, 1);
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteDailyStartDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -378,6 +394,11 @@ namespace CSSPServices.Tests
                     // climateSite.DailyEndDate_Local   (DateTime)
                     // -----------------------------------
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.DailyEndDate_Local = new DateTime(1979, 1, 1);
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteDailyEndDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -391,6 +412,11 @@ namespace CSSPServices.Tests
                     // climateSite.MonthlyStartDate_Local   (DateTime)
                     // -----------------------------------
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.MonthlyStartDate_Local = new DateTime(1979, 1, 1);
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyStartDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -398,6 +424,11 @@ namespace CSSPServices.Tests
                     // climateSite.MonthlyEndDate_Local   (DateTime)
                     // -----------------------------------
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.MonthlyEndDate_Local = new DateTime(1979, 1, 1);
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyEndDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -411,8 +442,15 @@ namespace CSSPServices.Tests
                     // climateSite.ClimateSiteWeb   (ClimateSiteWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ClimateSiteWeb]
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.ClimateSiteWeb = null;
+                    Assert.IsNull(climateSite.ClimateSiteWeb);
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.ClimateSiteWeb = new ClimateSiteWeb();
+                    Assert.IsNotNull(climateSite.ClimateSiteWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -420,8 +458,15 @@ namespace CSSPServices.Tests
                     // climateSite.ClimateSiteReport   (ClimateSiteReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ClimateSiteReport]
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.ClimateSiteReport = null;
+                    Assert.IsNull(climateSite.ClimateSiteReport);
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.ClimateSiteReport = new ClimateSiteReport();
+                    Assert.IsNotNull(climateSite.ClimateSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -429,6 +474,16 @@ namespace CSSPServices.Tests
                     // climateSite.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.LastUpdateDate_UTC = new DateTime();
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteLastUpdateDate_UTC), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    climateSite = null;
+                    climateSite = GetFilledRandomClimateSite("");
+                    climateSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    climateSiteService.Add(climateSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteLastUpdateDate_UTC, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -455,6 +510,7 @@ namespace CSSPServices.Tests
                     // climateSite.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -462,6 +518,7 @@ namespace CSSPServices.Tests
                     // climateSite.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -482,7 +539,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(climateSite);
 
                     ClimateSite climateSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -496,11 +553,15 @@ namespace CSSPServices.Tests
                         {
                             climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // ClimateSite fields
                         Assert.IsNotNull(climateSiteRet.ClimateSiteID);
                         Assert.IsNotNull(climateSiteRet.ClimateSiteTVItemID);
                         Assert.IsNotNull(climateSiteRet.ECDBID);
@@ -577,27 +638,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(climateSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(climateSiteRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (climateSiteRet.ClimateSiteWeb != null)
-                            {
-                                Assert.IsNull(climateSiteRet.ClimateSiteWeb);
-                            }
-                            if (climateSiteRet.ClimateSiteReport != null)
-                            {
-                                Assert.IsNull(climateSiteRet.ClimateSiteReport);
-                            }
+                            // ClimateSiteWeb and ClimateSiteReport fields should be null here
+                            Assert.IsNull(climateSiteRet.ClimateSiteWeb);
+                            Assert.IsNull(climateSiteRet.ClimateSiteReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (climateSiteRet.ClimateSiteWeb != null)
+                            // ClimateSiteWeb fields should not be null and ClimateSiteReport fields should be null here
+                            if (climateSiteRet.ClimateSiteWeb.ClimateSiteTVText != null)
                             {
-                                Assert.IsNotNull(climateSiteRet.ClimateSiteWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteWeb.ClimateSiteTVText));
                             }
-                            if (climateSiteRet.ClimateSiteReport != null)
+                            if (climateSiteRet.ClimateSiteWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(climateSiteRet.ClimateSiteReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(climateSiteRet.ClimateSiteReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ClimateSiteWeb and ClimateSiteReport fields should NOT be null here
+                            if (climateSiteRet.ClimateSiteWeb.ClimateSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteWeb.ClimateSiteTVText));
+                            }
+                            if (climateSiteRet.ClimateSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (climateSiteRet.ClimateSiteReport.ClimateSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteReport.ClimateSiteReportTest));
                             }
                         }
                     }

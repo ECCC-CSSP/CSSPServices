@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //EmailDistributionListID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //CountryTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemCountryTVItemID = (from c in db.TVItems where c.TVItemID == emailDistributionList.CountryTVItemID select c).FirstOrDefault();
 
             if (TVItemCountryTVItemID == null)
@@ -81,16 +77,12 @@ namespace CSSPServices
                 }
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (emailDistributionList.Ordinal < 0 || emailDistributionList.Ordinal > 1000)
             {
                 emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.EmailDistributionListOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
-                //Error: Type not implemented [EmailDistributionListWeb] of type [EmailDistributionListWeb]
-                //Error: Type not implemented [EmailDistributionListReport] of type [EmailDistributionListReport]
             if (emailDistributionList.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionList.HasErrors = true;
@@ -104,8 +96,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == emailDistributionList.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -126,8 +116,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -153,8 +141,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillEmailDistributionListWeb(emailDistributionListQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionList(emailDistributionListQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillEmailDistributionListReport(emailDistributionListQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -171,8 +160,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillEmailDistributionListWeb(emailDistributionListQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionList(emailDistributionListQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillEmailDistributionListReport(emailDistributionListQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -223,11 +213,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<EmailDistributionList> FillEmailDistributionList_Show_Copy_To_EmailDistributionListServiceExtra_As_Fill_EmailDistributionList(IQueryable<EmailDistributionList> emailDistributionListQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated EmailDistributionListFillWeb
+        private IQueryable<EmailDistributionList> FillEmailDistributionListWeb(IQueryable<EmailDistributionList> emailDistributionListQuery, string FilterAndOrderText)
         {
             emailDistributionListQuery = (from c in emailDistributionListQuery
                 let CountryTVText = (from cl in db.TVItemLanguages
@@ -250,19 +237,16 @@ namespace CSSPServices
                             CountryTVText = CountryTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        EmailDistributionListReport = new EmailDistributionListReport
-                        {
-                            EmailDistributionReportTest = "EmailDistributionReportTest",
-                        },
+                        EmailDistributionListReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return emailDistributionListQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated EmailDistributionListFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(EmailDistributionList emailDistributionList)
         {
             try
@@ -277,7 +261,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

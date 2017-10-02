@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //EmailID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //EmailTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemEmailTVItemID = (from c in db.TVItems where c.TVItemID == email.EmailTVItemID select c).FirstOrDefault();
 
             if (TVItemEmailTVItemID == null)
@@ -110,8 +106,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailType), new[] { "EmailType" });
             }
 
-                //Error: Type not implemented [EmailWeb] of type [EmailWeb]
-                //Error: Type not implemented [EmailReport] of type [EmailReport]
             if (email.LastUpdateDate_UTC.Year == 1)
             {
                 email.HasErrors = true;
@@ -125,8 +119,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == email.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -147,8 +139,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -174,8 +164,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillEmailWeb(emailQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmail(emailQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillEmailReport(emailQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -192,8 +183,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillEmailWeb(emailQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmail(emailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillEmailReport(emailQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -244,11 +236,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<Email> FillEmail_Show_Copy_To_EmailServiceExtra_As_Fill_Email(IQueryable<Email> emailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated EmailFillWeb
+        private IQueryable<Email> FillEmailWeb(IQueryable<Email> emailQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -279,19 +268,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.EmailType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        EmailReport = new EmailReport
-                        {
-                            EmailReportTest = "EmailReportTest",
-                        },
+                        EmailReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return emailQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated EmailFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(Email email)
         {
             try
@@ -306,7 +292,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

@@ -44,7 +44,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 6);
             if (OmitPropName != "TVItemID") cSSPWQInputParam.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "CSSPWQInputTypeText") cSSPWQInputParam.CSSPWQInputTypeText = GetRandomString("", 5);
-            if (OmitPropName != "HasErrors") cSSPWQInputParam.HasErrors = true;
 
             return cSSPWQInputParam;
         }

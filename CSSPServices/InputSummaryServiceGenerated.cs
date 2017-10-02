@@ -58,8 +58,6 @@ namespace CSSPServices
 
             //Summary has no StringLength Attribute
 
-            //HasErrors (bool) is required but no testing needed 
-
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

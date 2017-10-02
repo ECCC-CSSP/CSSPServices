@@ -57,17 +57,11 @@ namespace CSSPServices
                 }
             }
 
-            //LabSheetID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //OtherServerLabSheetID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (labSheet.OtherServerLabSheetID < 1)
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LabSheetOtherServerLabSheetID, "1"), new[] { "OtherServerLabSheetID" });
             }
-
-            //SamplingPlanID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             SamplingPlan SamplingPlanSamplingPlanID = (from c in db.SamplingPlans where c.SamplingPlanID == labSheet.SamplingPlanID select c).FirstOrDefault();
 
@@ -89,15 +83,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.LabSheetSamplingPlanName, "1", "250"), new[] { "SamplingPlanName" });
             }
 
-            //Year (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (labSheet.Year < 1980)
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LabSheetYear, "1980"), new[] { "Year" });
             }
-
-            //Month (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (labSheet.Month < 1 || labSheet.Month > 12)
             {
@@ -105,23 +95,17 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetMonth, "1", "12"), new[] { "Month" });
             }
 
-            //Day (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (labSheet.Day < 1 || labSheet.Day > 31)
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetDay, "1", "31"), new[] { "Day" });
             }
 
-            //RunNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (labSheet.RunNumber < 1 || labSheet.RunNumber > 100)
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetRunNumber, "1", "100"), new[] { "RunNumber" });
             }
-
-            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == labSheet.SubsectorTVItemID select c).FirstOrDefault();
 
@@ -263,8 +247,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetRejectReason, "250"), new[] { "RejectReason" });
             }
 
-                //Error: Type not implemented [LabSheetWeb] of type [LabSheetWeb]
-                //Error: Type not implemented [LabSheetReport] of type [LabSheetReport]
             if (labSheet.LastUpdateDate_UTC.Year == 1)
             {
                 labSheet.HasErrors = true;
@@ -278,8 +260,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == labSheet.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -300,8 +280,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -327,8 +305,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillLabSheetWeb(labSheetQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheet(labSheetQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillLabSheetReport(labSheetQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -345,8 +324,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillLabSheetWeb(labSheetQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheet(labSheetQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillLabSheetReport(labSheetQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -397,11 +377,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<LabSheet> FillLabSheet_Show_Copy_To_LabSheetServiceExtra_As_Fill_LabSheet(IQueryable<LabSheet> labSheetQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated LabSheetFillWeb
+        private IQueryable<LabSheet> FillLabSheetWeb(IQueryable<LabSheet> labSheetQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -470,19 +447,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.LabSheetStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        LabSheetReport = new LabSheetReport
-                        {
-                            LabSheetReportTest = "LabSheetReportTest",
-                        },
+                        LabSheetReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return labSheetQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated LabSheetFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(LabSheet labSheet)
         {
             try
@@ -497,7 +471,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

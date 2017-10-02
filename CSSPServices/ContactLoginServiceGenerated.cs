@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //ContactLoginID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             Contact ContactContactID = (from c in db.Contacts where c.ContactID == contactLogin.ContactID select c).FirstOrDefault();
 
             if (ContactContactID == null)
@@ -97,8 +93,6 @@ namespace CSSPServices
                 //Error: Type not implemented [PasswordSalt] of type [Byte[]]
 
                 //Error: Type not implemented [PasswordSalt] of type [Byte[]]
-                //Error: Type not implemented [ContactLoginWeb] of type [ContactLoginWeb]
-                //Error: Type not implemented [ContactLoginReport] of type [ContactLoginReport]
             if (contactLogin.LastUpdateDate_UTC.Year == 1)
             {
                 contactLogin.HasErrors = true;
@@ -112,8 +106,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactLoginLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == contactLogin.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -134,8 +126,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -161,8 +151,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactLoginQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillContactLoginWeb(contactLoginQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactLogin(contactLoginQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillContactLoginReport(contactLoginQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -179,8 +170,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactLoginQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillContactLoginWeb(contactLoginQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactLogin(contactLoginQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillContactLoginReport(contactLoginQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -231,11 +223,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<ContactLogin> FillContactLogin_Show_Copy_To_ContactLoginServiceExtra_As_Fill_ContactLogin(IQueryable<ContactLogin> contactLoginQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated ContactLoginFillWeb
+        private IQueryable<ContactLogin> FillContactLoginWeb(IQueryable<ContactLogin> contactLoginQuery, string FilterAndOrderText)
         {
             contactLoginQuery = (from c in contactLoginQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -247,29 +236,22 @@ namespace CSSPServices
                         ContactLoginID = c.ContactLoginID,
                         ContactID = c.ContactID,
                         LoginEmail = c.LoginEmail,
-                        PasswordHash = c.PasswordHash,
-                        PasswordSalt = c.PasswordSalt,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         ContactLoginWeb = new ContactLoginWeb
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
-                            Password = Password,
-                            ConfirmPassword = ConfirmPassword,
                         },
-                        ContactLoginReport = new ContactLoginReport
-                        {
-                            ContactLoginReportTest = "ContactLoginReportTest",
-                        },
+                        ContactLoginReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return contactLoginQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated ContactLoginFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(ContactLogin contactLogin)
         {
             try
@@ -284,7 +266,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

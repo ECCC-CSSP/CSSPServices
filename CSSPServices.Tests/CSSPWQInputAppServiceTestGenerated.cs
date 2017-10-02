@@ -47,7 +47,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IncludeLaboratoryQAQC") cSSPWQInputApp.IncludeLaboratoryQAQC = true;
             if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 6);
             if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = new DateTime(2005, 3, 6);
-            if (OmitPropName != "HasErrors") cSSPWQInputApp.HasErrors = true;
 
             return cSSPWQInputApp;
         }

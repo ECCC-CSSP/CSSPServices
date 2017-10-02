@@ -40,14 +40,11 @@ namespace CSSPServices.Tests
         {
             ContactShortcut contactShortcut = new ContactShortcut();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [ContactShortcut ContactID Contact ContactID]
+            if (OmitPropName != "ContactID") contactShortcut.ContactID = 1;
             if (OmitPropName != "ShortCutText") contactShortcut.ShortCutText = GetRandomString("", 5);
             if (OmitPropName != "ShortCutAddress") contactShortcut.ShortCutAddress = GetRandomString("", 5);
-            //Error: property [ContactShortcutWeb] and type [ContactShortcut] is  not implemented
-            //Error: property [ContactShortcutReport] and type [ContactShortcut] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") contactShortcut.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactShortcut.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") contactShortcut.HasErrors = true;
 
             return contactShortcut;
         }
@@ -189,8 +186,15 @@ namespace CSSPServices.Tests
                     // contactShortcut.ContactShortcutWeb   (ContactShortcutWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ContactShortcutWeb]
+                    contactShortcut = null;
+                    contactShortcut = GetFilledRandomContactShortcut("");
+                    contactShortcut.ContactShortcutWeb = null;
+                    Assert.IsNull(contactShortcut.ContactShortcutWeb);
 
+                    contactShortcut = null;
+                    contactShortcut = GetFilledRandomContactShortcut("");
+                    contactShortcut.ContactShortcutWeb = new ContactShortcutWeb();
+                    Assert.IsNotNull(contactShortcut.ContactShortcutWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -198,8 +202,15 @@ namespace CSSPServices.Tests
                     // contactShortcut.ContactShortcutReport   (ContactShortcutReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ContactShortcutReport]
+                    contactShortcut = null;
+                    contactShortcut = GetFilledRandomContactShortcut("");
+                    contactShortcut.ContactShortcutReport = null;
+                    Assert.IsNull(contactShortcut.ContactShortcutReport);
 
+                    contactShortcut = null;
+                    contactShortcut = GetFilledRandomContactShortcut("");
+                    contactShortcut.ContactShortcutReport = new ContactShortcutReport();
+                    Assert.IsNotNull(contactShortcut.ContactShortcutReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -207,6 +218,16 @@ namespace CSSPServices.Tests
                     // contactShortcut.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    contactShortcut = null;
+                    contactShortcut = GetFilledRandomContactShortcut("");
+                    contactShortcut.LastUpdateDate_UTC = new DateTime();
+                    contactShortcutService.Add(contactShortcut);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutLastUpdateDate_UTC), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    contactShortcut = null;
+                    contactShortcut = GetFilledRandomContactShortcut("");
+                    contactShortcut.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    contactShortcutService.Add(contactShortcut);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactShortcutLastUpdateDate_UTC, "1980"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -233,6 +254,7 @@ namespace CSSPServices.Tests
                     // contactShortcut.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -240,6 +262,7 @@ namespace CSSPServices.Tests
                     // contactShortcut.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -260,7 +283,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactShortcut);
 
                     ContactShortcut contactShortcutRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -274,11 +297,15 @@ namespace CSSPServices.Tests
                         {
                             contactShortcutRet = contactShortcutService.GetContactShortcutWithContactShortcutID(contactShortcut.ContactShortcutID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactShortcutRet = contactShortcutService.GetContactShortcutWithContactShortcutID(contactShortcut.ContactShortcutID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // ContactShortcut fields
                         Assert.IsNotNull(contactShortcutRet.ContactShortcutID);
                         Assert.IsNotNull(contactShortcutRet.ContactID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.ShortCutText));
@@ -286,27 +313,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(contactShortcutRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(contactShortcutRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (contactShortcutRet.ContactShortcutWeb != null)
-                            {
-                                Assert.IsNull(contactShortcutRet.ContactShortcutWeb);
-                            }
-                            if (contactShortcutRet.ContactShortcutReport != null)
-                            {
-                                Assert.IsNull(contactShortcutRet.ContactShortcutReport);
-                            }
+                            // ContactShortcutWeb and ContactShortcutReport fields should be null here
+                            Assert.IsNull(contactShortcutRet.ContactShortcutWeb);
+                            Assert.IsNull(contactShortcutRet.ContactShortcutReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (contactShortcutRet.ContactShortcutWeb != null)
+                            // ContactShortcutWeb fields should not be null and ContactShortcutReport fields should be null here
+                            if (contactShortcutRet.ContactShortcutWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(contactShortcutRet.ContactShortcutWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.ContactShortcutWeb.LastUpdateContactTVText));
                             }
-                            if (contactShortcutRet.ContactShortcutReport != null)
+                            Assert.IsNull(contactShortcutRet.ContactShortcutReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ContactShortcutWeb and ContactShortcutReport fields should NOT be null here
+                            if (contactShortcutRet.ContactShortcutWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(contactShortcutRet.ContactShortcutReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.ContactShortcutWeb.LastUpdateContactTVText));
+                            }
+                            if (contactShortcutRet.ContactShortcutReport.ContactShortcutReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.ContactShortcutReport.ContactShortcutReportTest));
                             }
                         }
                     }

@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Error") inputSummary.Error = GetRandomString("", 20);
             if (OmitPropName != "Summary") inputSummary.Summary = GetRandomString("", 20);
-            if (OmitPropName != "HasErrors") inputSummary.HasErrors = true;
 
             return inputSummary;
         }

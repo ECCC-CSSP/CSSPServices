@@ -31,6 +31,47 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<DocTemplate> FillDocTemplateReport(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText)
+        {
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
+
+            docTemplateQuery = (from c in docTemplateQuery
+                                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                               where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                               && cl.Language == LanguageRequest
+                                                               select cl.TVText).FirstOrDefault()
+                                select new DocTemplate
+                                {
+                                    DocTemplateID = c.DocTemplateID,
+                                    Language = c.Language,
+                                    TVType = c.TVType,
+                                    TVFileTVItemID = c.TVFileTVItemID,
+                                    FileName = c.FileName,
+                                    LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                    LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                    DocTemplateWeb = new DocTemplateWeb
+                                    {
+                                        LastUpdateContactTVText = LastUpdateContactTVText,
+                                        LanguageText = (from e in LanguageEnumList
+                                                        where e.EnumID == (int?)c.Language
+                                                        select e.EnumText).FirstOrDefault(),
+                                        TVTypeText = (from e in TVTypeEnumList
+                                                      where e.EnumID == (int?)c.TVType
+                                                      select e.EnumText).FirstOrDefault(),
+                                    },
+                                    DocTemplateReport = new DocTemplateReport
+                                    {
+                                        DocTemplateReportTest = "DocTemplateReportTest",
+                                    },
+                                    HasErrors = false,
+                                    ValidationResults = null,
+                                });
+
+            return docTemplateQuery;
+        }
         #endregion Functions private
     }
 }

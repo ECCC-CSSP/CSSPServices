@@ -30,14 +30,232 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Constructors
 
         #region Functions private
-        private void CreateClassServiceFunctionsPrivateRegionFillClass(Type type, Type[] types, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClassServiceFunctionsPrivateRegionFillClassWeb(Type type, Type[] types, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             bool ClassContainsEnum = false;
-            sb.AppendLine(@"        #region Functions private Generated Fill Class");
+            sb.AppendLine(@"        #region Functions private Generated " + TypeName + @"FillWeb");
+            sb.AppendLine(@"        private IQueryable<" + TypeName + @"> Fill" + TypeName + @"Web(IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query, string FilterAndOrderText)");
+            sb.AppendLine(@"        {");
+            Type WebType = null;
+            foreach (PropertyInfo prop in type.GetProperties())
+            {
+                foreach (Type type2 in types)
+                {
+                    if (type2.Name == type.Name + "Web")
+                    {
+                        WebType = type2;
+                        if (prop.GetGetMethod().IsVirtual)
+                        {
+                            continue;
+                        }
+
+                        if (prop.Name == "ValidationResults")
+                        {
+                            continue;
+                        }
+
+                        CSSPProp csspProp = new CSSPProp();
+                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                        {
+                            ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                            return;
+                        }
+                        if (csspProp.HasCSSPEnumTypeAttribute)
+                        {
+                            ClassContainsEnum = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (WebType == null)
+            {
+                ErrorEvent(new ErrorEventArgs("WebType should not be null"));
+                return;
+            }
+            if (ClassContainsEnum)
+            {
+                sb.AppendLine(@"            Enums enums = new Enums(LanguageRequest);");
+                sb.AppendLine(@"");
+                List<string> EnumTypeNameAddedList = new List<string>();
+                foreach (PropertyInfo prop in WebType.GetProperties())
+                {
+                    if (prop.GetGetMethod().IsVirtual)
+                    {
+                        continue;
+                    }
+
+                    if (prop.Name == "ValidationResults")
+                    {
+                        continue;
+                    }
+
+                    CSSPProp csspProp = new CSSPProp();
+                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, WebType))
+                    {
+                        ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                        return;
+                    }
+                    if (csspProp.HasCSSPEnumTypeTextAttribute)
+                    {
+                        if (!EnumTypeNameAddedList.Contains(csspProp.EnumTypeName))
+                        {
+                            sb.AppendLine(@"            List<EnumIDAndText> " + csspProp.EnumTypeName + @"List = enums.GetEnumTextOrderedList(typeof(" + csspProp.EnumTypeName + @"));");
+                            EnumTypeNameAddedList.Add(csspProp.EnumTypeName);
+                        }
+                    }
+                }
+                sb.AppendLine(@"");
+            }
+            sb.AppendLine(@"            " + TypeNameLower + @"Query = (from c in " + TypeNameLower + @"Query");
+            foreach (PropertyInfo prop in WebType.GetProperties())
+            {
+                if (prop.GetGetMethod().IsVirtual)
+                {
+                    continue;
+                }
+
+                if (prop.Name == "ValidationResults")
+                {
+                    continue;
+                }
+
+                CSSPProp csspProp = new CSSPProp();
+                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, WebType))
+                {
+                    ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                    return;
+                }
+                if (csspProp.HasCSSPEnumTypeAttribute)
+                {
+                    ClassContainsEnum = true;
+                }
+                if (csspProp.HasCSSPFillAttribute)
+                {
+                    sb.AppendLine(@"                let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
+                    sb.AppendLine(@"                    where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
+                    if (csspProp.FillNeedLanguage)
+                    {
+                        sb.AppendLine(@"                    && cl.Language == LanguageRequest");
+                    }
+                    sb.AppendLine(@"                    select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
+                }
+            }
+            sb.AppendLine(@"                    select new " + TypeName + @"");
+            sb.AppendLine(@"                    {");
+            foreach (PropertyInfo prop in type.GetProperties())
+            {
+                if (prop.GetGetMethod().IsVirtual)
+                {
+                    continue;
+                }
+
+                if (prop.Name == "ValidationResults" || prop.Name == "HasErrors" || prop.Name.EndsWith("Web") || prop.Name.EndsWith("Report"))
+                {
+                    continue;
+                }
+
+                CSSPProp csspProp = new CSSPProp();
+                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                {
+                    ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                    return;
+                }
+                if (type.Name == "ContactLogin" && prop.Name == "PasswordHash")
+                {
+                    continue;
+                }
+                if (type.Name == "ContactLogin" && prop.Name == "PasswordSalt")
+                {
+                    continue;
+                }
+                if (!csspProp.HasNotMappedAttribute)
+                {
+                    sb.AppendLine(@"                        " + csspProp.PropName + @" = c." + csspProp.PropName + @",");
+                }
+                else if (csspProp.HasCSSPEnumTypeTextAttribute)
+                {
+                    sb.AppendLine(@"                        " + csspProp.PropName + @" = (from e in " + csspProp.EnumTypeName + @"List");
+                    sb.AppendLine(@"                                where e.EnumID == (int?)c." + csspProp.EnumType + @"");
+                    sb.AppendLine(@"                                select e.EnumText).FirstOrDefault(),");
+                }
+                else
+                {
+                    sb.AppendLine(@"                        " + csspProp.PropName + @" = c." + csspProp.PropName + @",");
+                }
+            }
+            if (WebType.GetProperties().Count() > 0)
+            {
+                int count = 0;
+
+                foreach (PropertyInfo prop in WebType.GetProperties())
+                {
+                    if (prop.GetGetMethod().IsVirtual)
+                    {
+                        continue;
+                    }
+
+                    if (prop.Name == "ValidationResults")
+                    {
+                        continue;
+                    }
+
+                    CSSPProp csspProp = new CSSPProp();
+                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, WebType))
+                    {
+                        ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                        return;
+                    }
+                    if (count == 0)
+                    {
+                        sb.AppendLine(@"                        " + type.Name + @"Web = new " + type.Name + @"Web");
+                        sb.AppendLine(@"                        {");
+                    }
+                    count += 1;
+                    if ((type.Name == "ContactLogin" || type.Name == "ResetPassword") && prop.Name == "Password")
+                    {
+                        continue;
+                    }
+                    if ((type.Name == "ContactLogin" || type.Name == "ResetPassword") && prop.Name == "ConfirmPassword")
+                    {
+                        continue;
+                    }
+
+                    if (csspProp.HasCSSPFillAttribute)
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
+                    }
+                    else if (csspProp.HasCSSPEnumTypeTextAttribute)
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = (from e in " + csspProp.EnumTypeName + @"List");
+                        sb.AppendLine(@"                                where e.EnumID == (int?)c." + csspProp.EnumType + @"");
+                        sb.AppendLine(@"                                select e.EnumText).FirstOrDefault(),");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
+                    }
+                }
+                sb.AppendLine(@"                        },");
+                sb.AppendLine(@"                        " + type.Name + @"Report = null,");
+            }
+            sb.AppendLine(@"                        HasErrors = false,");
+            sb.AppendLine(@"                        ValidationResults = null,");
+            sb.AppendLine(@"                    });");
+            sb.AppendLine(@"");
+            sb.AppendLine(@"            return " + TypeNameLower + @"Query;");
+            sb.AppendLine(@"        }");
+            sb.AppendLine(@"        #endregion Functions private Generated " + TypeName + @"FillWeb");
+            sb.AppendLine(@"");
+        }
+        private void CreateClassServiceFunctionsPrivateRegionFillClassReport(Type type, Type[] types, string TypeName, string TypeNameLower, StringBuilder sb)
+        {
+            bool ClassContainsEnum = false;
+            sb.AppendLine(@"        #region Functions private Generated " + TypeName + @"FillReport (To be copied)");
             sb.AppendLine(@"        // --------------------------------------------------------------------------------");
-            sb.AppendLine(@"        // You should copy to AddressServiceExtra or sync with it then remove this function");
+            sb.AppendLine(@"        // You should copy to AddressServiceExtra and/or sync with it then remove this function");
             sb.AppendLine(@"        // --------------------------------------------------------------------------------");
-            sb.AppendLine(@"        private IQueryable<" + TypeName + @"> Fill" + TypeName + @"_Show_Copy_To_" + TypeName + "ServiceExtra_As_Fill_" + TypeName + @"(IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)");
+            sb.AppendLine(@"        private IQueryable<" + TypeName + @"> Fill" + TypeName + @"Report(IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query, string FilterAndOrderText)");
             sb.AppendLine(@"        {");
             Type WebType = null;
             Type ReportType = null;
@@ -100,76 +318,21 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                 }
             }
+            if (WebType == null)
+            {
+                ErrorEvent(new ErrorEventArgs("WebType should not be null"));
+                return;
+            }
+            if (ReportType == null)
+            {
+                ErrorEvent(new ErrorEventArgs("ReportType should not be null"));
+                return;
+            }
             if (ClassContainsEnum)
             {
                 sb.AppendLine(@"            Enums enums = new Enums(LanguageRequest);");
                 sb.AppendLine(@"");
                 List<string> EnumTypeNameAddedList = new List<string>();
-                if (WebType != null)
-                {
-                    foreach (PropertyInfo prop in WebType.GetProperties())
-                    {
-                        if (prop.GetGetMethod().IsVirtual)
-                        {
-                            continue;
-                        }
-
-                        if (prop.Name == "ValidationResults")
-                        {
-                            continue;
-                        }
-
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, WebType))
-                        {
-                            ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
-                            return;
-                        }
-                        if (csspProp.HasCSSPEnumTypeTextAttribute)
-                        {
-                            if (!EnumTypeNameAddedList.Contains(csspProp.EnumTypeName))
-                            {
-                                sb.AppendLine(@"            List<EnumIDAndText> " + csspProp.EnumTypeName + @"List = enums.GetEnumTextOrderedList(typeof(" + csspProp.EnumTypeName + @"));");
-                                EnumTypeNameAddedList.Add(csspProp.EnumTypeName);
-                            }
-                        }
-                    }
-                }
-                if (ReportType != null)
-                {
-                    foreach (PropertyInfo prop in ReportType.GetProperties())
-                    {
-                        if (prop.GetGetMethod().IsVirtual)
-                        {
-                            continue;
-                        }
-
-                        if (prop.Name == "ValidationResults")
-                        {
-                            continue;
-                        }
-
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, ReportType))
-                        {
-                            ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
-                            return;
-                        }
-                        if (csspProp.HasCSSPEnumTypeTextAttribute)
-                        {
-                            if (!EnumTypeNameAddedList.Contains(csspProp.EnumTypeName))
-                            {
-                                sb.AppendLine(@"            List<EnumIDAndText> " + csspProp.EnumTypeName + @"List = enums.GetEnumTextOrderedList(typeof(" + csspProp.EnumTypeName + @"));");
-                                EnumTypeNameAddedList.Add(csspProp.EnumTypeName);
-                            }
-                        }
-                    }
-                }
-                sb.AppendLine(@"");
-            }
-            sb.AppendLine(@"            " + TypeNameLower + @"Query = (from c in " + TypeNameLower + @"Query");
-            if (WebType != null)
-            {
                 foreach (PropertyInfo prop in WebType.GetProperties())
                 {
                     if (prop.GetGetMethod().IsVirtual)
@@ -188,24 +351,15 @@ namespace CSSPServicesGenerateCodeHelper
                         ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
                         return;
                     }
-                    if (csspProp.HasCSSPEnumTypeAttribute)
+                    if (csspProp.HasCSSPEnumTypeTextAttribute)
                     {
-                        ClassContainsEnum = true;
-                    }
-                    if (csspProp.HasCSSPFillAttribute)
-                    {
-                        sb.AppendLine(@"                let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
-                        sb.AppendLine(@"                    where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
-                        if (csspProp.FillNeedLanguage)
+                        if (!EnumTypeNameAddedList.Contains(csspProp.EnumTypeName))
                         {
-                            sb.AppendLine(@"                    && cl.Language == LanguageRequest");
+                            sb.AppendLine(@"            List<EnumIDAndText> " + csspProp.EnumTypeName + @"List = enums.GetEnumTextOrderedList(typeof(" + csspProp.EnumTypeName + @"));");
+                            EnumTypeNameAddedList.Add(csspProp.EnumTypeName);
                         }
-                        sb.AppendLine(@"                    select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
                     }
                 }
-            }
-            if (ReportType != null)
-            {
                 foreach (PropertyInfo prop in ReportType.GetProperties())
                 {
                     if (prop.GetGetMethod().IsVirtual)
@@ -224,54 +378,83 @@ namespace CSSPServicesGenerateCodeHelper
                         ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
                         return;
                     }
-                    if (csspProp.HasCSSPEnumTypeAttribute)
+                    if (csspProp.HasCSSPEnumTypeTextAttribute)
                     {
-                        ClassContainsEnum = true;
-                    }
-                    if (csspProp.HasCSSPFillAttribute)
-                    {
-                        sb.AppendLine(@"                let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
-                        sb.AppendLine(@"                    where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
-                        if (csspProp.FillNeedLanguage)
+                        if (!EnumTypeNameAddedList.Contains(csspProp.EnumTypeName))
                         {
-                            sb.AppendLine(@"                    && cl.Language == LanguageRequest");
+                            sb.AppendLine(@"            List<EnumIDAndText> " + csspProp.EnumTypeName + @"List = enums.GetEnumTextOrderedList(typeof(" + csspProp.EnumTypeName + @"));");
+                            EnumTypeNameAddedList.Add(csspProp.EnumTypeName);
                         }
-                        sb.AppendLine(@"                    select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
                     }
                 }
-                //foreach (PropertyInfo prop in type.GetProperties())
-                //{
-                //    if (prop.GetGetMethod().IsVirtual)
-                //    {
-                //        continue;
-                //    }
+                sb.AppendLine(@"");
+            }
+            sb.AppendLine(@"            " + TypeNameLower + @"Query = (from c in " + TypeNameLower + @"Query");
+            foreach (PropertyInfo prop in WebType.GetProperties())
+            {
+                if (prop.GetGetMethod().IsVirtual)
+                {
+                    continue;
+                }
 
-                //    if (prop.Name == "ValidationResults")
-                //    {
-                //        continue;
-                //    }
+                if (prop.Name == "ValidationResults")
+                {
+                    continue;
+                }
 
-                //    CSSPProp csspProp = new CSSPProp();
-                //    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
-                //    {
-                //        ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
-                //        return;
-                //    }
-                //    if (csspProp.HasCSSPEnumTypeAttribute)
-                //    {
-                //        ClassContainsEnum = true;
-                //    }
-                //    if (csspProp.HasCSSPFillAttribute)
-                //    {
-                //        sb.AppendLine(@"                let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
-                //        sb.AppendLine(@"                    where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
-                //        if (csspProp.FillNeedLanguage)
-                //        {
-                //            sb.AppendLine(@"                    && cl.Language == LanguageRequest");
-                //        }
-                //        sb.AppendLine(@"                    select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
-                //    }
-                //}
+                CSSPProp csspProp = new CSSPProp();
+                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, WebType))
+                {
+                    ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                    return;
+                }
+                if (csspProp.HasCSSPEnumTypeAttribute)
+                {
+                    ClassContainsEnum = true;
+                }
+                if (csspProp.HasCSSPFillAttribute)
+                {
+                    sb.AppendLine(@"                let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
+                    sb.AppendLine(@"                    where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
+                    if (csspProp.FillNeedLanguage)
+                    {
+                        sb.AppendLine(@"                    && cl.Language == LanguageRequest");
+                    }
+                    sb.AppendLine(@"                    select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
+                }
+            }
+            foreach (PropertyInfo prop in ReportType.GetProperties())
+            {
+                if (prop.GetGetMethod().IsVirtual)
+                {
+                    continue;
+                }
+
+                if (prop.Name == "ValidationResults")
+                {
+                    continue;
+                }
+
+                CSSPProp csspProp = new CSSPProp();
+                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, ReportType))
+                {
+                    ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                    return;
+                }
+                if (csspProp.HasCSSPEnumTypeAttribute)
+                {
+                    ClassContainsEnum = true;
+                }
+                if (csspProp.HasCSSPFillAttribute)
+                {
+                    sb.AppendLine(@"                let " + csspProp.PropName + @" = (from cl in db." + csspProp.FillTypeName + csspProp.FillPlurial + "");
+                    sb.AppendLine(@"                    where cl." + csspProp.FillFieldID + @" == c." + csspProp.FillEqualField + "");
+                    if (csspProp.FillNeedLanguage)
+                    {
+                        sb.AppendLine(@"                    && cl.Language == LanguageRequest");
+                    }
+                    sb.AppendLine(@"                    select cl." + csspProp.FillReturnField + @").FirstOrDefault()");
+                }
             }
             sb.AppendLine(@"                    select new " + TypeName + @"");
             sb.AppendLine(@"                    {");
@@ -293,6 +476,14 @@ namespace CSSPServicesGenerateCodeHelper
                     ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
                     return;
                 }
+                if (type.Name == "ContactLogin" && prop.Name == "PasswordHash")
+                {
+                    continue;
+                }
+                if (type.Name == "ContactLogin" && prop.Name == "PasswordSalt")
+                {
+                    continue;
+                }
                 if (!csspProp.HasNotMappedAttribute)
                 {
                     sb.AppendLine(@"                        " + csspProp.PropName + @" = c." + csspProp.PropName + @",");
@@ -308,101 +499,103 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                        " + csspProp.PropName + @" = c." + csspProp.PropName + @",");
                 }
             }
-            if (WebType != null)
+            if (WebType.GetProperties().Count() > 0)
             {
-                if (WebType.GetProperties().Count() > 0)
+                int count = 0;
+
+                foreach (PropertyInfo prop in WebType.GetProperties())
                 {
-                    int count = 0;
-
-                    foreach (PropertyInfo prop in WebType.GetProperties())
+                    if (prop.GetGetMethod().IsVirtual)
                     {
-                        if (prop.GetGetMethod().IsVirtual)
-                        {
-                            continue;
-                        }
-
-                        if (prop.Name == "ValidationResults")
-                        {
-                            continue;
-                        }
-
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, WebType))
-                        {
-                            ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
-                            return;
-                        }
-                        if (count == 0)
-                        {
-                            sb.AppendLine(@"                        " + type.Name + @"Web = new " + type.Name + @"Web");
-                            sb.AppendLine(@"                        {");
-                        }
-                        count += 1;
-                        if (csspProp.HasCSSPFillAttribute)
-                        {
-                            sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
-                        }
-                        else if (csspProp.HasCSSPEnumTypeTextAttribute)
-                        {
-                            sb.AppendLine(@"                            " + csspProp.PropName + @" = (from e in " + csspProp.EnumTypeName + @"List");
-                            sb.AppendLine(@"                                where e.EnumID == (int?)c." + csspProp.EnumType + @"");
-                            sb.AppendLine(@"                                select e.EnumText).FirstOrDefault(),");
-                        }
-                        else
-                        {
-                          sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
-                        }
+                        continue;
                     }
-                    sb.AppendLine(@"                        },");
+
+                    if (prop.Name == "ValidationResults")
+                    {
+                        continue;
+                    }
+
+                    CSSPProp csspProp = new CSSPProp();
+                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, WebType))
+                    {
+                        ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                        return;
+                    }
+                    if (count == 0)
+                    {
+                        sb.AppendLine(@"                        " + type.Name + @"Web = new " + type.Name + @"Web");
+                        sb.AppendLine(@"                        {");
+                    }
+                    count += 1;
+                    if ((type.Name == "ContactLogin" || type.Name == "ResetPassword") && prop.Name == "Password")
+                    {
+                        continue;
+                    }
+                    if ((type.Name == "ContactLogin" || type.Name == "ResetPassword") && prop.Name == "ConfirmPassword")
+                    {
+                        continue;
+                    }
+                    if (csspProp.HasCSSPFillAttribute)
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
+                    }
+                    else if (csspProp.HasCSSPEnumTypeTextAttribute)
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = (from e in " + csspProp.EnumTypeName + @"List");
+                        sb.AppendLine(@"                                where e.EnumID == (int?)c." + csspProp.EnumType + @"");
+                        sb.AppendLine(@"                                select e.EnumText).FirstOrDefault(),");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
+                    }
                 }
+                sb.AppendLine(@"                        },");
             }
-            if (ReportType != null)
+            if (ReportType.GetProperties().Count() > 0)
             {
-                if (ReportType.GetProperties().Count() > 0)
+                int count = 0;
+
+                foreach (PropertyInfo prop in ReportType.GetProperties())
                 {
-                    int count = 0;
-
-                    foreach (PropertyInfo prop in ReportType.GetProperties())
+                    if (prop.GetGetMethod().IsVirtual)
                     {
-                        if (prop.GetGetMethod().IsVirtual)
-                        {
-                            continue;
-                        }
-
-                        if (prop.Name == "ValidationResults")
-                        {
-                            continue;
-                        }
-
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, ReportType))
-                        {
-                            ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
-                            return;
-                        }
-                        if (count == 0)
-                        {
-                            sb.AppendLine(@"                        " + type.Name + @"Report = new " + type.Name + @"Report");
-                            sb.AppendLine(@"                        {");
-                        }
-                        count += 1;
-                        if (csspProp.HasCSSPFillAttribute)
-                        {
-                            sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
-                        }
-                        else if (csspProp.HasCSSPEnumTypeTextAttribute)
-                        {
-                            sb.AppendLine(@"                            " + csspProp.PropName + @" = (from e in " + csspProp.EnumTypeName + @"List");
-                            sb.AppendLine(@"                                where e.EnumID == (int?)c." + csspProp.EnumType + @"");
-                            sb.AppendLine(@"                                select e.EnumText).FirstOrDefault(),");
-                        }
-                        else
-                        {
-                            sb.AppendLine(@"                            " + csspProp.PropName + @" = """ + csspProp.PropName + @""",");
-                        }
+                        continue;
                     }
-                    sb.AppendLine(@"                        },");
+
+                    if (prop.Name == "ValidationResults")
+                    {
+                        continue;
+                    }
+
+                    CSSPProp csspProp = new CSSPProp();
+                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, ReportType))
+                    {
+                        ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));
+                        return;
+                    }
+                    if (count == 0)
+                    {
+                        sb.AppendLine(@"                        " + type.Name + @"Report = new " + type.Name + @"Report");
+                        sb.AppendLine(@"                        {");
+                    }
+                    count += 1;
+                    if (csspProp.HasCSSPFillAttribute)
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = " + csspProp.PropName + @",");
+                    }
+                    else if (csspProp.HasCSSPEnumTypeTextAttribute)
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = (from e in " + csspProp.EnumTypeName + @"List");
+                        sb.AppendLine(@"                                where e.EnumID == (int?)c." + csspProp.EnumType + @"");
+                        sb.AppendLine(@"                                select e.EnumText).FirstOrDefault(),");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"                            " + csspProp.PropName + @" = """ + csspProp.PropName + @""",");
+                    }
                 }
+                sb.AppendLine(@"                        },");
             }
             sb.AppendLine(@"                        HasErrors = false,");
             sb.AppendLine(@"                        ValidationResults = null,");
@@ -410,12 +603,12 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"");
             sb.AppendLine(@"            return " + TypeNameLower + @"Query;");
             sb.AppendLine(@"        }");
-            sb.AppendLine(@"        #endregion Functions private Generated Fill Class");
+            sb.AppendLine(@"        #endregion Functions private Generated " + TypeName + @"FillReport (To be copied)");
             sb.AppendLine(@"");
         }
         private void CreateClassServiceFunctionsPrivateRegionTrySave(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            sb.AppendLine(@"        #region Functions private Generated");
+            sb.AppendLine(@"        #region Functions private Generated TryToSave");
             sb.AppendLine(@"        private bool TryToSave(" + TypeName + @" " + TypeNameLower + @")");
             sb.AppendLine(@"        {");
             sb.AppendLine(@"            try");
@@ -430,7 +623,7 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"");
             sb.AppendLine(@"            return true;");
             sb.AppendLine(@"        }");
-            sb.AppendLine(@"        #endregion Functions private Generated");
+            sb.AppendLine(@"        #endregion Functions private Generated TryToSave");
             sb.AppendLine(@"");
         }
         private void CreateClassServiceFunctionsPublicGenerateCRUD(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
@@ -552,8 +745,9 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
                     sb.AppendLine(@"                    return " + TypeNameLower + @"Query.FirstOrDefault();");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityWeb:");
+                    sb.AppendLine(@"                    return Fill" + TypeName + @"Web(" + TypeNameLower + @"Query, """").FirstOrDefault();");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityReport:");
-                    sb.AppendLine(@"                    return Fill" + TypeName + @"(" + TypeNameLower + @"Query, """", EntityQueryDetailType).FirstOrDefault();");
+                    sb.AppendLine(@"                    return Fill" + TypeName + @"Report(" + TypeNameLower + @"Query, """").FirstOrDefault();");
                     sb.AppendLine(@"                default:");
                     sb.AppendLine(@"                    return null;");
                     sb.AppendLine(@"            }");
@@ -570,8 +764,9 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
                     sb.AppendLine(@"                    return " + TypeNameLower + @"Query;");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityWeb:");
+                    sb.AppendLine(@"                    return Fill" + TypeName + @"Web(" + TypeNameLower + @"Query, FilterAndOrderText).Take(MaxGetCount);");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityReport:");
-                    sb.AppendLine(@"                    return Fill" + TypeName + @"(" + TypeNameLower + @"Query, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);");
+                    sb.AppendLine(@"                    return Fill" + TypeName + @"Report(" + TypeNameLower + @"Query, FilterAndOrderText).Take(MaxGetCount);");
                     sb.AppendLine(@"                default:");
                     sb.AppendLine(@"                    return null;");
                     sb.AppendLine(@"            }");
@@ -821,9 +1016,16 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                     default:
                         {
-                            if (!csspProp.HasCSSPEnumTypeAttribute)
+                            if (csspProp.PropName.EndsWith("Web") || csspProp.PropName.EndsWith("Report"))
                             {
-                                sb.AppendLine(@"                //Error: Type not implemented [" + csspProp.PropName + "] of type [" + csspProp.PropType + "]");
+                                // nothing yet
+                            }
+                            else
+                            {
+                                if (!csspProp.HasCSSPEnumTypeAttribute)
+                                {
+                                    sb.AppendLine(@"                //Error: Type not implemented [" + csspProp.PropName + "] of type [" + csspProp.PropType + "]");
+                                }
                             }
                         }
                         break;
@@ -841,14 +1043,21 @@ namespace CSSPServicesGenerateCodeHelper
                     case "Single":
                     case "Double":
                         {
-                            sb.AppendLine(@"            //" + prop.Name + @" (" + prop.PropertyType.Name + @") is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D");
-                            sb.AppendLine(@"");
+                            //sb.AppendLine(@"            //" + prop.Name + @" (" + prop.PropertyType.Name + @") is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D");
+                            //sb.AppendLine(@"");
                         }
                         break;
                     case "Boolean":
                         {
-                            sb.AppendLine(@"            //" + prop.Name + @" (bool) is required but no testing needed ");
-                            sb.AppendLine(@"");
+                            if (csspProp.PropName == "HasErrors")
+                            {
+                                // nothing yet
+                            }
+                            else
+                            {
+                                //sb.AppendLine(@"            //" + prop.Name + @" (bool) is required but no testing needed ");
+                                //sb.AppendLine(@"");
+                            }
                         }
                         break;
                     case "DateTime":
@@ -1191,7 +1400,8 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     CreateClassServiceFunctionsPublicGenerateGet(type, TypeName, TypeNameLower, sb);
                     CreateClassServiceFunctionsPublicGenerateCRUD(type, TypeName, TypeNameLower, sb);
-                    CreateClassServiceFunctionsPrivateRegionFillClass(type, types, TypeName, TypeNameLower, sb);
+                    CreateClassServiceFunctionsPrivateRegionFillClassWeb(type, types, TypeName, TypeNameLower, sb);
+                    //CreateClassServiceFunctionsPrivateRegionFillClassReport(type, types, TypeName, TypeNameLower, sb);
                     CreateClassServiceFunctionsPrivateRegionTrySave(type, TypeName, TypeNameLower, sb);
                 }
 

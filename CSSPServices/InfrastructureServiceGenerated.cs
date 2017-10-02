@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //InfrastructureID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //InfrastructureTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemInfrastructureTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.InfrastructureTVItemID select c).FirstOrDefault();
 
             if (TVItemInfrastructureTVItemID == null)
@@ -488,8 +484,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [InfrastructureWeb] of type [InfrastructureWeb]
-                //Error: Type not implemented [InfrastructureReport] of type [InfrastructureReport]
             if (infrastructure.LastUpdateDate_UTC.Year == 1)
             {
                 infrastructure.HasErrors = true;
@@ -503,8 +497,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.InfrastructureLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -525,8 +517,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -552,8 +542,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillInfrastructureWeb(infrastructureQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillInfrastructure(infrastructureQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillInfrastructureReport(infrastructureQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -570,8 +561,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillInfrastructureWeb(infrastructureQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillInfrastructure(infrastructureQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillInfrastructureReport(infrastructureQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -622,11 +614,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<Infrastructure> FillInfrastructure_Show_Copy_To_InfrastructureServiceExtra_As_Fill_Infrastructure(IQueryable<Infrastructure> infrastructureQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated InfrastructureFillWeb
+        private IQueryable<Infrastructure> FillInfrastructureWeb(IQueryable<Infrastructure> infrastructureQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -749,19 +738,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.AlarmSystemType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        InfrastructureReport = new InfrastructureReport
-                        {
-                            InfrastructureReportTest = "InfrastructureReportTest",
-                        },
+                        InfrastructureReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return infrastructureQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated InfrastructureFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(Infrastructure infrastructure)
         {
             try
@@ -776,7 +762,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

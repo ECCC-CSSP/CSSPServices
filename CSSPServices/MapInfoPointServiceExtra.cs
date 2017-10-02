@@ -31,6 +31,36 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<MapInfoPoint> FillMapInfoPointReport(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText)
+        {
+            mapInfoPointQuery = (from c in mapInfoPointQuery
+                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                && cl.Language == LanguageRequest
+                                                                select cl.TVText).FirstOrDefault()
+                                 select new MapInfoPoint
+                                 {
+                                     MapInfoPointID = c.MapInfoPointID,
+                                     MapInfoID = c.MapInfoID,
+                                     Ordinal = c.Ordinal,
+                                     Lat = c.Lat,
+                                     Lng = c.Lng,
+                                     LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                     LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                     MapInfoPointWeb = new MapInfoPointWeb
+                                     {
+                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                     },
+                                     MapInfoPointReport = new MapInfoPointReport
+                                     {
+                                         MapInfoPointReportTest = "MapInfoPointReportTest",
+                                     },
+                                     HasErrors = false,
+                                     ValidationResults = null,
+                                 });
+
+            return mapInfoPointQuery;
+        }
         #endregion Functions private
     }
 }

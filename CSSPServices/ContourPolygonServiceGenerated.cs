@@ -42,15 +42,11 @@ namespace CSSPServices
             ContourPolygon contourPolygon = validationContext.ObjectInstance as ContourPolygon;
             contourPolygon.HasErrors = false;
 
-            //ContourValue (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (contourPolygon.ContourValue < 0)
             {
                 contourPolygon.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContourPolygonContourValue, "0"), new[] { "ContourValue" });
             }
-
-            //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contourPolygon.Layer < 1 || contourPolygon.Layer > 100)
             {
@@ -58,15 +54,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContourPolygonLayer, "1", "100"), new[] { "Layer" });
             }
 
-            //Depth (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
             {
                 contourPolygon.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContourPolygonDepth, "1", "10000"), new[] { "Depth" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

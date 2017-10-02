@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //RatingCurveValueID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //RatingCurveID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             RatingCurve RatingCurveRatingCurveID = (from c in db.RatingCurves where c.RatingCurveID == ratingCurveValue.RatingCurveID select c).FirstOrDefault();
 
             if (RatingCurveRatingCurveID == null)
@@ -69,15 +65,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.RatingCurve, CSSPModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), new[] { "RatingCurveID" });
             }
 
-            //StageValue_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (ratingCurveValue.StageValue_m < 0 || ratingCurveValue.StageValue_m > 1000)
             {
                 ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueStageValue_m, "0", "1000"), new[] { "StageValue_m" });
             }
-
-            //DischargeValue_m3_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (ratingCurveValue.DischargeValue_m3_s < 0 || ratingCurveValue.DischargeValue_m3_s > 1000000)
             {
@@ -85,8 +77,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), new[] { "DischargeValue_m3_s" });
             }
 
-                //Error: Type not implemented [RatingCurveValueWeb] of type [RatingCurveValueWeb]
-                //Error: Type not implemented [RatingCurveValueReport] of type [RatingCurveValueReport]
             if (ratingCurveValue.LastUpdateDate_UTC.Year == 1)
             {
                 ratingCurveValue.HasErrors = true;
@@ -100,8 +90,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == ratingCurveValue.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -122,8 +110,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -149,8 +135,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return ratingCurveValueQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillRatingCurveValueWeb(ratingCurveValueQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillRatingCurveValue(ratingCurveValueQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillRatingCurveValueReport(ratingCurveValueQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -167,8 +154,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return ratingCurveValueQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillRatingCurveValueWeb(ratingCurveValueQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillRatingCurveValue(ratingCurveValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillRatingCurveValueReport(ratingCurveValueQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -219,11 +207,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<RatingCurveValue> FillRatingCurveValue_Show_Copy_To_RatingCurveValueServiceExtra_As_Fill_RatingCurveValue(IQueryable<RatingCurveValue> ratingCurveValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated RatingCurveValueFillWeb
+        private IQueryable<RatingCurveValue> FillRatingCurveValueWeb(IQueryable<RatingCurveValue> ratingCurveValueQuery, string FilterAndOrderText)
         {
             ratingCurveValueQuery = (from c in ratingCurveValueQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -242,19 +227,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        RatingCurveValueReport = new RatingCurveValueReport
-                        {
-                            RatingCurveValueReportTest = "RatingCurveValueReportTest",
-                        },
+                        RatingCurveValueReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return ratingCurveValueQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated RatingCurveValueFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(RatingCurveValue ratingCurveValue)
         {
             try
@@ -269,7 +251,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

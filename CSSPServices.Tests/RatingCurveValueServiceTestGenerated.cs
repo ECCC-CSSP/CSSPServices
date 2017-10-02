@@ -40,14 +40,11 @@ namespace CSSPServices.Tests
         {
             RatingCurveValue ratingCurveValue = new RatingCurveValue();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [RatingCurveValue RatingCurveID RatingCurve RatingCurveID]
+            if (OmitPropName != "RatingCurveID") ratingCurveValue.RatingCurveID = 1;
             if (OmitPropName != "StageValue_m") ratingCurveValue.StageValue_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomDouble(0.0D, 1000000.0D);
-            //Error: property [RatingCurveValueWeb] and type [RatingCurveValue] is  not implemented
-            //Error: property [RatingCurveValueReport] and type [RatingCurveValue] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurveValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurveValue.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") ratingCurveValue.HasErrors = true;
 
             return ratingCurveValue;
         }
@@ -149,6 +146,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [StageValue_m]
 
+                    //Error: Type not implemented [StageValue_m]
+
                     ratingCurveValue = null;
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.StageValue_m = -1.0D;
@@ -167,6 +166,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1000000)]
                     // ratingCurveValue.DischargeValue_m3_s   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DischargeValue_m3_s]
 
                     //Error: Type not implemented [DischargeValue_m3_s]
 
@@ -189,8 +190,15 @@ namespace CSSPServices.Tests
                     // ratingCurveValue.RatingCurveValueWeb   (RatingCurveValueWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RatingCurveValueWeb]
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.RatingCurveValueWeb = null;
+                    Assert.IsNull(ratingCurveValue.RatingCurveValueWeb);
 
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.RatingCurveValueWeb = new RatingCurveValueWeb();
+                    Assert.IsNotNull(ratingCurveValue.RatingCurveValueWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -198,8 +206,15 @@ namespace CSSPServices.Tests
                     // ratingCurveValue.RatingCurveValueReport   (RatingCurveValueReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RatingCurveValueReport]
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.RatingCurveValueReport = null;
+                    Assert.IsNull(ratingCurveValue.RatingCurveValueReport);
 
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.RatingCurveValueReport = new RatingCurveValueReport();
+                    Assert.IsNotNull(ratingCurveValue.RatingCurveValueReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -207,6 +222,16 @@ namespace CSSPServices.Tests
                     // ratingCurveValue.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.LastUpdateDate_UTC = new DateTime();
+                    ratingCurveValueService.Add(ratingCurveValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveValueLastUpdateDate_UTC), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    ratingCurveValueService.Add(ratingCurveValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -233,6 +258,7 @@ namespace CSSPServices.Tests
                     // ratingCurveValue.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -240,6 +266,7 @@ namespace CSSPServices.Tests
                     // ratingCurveValue.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -260,7 +287,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(ratingCurveValue);
 
                     RatingCurveValue ratingCurveValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -274,11 +301,15 @@ namespace CSSPServices.Tests
                         {
                             ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // RatingCurveValue fields
                         Assert.IsNotNull(ratingCurveValueRet.RatingCurveValueID);
                         Assert.IsNotNull(ratingCurveValueRet.RatingCurveID);
                         Assert.IsNotNull(ratingCurveValueRet.StageValue_m);
@@ -286,27 +317,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(ratingCurveValueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (ratingCurveValueRet.RatingCurveValueWeb != null)
-                            {
-                                Assert.IsNull(ratingCurveValueRet.RatingCurveValueWeb);
-                            }
-                            if (ratingCurveValueRet.RatingCurveValueReport != null)
-                            {
-                                Assert.IsNull(ratingCurveValueRet.RatingCurveValueReport);
-                            }
+                            // RatingCurveValueWeb and RatingCurveValueReport fields should be null here
+                            Assert.IsNull(ratingCurveValueRet.RatingCurveValueWeb);
+                            Assert.IsNull(ratingCurveValueRet.RatingCurveValueReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (ratingCurveValueRet.RatingCurveValueWeb != null)
+                            // RatingCurveValueWeb fields should not be null and RatingCurveValueReport fields should be null here
+                            if (ratingCurveValueRet.RatingCurveValueWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(ratingCurveValueRet.RatingCurveValueWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.RatingCurveValueWeb.LastUpdateContactTVText));
                             }
-                            if (ratingCurveValueRet.RatingCurveValueReport != null)
+                            Assert.IsNull(ratingCurveValueRet.RatingCurveValueReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // RatingCurveValueWeb and RatingCurveValueReport fields should NOT be null here
+                            if (ratingCurveValueRet.RatingCurveValueWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(ratingCurveValueRet.RatingCurveValueReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.RatingCurveValueWeb.LastUpdateContactTVText));
+                            }
+                            if (ratingCurveValueRet.RatingCurveValueReport.RatingCurveValueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.RatingCurveValueReport.RatingCurveValueReportTest));
                             }
                         }
                     }

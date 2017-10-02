@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ClimateDataValue climateDataValue = new ClimateDataValue();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [ClimateDataValue ClimateSiteID ClimateSite ClimateSiteID]
+            if (OmitPropName != "ClimateSiteID") climateDataValue.ClimateSiteID = 1;
             if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") climateDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") climateDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
@@ -56,11 +56,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DirMaxGust_0North") climateDataValue.DirMaxGust_0North = GetRandomDouble(0.0D, 360.0D);
             if (OmitPropName != "SpdMaxGust_kmh") climateDataValue.SpdMaxGust_kmh = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "HourlyValues") climateDataValue.HourlyValues = GetRandomString("", 20);
-            //Error: property [ClimateDataValueWeb] and type [ClimateDataValue] is  not implemented
-            //Error: property [ClimateDataValueReport] and type [ClimateDataValue] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") climateDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") climateDataValue.HasErrors = true;
 
             return climateDataValue;
         }
@@ -160,6 +157,16 @@ namespace CSSPServices.Tests
                     // climateDataValue.DateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.DateTime_Local = new DateTime();
+                    climateDataValueService.Add(climateDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateDataValueDateTime_Local), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.DateTime_Local = new DateTime(1979, 1, 1);
+                    climateDataValueService.Add(climateDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateDataValueDateTime_Local, "1980"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -188,6 +195,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Snow_cm]
 
+                    //Error: Type not implemented [Snow_cm]
+
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.Snow_cm = -1.0D;
@@ -206,6 +215,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10000)]
                     // climateDataValue.Rainfall_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [Rainfall_mm]
 
                     //Error: Type not implemented [Rainfall_mm]
 
@@ -230,6 +241,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RainfallEntered_mm]
 
+                    //Error: Type not implemented [RainfallEntered_mm]
+
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.RainfallEntered_mm = -1.0D;
@@ -248,6 +261,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10000)]
                     // climateDataValue.TotalPrecip_mm_cm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TotalPrecip_mm_cm]
 
                     //Error: Type not implemented [TotalPrecip_mm_cm]
 
@@ -272,6 +287,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [MaxTemp_C]
 
+                    //Error: Type not implemented [MaxTemp_C]
+
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.MaxTemp_C = -51.0D;
@@ -290,6 +307,8 @@ namespace CSSPServices.Tests
                     // [Range(-50, 50)]
                     // climateDataValue.MinTemp_C   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [MinTemp_C]
 
                     //Error: Type not implemented [MinTemp_C]
 
@@ -314,6 +333,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [HeatDegDays_C]
 
+                    //Error: Type not implemented [HeatDegDays_C]
+
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.HeatDegDays_C = -1001.0D;
@@ -332,6 +353,8 @@ namespace CSSPServices.Tests
                     // [Range(-1000, 100)]
                     // climateDataValue.CoolDegDays_C   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [CoolDegDays_C]
 
                     //Error: Type not implemented [CoolDegDays_C]
 
@@ -356,6 +379,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [SnowOnGround_cm]
 
+                    //Error: Type not implemented [SnowOnGround_cm]
+
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.SnowOnGround_cm = -1.0D;
@@ -377,6 +402,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [DirMaxGust_0North]
 
+                    //Error: Type not implemented [DirMaxGust_0North]
+
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.DirMaxGust_0North = -1.0D;
@@ -395,6 +422,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 300)]
                     // climateDataValue.SpdMaxGust_kmh   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [SpdMaxGust_kmh]
 
                     //Error: Type not implemented [SpdMaxGust_kmh]
 
@@ -423,8 +452,15 @@ namespace CSSPServices.Tests
                     // climateDataValue.ClimateDataValueWeb   (ClimateDataValueWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ClimateDataValueWeb]
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.ClimateDataValueWeb = null;
+                    Assert.IsNull(climateDataValue.ClimateDataValueWeb);
 
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.ClimateDataValueWeb = new ClimateDataValueWeb();
+                    Assert.IsNotNull(climateDataValue.ClimateDataValueWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -432,8 +468,15 @@ namespace CSSPServices.Tests
                     // climateDataValue.ClimateDataValueReport   (ClimateDataValueReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ClimateDataValueReport]
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.ClimateDataValueReport = null;
+                    Assert.IsNull(climateDataValue.ClimateDataValueReport);
 
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.ClimateDataValueReport = new ClimateDataValueReport();
+                    Assert.IsNotNull(climateDataValue.ClimateDataValueReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -441,6 +484,16 @@ namespace CSSPServices.Tests
                     // climateDataValue.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.LastUpdateDate_UTC = new DateTime();
+                    climateDataValueService.Add(climateDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateDataValueLastUpdateDate_UTC), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    climateDataValue = null;
+                    climateDataValue = GetFilledRandomClimateDataValue("");
+                    climateDataValue.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    climateDataValueService.Add(climateDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateDataValueLastUpdateDate_UTC, "1980"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -467,6 +520,7 @@ namespace CSSPServices.Tests
                     // climateDataValue.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -474,6 +528,7 @@ namespace CSSPServices.Tests
                     // climateDataValue.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -494,7 +549,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(climateDataValue);
 
                     ClimateDataValue climateDataValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -508,11 +563,15 @@ namespace CSSPServices.Tests
                         {
                             climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // ClimateDataValue fields
                         Assert.IsNotNull(climateDataValueRet.ClimateDataValueID);
                         Assert.IsNotNull(climateDataValueRet.ClimateSiteID);
                         Assert.IsNotNull(climateDataValueRet.DateTime_Local);
@@ -569,27 +628,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(climateDataValueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(climateDataValueRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (climateDataValueRet.ClimateDataValueWeb != null)
-                            {
-                                Assert.IsNull(climateDataValueRet.ClimateDataValueWeb);
-                            }
-                            if (climateDataValueRet.ClimateDataValueReport != null)
-                            {
-                                Assert.IsNull(climateDataValueRet.ClimateDataValueReport);
-                            }
+                            // ClimateDataValueWeb and ClimateDataValueReport fields should be null here
+                            Assert.IsNull(climateDataValueRet.ClimateDataValueWeb);
+                            Assert.IsNull(climateDataValueRet.ClimateDataValueReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (climateDataValueRet.ClimateDataValueWeb != null)
+                            // ClimateDataValueWeb fields should not be null and ClimateDataValueReport fields should be null here
+                            if (climateDataValueRet.ClimateDataValueWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(climateDataValueRet.ClimateDataValueWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.ClimateDataValueWeb.LastUpdateContactTVText));
                             }
-                            if (climateDataValueRet.ClimateDataValueReport != null)
+                            if (climateDataValueRet.ClimateDataValueWeb.StorageDataTypeEnumText != null)
                             {
-                                Assert.IsNotNull(climateDataValueRet.ClimateDataValueReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.ClimateDataValueWeb.StorageDataTypeEnumText));
+                            }
+                            Assert.IsNull(climateDataValueRet.ClimateDataValueReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ClimateDataValueWeb and ClimateDataValueReport fields should NOT be null here
+                            if (climateDataValueRet.ClimateDataValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.ClimateDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (climateDataValueRet.ClimateDataValueWeb.StorageDataTypeEnumText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.ClimateDataValueWeb.StorageDataTypeEnumText));
+                            }
+                            if (climateDataValueRet.ClimateDataValueReport.ClimateDataValueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.ClimateDataValueReport.ClimateDataValueReportTest));
                             }
                         }
                     }

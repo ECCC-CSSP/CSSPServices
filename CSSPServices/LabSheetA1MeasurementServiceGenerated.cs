@@ -50,8 +50,6 @@ namespace CSSPServices
 
             //Site has no StringLength Attribute
 
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (labSheetA1Measurement.TVItemID < 1)
             {
                 labSheetA1Measurement.HasErrors = true;
@@ -68,15 +66,7 @@ namespace CSSPServices
 
             //Salinity has no Range Attribute
 
-            //Temperature (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //Temperature has no Range Attribute
-
-            if (string.IsNullOrWhiteSpace(labSheetA1Measurement.ProcessedBy))
-            {
-                labSheetA1Measurement.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1MeasurementProcessedBy), new[] { "ProcessedBy" });
-            }
 
             //ProcessedBy has no StringLength Attribute
 
@@ -103,8 +93,6 @@ namespace CSSPServices
                 labSheetA1Measurement.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetA1MeasurementSampleTypeText, "100"), new[] { "SampleTypeText" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

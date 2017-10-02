@@ -53,11 +53,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Disabled") contact.Disabled = true;
             if (OmitPropName != "IsNew") contact.IsNew = true;
             if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
-            //Error: property [ContactWeb] and type [Contact] is  not implemented
-            //Error: property [ContactReport] and type [Contact] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") contact.HasErrors = true;
 
             return contact;
         }
@@ -338,8 +335,15 @@ namespace CSSPServices.Tests
                     // contact.ContactWeb   (ContactWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ContactWeb]
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.ContactWeb = null;
+                    Assert.IsNull(contact.ContactWeb);
 
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.ContactWeb = new ContactWeb();
+                    Assert.IsNotNull(contact.ContactWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -347,8 +351,15 @@ namespace CSSPServices.Tests
                     // contact.ContactReport   (ContactReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ContactReport]
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.ContactReport = null;
+                    Assert.IsNull(contact.ContactReport);
 
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.ContactReport = new ContactReport();
+                    Assert.IsNotNull(contact.ContactReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -356,6 +367,16 @@ namespace CSSPServices.Tests
                     // contact.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.LastUpdateDate_UTC = new DateTime();
+                    contactService.Add(contact, AddContactTypeEnum.LoggedIn);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLastUpdateDate_UTC), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    contactService.Add(contact, AddContactTypeEnum.LoggedIn);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactLastUpdateDate_UTC, "1980"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -382,6 +403,7 @@ namespace CSSPServices.Tests
                     // contact.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -389,6 +411,7 @@ namespace CSSPServices.Tests
                     // contact.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -409,7 +432,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contact);
 
                     Contact contactRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -423,11 +446,15 @@ namespace CSSPServices.Tests
                         {
                             contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // Contact fields
                         Assert.IsNotNull(contactRet.ContactID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Id));
                         Assert.IsNotNull(contactRet.ContactTVItemID);
@@ -454,27 +481,49 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(contactRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(contactRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (contactRet.ContactWeb != null)
-                            {
-                                Assert.IsNull(contactRet.ContactWeb);
-                            }
-                            if (contactRet.ContactReport != null)
-                            {
-                                Assert.IsNull(contactRet.ContactReport);
-                            }
+                            // ContactWeb and ContactReport fields should be null here
+                            Assert.IsNull(contactRet.ContactWeb);
+                            Assert.IsNull(contactRet.ContactReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (contactRet.ContactWeb != null)
+                            // ContactWeb fields should not be null and ContactReport fields should be null here
+                            if (contactRet.ContactWeb.ContactTVText != null)
                             {
-                                Assert.IsNotNull(contactRet.ContactWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTVText));
                             }
-                            if (contactRet.ContactReport != null)
+                            if (contactRet.ContactWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(contactRet.ContactReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsTrue(contactRet.ContactWeb.ParentTVItemID > 0);
+                            if (contactRet.ContactWeb.ContactTitleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTitleText));
+                            }
+                            Assert.IsNull(contactRet.ContactReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ContactWeb and ContactReport fields should NOT be null here
+                            if (contactRet.ContactWeb.ContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTVText));
+                            }
+                            if (contactRet.ContactWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsTrue(contactRet.ContactWeb.ParentTVItemID > 0);
+                            if (contactRet.ContactWeb.ContactTitleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTitleText));
+                            }
+                            if (contactRet.ContactReport.ContactReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactReport.ContactReportTest));
                             }
                         }
                     }

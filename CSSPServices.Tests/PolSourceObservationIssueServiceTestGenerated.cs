@@ -40,14 +40,11 @@ namespace CSSPServices.Tests
         {
             PolSourceObservationIssue polSourceObservationIssue = new PolSourceObservationIssue();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [PolSourceObservationIssue PolSourceObservationID PolSourceObservation PolSourceObservationID]
+            if (OmitPropName != "PolSourceObservationID") polSourceObservationIssue.PolSourceObservationID = 1;
             if (OmitPropName != "ObservationInfo") polSourceObservationIssue.ObservationInfo = GetRandomString("", 5);
             if (OmitPropName != "Ordinal") polSourceObservationIssue.Ordinal = GetRandomInt(0, 1000);
-            //Error: property [PolSourceObservationIssueWeb] and type [PolSourceObservationIssue] is  not implemented
-            //Error: property [PolSourceObservationIssueReport] and type [PolSourceObservationIssue] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") polSourceObservationIssue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservationIssue.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") polSourceObservationIssue.HasErrors = true;
 
             return polSourceObservationIssue;
         }
@@ -187,8 +184,15 @@ namespace CSSPServices.Tests
                     // polSourceObservationIssue.PolSourceObservationIssueWeb   (PolSourceObservationIssueWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PolSourceObservationIssueWeb]
+                    polSourceObservationIssue = null;
+                    polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                    polSourceObservationIssue.PolSourceObservationIssueWeb = null;
+                    Assert.IsNull(polSourceObservationIssue.PolSourceObservationIssueWeb);
 
+                    polSourceObservationIssue = null;
+                    polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                    polSourceObservationIssue.PolSourceObservationIssueWeb = new PolSourceObservationIssueWeb();
+                    Assert.IsNotNull(polSourceObservationIssue.PolSourceObservationIssueWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -196,8 +200,15 @@ namespace CSSPServices.Tests
                     // polSourceObservationIssue.PolSourceObservationIssueReport   (PolSourceObservationIssueReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PolSourceObservationIssueReport]
+                    polSourceObservationIssue = null;
+                    polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                    polSourceObservationIssue.PolSourceObservationIssueReport = null;
+                    Assert.IsNull(polSourceObservationIssue.PolSourceObservationIssueReport);
 
+                    polSourceObservationIssue = null;
+                    polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                    polSourceObservationIssue.PolSourceObservationIssueReport = new PolSourceObservationIssueReport();
+                    Assert.IsNotNull(polSourceObservationIssue.PolSourceObservationIssueReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -205,6 +216,16 @@ namespace CSSPServices.Tests
                     // polSourceObservationIssue.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    polSourceObservationIssue = null;
+                    polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                    polSourceObservationIssue.LastUpdateDate_UTC = new DateTime();
+                    polSourceObservationIssueService.Add(polSourceObservationIssue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObservationIssueLastUpdateDate_UTC), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    polSourceObservationIssue = null;
+                    polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                    polSourceObservationIssue.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    polSourceObservationIssueService.Add(polSourceObservationIssue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.PolSourceObservationIssueLastUpdateDate_UTC, "1980"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -231,6 +252,7 @@ namespace CSSPServices.Tests
                     // polSourceObservationIssue.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -238,6 +260,7 @@ namespace CSSPServices.Tests
                     // polSourceObservationIssue.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -258,7 +281,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(polSourceObservationIssue);
 
                     PolSourceObservationIssue polSourceObservationIssueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -272,11 +295,15 @@ namespace CSSPServices.Tests
                         {
                             polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // PolSourceObservationIssue fields
                         Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueID);
                         Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.ObservationInfo));
@@ -284,27 +311,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (polSourceObservationIssueRet.PolSourceObservationIssueWeb != null)
-                            {
-                                Assert.IsNull(polSourceObservationIssueRet.PolSourceObservationIssueWeb);
-                            }
-                            if (polSourceObservationIssueRet.PolSourceObservationIssueReport != null)
-                            {
-                                Assert.IsNull(polSourceObservationIssueRet.PolSourceObservationIssueReport);
-                            }
+                            // PolSourceObservationIssueWeb and PolSourceObservationIssueReport fields should be null here
+                            Assert.IsNull(polSourceObservationIssueRet.PolSourceObservationIssueWeb);
+                            Assert.IsNull(polSourceObservationIssueRet.PolSourceObservationIssueReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (polSourceObservationIssueRet.PolSourceObservationIssueWeb != null)
+                            // PolSourceObservationIssueWeb fields should not be null and PolSourceObservationIssueReport fields should be null here
+                            if (polSourceObservationIssueRet.PolSourceObservationIssueWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.PolSourceObservationIssueWeb.LastUpdateContactTVText));
                             }
-                            if (polSourceObservationIssueRet.PolSourceObservationIssueReport != null)
+                            Assert.IsNull(polSourceObservationIssueRet.PolSourceObservationIssueReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // PolSourceObservationIssueWeb and PolSourceObservationIssueReport fields should NOT be null here
+                            if (polSourceObservationIssueRet.PolSourceObservationIssueWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.PolSourceObservationIssueWeb.LastUpdateContactTVText));
+                            }
+                            if (polSourceObservationIssueRet.PolSourceObservationIssueReport.PolSourceObservationIssueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.PolSourceObservationIssueReport.PolSourceObservationIssueReportTest));
                             }
                         }
                     }

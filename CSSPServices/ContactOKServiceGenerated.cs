@@ -54,23 +54,17 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactOKError, "255"), new[] { "Error" });
             }
 
-            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (contactOK.ContactID < 1)
             {
                 contactOK.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactOKContactID, "1"), new[] { "ContactID" });
             }
 
-            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (contactOK.ContactTVItemID < 1)
             {
                 contactOK.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactOKContactTVItemID, "1"), new[] { "ContactTVItemID" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

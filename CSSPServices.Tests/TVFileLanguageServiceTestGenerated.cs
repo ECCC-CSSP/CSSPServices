@@ -40,15 +40,12 @@ namespace CSSPServices.Tests
         {
             TVFileLanguage tvFileLanguage = new TVFileLanguage();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [TVFileLanguage TVFileID TVFile TVFileID]
+            if (OmitPropName != "TVFileID") tvFileLanguage.TVFileID = 1;
             if (OmitPropName != "Language") tvFileLanguage.Language = LanguageRequest;
             if (OmitPropName != "FileDescription") tvFileLanguage.FileDescription = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") tvFileLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            //Error: property [TVFileLanguageWeb] and type [TVFileLanguage] is  not implemented
-            //Error: property [TVFileLanguageReport] and type [TVFileLanguage] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tvFileLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvFileLanguage.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") tvFileLanguage.HasErrors = true;
 
             return tvFileLanguage;
         }
@@ -180,8 +177,15 @@ namespace CSSPServices.Tests
                     // tvFileLanguage.TVFileLanguageWeb   (TVFileLanguageWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVFileLanguageWeb]
+                    tvFileLanguage = null;
+                    tvFileLanguage = GetFilledRandomTVFileLanguage("");
+                    tvFileLanguage.TVFileLanguageWeb = null;
+                    Assert.IsNull(tvFileLanguage.TVFileLanguageWeb);
 
+                    tvFileLanguage = null;
+                    tvFileLanguage = GetFilledRandomTVFileLanguage("");
+                    tvFileLanguage.TVFileLanguageWeb = new TVFileLanguageWeb();
+                    Assert.IsNotNull(tvFileLanguage.TVFileLanguageWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -189,8 +193,15 @@ namespace CSSPServices.Tests
                     // tvFileLanguage.TVFileLanguageReport   (TVFileLanguageReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVFileLanguageReport]
+                    tvFileLanguage = null;
+                    tvFileLanguage = GetFilledRandomTVFileLanguage("");
+                    tvFileLanguage.TVFileLanguageReport = null;
+                    Assert.IsNull(tvFileLanguage.TVFileLanguageReport);
 
+                    tvFileLanguage = null;
+                    tvFileLanguage = GetFilledRandomTVFileLanguage("");
+                    tvFileLanguage.TVFileLanguageReport = new TVFileLanguageReport();
+                    Assert.IsNotNull(tvFileLanguage.TVFileLanguageReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -198,6 +209,16 @@ namespace CSSPServices.Tests
                     // tvFileLanguage.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    tvFileLanguage = null;
+                    tvFileLanguage = GetFilledRandomTVFileLanguage("");
+                    tvFileLanguage.LastUpdateDate_UTC = new DateTime();
+                    tvFileLanguageService.Add(tvFileLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguageLastUpdateDate_UTC), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvFileLanguage = null;
+                    tvFileLanguage = GetFilledRandomTVFileLanguage("");
+                    tvFileLanguage.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    tvFileLanguageService.Add(tvFileLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVFileLanguageLastUpdateDate_UTC, "1980"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -224,6 +245,7 @@ namespace CSSPServices.Tests
                     // tvFileLanguage.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -231,6 +253,7 @@ namespace CSSPServices.Tests
                     // tvFileLanguage.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -251,7 +274,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvFileLanguage);
 
                     TVFileLanguage tvFileLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -265,11 +288,15 @@ namespace CSSPServices.Tests
                         {
                             tvFileLanguageRet = tvFileLanguageService.GetTVFileLanguageWithTVFileLanguageID(tvFileLanguage.TVFileLanguageID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvFileLanguageRet = tvFileLanguageService.GetTVFileLanguageWithTVFileLanguageID(tvFileLanguage.TVFileLanguageID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // TVFileLanguage fields
                         Assert.IsNotNull(tvFileLanguageRet.TVFileLanguageID);
                         Assert.IsNotNull(tvFileLanguageRet.TVFileID);
                         Assert.IsNotNull(tvFileLanguageRet.Language);
@@ -281,27 +308,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tvFileLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tvFileLanguageRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tvFileLanguageRet.TVFileLanguageWeb != null)
-                            {
-                                Assert.IsNull(tvFileLanguageRet.TVFileLanguageWeb);
-                            }
-                            if (tvFileLanguageRet.TVFileLanguageReport != null)
-                            {
-                                Assert.IsNull(tvFileLanguageRet.TVFileLanguageReport);
-                            }
+                            // TVFileLanguageWeb and TVFileLanguageReport fields should be null here
+                            Assert.IsNull(tvFileLanguageRet.TVFileLanguageWeb);
+                            Assert.IsNull(tvFileLanguageRet.TVFileLanguageReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tvFileLanguageRet.TVFileLanguageWeb != null)
+                            // TVFileLanguageWeb fields should not be null and TVFileLanguageReport fields should be null here
+                            if (tvFileLanguageRet.TVFileLanguageWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(tvFileLanguageRet.TVFileLanguageWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TVFileLanguageWeb.LastUpdateContactTVText));
                             }
-                            if (tvFileLanguageRet.TVFileLanguageReport != null)
+                            if (tvFileLanguageRet.TVFileLanguageWeb.LanguageText != null)
                             {
-                                Assert.IsNotNull(tvFileLanguageRet.TVFileLanguageReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TVFileLanguageWeb.LanguageText));
+                            }
+                            if (tvFileLanguageRet.TVFileLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TVFileLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(tvFileLanguageRet.TVFileLanguageReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TVFileLanguageWeb and TVFileLanguageReport fields should NOT be null here
+                            if (tvFileLanguageRet.TVFileLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TVFileLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (tvFileLanguageRet.TVFileLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TVFileLanguageWeb.LanguageText));
+                            }
+                            if (tvFileLanguageRet.TVFileLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TVFileLanguageWeb.TranslationStatusText));
+                            }
+                            if (tvFileLanguageRet.TVFileLanguageReport.TVFileLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TVFileLanguageReport.TVFileLanguageReportTest));
                             }
                         }
                     }

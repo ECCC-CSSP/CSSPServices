@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Name") appTaskParameter.Name = GetRandomString("", 5);
             if (OmitPropName != "Value") appTaskParameter.Value = GetRandomString("", 5);
-            if (OmitPropName != "HasErrors") appTaskParameter.HasErrors = true;
 
             return appTaskParameter;
         }

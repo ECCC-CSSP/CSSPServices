@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<BoxModelLanguage> FillBoxModelLanguage(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        private IQueryable<BoxModelLanguage> FillBoxModelLanguageReport(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 

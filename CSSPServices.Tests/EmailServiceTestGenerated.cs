@@ -40,14 +40,11 @@ namespace CSSPServices.Tests
         {
             Email email = new Email();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [Email EmailTVItemID TVItem TVItemID]
+            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 29;
             if (OmitPropName != "EmailAddress") email.EmailAddress = GetRandomEmail();
             if (OmitPropName != "EmailType") email.EmailType = (EmailTypeEnum)GetRandomEnumType(typeof(EmailTypeEnum));
-            //Error: property [EmailWeb] and type [Email] is  not implemented
-            //Error: property [EmailReport] and type [Email] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") email.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") email.HasErrors = true;
 
             return email;
         }
@@ -188,8 +185,15 @@ namespace CSSPServices.Tests
                     // email.EmailWeb   (EmailWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [EmailWeb]
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailWeb = null;
+                    Assert.IsNull(email.EmailWeb);
 
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailWeb = new EmailWeb();
+                    Assert.IsNotNull(email.EmailWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -197,8 +201,15 @@ namespace CSSPServices.Tests
                     // email.EmailReport   (EmailReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [EmailReport]
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailReport = null;
+                    Assert.IsNull(email.EmailReport);
 
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailReport = new EmailReport();
+                    Assert.IsNotNull(email.EmailReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -206,6 +217,16 @@ namespace CSSPServices.Tests
                     // email.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.LastUpdateDate_UTC = new DateTime();
+                    emailService.Add(email);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailLastUpdateDate_UTC), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    emailService.Add(email);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailLastUpdateDate_UTC, "1980"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -232,6 +253,7 @@ namespace CSSPServices.Tests
                     // email.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -239,6 +261,7 @@ namespace CSSPServices.Tests
                     // email.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -259,7 +282,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(email);
 
                     Email emailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -273,11 +296,15 @@ namespace CSSPServices.Tests
                         {
                             emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // Email fields
                         Assert.IsNotNull(emailRet.EmailID);
                         Assert.IsNotNull(emailRet.EmailTVItemID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailAddress));
@@ -285,27 +312,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(emailRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(emailRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (emailRet.EmailWeb != null)
-                            {
-                                Assert.IsNull(emailRet.EmailWeb);
-                            }
-                            if (emailRet.EmailReport != null)
-                            {
-                                Assert.IsNull(emailRet.EmailReport);
-                            }
+                            // EmailWeb and EmailReport fields should be null here
+                            Assert.IsNull(emailRet.EmailWeb);
+                            Assert.IsNull(emailRet.EmailReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (emailRet.EmailWeb != null)
+                            // EmailWeb fields should not be null and EmailReport fields should be null here
+                            if (emailRet.EmailWeb.EmailTVText != null)
                             {
-                                Assert.IsNotNull(emailRet.EmailWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailWeb.EmailTVText));
                             }
-                            if (emailRet.EmailReport != null)
+                            if (emailRet.EmailWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(emailRet.EmailReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailWeb.LastUpdateContactTVText));
+                            }
+                            if (emailRet.EmailWeb.EmailTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailWeb.EmailTypeText));
+                            }
+                            Assert.IsNull(emailRet.EmailReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // EmailWeb and EmailReport fields should NOT be null here
+                            if (emailRet.EmailWeb.EmailTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailWeb.EmailTVText));
+                            }
+                            if (emailRet.EmailWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailWeb.LastUpdateContactTVText));
+                            }
+                            if (emailRet.EmailWeb.EmailTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailWeb.EmailTypeText));
+                            }
+                            if (emailRet.EmailReport.EmailReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailReport.EmailReportTest));
                             }
                         }
                     }

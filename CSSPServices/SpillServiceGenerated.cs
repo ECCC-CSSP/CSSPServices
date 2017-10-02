@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //SpillID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MunicipalityTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemMunicipalityTVItemID = (from c in db.TVItems where c.TVItemID == spill.MunicipalityTVItemID select c).FirstOrDefault();
 
             if (TVItemMunicipalityTVItemID == null)
@@ -130,16 +126,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.SpillEndDateTime_Local, CSSPModelsRes.SpillStartDateTime_Local), new[] { CSSPModelsRes.SpillEndDateTime_Local });
             }
 
-            //AverageFlow_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (spill.AverageFlow_m3_day < 0 || spill.AverageFlow_m3_day > 1000000)
             {
                 spill.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), new[] { "AverageFlow_m3_day" });
             }
 
-                //Error: Type not implemented [SpillWeb] of type [SpillWeb]
-                //Error: Type not implemented [SpillReport] of type [SpillReport]
             if (spill.LastUpdateDate_UTC.Year == 1)
             {
                 spill.HasErrors = true;
@@ -153,8 +145,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SpillLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == spill.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -175,8 +165,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -202,8 +190,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillSpillWeb(spillQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSpill(spillQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillSpillReport(spillQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -220,8 +209,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillSpillWeb(spillQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSpill(spillQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillSpillReport(spillQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -272,11 +262,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<Spill> FillSpill_Show_Copy_To_SpillServiceExtra_As_Fill_Spill(IQueryable<Spill> spillQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated SpillFillWeb
+        private IQueryable<Spill> FillSpillWeb(IQueryable<Spill> spillQuery, string FilterAndOrderText)
         {
             spillQuery = (from c in spillQuery
                 let MunicipalityTVText = (from cl in db.TVItemLanguages
@@ -307,19 +294,16 @@ namespace CSSPServices
                             InfrastructureTVText = InfrastructureTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        SpillReport = new SpillReport
-                        {
-                            SpillReportTest = "SpillReportTest",
-                        },
+                        SpillReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return spillQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated SpillFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(Spill spill)
         {
             try
@@ -334,7 +318,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

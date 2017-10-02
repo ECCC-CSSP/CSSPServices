@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Text") polSourceObsInfoEnumTextAndID.Text = GetRandomString("", 20);
             if (OmitPropName != "ID") polSourceObsInfoEnumTextAndID.ID = GetRandomInt(1, 11);
-            if (OmitPropName != "HasErrors") polSourceObsInfoEnumTextAndID.HasErrors = true;
 
             return polSourceObsInfoEnumTextAndID;
         }

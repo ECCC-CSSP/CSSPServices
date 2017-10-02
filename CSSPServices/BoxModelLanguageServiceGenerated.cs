@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //BoxModelLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //BoxModelID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             BoxModel BoxModelBoxModelID = (from c in db.BoxModels where c.BoxModelID == boxModelLanguage.BoxModelID select c).FirstOrDefault();
 
             if (BoxModelBoxModelID == null)
@@ -95,8 +91,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
-                //Error: Type not implemented [BoxModelLanguageWeb] of type [BoxModelLanguageWeb]
-                //Error: Type not implemented [BoxModelLanguageReport] of type [BoxModelLanguageReport]
             if (boxModelLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 boxModelLanguage.HasErrors = true;
@@ -110,8 +104,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.BoxModelLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == boxModelLanguage.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -132,8 +124,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -159,8 +149,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillBoxModelLanguageWeb(boxModelLanguageQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModelLanguage(boxModelLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillBoxModelLanguageReport(boxModelLanguageQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -177,8 +168,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelLanguageQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillBoxModelLanguageWeb(boxModelLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModelLanguage(boxModelLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillBoxModelLanguageReport(boxModelLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -229,11 +221,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<BoxModelLanguage> FillBoxModelLanguage_Show_Copy_To_BoxModelLanguageServiceExtra_As_Fill_BoxModelLanguage(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated BoxModelLanguageFillWeb
+        private IQueryable<BoxModelLanguage> FillBoxModelLanguageWeb(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -264,19 +253,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        BoxModelLanguageReport = new BoxModelLanguageReport
-                        {
-                            BoxModelLanguageReportTest = "BoxModelLanguageReportTest",
-                        },
+                        BoxModelLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return boxModelLanguageQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated BoxModelLanguageFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(BoxModelLanguage boxModelLanguage)
         {
             try
@@ -291,7 +277,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

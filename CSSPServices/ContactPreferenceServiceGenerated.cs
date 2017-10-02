@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //ContactPreferenceID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             Contact ContactContactID = (from c in db.Contacts where c.ContactID == contactPreference.ContactID select c).FirstOrDefault();
 
             if (ContactContactID == null)
@@ -76,16 +72,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactPreferenceTVType), new[] { "TVType" });
             }
 
-            //MarkerSize (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (contactPreference.MarkerSize < 1 || contactPreference.MarkerSize > 1000)
             {
                 contactPreference.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContactPreferenceMarkerSize, "1", "1000"), new[] { "MarkerSize" });
             }
 
-                //Error: Type not implemented [ContactPreferenceWeb] of type [ContactPreferenceWeb]
-                //Error: Type not implemented [ContactPreferenceReport] of type [ContactPreferenceReport]
             if (contactPreference.LastUpdateDate_UTC.Year == 1)
             {
                 contactPreference.HasErrors = true;
@@ -99,8 +91,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactPreferenceLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == contactPreference.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -121,8 +111,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactPreferenceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -148,8 +136,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactPreferenceQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillContactPreferenceWeb(contactPreferenceQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactPreference(contactPreferenceQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillContactPreferenceReport(contactPreferenceQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -166,8 +155,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactPreferenceQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillContactPreferenceWeb(contactPreferenceQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactPreference(contactPreferenceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillContactPreferenceReport(contactPreferenceQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -218,11 +208,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<ContactPreference> FillContactPreference_Show_Copy_To_ContactPreferenceServiceExtra_As_Fill_ContactPreference(IQueryable<ContactPreference> contactPreferenceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated ContactPreferenceFillWeb
+        private IQueryable<ContactPreference> FillContactPreferenceWeb(IQueryable<ContactPreference> contactPreferenceQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -248,19 +235,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        ContactPreferenceReport = new ContactPreferenceReport
-                        {
-                            ContactPreferenceReportText = "ContactPreferenceReportText",
-                        },
+                        ContactPreferenceReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return contactPreferenceQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated ContactPreferenceFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(ContactPreference contactPreference)
         {
             try
@@ -275,7 +259,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

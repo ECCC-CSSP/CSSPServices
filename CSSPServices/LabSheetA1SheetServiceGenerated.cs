@@ -50,8 +50,6 @@ namespace CSSPServices
 
             //Error has no StringLength Attribute
 
-            //Version (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (labSheetA1Sheet.Version < 1 || labSheetA1Sheet.Version > 100)
             {
                 labSheetA1Sheet.HasErrors = true;
@@ -95,8 +93,6 @@ namespace CSSPServices
 
             //SubsectorLocation has no StringLength Attribute
 
-            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //SubsectorTVItemID has no Range Attribute
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.RunYear))
@@ -123,8 +119,6 @@ namespace CSSPServices
 
             //RunDay has no StringLength Attribute
 
-            //RunNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //RunNumber has no Range Attribute
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Tides))
@@ -150,8 +144,6 @@ namespace CSSPServices
             }
 
             //IncubationStartSameDay has no StringLength Attribute
-
-            //WaterBathCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //WaterBathCount has no Range Attribute
 
@@ -667,8 +659,6 @@ namespace CSSPServices
 
             //ApprovedBySupervisorInitials has no StringLength Attribute
 
-            //IncludeLaboratoryQAQC (bool) is required but no testing needed 
-
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Log))
             {
                 labSheetA1Sheet.HasErrors = true;
@@ -694,8 +684,6 @@ namespace CSSPServices
                 labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetA1SheetLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

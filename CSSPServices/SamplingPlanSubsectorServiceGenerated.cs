@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //SamplingPlanSubsectorID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //SamplingPlanID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             SamplingPlan SamplingPlanSamplingPlanID = (from c in db.SamplingPlans where c.SamplingPlanID == samplingPlanSubsector.SamplingPlanID select c).FirstOrDefault();
 
             if (SamplingPlanSamplingPlanID == null)
@@ -68,8 +64,6 @@ namespace CSSPServices
                 samplingPlanSubsector.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.SamplingPlanSubsectorSamplingPlanID, samplingPlanSubsector.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
             }
-
-            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlanSubsector.SubsectorTVItemID select c).FirstOrDefault();
 
@@ -91,8 +85,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [SamplingPlanSubsectorWeb] of type [SamplingPlanSubsectorWeb]
-                //Error: Type not implemented [SamplingPlanSubsectorReport] of type [SamplingPlanSubsectorReport]
             if (samplingPlanSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlanSubsector.HasErrors = true;
@@ -106,8 +98,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlanSubsector.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -128,8 +118,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -155,8 +143,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanSubsectorQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillSamplingPlanSubsectorWeb(samplingPlanSubsectorQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSamplingPlanSubsector(samplingPlanSubsectorQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillSamplingPlanSubsectorReport(samplingPlanSubsectorQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -173,8 +162,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanSubsectorQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillSamplingPlanSubsectorWeb(samplingPlanSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSamplingPlanSubsector(samplingPlanSubsectorQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillSamplingPlanSubsectorReport(samplingPlanSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -225,11 +215,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsector_Show_Copy_To_SamplingPlanSubsectorServiceExtra_As_Fill_SamplingPlanSubsector(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated SamplingPlanSubsectorFillWeb
+        private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsectorWeb(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery, string FilterAndOrderText)
         {
             samplingPlanSubsectorQuery = (from c in samplingPlanSubsectorQuery
                 let SubsectorTVText = (from cl in db.TVItemLanguages
@@ -252,19 +239,16 @@ namespace CSSPServices
                             SubsectorTVText = SubsectorTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        SamplingPlanSubsectorReport = new SamplingPlanSubsectorReport
-                        {
-                            SamplingPlanSubsectorReportTest = "SamplingPlanSubsectorReportTest",
-                        },
+                        SamplingPlanSubsectorReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return samplingPlanSubsectorQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated SamplingPlanSubsectorFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(SamplingPlanSubsector samplingPlanSubsector)
         {
             try
@@ -279,7 +263,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

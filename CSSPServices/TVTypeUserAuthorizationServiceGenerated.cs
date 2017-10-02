@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TVTypeUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemContactTVItemID = (from c in db.TVItems where c.TVItemID == tvTypeUserAuthorization.ContactTVItemID select c).FirstOrDefault();
 
             if (TVItemContactTVItemID == null)
@@ -95,8 +91,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTypeUserAuthorizationTVAuth), new[] { "TVAuth" });
             }
 
-                //Error: Type not implemented [TVTypeUserAuthorizationWeb] of type [TVTypeUserAuthorizationWeb]
-                //Error: Type not implemented [TVTypeUserAuthorizationReport] of type [TVTypeUserAuthorizationReport]
             if (tvTypeUserAuthorization.LastUpdateDate_UTC.Year == 1)
             {
                 tvTypeUserAuthorization.HasErrors = true;
@@ -110,8 +104,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tvTypeUserAuthorization.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -132,8 +124,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -159,8 +149,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvTypeUserAuthorizationQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVTypeUserAuthorizationWeb(tvTypeUserAuthorizationQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVTypeUserAuthorization(tvTypeUserAuthorizationQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTVTypeUserAuthorizationReport(tvTypeUserAuthorizationQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -177,8 +168,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvTypeUserAuthorizationQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVTypeUserAuthorizationWeb(tvTypeUserAuthorizationQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVTypeUserAuthorization(tvTypeUserAuthorizationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTVTypeUserAuthorizationReport(tvTypeUserAuthorizationQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -229,11 +221,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TVTypeUserAuthorization> FillTVTypeUserAuthorization_Show_Copy_To_TVTypeUserAuthorizationServiceExtra_As_Fill_TVTypeUserAuthorization(IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TVTypeUserAuthorizationFillWeb
+        private IQueryable<TVTypeUserAuthorization> FillTVTypeUserAuthorizationWeb(IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -268,19 +257,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TVAuth
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TVTypeUserAuthorizationReport = new TVTypeUserAuthorizationReport
-                        {
-                            TVTypeUserAuthorizationReportTest = "TVTypeUserAuthorizationReportTest",
-                        },
+                        TVTypeUserAuthorizationReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tvTypeUserAuthorizationQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TVTypeUserAuthorizationFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TVTypeUserAuthorization tvTypeUserAuthorization)
         {
             try
@@ -295,7 +281,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

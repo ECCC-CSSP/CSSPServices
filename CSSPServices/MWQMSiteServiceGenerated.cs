@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MWQMSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemMWQMSiteTVItemID = (from c in db.TVItems where c.TVItemID == mwqmSite.MWQMSiteTVItemID select c).FirstOrDefault();
 
             if (TVItemMWQMSiteTVItemID == null)
@@ -112,16 +108,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteLatestClassification), new[] { "MWQMSiteLatestClassification" });
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmSite.Ordinal < 0 || mwqmSite.Ordinal > 1000)
             {
                 mwqmSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
-                //Error: Type not implemented [MWQMSiteWeb] of type [MWQMSiteWeb]
-                //Error: Type not implemented [MWQMSiteReport] of type [MWQMSiteReport]
             if (mwqmSite.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSite.HasErrors = true;
@@ -135,8 +127,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mwqmSite.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -157,8 +147,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -184,8 +172,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSiteWeb(mwqmSiteQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSite(mwqmSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMWQMSiteReport(mwqmSiteQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -202,8 +191,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSiteWeb(mwqmSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSite(mwqmSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMWQMSiteReport(mwqmSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -254,11 +244,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MWQMSite> FillMWQMSite_Show_Copy_To_MWQMSiteServiceExtra_As_Fill_MWQMSite(IQueryable<MWQMSite> mwqmSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MWQMSiteFillWeb
+        private IQueryable<MWQMSite> FillMWQMSiteWeb(IQueryable<MWQMSite> mwqmSiteQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -291,19 +278,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.MWQMSiteLatestClassification
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        MWQMSiteReport = new MWQMSiteReport
-                        {
-                            MWQMSiteReportTest = "MWQMSiteReportTest",
-                        },
+                        MWQMSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mwqmSiteQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MWQMSiteFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSite mwqmSite)
         {
             try
@@ -318,7 +302,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

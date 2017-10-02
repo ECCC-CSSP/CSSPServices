@@ -42,23 +42,17 @@ namespace CSSPServices
             SamplingPlanAndFilesLabSheetCount samplingPlanAndFilesLabSheetCount = validationContext.ObjectInstance as SamplingPlanAndFilesLabSheetCount;
             samplingPlanAndFilesLabSheetCount.HasErrors = false;
 
-            //LabSheetHistoryCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount < 0)
             {
                 samplingPlanAndFilesLabSheetCount.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount, "0"), new[] { "LabSheetHistoryCount" });
             }
 
-            //LabSheetTransferredCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount < 0)
             {
                 samplingPlanAndFilesLabSheetCount.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount, "0"), new[] { "LabSheetTransferredCount" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

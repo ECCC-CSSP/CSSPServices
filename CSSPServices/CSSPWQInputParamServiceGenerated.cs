@@ -61,8 +61,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.CSSPWQInputParamName, "1", "200"), new[] { "Name" });
             }
 
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (cSSPWQInputParam.TVItemID < 1)
             {
                 cSSPWQInputParam.HasErrors = true;
@@ -74,8 +72,6 @@ namespace CSSPServices
                 cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.CSSPWQInputParamCSSPWQInputTypeText, "100"), new[] { "CSSPWQInputTypeText" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

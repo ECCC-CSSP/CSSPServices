@@ -31,6 +31,47 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<VPScenarioLanguage> FillVPScenarioLanguageReport(IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery, string FilterAndOrderText)
+        {
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
+            List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
+
+            vpScenarioLanguageQuery = (from c in vpScenarioLanguageQuery
+                                       let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                      where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                      && cl.Language == LanguageRequest
+                                                                      select cl.TVText).FirstOrDefault()
+                                       select new VPScenarioLanguage
+                                       {
+                                           VPScenarioLanguageID = c.VPScenarioLanguageID,
+                                           VPScenarioID = c.VPScenarioID,
+                                           Language = c.Language,
+                                           VPScenarioName = c.VPScenarioName,
+                                           TranslationStatus = c.TranslationStatus,
+                                           LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                           LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                           VPScenarioLanguageWeb = new VPScenarioLanguageWeb
+                                           {
+                                               LastUpdateContactTVText = LastUpdateContactTVText,
+                                               LanguageText = (from e in LanguageEnumList
+                                                               where e.EnumID == (int?)c.Language
+                                                               select e.EnumText).FirstOrDefault(),
+                                               TranslationStatusText = (from e in TranslationStatusEnumList
+                                                                        where e.EnumID == (int?)c.TranslationStatus
+                                                                        select e.EnumText).FirstOrDefault(),
+                                           },
+                                           VPScenarioLanguageReport = new VPScenarioLanguageReport
+                                           {
+                                               VPScenarioLanguageReportTest = "VPScenarioLanguageReportTest",
+                                           },
+                                           HasErrors = false,
+                                           ValidationResults = null,
+                                       });
+
+            return vpScenarioLanguageQuery;
+        }
         #endregion Functions private
     }
 }

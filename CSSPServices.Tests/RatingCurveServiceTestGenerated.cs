@@ -40,13 +40,10 @@ namespace CSSPServices.Tests
         {
             RatingCurve ratingCurve = new RatingCurve();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [RatingCurve HydrometricSiteID HydrometricSite HydrometricSiteID]
+            if (OmitPropName != "HydrometricSiteID") ratingCurve.HydrometricSiteID = 1;
             if (OmitPropName != "RatingCurveNumber") ratingCurve.RatingCurveNumber = GetRandomString("", 5);
-            //Error: property [RatingCurveWeb] and type [RatingCurve] is  not implemented
-            //Error: property [RatingCurveReport] and type [RatingCurve] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurve.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurve.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") ratingCurve.HasErrors = true;
 
             return ratingCurve;
         }
@@ -167,8 +164,15 @@ namespace CSSPServices.Tests
                     // ratingCurve.RatingCurveWeb   (RatingCurveWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RatingCurveWeb]
+                    ratingCurve = null;
+                    ratingCurve = GetFilledRandomRatingCurve("");
+                    ratingCurve.RatingCurveWeb = null;
+                    Assert.IsNull(ratingCurve.RatingCurveWeb);
 
+                    ratingCurve = null;
+                    ratingCurve = GetFilledRandomRatingCurve("");
+                    ratingCurve.RatingCurveWeb = new RatingCurveWeb();
+                    Assert.IsNotNull(ratingCurve.RatingCurveWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -176,8 +180,15 @@ namespace CSSPServices.Tests
                     // ratingCurve.RatingCurveReport   (RatingCurveReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RatingCurveReport]
+                    ratingCurve = null;
+                    ratingCurve = GetFilledRandomRatingCurve("");
+                    ratingCurve.RatingCurveReport = null;
+                    Assert.IsNull(ratingCurve.RatingCurveReport);
 
+                    ratingCurve = null;
+                    ratingCurve = GetFilledRandomRatingCurve("");
+                    ratingCurve.RatingCurveReport = new RatingCurveReport();
+                    Assert.IsNotNull(ratingCurve.RatingCurveReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -185,6 +196,16 @@ namespace CSSPServices.Tests
                     // ratingCurve.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    ratingCurve = null;
+                    ratingCurve = GetFilledRandomRatingCurve("");
+                    ratingCurve.LastUpdateDate_UTC = new DateTime();
+                    ratingCurveService.Add(ratingCurve);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveLastUpdateDate_UTC), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    ratingCurve = null;
+                    ratingCurve = GetFilledRandomRatingCurve("");
+                    ratingCurve.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    ratingCurveService.Add(ratingCurve);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RatingCurveLastUpdateDate_UTC, "1980"), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -211,6 +232,7 @@ namespace CSSPServices.Tests
                     // ratingCurve.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -218,6 +240,7 @@ namespace CSSPServices.Tests
                     // ratingCurve.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -238,7 +261,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(ratingCurve);
 
                     RatingCurve ratingCurveRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -252,38 +275,46 @@ namespace CSSPServices.Tests
                         {
                             ratingCurveRet = ratingCurveService.GetRatingCurveWithRatingCurveID(ratingCurve.RatingCurveID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            ratingCurveRet = ratingCurveService.GetRatingCurveWithRatingCurveID(ratingCurve.RatingCurveID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // RatingCurve fields
                         Assert.IsNotNull(ratingCurveRet.RatingCurveID);
                         Assert.IsNotNull(ratingCurveRet.HydrometricSiteID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveRet.RatingCurveNumber));
                         Assert.IsNotNull(ratingCurveRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(ratingCurveRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (ratingCurveRet.RatingCurveWeb != null)
-                            {
-                                Assert.IsNull(ratingCurveRet.RatingCurveWeb);
-                            }
-                            if (ratingCurveRet.RatingCurveReport != null)
-                            {
-                                Assert.IsNull(ratingCurveRet.RatingCurveReport);
-                            }
+                            // RatingCurveWeb and RatingCurveReport fields should be null here
+                            Assert.IsNull(ratingCurveRet.RatingCurveWeb);
+                            Assert.IsNull(ratingCurveRet.RatingCurveReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (ratingCurveRet.RatingCurveWeb != null)
+                            // RatingCurveWeb fields should not be null and RatingCurveReport fields should be null here
+                            if (ratingCurveRet.RatingCurveWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(ratingCurveRet.RatingCurveWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveRet.RatingCurveWeb.LastUpdateContactTVText));
                             }
-                            if (ratingCurveRet.RatingCurveReport != null)
+                            Assert.IsNull(ratingCurveRet.RatingCurveReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // RatingCurveWeb and RatingCurveReport fields should NOT be null here
+                            if (ratingCurveRet.RatingCurveWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(ratingCurveRet.RatingCurveReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveRet.RatingCurveWeb.LastUpdateContactTVText));
+                            }
+                            if (ratingCurveRet.RatingCurveReport.RatingCurveReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveRet.RatingCurveReport.RatingCurveReportTest));
                             }
                         }
                     }

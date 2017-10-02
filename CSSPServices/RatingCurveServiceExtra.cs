@@ -31,6 +31,34 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<RatingCurve> FillRatingCurveReport(IQueryable<RatingCurve> ratingCurveQuery, string FilterAndOrderText)
+        {
+            ratingCurveQuery = (from c in ratingCurveQuery
+                                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                               where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                               && cl.Language == LanguageRequest
+                                                               select cl.TVText).FirstOrDefault()
+                                select new RatingCurve
+                                {
+                                    RatingCurveID = c.RatingCurveID,
+                                    HydrometricSiteID = c.HydrometricSiteID,
+                                    RatingCurveNumber = c.RatingCurveNumber,
+                                    LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                    LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                    RatingCurveWeb = new RatingCurveWeb
+                                    {
+                                        LastUpdateContactTVText = LastUpdateContactTVText,
+                                    },
+                                    RatingCurveReport = new RatingCurveReport
+                                    {
+                                        RatingCurveReportTest = "RatingCurveReportTest",
+                                    },
+                                    HasErrors = false,
+                                    ValidationResults = null,
+                                });
+
+            return ratingCurveQuery;
+        }
         #endregion Functions private
     }
 }

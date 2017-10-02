@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TVItemUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemContactTVItemID = (from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.ContactTVItemID select c).FirstOrDefault();
 
             if (TVItemContactTVItemID == null)
@@ -80,8 +76,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemUserAuthorizationContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
             }
-
-            //TVItemID1 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemTVItemID1 = (from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID1 select c).FirstOrDefault();
 
@@ -263,8 +257,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemUserAuthorizationTVAuth), new[] { "TVAuth" });
             }
 
-                //Error: Type not implemented [TVItemUserAuthorizationWeb] of type [TVItemUserAuthorizationWeb]
-                //Error: Type not implemented [TVItemUserAuthorizationReport] of type [TVItemUserAuthorizationReport]
             if (tvItemUserAuthorization.LastUpdateDate_UTC.Year == 1)
             {
                 tvItemUserAuthorization.HasErrors = true;
@@ -278,8 +270,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -300,8 +290,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -327,8 +315,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemUserAuthorizationQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemUserAuthorizationWeb(tvItemUserAuthorizationQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTVItemUserAuthorizationReport(tvItemUserAuthorizationQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -345,8 +334,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemUserAuthorizationQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemUserAuthorizationWeb(tvItemUserAuthorizationQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTVItemUserAuthorizationReport(tvItemUserAuthorizationQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -397,11 +387,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TVItemUserAuthorization> FillTVItemUserAuthorization_Show_Copy_To_TVItemUserAuthorizationServiceExtra_As_Fill_TVItemUserAuthorization(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TVItemUserAuthorizationFillWeb
+        private IQueryable<TVItemUserAuthorization> FillTVItemUserAuthorizationWeb(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -455,19 +442,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TVAuth
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TVItemUserAuthorizationReport = new TVItemUserAuthorizationReport
-                        {
-                            TVItemUserAuthorizationReportTest = "TVItemUserAuthorizationReportTest",
-                        },
+                        TVItemUserAuthorizationReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tvItemUserAuthorizationQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TVItemUserAuthorizationFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TVItemUserAuthorization tvItemUserAuthorization)
         {
             try
@@ -482,7 +466,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

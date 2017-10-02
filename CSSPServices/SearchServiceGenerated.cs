@@ -54,15 +54,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.Searchvalue, "1", "255"), new[] { "value" });
             }
 
-            //id (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (search.id < 1)
             {
                 search.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.Searchid, "1"), new[] { "id" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

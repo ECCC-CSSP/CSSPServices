@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //HydrometricSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //HydrometricSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemHydrometricSiteTVItemID = (from c in db.TVItems where c.TVItemID == hydrometricSite.HydrometricSiteTVItemID select c).FirstOrDefault();
 
             if (TVItemHydrometricSiteTVItemID == null)
@@ -168,8 +164,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [HydrometricSiteWeb] of type [HydrometricSiteWeb]
-                //Error: Type not implemented [HydrometricSiteReport] of type [HydrometricSiteReport]
             if (hydrometricSite.LastUpdateDate_UTC.Year == 1)
             {
                 hydrometricSite.HasErrors = true;
@@ -183,8 +177,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == hydrometricSite.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -205,8 +197,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.HydrometricSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -232,8 +222,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillHydrometricSiteWeb(hydrometricSiteQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillHydrometricSite(hydrometricSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillHydrometricSiteReport(hydrometricSiteQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -250,8 +241,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricSiteQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillHydrometricSiteWeb(hydrometricSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillHydrometricSite(hydrometricSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillHydrometricSiteReport(hydrometricSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -302,11 +294,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<HydrometricSite> FillHydrometricSite_Show_Copy_To_HydrometricSiteServiceExtra_As_Fill_HydrometricSite(IQueryable<HydrometricSite> hydrometricSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated HydrometricSiteFillWeb
+        private IQueryable<HydrometricSite> FillHydrometricSiteWeb(IQueryable<HydrometricSite> hydrometricSiteQuery, string FilterAndOrderText)
         {
             hydrometricSiteQuery = (from c in hydrometricSiteQuery
                 let HydrometricTVText = (from cl in db.TVItemLanguages
@@ -344,19 +333,16 @@ namespace CSSPServices
                             HydrometricTVText = HydrometricTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        HydrometricSiteReport = new HydrometricSiteReport
-                        {
-                            HydrometricSiteReportTest = "HydrometricSiteReportTest",
-                        },
+                        HydrometricSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return hydrometricSiteQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated HydrometricSiteFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(HydrometricSite hydrometricSite)
         {
             try
@@ -371,7 +357,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

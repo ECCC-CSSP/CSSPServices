@@ -31,17 +31,13 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<ClimateDataValue> FillClimateDataValue(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        private IQueryable<ClimateDataValue> FillClimateDataValueReport(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
 
             climateDataValueQuery = (from c in climateDataValueQuery
-                                     let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                    where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                    && cl.Language == LanguageRequest
-                                                                    select cl.TVText).FirstOrDefault()
                                      let LastUpdateContactTVText = (from cl in db.TVItemLanguages
                                                                     where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                     && cl.Language == LanguageRequest
@@ -76,10 +72,7 @@ namespace CSSPServices
                                          },
                                          ClimateDataValueReport = new ClimateDataValueReport
                                          {
-                                             LastUpdateContactTVText = LastUpdateContactTVText,
-                                             StorageDataTypeEnumText = (from e in StorageDataTypeEnumList
-                                                                        where e.EnumID == (int?)c.StorageDataType
-                                                                        select e.EnumText).FirstOrDefault(),
+                                             ClimateDataValueReportTest = "ClimateDataValueReportTest",
                                          },
                                          HasErrors = false,
                                          ValidationResults = null,

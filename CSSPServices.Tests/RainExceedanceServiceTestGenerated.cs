@@ -51,11 +51,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubsectorTVItemIDs") rainExceedance.SubsectorTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "ClimateSiteTVItemIDs") rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "EmailDistributionListIDs") rainExceedance.EmailDistributionListIDs = GetRandomString("", 5);
-            //Error: property [RainExceedanceWeb] and type [RainExceedance] is  not implemented
-            //Error: property [RainExceedanceReport] and type [RainExceedance] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") rainExceedance.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") rainExceedance.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") rainExceedance.HasErrors = true;
 
             return rainExceedance;
         }
@@ -148,6 +145,11 @@ namespace CSSPServices.Tests
                     // rainExceedance.StartDate_Local   (DateTime)
                     // -----------------------------------
 
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.StartDate_Local = new DateTime(1979, 1, 1);
+                    rainExceedanceService.Add(rainExceedance);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RainExceedanceStartDate_Local, "1980"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -156,12 +158,19 @@ namespace CSSPServices.Tests
                     // rainExceedance.EndDate_Local   (DateTime)
                     // -----------------------------------
 
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.EndDate_Local = new DateTime(1979, 1, 1);
+                    rainExceedanceService.Add(rainExceedance);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RainExceedanceEndDate_Local, "1980"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
                     // [Range(0, 300)]
                     // rainExceedance.RainMaximum_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RainMaximum_mm]
 
                     //Error: Type not implemented [RainMaximum_mm]
 
@@ -183,6 +192,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 300)]
                     // rainExceedance.RainExtreme_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RainExtreme_mm]
 
                     //Error: Type not implemented [RainExtreme_mm]
 
@@ -314,8 +325,15 @@ namespace CSSPServices.Tests
                     // rainExceedance.RainExceedanceWeb   (RainExceedanceWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainExceedanceWeb]
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExceedanceWeb = null;
+                    Assert.IsNull(rainExceedance.RainExceedanceWeb);
 
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExceedanceWeb = new RainExceedanceWeb();
+                    Assert.IsNotNull(rainExceedance.RainExceedanceWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -323,8 +341,15 @@ namespace CSSPServices.Tests
                     // rainExceedance.RainExceedanceReport   (RainExceedanceReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [RainExceedanceReport]
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExceedanceReport = null;
+                    Assert.IsNull(rainExceedance.RainExceedanceReport);
 
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExceedanceReport = new RainExceedanceReport();
+                    Assert.IsNotNull(rainExceedance.RainExceedanceReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -332,6 +357,16 @@ namespace CSSPServices.Tests
                     // rainExceedance.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.LastUpdateDate_UTC = new DateTime();
+                    rainExceedanceService.Add(rainExceedance);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RainExceedanceLastUpdateDate_UTC), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    rainExceedanceService.Add(rainExceedance);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RainExceedanceLastUpdateDate_UTC, "1980"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -358,6 +393,7 @@ namespace CSSPServices.Tests
                     // rainExceedance.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -365,6 +401,7 @@ namespace CSSPServices.Tests
                     // rainExceedance.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -385,7 +422,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(rainExceedance);
 
                     RainExceedance rainExceedanceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -399,11 +436,15 @@ namespace CSSPServices.Tests
                         {
                             rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // RainExceedance fields
                         Assert.IsNotNull(rainExceedanceRet.RainExceedanceID);
                         Assert.IsNotNull(rainExceedanceRet.YearRound);
                         if (rainExceedanceRet.StartDate_Local != null)
@@ -431,27 +472,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(rainExceedanceRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (rainExceedanceRet.RainExceedanceWeb != null)
-                            {
-                                Assert.IsNull(rainExceedanceRet.RainExceedanceWeb);
-                            }
-                            if (rainExceedanceRet.RainExceedanceReport != null)
-                            {
-                                Assert.IsNull(rainExceedanceRet.RainExceedanceReport);
-                            }
+                            // RainExceedanceWeb and RainExceedanceReport fields should be null here
+                            Assert.IsNull(rainExceedanceRet.RainExceedanceWeb);
+                            Assert.IsNull(rainExceedanceRet.RainExceedanceReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (rainExceedanceRet.RainExceedanceWeb != null)
+                            // RainExceedanceWeb fields should not be null and RainExceedanceReport fields should be null here
+                            if (rainExceedanceRet.RainExceedanceWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(rainExceedanceRet.RainExceedanceWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.RainExceedanceWeb.LastUpdateContactTVText));
                             }
-                            if (rainExceedanceRet.RainExceedanceReport != null)
+                            Assert.IsNull(rainExceedanceRet.RainExceedanceReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // RainExceedanceWeb and RainExceedanceReport fields should NOT be null here
+                            if (rainExceedanceRet.RainExceedanceWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(rainExceedanceRet.RainExceedanceReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.RainExceedanceWeb.LastUpdateContactTVText));
+                            }
+                            if (rainExceedanceRet.RainExceedanceReport.RainExceedanceReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.RainExceedanceReport.RainExceedanceReportTest));
                             }
                         }
                     }

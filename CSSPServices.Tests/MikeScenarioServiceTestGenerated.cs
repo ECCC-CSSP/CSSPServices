@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MikeScenario mikeScenario = new MikeScenario();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MikeScenario MikeScenarioTVItemID TVItem TVItemID]
+            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 25;
             if (OmitPropName != "ParentMikeScenarioID") mikeScenario.ParentMikeScenarioID = null;
             if (OmitPropName != "ScenarioStatus") mikeScenario.ScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "ErrorInfo") mikeScenario.ErrorInfo = GetRandomString("", 20);
@@ -65,11 +65,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "NumberOfTransOutputParameters") mikeScenario.NumberOfTransOutputParameters = GetRandomInt(0, 100);
             if (OmitPropName != "EstimatedHydroFileSize") mikeScenario.EstimatedHydroFileSize = GetRandomInt(0, 100000000);
             if (OmitPropName != "EstimatedTransFileSize") mikeScenario.EstimatedTransFileSize = GetRandomInt(0, 100000000);
-            //Error: property [MikeScenarioWeb] and type [MikeScenario] is  not implemented
-            //Error: property [MikeScenarioReport] and type [MikeScenario] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mikeScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeScenario.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mikeScenario.HasErrors = true;
 
             return mikeScenario;
         }
@@ -213,6 +210,16 @@ namespace CSSPServices.Tests
                     // mikeScenario.MikeScenarioStartDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioStartDateTime_Local = new DateTime();
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioMikeScenarioStartDateTime_Local), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioStartDateTime_Local = new DateTime(1979, 1, 1);
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioMikeScenarioStartDateTime_Local, "1980"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -220,6 +227,16 @@ namespace CSSPServices.Tests
                     // mikeScenario.MikeScenarioEndDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioEndDateTime_Local = new DateTime();
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioMikeScenarioEndDateTime_Local), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioEndDateTime_Local = new DateTime(1979, 1, 1);
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioMikeScenarioEndDateTime_Local, "1980"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -227,12 +244,19 @@ namespace CSSPServices.Tests
                     // mikeScenario.MikeScenarioStartExecutionDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioStartExecutionDateTime_Local = new DateTime(1979, 1, 1);
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioMikeScenarioStartExecutionDateTime_Local, "1980"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
                     // [Range(1, 100000)]
                     // mikeScenario.MikeScenarioExecutionTime_min   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [MikeScenarioExecutionTime_min]
 
                     //Error: Type not implemented [MikeScenarioExecutionTime_min]
 
@@ -257,6 +281,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [WindSpeed_km_h]
 
+                    //Error: Type not implemented [WindSpeed_km_h]
+
                     mikeScenario = null;
                     mikeScenario = GetFilledRandomMikeScenario("");
                     mikeScenario.WindSpeed_km_h = -1.0D;
@@ -278,6 +304,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [WindDirection_deg]
 
+                    //Error: Type not implemented [WindDirection_deg]
+
                     mikeScenario = null;
                     mikeScenario = GetFilledRandomMikeScenario("");
                     mikeScenario.WindDirection_deg = -1.0D;
@@ -296,6 +324,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // mikeScenario.DecayFactor_per_day   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DecayFactor_per_day]
 
                     //Error: Type not implemented [DecayFactor_per_day]
 
@@ -323,6 +353,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // mikeScenario.DecayFactorAmplitude   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DecayFactorAmplitude]
 
                     //Error: Type not implemented [DecayFactorAmplitude]
 
@@ -366,6 +398,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [AmbientTemperature_C]
 
+                    //Error: Type not implemented [AmbientTemperature_C]
+
                     mikeScenario = null;
                     mikeScenario = GetFilledRandomMikeScenario("");
                     mikeScenario.AmbientTemperature_C = -11.0D;
@@ -387,6 +421,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [AmbientSalinity_PSU]
 
+                    //Error: Type not implemented [AmbientSalinity_PSU]
+
                     mikeScenario = null;
                     mikeScenario = GetFilledRandomMikeScenario("");
                     mikeScenario.AmbientSalinity_PSU = -1.0D;
@@ -405,6 +441,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // mikeScenario.ManningNumber   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [ManningNumber]
 
                     //Error: Type not implemented [ManningNumber]
 
@@ -579,8 +617,15 @@ namespace CSSPServices.Tests
                     // mikeScenario.MikeScenarioWeb   (MikeScenarioWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MikeScenarioWeb]
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioWeb = null;
+                    Assert.IsNull(mikeScenario.MikeScenarioWeb);
 
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioWeb = new MikeScenarioWeb();
+                    Assert.IsNotNull(mikeScenario.MikeScenarioWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -588,8 +633,15 @@ namespace CSSPServices.Tests
                     // mikeScenario.MikeScenarioReport   (MikeScenarioReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MikeScenarioReport]
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioReport = null;
+                    Assert.IsNull(mikeScenario.MikeScenarioReport);
 
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.MikeScenarioReport = new MikeScenarioReport();
+                    Assert.IsNotNull(mikeScenario.MikeScenarioReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -597,6 +649,16 @@ namespace CSSPServices.Tests
                     // mikeScenario.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.LastUpdateDate_UTC = new DateTime();
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioLastUpdateDate_UTC), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeScenario = null;
+                    mikeScenario = GetFilledRandomMikeScenario("");
+                    mikeScenario.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mikeScenarioService.Add(mikeScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioLastUpdateDate_UTC, "1980"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -623,6 +685,7 @@ namespace CSSPServices.Tests
                     // mikeScenario.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -630,6 +693,7 @@ namespace CSSPServices.Tests
                     // mikeScenario.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -650,7 +714,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeScenario);
 
                     MikeScenario mikeScenarioRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -664,11 +728,15 @@ namespace CSSPServices.Tests
                         {
                             mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MikeScenario fields
                         Assert.IsNotNull(mikeScenarioRet.MikeScenarioID);
                         Assert.IsNotNull(mikeScenarioRet.MikeScenarioTVItemID);
                         if (mikeScenarioRet.ParentMikeScenarioID != null)
@@ -734,27 +802,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mikeScenarioRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mikeScenarioRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mikeScenarioRet.MikeScenarioWeb != null)
-                            {
-                                Assert.IsNull(mikeScenarioRet.MikeScenarioWeb);
-                            }
-                            if (mikeScenarioRet.MikeScenarioReport != null)
-                            {
-                                Assert.IsNull(mikeScenarioRet.MikeScenarioReport);
-                            }
+                            // MikeScenarioWeb and MikeScenarioReport fields should be null here
+                            Assert.IsNull(mikeScenarioRet.MikeScenarioWeb);
+                            Assert.IsNull(mikeScenarioRet.MikeScenarioReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mikeScenarioRet.MikeScenarioWeb != null)
+                            // MikeScenarioWeb fields should not be null and MikeScenarioReport fields should be null here
+                            if (mikeScenarioRet.MikeScenarioWeb.MikeScenarioTVText != null)
                             {
-                                Assert.IsNotNull(mikeScenarioRet.MikeScenarioWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioWeb.MikeScenarioTVText));
                             }
-                            if (mikeScenarioRet.MikeScenarioReport != null)
+                            if (mikeScenarioRet.MikeScenarioWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mikeScenarioRet.MikeScenarioReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioWeb.LastUpdateContactTVText));
+                            }
+                            if (mikeScenarioRet.MikeScenarioWeb.ScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioWeb.ScenarioStatusText));
+                            }
+                            Assert.IsNull(mikeScenarioRet.MikeScenarioReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MikeScenarioWeb and MikeScenarioReport fields should NOT be null here
+                            if (mikeScenarioRet.MikeScenarioWeb.MikeScenarioTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioWeb.MikeScenarioTVText));
+                            }
+                            if (mikeScenarioRet.MikeScenarioWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioWeb.LastUpdateContactTVText));
+                            }
+                            if (mikeScenarioRet.MikeScenarioWeb.ScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioWeb.ScenarioStatusText));
+                            }
+                            if (mikeScenarioRet.MikeScenarioReport.MikeScenarioReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioReport.MikeScenarioReportTest));
                             }
                         }
                     }

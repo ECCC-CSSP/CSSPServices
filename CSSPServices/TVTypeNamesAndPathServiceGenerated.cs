@@ -54,8 +54,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVTypeNamesAndPathTVTypeName, "1", "255"), new[] { "TVTypeName" });
             }
 
-            //Index (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tvTypeNamesAndPath.Index < 1)
             {
                 tvTypeNamesAndPath.HasErrors = true;
@@ -73,8 +71,6 @@ namespace CSSPServices
                 tvTypeNamesAndPath.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVTypeNamesAndPathTVPath, "1", "255"), new[] { "TVPath" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

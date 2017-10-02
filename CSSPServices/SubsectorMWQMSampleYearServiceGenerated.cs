@@ -42,15 +42,11 @@ namespace CSSPServices
             SubsectorMWQMSampleYear subsectorMWQMSampleYear = validationContext.ObjectInstance as SubsectorMWQMSampleYear;
             subsectorMWQMSampleYear.HasErrors = false;
 
-            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (subsectorMWQMSampleYear.SubsectorTVItemID < 1)
             {
                 subsectorMWQMSampleYear.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.SubsectorMWQMSampleYearSubsectorTVItemID, "1"), new[] { "SubsectorTVItemID" });
             }
-
-            //Year (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Year has no Range Attribute
 
@@ -87,8 +83,6 @@ namespace CSSPServices
                 subsectorMWQMSampleYear.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.SubsectorMWQMSampleYearLatestDate, CSSPModelsRes.SubsectorMWQMSampleYearEarliestDate), new[] { CSSPModelsRes.SubsectorMWQMSampleYearLatestDate });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

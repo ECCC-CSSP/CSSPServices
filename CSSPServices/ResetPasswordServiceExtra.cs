@@ -102,6 +102,37 @@ namespace CSSPServices
         #endregion Function public
 
         #region Function private
+        private IQueryable<ResetPassword> FillResetPasswordReport(IQueryable<ResetPassword> resetPasswordQuery, string FilterAndOrderText)
+        {
+            resetPasswordQuery = (from c in resetPasswordQuery
+                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                 && cl.Language == LanguageRequest
+                                                                 select cl.TVText).FirstOrDefault()
+                                  select new ResetPassword
+                                  {
+                                      ResetPasswordID = c.ResetPasswordID,
+                                      Email = c.Email,
+                                      ExpireDate_Local = c.ExpireDate_Local,
+                                      Code = c.Code,
+                                      LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                      ResetPasswordWeb = new ResetPasswordWeb
+                                      {
+                                          LastUpdateContactTVText = LastUpdateContactTVText,
+                                          //Password = Password,
+                                          //ConfirmPassword = ConfirmPassword,
+                                      },
+                                      ResetPasswordReport = new ResetPasswordReport
+                                      {
+                                          ResetPasswordReportTest = "ResetPasswordReportTest",
+                                      },
+                                      HasErrors = false,
+                                      ValidationResults = null,
+                                  });
+
+            return resetPasswordQuery;
+        }
         #endregion Functions private    
     }
 }

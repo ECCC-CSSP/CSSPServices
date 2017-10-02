@@ -42,15 +42,11 @@ namespace CSSPServices
             Coord coord = validationContext.ObjectInstance as Coord;
             coord.HasErrors = false;
 
-            //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (coord.Lat < -180 || coord.Lat > 180)
             {
                 coord.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CoordLat, "-180", "180"), new[] { "Lat" });
             }
-
-            //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (coord.Lng < -90 || coord.Lng > 90)
             {
@@ -58,15 +54,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CoordLng, "-90", "90"), new[] { "Lng" });
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (coord.Ordinal < 0 || coord.Ordinal > 10000)
             {
                 coord.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CoordOrdinal, "0", "10000"), new[] { "Ordinal" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

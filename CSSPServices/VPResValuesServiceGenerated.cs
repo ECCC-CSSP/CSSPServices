@@ -42,35 +42,21 @@ namespace CSSPServices
             VPResValues vpResValues = validationContext.ObjectInstance as VPResValues;
             vpResValues.HasErrors = false;
 
-            //Conc (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpResValues.Conc < 0)
             {
                 vpResValues.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.VPResValuesConc, "0"), new[] { "Conc" });
             }
 
-            //Dilu (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //Dilu has no Range Attribute
-
-            //FarfieldWidth (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //FarfieldWidth has no Range Attribute
 
-            //Distance (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //Distance has no Range Attribute
-
-            //TheTime (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //TheTime has no Range Attribute
 
-            //Decay (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //Decay has no Range Attribute
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

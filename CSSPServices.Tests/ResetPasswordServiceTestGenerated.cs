@@ -43,11 +43,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Email") resetPassword.Email = GetRandomString("", 5);
             if (OmitPropName != "ExpireDate_Local") resetPassword.ExpireDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Code") resetPassword.Code = GetRandomString("", 5);
-            //Error: property [ResetPasswordWeb] and type [ResetPassword] is  not implemented
-            //Error: property [ResetPasswordReport] and type [ResetPassword] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") resetPassword.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") resetPassword.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") resetPassword.HasErrors = true;
 
             return resetPassword;
         }
@@ -155,6 +152,16 @@ namespace CSSPServices.Tests
                     // resetPassword.ExpireDate_Local   (DateTime)
                     // -----------------------------------
 
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.ExpireDate_Local = new DateTime();
+                    resetPasswordService.Add(resetPassword);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordExpireDate_Local), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.ExpireDate_Local = new DateTime(1979, 1, 1);
+                    resetPasswordService.Add(resetPassword);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ResetPasswordExpireDate_Local, "1980"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -183,8 +190,15 @@ namespace CSSPServices.Tests
                     // resetPassword.ResetPasswordWeb   (ResetPasswordWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ResetPasswordWeb]
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.ResetPasswordWeb = null;
+                    Assert.IsNull(resetPassword.ResetPasswordWeb);
 
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.ResetPasswordWeb = new ResetPasswordWeb();
+                    Assert.IsNotNull(resetPassword.ResetPasswordWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -192,8 +206,15 @@ namespace CSSPServices.Tests
                     // resetPassword.ResetPasswordReport   (ResetPasswordReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ResetPasswordReport]
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.ResetPasswordReport = null;
+                    Assert.IsNull(resetPassword.ResetPasswordReport);
 
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.ResetPasswordReport = new ResetPasswordReport();
+                    Assert.IsNotNull(resetPassword.ResetPasswordReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -201,6 +222,16 @@ namespace CSSPServices.Tests
                     // resetPassword.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.LastUpdateDate_UTC = new DateTime();
+                    resetPasswordService.Add(resetPassword);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordLastUpdateDate_UTC), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    resetPassword = null;
+                    resetPassword = GetFilledRandomResetPassword("");
+                    resetPassword.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    resetPasswordService.Add(resetPassword);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ResetPasswordLastUpdateDate_UTC, "1980"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -227,6 +258,7 @@ namespace CSSPServices.Tests
                     // resetPassword.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -234,6 +266,7 @@ namespace CSSPServices.Tests
                     // resetPassword.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -254,7 +287,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(resetPassword);
 
                     ResetPassword resetPasswordRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -268,11 +301,15 @@ namespace CSSPServices.Tests
                         {
                             resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // ResetPassword fields
                         Assert.IsNotNull(resetPasswordRet.ResetPasswordID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Email));
                         Assert.IsNotNull(resetPasswordRet.ExpireDate_Local);
@@ -280,27 +317,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(resetPasswordRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(resetPasswordRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (resetPasswordRet.ResetPasswordWeb != null)
-                            {
-                                Assert.IsNull(resetPasswordRet.ResetPasswordWeb);
-                            }
-                            if (resetPasswordRet.ResetPasswordReport != null)
-                            {
-                                Assert.IsNull(resetPasswordRet.ResetPasswordReport);
-                            }
+                            // ResetPasswordWeb and ResetPasswordReport fields should be null here
+                            Assert.IsNull(resetPasswordRet.ResetPasswordWeb);
+                            Assert.IsNull(resetPasswordRet.ResetPasswordReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (resetPasswordRet.ResetPasswordWeb != null)
+                            // ResetPasswordWeb fields should not be null and ResetPasswordReport fields should be null here
+                            if (resetPasswordRet.ResetPasswordWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(resetPasswordRet.ResetPasswordWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.ResetPasswordWeb.LastUpdateContactTVText));
                             }
-                            if (resetPasswordRet.ResetPasswordReport != null)
+                            Assert.IsNull(resetPasswordRet.ResetPasswordReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ResetPasswordWeb and ResetPasswordReport fields should NOT be null here
+                            if (resetPasswordRet.ResetPasswordWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(resetPasswordRet.ResetPasswordReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.ResetPasswordWeb.LastUpdateContactTVText));
+                            }
+                            if (resetPasswordRet.ResetPasswordReport.ResetPasswordReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.ResetPasswordReport.ResetPasswordReportTest));
                             }
                         }
                     }

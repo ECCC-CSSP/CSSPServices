@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMAnalysisReportParameterID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == mwqmAnalysisReportParameter.SubsectorTVItemID select c).FirstOrDefault();
 
             if (TVItemSubsectorTVItemID == null)
@@ -143,17 +139,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisCalculationType), new[] { "AnalysisCalculationType" });
             }
 
-            //NumberOfRuns (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmAnalysisReportParameter.NumberOfRuns < 1 || mwqmAnalysisReportParameter.NumberOfRuns > 1000)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterNumberOfRuns, "1", "1000"), new[] { "NumberOfRuns" });
             }
-
-            //FullYear (bool) is required but no testing needed 
-
-            //SalinityHighlightDeviationFromAverage (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage < 1 || mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage > 20)
             {
@@ -161,15 +151,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterSalinityHighlightDeviationFromAverage, "1", "20"), new[] { "SalinityHighlightDeviationFromAverage" });
             }
 
-            //ShortRangeNumberOfDays (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmAnalysisReportParameter.ShortRangeNumberOfDays < 0 || mwqmAnalysisReportParameter.ShortRangeNumberOfDays > 5)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterShortRangeNumberOfDays, "0", "5"), new[] { "ShortRangeNumberOfDays" });
             }
-
-            //MidRangeNumberOfDays (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmAnalysisReportParameter.MidRangeNumberOfDays < 2 || mwqmAnalysisReportParameter.MidRangeNumberOfDays > 7)
             {
@@ -177,15 +163,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterMidRangeNumberOfDays, "2", "7"), new[] { "MidRangeNumberOfDays" });
             }
 
-            //DryLimit24h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmAnalysisReportParameter.DryLimit24h < 1 || mwqmAnalysisReportParameter.DryLimit24h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit24h, "1", "100"), new[] { "DryLimit24h" });
             }
-
-            //DryLimit48h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmAnalysisReportParameter.DryLimit48h < 1 || mwqmAnalysisReportParameter.DryLimit48h > 100)
             {
@@ -193,15 +175,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit48h, "1", "100"), new[] { "DryLimit48h" });
             }
 
-            //DryLimit72h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmAnalysisReportParameter.DryLimit72h < 1 || mwqmAnalysisReportParameter.DryLimit72h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit72h, "1", "100"), new[] { "DryLimit72h" });
             }
-
-            //DryLimit96h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmAnalysisReportParameter.DryLimit96h < 1 || mwqmAnalysisReportParameter.DryLimit96h > 100)
             {
@@ -209,15 +187,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit96h, "1", "100"), new[] { "DryLimit96h" });
             }
 
-            //WetLimit24h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmAnalysisReportParameter.WetLimit24h < 1 || mwqmAnalysisReportParameter.WetLimit24h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterWetLimit24h, "1", "100"), new[] { "WetLimit24h" });
             }
-
-            //WetLimit48h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmAnalysisReportParameter.WetLimit48h < 1 || mwqmAnalysisReportParameter.WetLimit48h > 100)
             {
@@ -225,15 +199,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterWetLimit48h, "1", "100"), new[] { "WetLimit48h" });
             }
 
-            //WetLimit72h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmAnalysisReportParameter.WetLimit72h < 1 || mwqmAnalysisReportParameter.WetLimit72h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterWetLimit72h, "1", "100"), new[] { "WetLimit72h" });
             }
-
-            //WetLimit96h (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmAnalysisReportParameter.WetLimit96h < 1 || mwqmAnalysisReportParameter.WetLimit96h > 100)
             {
@@ -283,8 +253,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterCommand), new[] { "Command" });
             }
 
-                //Error: Type not implemented [MWQMAnalysisReportParameterWeb] of type [MWQMAnalysisReportParameterWeb]
-                //Error: Type not implemented [MWQMAnalysisReportParameterReport] of type [MWQMAnalysisReportParameterReport]
             if (mwqmAnalysisReportParameter.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
@@ -298,8 +266,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mwqmAnalysisReportParameter.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -320,8 +286,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -347,8 +311,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmAnalysisReportParameterQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMAnalysisReportParameter(mwqmAnalysisReportParameterQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -365,8 +330,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmAnalysisReportParameterQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMAnalysisReportParameter(mwqmAnalysisReportParameterQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -417,11 +383,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameter_Show_Copy_To_MWQMAnalysisReportParameterServiceExtra_As_Fill_MWQMAnalysisReportParameter(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MWQMAnalysisReportParameterFillWeb
+        private IQueryable<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameterWeb(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -471,19 +434,16 @@ namespace CSSPServices
                                 select e.EnumText).FirstOrDefault(),
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        MWQMAnalysisReportParameterReport = new MWQMAnalysisReportParameterReport
-                        {
-                            MWQMAnalysisReportParameterReportTest = "MWQMAnalysisReportParameterReportTest",
-                        },
+                        MWQMAnalysisReportParameterReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mwqmAnalysisReportParameterQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MWQMAnalysisReportParameterFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MWQMAnalysisReportParameter mwqmAnalysisReportParameter)
         {
             try
@@ -498,7 +458,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

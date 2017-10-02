@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //PolSourceObservationIssueID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //PolSourceObservationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             PolSourceObservation PolSourceObservationPolSourceObservationID = (from c in db.PolSourceObservations where c.PolSourceObservationID == polSourceObservationIssue.PolSourceObservationID select c).FirstOrDefault();
 
             if (PolSourceObservationPolSourceObservationID == null)
@@ -81,16 +77,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationIssueObservationInfo, "250"), new[] { "ObservationInfo" });
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (polSourceObservationIssue.Ordinal < 0 || polSourceObservationIssue.Ordinal > 1000)
             {
                 polSourceObservationIssue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.PolSourceObservationIssueOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
-                //Error: Type not implemented [PolSourceObservationIssueWeb] of type [PolSourceObservationIssueWeb]
-                //Error: Type not implemented [PolSourceObservationIssueReport] of type [PolSourceObservationIssueReport]
             if (polSourceObservationIssue.LastUpdateDate_UTC.Year == 1)
             {
                 polSourceObservationIssue.HasErrors = true;
@@ -104,8 +96,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.PolSourceObservationIssueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == polSourceObservationIssue.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -126,8 +116,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceObservationIssueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -153,8 +141,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceObservationIssueQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillPolSourceObservationIssueWeb(polSourceObservationIssueQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillPolSourceObservationIssue(polSourceObservationIssueQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillPolSourceObservationIssueReport(polSourceObservationIssueQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -171,8 +160,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceObservationIssueQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillPolSourceObservationIssueWeb(polSourceObservationIssueQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillPolSourceObservationIssue(polSourceObservationIssueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillPolSourceObservationIssueReport(polSourceObservationIssueQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -223,11 +213,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssue_Show_Copy_To_PolSourceObservationIssueServiceExtra_As_Fill_PolSourceObservationIssue(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated PolSourceObservationIssueFillWeb
+        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssueWeb(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery, string FilterAndOrderText)
         {
             polSourceObservationIssueQuery = (from c in polSourceObservationIssueQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -246,19 +233,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        PolSourceObservationIssueReport = new PolSourceObservationIssueReport
-                        {
-                            PolSourceObservationIssueReportTest = "PolSourceObservationIssueReportTest",
-                        },
+                        PolSourceObservationIssueReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return polSourceObservationIssueQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated PolSourceObservationIssueFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(PolSourceObservationIssue polSourceObservationIssue)
         {
             try
@@ -273,7 +257,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

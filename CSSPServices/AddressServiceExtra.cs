@@ -76,7 +76,7 @@ namespace CSSPServices
                 address.AddressWeb.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
         }
-        private IQueryable<Address> FillAddress(IQueryable<Address> addressQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        private IQueryable<Address> FillAddressReport(IQueryable<Address> addressQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -122,8 +122,6 @@ namespace CSSPServices
                                 GoogleAddressText = c.GoogleAddressText,
                                 LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                 LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                HasErrors = false,
-                                ValidationResults = null,
                                 AddressWeb = new AddressWeb
                                 {
                                     ParentTVItemID = ParentTVItemID,
@@ -139,10 +137,12 @@ namespace CSSPServices
                                                       where e.EnumID == (int?)c.StreetType
                                                       select e.EnumText).FirstOrDefault(),
                                 },
-                                AddressReport = (EntityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport ? new AddressReport()
+                                AddressReport = new AddressReport
                                 {
-                                    AddressReportTest = "Allo",
-                                } : null),
+                                    AddressReportTest = "AddressReportTest",
+                                },
+                                HasErrors = false,
+                                ValidationResults = null,
                             });
 
             return addressQuery;

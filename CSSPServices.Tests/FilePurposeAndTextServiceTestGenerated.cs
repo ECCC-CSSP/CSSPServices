@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "FilePurpose") filePurposeAndText.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
             if (OmitPropName != "FilePurposeText") filePurposeAndText.FilePurposeText = GetRandomString("", 5);
-            if (OmitPropName != "HasErrors") filePurposeAndText.HasErrors = true;
 
             return filePurposeAndText;
         }

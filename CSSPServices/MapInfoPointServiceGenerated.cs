@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MapInfoPointID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MapInfoID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             MapInfo MapInfoMapInfoID = (from c in db.MapInfos where c.MapInfoID == mapInfoPoint.MapInfoID select c).FirstOrDefault();
 
             if (MapInfoMapInfoID == null)
@@ -69,15 +65,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfo, CSSPModelsRes.MapInfoPointMapInfoID, mapInfoPoint.MapInfoID.ToString()), new[] { "MapInfoID" });
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mapInfoPoint.Ordinal < 0)
             {
                 mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.MapInfoPointOrdinal, "0"), new[] { "Ordinal" });
             }
-
-            //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfoPoint.Lat < -90 || mapInfoPoint.Lat > 90)
             {
@@ -85,16 +77,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLat, "-90", "90"), new[] { "Lat" });
             }
 
-            //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mapInfoPoint.Lng < -180 || mapInfoPoint.Lng > 180)
             {
                 mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLng, "-180", "180"), new[] { "Lng" });
             }
 
-                //Error: Type not implemented [MapInfoPointWeb] of type [MapInfoPointWeb]
-                //Error: Type not implemented [MapInfoPointReport] of type [MapInfoPointReport]
             if (mapInfoPoint.LastUpdateDate_UTC.Year == 1)
             {
                 mapInfoPoint.HasErrors = true;
@@ -108,8 +96,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MapInfoPointLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mapInfoPoint.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -130,8 +116,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -157,8 +141,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoPointQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMapInfoPointWeb(mapInfoPointQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfoPoint(mapInfoPointQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMapInfoPointReport(mapInfoPointQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -175,8 +160,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoPointQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMapInfoPointWeb(mapInfoPointQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfoPoint(mapInfoPointQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMapInfoPointReport(mapInfoPointQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -227,11 +213,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MapInfoPoint> FillMapInfoPoint_Show_Copy_To_MapInfoPointServiceExtra_As_Fill_MapInfoPoint(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MapInfoPointFillWeb
+        private IQueryable<MapInfoPoint> FillMapInfoPointWeb(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText)
         {
             mapInfoPointQuery = (from c in mapInfoPointQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -251,19 +234,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        MapInfoPointReport = new MapInfoPointReport
-                        {
-                            MapInfoPointReportTest = "MapInfoPointReportTest",
-                        },
+                        MapInfoPointReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mapInfoPointQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MapInfoPointFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MapInfoPoint mapInfoPoint)
         {
             try
@@ -278,7 +258,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

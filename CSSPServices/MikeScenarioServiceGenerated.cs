@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MikeScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MikeScenarioTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemMikeScenarioTVItemID = (from c in db.TVItems where c.TVItemID == mikeScenario.MikeScenarioTVItemID select c).FirstOrDefault();
 
             if (TVItemMikeScenarioTVItemID == null)
@@ -156,15 +152,11 @@ namespace CSSPServices
                 }
             }
 
-            //WindSpeed_km_h (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeScenario.WindSpeed_km_h < 0 || mikeScenario.WindSpeed_km_h > 100)
             {
                 mikeScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioWindSpeed_km_h, "0", "100"), new[] { "WindSpeed_km_h" });
             }
-
-            //WindDirection_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.WindDirection_deg < 0 || mikeScenario.WindDirection_deg > 360)
             {
@@ -172,17 +164,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioWindDirection_deg, "0", "360"), new[] { "WindDirection_deg" });
             }
 
-            //DecayFactor_per_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeScenario.DecayFactor_per_day < 0 || mikeScenario.DecayFactor_per_day > 100)
             {
                 mikeScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioDecayFactor_per_day, "0", "100"), new[] { "DecayFactor_per_day" });
             }
-
-            //DecayIsConstant (bool) is required but no testing needed 
-
-            //DecayFactorAmplitude (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.DecayFactorAmplitude < 0 || mikeScenario.DecayFactorAmplitude > 100)
             {
@@ -190,15 +176,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioDecayFactorAmplitude, "0", "100"), new[] { "DecayFactorAmplitude" });
             }
 
-            //ResultFrequency_min (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeScenario.ResultFrequency_min < 0 || mikeScenario.ResultFrequency_min > 100)
             {
                 mikeScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioResultFrequency_min, "0", "100"), new[] { "ResultFrequency_min" });
             }
-
-            //AmbientTemperature_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.AmbientTemperature_C < -10 || mikeScenario.AmbientTemperature_C > 40)
             {
@@ -206,15 +188,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioAmbientTemperature_C, "-10", "40"), new[] { "AmbientTemperature_C" });
             }
 
-            //AmbientSalinity_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeScenario.AmbientSalinity_PSU < 0 || mikeScenario.AmbientSalinity_PSU > 40)
             {
                 mikeScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioAmbientSalinity_PSU, "0", "40"), new[] { "AmbientSalinity_PSU" });
             }
-
-            //ManningNumber (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.ManningNumber < 0 || mikeScenario.ManningNumber > 100)
             {
@@ -294,8 +272,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [MikeScenarioWeb] of type [MikeScenarioWeb]
-                //Error: Type not implemented [MikeScenarioReport] of type [MikeScenarioReport]
             if (mikeScenario.LastUpdateDate_UTC.Year == 1)
             {
                 mikeScenario.HasErrors = true;
@@ -309,8 +285,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mikeScenario.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -331,8 +305,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeScenarioLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -358,8 +330,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeScenarioQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeScenarioWeb(mikeScenarioQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeScenario(mikeScenarioQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMikeScenarioReport(mikeScenarioQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -376,8 +349,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeScenarioQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeScenarioWeb(mikeScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeScenario(mikeScenarioQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMikeScenarioReport(mikeScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -428,11 +402,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MikeScenario> FillMikeScenario_Show_Copy_To_MikeScenarioServiceExtra_As_Fill_MikeScenario(IQueryable<MikeScenario> mikeScenarioQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MikeScenarioFillWeb
+        private IQueryable<MikeScenario> FillMikeScenarioWeb(IQueryable<MikeScenario> mikeScenarioQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -485,19 +456,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.ScenarioStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        MikeScenarioReport = new MikeScenarioReport
-                        {
-                            MikeScenarioReportTest = "MikeScenarioReportTest",
-                        },
+                        MikeScenarioReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mikeScenarioQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MikeScenarioFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MikeScenario mikeScenario)
         {
             try
@@ -512,7 +480,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

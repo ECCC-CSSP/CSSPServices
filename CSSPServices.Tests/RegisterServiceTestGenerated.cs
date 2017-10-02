@@ -47,7 +47,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WebName") register.WebName = GetRandomString("", 6);
             if (OmitPropName != "Password") register.Password = GetRandomString("", 11);
             if (OmitPropName != "ConfirmPassword") register.ConfirmPassword = GetRandomString("", 11);
-            if (OmitPropName != "HasErrors") register.HasErrors = true;
 
             return register;
         }

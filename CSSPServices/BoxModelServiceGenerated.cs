@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //BoxModelID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //InfrastructureTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemInfrastructureTVItemID = (from c in db.TVItems where c.TVItemID == boxModel.InfrastructureTVItemID select c).FirstOrDefault();
 
             if (TVItemInfrastructureTVItemID == null)
@@ -81,15 +77,11 @@ namespace CSSPServices
                 }
             }
 
-            //Flow_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (boxModel.Flow_m3_day < 0 || boxModel.Flow_m3_day > 10000)
             {
                 boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFlow_m3_day, "0", "10000"), new[] { "Flow_m3_day" });
             }
-
-            //Depth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.Depth_m < 0 || boxModel.Depth_m > 1000)
             {
@@ -97,15 +89,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDepth_m, "0", "1000"), new[] { "Depth_m" });
             }
 
-            //Temperature_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (boxModel.Temperature_C < -15 || boxModel.Temperature_C > 40)
             {
                 boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelTemperature_C, "-15", "40"), new[] { "Temperature_C" });
             }
-
-            //Dilution (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.Dilution < 0 || boxModel.Dilution > 10000000)
             {
@@ -113,15 +101,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDilution, "0", "10000000"), new[] { "Dilution" });
             }
 
-            //DecayRate_per_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (boxModel.DecayRate_per_day < 0 || boxModel.DecayRate_per_day > 100)
             {
                 boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDecayRate_per_day, "0", "100"), new[] { "DecayRate_per_day" });
             }
-
-            //FCUntreated_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.FCUntreated_MPN_100ml < 0 || boxModel.FCUntreated_MPN_100ml > 10000000)
             {
@@ -129,15 +113,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), new[] { "FCUntreated_MPN_100ml" });
             }
 
-            //FCPreDisinfection_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (boxModel.FCPreDisinfection_MPN_100ml < 0 || boxModel.FCPreDisinfection_MPN_100ml > 10000000)
             {
                 boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), new[] { "FCPreDisinfection_MPN_100ml" });
             }
-
-            //Concentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.Concentration_MPN_100ml < 0 || boxModel.Concentration_MPN_100ml > 10000000)
             {
@@ -145,15 +125,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), new[] { "Concentration_MPN_100ml" });
             }
 
-            //T90_hour (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (boxModel.T90_hour < 0)
             {
                 boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelT90_hour, "0"), new[] { "T90_hour" });
             }
-
-            //FlowDuration_hour (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.FlowDuration_hour < 0 || boxModel.FlowDuration_hour > 24)
             {
@@ -161,8 +137,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFlowDuration_hour, "0", "24"), new[] { "FlowDuration_hour" });
             }
 
-                //Error: Type not implemented [BoxModelWeb] of type [BoxModelWeb]
-                //Error: Type not implemented [BoxModelReport] of type [BoxModelReport]
             if (boxModel.LastUpdateDate_UTC.Year == 1)
             {
                 boxModel.HasErrors = true;
@@ -176,8 +150,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.BoxModelLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == boxModel.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -198,8 +170,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -225,8 +195,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillBoxModelWeb(boxModelQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModel(boxModelQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillBoxModelReport(boxModelQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -243,8 +214,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillBoxModelWeb(boxModelQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModel(boxModelQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillBoxModelReport(boxModelQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -295,11 +267,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<BoxModel> FillBoxModel_Show_Copy_To_BoxModelServiceExtra_As_Fill_BoxModel(IQueryable<BoxModel> boxModelQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated BoxModelFillWeb
+        private IQueryable<BoxModel> FillBoxModelWeb(IQueryable<BoxModel> boxModelQuery, string FilterAndOrderText)
         {
             boxModelQuery = (from c in boxModelQuery
                 let InfrastructureTVText = (from cl in db.TVItemLanguages
@@ -331,19 +300,16 @@ namespace CSSPServices
                             InfrastructureTVText = InfrastructureTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        BoxModelReport = new BoxModelReport
-                        {
-                            BoxModelReportTest = "BoxModelReportTest",
-                        },
+                        BoxModelReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return boxModelQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated BoxModelFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(BoxModel boxModel)
         {
             try
@@ -358,7 +324,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

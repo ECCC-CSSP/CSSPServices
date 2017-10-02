@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MikeSourceStartEndID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MikeSourceID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             MikeSource MikeSourceMikeSourceID = (from c in db.MikeSources where c.MikeSourceID == mikeSourceStartEnd.MikeSourceID select c).FirstOrDefault();
 
             if (MikeSourceMikeSourceID == null)
@@ -103,15 +99,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local });
             }
 
-            //SourceFlowStart_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeSourceStartEnd.SourceFlowStart_m3_day < 0 || mikeSourceStartEnd.SourceFlowStart_m3_day > 1000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), new[] { "SourceFlowStart_m3_day" });
             }
-
-            //SourceFlowEnd_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceFlowEnd_m3_day < 0 || mikeSourceStartEnd.SourceFlowEnd_m3_day > 1000000)
             {
@@ -119,15 +111,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), new[] { "SourceFlowEnd_m3_day" });
             }
 
-            //SourcePollutionStart_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeSourceStartEnd.SourcePollutionStart_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionStart_MPN_100ml > 10000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionStart_MPN_100ml" });
             }
-
-            //SourcePollutionEnd_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml > 10000000)
             {
@@ -135,15 +123,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionEnd_MPN_100ml" });
             }
 
-            //SourceTemperatureStart_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeSourceStartEnd.SourceTemperatureStart_C < -10 || mikeSourceStartEnd.SourceTemperatureStart_C > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), new[] { "SourceTemperatureStart_C" });
             }
-
-            //SourceTemperatureEnd_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceTemperatureEnd_C < -10 || mikeSourceStartEnd.SourceTemperatureEnd_C > 40)
             {
@@ -151,15 +135,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), new[] { "SourceTemperatureEnd_C" });
             }
 
-            //SourceSalinityStart_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeSourceStartEnd.SourceSalinityStart_PSU < 0 || mikeSourceStartEnd.SourceSalinityStart_PSU > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), new[] { "SourceSalinityStart_PSU" });
             }
-
-            //SourceSalinityEnd_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceSalinityEnd_PSU < 0 || mikeSourceStartEnd.SourceSalinityEnd_PSU > 40)
             {
@@ -167,8 +147,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), new[] { "SourceSalinityEnd_PSU" });
             }
 
-                //Error: Type not implemented [MikeSourceStartEndWeb] of type [MikeSourceStartEndWeb]
-                //Error: Type not implemented [MikeSourceStartEndReport] of type [MikeSourceStartEndReport]
             if (mikeSourceStartEnd.LastUpdateDate_UTC.Year == 1)
             {
                 mikeSourceStartEnd.HasErrors = true;
@@ -182,8 +160,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mikeSourceStartEnd.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -204,8 +180,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -231,8 +205,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceStartEndQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceStartEnd(mikeSourceStartEndQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMikeSourceStartEndReport(mikeSourceStartEndQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -249,8 +224,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceStartEndQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceStartEnd(mikeSourceStartEndQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMikeSourceStartEndReport(mikeSourceStartEndQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -301,11 +277,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MikeSourceStartEnd> FillMikeSourceStartEnd_Show_Copy_To_MikeSourceStartEndServiceExtra_As_Fill_MikeSourceStartEnd(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MikeSourceStartEndFillWeb
+        private IQueryable<MikeSourceStartEnd> FillMikeSourceStartEndWeb(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery, string FilterAndOrderText)
         {
             mikeSourceStartEndQuery = (from c in mikeSourceStartEndQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -332,19 +305,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        MikeSourceStartEndReport = new MikeSourceStartEndReport
-                        {
-                            MikeSourceStartEndReportTest = "MikeSourceStartEndReportTest",
-                        },
+                        MikeSourceStartEndReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mikeSourceStartEndQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MikeSourceStartEndFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MikeSourceStartEnd mikeSourceStartEnd)
         {
             try
@@ -359,7 +329,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

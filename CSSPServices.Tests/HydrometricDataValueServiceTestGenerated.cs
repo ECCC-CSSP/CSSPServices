@@ -40,17 +40,14 @@ namespace CSSPServices.Tests
         {
             HydrometricDataValue hydrometricDataValue = new HydrometricDataValue();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [HydrometricDataValue HydrometricSiteID HydrometricSite HydrometricSiteID]
+            if (OmitPropName != "HydrometricSiteID") hydrometricDataValue.HydrometricSiteID = 1;
             if (OmitPropName != "DateTime_Local") hydrometricDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") hydrometricDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
             if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "HourlyValues") hydrometricDataValue.HourlyValues = GetRandomString("", 20);
-            //Error: property [HydrometricDataValueWeb] and type [HydrometricDataValue] is  not implemented
-            //Error: property [HydrometricDataValueReport] and type [HydrometricDataValue] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricDataValue.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") hydrometricDataValue.HasErrors = true;
 
             return hydrometricDataValue;
         }
@@ -150,6 +147,16 @@ namespace CSSPServices.Tests
                     // hydrometricDataValue.DateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.DateTime_Local = new DateTime();
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueDateTime_Local), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.DateTime_Local = new DateTime(1979, 1, 1);
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricDataValueDateTime_Local, "1980"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -178,6 +185,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Flow_m3_s]
 
+                    //Error: Type not implemented [Flow_m3_s]
+
                     hydrometricDataValue = null;
                     hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
                     hydrometricDataValue.Flow_m3_s = -1.0D;
@@ -203,8 +212,15 @@ namespace CSSPServices.Tests
                     // hydrometricDataValue.HydrometricDataValueWeb   (HydrometricDataValueWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [HydrometricDataValueWeb]
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.HydrometricDataValueWeb = null;
+                    Assert.IsNull(hydrometricDataValue.HydrometricDataValueWeb);
 
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.HydrometricDataValueWeb = new HydrometricDataValueWeb();
+                    Assert.IsNotNull(hydrometricDataValue.HydrometricDataValueWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -212,8 +228,15 @@ namespace CSSPServices.Tests
                     // hydrometricDataValue.HydrometricDataValueReport   (HydrometricDataValueReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [HydrometricDataValueReport]
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.HydrometricDataValueReport = null;
+                    Assert.IsNull(hydrometricDataValue.HydrometricDataValueReport);
 
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.HydrometricDataValueReport = new HydrometricDataValueReport();
+                    Assert.IsNotNull(hydrometricDataValue.HydrometricDataValueReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -221,6 +244,16 @@ namespace CSSPServices.Tests
                     // hydrometricDataValue.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.LastUpdateDate_UTC = new DateTime();
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueLastUpdateDate_UTC), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricDataValueLastUpdateDate_UTC, "1980"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -247,6 +280,7 @@ namespace CSSPServices.Tests
                     // hydrometricDataValue.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -254,6 +288,7 @@ namespace CSSPServices.Tests
                     // hydrometricDataValue.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -274,7 +309,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(hydrometricDataValue);
 
                     HydrometricDataValue hydrometricDataValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -288,11 +323,15 @@ namespace CSSPServices.Tests
                         {
                             hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // HydrometricDataValue fields
                         Assert.IsNotNull(hydrometricDataValueRet.HydrometricDataValueID);
                         Assert.IsNotNull(hydrometricDataValueRet.HydrometricSiteID);
                         Assert.IsNotNull(hydrometricDataValueRet.DateTime_Local);
@@ -306,27 +345,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(hydrometricDataValueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (hydrometricDataValueRet.HydrometricDataValueWeb != null)
-                            {
-                                Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueWeb);
-                            }
-                            if (hydrometricDataValueRet.HydrometricDataValueReport != null)
-                            {
-                                Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueReport);
-                            }
+                            // HydrometricDataValueWeb and HydrometricDataValueReport fields should be null here
+                            Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueWeb);
+                            Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (hydrometricDataValueRet.HydrometricDataValueWeb != null)
+                            // HydrometricDataValueWeb fields should not be null and HydrometricDataValueReport fields should be null here
+                            if (hydrometricDataValueRet.HydrometricDataValueWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(hydrometricDataValueRet.HydrometricDataValueWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HydrometricDataValueWeb.LastUpdateContactTVText));
                             }
-                            if (hydrometricDataValueRet.HydrometricDataValueReport != null)
+                            if (hydrometricDataValueRet.HydrometricDataValueWeb.StorageDataTypeText != null)
                             {
-                                Assert.IsNotNull(hydrometricDataValueRet.HydrometricDataValueReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HydrometricDataValueWeb.StorageDataTypeText));
+                            }
+                            Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // HydrometricDataValueWeb and HydrometricDataValueReport fields should NOT be null here
+                            if (hydrometricDataValueRet.HydrometricDataValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HydrometricDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (hydrometricDataValueRet.HydrometricDataValueWeb.StorageDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HydrometricDataValueWeb.StorageDataTypeText));
+                            }
+                            if (hydrometricDataValueRet.HydrometricDataValueReport.HydrometricDataValueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HydrometricDataValueReport.HydrometricDataValueReportTest));
                             }
                         }
                     }

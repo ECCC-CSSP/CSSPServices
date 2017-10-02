@@ -47,7 +47,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVTypeStr") tvItemTVAuth.TVTypeStr = GetRandomString("", 6);
             if (OmitPropName != "TVAuth") tvItemTVAuth.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
             if (OmitPropName != "TVAuthText") tvItemTVAuth.TVAuthText = GetRandomString("", 5);
-            if (OmitPropName != "HasErrors") tvItemTVAuth.HasErrors = true;
 
             return tvItemTVAuth;
         }

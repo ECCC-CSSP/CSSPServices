@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //ClimateDataValueID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //ClimateSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             ClimateSite ClimateSiteClimateSiteID = (from c in db.ClimateSites where c.ClimateSiteID == climateDataValue.ClimateSiteID select c).FirstOrDefault();
 
             if (ClimateSiteClimateSiteID == null)
@@ -82,8 +78,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateDataValueDateTime_Local, "1980"), new[] { "DateTime_Local" });
                 }
             }
-
-            //Keep (bool) is required but no testing needed 
 
             retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)climateDataValue.StorageDataType);
             if (climateDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -193,8 +187,6 @@ namespace CSSPServices
 
             //HourlyValues has no StringLength Attribute
 
-                //Error: Type not implemented [ClimateDataValueWeb] of type [ClimateDataValueWeb]
-                //Error: Type not implemented [ClimateDataValueReport] of type [ClimateDataValueReport]
             if (climateDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 climateDataValue.HasErrors = true;
@@ -208,8 +200,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == climateDataValue.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -230,8 +220,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -257,8 +245,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateDataValueQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillClimateDataValueWeb(climateDataValueQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateDataValue(climateDataValueQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillClimateDataValueReport(climateDataValueQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -275,8 +264,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateDataValueQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillClimateDataValueWeb(climateDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateDataValue(climateDataValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillClimateDataValueReport(climateDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -327,11 +317,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<ClimateDataValue> FillClimateDataValue_Show_Copy_To_ClimateDataValueServiceExtra_As_Fill_ClimateDataValue(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated ClimateDataValueFillWeb
+        private IQueryable<ClimateDataValue> FillClimateDataValueWeb(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -370,19 +357,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.StorageDataType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        ClimateDataValueReport = new ClimateDataValueReport
-                        {
-                            ClimateDataValueReportTest = "ClimateDataValueReportTest",
-                        },
+                        ClimateDataValueReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return climateDataValueQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated ClimateDataValueFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(ClimateDataValue climateDataValue)
         {
             try
@@ -397,7 +381,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

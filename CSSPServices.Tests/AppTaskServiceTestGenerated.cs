@@ -51,11 +51,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EndDateTime_UTC") appTask.EndDateTime_UTC = new DateTime(2005, 3, 7);
             if (OmitPropName != "EstimatedLength_second") appTask.EstimatedLength_second = GetRandomInt(0, 1000000);
             if (OmitPropName != "RemainingTime_second") appTask.RemainingTime_second = GetRandomInt(0, 1000000);
-            //Error: property [AppTaskWeb] and type [AppTask] is  not implemented
-            //Error: property [AppTaskReport] and type [AppTask] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") appTask.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appTask.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") appTask.HasErrors = true;
 
             return appTask;
         }
@@ -252,6 +249,16 @@ namespace CSSPServices.Tests
                     // appTask.StartDateTime_UTC   (DateTime)
                     // -----------------------------------
 
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.StartDateTime_UTC = new DateTime();
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskStartDateTime_UTC), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.StartDateTime_UTC = new DateTime(1979, 1, 1);
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskStartDateTime_UTC, "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -260,6 +267,11 @@ namespace CSSPServices.Tests
                     // appTask.EndDateTime_UTC   (DateTime)
                     // -----------------------------------
 
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.EndDateTime_UTC = new DateTime(1979, 1, 1);
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskEndDateTime_UTC, "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -305,8 +317,15 @@ namespace CSSPServices.Tests
                     // appTask.AppTaskWeb   (AppTaskWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AppTaskWeb]
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskWeb = null;
+                    Assert.IsNull(appTask.AppTaskWeb);
 
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskWeb = new AppTaskWeb();
+                    Assert.IsNotNull(appTask.AppTaskWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -314,8 +333,15 @@ namespace CSSPServices.Tests
                     // appTask.AppTaskReport   (AppTaskReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AppTaskReport]
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskReport = null;
+                    Assert.IsNull(appTask.AppTaskReport);
 
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskReport = new AppTaskReport();
+                    Assert.IsNotNull(appTask.AppTaskReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -323,6 +349,16 @@ namespace CSSPServices.Tests
                     // appTask.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.LastUpdateDate_UTC = new DateTime();
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLastUpdateDate_UTC), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskLastUpdateDate_UTC, "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -349,6 +385,7 @@ namespace CSSPServices.Tests
                     // appTask.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -356,6 +393,7 @@ namespace CSSPServices.Tests
                     // appTask.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -376,7 +414,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appTask);
 
                     AppTask appTaskRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -390,11 +428,15 @@ namespace CSSPServices.Tests
                         {
                             appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // AppTask fields
                         Assert.IsNotNull(appTaskRet.AppTaskID);
                         Assert.IsNotNull(appTaskRet.TVItemID);
                         Assert.IsNotNull(appTaskRet.TVItemID2);
@@ -419,27 +461,71 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(appTaskRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(appTaskRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (appTaskRet.AppTaskWeb != null)
-                            {
-                                Assert.IsNull(appTaskRet.AppTaskWeb);
-                            }
-                            if (appTaskRet.AppTaskReport != null)
-                            {
-                                Assert.IsNull(appTaskRet.AppTaskReport);
-                            }
+                            // AppTaskWeb and AppTaskReport fields should be null here
+                            Assert.IsNull(appTaskRet.AppTaskWeb);
+                            Assert.IsNull(appTaskRet.AppTaskReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (appTaskRet.AppTaskWeb != null)
+                            // AppTaskWeb fields should not be null and AppTaskReport fields should be null here
+                            if (appTaskRet.AppTaskWeb.TVItemTVText != null)
                             {
-                                Assert.IsNotNull(appTaskRet.AppTaskWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.TVItemTVText));
                             }
-                            if (appTaskRet.AppTaskReport != null)
+                            if (appTaskRet.AppTaskWeb.TVItem2TVText != null)
                             {
-                                Assert.IsNotNull(appTaskRet.AppTaskReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.TVItem2TVText));
+                            }
+                            if (appTaskRet.AppTaskWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.LastUpdateContactTVText));
+                            }
+                            if (appTaskRet.AppTaskWeb.AppTaskCommandText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.AppTaskCommandText));
+                            }
+                            if (appTaskRet.AppTaskWeb.AppTaskStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.AppTaskStatusText));
+                            }
+                            if (appTaskRet.AppTaskWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.LanguageText));
+                            }
+                            Assert.IsNull(appTaskRet.AppTaskReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // AppTaskWeb and AppTaskReport fields should NOT be null here
+                            if (appTaskRet.AppTaskWeb.TVItemTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.TVItemTVText));
+                            }
+                            if (appTaskRet.AppTaskWeb.TVItem2TVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.TVItem2TVText));
+                            }
+                            if (appTaskRet.AppTaskWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.LastUpdateContactTVText));
+                            }
+                            if (appTaskRet.AppTaskWeb.AppTaskCommandText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.AppTaskCommandText));
+                            }
+                            if (appTaskRet.AppTaskWeb.AppTaskStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.AppTaskStatusText));
+                            }
+                            if (appTaskRet.AppTaskWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskWeb.LanguageText));
+                            }
+                            if (appTaskRet.AppTaskReport.AppTaskReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskReport.AppTaskReportTest));
                             }
                         }
                     }

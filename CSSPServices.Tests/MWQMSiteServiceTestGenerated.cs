@@ -40,16 +40,13 @@ namespace CSSPServices.Tests
         {
             MWQMSite mwqmSite = new MWQMSite();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSite MWQMSiteTVItemID TVItem TVItemID]
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSite.MWQMSiteTVItemID = 19;
             if (OmitPropName != "MWQMSiteNumber") mwqmSite.MWQMSiteNumber = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteDescription") mwqmSite.MWQMSiteDescription = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteLatestClassification") mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)GetRandomEnumType(typeof(MWQMSiteLatestClassificationEnum));
             if (OmitPropName != "Ordinal") mwqmSite.Ordinal = GetRandomInt(0, 1000);
-            //Error: property [MWQMSiteWeb] and type [MWQMSite] is  not implemented
-            //Error: property [MWQMSiteReport] and type [MWQMSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mwqmSite.HasErrors = true;
 
             return mwqmSite;
         }
@@ -229,8 +226,15 @@ namespace CSSPServices.Tests
                     // mwqmSite.MWQMSiteWeb   (MWQMSiteWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSiteWeb]
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteWeb = null;
+                    Assert.IsNull(mwqmSite.MWQMSiteWeb);
 
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteWeb = new MWQMSiteWeb();
+                    Assert.IsNotNull(mwqmSite.MWQMSiteWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -238,8 +242,15 @@ namespace CSSPServices.Tests
                     // mwqmSite.MWQMSiteReport   (MWQMSiteReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSiteReport]
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteReport = null;
+                    Assert.IsNull(mwqmSite.MWQMSiteReport);
 
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteReport = new MWQMSiteReport();
+                    Assert.IsNotNull(mwqmSite.MWQMSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -247,6 +258,16 @@ namespace CSSPServices.Tests
                     // mwqmSite.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.LastUpdateDate_UTC = new DateTime();
+                    mwqmSiteService.Add(mwqmSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteLastUpdateDate_UTC), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mwqmSiteService.Add(mwqmSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteLastUpdateDate_UTC, "1980"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -273,6 +294,7 @@ namespace CSSPServices.Tests
                     // mwqmSite.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -280,6 +302,7 @@ namespace CSSPServices.Tests
                     // mwqmSite.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -300,7 +323,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSite);
 
                     MWQMSite mwqmSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -314,11 +337,15 @@ namespace CSSPServices.Tests
                         {
                             mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MWQMSite fields
                         Assert.IsNotNull(mwqmSiteRet.MWQMSiteID);
                         Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVItemID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteNumber));
@@ -328,27 +355,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSiteRet.MWQMSiteWeb != null)
-                            {
-                                Assert.IsNull(mwqmSiteRet.MWQMSiteWeb);
-                            }
-                            if (mwqmSiteRet.MWQMSiteReport != null)
-                            {
-                                Assert.IsNull(mwqmSiteRet.MWQMSiteReport);
-                            }
+                            // MWQMSiteWeb and MWQMSiteReport fields should be null here
+                            Assert.IsNull(mwqmSiteRet.MWQMSiteWeb);
+                            Assert.IsNull(mwqmSiteRet.MWQMSiteReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSiteRet.MWQMSiteWeb != null)
+                            // MWQMSiteWeb fields should not be null and MWQMSiteReport fields should be null here
+                            if (mwqmSiteRet.MWQMSiteWeb.MWQMSiteTVText != null)
                             {
-                                Assert.IsNotNull(mwqmSiteRet.MWQMSiteWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteWeb.MWQMSiteTVText));
                             }
-                            if (mwqmSiteRet.MWQMSiteReport != null)
+                            if (mwqmSiteRet.MWQMSiteWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mwqmSiteRet.MWQMSiteReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmSiteRet.MWQMSiteWeb.MWQMSiteLatestClassificationText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteWeb.MWQMSiteLatestClassificationText));
+                            }
+                            Assert.IsNull(mwqmSiteRet.MWQMSiteReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MWQMSiteWeb and MWQMSiteReport fields should NOT be null here
+                            if (mwqmSiteRet.MWQMSiteWeb.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteWeb.MWQMSiteTVText));
+                            }
+                            if (mwqmSiteRet.MWQMSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmSiteRet.MWQMSiteWeb.MWQMSiteLatestClassificationText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteWeb.MWQMSiteLatestClassificationText));
+                            }
+                            if (mwqmSiteRet.MWQMSiteReport.MWQMSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteReport.MWQMSiteReportTest));
                             }
                         }
                     }

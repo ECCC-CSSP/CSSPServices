@@ -66,10 +66,6 @@ namespace CSSPServices
                 }
             }
 
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TVLevel (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tvItem.TVLevel < 0 || tvItem.TVLevel > 100)
             {
                 tvItem.HasErrors = true;
@@ -94,8 +90,6 @@ namespace CSSPServices
                 tvItem.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVType), new[] { "TVType" });
             }
-
-            //ParentID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItem.TVType != TVTypeEnum.Root)
             {
@@ -141,10 +135,6 @@ namespace CSSPServices
                 }
             }
 
-            //IsActive (bool) is required but no testing needed 
-
-                //Error: Type not implemented [TVItemWeb] of type [TVItemWeb]
-                //Error: Type not implemented [TVItemReport] of type [TVItemReport]
             if (tvItem.LastUpdateDate_UTC.Year == 1)
             {
                 tvItem.HasErrors = true;
@@ -158,8 +148,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItem.TVType != TVTypeEnum.Root)
             {
@@ -183,8 +171,6 @@ namespace CSSPServices
                     }
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -210,8 +196,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemWeb(tvItemQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItem(tvItemQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTVItemReport(tvItemQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -228,8 +215,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemWeb(tvItemQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItem(tvItemQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTVItemReport(tvItemQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -280,11 +268,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TVItem> FillTVItem_Show_Copy_To_TVItemServiceExtra_As_Fill_TVItem(IQueryable<TVItem> tvItemQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TVItemFillWeb
+        private IQueryable<TVItem> FillTVItemWeb(IQueryable<TVItem> tvItemQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -317,19 +302,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TVItemReport = new TVItemReport
-                        {
-                            TVItemReportTest = "TVItemReportTest",
-                        },
+                        TVItemReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tvItemQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TVItemFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TVItem tvItem)
         {
             try
@@ -344,7 +326,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

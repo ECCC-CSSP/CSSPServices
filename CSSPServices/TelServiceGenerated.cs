@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TelID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TelTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTelTVItemID = (from c in db.TVItems where c.TVItemID == tel.TelTVItemID select c).FirstOrDefault();
 
             if (TVItemTelTVItemID == null)
@@ -100,8 +96,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelType), new[] { "TelType" });
             }
 
-                //Error: Type not implemented [TelWeb] of type [TelWeb]
-                //Error: Type not implemented [TelReport] of type [TelReport]
             if (tel.LastUpdateDate_UTC.Year == 1)
             {
                 tel.HasErrors = true;
@@ -115,8 +109,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TelLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tel.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -137,8 +129,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -164,8 +154,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return telQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTelWeb(telQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTel(telQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTelReport(telQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -182,8 +173,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return telQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTelWeb(telQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTel(telQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTelReport(telQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -234,11 +226,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<Tel> FillTel_Show_Copy_To_TelServiceExtra_As_Fill_Tel(IQueryable<Tel> telQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TelFillWeb
+        private IQueryable<Tel> FillTelWeb(IQueryable<Tel> telQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -269,19 +258,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TelType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TelReport = new TelReport
-                        {
-                            TelReportTest = "TelReportTest",
-                        },
+                        TelReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return telQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TelFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(Tel tel)
         {
             try
@@ -296,7 +282,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

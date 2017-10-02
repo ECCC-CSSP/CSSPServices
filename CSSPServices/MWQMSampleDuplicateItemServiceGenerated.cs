@@ -66,8 +66,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.MWQMSampleDuplicateItemDuplicateSite, "1", "200"), new[] { "DuplicateSite" });
             }
 
-            //HasErrors (bool) is required but no testing needed 
-
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

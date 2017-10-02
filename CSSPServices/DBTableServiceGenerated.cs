@@ -66,8 +66,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.DBTablePlurial, "1", "3"), new[] { "Plurial" });
             }
 
-            //HasErrors (bool) is required but no testing needed 
-
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

@@ -43,7 +43,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomDouble(-90.0D, 90.0D);
             // should implement a Range for the property Z and type PolyPoint
-            if (OmitPropName != "HasErrors") polyPoint.HasErrors = true;
 
             return polyPoint;
         }

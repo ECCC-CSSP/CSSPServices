@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //EmailDistributionListContactLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //EmailDistributionListContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             EmailDistributionListContact EmailDistributionListContactEmailDistributionListContactID = (from c in db.EmailDistributionListContacts where c.EmailDistributionListContactID == emailDistributionListContactLanguage.EmailDistributionListContactID select c).FirstOrDefault();
 
             if (EmailDistributionListContactEmailDistributionListContactID == null)
@@ -95,8 +91,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
-                //Error: Type not implemented [EmailDistributionListContactLanguageWeb] of type [EmailDistributionListContactLanguageWeb]
-                //Error: Type not implemented [EmailDistributionListContactLanguageReport] of type [EmailDistributionListContactLanguageReport]
             if (emailDistributionListContactLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionListContactLanguage.HasErrors = true;
@@ -110,8 +104,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == emailDistributionListContactLanguage.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -132,8 +124,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -159,8 +149,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListContactLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillEmailDistributionListContactLanguageWeb(emailDistributionListContactLanguageQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionListContactLanguage(emailDistributionListContactLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillEmailDistributionListContactLanguageReport(emailDistributionListContactLanguageQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -177,8 +168,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListContactLanguageQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillEmailDistributionListContactLanguageWeb(emailDistributionListContactLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionListContactLanguage(emailDistributionListContactLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillEmailDistributionListContactLanguageReport(emailDistributionListContactLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -229,11 +221,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<EmailDistributionListContactLanguage> FillEmailDistributionListContactLanguage_Show_Copy_To_EmailDistributionListContactLanguageServiceExtra_As_Fill_EmailDistributionListContactLanguage(IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated EmailDistributionListContactLanguageFillWeb
+        private IQueryable<EmailDistributionListContactLanguage> FillEmailDistributionListContactLanguageWeb(IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -264,19 +253,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        EmailDistributionListContactLanguageReport = new EmailDistributionListContactLanguageReport
-                        {
-                            EmailDistributionListContactLanguageReportTest = "EmailDistributionListContactLanguageReportTest",
-                        },
+                        EmailDistributionListContactLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return emailDistributionListContactLanguageQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated EmailDistributionListContactLanguageFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(EmailDistributionListContactLanguage emailDistributionListContactLanguage)
         {
             try
@@ -291,7 +277,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

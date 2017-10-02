@@ -100,8 +100,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.NewContactContactTitleText, "100"), new[] { "ContactTitleText" });
             }
 
-            //HasErrors (bool) is required but no testing needed 
-
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

@@ -57,17 +57,11 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMLookupMPNID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //Tubes10 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmLookupMPN.Tubes10 < 0 || mwqmLookupMPN.Tubes10 > 5)
             {
                 mwqmLookupMPN.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes10, "0", "5"), new[] { "Tubes10" });
             }
-
-            //Tubes1 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmLookupMPN.Tubes1 < 0 || mwqmLookupMPN.Tubes1 > 5)
             {
@@ -75,15 +69,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes1, "0", "5"), new[] { "Tubes1" });
             }
 
-            //Tubes01 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mwqmLookupMPN.Tubes01 < 0 || mwqmLookupMPN.Tubes01 > 5)
             {
                 mwqmLookupMPN.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes01, "0", "5"), new[] { "Tubes01" });
             }
-
-            //MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmLookupMPN.MPN_100ml < 1 || mwqmLookupMPN.MPN_100ml > 10000)
             {
@@ -91,8 +81,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), new[] { "MPN_100ml" });
             }
 
-                //Error: Type not implemented [MWQMLookupMPNWeb] of type [MWQMLookupMPNWeb]
-                //Error: Type not implemented [MWQMLookupMPNReport] of type [MWQMLookupMPNReport]
             if (mwqmLookupMPN.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmLookupMPN.HasErrors = true;
@@ -106,8 +94,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMLookupMPNLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mwqmLookupMPN.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -128,8 +114,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -155,8 +139,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmLookupMPNQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMLookupMPNWeb(mwqmLookupMPNQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMLookupMPN(mwqmLookupMPNQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMWQMLookupMPNReport(mwqmLookupMPNQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -173,8 +158,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmLookupMPNQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMLookupMPNWeb(mwqmLookupMPNQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMLookupMPN(mwqmLookupMPNQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMWQMLookupMPNReport(mwqmLookupMPNQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -225,11 +211,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPN_Show_Copy_To_MWQMLookupMPNServiceExtra_As_Fill_MWQMLookupMPN(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MWQMLookupMPNFillWeb
+        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPNWeb(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery, string FilterAndOrderText)
         {
             mwqmLookupMPNQuery = (from c in mwqmLookupMPNQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -249,19 +232,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        MWQMLookupMPNReport = new MWQMLookupMPNReport
-                        {
-                            MWQMLookupMPNReportTest = "MWQMLookupMPNReportTest",
-                        },
+                        MWQMLookupMPNReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mwqmLookupMPNQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MWQMLookupMPNFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MWQMLookupMPN mwqmLookupMPN)
         {
             try
@@ -276,7 +256,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

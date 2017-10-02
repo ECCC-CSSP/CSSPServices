@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //VPResultID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             VPScenario VPScenarioVPScenarioID = (from c in db.VPScenarios where c.VPScenarioID == vpResult.VPScenarioID select c).FirstOrDefault();
 
             if (VPScenarioVPScenarioID == null)
@@ -69,15 +65,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpResult.Ordinal < 0 || vpResult.Ordinal > 1000)
             {
                 vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
-
-            //Concentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.Concentration_MPN_100ml < 0 || vpResult.Concentration_MPN_100ml > 10000000)
             {
@@ -85,15 +77,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), new[] { "Concentration_MPN_100ml" });
             }
 
-            //Dilution (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
             {
                 vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDilution, "0", "1000000"), new[] { "Dilution" });
             }
-
-            //FarFieldWidth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 10000)
             {
@@ -101,15 +89,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultFarFieldWidth_m, "0", "10000"), new[] { "FarFieldWidth_m" });
             }
 
-            //DispersionDistance_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
             {
                 vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { "DispersionDistance_m" });
             }
-
-            //TravelTime_hour (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 100)
             {
@@ -117,8 +101,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultTravelTime_hour, "0", "100"), new[] { "TravelTime_hour" });
             }
 
-                //Error: Type not implemented [VPResultWeb] of type [VPResultWeb]
-                //Error: Type not implemented [VPResultReport] of type [VPResultReport]
             if (vpResult.LastUpdateDate_UTC.Year == 1)
             {
                 vpResult.HasErrors = true;
@@ -132,8 +114,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPResultLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == vpResult.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -154,8 +134,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -181,8 +159,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpResultQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillVPResultWeb(vpResultQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPResult(vpResultQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillVPResultReport(vpResultQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -199,8 +178,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpResultQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillVPResultWeb(vpResultQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPResult(vpResultQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillVPResultReport(vpResultQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -251,11 +231,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<VPResult> FillVPResult_Show_Copy_To_VPResultServiceExtra_As_Fill_VPResult(IQueryable<VPResult> vpResultQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated VPResultFillWeb
+        private IQueryable<VPResult> FillVPResultWeb(IQueryable<VPResult> vpResultQuery, string FilterAndOrderText)
         {
             vpResultQuery = (from c in vpResultQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -278,19 +255,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        VPResultReport = new VPResultReport
-                        {
-                            VPResultReportTest = "VPResultReportTest",
-                        },
+                        VPResultReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return vpResultQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated VPResultFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(VPResult vpResult)
         {
             try
@@ -305,7 +279,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

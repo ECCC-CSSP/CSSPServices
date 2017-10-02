@@ -57,8 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //AppErrLogID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (string.IsNullOrWhiteSpace(appErrLog.Tag))
             {
                 appErrLog.HasErrors = true;
@@ -70,8 +68,6 @@ namespace CSSPServices
                 appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppErrLogTag, "100"), new[] { "Tag" });
             }
-
-            //LineNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (appErrLog.LineNumber < 1)
             {
@@ -109,8 +105,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [AppErrLogWeb] of type [AppErrLogWeb]
-                //Error: Type not implemented [AppErrLogReport] of type [AppErrLogReport]
             if (appErrLog.LastUpdateDate_UTC.Year == 1)
             {
                 appErrLog.HasErrors = true;
@@ -124,8 +118,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppErrLogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == appErrLog.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -146,8 +138,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -173,8 +163,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appErrLogQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillAppErrLogWeb(appErrLogQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppErrLog(appErrLogQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillAppErrLogReport(appErrLogQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -191,8 +182,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appErrLogQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillAppErrLogWeb(appErrLogQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppErrLog(appErrLogQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillAppErrLogReport(appErrLogQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -243,11 +235,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<AppErrLog> FillAppErrLog_Show_Copy_To_AppErrLogServiceExtra_As_Fill_AppErrLog(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated AppErrLogFillWeb
+        private IQueryable<AppErrLog> FillAppErrLogWeb(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText)
         {
             appErrLogQuery = (from c in appErrLogQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -268,19 +257,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        AppErrLogReport = new AppErrLogReport
-                        {
-                            AppErrLogTest = "AppErrLogTest",
-                        },
+                        AppErrLogReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return appErrLogQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated AppErrLogFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(AppErrLog appErrLog)
         {
             try
@@ -295,7 +281,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

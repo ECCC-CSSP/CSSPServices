@@ -40,15 +40,12 @@ namespace CSSPServices.Tests
         {
             EmailDistributionListContactLanguage emailDistributionListContactLanguage = new EmailDistributionListContactLanguage();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [EmailDistributionListContactLanguage EmailDistributionListContactID EmailDistributionListContact EmailDistributionListContactID]
+            if (OmitPropName != "EmailDistributionListContactID") emailDistributionListContactLanguage.EmailDistributionListContactID = 1;
             if (OmitPropName != "Language") emailDistributionListContactLanguage.Language = LanguageRequest;
             if (OmitPropName != "Agency") emailDistributionListContactLanguage.Agency = GetRandomString("", 6);
             if (OmitPropName != "TranslationStatus") emailDistributionListContactLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            //Error: property [EmailDistributionListContactLanguageWeb] and type [EmailDistributionListContactLanguage] is  not implemented
-            //Error: property [EmailDistributionListContactLanguageReport] and type [EmailDistributionListContactLanguage] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") emailDistributionListContactLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionListContactLanguage.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") emailDistributionListContactLanguage.HasErrors = true;
 
             return emailDistributionListContactLanguage;
         }
@@ -197,8 +194,15 @@ namespace CSSPServices.Tests
                     // emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb   (EmailDistributionListContactLanguageWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [EmailDistributionListContactLanguageWeb]
+                    emailDistributionListContactLanguage = null;
+                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
+                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb = null;
+                    Assert.IsNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb);
 
+                    emailDistributionListContactLanguage = null;
+                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
+                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb = new EmailDistributionListContactLanguageWeb();
+                    Assert.IsNotNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -206,8 +210,15 @@ namespace CSSPServices.Tests
                     // emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport   (EmailDistributionListContactLanguageReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [EmailDistributionListContactLanguageReport]
+                    emailDistributionListContactLanguage = null;
+                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
+                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport = null;
+                    Assert.IsNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport);
 
+                    emailDistributionListContactLanguage = null;
+                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
+                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport = new EmailDistributionListContactLanguageReport();
+                    Assert.IsNotNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -215,6 +226,16 @@ namespace CSSPServices.Tests
                     // emailDistributionListContactLanguage.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    emailDistributionListContactLanguage = null;
+                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
+                    emailDistributionListContactLanguage.LastUpdateDate_UTC = new DateTime();
+                    emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateDate_UTC), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    emailDistributionListContactLanguage = null;
+                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
+                    emailDistributionListContactLanguage.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateDate_UTC, "1980"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -241,6 +262,7 @@ namespace CSSPServices.Tests
                     // emailDistributionListContactLanguage.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -248,6 +270,7 @@ namespace CSSPServices.Tests
                     // emailDistributionListContactLanguage.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -268,7 +291,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(emailDistributionListContactLanguage);
 
                     EmailDistributionListContactLanguage emailDistributionListContactLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -282,11 +305,15 @@ namespace CSSPServices.Tests
                         {
                             emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // EmailDistributionListContactLanguage fields
                         Assert.IsNotNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageID);
                         Assert.IsNotNull(emailDistributionListContactLanguageRet.EmailDistributionListContactID);
                         Assert.IsNotNull(emailDistributionListContactLanguageRet.Language);
@@ -295,27 +322,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(emailDistributionListContactLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(emailDistributionListContactLanguageRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb != null)
-                            {
-                                Assert.IsNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb);
-                            }
-                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport != null)
-                            {
-                                Assert.IsNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport);
-                            }
+                            // EmailDistributionListContactLanguageWeb and EmailDistributionListContactLanguageReport fields should be null here
+                            Assert.IsNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb);
+                            Assert.IsNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb != null)
+                            // EmailDistributionListContactLanguageWeb fields should not be null and EmailDistributionListContactLanguageReport fields should be null here
+                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LastUpdateContactTVText));
                             }
-                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport != null)
+                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LanguageText != null)
                             {
-                                Assert.IsNotNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LanguageText));
+                            }
+                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // EmailDistributionListContactLanguageWeb and EmailDistributionListContactLanguageReport fields should NOT be null here
+                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.LanguageText));
+                            }
+                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageWeb.TranslationStatusText));
+                            }
+                            if (emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport.EmailDistributionListContactLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageReport.EmailDistributionListContactLanguageReportTest));
                             }
                         }
                     }

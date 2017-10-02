@@ -63,8 +63,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVTextLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
 
-            //HasErrors (bool) is required but no testing needed 
-
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

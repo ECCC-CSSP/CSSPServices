@@ -43,7 +43,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Text") dataPathOfTide.Text = GetRandomString("", 6);
             if (OmitPropName != "WebTideDataSet") dataPathOfTide.WebTideDataSet = (WebTideDataSetEnum)GetRandomEnumType(typeof(WebTideDataSetEnum));
             if (OmitPropName != "WebTideDataSetText") dataPathOfTide.WebTideDataSetText = GetRandomString("", 5);
-            if (OmitPropName != "HasErrors") dataPathOfTide.HasErrors = true;
 
             return dataPathOfTide;
         }

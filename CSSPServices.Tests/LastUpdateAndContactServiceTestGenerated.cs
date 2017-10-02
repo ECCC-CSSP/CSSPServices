@@ -43,7 +43,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Err") lastUpdateAndContact.Err = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateAndContactDate_UTC") lastUpdateAndContact.LastUpdateAndContactDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateAndContactTVItemID") lastUpdateAndContact.LastUpdateAndContactTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "HasErrors") lastUpdateAndContact.HasErrors = true;
 
             return lastUpdateAndContact;
         }

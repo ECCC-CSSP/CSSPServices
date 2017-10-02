@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TVFileID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TVFileTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTVFileTVItemID = (from c in db.TVItems where c.TVItemID == tvFile.TVFileTVItemID select c).FirstOrDefault();
 
             if (TVItemTVFileTVItemID == null)
@@ -108,8 +104,6 @@ namespace CSSPServices
                 tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileType), new[] { "FileType" });
             }
-
-            //FileSize_kb (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 1000000)
             {
@@ -163,8 +157,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFilePath, "250"), new[] { "ServerFilePath" });
             }
 
-                //Error: Type not implemented [TVFileWeb] of type [TVFileWeb]
-                //Error: Type not implemented [TVFileReport] of type [TVFileReport]
             if (tvFile.LastUpdateDate_UTC.Year == 1)
             {
                 tvFile.HasErrors = true;
@@ -178,8 +170,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tvFile.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -200,8 +190,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -227,8 +215,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVFileWeb(tvFileQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVFile(tvFileQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTVFileReport(tvFileQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -245,8 +234,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVFileWeb(tvFileQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVFile(tvFileQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTVFileReport(tvFileQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -297,11 +287,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TVFile> FillTVFile_Show_Copy_To_TVFileServiceExtra_As_Fill_TVFile(IQueryable<TVFile> tvFileQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TVFileFillWeb
+        private IQueryable<TVFile> FillTVFileWeb(IQueryable<TVFile> tvFileQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -353,19 +340,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.FileType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TVFileReport = new TVFileReport
-                        {
-                            TVFileReportTest = "TVFileReportTest",
-                        },
+                        TVFileReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tvFileQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TVFileFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TVFile tvFile)
         {
             try
@@ -380,7 +364,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

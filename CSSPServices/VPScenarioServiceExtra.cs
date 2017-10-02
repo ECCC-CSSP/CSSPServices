@@ -31,6 +31,63 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<VPScenario> FillVPScenarioReport(IQueryable<VPScenario> vpScenarioQuery, string FilterAndOrderText)
+        {
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
+
+            vpScenarioQuery = (from c in vpScenarioQuery
+                               let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                      where cl.TVItemID == c.InfrastructureTVItemID
+                                                      && cl.Language == LanguageRequest
+                                                      select cl.TVText).FirstOrDefault()
+                               let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                               select new VPScenario
+                               {
+                                   VPScenarioID = c.VPScenarioID,
+                                   InfrastructureTVItemID = c.InfrastructureTVItemID,
+                                   VPScenarioStatus = c.VPScenarioStatus,
+                                   UseAsBestEstimate = c.UseAsBestEstimate,
+                                   EffluentFlow_m3_s = c.EffluentFlow_m3_s,
+                                   EffluentConcentration_MPN_100ml = c.EffluentConcentration_MPN_100ml,
+                                   FroudeNumber = c.FroudeNumber,
+                                   PortDiameter_m = c.PortDiameter_m,
+                                   PortDepth_m = c.PortDepth_m,
+                                   PortElevation_m = c.PortElevation_m,
+                                   VerticalAngle_deg = c.VerticalAngle_deg,
+                                   HorizontalAngle_deg = c.HorizontalAngle_deg,
+                                   NumberOfPorts = c.NumberOfPorts,
+                                   PortSpacing_m = c.PortSpacing_m,
+                                   AcuteMixZone_m = c.AcuteMixZone_m,
+                                   ChronicMixZone_m = c.ChronicMixZone_m,
+                                   EffluentSalinity_PSU = c.EffluentSalinity_PSU,
+                                   EffluentTemperature_C = c.EffluentTemperature_C,
+                                   EffluentVelocity_m_s = c.EffluentVelocity_m_s,
+                                   RawResults = c.RawResults,
+                                   LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                   LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                   VPScenarioWeb = new VPScenarioWeb
+                                   {
+                                       SubsectorTVText = SubsectorTVText,
+                                       LastUpdateContactTVText = LastUpdateContactTVText,
+                                       VPScenarioStatusText = (from e in ScenarioStatusEnumList
+                                                               where e.EnumID == (int?)c.VPScenarioStatus
+                                                               select e.EnumText).FirstOrDefault(),
+                                   },
+                                   VPScenarioReport = new VPScenarioReport
+                                   {
+                                       VPScenarioReportTest = "VPScenarioReportTest",
+                                   },
+                                   HasErrors = false,
+                                   ValidationResults = null,
+                               });
+
+            return vpScenarioQuery;
+        }
         #endregion Functions private
     }
 }

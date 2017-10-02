@@ -50,8 +50,6 @@ namespace CSSPServices
 
             //Error has no StringLength Attribute
 
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tvLocation.TVItemID < 1)
             {
                 tvLocation.HasErrors = true;
@@ -95,8 +93,6 @@ namespace CSSPServices
                 tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVLocationSubTVTypeText, "100"), new[] { "SubTVTypeText" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ContactLogin contactLogin = new ContactLogin();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [ContactLogin ContactID Contact ContactID]
+            if (OmitPropName != "ContactID") contactLogin.ContactID = 1;
             if (OmitPropName != "LoginEmail") contactLogin.LoginEmail = GetRandomEmail();
             ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
 
@@ -53,11 +53,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "PasswordHash") contactLogin.PasswordHash = passwordHash;
             if (OmitPropName != "PasswordSalt") contactLogin.PasswordSalt = passwordSalt;
-            //Error: property [ContactLoginWeb] and type [ContactLogin] is  not implemented
-            //Error: property [ContactLoginReport] and type [ContactLogin] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") contactLogin.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactLogin.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") contactLogin.HasErrors = true;
 
             return contactLogin;
         }
@@ -180,11 +177,15 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [PasswordHash]
 
+                    //Error: Type not implemented [PasswordHash]
+
 
                     // -----------------------------------
                     // Is NOT Nullable
                     // contactLogin.PasswordSalt   (Byte[])
                     // -----------------------------------
+
+                    //Error: Type not implemented [PasswordSalt]
 
                     //Error: Type not implemented [PasswordSalt]
 
@@ -195,8 +196,15 @@ namespace CSSPServices.Tests
                     // contactLogin.ContactLoginWeb   (ContactLoginWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ContactLoginWeb]
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ContactLoginWeb = null;
+                    Assert.IsNull(contactLogin.ContactLoginWeb);
 
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ContactLoginWeb = new ContactLoginWeb();
+                    Assert.IsNotNull(contactLogin.ContactLoginWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -204,8 +212,15 @@ namespace CSSPServices.Tests
                     // contactLogin.ContactLoginReport   (ContactLoginReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [ContactLoginReport]
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ContactLoginReport = null;
+                    Assert.IsNull(contactLogin.ContactLoginReport);
 
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ContactLoginReport = new ContactLoginReport();
+                    Assert.IsNotNull(contactLogin.ContactLoginReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -213,6 +228,16 @@ namespace CSSPServices.Tests
                     // contactLogin.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.LastUpdateDate_UTC = new DateTime();
+                    contactLoginService.Add(contactLogin);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginLastUpdateDate_UTC), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    contactLoginService.Add(contactLogin);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactLoginLastUpdateDate_UTC, "1980"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -239,6 +264,7 @@ namespace CSSPServices.Tests
                     // contactLogin.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -246,6 +272,7 @@ namespace CSSPServices.Tests
                     // contactLogin.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -266,7 +293,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactLogin);
 
                     ContactLogin contactLoginRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -280,40 +307,46 @@ namespace CSSPServices.Tests
                         {
                             contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // ContactLogin fields
                         Assert.IsNotNull(contactLoginRet.ContactLoginID);
                         Assert.IsNotNull(contactLoginRet.ContactID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LoginEmail));
-                        Assert.IsNotNull(contactLoginRet.PasswordHash);
-                        Assert.IsNotNull(contactLoginRet.PasswordSalt);
                         Assert.IsNotNull(contactLoginRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(contactLoginRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (contactLoginRet.ContactLoginWeb != null)
-                            {
-                                Assert.IsNull(contactLoginRet.ContactLoginWeb);
-                            }
-                            if (contactLoginRet.ContactLoginReport != null)
-                            {
-                                Assert.IsNull(contactLoginRet.ContactLoginReport);
-                            }
+                            // ContactLoginWeb and ContactLoginReport fields should be null here
+                            Assert.IsNull(contactLoginRet.ContactLoginWeb);
+                            Assert.IsNull(contactLoginRet.ContactLoginReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (contactLoginRet.ContactLoginWeb != null)
+                            // ContactLoginWeb fields should not be null and ContactLoginReport fields should be null here
+                            if (contactLoginRet.ContactLoginWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(contactLoginRet.ContactLoginWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.ContactLoginWeb.LastUpdateContactTVText));
                             }
-                            if (contactLoginRet.ContactLoginReport != null)
+                            Assert.IsNull(contactLoginRet.ContactLoginReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ContactLoginWeb and ContactLoginReport fields should NOT be null here
+                            if (contactLoginRet.ContactLoginWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(contactLoginRet.ContactLoginReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.ContactLoginWeb.LastUpdateContactTVText));
+                            }
+                            if (contactLoginRet.ContactLoginReport.ContactLoginReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.ContactLoginReport.ContactLoginReportTest));
                             }
                         }
                     }

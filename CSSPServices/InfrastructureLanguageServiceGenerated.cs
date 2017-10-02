@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //InfrastructureLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //InfrastructureID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             Infrastructure InfrastructureInfrastructureID = (from c in db.Infrastructures where c.InfrastructureID == infrastructureLanguage.InfrastructureID select c).FirstOrDefault();
 
             if (InfrastructureInfrastructureID == null)
@@ -91,8 +87,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
-                //Error: Type not implemented [InfrastructureLanguageWeb] of type [InfrastructureLanguageWeb]
-                //Error: Type not implemented [InfrastructureLanguageReport] of type [InfrastructureLanguageReport]
             if (infrastructureLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 infrastructureLanguage.HasErrors = true;
@@ -106,8 +100,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.InfrastructureLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == infrastructureLanguage.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -128,8 +120,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -155,8 +145,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillInfrastructureLanguageWeb(infrastructureLanguageQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillInfrastructureLanguage(infrastructureLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillInfrastructureLanguageReport(infrastructureLanguageQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -173,8 +164,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureLanguageQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillInfrastructureLanguageWeb(infrastructureLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillInfrastructureLanguage(infrastructureLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillInfrastructureLanguageReport(infrastructureLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -225,11 +217,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<InfrastructureLanguage> FillInfrastructureLanguage_Show_Copy_To_InfrastructureLanguageServiceExtra_As_Fill_InfrastructureLanguage(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated InfrastructureLanguageFillWeb
+        private IQueryable<InfrastructureLanguage> FillInfrastructureLanguageWeb(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -260,19 +249,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        InfrastructureLanguageReport = new InfrastructureLanguageReport
-                        {
-                            InfrastructureLanguageReportTest = "InfrastructureLanguageReportTest",
-                        },
+                        InfrastructureLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return infrastructureLanguageQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated InfrastructureLanguageFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(InfrastructureLanguage infrastructureLanguage)
         {
             try
@@ -287,7 +273,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

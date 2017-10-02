@@ -40,18 +40,15 @@ namespace CSSPServices.Tests
         {
             VPResult vpResult = new VPResult();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [VPResult VPScenarioID VPScenario VPScenarioID]
+            if (OmitPropName != "VPScenarioID") vpResult.VPScenarioID = 1;
             if (OmitPropName != "Ordinal") vpResult.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "Concentration_MPN_100ml") vpResult.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "Dilution") vpResult.Dilution = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "FarFieldWidth_m") vpResult.FarFieldWidth_m = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "DispersionDistance_m") vpResult.DispersionDistance_m = GetRandomDouble(0.0D, 100000.0D);
             if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomDouble(0.0D, 100.0D);
-            //Error: property [VPResultWeb] and type [VPResult] is  not implemented
-            //Error: property [VPResultReport] and type [VPResult] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") vpResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpResult.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") vpResult.HasErrors = true;
 
             return vpResult;
         }
@@ -191,6 +188,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Dilution]
 
+                    //Error: Type not implemented [Dilution]
+
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.Dilution = -1.0D;
@@ -209,6 +208,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10000)]
                     // vpResult.FarFieldWidth_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [FarFieldWidth_m]
 
                     //Error: Type not implemented [FarFieldWidth_m]
 
@@ -233,6 +234,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [DispersionDistance_m]
 
+                    //Error: Type not implemented [DispersionDistance_m]
+
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.DispersionDistance_m = -1.0D;
@@ -251,6 +254,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // vpResult.TravelTime_hour   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TravelTime_hour]
 
                     //Error: Type not implemented [TravelTime_hour]
 
@@ -273,8 +278,15 @@ namespace CSSPServices.Tests
                     // vpResult.VPResultWeb   (VPResultWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VPResultWeb]
+                    vpResult = null;
+                    vpResult = GetFilledRandomVPResult("");
+                    vpResult.VPResultWeb = null;
+                    Assert.IsNull(vpResult.VPResultWeb);
 
+                    vpResult = null;
+                    vpResult = GetFilledRandomVPResult("");
+                    vpResult.VPResultWeb = new VPResultWeb();
+                    Assert.IsNotNull(vpResult.VPResultWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -282,8 +294,15 @@ namespace CSSPServices.Tests
                     // vpResult.VPResultReport   (VPResultReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VPResultReport]
+                    vpResult = null;
+                    vpResult = GetFilledRandomVPResult("");
+                    vpResult.VPResultReport = null;
+                    Assert.IsNull(vpResult.VPResultReport);
 
+                    vpResult = null;
+                    vpResult = GetFilledRandomVPResult("");
+                    vpResult.VPResultReport = new VPResultReport();
+                    Assert.IsNotNull(vpResult.VPResultReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -291,6 +310,16 @@ namespace CSSPServices.Tests
                     // vpResult.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    vpResult = null;
+                    vpResult = GetFilledRandomVPResult("");
+                    vpResult.LastUpdateDate_UTC = new DateTime();
+                    vpResultService.Add(vpResult);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPResultLastUpdateDate_UTC), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    vpResult = null;
+                    vpResult = GetFilledRandomVPResult("");
+                    vpResult.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    vpResultService.Add(vpResult);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPResultLastUpdateDate_UTC, "1980"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -317,6 +346,7 @@ namespace CSSPServices.Tests
                     // vpResult.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -324,6 +354,7 @@ namespace CSSPServices.Tests
                     // vpResult.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -344,7 +375,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpResult);
 
                     VPResult vpResultRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -358,11 +389,15 @@ namespace CSSPServices.Tests
                         {
                             vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // VPResult fields
                         Assert.IsNotNull(vpResultRet.VPResultID);
                         Assert.IsNotNull(vpResultRet.VPScenarioID);
                         Assert.IsNotNull(vpResultRet.Ordinal);
@@ -374,27 +409,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(vpResultRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(vpResultRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (vpResultRet.VPResultWeb != null)
-                            {
-                                Assert.IsNull(vpResultRet.VPResultWeb);
-                            }
-                            if (vpResultRet.VPResultReport != null)
-                            {
-                                Assert.IsNull(vpResultRet.VPResultReport);
-                            }
+                            // VPResultWeb and VPResultReport fields should be null here
+                            Assert.IsNull(vpResultRet.VPResultWeb);
+                            Assert.IsNull(vpResultRet.VPResultReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (vpResultRet.VPResultWeb != null)
+                            // VPResultWeb fields should not be null and VPResultReport fields should be null here
+                            if (vpResultRet.VPResultWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(vpResultRet.VPResultWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultRet.VPResultWeb.LastUpdateContactTVText));
                             }
-                            if (vpResultRet.VPResultReport != null)
+                            Assert.IsNull(vpResultRet.VPResultReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // VPResultWeb and VPResultReport fields should NOT be null here
+                            if (vpResultRet.VPResultWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(vpResultRet.VPResultReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultRet.VPResultWeb.LastUpdateContactTVText));
+                            }
+                            if (vpResultRet.VPResultReport.VPResultReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultRet.VPResultReport.VPResultReportTest));
                             }
                         }
                     }

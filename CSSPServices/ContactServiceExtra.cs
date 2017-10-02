@@ -1224,7 +1224,7 @@ namespace CSSPServices
                 tvItem.LastUpdateDate_UTC = DateTime.UtcNow;
                 tvItem.LastUpdateContactTVItemID = tvItemRoot.TVItemID;
 
-                }
+            }
 
             using (TransactionScope ts = new TransactionScope())
             {
@@ -1740,6 +1740,61 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<Contact> FillContactReport(IQueryable<Contact> contactQuery, string FilterAndOrderText)
+        {
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> ContactTitleEnumList = enums.GetEnumTextOrderedList(typeof(ContactTitleEnum));
+
+            contactQuery = (from c in contactQuery
+                            let ContactTVText = (from cl in db.TVItemLanguages
+                                                 where cl.TVItemID == c.ContactTVItemID
+                                                 && cl.Language == LanguageRequest
+                                                 select cl.TVText).FirstOrDefault()
+                            let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                           where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                           && cl.Language == LanguageRequest
+                                                           select cl.TVText).FirstOrDefault()
+                            let ParentTVItemID = (from cl in db.TVItems
+                                                  where cl.TVItemID == c.ContactTVItemID
+                                                  select cl.ParentID).FirstOrDefault()
+                            select new Contact
+                            {
+                                ContactID = c.ContactID,
+                                Id = c.Id,
+                                ContactTVItemID = c.ContactTVItemID,
+                                LoginEmail = c.LoginEmail,
+                                FirstName = c.FirstName,
+                                LastName = c.LastName,
+                                Initial = c.Initial,
+                                WebName = c.WebName,
+                                ContactTitle = c.ContactTitle,
+                                IsAdmin = c.IsAdmin,
+                                EmailValidated = c.EmailValidated,
+                                Disabled = c.Disabled,
+                                IsNew = c.IsNew,
+                                SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
+                                LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                ContactWeb = new ContactWeb
+                                {
+                                    ContactTVText = ContactTVText,
+                                    LastUpdateContactTVText = LastUpdateContactTVText,
+                                    ParentTVItemID = ParentTVItemID,
+                                    ContactTitleText = (from e in ContactTitleEnumList
+                                                        where e.EnumID == (int?)c.ContactTitle
+                                                        select e.EnumText).FirstOrDefault(),
+                                },
+                                ContactReport = new ContactReport
+                                {
+                                    ContactReportTest = "ContactReportTest",
+                                },
+                                HasErrors = false,
+                                ValidationResults = null,
+                            });
+
+            return contactQuery;
+        }
         #endregion Functions private
 
     }

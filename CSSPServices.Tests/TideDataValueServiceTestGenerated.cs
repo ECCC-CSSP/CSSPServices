@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             TideDataValue tideDataValue = new TideDataValue();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [TideDataValue TideSiteTVItemID TVItem TVItemID]
+            if (OmitPropName != "TideSiteTVItemID") tideDataValue.TideSiteTVItemID = 13;
             if (OmitPropName != "DateTime_Local") tideDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") tideDataValue.Keep = true;
             if (OmitPropName != "TideDataType") tideDataValue.TideDataType = (TideDataTypeEnum)GetRandomEnumType(typeof(TideDataTypeEnum));
@@ -50,11 +50,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "VVelocity_m_s") tideDataValue.VVelocity_m_s = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "TideStart") tideDataValue.TideStart = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "TideEnd") tideDataValue.TideEnd = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
-            //Error: property [TideDataValueWeb] and type [TideDataValue] is  not implemented
-            //Error: property [TideDataValueReport] and type [TideDataValue] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tideDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tideDataValue.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") tideDataValue.HasErrors = true;
 
             return tideDataValue;
         }
@@ -160,6 +157,16 @@ namespace CSSPServices.Tests
                     // tideDataValue.DateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.DateTime_Local = new DateTime();
+                    tideDataValueService.Add(tideDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueDateTime_Local), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.DateTime_Local = new DateTime(1979, 1, 1);
+                    tideDataValueService.Add(tideDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideDataValueDateTime_Local, "1980"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -201,6 +208,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Depth_m]
 
+                    //Error: Type not implemented [Depth_m]
+
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
                     tideDataValue.Depth_m = -1.0D;
@@ -222,6 +231,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [UVelocity_m_s]
 
+                    //Error: Type not implemented [UVelocity_m_s]
+
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
                     tideDataValue.UVelocity_m_s = -1.0D;
@@ -240,6 +251,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10)]
                     // tideDataValue.VVelocity_m_s   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [VVelocity_m_s]
 
                     //Error: Type not implemented [VVelocity_m_s]
 
@@ -288,8 +301,15 @@ namespace CSSPServices.Tests
                     // tideDataValue.TideDataValueWeb   (TideDataValueWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TideDataValueWeb]
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.TideDataValueWeb = null;
+                    Assert.IsNull(tideDataValue.TideDataValueWeb);
 
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.TideDataValueWeb = new TideDataValueWeb();
+                    Assert.IsNotNull(tideDataValue.TideDataValueWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -297,8 +317,15 @@ namespace CSSPServices.Tests
                     // tideDataValue.TideDataValueReport   (TideDataValueReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TideDataValueReport]
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.TideDataValueReport = null;
+                    Assert.IsNull(tideDataValue.TideDataValueReport);
 
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.TideDataValueReport = new TideDataValueReport();
+                    Assert.IsNotNull(tideDataValue.TideDataValueReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -306,6 +333,16 @@ namespace CSSPServices.Tests
                     // tideDataValue.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.LastUpdateDate_UTC = new DateTime();
+                    tideDataValueService.Add(tideDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueLastUpdateDate_UTC), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tideDataValue = null;
+                    tideDataValue = GetFilledRandomTideDataValue("");
+                    tideDataValue.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    tideDataValueService.Add(tideDataValue);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideDataValueLastUpdateDate_UTC, "1980"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -332,6 +369,7 @@ namespace CSSPServices.Tests
                     // tideDataValue.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -339,6 +377,7 @@ namespace CSSPServices.Tests
                     // tideDataValue.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -359,7 +398,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tideDataValue);
 
                     TideDataValue tideDataValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -373,11 +412,15 @@ namespace CSSPServices.Tests
                         {
                             tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // TideDataValue fields
                         Assert.IsNotNull(tideDataValueRet.TideDataValueID);
                         Assert.IsNotNull(tideDataValueRet.TideSiteTVItemID);
                         Assert.IsNotNull(tideDataValueRet.DateTime_Local);
@@ -398,27 +441,71 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tideDataValueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tideDataValueRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tideDataValueRet.TideDataValueWeb != null)
-                            {
-                                Assert.IsNull(tideDataValueRet.TideDataValueWeb);
-                            }
-                            if (tideDataValueRet.TideDataValueReport != null)
-                            {
-                                Assert.IsNull(tideDataValueRet.TideDataValueReport);
-                            }
+                            // TideDataValueWeb and TideDataValueReport fields should be null here
+                            Assert.IsNull(tideDataValueRet.TideDataValueWeb);
+                            Assert.IsNull(tideDataValueRet.TideDataValueReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tideDataValueRet.TideDataValueWeb != null)
+                            // TideDataValueWeb fields should not be null and TideDataValueReport fields should be null here
+                            if (tideDataValueRet.TideDataValueWeb.TideSiteTVText != null)
                             {
-                                Assert.IsNotNull(tideDataValueRet.TideDataValueWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideSiteTVText));
                             }
-                            if (tideDataValueRet.TideDataValueReport != null)
+                            if (tideDataValueRet.TideDataValueWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(tideDataValueRet.TideDataValueReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.TideDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideDataTypeText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.StorageDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.StorageDataTypeText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.TideStartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideStartText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.TideEndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideEndText));
+                            }
+                            Assert.IsNull(tideDataValueRet.TideDataValueReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TideDataValueWeb and TideDataValueReport fields should NOT be null here
+                            if (tideDataValueRet.TideDataValueWeb.TideSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideSiteTVText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.TideDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideDataTypeText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.StorageDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.StorageDataTypeText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.TideStartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideStartText));
+                            }
+                            if (tideDataValueRet.TideDataValueWeb.TideEndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueWeb.TideEndText));
+                            }
+                            if (tideDataValueRet.TideDataValueReport.TideDataValueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataValueReport.TideDataValueReportTest));
                             }
                         }
                     }

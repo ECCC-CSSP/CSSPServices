@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Error") otherFilesToUpload.Error = GetRandomString("", 20);
             if (OmitPropName != "MikeScenarioID") otherFilesToUpload.MikeScenarioID = GetRandomInt(1, 11);
-            if (OmitPropName != "HasErrors") otherFilesToUpload.HasErrors = true;
 
             return otherFilesToUpload;
         }

@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MapInfoID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTVItemID = (from c in db.TVItems where c.TVItemID == mapInfo.TVItemID select c).FirstOrDefault();
 
             if (TVItemTVItemID == null)
@@ -122,15 +118,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoTVType), new[] { "TVType" });
             }
 
-            //LatMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mapInfo.LatMin < -90 || mapInfo.LatMin > 90)
             {
                 mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoLatMin, "-90", "90"), new[] { "LatMin" });
             }
-
-            //LatMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LatMax < -90 || mapInfo.LatMax > 90)
             {
@@ -138,15 +130,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoLatMax, "-90", "90"), new[] { "LatMax" });
             }
 
-            //LngMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mapInfo.LngMin < -180 || mapInfo.LngMin > 180)
             {
                 mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoLngMin, "-180", "180"), new[] { "LngMin" });
             }
-
-            //LngMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LngMax < -180 || mapInfo.LngMax > 180)
             {
@@ -161,8 +149,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoMapInfoDrawType), new[] { "MapInfoDrawType" });
             }
 
-                //Error: Type not implemented [MapInfoWeb] of type [MapInfoWeb]
-                //Error: Type not implemented [MapInfoReport] of type [MapInfoReport]
             if (mapInfo.LastUpdateDate_UTC.Year == 1)
             {
                 mapInfo.HasErrors = true;
@@ -176,8 +162,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MapInfoLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mapInfo.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -198,8 +182,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -225,8 +207,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMapInfoWeb(mapInfoQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfo(mapInfoQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMapInfoReport(mapInfoQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -243,8 +226,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMapInfoWeb(mapInfoQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfo(mapInfoQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMapInfoReport(mapInfoQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -295,11 +279,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MapInfo> FillMapInfo_Show_Copy_To_MapInfoServiceExtra_As_Fill_MapInfo(IQueryable<MapInfo> mapInfoQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MapInfoFillWeb
+        private IQueryable<MapInfo> FillMapInfoWeb(IQueryable<MapInfo> mapInfoQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -338,19 +319,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.MapInfoDrawType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        MapInfoReport = new MapInfoReport
-                        {
-                            MapInfoReportTest = "MapInfoReportTest",
-                        },
+                        MapInfoReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mapInfoQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MapInfoFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MapInfo mapInfo)
         {
             try
@@ -365,7 +343,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

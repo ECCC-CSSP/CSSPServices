@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TideSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TideSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTideSiteTVItemID = (from c in db.TVItems where c.TVItemID == tideSite.TideSiteTVItemID select c).FirstOrDefault();
 
             if (TVItemTideSiteTVItemID == null)
@@ -93,16 +89,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteWebTideModel, "100"), new[] { "WebTideModel" });
             }
 
-            //WebTideDatum_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tideSite.WebTideDatum_m < -100 || tideSite.WebTideDatum_m > 100)
             {
                 tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideSiteWebTideDatum_m, "-100", "100"), new[] { "WebTideDatum_m" });
             }
 
-                //Error: Type not implemented [TideSiteWeb] of type [TideSiteWeb]
-                //Error: Type not implemented [TideSiteReport] of type [TideSiteReport]
             if (tideSite.LastUpdateDate_UTC.Year == 1)
             {
                 tideSite.HasErrors = true;
@@ -116,8 +108,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tideSite.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -138,8 +128,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -165,8 +153,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTideSiteWeb(tideSiteQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideSite(tideSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTideSiteReport(tideSiteQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -183,8 +172,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideSiteQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTideSiteWeb(tideSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideSite(tideSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTideSiteReport(tideSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -235,11 +225,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TideSite> FillTideSite_Show_Copy_To_TideSiteServiceExtra_As_Fill_TideSite(IQueryable<TideSite> tideSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TideSiteFillWeb
+        private IQueryable<TideSite> FillTideSiteWeb(IQueryable<TideSite> tideSiteQuery, string FilterAndOrderText)
         {
             tideSiteQuery = (from c in tideSiteQuery
                 let TideSiteTVText = (from cl in db.TVItemLanguages
@@ -263,19 +250,16 @@ namespace CSSPServices
                             TideSiteTVText = TideSiteTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        TideSiteReport = new TideSiteReport
-                        {
-                            TideSiteReportTest = "TideSiteReportTest",
-                        },
+                        TideSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tideSiteQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TideSiteFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TideSite tideSite)
         {
             try
@@ -290,7 +274,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

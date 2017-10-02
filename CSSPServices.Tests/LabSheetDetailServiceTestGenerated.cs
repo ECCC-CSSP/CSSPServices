@@ -40,9 +40,9 @@ namespace CSSPServices.Tests
         {
             LabSheetDetail labSheetDetail = new LabSheetDetail();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetDetail LabSheetID LabSheet LabSheetID]
-            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetDetail SamplingPlanID SamplingPlan SamplingPlanID]
-            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetDetail SubsectorTVItemID TVItem TVItemID]
+            if (OmitPropName != "LabSheetID") labSheetDetail.LabSheetID = 1;
+            if (OmitPropName != "SamplingPlanID") labSheetDetail.SamplingPlanID = 1;
+            if (OmitPropName != "SubsectorTVItemID") labSheetDetail.SubsectorTVItemID = 11;
             if (OmitPropName != "Version") labSheetDetail.Version = GetRandomInt(1, 5);
             if (OmitPropName != "RunDate") labSheetDetail.RunDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "Tides") labSheetDetail.Tides = GetRandomString("", 6);
@@ -102,11 +102,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") labSheetDetail.IntertechDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "IntertechDuplicateAcceptable") labSheetDetail.IntertechDuplicateAcceptable = true;
             if (OmitPropName != "IntertechReadAcceptable") labSheetDetail.IntertechReadAcceptable = true;
-            //Error: property [LabSheetDetailWeb] and type [LabSheetDetail] is  not implemented
-            //Error: property [LabSheetDetailReport] and type [LabSheetDetail] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") labSheetDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetDetail.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") labSheetDetail.HasErrors = true;
 
             return labSheetDetail;
         }
@@ -257,6 +254,16 @@ namespace CSSPServices.Tests
                     // labSheetDetail.RunDate   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.RunDate = new DateTime();
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetDetailRunDate), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.RunDate = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailRunDate, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -319,6 +326,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.IncubationBath1StartTime   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.IncubationBath1StartTime = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailIncubationBath1StartTime, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -326,6 +338,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.IncubationBath2StartTime   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.IncubationBath2StartTime = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailIncubationBath2StartTime, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -333,6 +350,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.IncubationBath3StartTime   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.IncubationBath3StartTime = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailIncubationBath3StartTime, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -340,6 +362,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.IncubationBath1EndTime   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.IncubationBath1EndTime = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailIncubationBath1EndTime, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -347,6 +374,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.IncubationBath2EndTime   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.IncubationBath2EndTime = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailIncubationBath2EndTime, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -354,6 +386,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.IncubationBath3EndTime   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.IncubationBath3EndTime = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailIncubationBath3EndTime, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -459,6 +496,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [TCField1]
 
+                    //Error: Type not implemented [TCField1]
+
                     labSheetDetail = null;
                     labSheetDetail = GetFilledRandomLabSheetDetail("");
                     labSheetDetail.TCField1 = -11.0D;
@@ -477,6 +516,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // labSheetDetail.TCLab1   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TCLab1]
 
                     //Error: Type not implemented [TCLab1]
 
@@ -501,6 +542,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [TCField2]
 
+                    //Error: Type not implemented [TCField2]
+
                     labSheetDetail = null;
                     labSheetDetail = GetFilledRandomLabSheetDetail("");
                     labSheetDetail.TCField2 = -11.0D;
@@ -519,6 +562,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // labSheetDetail.TCLab2   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TCLab2]
 
                     //Error: Type not implemented [TCLab2]
 
@@ -543,6 +588,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [TCFirst]
 
+                    //Error: Type not implemented [TCFirst]
+
                     labSheetDetail = null;
                     labSheetDetail = GetFilledRandomLabSheetDetail("");
                     labSheetDetail.TCFirst = -11.0D;
@@ -561,6 +608,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // labSheetDetail.TCAverage   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TCAverage]
 
                     //Error: Type not implemented [TCAverage]
 
@@ -927,6 +976,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.SalinitiesReadDate   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.SalinitiesReadDate = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailSalinitiesReadDate, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -947,6 +1001,11 @@ namespace CSSPServices.Tests
                     // labSheetDetail.ResultsReadDate   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.ResultsReadDate = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailResultsReadDate, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -967,12 +1026,19 @@ namespace CSSPServices.Tests
                     // labSheetDetail.ResultsRecordedDate   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.ResultsRecordedDate = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailResultsRecordedDate, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
                     // [Range(0, 100)]
                     // labSheetDetail.DailyDuplicateRLog   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DailyDuplicateRLog]
 
                     //Error: Type not implemented [DailyDuplicateRLog]
 
@@ -994,6 +1060,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // labSheetDetail.DailyDuplicatePrecisionCriteria   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
 
                     //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
 
@@ -1024,6 +1092,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [IntertechDuplicateRLog]
 
+                    //Error: Type not implemented [IntertechDuplicateRLog]
+
                     labSheetDetail = null;
                     labSheetDetail = GetFilledRandomLabSheetDetail("");
                     labSheetDetail.IntertechDuplicateRLog = -1.0D;
@@ -1042,6 +1112,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // labSheetDetail.IntertechDuplicatePrecisionCriteria   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
 
                     //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
 
@@ -1076,8 +1148,15 @@ namespace CSSPServices.Tests
                     // labSheetDetail.LabSheetDetailWeb   (LabSheetDetailWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LabSheetDetailWeb]
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.LabSheetDetailWeb = null;
+                    Assert.IsNull(labSheetDetail.LabSheetDetailWeb);
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.LabSheetDetailWeb = new LabSheetDetailWeb();
+                    Assert.IsNotNull(labSheetDetail.LabSheetDetailWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -1085,8 +1164,15 @@ namespace CSSPServices.Tests
                     // labSheetDetail.LabSheetDetailReport   (LabSheetDetailReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LabSheetDetailReport]
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.LabSheetDetailReport = null;
+                    Assert.IsNull(labSheetDetail.LabSheetDetailReport);
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.LabSheetDetailReport = new LabSheetDetailReport();
+                    Assert.IsNotNull(labSheetDetail.LabSheetDetailReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1094,6 +1180,16 @@ namespace CSSPServices.Tests
                     // labSheetDetail.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.LastUpdateDate_UTC = new DateTime();
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetDetailLastUpdateDate_UTC), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                    labSheetDetail = null;
+                    labSheetDetail = GetFilledRandomLabSheetDetail("");
+                    labSheetDetail.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    labSheetDetailService.Add(labSheetDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetDetailLastUpdateDate_UTC, "1980"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1120,6 +1216,7 @@ namespace CSSPServices.Tests
                     // labSheetDetail.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1127,6 +1224,7 @@ namespace CSSPServices.Tests
                     // labSheetDetail.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -1147,7 +1245,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(labSheetDetail);
 
                     LabSheetDetail labSheetDetailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -1161,11 +1259,15 @@ namespace CSSPServices.Tests
                         {
                             labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // LabSheetDetail fields
                         Assert.IsNotNull(labSheetDetailRet.LabSheetDetailID);
                         Assert.IsNotNull(labSheetDetailRet.LabSheetID);
                         Assert.IsNotNull(labSheetDetailRet.SamplingPlanID);
@@ -1400,27 +1502,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(labSheetDetailRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(labSheetDetailRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (labSheetDetailRet.LabSheetDetailWeb != null)
-                            {
-                                Assert.IsNull(labSheetDetailRet.LabSheetDetailWeb);
-                            }
-                            if (labSheetDetailRet.LabSheetDetailReport != null)
-                            {
-                                Assert.IsNull(labSheetDetailRet.LabSheetDetailReport);
-                            }
+                            // LabSheetDetailWeb and LabSheetDetailReport fields should be null here
+                            Assert.IsNull(labSheetDetailRet.LabSheetDetailWeb);
+                            Assert.IsNull(labSheetDetailRet.LabSheetDetailReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (labSheetDetailRet.LabSheetDetailWeb != null)
+                            // LabSheetDetailWeb fields should not be null and LabSheetDetailReport fields should be null here
+                            if (labSheetDetailRet.LabSheetDetailWeb.SubsectorTVText != null)
                             {
-                                Assert.IsNotNull(labSheetDetailRet.LabSheetDetailWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LabSheetDetailWeb.SubsectorTVText));
                             }
-                            if (labSheetDetailRet.LabSheetDetailReport != null)
+                            if (labSheetDetailRet.LabSheetDetailWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(labSheetDetailRet.LabSheetDetailReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LabSheetDetailWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(labSheetDetailRet.LabSheetDetailReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // LabSheetDetailWeb and LabSheetDetailReport fields should NOT be null here
+                            if (labSheetDetailRet.LabSheetDetailWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LabSheetDetailWeb.SubsectorTVText));
+                            }
+                            if (labSheetDetailRet.LabSheetDetailWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LabSheetDetailWeb.LastUpdateContactTVText));
+                            }
+                            if (labSheetDetailRet.LabSheetDetailReport.LabSheetDetailReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LabSheetDetailReport.LabSheetDetailReportTest));
                             }
                         }
                     }

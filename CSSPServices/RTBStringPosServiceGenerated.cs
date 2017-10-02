@@ -42,15 +42,11 @@ namespace CSSPServices
             RTBStringPos rTBStringPos = validationContext.ObjectInstance as RTBStringPos;
             rTBStringPos.HasErrors = false;
 
-            //StartPos (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (rTBStringPos.StartPos < 0)
             {
                 rTBStringPos.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.RTBStringPosStartPos, "0"), new[] { "StartPos" });
             }
-
-            //EndPos (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (rTBStringPos.EndPos < 0)
             {
@@ -73,8 +69,6 @@ namespace CSSPServices
             }
 
             //TagText has no StringLength Attribute
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

@@ -42,13 +42,10 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Language") docTemplate.Language = LanguageRequest;
             if (OmitPropName != "TVType") docTemplate.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            // Need to implement (no items found, would need to add at least one in the TestDB) [DocTemplate TVFileTVItemID TVItem TVItemID]
+            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 17;
             if (OmitPropName != "FileName") docTemplate.FileName = GetRandomString("", 5);
-            //Error: property [DocTemplateWeb] and type [DocTemplate] is  not implemented
-            //Error: property [DocTemplateReport] and type [DocTemplate] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") docTemplate.HasErrors = true;
 
             return docTemplate;
         }
@@ -201,8 +198,15 @@ namespace CSSPServices.Tests
                     // docTemplate.DocTemplateWeb   (DocTemplateWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DocTemplateWeb]
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.DocTemplateWeb = null;
+                    Assert.IsNull(docTemplate.DocTemplateWeb);
 
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.DocTemplateWeb = new DocTemplateWeb();
+                    Assert.IsNotNull(docTemplate.DocTemplateWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -210,8 +214,15 @@ namespace CSSPServices.Tests
                     // docTemplate.DocTemplateReport   (DocTemplateReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [DocTemplateReport]
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.DocTemplateReport = null;
+                    Assert.IsNull(docTemplate.DocTemplateReport);
 
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.DocTemplateReport = new DocTemplateReport();
+                    Assert.IsNotNull(docTemplate.DocTemplateReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -219,6 +230,16 @@ namespace CSSPServices.Tests
                     // docTemplate.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.LastUpdateDate_UTC = new DateTime();
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateLastUpdateDate_UTC), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.DocTemplateLastUpdateDate_UTC, "1980"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -245,6 +266,7 @@ namespace CSSPServices.Tests
                     // docTemplate.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -252,6 +274,7 @@ namespace CSSPServices.Tests
                     // docTemplate.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -272,7 +295,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(docTemplate);
 
                     DocTemplate docTemplateRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -286,11 +309,15 @@ namespace CSSPServices.Tests
                         {
                             docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // DocTemplate fields
                         Assert.IsNotNull(docTemplateRet.DocTemplateID);
                         Assert.IsNotNull(docTemplateRet.Language);
                         Assert.IsNotNull(docTemplateRet.TVType);
@@ -299,27 +326,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(docTemplateRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(docTemplateRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (docTemplateRet.DocTemplateWeb != null)
-                            {
-                                Assert.IsNull(docTemplateRet.DocTemplateWeb);
-                            }
-                            if (docTemplateRet.DocTemplateReport != null)
-                            {
-                                Assert.IsNull(docTemplateRet.DocTemplateReport);
-                            }
+                            // DocTemplateWeb and DocTemplateReport fields should be null here
+                            Assert.IsNull(docTemplateRet.DocTemplateWeb);
+                            Assert.IsNull(docTemplateRet.DocTemplateReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (docTemplateRet.DocTemplateWeb != null)
+                            // DocTemplateWeb fields should not be null and DocTemplateReport fields should be null here
+                            if (docTemplateRet.DocTemplateWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(docTemplateRet.DocTemplateWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.DocTemplateWeb.LastUpdateContactTVText));
                             }
-                            if (docTemplateRet.DocTemplateReport != null)
+                            if (docTemplateRet.DocTemplateWeb.LanguageText != null)
                             {
-                                Assert.IsNotNull(docTemplateRet.DocTemplateReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.DocTemplateWeb.LanguageText));
+                            }
+                            if (docTemplateRet.DocTemplateWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.DocTemplateWeb.TVTypeText));
+                            }
+                            Assert.IsNull(docTemplateRet.DocTemplateReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // DocTemplateWeb and DocTemplateReport fields should NOT be null here
+                            if (docTemplateRet.DocTemplateWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.DocTemplateWeb.LastUpdateContactTVText));
+                            }
+                            if (docTemplateRet.DocTemplateWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.DocTemplateWeb.LanguageText));
+                            }
+                            if (docTemplateRet.DocTemplateWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.DocTemplateWeb.TVTypeText));
+                            }
+                            if (docTemplateRet.DocTemplateReport.DocTemplateReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.DocTemplateReport.DocTemplateReportTest));
                             }
                         }
                     }

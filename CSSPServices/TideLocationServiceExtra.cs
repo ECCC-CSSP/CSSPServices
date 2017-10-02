@@ -31,6 +31,38 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<TideLocation> FillTideLocationReport(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText)
+        {
+            tideLocationQuery = (from c in tideLocationQuery
+                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                && cl.Language == LanguageRequest
+                                                                select cl.TVText).FirstOrDefault()
+                                 select new TideLocation
+                                 {
+                                     TideLocationID = c.TideLocationID,
+                                     Zone = c.Zone,
+                                     Name = c.Name,
+                                     Prov = c.Prov,
+                                     sid = c.sid,
+                                     Lat = c.Lat,
+                                     Lng = c.Lng,
+                                     LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                     LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                     TideLocationWeb = new TideLocationWeb
+                                     {
+                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                     },
+                                     TideLocationReport = new TideLocationReport
+                                     {
+                                         TideLocationReportTest = "TideLocationReportTest",
+                                     },
+                                     HasErrors = false,
+                                     ValidationResults = null,
+                                 });
+
+            return tideLocationQuery;
+        }
         #endregion Functions private
     }
 }

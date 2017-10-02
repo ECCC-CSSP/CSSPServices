@@ -40,13 +40,10 @@ namespace CSSPServices.Tests
         {
             EmailDistributionList emailDistributionList = new EmailDistributionList();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [EmailDistributionList CountryTVItemID TVItem TVItemID]
+            if (OmitPropName != "CountryTVItemID") emailDistributionList.CountryTVItemID = 5;
             if (OmitPropName != "Ordinal") emailDistributionList.Ordinal = GetRandomInt(0, 1000);
-            //Error: property [EmailDistributionListWeb] and type [EmailDistributionList] is  not implemented
-            //Error: property [EmailDistributionListReport] and type [EmailDistributionList] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") emailDistributionList.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") emailDistributionList.HasErrors = true;
 
             return emailDistributionList;
         }
@@ -171,8 +168,15 @@ namespace CSSPServices.Tests
                     // emailDistributionList.EmailDistributionListWeb   (EmailDistributionListWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [EmailDistributionListWeb]
+                    emailDistributionList = null;
+                    emailDistributionList = GetFilledRandomEmailDistributionList("");
+                    emailDistributionList.EmailDistributionListWeb = null;
+                    Assert.IsNull(emailDistributionList.EmailDistributionListWeb);
 
+                    emailDistributionList = null;
+                    emailDistributionList = GetFilledRandomEmailDistributionList("");
+                    emailDistributionList.EmailDistributionListWeb = new EmailDistributionListWeb();
+                    Assert.IsNotNull(emailDistributionList.EmailDistributionListWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -180,8 +184,15 @@ namespace CSSPServices.Tests
                     // emailDistributionList.EmailDistributionListReport   (EmailDistributionListReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [EmailDistributionListReport]
+                    emailDistributionList = null;
+                    emailDistributionList = GetFilledRandomEmailDistributionList("");
+                    emailDistributionList.EmailDistributionListReport = null;
+                    Assert.IsNull(emailDistributionList.EmailDistributionListReport);
 
+                    emailDistributionList = null;
+                    emailDistributionList = GetFilledRandomEmailDistributionList("");
+                    emailDistributionList.EmailDistributionListReport = new EmailDistributionListReport();
+                    Assert.IsNotNull(emailDistributionList.EmailDistributionListReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -189,6 +200,16 @@ namespace CSSPServices.Tests
                     // emailDistributionList.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    emailDistributionList = null;
+                    emailDistributionList = GetFilledRandomEmailDistributionList("");
+                    emailDistributionList.LastUpdateDate_UTC = new DateTime();
+                    emailDistributionListService.Add(emailDistributionList);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListLastUpdateDate_UTC), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                    emailDistributionList = null;
+                    emailDistributionList = GetFilledRandomEmailDistributionList("");
+                    emailDistributionList.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    emailDistributionListService.Add(emailDistributionList);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListLastUpdateDate_UTC, "1980"), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -215,6 +236,7 @@ namespace CSSPServices.Tests
                     // emailDistributionList.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -222,6 +244,7 @@ namespace CSSPServices.Tests
                     // emailDistributionList.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -242,7 +265,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(emailDistributionList);
 
                     EmailDistributionList emailDistributionListRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -256,38 +279,54 @@ namespace CSSPServices.Tests
                         {
                             emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // EmailDistributionList fields
                         Assert.IsNotNull(emailDistributionListRet.EmailDistributionListID);
                         Assert.IsNotNull(emailDistributionListRet.CountryTVItemID);
                         Assert.IsNotNull(emailDistributionListRet.Ordinal);
                         Assert.IsNotNull(emailDistributionListRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (emailDistributionListRet.EmailDistributionListWeb != null)
-                            {
-                                Assert.IsNull(emailDistributionListRet.EmailDistributionListWeb);
-                            }
-                            if (emailDistributionListRet.EmailDistributionListReport != null)
-                            {
-                                Assert.IsNull(emailDistributionListRet.EmailDistributionListReport);
-                            }
+                            // EmailDistributionListWeb and EmailDistributionListReport fields should be null here
+                            Assert.IsNull(emailDistributionListRet.EmailDistributionListWeb);
+                            Assert.IsNull(emailDistributionListRet.EmailDistributionListReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (emailDistributionListRet.EmailDistributionListWeb != null)
+                            // EmailDistributionListWeb fields should not be null and EmailDistributionListReport fields should be null here
+                            if (emailDistributionListRet.EmailDistributionListWeb.CountryTVText != null)
                             {
-                                Assert.IsNotNull(emailDistributionListRet.EmailDistributionListWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.CountryTVText));
                             }
-                            if (emailDistributionListRet.EmailDistributionListReport != null)
+                            if (emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(emailDistributionListRet.EmailDistributionListReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(emailDistributionListRet.EmailDistributionListReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // EmailDistributionListWeb and EmailDistributionListReport fields should NOT be null here
+                            if (emailDistributionListRet.EmailDistributionListWeb.CountryTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.CountryTVText));
+                            }
+                            if (emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText));
+                            }
+                            if (emailDistributionListRet.EmailDistributionListReport.EmailDistributionReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListReport.EmailDistributionReportTest));
                             }
                         }
                     }

@@ -43,6 +43,43 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<Log> FillLogReport(IQueryable<Log> logQuery, string FilterAndOrderText)
+        {
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> LogCommandEnumList = enums.GetEnumTextOrderedList(typeof(LogCommandEnum));
+
+            logQuery = (from c in logQuery
+                        let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                       where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                       && cl.Language == LanguageRequest
+                                                       select cl.TVText).FirstOrDefault()
+                        select new Log
+                        {
+                            LogID = c.LogID,
+                            TableName = c.TableName,
+                            ID = c.ID,
+                            LogCommand = c.LogCommand,
+                            Information = c.Information,
+                            LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                            LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                            LogWeb = new LogWeb
+                            {
+                                LastUpdateContactTVText = LastUpdateContactTVText,
+                                LogCommandText = (from e in LogCommandEnumList
+                                                  where e.EnumID == (int?)c.LogCommand
+                                                  select e.EnumText).FirstOrDefault(),
+                            },
+                            LogReport = new LogReport
+                            {
+                                LogReportTest = "LogReportTest",
+                            },
+                            HasErrors = false,
+                            ValidationResults = null,
+                        });
+
+            return logQuery;
+        }
         #endregion Functions private 
     }
 }

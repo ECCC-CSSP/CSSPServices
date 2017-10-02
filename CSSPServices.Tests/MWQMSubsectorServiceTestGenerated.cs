@@ -40,14 +40,11 @@ namespace CSSPServices.Tests
         {
             MWQMSubsector mwqmSubsector = new MWQMSubsector();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSubsector MWQMSubsectorTVItemID TVItem TVItemID]
+            if (OmitPropName != "MWQMSubsectorTVItemID") mwqmSubsector.MWQMSubsectorTVItemID = 11;
             if (OmitPropName != "SubsectorHistoricKey") mwqmSubsector.SubsectorHistoricKey = GetRandomString("", 5);
             if (OmitPropName != "TideLocationSIDText") mwqmSubsector.TideLocationSIDText = GetRandomString("", 5);
-            //Error: property [MWQMSubsectorWeb] and type [MWQMSubsector] is  not implemented
-            //Error: property [MWQMSubsectorReport] and type [MWQMSubsector] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsector.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsector.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mwqmSubsector.HasErrors = true;
 
             return mwqmSubsector;
         }
@@ -187,8 +184,15 @@ namespace CSSPServices.Tests
                     // mwqmSubsector.MWQMSubsectorWeb   (MWQMSubsectorWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSubsectorWeb]
+                    mwqmSubsector = null;
+                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                    mwqmSubsector.MWQMSubsectorWeb = null;
+                    Assert.IsNull(mwqmSubsector.MWQMSubsectorWeb);
 
+                    mwqmSubsector = null;
+                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                    mwqmSubsector.MWQMSubsectorWeb = new MWQMSubsectorWeb();
+                    Assert.IsNotNull(mwqmSubsector.MWQMSubsectorWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -196,8 +200,15 @@ namespace CSSPServices.Tests
                     // mwqmSubsector.MWQMSubsectorReport   (MWQMSubsectorReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSubsectorReport]
+                    mwqmSubsector = null;
+                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                    mwqmSubsector.MWQMSubsectorReport = null;
+                    Assert.IsNull(mwqmSubsector.MWQMSubsectorReport);
 
+                    mwqmSubsector = null;
+                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                    mwqmSubsector.MWQMSubsectorReport = new MWQMSubsectorReport();
+                    Assert.IsNotNull(mwqmSubsector.MWQMSubsectorReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -205,6 +216,16 @@ namespace CSSPServices.Tests
                     // mwqmSubsector.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mwqmSubsector = null;
+                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                    mwqmSubsector.LastUpdateDate_UTC = new DateTime();
+                    mwqmSubsectorService.Add(mwqmSubsector);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSubsectorLastUpdateDate_UTC), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSubsector = null;
+                    mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                    mwqmSubsector.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mwqmSubsectorService.Add(mwqmSubsector);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSubsectorLastUpdateDate_UTC, "1980"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -231,6 +252,7 @@ namespace CSSPServices.Tests
                     // mwqmSubsector.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -238,6 +260,7 @@ namespace CSSPServices.Tests
                     // mwqmSubsector.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -258,7 +281,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSubsector);
 
                     MWQMSubsector mwqmSubsectorRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -272,11 +295,15 @@ namespace CSSPServices.Tests
                         {
                             mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MWQMSubsector fields
                         Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorID);
                         Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorTVItemID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorHistoricKey));
@@ -287,27 +314,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmSubsectorRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmSubsectorRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSubsectorRet.MWQMSubsectorWeb != null)
-                            {
-                                Assert.IsNull(mwqmSubsectorRet.MWQMSubsectorWeb);
-                            }
-                            if (mwqmSubsectorRet.MWQMSubsectorReport != null)
-                            {
-                                Assert.IsNull(mwqmSubsectorRet.MWQMSubsectorReport);
-                            }
+                            // MWQMSubsectorWeb and MWQMSubsectorReport fields should be null here
+                            Assert.IsNull(mwqmSubsectorRet.MWQMSubsectorWeb);
+                            Assert.IsNull(mwqmSubsectorRet.MWQMSubsectorReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSubsectorRet.MWQMSubsectorWeb != null)
+                            // MWQMSubsectorWeb fields should not be null and MWQMSubsectorReport fields should be null here
+                            if (mwqmSubsectorRet.MWQMSubsectorWeb.SubsectorTVText != null)
                             {
-                                Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.MWQMSubsectorWeb.SubsectorTVText));
                             }
-                            if (mwqmSubsectorRet.MWQMSubsectorReport != null)
+                            if (mwqmSubsectorRet.MWQMSubsectorWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.MWQMSubsectorWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(mwqmSubsectorRet.MWQMSubsectorReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MWQMSubsectorWeb and MWQMSubsectorReport fields should NOT be null here
+                            if (mwqmSubsectorRet.MWQMSubsectorWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.MWQMSubsectorWeb.SubsectorTVText));
+                            }
+                            if (mwqmSubsectorRet.MWQMSubsectorWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.MWQMSubsectorWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmSubsectorRet.MWQMSubsectorReport.MWQMSubsectorReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.MWQMSubsectorReport.MWQMSubsectorReportTest));
                             }
                         }
                     }

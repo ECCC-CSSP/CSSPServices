@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
         {
             UseOfSite useOfSite = new UseOfSite();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [UseOfSite SiteTVItemID TVItem TVItemID]
-            // Need to implement (no items found, would need to add at least one in the TestDB) [UseOfSite SubsectorTVItemID TVItem TVItemID]
+            if (OmitPropName != "SiteTVItemID") useOfSite.SiteTVItemID = 7;
+            if (OmitPropName != "SubsectorTVItemID") useOfSite.SubsectorTVItemID = 11;
             if (OmitPropName != "SiteType") useOfSite.SiteType = (SiteTypeEnum)GetRandomEnumType(typeof(SiteTypeEnum));
             if (OmitPropName != "Ordinal") useOfSite.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "StartYear") useOfSite.StartYear = GetRandomInt(1980, 2050);
@@ -53,11 +53,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Param2") useOfSite.Param2 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomDouble(0.0D, 100.0D);
-            //Error: property [UseOfSiteWeb] and type [UseOfSite] is  not implemented
-            //Error: property [UseOfSiteReport] and type [UseOfSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") useOfSite.HasErrors = true;
 
             return useOfSite;
         }
@@ -260,6 +257,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Weight_perc]
 
+                    //Error: Type not implemented [Weight_perc]
+
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Weight_perc = -1.0D;
@@ -287,6 +286,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Param1]
 
+                    //Error: Type not implemented [Param1]
+
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param1 = -1.0D;
@@ -305,6 +306,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // useOfSite.Param2   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [Param2]
 
                     //Error: Type not implemented [Param2]
 
@@ -329,6 +332,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Param3]
 
+                    //Error: Type not implemented [Param3]
+
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param3 = -1.0D;
@@ -347,6 +352,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // useOfSite.Param4   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [Param4]
 
                     //Error: Type not implemented [Param4]
 
@@ -369,8 +376,15 @@ namespace CSSPServices.Tests
                     // useOfSite.UseOfSiteWeb   (UseOfSiteWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [UseOfSiteWeb]
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.UseOfSiteWeb = null;
+                    Assert.IsNull(useOfSite.UseOfSiteWeb);
 
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.UseOfSiteWeb = new UseOfSiteWeb();
+                    Assert.IsNotNull(useOfSite.UseOfSiteWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -378,8 +392,15 @@ namespace CSSPServices.Tests
                     // useOfSite.UseOfSiteReport   (UseOfSiteReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [UseOfSiteReport]
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.UseOfSiteReport = null;
+                    Assert.IsNull(useOfSite.UseOfSiteReport);
 
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.UseOfSiteReport = new UseOfSiteReport();
+                    Assert.IsNotNull(useOfSite.UseOfSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -387,6 +408,16 @@ namespace CSSPServices.Tests
                     // useOfSite.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.LastUpdateDate_UTC = new DateTime();
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.UseOfSiteLastUpdateDate_UTC), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.UseOfSiteLastUpdateDate_UTC, "1980"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -413,6 +444,7 @@ namespace CSSPServices.Tests
                     // useOfSite.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -420,6 +452,7 @@ namespace CSSPServices.Tests
                     // useOfSite.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -440,7 +473,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(useOfSite);
 
                     UseOfSite useOfSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -454,11 +487,15 @@ namespace CSSPServices.Tests
                         {
                             useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // UseOfSite fields
                         Assert.IsNotNull(useOfSiteRet.UseOfSiteID);
                         Assert.IsNotNull(useOfSiteRet.SiteTVItemID);
                         Assert.IsNotNull(useOfSiteRet.SubsectorTVItemID);
@@ -500,27 +537,55 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(useOfSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (useOfSiteRet.UseOfSiteWeb != null)
-                            {
-                                Assert.IsNull(useOfSiteRet.UseOfSiteWeb);
-                            }
-                            if (useOfSiteRet.UseOfSiteReport != null)
-                            {
-                                Assert.IsNull(useOfSiteRet.UseOfSiteReport);
-                            }
+                            // UseOfSiteWeb and UseOfSiteReport fields should be null here
+                            Assert.IsNull(useOfSiteRet.UseOfSiteWeb);
+                            Assert.IsNull(useOfSiteRet.UseOfSiteReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (useOfSiteRet.UseOfSiteWeb != null)
+                            // UseOfSiteWeb fields should not be null and UseOfSiteReport fields should be null here
+                            if (useOfSiteRet.UseOfSiteWeb.SiteTVText != null)
                             {
-                                Assert.IsNotNull(useOfSiteRet.UseOfSiteWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.SiteTVText));
                             }
-                            if (useOfSiteRet.UseOfSiteReport != null)
+                            if (useOfSiteRet.UseOfSiteWeb.SubsectorTVText != null)
                             {
-                                Assert.IsNotNull(useOfSiteRet.UseOfSiteReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.SubsectorTVText));
+                            }
+                            if (useOfSiteRet.UseOfSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (useOfSiteRet.UseOfSiteWeb.SiteTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.SiteTypeText));
+                            }
+                            Assert.IsNull(useOfSiteRet.UseOfSiteReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // UseOfSiteWeb and UseOfSiteReport fields should NOT be null here
+                            if (useOfSiteRet.UseOfSiteWeb.SiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.SiteTVText));
+                            }
+                            if (useOfSiteRet.UseOfSiteWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.SubsectorTVText));
+                            }
+                            if (useOfSiteRet.UseOfSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (useOfSiteRet.UseOfSiteWeb.SiteTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteWeb.SiteTypeText));
+                            }
+                            if (useOfSiteRet.UseOfSiteReport.UseOfSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.UseOfSiteReport.UseOfSiteReportTest));
                             }
                         }
                     }

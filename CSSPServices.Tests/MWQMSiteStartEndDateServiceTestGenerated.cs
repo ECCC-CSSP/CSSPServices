@@ -40,14 +40,11 @@ namespace CSSPServices.Tests
         {
             MWQMSiteStartEndDate mwqmSiteStartEndDate = new MWQMSiteStartEndDate();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSiteStartEndDate MWQMSiteTVItemID TVItem TVItemID]
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSiteStartEndDate.MWQMSiteTVItemID = 19;
             if (OmitPropName != "StartDate") mwqmSiteStartEndDate.StartDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDate") mwqmSiteStartEndDate.EndDate = new DateTime(2005, 3, 7);
-            //Error: property [MWQMSiteStartEndDateWeb] and type [MWQMSiteStartEndDate] is  not implemented
-            //Error: property [MWQMSiteStartEndDateReport] and type [MWQMSiteStartEndDate] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSiteStartEndDate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSiteStartEndDate.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mwqmSiteStartEndDate.HasErrors = true;
 
             return mwqmSiteStartEndDate;
         }
@@ -153,6 +150,16 @@ namespace CSSPServices.Tests
                     // mwqmSiteStartEndDate.StartDate   (DateTime)
                     // -----------------------------------
 
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.StartDate = new DateTime();
+                    mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteStartEndDateStartDate), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.StartDate = new DateTime(1979, 1, 1);
+                    mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateStartDate, "1980"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -161,6 +168,11 @@ namespace CSSPServices.Tests
                     // mwqmSiteStartEndDate.EndDate   (DateTime)
                     // -----------------------------------
 
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.EndDate = new DateTime(1979, 1, 1);
+                    mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateEndDate, "1980"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -168,8 +180,15 @@ namespace CSSPServices.Tests
                     // mwqmSiteStartEndDate.MWQMSiteStartEndDateWeb   (MWQMSiteStartEndDateWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSiteStartEndDateWeb]
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.MWQMSiteStartEndDateWeb = null;
+                    Assert.IsNull(mwqmSiteStartEndDate.MWQMSiteStartEndDateWeb);
 
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.MWQMSiteStartEndDateWeb = new MWQMSiteStartEndDateWeb();
+                    Assert.IsNotNull(mwqmSiteStartEndDate.MWQMSiteStartEndDateWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -177,8 +196,15 @@ namespace CSSPServices.Tests
                     // mwqmSiteStartEndDate.MWQMSiteStartEndDateReport   (MWQMSiteStartEndDateReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSiteStartEndDateReport]
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.MWQMSiteStartEndDateReport = null;
+                    Assert.IsNull(mwqmSiteStartEndDate.MWQMSiteStartEndDateReport);
 
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.MWQMSiteStartEndDateReport = new MWQMSiteStartEndDateReport();
+                    Assert.IsNotNull(mwqmSiteStartEndDate.MWQMSiteStartEndDateReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -186,6 +212,16 @@ namespace CSSPServices.Tests
                     // mwqmSiteStartEndDate.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.LastUpdateDate_UTC = new DateTime();
+                    mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSiteStartEndDate = null;
+                    mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                    mwqmSiteStartEndDate.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC, "1980"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -212,6 +248,7 @@ namespace CSSPServices.Tests
                     // mwqmSiteStartEndDate.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -219,6 +256,7 @@ namespace CSSPServices.Tests
                     // mwqmSiteStartEndDate.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -239,7 +277,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSiteStartEndDate);
 
                     MWQMSiteStartEndDate mwqmSiteStartEndDateRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -253,11 +291,15 @@ namespace CSSPServices.Tests
                         {
                             mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MWQMSiteStartEndDate fields
                         Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateID);
                         Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteTVItemID);
                         Assert.IsNotNull(mwqmSiteStartEndDateRet.StartDate);
@@ -268,27 +310,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb != null)
-                            {
-                                Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb);
-                            }
-                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport != null)
-                            {
-                                Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
-                            }
+                            // MWQMSiteStartEndDateWeb and MWQMSiteStartEndDateReport fields should be null here
+                            Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb);
+                            Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb != null)
+                            // MWQMSiteStartEndDateWeb fields should not be null and MWQMSiteStartEndDateReport fields should be null here
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.MWQMSiteTVText != null)
                             {
-                                Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.MWQMSiteTVText));
                             }
-                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport != null)
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MWQMSiteStartEndDateWeb and MWQMSiteStartEndDateReport fields should NOT be null here
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.MWQMSiteTVText));
+                            }
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport.MWQMSiteStartEndDateReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport.MWQMSiteStartEndDateReportTest));
                             }
                         }
                     }

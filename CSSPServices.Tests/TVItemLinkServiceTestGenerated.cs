@@ -50,11 +50,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVLevel") tvItemLink.TVLevel = GetRandomInt(0, 100);
             if (OmitPropName != "TVPath") tvItemLink.TVPath = GetRandomString("", 5);
             // Need to implement [TVItemLink ParentTVItemLinkID TVItemLink TVItemLinkID]
-            //Error: property [TVItemLinkWeb] and type [TVItemLink] is  not implemented
-            //Error: property [TVItemLinkReport] and type [TVItemLink] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tvItemLink.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemLink.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") tvItemLink.HasErrors = true;
 
             return tvItemLink;
         }
@@ -205,6 +202,11 @@ namespace CSSPServices.Tests
                     // tvItemLink.StartDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.StartDateTime_Local = new DateTime(1979, 1, 1);
+                    tvItemLinkService.Add(tvItemLink);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLinkStartDateTime_Local, "1980"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -213,6 +215,11 @@ namespace CSSPServices.Tests
                     // tvItemLink.EndDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.EndDateTime_Local = new DateTime(1979, 1, 1);
+                    tvItemLinkService.Add(tvItemLink);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLinkEndDateTime_Local, "1980"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -292,8 +299,15 @@ namespace CSSPServices.Tests
                     // tvItemLink.TVItemLinkWeb   (TVItemLinkWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVItemLinkWeb]
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.TVItemLinkWeb = null;
+                    Assert.IsNull(tvItemLink.TVItemLinkWeb);
 
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.TVItemLinkWeb = new TVItemLinkWeb();
+                    Assert.IsNotNull(tvItemLink.TVItemLinkWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -301,8 +315,15 @@ namespace CSSPServices.Tests
                     // tvItemLink.TVItemLinkReport   (TVItemLinkReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVItemLinkReport]
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.TVItemLinkReport = null;
+                    Assert.IsNull(tvItemLink.TVItemLinkReport);
 
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.TVItemLinkReport = new TVItemLinkReport();
+                    Assert.IsNotNull(tvItemLink.TVItemLinkReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -310,6 +331,16 @@ namespace CSSPServices.Tests
                     // tvItemLink.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.LastUpdateDate_UTC = new DateTime();
+                    tvItemLinkService.Add(tvItemLink);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLinkLastUpdateDate_UTC), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvItemLink = null;
+                    tvItemLink = GetFilledRandomTVItemLink("");
+                    tvItemLink.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    tvItemLinkService.Add(tvItemLink);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLinkLastUpdateDate_UTC, "1980"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -336,6 +367,7 @@ namespace CSSPServices.Tests
                     // tvItemLink.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -343,6 +375,7 @@ namespace CSSPServices.Tests
                     // tvItemLink.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -363,7 +396,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvItemLink);
 
                     TVItemLink tvItemLinkRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -377,11 +410,15 @@ namespace CSSPServices.Tests
                         {
                             tvItemLinkRet = tvItemLinkService.GetTVItemLinkWithTVItemLinkID(tvItemLink.TVItemLinkID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemLinkRet = tvItemLinkService.GetTVItemLinkWithTVItemLinkID(tvItemLink.TVItemLinkID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // TVItemLink fields
                         Assert.IsNotNull(tvItemLinkRet.TVItemLinkID);
                         Assert.IsNotNull(tvItemLinkRet.FromTVItemID);
                         Assert.IsNotNull(tvItemLinkRet.ToTVItemID);
@@ -405,27 +442,63 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tvItemLinkRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tvItemLinkRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tvItemLinkRet.TVItemLinkWeb != null)
-                            {
-                                Assert.IsNull(tvItemLinkRet.TVItemLinkWeb);
-                            }
-                            if (tvItemLinkRet.TVItemLinkReport != null)
-                            {
-                                Assert.IsNull(tvItemLinkRet.TVItemLinkReport);
-                            }
+                            // TVItemLinkWeb and TVItemLinkReport fields should be null here
+                            Assert.IsNull(tvItemLinkRet.TVItemLinkWeb);
+                            Assert.IsNull(tvItemLinkRet.TVItemLinkReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tvItemLinkRet.TVItemLinkWeb != null)
+                            // TVItemLinkWeb fields should not be null and TVItemLinkReport fields should be null here
+                            if (tvItemLinkRet.TVItemLinkWeb.FromTVText != null)
                             {
-                                Assert.IsNotNull(tvItemLinkRet.TVItemLinkWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.FromTVText));
                             }
-                            if (tvItemLinkRet.TVItemLinkReport != null)
+                            if (tvItemLinkRet.TVItemLinkWeb.ToTVText != null)
                             {
-                                Assert.IsNotNull(tvItemLinkRet.TVItemLinkReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.ToTVText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.LastUpdateContactTVText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkWeb.FromTVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.FromTVTypeText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkWeb.ToTVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.ToTVTypeText));
+                            }
+                            Assert.IsNull(tvItemLinkRet.TVItemLinkReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TVItemLinkWeb and TVItemLinkReport fields should NOT be null here
+                            if (tvItemLinkRet.TVItemLinkWeb.FromTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.FromTVText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkWeb.ToTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.ToTVText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.LastUpdateContactTVText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkWeb.FromTVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.FromTVTypeText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkWeb.ToTVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkWeb.ToTVTypeText));
+                            }
+                            if (tvItemLinkRet.TVItemLinkReport.TVItemLinkReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVItemLinkReport.TVItemLinkReportTest));
                             }
                         }
                     }

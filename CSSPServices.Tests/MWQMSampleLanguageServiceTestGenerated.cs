@@ -40,15 +40,12 @@ namespace CSSPServices.Tests
         {
             MWQMSampleLanguage mwqmSampleLanguage = new MWQMSampleLanguage();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMSampleLanguage MWQMSampleID MWQMSample MWQMSampleID]
+            if (OmitPropName != "MWQMSampleID") mwqmSampleLanguage.MWQMSampleID = 1;
             if (OmitPropName != "Language") mwqmSampleLanguage.Language = LanguageRequest;
             if (OmitPropName != "MWQMSampleNote") mwqmSampleLanguage.MWQMSampleNote = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") mwqmSampleLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            //Error: property [MWQMSampleLanguageWeb] and type [MWQMSampleLanguage] is  not implemented
-            //Error: property [MWQMSampleLanguageReport] and type [MWQMSampleLanguage] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSampleLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSampleLanguage.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mwqmSampleLanguage.HasErrors = true;
 
             return mwqmSampleLanguage;
         }
@@ -188,8 +185,15 @@ namespace CSSPServices.Tests
                     // mwqmSampleLanguage.MWQMSampleLanguageWeb   (MWQMSampleLanguageWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSampleLanguageWeb]
+                    mwqmSampleLanguage = null;
+                    mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+                    mwqmSampleLanguage.MWQMSampleLanguageWeb = null;
+                    Assert.IsNull(mwqmSampleLanguage.MWQMSampleLanguageWeb);
 
+                    mwqmSampleLanguage = null;
+                    mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+                    mwqmSampleLanguage.MWQMSampleLanguageWeb = new MWQMSampleLanguageWeb();
+                    Assert.IsNotNull(mwqmSampleLanguage.MWQMSampleLanguageWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -197,8 +201,15 @@ namespace CSSPServices.Tests
                     // mwqmSampleLanguage.MWQMSampleLanguageReport   (MWQMSampleLanguageReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMSampleLanguageReport]
+                    mwqmSampleLanguage = null;
+                    mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+                    mwqmSampleLanguage.MWQMSampleLanguageReport = null;
+                    Assert.IsNull(mwqmSampleLanguage.MWQMSampleLanguageReport);
 
+                    mwqmSampleLanguage = null;
+                    mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+                    mwqmSampleLanguage.MWQMSampleLanguageReport = new MWQMSampleLanguageReport();
+                    Assert.IsNotNull(mwqmSampleLanguage.MWQMSampleLanguageReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -206,6 +217,16 @@ namespace CSSPServices.Tests
                     // mwqmSampleLanguage.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mwqmSampleLanguage = null;
+                    mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+                    mwqmSampleLanguage.LastUpdateDate_UTC = new DateTime();
+                    mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleLanguageLastUpdateDate_UTC), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSampleLanguage = null;
+                    mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+                    mwqmSampleLanguage.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSampleLanguageLastUpdateDate_UTC, "1980"), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -232,6 +253,7 @@ namespace CSSPServices.Tests
                     // mwqmSampleLanguage.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -239,6 +261,7 @@ namespace CSSPServices.Tests
                     // mwqmSampleLanguage.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -259,7 +282,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSampleLanguage);
 
                     MWQMSampleLanguage mwqmSampleLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -273,11 +296,15 @@ namespace CSSPServices.Tests
                         {
                             mwqmSampleLanguageRet = mwqmSampleLanguageService.GetMWQMSampleLanguageWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSampleLanguageRet = mwqmSampleLanguageService.GetMWQMSampleLanguageWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MWQMSampleLanguage fields
                         Assert.IsNotNull(mwqmSampleLanguageRet.MWQMSampleLanguageID);
                         Assert.IsNotNull(mwqmSampleLanguageRet.MWQMSampleID);
                         Assert.IsNotNull(mwqmSampleLanguageRet.Language);
@@ -286,27 +313,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmSampleLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmSampleLanguageRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb != null)
-                            {
-                                Assert.IsNull(mwqmSampleLanguageRet.MWQMSampleLanguageWeb);
-                            }
-                            if (mwqmSampleLanguageRet.MWQMSampleLanguageReport != null)
-                            {
-                                Assert.IsNull(mwqmSampleLanguageRet.MWQMSampleLanguageReport);
-                            }
+                            // MWQMSampleLanguageWeb and MWQMSampleLanguageReport fields should be null here
+                            Assert.IsNull(mwqmSampleLanguageRet.MWQMSampleLanguageWeb);
+                            Assert.IsNull(mwqmSampleLanguageRet.MWQMSampleLanguageReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb != null)
+                            // MWQMSampleLanguageWeb fields should not be null and MWQMSampleLanguageReport fields should be null here
+                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mwqmSampleLanguageRet.MWQMSampleLanguageWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LastUpdateContactTVText));
                             }
-                            if (mwqmSampleLanguageRet.MWQMSampleLanguageReport != null)
+                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LanguageText != null)
                             {
-                                Assert.IsNotNull(mwqmSampleLanguageRet.MWQMSampleLanguageReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LanguageText));
+                            }
+                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(mwqmSampleLanguageRet.MWQMSampleLanguageReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MWQMSampleLanguageWeb and MWQMSampleLanguageReport fields should NOT be null here
+                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleLanguageWeb.LanguageText));
+                            }
+                            if (mwqmSampleLanguageRet.MWQMSampleLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleLanguageWeb.TranslationStatusText));
+                            }
+                            if (mwqmSampleLanguageRet.MWQMSampleLanguageReport.MWQMSampleLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleLanguageReport.MWQMSampleLanguageReportTest));
                             }
                         }
                     }

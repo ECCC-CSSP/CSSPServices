@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<AppErrLog> FillAppErrLog(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        private IQueryable<AppErrLog> FillAppErrLogReport(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText)
         {
             appErrLogQuery = (from c in appErrLogQuery
                               let LastUpdateContactTVText = (from cl in db.TVItemLanguages

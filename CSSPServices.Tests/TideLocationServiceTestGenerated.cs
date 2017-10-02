@@ -46,11 +46,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "sid") tideLocation.sid = GetRandomInt(0, 100000);
             if (OmitPropName != "Lat") tideLocation.Lat = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "Lng") tideLocation.Lng = GetRandomDouble(-180.0D, 180.0D);
-            //Error: property [TideLocationWeb] and type [TideLocation] is  not implemented
-            //Error: property [TideLocationReport] and type [TideLocation] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tideLocation.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tideLocation.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") tideLocation.HasErrors = true;
 
             return tideLocation;
         }
@@ -219,6 +216,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Lat]
 
+                    //Error: Type not implemented [Lat]
+
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Lat = -91.0D;
@@ -237,6 +236,8 @@ namespace CSSPServices.Tests
                     // [Range(-180, 180)]
                     // tideLocation.Lng   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [Lng]
 
                     //Error: Type not implemented [Lng]
 
@@ -259,8 +260,15 @@ namespace CSSPServices.Tests
                     // tideLocation.TideLocationWeb   (TideLocationWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TideLocationWeb]
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.TideLocationWeb = null;
+                    Assert.IsNull(tideLocation.TideLocationWeb);
 
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.TideLocationWeb = new TideLocationWeb();
+                    Assert.IsNotNull(tideLocation.TideLocationWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -268,8 +276,15 @@ namespace CSSPServices.Tests
                     // tideLocation.TideLocationReport   (TideLocationReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TideLocationReport]
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.TideLocationReport = null;
+                    Assert.IsNull(tideLocation.TideLocationReport);
 
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.TideLocationReport = new TideLocationReport();
+                    Assert.IsNotNull(tideLocation.TideLocationReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -277,6 +292,16 @@ namespace CSSPServices.Tests
                     // tideLocation.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.LastUpdateDate_UTC = new DateTime();
+                    tideLocationService.Add(tideLocation);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationLastUpdateDate_UTC), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tideLocation = null;
+                    tideLocation = GetFilledRandomTideLocation("");
+                    tideLocation.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    tideLocationService.Add(tideLocation);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideLocationLastUpdateDate_UTC, "1980"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -303,6 +328,7 @@ namespace CSSPServices.Tests
                     // tideLocation.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -310,6 +336,7 @@ namespace CSSPServices.Tests
                     // tideLocation.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -330,7 +357,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tideLocation);
 
                     TideLocation tideLocationRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -344,11 +371,15 @@ namespace CSSPServices.Tests
                         {
                             tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // TideLocation fields
                         Assert.IsNotNull(tideLocationRet.TideLocationID);
                         Assert.IsNotNull(tideLocationRet.Zone);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.Name));
@@ -359,27 +390,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tideLocationRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tideLocationRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tideLocationRet.TideLocationWeb != null)
-                            {
-                                Assert.IsNull(tideLocationRet.TideLocationWeb);
-                            }
-                            if (tideLocationRet.TideLocationReport != null)
-                            {
-                                Assert.IsNull(tideLocationRet.TideLocationReport);
-                            }
+                            // TideLocationWeb and TideLocationReport fields should be null here
+                            Assert.IsNull(tideLocationRet.TideLocationWeb);
+                            Assert.IsNull(tideLocationRet.TideLocationReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tideLocationRet.TideLocationWeb != null)
+                            // TideLocationWeb fields should not be null and TideLocationReport fields should be null here
+                            if (tideLocationRet.TideLocationWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(tideLocationRet.TideLocationWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.TideLocationWeb.LastUpdateContactTVText));
                             }
-                            if (tideLocationRet.TideLocationReport != null)
+                            Assert.IsNull(tideLocationRet.TideLocationReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TideLocationWeb and TideLocationReport fields should NOT be null here
+                            if (tideLocationRet.TideLocationWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(tideLocationRet.TideLocationReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.TideLocationWeb.LastUpdateContactTVText));
+                            }
+                            if (tideLocationRet.TideLocationReport.TideLocationReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.TideLocationReport.TideLocationReportTest));
                             }
                         }
                     }

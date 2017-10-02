@@ -373,6 +373,10 @@
     <Compile Include="CSSPWQInputParamServiceGenerated.cs" />
     <Compile Include="DataPathOfTideServiceGenerated.cs" />
     <Compile Include="DBTableServiceGenerated.cs" />
+    <Compile Include="EmailDistributionListContactLanguageServiceExtra.cs" />
+    <Compile Include="EmailDistributionListContactServiceExtra.cs" />
+    <Compile Include="EmailDistributionListLanguageServiceExtra.cs" />
+    <Compile Include="EmailDistributionListServiceExtra.cs" />
     <Compile Include="DocTemplateServiceGenerated.cs" />
     <Compile Include="ElementLayerServiceGenerated.cs" />
     <Compile Include="ElementServiceGenerated.cs" />
@@ -409,6 +413,7 @@
     <Compile Include="MikeSourceServiceGenerated.cs" />
     <Compile Include="MikeSourceStartEndServiceGenerated.cs" />
     <Compile Include="MWQMAnalysisReportParameterServiceGenerated.cs" />
+    <Compile Include="MWQMAnalysisReportParameterServiceExtra.cs" />
     <Compile Include="MWQMLookupMPNServiceGenerated.cs" />
     <Compile Include="MWQMRunLanguageServiceGenerated.cs" />
     <Compile Include="MWQMRunServiceGenerated.cs" />
@@ -479,7 +484,6 @@
     <Compile Include="URLNumberOfSamplesServiceGenerated.cs" />
     <Compile Include="UseOfSiteServiceGenerated.cs" />
     <Compile Include="VectorServiceGenerated.cs" />
-    <Compile Include="VPFullServiceExtra.cs" />
     <Compile Include="VPAmbientServiceGenerated.cs" />
     <Compile Include="VPFullServiceGenerated.cs" />
     <Compile Include="VPResultServiceGenerated.cs" />

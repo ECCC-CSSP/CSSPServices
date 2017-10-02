@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //LabSheetTubeMPNDetailID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //LabSheetDetailID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             LabSheetDetail LabSheetDetailLabSheetDetailID = (from c in db.LabSheetDetails where c.LabSheetDetailID == labSheetTubeMPNDetail.LabSheetDetailID select c).FirstOrDefault();
 
             if (LabSheetDetailLabSheetDetailID == null)
@@ -69,15 +65,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.LabSheetDetail, CSSPModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, labSheetTubeMPNDetail.LabSheetDetailID.ToString()), new[] { "LabSheetDetailID" });
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (labSheetTubeMPNDetail.Ordinal < 0 || labSheetTubeMPNDetail.Ordinal > 1000)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
-
-            //MWQMSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemMWQMSiteTVItemID = (from c in db.TVItems where c.TVItemID == labSheetTubeMPNDetail.MWQMSiteTVItemID select c).FirstOrDefault();
 
@@ -178,8 +170,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailSiteComment, "250"), new[] { "SiteComment" });
             }
 
-                //Error: Type not implemented [LabSheetTubeMPNDetailWeb] of type [LabSheetTubeMPNDetailWeb]
-                //Error: Type not implemented [LabSheetTubeMPNDetailReport] of type [LabSheetTubeMPNDetailReport]
             if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year == 1)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
@@ -193,8 +183,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == labSheetTubeMPNDetail.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -215,8 +203,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -242,8 +228,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetTubeMPNDetailQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheetTubeMPNDetail(labSheetTubeMPNDetailQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -260,8 +247,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetTubeMPNDetailQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheetTubeMPNDetail(labSheetTubeMPNDetailQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -312,11 +300,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetail_Show_Copy_To_LabSheetTubeMPNDetailServiceExtra_As_Fill_LabSheetTubeMPNDetail(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated LabSheetTubeMPNDetailFillWeb
+        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetailWeb(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -357,19 +342,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.SampleType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        LabSheetTubeMPNDetailReport = new LabSheetTubeMPNDetailReport
-                        {
-                            LabSheetTubeMPNDetailReportTest = "LabSheetTubeMPNDetailReportTest",
-                        },
+                        LabSheetTubeMPNDetailReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return labSheetTubeMPNDetailQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated LabSheetTubeMPNDetailFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(LabSheetTubeMPNDetail labSheetTubeMPNDetail)
         {
             try
@@ -384,7 +366,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

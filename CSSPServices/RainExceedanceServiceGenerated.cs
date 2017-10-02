@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //RainExceedanceID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //YearRound (bool) is required but no testing needed 
-
             if (rainExceedance.StartDate_Local != null && ((DateTime)rainExceedance.StartDate_Local).Year < 1980)
             {
                 rainExceedance.HasErrors = true;
@@ -97,15 +93,11 @@ namespace CSSPServices
                 }
             }
 
-            //DaysPriorToStart (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (rainExceedance.DaysPriorToStart < 0 || rainExceedance.DaysPriorToStart > 30)
             {
                 rainExceedance.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), new[] { "DaysPriorToStart" });
             }
-
-            //RepeatEveryYear (bool) is required but no testing needed 
 
             if (string.IsNullOrWhiteSpace(rainExceedance.ProvinceTVItemIDs))
             {
@@ -155,8 +147,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceEmailDistributionListIDs, "250"), new[] { "EmailDistributionListIDs" });
             }
 
-                //Error: Type not implemented [RainExceedanceWeb] of type [RainExceedanceWeb]
-                //Error: Type not implemented [RainExceedanceReport] of type [RainExceedanceReport]
             if (rainExceedance.LastUpdateDate_UTC.Year == 1)
             {
                 rainExceedance.HasErrors = true;
@@ -170,8 +160,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RainExceedanceLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == rainExceedance.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -192,8 +180,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -219,8 +205,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return rainExceedanceQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillRainExceedanceWeb(rainExceedanceQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillRainExceedance(rainExceedanceQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillRainExceedanceReport(rainExceedanceQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -237,8 +224,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return rainExceedanceQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillRainExceedanceWeb(rainExceedanceQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillRainExceedance(rainExceedanceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillRainExceedanceReport(rainExceedanceQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -289,11 +277,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<RainExceedance> FillRainExceedance_Show_Copy_To_RainExceedanceServiceExtra_As_Fill_RainExceedance(IQueryable<RainExceedance> rainExceedanceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated RainExceedanceFillWeb
+        private IQueryable<RainExceedance> FillRainExceedanceWeb(IQueryable<RainExceedance> rainExceedanceQuery, string FilterAndOrderText)
         {
             rainExceedanceQuery = (from c in rainExceedanceQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -320,19 +305,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        RainExceedanceReport = new RainExceedanceReport
-                        {
-                            RainExceedanceReportTest = "RainExceedanceReportTest",
-                        },
+                        RainExceedanceReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return rainExceedanceQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated RainExceedanceFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(RainExceedance rainExceedance)
         {
             try
@@ -347,7 +329,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

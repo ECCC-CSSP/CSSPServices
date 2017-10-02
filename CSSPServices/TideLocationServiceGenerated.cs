@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TideLocationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //Zone (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tideLocation.Zone < 0 || tideLocation.Zone > 10000)
             {
                 tideLocation.HasErrors = true;
@@ -91,15 +87,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideLocationProv, "100"), new[] { "Prov" });
             }
 
-            //sid (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tideLocation.sid < 0 || tideLocation.sid > 100000)
             {
                 tideLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationsid, "0", "100000"), new[] { "sid" });
             }
-
-            //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideLocation.Lat < -90 || tideLocation.Lat > 90)
             {
@@ -107,16 +99,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLat, "-90", "90"), new[] { "Lat" });
             }
 
-            //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tideLocation.Lng < -180 || tideLocation.Lng > 180)
             {
                 tideLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLng, "-180", "180"), new[] { "Lng" });
             }
 
-                //Error: Type not implemented [TideLocationWeb] of type [TideLocationWeb]
-                //Error: Type not implemented [TideLocationReport] of type [TideLocationReport]
             if (tideLocation.LastUpdateDate_UTC.Year == 1)
             {
                 tideLocation.HasErrors = true;
@@ -130,8 +118,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideLocationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tideLocation.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -152,8 +138,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -179,8 +163,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideLocationQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTideLocationWeb(tideLocationQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideLocation(tideLocationQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTideLocationReport(tideLocationQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -197,8 +182,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideLocationQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTideLocationWeb(tideLocationQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideLocation(tideLocationQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTideLocationReport(tideLocationQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -249,11 +235,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TideLocation> FillTideLocation_Show_Copy_To_TideLocationServiceExtra_As_Fill_TideLocation(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TideLocationFillWeb
+        private IQueryable<TideLocation> FillTideLocationWeb(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText)
         {
             tideLocationQuery = (from c in tideLocationQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -275,19 +258,16 @@ namespace CSSPServices
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        TideLocationReport = new TideLocationReport
-                        {
-                            TideLocationReportTest = "TideLocationReportTest",
-                        },
+                        TideLocationReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tideLocationQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TideLocationFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TideLocation tideLocation)
         {
             try
@@ -302,7 +282,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

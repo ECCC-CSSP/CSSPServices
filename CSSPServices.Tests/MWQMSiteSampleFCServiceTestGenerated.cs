@@ -56,7 +56,6 @@ namespace CSSPServices.Tests
             // should implement a Range for the property P90 and type MWQMSiteSampleFC
             // should implement a Range for the property PercOver43 and type MWQMSiteSampleFC
             // should implement a Range for the property PercOver260 and type MWQMSiteSampleFC
-            if (OmitPropName != "HasErrors") mwqmSiteSampleFC.HasErrors = true;
 
             return mwqmSiteSampleFC;
         }

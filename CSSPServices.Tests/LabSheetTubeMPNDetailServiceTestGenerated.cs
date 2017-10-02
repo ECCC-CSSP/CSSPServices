@@ -40,9 +40,9 @@ namespace CSSPServices.Tests
         {
             LabSheetTubeMPNDetail labSheetTubeMPNDetail = new LabSheetTubeMPNDetail();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetTubeMPNDetail LabSheetDetailID LabSheetDetail LabSheetDetailID]
+            if (OmitPropName != "LabSheetDetailID") labSheetTubeMPNDetail.LabSheetDetailID = 1;
             if (OmitPropName != "Ordinal") labSheetTubeMPNDetail.Ordinal = GetRandomInt(0, 1000);
-            // Need to implement (no items found, would need to add at least one in the TestDB) [LabSheetTubeMPNDetail MWQMSiteTVItemID TVItem TVItemID]
+            if (OmitPropName != "MWQMSiteTVItemID") labSheetTubeMPNDetail.MWQMSiteTVItemID = 19;
             if (OmitPropName != "SampleDateTime") labSheetTubeMPNDetail.SampleDateTime = new DateTime(2005, 3, 6);
             if (OmitPropName != "MPN") labSheetTubeMPNDetail.MPN = GetRandomInt(1, 10000000);
             if (OmitPropName != "Tube10") labSheetTubeMPNDetail.Tube10 = GetRandomInt(0, 5);
@@ -53,11 +53,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ProcessedBy") labSheetTubeMPNDetail.ProcessedBy = GetRandomString("", 5);
             if (OmitPropName != "SampleType") labSheetTubeMPNDetail.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetTubeMPNDetail.SiteComment = GetRandomString("", 5);
-            //Error: property [LabSheetTubeMPNDetailWeb] and type [LabSheetTubeMPNDetail] is  not implemented
-            //Error: property [LabSheetTubeMPNDetailReport] and type [LabSheetTubeMPNDetail] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") labSheetTubeMPNDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetTubeMPNDetail.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") labSheetTubeMPNDetail.HasErrors = true;
 
             return labSheetTubeMPNDetail;
         }
@@ -195,6 +192,11 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.SampleDateTime   (DateTime)
                     // -----------------------------------
 
+                    labSheetTubeMPNDetail = null;
+                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                    labSheetTubeMPNDetail.SampleDateTime = new DateTime(1979, 1, 1);
+                    labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetTubeMPNDetailSampleDateTime, "1980"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -280,6 +282,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Salinity]
 
+                    //Error: Type not implemented [Salinity]
+
                     labSheetTubeMPNDetail = null;
                     labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
                     labSheetTubeMPNDetail.Salinity = -1.0D;
@@ -298,6 +302,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // labSheetTubeMPNDetail.Temperature   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [Temperature]
 
                     //Error: Type not implemented [Temperature]
 
@@ -359,8 +365,15 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.LabSheetTubeMPNDetailWeb   (LabSheetTubeMPNDetailWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LabSheetTubeMPNDetailWeb]
+                    labSheetTubeMPNDetail = null;
+                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                    labSheetTubeMPNDetail.LabSheetTubeMPNDetailWeb = null;
+                    Assert.IsNull(labSheetTubeMPNDetail.LabSheetTubeMPNDetailWeb);
 
+                    labSheetTubeMPNDetail = null;
+                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                    labSheetTubeMPNDetail.LabSheetTubeMPNDetailWeb = new LabSheetTubeMPNDetailWeb();
+                    Assert.IsNotNull(labSheetTubeMPNDetail.LabSheetTubeMPNDetailWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -368,8 +381,15 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.LabSheetTubeMPNDetailReport   (LabSheetTubeMPNDetailReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [LabSheetTubeMPNDetailReport]
+                    labSheetTubeMPNDetail = null;
+                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                    labSheetTubeMPNDetail.LabSheetTubeMPNDetailReport = null;
+                    Assert.IsNull(labSheetTubeMPNDetail.LabSheetTubeMPNDetailReport);
 
+                    labSheetTubeMPNDetail = null;
+                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                    labSheetTubeMPNDetail.LabSheetTubeMPNDetailReport = new LabSheetTubeMPNDetailReport();
+                    Assert.IsNotNull(labSheetTubeMPNDetail.LabSheetTubeMPNDetailReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -377,6 +397,16 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    labSheetTubeMPNDetail = null;
+                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                    labSheetTubeMPNDetail.LastUpdateDate_UTC = new DateTime();
+                    labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                    labSheetTubeMPNDetail = null;
+                    labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                    labSheetTubeMPNDetail.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC, "1980"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -403,6 +433,7 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -410,6 +441,7 @@ namespace CSSPServices.Tests
                     // labSheetTubeMPNDetail.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -430,7 +462,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(labSheetTubeMPNDetail);
 
                     LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -444,11 +476,15 @@ namespace CSSPServices.Tests
                         {
                             labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // LabSheetTubeMPNDetail fields
                         Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
                         Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetDetailID);
                         Assert.IsNotNull(labSheetTubeMPNDetailRet.Ordinal);
@@ -493,27 +529,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb != null)
-                            {
-                                Assert.IsNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb);
-                            }
-                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport != null)
-                            {
-                                Assert.IsNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport);
-                            }
+                            // LabSheetTubeMPNDetailWeb and LabSheetTubeMPNDetailReport fields should be null here
+                            Assert.IsNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb);
+                            Assert.IsNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb != null)
+                            // LabSheetTubeMPNDetailWeb fields should not be null and LabSheetTubeMPNDetailReport fields should be null here
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.MWQMSiteTVText != null)
                             {
-                                Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.MWQMSiteTVText));
                             }
-                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport != null)
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.LastUpdateContactTVText));
+                            }
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.SampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.SampleTypeText));
+                            }
+                            Assert.IsNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // LabSheetTubeMPNDetailWeb and LabSheetTubeMPNDetailReport fields should NOT be null here
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.MWQMSiteTVText));
+                            }
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.LastUpdateContactTVText));
+                            }
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.SampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailWeb.SampleTypeText));
+                            }
+                            if (labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport.LabSheetTubeMPNDetailReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailReport.LabSheetTubeMPNDetailReportTest));
                             }
                         }
                     }

@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TVItemLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTVItemID = (from c in db.TVItems where c.TVItemID == tvItemLanguage.TVItemID select c).FirstOrDefault();
 
             if (TVItemTVItemID == null)
@@ -128,8 +124,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
-                //Error: Type not implemented [TVItemLanguageWeb] of type [TVItemLanguageWeb]
-                //Error: Type not implemented [TVItemLanguageReport] of type [TVItemLanguageReport]
             if (tvItemLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 tvItemLanguage.HasErrors = true;
@@ -143,8 +137,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tvItemLanguage.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -165,8 +157,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -192,8 +182,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemLanguageWeb(tvItemLanguageQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemLanguage(tvItemLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTVItemLanguageReport(tvItemLanguageQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -210,8 +201,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemLanguageQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemLanguageWeb(tvItemLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemLanguage(tvItemLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTVItemLanguageReport(tvItemLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -262,11 +254,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TVItemLanguage> FillTVItemLanguage_Show_Copy_To_TVItemLanguageServiceExtra_As_Fill_TVItemLanguage(IQueryable<TVItemLanguage> tvItemLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TVItemLanguageFillWeb
+        private IQueryable<TVItemLanguage> FillTVItemLanguageWeb(IQueryable<TVItemLanguage> tvItemLanguageQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -297,19 +286,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TVItemLanguageReport = new TVItemLanguageReport
-                        {
-                            TVItemLanguageReportTest = "TVItemLanguageReportTest",
-                        },
+                        TVItemLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tvItemLanguageQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TVItemLanguageFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TVItemLanguage tvItemLanguage)
         {
             try
@@ -324,7 +310,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

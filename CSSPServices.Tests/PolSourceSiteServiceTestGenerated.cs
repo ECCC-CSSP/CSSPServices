@@ -40,19 +40,16 @@ namespace CSSPServices.Tests
         {
             PolSourceSite polSourceSite = new PolSourceSite();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [PolSourceSite PolSourceSiteTVItemID TVItem TVItemID]
+            if (OmitPropName != "PolSourceSiteTVItemID") polSourceSite.PolSourceSiteTVItemID = 21;
             if (OmitPropName != "Temp_Locator_CanDelete") polSourceSite.Temp_Locator_CanDelete = GetRandomString("", 5);
             if (OmitPropName != "Oldsiteid") polSourceSite.Oldsiteid = GetRandomInt(0, 1000);
             if (OmitPropName != "Site") polSourceSite.Site = GetRandomInt(0, 1000);
             if (OmitPropName != "SiteID") polSourceSite.SiteID = GetRandomInt(0, 1000);
             if (OmitPropName != "IsPointSource") polSourceSite.IsPointSource = true;
             if (OmitPropName != "InactiveReason") polSourceSite.InactiveReason = (PolSourceInactiveReasonEnum)GetRandomEnumType(typeof(PolSourceInactiveReasonEnum));
-            // Need to implement (no items found, would need to add at least one in the TestDB) [PolSourceSite CivicAddressTVItemID TVItem TVItemID]
-            //Error: property [PolSourceSiteWeb] and type [PolSourceSite] is  not implemented
-            //Error: property [PolSourceSiteReport] and type [PolSourceSite] is  not implemented
+            if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = 28;
             if (OmitPropName != "LastUpdateDate_UTC") polSourceSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") polSourceSite.HasErrors = true;
 
             return polSourceSite;
         }
@@ -266,8 +263,15 @@ namespace CSSPServices.Tests
                     // polSourceSite.PolSourceSiteWeb   (PolSourceSiteWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PolSourceSiteWeb]
+                    polSourceSite = null;
+                    polSourceSite = GetFilledRandomPolSourceSite("");
+                    polSourceSite.PolSourceSiteWeb = null;
+                    Assert.IsNull(polSourceSite.PolSourceSiteWeb);
 
+                    polSourceSite = null;
+                    polSourceSite = GetFilledRandomPolSourceSite("");
+                    polSourceSite.PolSourceSiteWeb = new PolSourceSiteWeb();
+                    Assert.IsNotNull(polSourceSite.PolSourceSiteWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -275,8 +279,15 @@ namespace CSSPServices.Tests
                     // polSourceSite.PolSourceSiteReport   (PolSourceSiteReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [PolSourceSiteReport]
+                    polSourceSite = null;
+                    polSourceSite = GetFilledRandomPolSourceSite("");
+                    polSourceSite.PolSourceSiteReport = null;
+                    Assert.IsNull(polSourceSite.PolSourceSiteReport);
 
+                    polSourceSite = null;
+                    polSourceSite = GetFilledRandomPolSourceSite("");
+                    polSourceSite.PolSourceSiteReport = new PolSourceSiteReport();
+                    Assert.IsNotNull(polSourceSite.PolSourceSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -284,6 +295,16 @@ namespace CSSPServices.Tests
                     // polSourceSite.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    polSourceSite = null;
+                    polSourceSite = GetFilledRandomPolSourceSite("");
+                    polSourceSite.LastUpdateDate_UTC = new DateTime();
+                    polSourceSiteService.Add(polSourceSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceSiteLastUpdateDate_UTC), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    polSourceSite = null;
+                    polSourceSite = GetFilledRandomPolSourceSite("");
+                    polSourceSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    polSourceSiteService.Add(polSourceSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.PolSourceSiteLastUpdateDate_UTC, "1980"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -310,6 +331,7 @@ namespace CSSPServices.Tests
                     // polSourceSite.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -317,6 +339,7 @@ namespace CSSPServices.Tests
                     // polSourceSite.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -337,7 +360,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(polSourceSite);
 
                     PolSourceSite polSourceSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -351,11 +374,15 @@ namespace CSSPServices.Tests
                         {
                             polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // PolSourceSite fields
                         Assert.IsNotNull(polSourceSiteRet.PolSourceSiteID);
                         Assert.IsNotNull(polSourceSiteRet.PolSourceSiteTVItemID);
                         if (polSourceSiteRet.Temp_Locator_CanDelete != null)
@@ -386,27 +413,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(polSourceSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(polSourceSiteRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (polSourceSiteRet.PolSourceSiteWeb != null)
-                            {
-                                Assert.IsNull(polSourceSiteRet.PolSourceSiteWeb);
-                            }
-                            if (polSourceSiteRet.PolSourceSiteReport != null)
-                            {
-                                Assert.IsNull(polSourceSiteRet.PolSourceSiteReport);
-                            }
+                            // PolSourceSiteWeb and PolSourceSiteReport fields should be null here
+                            Assert.IsNull(polSourceSiteRet.PolSourceSiteWeb);
+                            Assert.IsNull(polSourceSiteRet.PolSourceSiteReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (polSourceSiteRet.PolSourceSiteWeb != null)
+                            // PolSourceSiteWeb fields should not be null and PolSourceSiteReport fields should be null here
+                            if (polSourceSiteRet.PolSourceSiteWeb.PolSourceSiteTVText != null)
                             {
-                                Assert.IsNotNull(polSourceSiteRet.PolSourceSiteWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteWeb.PolSourceSiteTVText));
                             }
-                            if (polSourceSiteRet.PolSourceSiteReport != null)
+                            if (polSourceSiteRet.PolSourceSiteWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(polSourceSiteRet.PolSourceSiteReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (polSourceSiteRet.PolSourceSiteWeb.InactiveReasonText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteWeb.InactiveReasonText));
+                            }
+                            Assert.IsNull(polSourceSiteRet.PolSourceSiteReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // PolSourceSiteWeb and PolSourceSiteReport fields should NOT be null here
+                            if (polSourceSiteRet.PolSourceSiteWeb.PolSourceSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteWeb.PolSourceSiteTVText));
+                            }
+                            if (polSourceSiteRet.PolSourceSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (polSourceSiteRet.PolSourceSiteWeb.InactiveReasonText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteWeb.InactiveReasonText));
+                            }
+                            if (polSourceSiteRet.PolSourceSiteReport.PolSourceSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteReport.PolSourceSiteReportTest));
                             }
                         }
                     }

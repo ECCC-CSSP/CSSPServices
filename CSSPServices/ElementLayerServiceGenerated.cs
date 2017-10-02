@@ -42,23 +42,15 @@ namespace CSSPServices
             ElementLayer elementLayer = validationContext.ObjectInstance as ElementLayer;
             elementLayer.HasErrors = false;
 
-            //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (elementLayer.Layer < 1 || elementLayer.Layer > 1000)
             {
                 elementLayer.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ElementLayerLayer, "1", "1000"), new[] { "Layer" });
             }
 
-            //ZMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //ZMin has no Range Attribute
 
-            //ZMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //ZMax has no Range Attribute
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

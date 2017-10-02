@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMSubsectorLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MWQMSubsectorID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             MWQMSubsector MWQMSubsectorMWQMSubsectorID = (from c in db.MWQMSubsectors where c.MWQMSubsectorID == mwqmSubsectorLanguage.MWQMSubsectorID select c).FirstOrDefault();
 
             if (MWQMSubsectorMWQMSubsectorID == null)
@@ -107,8 +103,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [MWQMSubsectorLanguageWeb] of type [MWQMSubsectorLanguageWeb]
-                //Error: Type not implemented [MWQMSubsectorLanguageReport] of type [MWQMSubsectorLanguageReport]
             if (mwqmSubsectorLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSubsectorLanguage.HasErrors = true;
@@ -122,8 +116,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSubsectorLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mwqmSubsectorLanguage.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -144,8 +136,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSubsectorLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -171,8 +161,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSubsectorLanguageWeb(mwqmSubsectorLanguageQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsectorLanguage(mwqmSubsectorLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMWQMSubsectorLanguageReport(mwqmSubsectorLanguageQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -189,8 +180,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorLanguageQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSubsectorLanguageWeb(mwqmSubsectorLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsectorLanguage(mwqmSubsectorLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMWQMSubsectorLanguageReport(mwqmSubsectorLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -241,11 +233,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MWQMSubsectorLanguage> FillMWQMSubsectorLanguage_Show_Copy_To_MWQMSubsectorLanguageServiceExtra_As_Fill_MWQMSubsectorLanguage(IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MWQMSubsectorLanguageFillWeb
+        private IQueryable<MWQMSubsectorLanguage> FillMWQMSubsectorLanguageWeb(IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -281,19 +270,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TranslationStatusLogBook
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        MWQMSubsectorLanguageReport = new MWQMSubsectorLanguageReport
-                        {
-                            MWQMSubsectorLanguageReportTest = "MWQMSubsectorLanguageReportTest",
-                        },
+                        MWQMSubsectorLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mwqmSubsectorLanguageQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MWQMSubsectorLanguageFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSubsectorLanguage mwqmSubsectorLanguage)
         {
             try
@@ -308,7 +294,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

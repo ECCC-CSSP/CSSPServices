@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MikeSourceID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MikeSourceTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemMikeSourceTVItemID = (from c in db.TVItems where c.TVItemID == mikeSource.MikeSourceTVItemID select c).FirstOrDefault();
 
             if (TVItemMikeSourceTVItemID == null)
@@ -81,12 +77,6 @@ namespace CSSPServices
                 }
             }
 
-            //IsContinuous (bool) is required but no testing needed 
-
-            //Include (bool) is required but no testing needed 
-
-            //IsRiver (bool) is required but no testing needed 
-
             if (string.IsNullOrWhiteSpace(mikeSource.SourceNumberString))
             {
                 mikeSource.HasErrors = true;
@@ -99,8 +89,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceSourceNumberString, "50"), new[] { "SourceNumberString" });
             }
 
-                //Error: Type not implemented [MikeSourceWeb] of type [MikeSourceWeb]
-                //Error: Type not implemented [MikeSourceReport] of type [MikeSourceReport]
             if (mikeSource.LastUpdateDate_UTC.Year == 1)
             {
                 mikeSource.HasErrors = true;
@@ -114,8 +102,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mikeSource.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -136,8 +122,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -163,8 +147,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeSourceWeb(mikeSourceQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSource(mikeSourceQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMikeSourceReport(mikeSourceQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -181,8 +166,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeSourceWeb(mikeSourceQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSource(mikeSourceQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMikeSourceReport(mikeSourceQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -233,11 +219,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MikeSource> FillMikeSource_Show_Copy_To_MikeSourceServiceExtra_As_Fill_MikeSource(IQueryable<MikeSource> mikeSourceQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MikeSourceFillWeb
+        private IQueryable<MikeSource> FillMikeSourceWeb(IQueryable<MikeSource> mikeSourceQuery, string FilterAndOrderText)
         {
             mikeSourceQuery = (from c in mikeSourceQuery
                 let MikeSourceTVText = (from cl in db.TVItemLanguages
@@ -263,19 +246,16 @@ namespace CSSPServices
                             MikeSourceTVText = MikeSourceTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        MikeSourceReport = new MikeSourceReport
-                        {
-                            MikeSourceReportTest = "MikeSourceReportTest",
-                        },
+                        MikeSourceReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mikeSourceQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MikeSourceFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MikeSource mikeSource)
         {
             try
@@ -290,7 +270,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

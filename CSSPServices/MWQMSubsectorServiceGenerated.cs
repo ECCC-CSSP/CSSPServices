@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMSubsectorID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MWQMSubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemMWQMSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == mwqmSubsector.MWQMSubsectorTVItemID select c).FirstOrDefault();
 
             if (TVItemMWQMSubsectorTVItemID == null)
@@ -99,8 +95,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorTideLocationSIDText, "20"), new[] { "TideLocationSIDText" });
             }
 
-                //Error: Type not implemented [MWQMSubsectorWeb] of type [MWQMSubsectorWeb]
-                //Error: Type not implemented [MWQMSubsectorReport] of type [MWQMSubsectorReport]
             if (mwqmSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSubsector.HasErrors = true;
@@ -114,8 +108,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSubsectorLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mwqmSubsector.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -136,8 +128,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -163,8 +153,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSubsectorWeb(mwqmSubsectorQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsector(mwqmSubsectorQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMWQMSubsectorReport(mwqmSubsectorQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -181,8 +172,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSubsectorWeb(mwqmSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsector(mwqmSubsectorQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMWQMSubsectorReport(mwqmSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -233,11 +225,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MWQMSubsector> FillMWQMSubsector_Show_Copy_To_MWQMSubsectorServiceExtra_As_Fill_MWQMSubsector(IQueryable<MWQMSubsector> mwqmSubsectorQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MWQMSubsectorFillWeb
+        private IQueryable<MWQMSubsector> FillMWQMSubsectorWeb(IQueryable<MWQMSubsector> mwqmSubsectorQuery, string FilterAndOrderText)
         {
             mwqmSubsectorQuery = (from c in mwqmSubsectorQuery
                 let SubsectorTVText = (from cl in db.TVItemLanguages
@@ -261,19 +250,16 @@ namespace CSSPServices
                             SubsectorTVText = SubsectorTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        MWQMSubsectorReport = new MWQMSubsectorReport
-                        {
-                            MWQMSubsectorReportTest = "MWQMSubsectorReportTest",
-                        },
+                        MWQMSubsectorReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mwqmSubsectorQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MWQMSubsectorFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSubsector mwqmSubsector)
         {
             try
@@ -288,7 +274,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

@@ -57,8 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (string.IsNullOrWhiteSpace(contact.Id))
             {
                 contact.HasErrors = true;
@@ -70,8 +68,6 @@ namespace CSSPServices
                 contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactId, "128"), new[] { "Id" });
             }
-
-            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemContactTVItemID = (from c in db.TVItems where c.TVItemID == contact.ContactTVItemID select c).FirstOrDefault();
 
@@ -167,22 +163,12 @@ namespace CSSPServices
                 }
             }
 
-            //IsAdmin (bool) is required but no testing needed 
-
-            //EmailValidated (bool) is required but no testing needed 
-
-            //Disabled (bool) is required but no testing needed 
-
-            //IsNew (bool) is required but no testing needed 
-
             if (!string.IsNullOrWhiteSpace(contact.SamplingPlanner_ProvincesTVItemID) && contact.SamplingPlanner_ProvincesTVItemID.Length > 200)
             {
                 contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
             }
 
-                //Error: Type not implemented [ContactWeb] of type [ContactWeb]
-                //Error: Type not implemented [ContactReport] of type [ContactReport]
             if (contact.LastUpdateDate_UTC.Year == 1)
             {
                 contact.HasErrors = true;
@@ -196,8 +182,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == contact.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -218,8 +202,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -245,8 +227,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillContactWeb(contactQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContact(contactQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillContactReport(contactQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -263,8 +246,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillContactWeb(contactQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContact(contactQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillContactReport(contactQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -315,11 +299,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<Contact> FillContact_Show_Copy_To_ContactServiceExtra_As_Fill_Contact(IQueryable<Contact> contactQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated ContactFillWeb
+        private IQueryable<Contact> FillContactWeb(IQueryable<Contact> contactQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -334,6 +315,9 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl.TVText).FirstOrDefault()
+                let ParentTVItemID = (from cl in db.TVItems
+                    where cl.TVItemID == c.ContactTVItemID
+                    select cl.ParentID).FirstOrDefault()
                     select new Contact
                     {
                         ContactID = c.ContactID,
@@ -361,19 +345,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.ContactTitle
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        ContactReport = new ContactReport
-                        {
-                            ContactReportTest = "ContactReportTest",
-                        },
+                        ContactReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return contactQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated ContactFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(Contact contact)
         {
             try
@@ -388,7 +369,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

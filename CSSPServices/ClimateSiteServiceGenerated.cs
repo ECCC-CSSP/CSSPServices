@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //ClimateSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //ClimateSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemClimateSiteTVItemID = (from c in db.TVItems where c.TVItemID == climateSite.ClimateSiteTVItemID select c).FirstOrDefault();
 
             if (TVItemClimateSiteTVItemID == null)
@@ -80,8 +76,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateSiteClimateSiteTVItemID, "ClimateSite"), new[] { "ClimateSiteTVItemID" });
                 }
             }
-
-            //ECDBID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (climateSite.ECDBID < 1 || climateSite.ECDBID > 100000)
             {
@@ -200,8 +194,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyEndDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteMonthlyEndDate_Local });
             }
 
-                //Error: Type not implemented [ClimateSiteWeb] of type [ClimateSiteWeb]
-                //Error: Type not implemented [ClimateSiteReport] of type [ClimateSiteReport]
             if (climateSite.LastUpdateDate_UTC.Year == 1)
             {
                 climateSite.HasErrors = true;
@@ -215,8 +207,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == climateSite.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -237,8 +227,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -264,8 +252,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillClimateSiteWeb(climateSiteQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateSite(climateSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillClimateSiteReport(climateSiteQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -282,8 +271,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateSiteQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillClimateSiteWeb(climateSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateSite(climateSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillClimateSiteReport(climateSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -334,11 +324,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<ClimateSite> FillClimateSite_Show_Copy_To_ClimateSiteServiceExtra_As_Fill_ClimateSite(IQueryable<ClimateSite> climateSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated ClimateSiteFillWeb
+        private IQueryable<ClimateSite> FillClimateSiteWeb(IQueryable<ClimateSite> climateSiteQuery, string FilterAndOrderText)
         {
             climateSiteQuery = (from c in climateSiteQuery
                 let ClimateSiteTVText = (from cl in db.TVItemLanguages
@@ -380,19 +367,16 @@ namespace CSSPServices
                             ClimateSiteTVText = ClimateSiteTVText,
                             LastUpdateContactTVText = LastUpdateContactTVText,
                         },
-                        ClimateSiteReport = new ClimateSiteReport
-                        {
-                            ClimateSiteReportTest = "ClimateSiteReportTest",
-                        },
+                        ClimateSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return climateSiteQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated ClimateSiteFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(ClimateSite climateSite)
         {
             try
@@ -407,7 +391,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

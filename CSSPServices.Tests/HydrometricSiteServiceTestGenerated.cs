@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             HydrometricSite hydrometricSite = new HydrometricSite();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [HydrometricSite HydrometricSiteTVItemID TVItem TVItemID]
+            if (OmitPropName != "HydrometricSiteTVItemID") hydrometricSite.HydrometricSiteTVItemID = 8;
             if (OmitPropName != "FedSiteNumber") hydrometricSite.FedSiteNumber = GetRandomString("", 5);
             if (OmitPropName != "QuebecSiteNumber") hydrometricSite.QuebecSiteNumber = GetRandomString("", 5);
             if (OmitPropName != "HydrometricSiteName") hydrometricSite.HydrometricSiteName = GetRandomString("", 5);
@@ -57,11 +57,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RHBN") hydrometricSite.RHBN = true;
             if (OmitPropName != "RealTime") hydrometricSite.RealTime = true;
             if (OmitPropName != "HasRatingCurve") hydrometricSite.HasRatingCurve = true;
-            //Error: property [HydrometricSiteWeb] and type [HydrometricSite] is  not implemented
-            //Error: property [HydrometricSiteReport] and type [HydrometricSite] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricSite.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") hydrometricSite.HasErrors = true;
 
             return hydrometricSite;
         }
@@ -250,6 +247,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Elevation_m]
 
+                    //Error: Type not implemented [Elevation_m]
+
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
                     hydrometricSite.Elevation_m = -1.0D;
@@ -269,6 +268,11 @@ namespace CSSPServices.Tests
                     // hydrometricSite.StartDate_Local   (DateTime)
                     // -----------------------------------
 
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.StartDate_Local = new DateTime(1979, 1, 1);
+                    hydrometricSiteService.Add(hydrometricSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteStartDate_Local, "1980"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -277,12 +281,19 @@ namespace CSSPServices.Tests
                     // hydrometricSite.EndDate_Local   (DateTime)
                     // -----------------------------------
 
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.EndDate_Local = new DateTime(1979, 1, 1);
+                    hydrometricSiteService.Add(hydrometricSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteEndDate_Local, "1980"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
                     // [Range(-10, 0)]
                     // hydrometricSite.TimeOffset_hour   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TimeOffset_hour]
 
                     //Error: Type not implemented [TimeOffset_hour]
 
@@ -304,6 +315,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1000000)]
                     // hydrometricSite.DrainageArea_km2   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DrainageArea_km2]
 
                     //Error: Type not implemented [DrainageArea_km2]
 
@@ -362,8 +375,15 @@ namespace CSSPServices.Tests
                     // hydrometricSite.HydrometricSiteWeb   (HydrometricSiteWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [HydrometricSiteWeb]
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.HydrometricSiteWeb = null;
+                    Assert.IsNull(hydrometricSite.HydrometricSiteWeb);
 
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.HydrometricSiteWeb = new HydrometricSiteWeb();
+                    Assert.IsNotNull(hydrometricSite.HydrometricSiteWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -371,8 +391,15 @@ namespace CSSPServices.Tests
                     // hydrometricSite.HydrometricSiteReport   (HydrometricSiteReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [HydrometricSiteReport]
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.HydrometricSiteReport = null;
+                    Assert.IsNull(hydrometricSite.HydrometricSiteReport);
 
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.HydrometricSiteReport = new HydrometricSiteReport();
+                    Assert.IsNotNull(hydrometricSite.HydrometricSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -380,6 +407,16 @@ namespace CSSPServices.Tests
                     // hydrometricSite.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.LastUpdateDate_UTC = new DateTime();
+                    hydrometricSiteService.Add(hydrometricSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricSiteLastUpdateDate_UTC), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    hydrometricSite = null;
+                    hydrometricSite = GetFilledRandomHydrometricSite("");
+                    hydrometricSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    hydrometricSiteService.Add(hydrometricSite);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteLastUpdateDate_UTC, "1980"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -406,6 +443,7 @@ namespace CSSPServices.Tests
                     // hydrometricSite.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -413,6 +451,7 @@ namespace CSSPServices.Tests
                     // hydrometricSite.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -433,7 +472,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(hydrometricSite);
 
                     HydrometricSite hydrometricSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -447,11 +486,15 @@ namespace CSSPServices.Tests
                         {
                             hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // HydrometricSite fields
                         Assert.IsNotNull(hydrometricSiteRet.HydrometricSiteID);
                         Assert.IsNotNull(hydrometricSiteRet.HydrometricSiteTVItemID);
                         if (hydrometricSiteRet.FedSiteNumber != null)
@@ -515,27 +558,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(hydrometricSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(hydrometricSiteRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (hydrometricSiteRet.HydrometricSiteWeb != null)
-                            {
-                                Assert.IsNull(hydrometricSiteRet.HydrometricSiteWeb);
-                            }
-                            if (hydrometricSiteRet.HydrometricSiteReport != null)
-                            {
-                                Assert.IsNull(hydrometricSiteRet.HydrometricSiteReport);
-                            }
+                            // HydrometricSiteWeb and HydrometricSiteReport fields should be null here
+                            Assert.IsNull(hydrometricSiteRet.HydrometricSiteWeb);
+                            Assert.IsNull(hydrometricSiteRet.HydrometricSiteReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (hydrometricSiteRet.HydrometricSiteWeb != null)
+                            // HydrometricSiteWeb fields should not be null and HydrometricSiteReport fields should be null here
+                            if (hydrometricSiteRet.HydrometricSiteWeb.HydrometricTVText != null)
                             {
-                                Assert.IsNotNull(hydrometricSiteRet.HydrometricSiteWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricSiteWeb.HydrometricTVText));
                             }
-                            if (hydrometricSiteRet.HydrometricSiteReport != null)
+                            if (hydrometricSiteRet.HydrometricSiteWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(hydrometricSiteRet.HydrometricSiteReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricSiteWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(hydrometricSiteRet.HydrometricSiteReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // HydrometricSiteWeb and HydrometricSiteReport fields should NOT be null here
+                            if (hydrometricSiteRet.HydrometricSiteWeb.HydrometricTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricSiteWeb.HydrometricTVText));
+                            }
+                            if (hydrometricSiteRet.HydrometricSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (hydrometricSiteRet.HydrometricSiteReport.HydrometricSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricSiteReport.HydrometricSiteReportTest));
                             }
                         }
                     }

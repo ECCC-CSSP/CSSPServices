@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //UseOfSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //SiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemSiteTVItemID = (from c in db.TVItems where c.TVItemID == useOfSite.SiteTVItemID select c).FirstOrDefault();
 
             if (TVItemSiteTVItemID == null)
@@ -82,8 +78,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.UseOfSiteSiteTVItemID, "ClimateSite,HydrometricSite,TideSite"), new[] { "SiteTVItemID" });
                 }
             }
-
-            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == useOfSite.SubsectorTVItemID select c).FirstOrDefault();
 
@@ -112,15 +106,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.UseOfSiteSiteType), new[] { "SiteType" });
             }
 
-            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (useOfSite.Ordinal < 0 || useOfSite.Ordinal > 1000)
             {
                 useOfSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
-
-            //StartYear (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (useOfSite.StartYear < 1980 || useOfSite.StartYear > 2050)
             {
@@ -182,8 +172,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [UseOfSiteWeb] of type [UseOfSiteWeb]
-                //Error: Type not implemented [UseOfSiteReport] of type [UseOfSiteReport]
             if (useOfSite.LastUpdateDate_UTC.Year == 1)
             {
                 useOfSite.HasErrors = true;
@@ -197,8 +185,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.UseOfSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == useOfSite.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -219,8 +205,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -246,8 +230,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return useOfSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillUseOfSiteWeb(useOfSiteQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillUseOfSite(useOfSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillUseOfSiteReport(useOfSiteQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -264,8 +249,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return useOfSiteQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillUseOfSiteWeb(useOfSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillUseOfSite(useOfSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillUseOfSiteReport(useOfSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -316,11 +302,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<UseOfSite> FillUseOfSite_Show_Copy_To_UseOfSiteServiceExtra_As_Fill_UseOfSite(IQueryable<UseOfSite> useOfSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated UseOfSiteFillWeb
+        private IQueryable<UseOfSite> FillUseOfSiteWeb(IQueryable<UseOfSite> useOfSiteQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -366,19 +349,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.SiteType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        UseOfSiteReport = new UseOfSiteReport
-                        {
-                            UseOfSiteReportTest = "UseOfSiteReportTest",
-                        },
+                        UseOfSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return useOfSiteQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated UseOfSiteFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(UseOfSite useOfSite)
         {
             try
@@ -393,7 +373,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "TVPath") tvFullText.TVPath = GetRandomString("", 6);
             if (OmitPropName != "FullText") tvFullText.FullText = GetRandomString("", 6);
-            if (OmitPropName != "HasErrors") tvFullText.HasErrors = true;
 
             return tvFullText;
         }

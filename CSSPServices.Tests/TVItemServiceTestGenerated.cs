@@ -45,11 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVType") tvItem.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "ParentID") tvItem.ParentID = 1;
             if (OmitPropName != "IsActive") tvItem.IsActive = true;
-            //Error: property [TVItemWeb] and type [TVItem] is  not implemented
-            //Error: property [TVItemReport] and type [TVItem] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tvItem.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItem.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") tvItem.HasErrors = true;
 
             return tvItem;
         }
@@ -214,8 +211,15 @@ namespace CSSPServices.Tests
                     // tvItem.TVItemWeb   (TVItemWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVItemWeb]
+                    tvItem = null;
+                    tvItem = GetFilledRandomTVItem("");
+                    tvItem.TVItemWeb = null;
+                    Assert.IsNull(tvItem.TVItemWeb);
 
+                    tvItem = null;
+                    tvItem = GetFilledRandomTVItem("");
+                    tvItem.TVItemWeb = new TVItemWeb();
+                    Assert.IsNotNull(tvItem.TVItemWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -223,8 +227,15 @@ namespace CSSPServices.Tests
                     // tvItem.TVItemReport   (TVItemReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVItemReport]
+                    tvItem = null;
+                    tvItem = GetFilledRandomTVItem("");
+                    tvItem.TVItemReport = null;
+                    Assert.IsNull(tvItem.TVItemReport);
 
+                    tvItem = null;
+                    tvItem = GetFilledRandomTVItem("");
+                    tvItem.TVItemReport = new TVItemReport();
+                    Assert.IsNotNull(tvItem.TVItemReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -232,6 +243,16 @@ namespace CSSPServices.Tests
                     // tvItem.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    tvItem = null;
+                    tvItem = GetFilledRandomTVItem("");
+                    tvItem.LastUpdateDate_UTC = new DateTime();
+                    tvItemService.Add(tvItem);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLastUpdateDate_UTC), tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvItem = null;
+                    tvItem = GetFilledRandomTVItem("");
+                    tvItem.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    tvItemService.Add(tvItem);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLastUpdateDate_UTC, "1980"), tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -258,6 +279,7 @@ namespace CSSPServices.Tests
                     // tvItem.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -265,6 +287,7 @@ namespace CSSPServices.Tests
                     // tvItem.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -285,7 +308,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvItem);
 
                     TVItem tvItemRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -299,11 +322,15 @@ namespace CSSPServices.Tests
                         {
                             tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // TVItem fields
                         Assert.IsNotNull(tvItemRet.TVItemID);
                         Assert.IsNotNull(tvItemRet.TVLevel);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVPath));
@@ -313,27 +340,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tvItemRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tvItemRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tvItemRet.TVItemWeb != null)
-                            {
-                                Assert.IsNull(tvItemRet.TVItemWeb);
-                            }
-                            if (tvItemRet.TVItemReport != null)
-                            {
-                                Assert.IsNull(tvItemRet.TVItemReport);
-                            }
+                            // TVItemWeb and TVItemReport fields should be null here
+                            Assert.IsNull(tvItemRet.TVItemWeb);
+                            Assert.IsNull(tvItemRet.TVItemReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tvItemRet.TVItemWeb != null)
+                            // TVItemWeb fields should not be null and TVItemReport fields should be null here
+                            if (tvItemRet.TVItemWeb.TVText != null)
                             {
-                                Assert.IsNotNull(tvItemRet.TVItemWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVItemWeb.TVText));
                             }
-                            if (tvItemRet.TVItemReport != null)
+                            if (tvItemRet.TVItemWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(tvItemRet.TVItemReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVItemWeb.LastUpdateContactTVText));
+                            }
+                            if (tvItemRet.TVItemWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVItemWeb.TVTypeText));
+                            }
+                            Assert.IsNull(tvItemRet.TVItemReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TVItemWeb and TVItemReport fields should NOT be null here
+                            if (tvItemRet.TVItemWeb.TVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVItemWeb.TVText));
+                            }
+                            if (tvItemRet.TVItemWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVItemWeb.LastUpdateContactTVText));
+                            }
+                            if (tvItemRet.TVItemWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVItemWeb.TVTypeText));
+                            }
+                            if (tvItemRet.TVItemReport.TVItemReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVItemReport.TVItemReportTest));
                             }
                         }
                     }

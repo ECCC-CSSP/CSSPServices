@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Lat") latLng.Lat = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "Lng") latLng.Lng = GetRandomDouble(-90.0D, 90.0D);
-            if (OmitPropName != "HasErrors") latLng.HasErrors = true;
 
             return latLng;
         }

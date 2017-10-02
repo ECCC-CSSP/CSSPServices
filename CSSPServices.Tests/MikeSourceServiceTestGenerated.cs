@@ -40,16 +40,13 @@ namespace CSSPServices.Tests
         {
             MikeSource mikeSource = new MikeSource();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MikeSource MikeSourceTVItemID TVItem TVItemID]
+            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 27;
             if (OmitPropName != "IsContinuous") mikeSource.IsContinuous = true;
             if (OmitPropName != "Include") mikeSource.Include = true;
             if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;
             if (OmitPropName != "SourceNumberString") mikeSource.SourceNumberString = GetRandomString("", 5);
-            //Error: property [MikeSourceWeb] and type [MikeSource] is  not implemented
-            //Error: property [MikeSourceReport] and type [MikeSource] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSource.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mikeSource.HasErrors = true;
 
             return mikeSource;
         }
@@ -194,8 +191,15 @@ namespace CSSPServices.Tests
                     // mikeSource.MikeSourceWeb   (MikeSourceWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MikeSourceWeb]
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceWeb = null;
+                    Assert.IsNull(mikeSource.MikeSourceWeb);
 
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceWeb = new MikeSourceWeb();
+                    Assert.IsNotNull(mikeSource.MikeSourceWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -203,8 +207,15 @@ namespace CSSPServices.Tests
                     // mikeSource.MikeSourceReport   (MikeSourceReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MikeSourceReport]
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceReport = null;
+                    Assert.IsNull(mikeSource.MikeSourceReport);
 
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceReport = new MikeSourceReport();
+                    Assert.IsNotNull(mikeSource.MikeSourceReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -212,6 +223,16 @@ namespace CSSPServices.Tests
                     // mikeSource.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.LastUpdateDate_UTC = new DateTime();
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceLastUpdateDate_UTC), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceLastUpdateDate_UTC, "1980"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -238,6 +259,7 @@ namespace CSSPServices.Tests
                     // mikeSource.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -245,6 +267,7 @@ namespace CSSPServices.Tests
                     // mikeSource.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -265,7 +288,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSource);
 
                     MikeSource mikeSourceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -279,11 +302,15 @@ namespace CSSPServices.Tests
                         {
                             mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MikeSource fields
                         Assert.IsNotNull(mikeSourceRet.MikeSourceID);
                         Assert.IsNotNull(mikeSourceRet.MikeSourceTVItemID);
                         Assert.IsNotNull(mikeSourceRet.IsContinuous);
@@ -293,27 +320,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mikeSourceRet.MikeSourceWeb != null)
-                            {
-                                Assert.IsNull(mikeSourceRet.MikeSourceWeb);
-                            }
-                            if (mikeSourceRet.MikeSourceReport != null)
-                            {
-                                Assert.IsNull(mikeSourceRet.MikeSourceReport);
-                            }
+                            // MikeSourceWeb and MikeSourceReport fields should be null here
+                            Assert.IsNull(mikeSourceRet.MikeSourceWeb);
+                            Assert.IsNull(mikeSourceRet.MikeSourceReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mikeSourceRet.MikeSourceWeb != null)
+                            // MikeSourceWeb fields should not be null and MikeSourceReport fields should be null here
+                            if (mikeSourceRet.MikeSourceWeb.MikeSourceTVText != null)
                             {
-                                Assert.IsNotNull(mikeSourceRet.MikeSourceWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.MikeSourceTVText));
                             }
-                            if (mikeSourceRet.MikeSourceReport != null)
+                            if (mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mikeSourceRet.MikeSourceReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(mikeSourceRet.MikeSourceReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MikeSourceWeb and MikeSourceReport fields should NOT be null here
+                            if (mikeSourceRet.MikeSourceWeb.MikeSourceTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.MikeSourceTVText));
+                            }
+                            if (mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText));
+                            }
+                            if (mikeSourceRet.MikeSourceReport.MikeSourceReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceReport.MikeSourceReportTest));
                             }
                         }
                     }

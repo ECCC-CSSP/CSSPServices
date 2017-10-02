@@ -40,7 +40,6 @@ namespace CSSPServices.Tests
         {
             VPFull vpFull = new VPFull();
 
-            if (OmitPropName != "HasErrors") vpFull.HasErrors = true;
 
             return vpFull;
         }

@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "SearchTag") searchTagAndTerms.SearchTag = (SearchTagEnum)GetRandomEnumType(typeof(SearchTagEnum));
             if (OmitPropName != "SearchTagText") searchTagAndTerms.SearchTagText = GetRandomString("", 5);
-            if (OmitPropName != "HasErrors") searchTagAndTerms.HasErrors = true;
 
             return searchTagAndTerms;
         }

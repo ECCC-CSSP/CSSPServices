@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TideDataValueID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TideSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTideSiteTVItemID = (from c in db.TVItems where c.TVItemID == tideDataValue.TideSiteTVItemID select c).FirstOrDefault();
 
             if (TVItemTideSiteTVItemID == null)
@@ -95,8 +91,6 @@ namespace CSSPServices
                 }
             }
 
-            //Keep (bool) is required but no testing needed 
-
             retStr = enums.EnumTypeOK(typeof(TideDataTypeEnum), (int?)tideDataValue.TideDataType);
             if (tideDataValue.TideDataType == TideDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
@@ -111,23 +105,17 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueStorageDataType), new[] { "StorageDataType" });
             }
 
-            //Depth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tideDataValue.Depth_m < 0 || tideDataValue.Depth_m > 10000)
             {
                 tideDataValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueDepth_m, "0", "10000"), new[] { "Depth_m" });
             }
 
-            //UVelocity_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tideDataValue.UVelocity_m_s < 0 || tideDataValue.UVelocity_m_s > 10)
             {
                 tideDataValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueUVelocity_m_s, "0", "10"), new[] { "UVelocity_m_s" });
             }
-
-            //VVelocity_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideDataValue.VVelocity_m_s < 0 || tideDataValue.VVelocity_m_s > 10)
             {
@@ -155,8 +143,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [TideDataValueWeb] of type [TideDataValueWeb]
-                //Error: Type not implemented [TideDataValueReport] of type [TideDataValueReport]
             if (tideDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 tideDataValue.HasErrors = true;
@@ -170,8 +156,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tideDataValue.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -192,8 +176,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -219,8 +201,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideDataValueQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTideDataValueWeb(tideDataValueQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideDataValue(tideDataValueQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTideDataValueReport(tideDataValueQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -237,8 +220,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideDataValueQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTideDataValueWeb(tideDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideDataValue(tideDataValueQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTideDataValueReport(tideDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -289,11 +273,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TideDataValue> FillTideDataValue_Show_Copy_To_TideDataValueServiceExtra_As_Fill_TideDataValue(IQueryable<TideDataValue> tideDataValueQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TideDataValueFillWeb
+        private IQueryable<TideDataValue> FillTideDataValueWeb(IQueryable<TideDataValue> tideDataValueQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -342,19 +323,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TideEnd
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TideDataValueReport = new TideDataValueReport
-                        {
-                            TideDataValueReportTest = "TideDataValueReportTest",
-                        },
+                        TideDataValueReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tideDataValueQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TideDataValueFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TideDataValue tideDataValue)
         {
             try
@@ -369,7 +347,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

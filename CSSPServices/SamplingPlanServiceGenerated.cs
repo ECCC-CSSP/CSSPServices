@@ -57,8 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //SamplingPlanID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanName))
             {
                 samplingPlan.HasErrors = true;
@@ -104,8 +102,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLabSheetType), new[] { "LabSheetType" });
             }
 
-            //ProvinceTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemProvinceTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlan.ProvinceTVItemID select c).FirstOrDefault();
 
             if (TVItemProvinceTVItemID == null)
@@ -125,8 +121,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
                 }
             }
-
-            //CreatorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemCreatorTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlan.CreatorTVItemID select c).FirstOrDefault();
 
@@ -148,8 +142,6 @@ namespace CSSPServices
                 }
             }
 
-            //Year (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (samplingPlan.Year < 2000 || samplingPlan.Year > 2050)
             {
                 samplingPlan.HasErrors = true;
@@ -168,23 +160,17 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanAccessCode, "15"), new[] { "AccessCode" });
             }
 
-            //DailyDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (samplingPlan.DailyDuplicatePrecisionCriteria < 0 || samplingPlan.DailyDuplicatePrecisionCriteria > 100)
             {
                 samplingPlan.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), new[] { "DailyDuplicatePrecisionCriteria" });
             }
 
-            //IntertechDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (samplingPlan.IntertechDuplicatePrecisionCriteria < 0 || samplingPlan.IntertechDuplicatePrecisionCriteria > 100)
             {
                 samplingPlan.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { "IntertechDuplicatePrecisionCriteria" });
             }
-
-            //IncludeLaboratoryQAQC (bool) is required but no testing needed 
 
             if (string.IsNullOrWhiteSpace(samplingPlan.ApprovalCode))
             {
@@ -221,8 +207,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [SamplingPlanWeb] of type [SamplingPlanWeb]
-                //Error: Type not implemented [SamplingPlanReport] of type [SamplingPlanReport]
             if (samplingPlan.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlan.HasErrors = true;
@@ -236,8 +220,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SamplingPlanLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlan.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -258,8 +240,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -285,8 +265,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillSamplingPlanWeb(samplingPlanQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSamplingPlan(samplingPlanQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillSamplingPlanReport(samplingPlanQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -303,8 +284,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillSamplingPlanWeb(samplingPlanQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSamplingPlan(samplingPlanQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillSamplingPlanReport(samplingPlanQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -355,11 +337,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<SamplingPlan> FillSamplingPlan_Show_Copy_To_SamplingPlanServiceExtra_As_Fill_SamplingPlan(IQueryable<SamplingPlan> samplingPlanQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated SamplingPlanFillWeb
+        private IQueryable<SamplingPlan> FillSamplingPlanWeb(IQueryable<SamplingPlan> samplingPlanQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -419,19 +398,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.LabSheetType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        SamplingPlanReport = new SamplingPlanReport
-                        {
-                            SamplingPlanReportTest = "SamplingPlanReportTest",
-                        },
+                        SamplingPlanReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return samplingPlanQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated SamplingPlanFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(SamplingPlan samplingPlan)
         {
             try
@@ -446,7 +422,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

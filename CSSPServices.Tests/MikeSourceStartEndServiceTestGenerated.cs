@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MikeSourceStartEnd mikeSourceStartEnd = new MikeSourceStartEnd();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MikeSourceStartEnd MikeSourceID MikeSource MikeSourceID]
+            if (OmitPropName != "MikeSourceID") mikeSourceStartEnd.MikeSourceID = 1;
             if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "SourceFlowStart_m3_day") mikeSourceStartEnd.SourceFlowStart_m3_day = GetRandomDouble(0.0D, 1000000.0D);
@@ -51,11 +51,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SourceTemperatureEnd_C") mikeSourceStartEnd.SourceTemperatureEnd_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomDouble(0.0D, 40.0D);
             if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(0.0D, 40.0D);
-            //Error: property [MikeSourceStartEndWeb] and type [MikeSourceStartEnd] is  not implemented
-            //Error: property [MikeSourceStartEndReport] and type [MikeSourceStartEnd] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mikeSourceStartEnd.HasErrors = true;
 
             return mikeSourceStartEnd;
         }
@@ -155,6 +152,16 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.StartDateAndTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.StartDateAndTime_Local = new DateTime();
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.StartDateAndTime_Local = new DateTime(1979, 1, 1);
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local, "1980"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -163,12 +170,24 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.EndDateAndTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.EndDateAndTime_Local = new DateTime();
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.EndDateAndTime_Local = new DateTime(1979, 1, 1);
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
                     // [Range(0, 1000000)]
                     // mikeSourceStartEnd.SourceFlowStart_m3_day   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [SourceFlowStart_m3_day]
 
                     //Error: Type not implemented [SourceFlowStart_m3_day]
 
@@ -190,6 +209,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1000000)]
                     // mikeSourceStartEnd.SourceFlowEnd_m3_day   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [SourceFlowEnd_m3_day]
 
                     //Error: Type not implemented [SourceFlowEnd_m3_day]
 
@@ -252,6 +273,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [SourceTemperatureStart_C]
 
+                    //Error: Type not implemented [SourceTemperatureStart_C]
+
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
                     mikeSourceStartEnd.SourceTemperatureStart_C = -11.0D;
@@ -270,6 +293,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // mikeSourceStartEnd.SourceTemperatureEnd_C   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [SourceTemperatureEnd_C]
 
                     //Error: Type not implemented [SourceTemperatureEnd_C]
 
@@ -294,6 +319,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [SourceSalinityStart_PSU]
 
+                    //Error: Type not implemented [SourceSalinityStart_PSU]
+
                     mikeSourceStartEnd = null;
                     mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
                     mikeSourceStartEnd.SourceSalinityStart_PSU = -1.0D;
@@ -312,6 +339,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 40)]
                     // mikeSourceStartEnd.SourceSalinityEnd_PSU   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [SourceSalinityEnd_PSU]
 
                     //Error: Type not implemented [SourceSalinityEnd_PSU]
 
@@ -334,8 +363,15 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.MikeSourceStartEndWeb   (MikeSourceStartEndWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MikeSourceStartEndWeb]
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.MikeSourceStartEndWeb = null;
+                    Assert.IsNull(mikeSourceStartEnd.MikeSourceStartEndWeb);
 
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.MikeSourceStartEndWeb = new MikeSourceStartEndWeb();
+                    Assert.IsNotNull(mikeSourceStartEnd.MikeSourceStartEndWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -343,8 +379,15 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.MikeSourceStartEndReport   (MikeSourceStartEndReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MikeSourceStartEndReport]
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.MikeSourceStartEndReport = null;
+                    Assert.IsNull(mikeSourceStartEnd.MikeSourceStartEndReport);
 
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.MikeSourceStartEndReport = new MikeSourceStartEndReport();
+                    Assert.IsNotNull(mikeSourceStartEnd.MikeSourceStartEndReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -352,6 +395,16 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime();
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndLastUpdateDate_UTC), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -378,6 +431,7 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -385,6 +439,7 @@ namespace CSSPServices.Tests
                     // mikeSourceStartEnd.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -405,7 +460,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSourceStartEnd);
 
                     MikeSourceStartEnd mikeSourceStartEndRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -419,11 +474,15 @@ namespace CSSPServices.Tests
                         {
                             mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MikeSourceStartEnd fields
                         Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndID);
                         Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceID);
                         Assert.IsNotNull(mikeSourceStartEndRet.StartDateAndTime_Local);
@@ -439,27 +498,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb != null)
-                            {
-                                Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndWeb);
-                            }
-                            if (mikeSourceStartEndRet.MikeSourceStartEndReport != null)
-                            {
-                                Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
-                            }
+                            // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should be null here
+                            Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndWeb);
+                            Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb != null)
+                            // MikeSourceStartEndWeb fields should not be null and MikeSourceStartEndReport fields should be null here
+                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText));
                             }
-                            if (mikeSourceStartEndRet.MikeSourceStartEndReport != null)
+                            Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should NOT be null here
+                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText));
+                            }
+                            if (mikeSourceStartEndRet.MikeSourceStartEndReport.MikeSourceStartEndReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.MikeSourceStartEndReport.MikeSourceStartEndReportTest));
                             }
                         }
                     }

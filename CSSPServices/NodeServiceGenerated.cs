@@ -42,35 +42,21 @@ namespace CSSPServices
             Node node = validationContext.ObjectInstance as Node;
             node.HasErrors = false;
 
-            //ID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (node.ID < 1 || node.ID > 1000000)
             {
                 node.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.NodeID, "1", "1000000"), new[] { "ID" });
             }
 
-            //X (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //X has no Range Attribute
-
-            //Y (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Y has no Range Attribute
 
-            //Z (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //Z has no Range Attribute
-
-            //Code (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Code has no Range Attribute
 
-            //Value (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             //Value has no Range Attribute
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

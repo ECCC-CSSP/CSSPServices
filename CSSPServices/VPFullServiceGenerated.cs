@@ -42,8 +42,6 @@ namespace CSSPServices
             VPFull vpFull = validationContext.ObjectInstance as VPFull;
             vpFull.HasErrors = false;
 
-            //HasErrors (bool) is required but no testing needed 
-
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

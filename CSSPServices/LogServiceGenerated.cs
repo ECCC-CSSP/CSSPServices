@@ -57,8 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //LogID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (string.IsNullOrWhiteSpace(log.TableName))
             {
                 log.HasErrors = true;
@@ -70,8 +68,6 @@ namespace CSSPServices
                 log.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogTableName, "50"), new[] { "TableName" });
             }
-
-            //ID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (log.ID < 1)
             {
@@ -94,8 +90,6 @@ namespace CSSPServices
 
             //Information has no StringLength Attribute
 
-                //Error: Type not implemented [LogWeb] of type [LogWeb]
-                //Error: Type not implemented [LogReport] of type [LogReport]
             if (log.LastUpdateDate_UTC.Year == 1)
             {
                 log.HasErrors = true;
@@ -109,8 +103,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == log.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -131,8 +123,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -158,8 +148,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return logQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillLogWeb(logQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLog(logQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillLogReport(logQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -176,8 +167,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return logQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillLogWeb(logQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLog(logQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillLogReport(logQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -228,11 +220,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<Log> FillLog_Show_Copy_To_LogServiceExtra_As_Fill_Log(IQueryable<Log> logQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated LogFillWeb
+        private IQueryable<Log> FillLogWeb(IQueryable<Log> logQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -259,19 +248,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.LogCommand
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        LogReport = new LogReport
-                        {
-                            LogReportTest = "LogReportTest",
-                        },
+                        LogReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return logQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated LogFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(Log log)
         {
             try
@@ -286,7 +272,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

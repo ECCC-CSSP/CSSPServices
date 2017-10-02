@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //TVItemStatID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTVItemID = (from c in db.TVItems where c.TVItemID == tvItemStat.TVItemID select c).FirstOrDefault();
 
             if (TVItemTVItemID == null)
@@ -109,16 +105,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemStatTVType), new[] { "TVType" });
             }
 
-            //ChildCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tvItemStat.ChildCount < 0 || tvItemStat.ChildCount > 10000000)
             {
                 tvItemStat.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVItemStatChildCount, "0", "10000000"), new[] { "ChildCount" });
             }
 
-                //Error: Type not implemented [TVItemStatWeb] of type [TVItemStatWeb]
-                //Error: Type not implemented [TVItemStatReport] of type [TVItemStatReport]
             if (tvItemStat.LastUpdateDate_UTC.Year == 1)
             {
                 tvItemStat.HasErrors = true;
@@ -132,8 +124,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemStatLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tvItemStat.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -154,8 +144,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemStatLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -181,8 +169,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemStatQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemStatWeb(tvItemStatQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemStat(tvItemStatQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillTVItemStatReport(tvItemStatQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -199,8 +188,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemStatQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillTVItemStatWeb(tvItemStatQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemStat(tvItemStatQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillTVItemStatReport(tvItemStatQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -251,11 +241,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<TVItemStat> FillTVItemStat_Show_Copy_To_TVItemStatServiceExtra_As_Fill_TVItemStat(IQueryable<TVItemStat> tvItemStatQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated TVItemStatFillWeb
+        private IQueryable<TVItemStat> FillTVItemStatWeb(IQueryable<TVItemStat> tvItemStatQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -286,19 +273,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        TVItemStatReport = new TVItemStatReport
-                        {
-                            TVItemStatReportTest = "TVItemStatReportTest",
-                        },
+                        TVItemStatReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return tvItemStatQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated TVItemStatFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(TVItemStat tvItemStat)
         {
             try
@@ -313,7 +297,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

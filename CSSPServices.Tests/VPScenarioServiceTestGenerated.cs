@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             VPScenario vpScenario = new VPScenario();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [VPScenario InfrastructureTVItemID TVItem TVItemID]
+            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = 16;
             if (OmitPropName != "VPScenarioStatus") vpScenario.VPScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "UseAsBestEstimate") vpScenario.UseAsBestEstimate = true;
             if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomDouble(0.0D, 1000.0D);
@@ -59,11 +59,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EffluentTemperature_C") vpScenario.EffluentTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
-            //Error: property [VPScenarioWeb] and type [VPScenario] is  not implemented
-            //Error: property [VPScenarioReport] and type [VPScenario] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") vpScenario.HasErrors = true;
 
             return vpScenario;
         }
@@ -190,6 +187,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [EffluentFlow_m3_s]
 
+                    //Error: Type not implemented [EffluentFlow_m3_s]
+
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentFlow_m3_s = -1.0D;
@@ -230,6 +229,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [FroudeNumber]
 
+                    //Error: Type not implemented [FroudeNumber]
+
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.FroudeNumber = -1.0D;
@@ -248,6 +249,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10)]
                     // vpScenario.PortDiameter_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [PortDiameter_m]
 
                     //Error: Type not implemented [PortDiameter_m]
 
@@ -272,6 +275,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [PortDepth_m]
 
+                    //Error: Type not implemented [PortDepth_m]
+
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDepth_m = -1.0D;
@@ -290,6 +295,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1000)]
                     // vpScenario.PortElevation_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [PortElevation_m]
 
                     //Error: Type not implemented [PortElevation_m]
 
@@ -314,6 +321,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [VerticalAngle_deg]
 
+                    //Error: Type not implemented [VerticalAngle_deg]
+
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VerticalAngle_deg = -91.0D;
@@ -332,6 +341,8 @@ namespace CSSPServices.Tests
                     // [Range(-180, 180)]
                     // vpScenario.HorizontalAngle_deg   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [HorizontalAngle_deg]
 
                     //Error: Type not implemented [HorizontalAngle_deg]
 
@@ -375,6 +386,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [PortSpacing_m]
 
+                    //Error: Type not implemented [PortSpacing_m]
+
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortSpacing_m = -1.0D;
@@ -393,6 +406,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // vpScenario.AcuteMixZone_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [AcuteMixZone_m]
 
                     //Error: Type not implemented [AcuteMixZone_m]
 
@@ -417,6 +432,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [ChronicMixZone_m]
 
+                    //Error: Type not implemented [ChronicMixZone_m]
+
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.ChronicMixZone_m = -1.0D;
@@ -435,6 +452,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 40)]
                     // vpScenario.EffluentSalinity_PSU   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [EffluentSalinity_PSU]
 
                     //Error: Type not implemented [EffluentSalinity_PSU]
 
@@ -459,6 +478,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [EffluentTemperature_C]
 
+                    //Error: Type not implemented [EffluentTemperature_C]
+
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentTemperature_C = -11.0D;
@@ -477,6 +498,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // vpScenario.EffluentVelocity_m_s   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [EffluentVelocity_m_s]
 
                     //Error: Type not implemented [EffluentVelocity_m_s]
 
@@ -505,8 +528,15 @@ namespace CSSPServices.Tests
                     // vpScenario.VPScenarioWeb   (VPScenarioWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VPScenarioWeb]
+                    vpScenario = null;
+                    vpScenario = GetFilledRandomVPScenario("");
+                    vpScenario.VPScenarioWeb = null;
+                    Assert.IsNull(vpScenario.VPScenarioWeb);
 
+                    vpScenario = null;
+                    vpScenario = GetFilledRandomVPScenario("");
+                    vpScenario.VPScenarioWeb = new VPScenarioWeb();
+                    Assert.IsNotNull(vpScenario.VPScenarioWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -514,8 +544,15 @@ namespace CSSPServices.Tests
                     // vpScenario.VPScenarioReport   (VPScenarioReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VPScenarioReport]
+                    vpScenario = null;
+                    vpScenario = GetFilledRandomVPScenario("");
+                    vpScenario.VPScenarioReport = null;
+                    Assert.IsNull(vpScenario.VPScenarioReport);
 
+                    vpScenario = null;
+                    vpScenario = GetFilledRandomVPScenario("");
+                    vpScenario.VPScenarioReport = new VPScenarioReport();
+                    Assert.IsNotNull(vpScenario.VPScenarioReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -523,6 +560,16 @@ namespace CSSPServices.Tests
                     // vpScenario.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    vpScenario = null;
+                    vpScenario = GetFilledRandomVPScenario("");
+                    vpScenario.LastUpdateDate_UTC = new DateTime();
+                    vpScenarioService.Add(vpScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLastUpdateDate_UTC), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    vpScenario = null;
+                    vpScenario = GetFilledRandomVPScenario("");
+                    vpScenario.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    vpScenarioService.Add(vpScenario);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPScenarioLastUpdateDate_UTC, "1980"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -549,6 +596,7 @@ namespace CSSPServices.Tests
                     // vpScenario.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -556,6 +604,7 @@ namespace CSSPServices.Tests
                     // vpScenario.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -576,7 +625,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpScenario);
 
                     VPScenario vpScenarioRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -590,11 +639,15 @@ namespace CSSPServices.Tests
                         {
                             vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // VPScenario fields
                         Assert.IsNotNull(vpScenarioRet.VPScenarioID);
                         Assert.IsNotNull(vpScenarioRet.InfrastructureTVItemID);
                         Assert.IsNotNull(vpScenarioRet.VPScenarioStatus);
@@ -621,27 +674,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(vpScenarioRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(vpScenarioRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (vpScenarioRet.VPScenarioWeb != null)
-                            {
-                                Assert.IsNull(vpScenarioRet.VPScenarioWeb);
-                            }
-                            if (vpScenarioRet.VPScenarioReport != null)
-                            {
-                                Assert.IsNull(vpScenarioRet.VPScenarioReport);
-                            }
+                            // VPScenarioWeb and VPScenarioReport fields should be null here
+                            Assert.IsNull(vpScenarioRet.VPScenarioWeb);
+                            Assert.IsNull(vpScenarioRet.VPScenarioReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (vpScenarioRet.VPScenarioWeb != null)
+                            // VPScenarioWeb fields should not be null and VPScenarioReport fields should be null here
+                            if (vpScenarioRet.VPScenarioWeb.SubsectorTVText != null)
                             {
-                                Assert.IsNotNull(vpScenarioRet.VPScenarioWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.SubsectorTVText));
                             }
-                            if (vpScenarioRet.VPScenarioReport != null)
+                            if (vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(vpScenarioRet.VPScenarioReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText));
+                            }
+                            if (vpScenarioRet.VPScenarioWeb.VPScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.VPScenarioStatusText));
+                            }
+                            Assert.IsNull(vpScenarioRet.VPScenarioReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // VPScenarioWeb and VPScenarioReport fields should NOT be null here
+                            if (vpScenarioRet.VPScenarioWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.SubsectorTVText));
+                            }
+                            if (vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText));
+                            }
+                            if (vpScenarioRet.VPScenarioWeb.VPScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.VPScenarioStatusText));
+                            }
+                            if (vpScenarioRet.VPScenarioReport.VPScenarioReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioReport.VPScenarioReportTest));
                             }
                         }
                     }

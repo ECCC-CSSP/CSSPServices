@@ -45,11 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Source") appErrLog.Source = GetRandomString("", 20);
             if (OmitPropName != "Message") appErrLog.Message = GetRandomString("", 20);
             if (OmitPropName != "DateTime_UTC") appErrLog.DateTime_UTC = new DateTime(2005, 3, 6);
-            //Error: property [AppErrLogWeb] and type [AppErrLog] is  not implemented
-            //Error: property [AppErrLogReport] and type [AppErrLog] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") appErrLog.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appErrLog.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") appErrLog.HasErrors = true;
 
             return appErrLog;
         }
@@ -198,6 +195,16 @@ namespace CSSPServices.Tests
                     // appErrLog.DateTime_UTC   (DateTime)
                     // -----------------------------------
 
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.DateTime_UTC = new DateTime();
+                    appErrLogService.Add(appErrLog);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogDateTime_UTC), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.DateTime_UTC = new DateTime(1979, 1, 1);
+                    appErrLogService.Add(appErrLog);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppErrLogDateTime_UTC, "1980"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -205,8 +212,15 @@ namespace CSSPServices.Tests
                     // appErrLog.AppErrLogWeb   (AppErrLogWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AppErrLogWeb]
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.AppErrLogWeb = null;
+                    Assert.IsNull(appErrLog.AppErrLogWeb);
 
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.AppErrLogWeb = new AppErrLogWeb();
+                    Assert.IsNotNull(appErrLog.AppErrLogWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -214,8 +228,15 @@ namespace CSSPServices.Tests
                     // appErrLog.AppErrLogReport   (AppErrLogReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AppErrLogReport]
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.AppErrLogReport = null;
+                    Assert.IsNull(appErrLog.AppErrLogReport);
 
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.AppErrLogReport = new AppErrLogReport();
+                    Assert.IsNotNull(appErrLog.AppErrLogReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -223,6 +244,16 @@ namespace CSSPServices.Tests
                     // appErrLog.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.LastUpdateDate_UTC = new DateTime();
+                    appErrLogService.Add(appErrLog);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogLastUpdateDate_UTC), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    appErrLogService.Add(appErrLog);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppErrLogLastUpdateDate_UTC, "1980"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -249,6 +280,7 @@ namespace CSSPServices.Tests
                     // appErrLog.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -256,6 +288,7 @@ namespace CSSPServices.Tests
                     // appErrLog.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -276,7 +309,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appErrLog);
 
                     AppErrLog appErrLogRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -290,11 +323,15 @@ namespace CSSPServices.Tests
                         {
                             appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // AppErrLog fields
                         Assert.IsNotNull(appErrLogRet.AppErrLogID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Tag));
                         Assert.IsNotNull(appErrLogRet.LineNumber);
@@ -304,27 +341,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(appErrLogRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(appErrLogRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (appErrLogRet.AppErrLogWeb != null)
-                            {
-                                Assert.IsNull(appErrLogRet.AppErrLogWeb);
-                            }
-                            if (appErrLogRet.AppErrLogReport != null)
-                            {
-                                Assert.IsNull(appErrLogRet.AppErrLogReport);
-                            }
+                            // AppErrLogWeb and AppErrLogReport fields should be null here
+                            Assert.IsNull(appErrLogRet.AppErrLogWeb);
+                            Assert.IsNull(appErrLogRet.AppErrLogReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (appErrLogRet.AppErrLogWeb != null)
+                            // AppErrLogWeb fields should not be null and AppErrLogReport fields should be null here
+                            if (appErrLogRet.AppErrLogWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(appErrLogRet.AppErrLogWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.AppErrLogWeb.LastUpdateContactTVText));
                             }
-                            if (appErrLogRet.AppErrLogReport != null)
+                            Assert.IsNull(appErrLogRet.AppErrLogReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // AppErrLogWeb and AppErrLogReport fields should NOT be null here
+                            if (appErrLogRet.AppErrLogWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(appErrLogRet.AppErrLogReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.AppErrLogWeb.LastUpdateContactTVText));
+                            }
+                            if (appErrLogRet.AppErrLogReport.AppErrLogTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.AppErrLogReport.AppErrLogTest));
                             }
                         }
                     }

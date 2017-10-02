@@ -42,8 +42,6 @@ namespace CSSPServices
             VPScenarioIDAndRawResults vpScenarioIDAndRawResults = validationContext.ObjectInstance as VPScenarioIDAndRawResults;
             vpScenarioIDAndRawResults.HasErrors = false;
 
-            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenarioIDAndRawResults.VPScenarioID < 1)
             {
                 vpScenarioIDAndRawResults.HasErrors = true;
@@ -57,8 +55,6 @@ namespace CSSPServices
             }
 
             //RawResults has no StringLength Attribute
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

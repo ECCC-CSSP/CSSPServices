@@ -245,6 +245,49 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<TVItem> FillTVItemReport(IQueryable<TVItem> tvItemQuery, string FilterAndOrderText)
+        {
+            Enums enums = new Enums(LanguageRequest);
+
+            List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
+
+            tvItemQuery = (from c in tvItemQuery
+                           let TVText = (from cl in db.TVItemLanguages
+                                         where cl.TVItemID == c.TVItemID
+                                         && cl.Language == LanguageRequest
+                                         select cl.TVText).FirstOrDefault()
+                           let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                          where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                          && cl.Language == LanguageRequest
+                                                          select cl.TVText).FirstOrDefault()
+                           select new TVItem
+                           {
+                               TVItemID = c.TVItemID,
+                               TVLevel = c.TVLevel,
+                               TVPath = c.TVPath,
+                               TVType = c.TVType,
+                               ParentID = c.ParentID,
+                               IsActive = c.IsActive,
+                               LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                               LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                               TVItemWeb = new TVItemWeb
+                               {
+                                   TVText = TVText,
+                                   LastUpdateContactTVText = LastUpdateContactTVText,
+                                   TVTypeText = (from e in TVTypeEnumList
+                                                 where e.EnumID == (int?)c.TVType
+                                                 select e.EnumText).FirstOrDefault(),
+                               },
+                               TVItemReport = new TVItemReport
+                               {
+                                   TVItemReportTest = "TVItemReportTest",
+                               },
+                               HasErrors = false,
+                               ValidationResults = null,
+                           });
+
+            return tvItemQuery;
+        }
         #endregion Functions private
     }
 }

@@ -43,11 +43,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ContactTVItemID") tvTypeUserAuthorization.ContactTVItemID = 2;
             if (OmitPropName != "TVType") tvTypeUserAuthorization.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "TVAuth") tvTypeUserAuthorization.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
-            //Error: property [TVTypeUserAuthorizationWeb] and type [TVTypeUserAuthorization] is  not implemented
-            //Error: property [TVTypeUserAuthorizationReport] and type [TVTypeUserAuthorization] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") tvTypeUserAuthorization.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvTypeUserAuthorization.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") tvTypeUserAuthorization.HasErrors = true;
 
             return tvTypeUserAuthorization;
         }
@@ -179,8 +176,15 @@ namespace CSSPServices.Tests
                     // tvTypeUserAuthorization.TVTypeUserAuthorizationWeb   (TVTypeUserAuthorizationWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVTypeUserAuthorizationWeb]
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVTypeUserAuthorizationWeb = null;
+                    Assert.IsNull(tvTypeUserAuthorization.TVTypeUserAuthorizationWeb);
 
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVTypeUserAuthorizationWeb = new TVTypeUserAuthorizationWeb();
+                    Assert.IsNotNull(tvTypeUserAuthorization.TVTypeUserAuthorizationWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -188,8 +192,15 @@ namespace CSSPServices.Tests
                     // tvTypeUserAuthorization.TVTypeUserAuthorizationReport   (TVTypeUserAuthorizationReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [TVTypeUserAuthorizationReport]
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVTypeUserAuthorizationReport = null;
+                    Assert.IsNull(tvTypeUserAuthorization.TVTypeUserAuthorizationReport);
 
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVTypeUserAuthorizationReport = new TVTypeUserAuthorizationReport();
+                    Assert.IsNotNull(tvTypeUserAuthorization.TVTypeUserAuthorizationReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -197,6 +208,16 @@ namespace CSSPServices.Tests
                     // tvTypeUserAuthorization.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.LastUpdateDate_UTC = new DateTime();
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC, "1980"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -223,6 +244,7 @@ namespace CSSPServices.Tests
                     // tvTypeUserAuthorization.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -230,6 +252,7 @@ namespace CSSPServices.Tests
                     // tvTypeUserAuthorization.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -250,7 +273,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
                     TVTypeUserAuthorization tvTypeUserAuthorizationRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -264,11 +287,15 @@ namespace CSSPServices.Tests
                         {
                             tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // TVTypeUserAuthorization fields
                         Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
                         Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVItemID);
                         Assert.IsNotNull(tvTypeUserAuthorizationRet.TVType);
@@ -276,27 +303,55 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb != null)
-                            {
-                                Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb);
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport != null)
-                            {
-                                Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport);
-                            }
+                            // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should be null here
+                            Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb);
+                            Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb != null)
+                            // TVTypeUserAuthorizationWeb fields should not be null and TVTypeUserAuthorizationReport fields should be null here
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText != null)
                             {
-                                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText));
                             }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport != null)
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText));
+                            }
+                            Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should NOT be null here
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText));
+                            }
+                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest));
                             }
                         }
                     }

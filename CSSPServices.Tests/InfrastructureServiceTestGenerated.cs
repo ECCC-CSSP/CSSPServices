@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             Infrastructure infrastructure = new Infrastructure();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [Infrastructure InfrastructureTVItemID TVItem TVItemID]
+            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = 16;
             if (OmitPropName != "PrismID") infrastructure.PrismID = GetRandomInt(0, 100000);
             if (OmitPropName != "TPID") infrastructure.TPID = GetRandomInt(0, 100000);
             if (OmitPropName != "LSID") infrastructure.LSID = GetRandomInt(0, 100000);
@@ -83,13 +83,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(0.0D, 1000.0D);
-            // Need to implement (no items found, would need to add at least one in the TestDB) [Infrastructure SeeOtherTVItemID TVItem TVItemID]
-            // Need to implement (no items found, would need to add at least one in the TestDB) [Infrastructure CivicAddressTVItemID TVItem TVItemID]
-            //Error: property [InfrastructureWeb] and type [Infrastructure] is  not implemented
-            //Error: property [InfrastructureReport] and type [Infrastructure] is  not implemented
+            if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 16;
+            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 28;
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") infrastructure.HasErrors = true;
 
             return infrastructure;
         }
@@ -494,6 +491,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [DesignFlow_m3_day]
 
+                    //Error: Type not implemented [DesignFlow_m3_day]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DesignFlow_m3_day = -1.0D;
@@ -515,6 +514,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [AverageFlow_m3_day]
 
+                    //Error: Type not implemented [AverageFlow_m3_day]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageFlow_m3_day = -1.0D;
@@ -533,6 +534,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1000000)]
                     // infrastructure.PeakFlow_m3_day   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [PeakFlow_m3_day]
 
                     //Error: Type not implemented [PeakFlow_m3_day]
 
@@ -582,6 +585,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [PercFlowOfTotal]
 
+                    //Error: Type not implemented [PercFlowOfTotal]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PercFlowOfTotal = -1.0D;
@@ -600,6 +605,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 0)]
                     // infrastructure.TimeOffset_hour   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TimeOffset_hour]
 
                     //Error: Type not implemented [TimeOffset_hour]
 
@@ -627,6 +634,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1000)]
                     // infrastructure.AverageDepth_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [AverageDepth_m]
 
                     //Error: Type not implemented [AverageDepth_m]
 
@@ -670,6 +679,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [PortDiameter_m]
 
+                    //Error: Type not implemented [PortDiameter_m]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortDiameter_m = -1.0D;
@@ -688,6 +699,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10000)]
                     // infrastructure.PortSpacing_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [PortSpacing_m]
 
                     //Error: Type not implemented [PortSpacing_m]
 
@@ -712,6 +725,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [PortElevation_m]
 
+                    //Error: Type not implemented [PortElevation_m]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortElevation_m = -1.0D;
@@ -730,6 +745,8 @@ namespace CSSPServices.Tests
                     // [Range(-90, 90)]
                     // infrastructure.VerticalAngle_deg   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [VerticalAngle_deg]
 
                     //Error: Type not implemented [VerticalAngle_deg]
 
@@ -754,6 +771,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [HorizontalAngle_deg]
 
+                    //Error: Type not implemented [HorizontalAngle_deg]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.HorizontalAngle_deg = -181.0D;
@@ -772,6 +791,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // infrastructure.DecayRate_per_day   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DecayRate_per_day]
 
                     //Error: Type not implemented [DecayRate_per_day]
 
@@ -796,6 +817,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [NearFieldVelocity_m_s]
 
+                    //Error: Type not implemented [NearFieldVelocity_m_s]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NearFieldVelocity_m_s = -1.0D;
@@ -814,6 +837,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10)]
                     // infrastructure.FarFieldVelocity_m_s   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [FarFieldVelocity_m_s]
 
                     //Error: Type not implemented [FarFieldVelocity_m_s]
 
@@ -838,6 +863,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [ReceivingWaterSalinity_PSU]
 
+                    //Error: Type not implemented [ReceivingWaterSalinity_PSU]
+
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterSalinity_PSU = -1.0D;
@@ -856,6 +883,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // infrastructure.ReceivingWaterTemperature_C   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [ReceivingWaterTemperature_C]
 
                     //Error: Type not implemented [ReceivingWaterTemperature_C]
 
@@ -896,6 +925,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1000)]
                     // infrastructure.DistanceFromShore_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [DistanceFromShore_m]
 
                     //Error: Type not implemented [DistanceFromShore_m]
 
@@ -956,8 +987,15 @@ namespace CSSPServices.Tests
                     // infrastructure.InfrastructureWeb   (InfrastructureWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [InfrastructureWeb]
+                    infrastructure = null;
+                    infrastructure = GetFilledRandomInfrastructure("");
+                    infrastructure.InfrastructureWeb = null;
+                    Assert.IsNull(infrastructure.InfrastructureWeb);
 
+                    infrastructure = null;
+                    infrastructure = GetFilledRandomInfrastructure("");
+                    infrastructure.InfrastructureWeb = new InfrastructureWeb();
+                    Assert.IsNotNull(infrastructure.InfrastructureWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -965,8 +1003,15 @@ namespace CSSPServices.Tests
                     // infrastructure.InfrastructureReport   (InfrastructureReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [InfrastructureReport]
+                    infrastructure = null;
+                    infrastructure = GetFilledRandomInfrastructure("");
+                    infrastructure.InfrastructureReport = null;
+                    Assert.IsNull(infrastructure.InfrastructureReport);
 
+                    infrastructure = null;
+                    infrastructure = GetFilledRandomInfrastructure("");
+                    infrastructure.InfrastructureReport = new InfrastructureReport();
+                    Assert.IsNotNull(infrastructure.InfrastructureReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -974,6 +1019,16 @@ namespace CSSPServices.Tests
                     // infrastructure.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    infrastructure = null;
+                    infrastructure = GetFilledRandomInfrastructure("");
+                    infrastructure.LastUpdateDate_UTC = new DateTime();
+                    infrastructureService.Add(infrastructure);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLastUpdateDate_UTC), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    infrastructure = null;
+                    infrastructure = GetFilledRandomInfrastructure("");
+                    infrastructure.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    infrastructureService.Add(infrastructure);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.InfrastructureLastUpdateDate_UTC, "1980"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1000,6 +1055,7 @@ namespace CSSPServices.Tests
                     // infrastructure.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -1007,6 +1063,7 @@ namespace CSSPServices.Tests
                     // infrastructure.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -1027,7 +1084,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(infrastructure);
 
                     Infrastructure infrastructureRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -1041,11 +1098,15 @@ namespace CSSPServices.Tests
                         {
                             infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // Infrastructure fields
                         Assert.IsNotNull(infrastructureRet.InfrastructureID);
                         Assert.IsNotNull(infrastructureRet.InfrastructureTVItemID);
                         if (infrastructureRet.PrismID != null)
@@ -1227,27 +1288,143 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(infrastructureRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(infrastructureRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (infrastructureRet.InfrastructureWeb != null)
-                            {
-                                Assert.IsNull(infrastructureRet.InfrastructureWeb);
-                            }
-                            if (infrastructureRet.InfrastructureReport != null)
-                            {
-                                Assert.IsNull(infrastructureRet.InfrastructureReport);
-                            }
+                            // InfrastructureWeb and InfrastructureReport fields should be null here
+                            Assert.IsNull(infrastructureRet.InfrastructureWeb);
+                            Assert.IsNull(infrastructureRet.InfrastructureReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (infrastructureRet.InfrastructureWeb != null)
+                            // InfrastructureWeb fields should not be null and InfrastructureReport fields should be null here
+                            if (infrastructureRet.InfrastructureWeb.InfrastructureTVText != null)
                             {
-                                Assert.IsNotNull(infrastructureRet.InfrastructureWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.InfrastructureTVText));
                             }
-                            if (infrastructureRet.InfrastructureReport != null)
+                            if (infrastructureRet.InfrastructureWeb.SeeOtherTVText != null)
                             {
-                                Assert.IsNotNull(infrastructureRet.InfrastructureReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.SeeOtherTVText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.CivicAddressTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.CivicAddressTVText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.LastUpdateContactTVText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.InfrastructureTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.InfrastructureTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.FacilityTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.FacilityTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.AerationTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.AerationTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.PreliminaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.PreliminaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.PrimaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.PrimaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.SecondaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.SecondaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.TertiaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.TertiaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.TreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.TreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.DisinfectionTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.DisinfectionTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.CollectionSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.CollectionSystemTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.AlarmSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.AlarmSystemTypeText));
+                            }
+                            Assert.IsNull(infrastructureRet.InfrastructureReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // InfrastructureWeb and InfrastructureReport fields should NOT be null here
+                            if (infrastructureRet.InfrastructureWeb.InfrastructureTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.InfrastructureTVText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.SeeOtherTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.SeeOtherTVText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.CivicAddressTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.CivicAddressTVText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.LastUpdateContactTVText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.InfrastructureTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.InfrastructureTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.FacilityTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.FacilityTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.AerationTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.AerationTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.PreliminaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.PreliminaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.PrimaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.PrimaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.SecondaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.SecondaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.TertiaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.TertiaryTreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.TreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.TreatmentTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.DisinfectionTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.DisinfectionTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.CollectionSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.CollectionSystemTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureWeb.AlarmSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureWeb.AlarmSystemTypeText));
+                            }
+                            if (infrastructureRet.InfrastructureReport.InfrastructureReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureReport.InfrastructureReportTest));
                             }
                         }
                     }

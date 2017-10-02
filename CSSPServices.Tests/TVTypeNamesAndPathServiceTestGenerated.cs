@@ -43,7 +43,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVTypeName") tvTypeNamesAndPath.TVTypeName = GetRandomString("", 6);
             if (OmitPropName != "Index") tvTypeNamesAndPath.Index = GetRandomInt(1, 11);
             if (OmitPropName != "TVPath") tvTypeNamesAndPath.TVPath = GetRandomString("", 6);
-            if (OmitPropName != "HasErrors") tvTypeNamesAndPath.HasErrors = true;
 
             return tvTypeNamesAndPath;
         }

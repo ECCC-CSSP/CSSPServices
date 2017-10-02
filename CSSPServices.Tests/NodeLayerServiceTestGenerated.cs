@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Layer") nodeLayer.Layer = GetRandomInt(1, 100);
             // should implement a Range for the property Z and type NodeLayer
-            if (OmitPropName != "HasErrors") nodeLayer.HasErrors = true;
 
             return nodeLayer;
         }

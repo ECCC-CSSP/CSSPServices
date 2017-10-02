@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMRunID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == mwqmRun.SubsectorTVItemID select c).FirstOrDefault();
 
             if (TVItemSubsectorTVItemID == null)
@@ -80,8 +76,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
                 }
             }
-
-            //MWQMRunTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemMWQMRunTVItemID = (from c in db.TVItems where c.TVItemID == mwqmRun.MWQMRunTVItemID select c).FirstOrDefault();
 
@@ -123,8 +117,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunDateTime_Local, "1980"), new[] { "DateTime_Local" });
                 }
             }
-
-            //RunNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmRun.RunNumber < 1 || mwqmRun.RunNumber > 1000)
             {
@@ -433,8 +425,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [MWQMRunWeb] of type [MWQMRunWeb]
-                //Error: Type not implemented [MWQMRunReport] of type [MWQMRunReport]
             if (mwqmRun.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmRun.HasErrors = true;
@@ -448,8 +438,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mwqmRun.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -470,8 +458,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -497,8 +483,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMRunWeb(mwqmRunQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMRun(mwqmRunQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMWQMRunReport(mwqmRunQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -515,8 +502,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMRunWeb(mwqmRunQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMRun(mwqmRunQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMWQMRunReport(mwqmRunQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -567,11 +555,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MWQMRun> FillMWQMRun_Show_Copy_To_MWQMRunServiceExtra_As_Fill_MWQMRun(IQueryable<MWQMRun> mwqmRunQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MWQMRunFillWeb
+        private IQueryable<MWQMRun> FillMWQMRunWeb(IQueryable<MWQMRun> mwqmRunQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -678,19 +663,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.Tide_End
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        MWQMRunReport = new MWQMRunReport
-                        {
-                            MWQMRunReportTest = "MWQMRunReportTest",
-                        },
+                        MWQMRunReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mwqmRunQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MWQMRunFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MWQMRun mwqmRun)
         {
             try
@@ -705,7 +687,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

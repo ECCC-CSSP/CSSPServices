@@ -40,7 +40,6 @@ namespace CSSPServices.Tests
         {
             LabSheetAndA1Sheet labSheetAndA1Sheet = new LabSheetAndA1Sheet();
 
-            if (OmitPropName != "HasErrors") labSheetAndA1Sheet.HasErrors = true;
 
             return labSheetAndA1Sheet;
         }

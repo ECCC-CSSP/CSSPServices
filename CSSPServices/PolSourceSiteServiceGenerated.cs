@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //PolSourceSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //PolSourceSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemPolSourceSiteTVItemID = (from c in db.TVItems where c.TVItemID == polSourceSite.PolSourceSiteTVItemID select c).FirstOrDefault();
 
             if (TVItemPolSourceSiteTVItemID == null)
@@ -114,8 +110,6 @@ namespace CSSPServices
                 }
             }
 
-            //IsPointSource (bool) is required but no testing needed 
-
             if (polSourceSite.InactiveReason != null)
             {
                 retStr = enums.EnumTypeOK(typeof(PolSourceInactiveReasonEnum), (int?)polSourceSite.InactiveReason);
@@ -149,8 +143,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [PolSourceSiteWeb] of type [PolSourceSiteWeb]
-                //Error: Type not implemented [PolSourceSiteReport] of type [PolSourceSiteReport]
             if (polSourceSite.LastUpdateDate_UTC.Year == 1)
             {
                 polSourceSite.HasErrors = true;
@@ -164,8 +156,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.PolSourceSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == polSourceSite.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -186,8 +176,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -213,8 +201,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillPolSourceSiteWeb(polSourceSiteQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillPolSourceSite(polSourceSiteQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillPolSourceSiteReport(polSourceSiteQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -231,8 +220,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceSiteQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillPolSourceSiteWeb(polSourceSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillPolSourceSite(polSourceSiteQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillPolSourceSiteReport(polSourceSiteQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -283,11 +273,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<PolSourceSite> FillPolSourceSite_Show_Copy_To_PolSourceSiteServiceExtra_As_Fill_PolSourceSite(IQueryable<PolSourceSite> polSourceSiteQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated PolSourceSiteFillWeb
+        private IQueryable<PolSourceSite> FillPolSourceSiteWeb(IQueryable<PolSourceSite> polSourceSiteQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -323,19 +310,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.InactiveReason
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        PolSourceSiteReport = new PolSourceSiteReport
-                        {
-                            PolSourceSiteReportTest = "PolSourceSiteReportTest",
-                        },
+                        PolSourceSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return polSourceSiteQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated PolSourceSiteFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(PolSourceSite polSourceSite)
         {
             try
@@ -350,7 +334,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

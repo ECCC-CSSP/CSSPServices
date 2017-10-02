@@ -42,23 +42,17 @@ namespace CSSPServices
             LatLng latLng = validationContext.ObjectInstance as LatLng;
             latLng.HasErrors = false;
 
-            //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (latLng.Lat < -180 || latLng.Lat > 180)
             {
                 latLng.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LatLngLat, "-180", "180"), new[] { "Lat" });
             }
 
-            //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (latLng.Lng < -90 || latLng.Lng > 90)
             {
                 latLng.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LatLngLng, "-90", "90"), new[] { "Lng" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

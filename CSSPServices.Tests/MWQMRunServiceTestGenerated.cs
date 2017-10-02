@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
         {
             MWQMRun mwqmRun = new MWQMRun();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMRun SubsectorTVItemID TVItem TVItemID]
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMRun MWQMRunTVItemID TVItem TVItemID]
+            if (OmitPropName != "SubsectorTVItemID") mwqmRun.SubsectorTVItemID = 11;
+            if (OmitPropName != "MWQMRunTVItemID") mwqmRun.MWQMRunTVItemID = 24;
             if (OmitPropName != "RunSampleType") mwqmRun.RunSampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "DateTime_Local") mwqmRun.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "RunNumber") mwqmRun.RunNumber = GetRandomInt(1, 1000);
@@ -79,11 +79,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RainDay9_mm") mwqmRun.RainDay9_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RemoveFromStat") mwqmRun.RemoveFromStat = true;
-            //Error: property [MWQMRunWeb] and type [MWQMRun] is  not implemented
-            //Error: property [MWQMRunReport] and type [MWQMRun] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") mwqmRun.HasErrors = true;
 
             return mwqmRun;
         }
@@ -221,6 +218,16 @@ namespace CSSPServices.Tests
                     // mwqmRun.DateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.DateTime_Local = new DateTime();
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunDateTime_Local), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.DateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -247,6 +254,11 @@ namespace CSSPServices.Tests
                     // mwqmRun.StartDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.StartDateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunStartDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -255,6 +267,11 @@ namespace CSSPServices.Tests
                     // mwqmRun.EndDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.EndDateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunEndDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -262,12 +279,19 @@ namespace CSSPServices.Tests
                     // mwqmRun.LabReceivedDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.LabReceivedDateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabReceivedDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
                     // [Range(-10, 40)]
                     // mwqmRun.TemperatureControl1_C   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TemperatureControl1_C]
 
                     //Error: Type not implemented [TemperatureControl1_C]
 
@@ -289,6 +313,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // mwqmRun.TemperatureControl2_C   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [TemperatureControl2_C]
 
                     //Error: Type not implemented [TemperatureControl2_C]
 
@@ -339,6 +365,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [WaterLevelAtBrook_m]
 
+                    //Error: Type not implemented [WaterLevelAtBrook_m]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaterLevelAtBrook_m = -1.0D;
@@ -360,6 +388,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [WaveHightAtStart_m]
 
+                    //Error: Type not implemented [WaveHightAtStart_m]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaveHightAtStart_m = -1.0D;
@@ -378,6 +408,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100)]
                     // mwqmRun.WaveHightAtEnd_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [WaveHightAtEnd_m]
 
                     //Error: Type not implemented [WaveHightAtEnd_m]
 
@@ -484,6 +516,11 @@ namespace CSSPServices.Tests
                     // mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabAnalyzeBath1IncubationStartDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -491,6 +528,11 @@ namespace CSSPServices.Tests
                     // mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabAnalyzeBath2IncubationStartDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -498,6 +540,11 @@ namespace CSSPServices.Tests
                     // mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabAnalyzeBath3IncubationStartDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -505,6 +552,11 @@ namespace CSSPServices.Tests
                     // mwqmRun.LabRunSampleApprovalDateTime_Local   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.LabRunSampleApprovalDateTime_Local = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabRunSampleApprovalDateTime_Local, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -540,6 +592,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RainDay0_mm]
 
+                    //Error: Type not implemented [RainDay0_mm]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay0_mm = -1.0D;
@@ -558,6 +612,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 300)]
                     // mwqmRun.RainDay1_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RainDay1_mm]
 
                     //Error: Type not implemented [RainDay1_mm]
 
@@ -582,6 +638,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RainDay2_mm]
 
+                    //Error: Type not implemented [RainDay2_mm]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay2_mm = -1.0D;
@@ -600,6 +658,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 300)]
                     // mwqmRun.RainDay3_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RainDay3_mm]
 
                     //Error: Type not implemented [RainDay3_mm]
 
@@ -624,6 +684,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RainDay4_mm]
 
+                    //Error: Type not implemented [RainDay4_mm]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay4_mm = -1.0D;
@@ -642,6 +704,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 300)]
                     // mwqmRun.RainDay5_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RainDay5_mm]
 
                     //Error: Type not implemented [RainDay5_mm]
 
@@ -666,6 +730,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RainDay6_mm]
 
+                    //Error: Type not implemented [RainDay6_mm]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay6_mm = -1.0D;
@@ -684,6 +750,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 300)]
                     // mwqmRun.RainDay7_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RainDay7_mm]
 
                     //Error: Type not implemented [RainDay7_mm]
 
@@ -708,6 +776,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RainDay8_mm]
 
+                    //Error: Type not implemented [RainDay8_mm]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay8_mm = -1.0D;
@@ -729,6 +799,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RainDay9_mm]
 
+                    //Error: Type not implemented [RainDay9_mm]
+
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay9_mm = -1.0D;
@@ -747,6 +819,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 300)]
                     // mwqmRun.RainDay10_mm   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RainDay10_mm]
 
                     //Error: Type not implemented [RainDay10_mm]
 
@@ -775,8 +849,15 @@ namespace CSSPServices.Tests
                     // mwqmRun.MWQMRunWeb   (MWQMRunWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMRunWeb]
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.MWQMRunWeb = null;
+                    Assert.IsNull(mwqmRun.MWQMRunWeb);
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.MWQMRunWeb = new MWQMRunWeb();
+                    Assert.IsNotNull(mwqmRun.MWQMRunWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -784,8 +865,15 @@ namespace CSSPServices.Tests
                     // mwqmRun.MWQMRunReport   (MWQMRunReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [MWQMRunReport]
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.MWQMRunReport = null;
+                    Assert.IsNull(mwqmRun.MWQMRunReport);
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.MWQMRunReport = new MWQMRunReport();
+                    Assert.IsNotNull(mwqmRun.MWQMRunReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -793,6 +881,16 @@ namespace CSSPServices.Tests
                     // mwqmRun.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.LastUpdateDate_UTC = new DateTime();
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLastUpdateDate_UTC), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmRun = null;
+                    mwqmRun = GetFilledRandomMWQMRun("");
+                    mwqmRun.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    mwqmRunService.Add(mwqmRun);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLastUpdateDate_UTC, "1980"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -819,6 +917,7 @@ namespace CSSPServices.Tests
                     // mwqmRun.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -826,6 +925,7 @@ namespace CSSPServices.Tests
                     // mwqmRun.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -846,7 +946,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmRun);
 
                     MWQMRun mwqmRunRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -860,11 +960,15 @@ namespace CSSPServices.Tests
                         {
                             mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // MWQMRun fields
                         Assert.IsNotNull(mwqmRunRet.MWQMRunID);
                         Assert.IsNotNull(mwqmRunRet.SubsectorTVItemID);
                         Assert.IsNotNull(mwqmRunRet.MWQMRunTVItemID);
@@ -1010,27 +1114,127 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmRunRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmRunRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (mwqmRunRet.MWQMRunWeb != null)
-                            {
-                                Assert.IsNull(mwqmRunRet.MWQMRunWeb);
-                            }
-                            if (mwqmRunRet.MWQMRunReport != null)
-                            {
-                                Assert.IsNull(mwqmRunRet.MWQMRunReport);
-                            }
+                            // MWQMRunWeb and MWQMRunReport fields should be null here
+                            Assert.IsNull(mwqmRunRet.MWQMRunWeb);
+                            Assert.IsNull(mwqmRunRet.MWQMRunReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (mwqmRunRet.MWQMRunWeb != null)
+                            // MWQMRunWeb fields should not be null and MWQMRunReport fields should be null here
+                            if (mwqmRunRet.MWQMRunWeb.SubsectorTVText != null)
                             {
-                                Assert.IsNotNull(mwqmRunRet.MWQMRunWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SubsectorTVText));
                             }
-                            if (mwqmRunRet.MWQMRunReport != null)
+                            if (mwqmRunRet.MWQMRunWeb.MWQMRunTVText != null)
                             {
-                                Assert.IsNotNull(mwqmRunRet.MWQMRunReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.MWQMRunTVText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.LabSampleApprovalContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.LabSampleApprovalContactTVText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.RunSampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.RunSampleTypeText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SeaStateAtStart_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SeaStateAtStart_BeaufortScaleText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.AnalyzeMethodText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.AnalyzeMethodText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SampleMatrixText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SampleMatrixText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.LaboratoryText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.LaboratoryText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SampleStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SampleStatusText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.Tide_StartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.Tide_StartText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.Tide_EndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.Tide_EndText));
+                            }
+                            Assert.IsNull(mwqmRunRet.MWQMRunReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MWQMRunWeb and MWQMRunReport fields should NOT be null here
+                            if (mwqmRunRet.MWQMRunWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SubsectorTVText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.MWQMRunTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.MWQMRunTVText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.LabSampleApprovalContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.LabSampleApprovalContactTVText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.RunSampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.RunSampleTypeText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SeaStateAtStart_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SeaStateAtStart_BeaufortScaleText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.AnalyzeMethodText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.AnalyzeMethodText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SampleMatrixText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SampleMatrixText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.LaboratoryText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.LaboratoryText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.SampleStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.SampleStatusText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.Tide_StartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.Tide_StartText));
+                            }
+                            if (mwqmRunRet.MWQMRunWeb.Tide_EndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunWeb.Tide_EndText));
+                            }
+                            if (mwqmRunRet.MWQMRunReport.MWQMRunReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunReport.MWQMRunReportTest));
                             }
                         }
                     }

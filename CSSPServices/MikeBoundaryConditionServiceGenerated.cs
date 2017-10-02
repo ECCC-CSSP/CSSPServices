@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MikeBoundaryConditionID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MikeBoundaryConditionTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemMikeBoundaryConditionTVItemID = (from c in db.TVItems where c.TVItemID == mikeBoundaryCondition.MikeBoundaryConditionTVItemID select c).FirstOrDefault();
 
             if (TVItemMikeBoundaryConditionTVItemID == null)
@@ -106,8 +102,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeBoundaryConditionMikeBoundaryConditionName, "100"), new[] { "MikeBoundaryConditionName" });
             }
 
-            //MikeBoundaryConditionLength_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeBoundaryCondition.MikeBoundaryConditionLength_m < 1 || mikeBoundaryCondition.MikeBoundaryConditionLength_m > 100000)
             {
                 mikeBoundaryCondition.HasErrors = true;
@@ -140,8 +134,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeBoundaryConditionWebTideDataSet), new[] { "WebTideDataSet" });
             }
 
-            //NumberOfWebTideNodes (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (mikeBoundaryCondition.NumberOfWebTideNodes < 0 || mikeBoundaryCondition.NumberOfWebTideNodes > 1000)
             {
                 mikeBoundaryCondition.HasErrors = true;
@@ -163,8 +155,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeBoundaryConditionTVType), new[] { "TVType" });
             }
 
-                //Error: Type not implemented [MikeBoundaryConditionWeb] of type [MikeBoundaryConditionWeb]
-                //Error: Type not implemented [MikeBoundaryConditionReport] of type [MikeBoundaryConditionReport]
             if (mikeBoundaryCondition.LastUpdateDate_UTC.Year == 1)
             {
                 mikeBoundaryCondition.HasErrors = true;
@@ -178,8 +168,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeBoundaryConditionLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mikeBoundaryCondition.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -200,8 +188,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -227,8 +213,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeBoundaryConditionQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeBoundaryConditionWeb(mikeBoundaryConditionQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeBoundaryCondition(mikeBoundaryConditionQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMikeBoundaryConditionReport(mikeBoundaryConditionQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -245,8 +232,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeBoundaryConditionQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMikeBoundaryConditionWeb(mikeBoundaryConditionQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeBoundaryCondition(mikeBoundaryConditionQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMikeBoundaryConditionReport(mikeBoundaryConditionQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -297,11 +285,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MikeBoundaryCondition> FillMikeBoundaryCondition_Show_Copy_To_MikeBoundaryConditionServiceExtra_As_Fill_MikeBoundaryCondition(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MikeBoundaryConditionFillWeb
+        private IQueryable<MikeBoundaryCondition> FillMikeBoundaryConditionWeb(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -347,19 +332,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        MikeBoundaryConditionReport = new MikeBoundaryConditionReport
-                        {
-                            MikeBoundaryConditionReportTest = "MikeBoundaryConditionReportTest",
-                        },
+                        MikeBoundaryConditionReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mikeBoundaryConditionQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MikeBoundaryConditionFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MikeBoundaryCondition mikeBoundaryCondition)
         {
             try
@@ -374,7 +356,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

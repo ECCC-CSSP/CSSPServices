@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             BoxModelResult boxModelResult = new BoxModelResult();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [BoxModelResult BoxModelID BoxModel BoxModelID]
+            if (OmitPropName != "BoxModelID") boxModelResult.BoxModelID = 1;
             if (OmitPropName != "BoxModelResultType") boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
             if (OmitPropName != "Volume_m3") boxModelResult.Volume_m3 = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "Surface_m2") boxModelResult.Surface_m2 = GetRandomDouble(0.0D, 10.0D);
@@ -55,11 +55,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LeftSideLineAngle_deg") boxModelResult.LeftSideLineAngle_deg = GetRandomDouble(0.0D, 360.0D);
             if (OmitPropName != "LeftSideLineStartLatitude") boxModelResult.LeftSideLineStartLatitude = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "LeftSideLineStartLongitude") boxModelResult.LeftSideLineStartLongitude = GetRandomDouble(-180.0D, 180.0D);
-            //Error: property [BoxModelResultWeb] and type [BoxModelResult] is  not implemented
-            //Error: property [BoxModelResultReport] and type [BoxModelResult] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") boxModelResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModelResult.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") boxModelResult.HasErrors = true;
 
             return boxModelResult;
         }
@@ -174,6 +171,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Volume_m3]
 
+                    //Error: Type not implemented [Volume_m3]
+
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Volume_m3 = -1.0D;
@@ -189,6 +188,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [Surface_m2]
 
+                    //Error: Type not implemented [Surface_m2]
+
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Surface_m2 = -1.0D;
@@ -201,6 +202,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100000)]
                     // boxModelResult.Radius_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [Radius_m]
 
                     //Error: Type not implemented [Radius_m]
 
@@ -225,6 +228,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [LeftSideDiameterLineAngle_deg]
 
+                    //Error: Type not implemented [LeftSideDiameterLineAngle_deg]
+
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideDiameterLineAngle_deg = -1.0D;
@@ -246,6 +251,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [CircleCenterLatitude]
 
+                    //Error: Type not implemented [CircleCenterLatitude]
+
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLatitude = -91.0D;
@@ -264,6 +271,8 @@ namespace CSSPServices.Tests
                     // [Range(-180, 180)]
                     // boxModelResult.CircleCenterLongitude   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [CircleCenterLongitude]
 
                     //Error: Type not implemented [CircleCenterLongitude]
 
@@ -300,6 +309,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [RectLength_m]
 
+                    //Error: Type not implemented [RectLength_m]
+
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectLength_m = -1.0D;
@@ -318,6 +329,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 100000)]
                     // boxModelResult.RectWidth_m   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [RectWidth_m]
 
                     //Error: Type not implemented [RectWidth_m]
 
@@ -342,6 +355,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [LeftSideLineAngle_deg]
 
+                    //Error: Type not implemented [LeftSideLineAngle_deg]
+
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineAngle_deg = -1.0D;
@@ -360,6 +375,8 @@ namespace CSSPServices.Tests
                     // [Range(-90, 90)]
                     // boxModelResult.LeftSideLineStartLatitude   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [LeftSideLineStartLatitude]
 
                     //Error: Type not implemented [LeftSideLineStartLatitude]
 
@@ -384,6 +401,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [LeftSideLineStartLongitude]
 
+                    //Error: Type not implemented [LeftSideLineStartLongitude]
+
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLongitude = -181.0D;
@@ -403,8 +422,15 @@ namespace CSSPServices.Tests
                     // boxModelResult.BoxModelResultWeb   (BoxModelResultWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [BoxModelResultWeb]
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultWeb = null;
+                    Assert.IsNull(boxModelResult.BoxModelResultWeb);
 
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultWeb = new BoxModelResultWeb();
+                    Assert.IsNotNull(boxModelResult.BoxModelResultWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -412,8 +438,15 @@ namespace CSSPServices.Tests
                     // boxModelResult.BoxModelResultReport   (BoxModelResultReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [BoxModelResultReport]
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultReport = null;
+                    Assert.IsNull(boxModelResult.BoxModelResultReport);
 
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultReport = new BoxModelResultReport();
+                    Assert.IsNotNull(boxModelResult.BoxModelResultReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -421,6 +454,16 @@ namespace CSSPServices.Tests
                     // boxModelResult.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LastUpdateDate_UTC = new DateTime();
+                    boxModelResultService.Add(boxModelResult);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultLastUpdateDate_UTC), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    boxModelResultService.Add(boxModelResult);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.BoxModelResultLastUpdateDate_UTC, "1980"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -447,6 +490,7 @@ namespace CSSPServices.Tests
                     // boxModelResult.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -454,6 +498,7 @@ namespace CSSPServices.Tests
                     // boxModelResult.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -474,7 +519,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(boxModelResult);
 
                     BoxModelResult boxModelResultRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -488,11 +533,15 @@ namespace CSSPServices.Tests
                         {
                             boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // BoxModelResult fields
                         Assert.IsNotNull(boxModelResultRet.BoxModelResultID);
                         Assert.IsNotNull(boxModelResultRet.BoxModelID);
                         Assert.IsNotNull(boxModelResultRet.BoxModelResultType);
@@ -512,27 +561,39 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(boxModelResultRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (boxModelResultRet.BoxModelResultWeb != null)
-                            {
-                                Assert.IsNull(boxModelResultRet.BoxModelResultWeb);
-                            }
-                            if (boxModelResultRet.BoxModelResultReport != null)
-                            {
-                                Assert.IsNull(boxModelResultRet.BoxModelResultReport);
-                            }
+                            // BoxModelResultWeb and BoxModelResultReport fields should be null here
+                            Assert.IsNull(boxModelResultRet.BoxModelResultWeb);
+                            Assert.IsNull(boxModelResultRet.BoxModelResultReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (boxModelResultRet.BoxModelResultWeb != null)
+                            // BoxModelResultWeb fields should not be null and BoxModelResultReport fields should be null here
+                            if (boxModelResultRet.BoxModelResultWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(boxModelResultRet.BoxModelResultWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultWeb.LastUpdateContactTVText));
                             }
-                            if (boxModelResultRet.BoxModelResultReport != null)
+                            if (boxModelResultRet.BoxModelResultWeb.BoxModelResultTypeText != null)
                             {
-                                Assert.IsNotNull(boxModelResultRet.BoxModelResultReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultWeb.BoxModelResultTypeText));
+                            }
+                            Assert.IsNull(boxModelResultRet.BoxModelResultReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // BoxModelResultWeb and BoxModelResultReport fields should NOT be null here
+                            if (boxModelResultRet.BoxModelResultWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultWeb.LastUpdateContactTVText));
+                            }
+                            if (boxModelResultRet.BoxModelResultWeb.BoxModelResultTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultWeb.BoxModelResultTypeText));
+                            }
+                            if (boxModelResultRet.BoxModelResultReport.BoxModelResultReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultReport.BoxModelResultReportTest));
                             }
                         }
                     }

@@ -57,8 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //DocTemplateID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)docTemplate.Language);
             if (docTemplate.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
@@ -72,8 +70,6 @@ namespace CSSPServices
                 docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateTVType), new[] { "TVType" });
             }
-
-            //TVFileTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemTVFileTVItemID = (from c in db.TVItems where c.TVItemID == docTemplate.TVFileTVItemID select c).FirstOrDefault();
 
@@ -107,8 +103,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateFileName, "150"), new[] { "FileName" });
             }
 
-                //Error: Type not implemented [DocTemplateWeb] of type [DocTemplateWeb]
-                //Error: Type not implemented [DocTemplateReport] of type [DocTemplateReport]
             if (docTemplate.LastUpdateDate_UTC.Year == 1)
             {
                 docTemplate.HasErrors = true;
@@ -122,8 +116,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.DocTemplateLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == docTemplate.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -144,8 +136,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -171,8 +161,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return docTemplateQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillDocTemplateWeb(docTemplateQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillDocTemplate(docTemplateQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillDocTemplateReport(docTemplateQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -189,8 +180,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return docTemplateQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillDocTemplateWeb(docTemplateQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillDocTemplate(docTemplateQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillDocTemplateReport(docTemplateQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -241,11 +233,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<DocTemplate> FillDocTemplate_Show_Copy_To_DocTemplateServiceExtra_As_Fill_DocTemplate(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated DocTemplateFillWeb
+        private IQueryable<DocTemplate> FillDocTemplateWeb(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -276,19 +265,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TVType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        DocTemplateReport = new DocTemplateReport
-                        {
-                            DocTemplateReportTest = "DocTemplateReportTest",
-                        },
+                        DocTemplateReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return docTemplateQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated DocTemplateFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(DocTemplate docTemplate)
         {
             try
@@ -303,7 +289,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

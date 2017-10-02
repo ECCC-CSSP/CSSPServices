@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             VPAmbient vpAmbient = new VPAmbient();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [VPAmbient VPScenarioID VPScenario VPScenarioID]
+            if (OmitPropName != "VPScenarioID") vpAmbient.VPScenarioID = 1;
             if (OmitPropName != "Row") vpAmbient.Row = GetRandomInt(0, 10);
             if (OmitPropName != "MeasurementDepth_m") vpAmbient.MeasurementDepth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "CurrentSpeed_m_s") vpAmbient.CurrentSpeed_m_s = GetRandomDouble(0.0D, 10.0D);
@@ -52,11 +52,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FarFieldCurrentSpeed_m_s") vpAmbient.FarFieldCurrentSpeed_m_s = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomDouble(0.0D, 1.0D);
-            //Error: property [VPAmbientWeb] and type [VPAmbient] is  not implemented
-            //Error: property [VPAmbientReport] and type [VPAmbient] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") vpAmbient.HasErrors = true;
 
             return vpAmbient;
         }
@@ -177,6 +174,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [MeasurementDepth_m]
 
+                    //Error: Type not implemented [MeasurementDepth_m]
+
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.MeasurementDepth_m = -1.0D;
@@ -195,6 +194,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10)]
                     // vpAmbient.CurrentSpeed_m_s   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [CurrentSpeed_m_s]
 
                     //Error: Type not implemented [CurrentSpeed_m_s]
 
@@ -219,6 +220,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [CurrentDirection_deg]
 
+                    //Error: Type not implemented [CurrentDirection_deg]
+
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.CurrentDirection_deg = -181.0D;
@@ -240,6 +243,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [AmbientSalinity_PSU]
 
+                    //Error: Type not implemented [AmbientSalinity_PSU]
+
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.AmbientSalinity_PSU = -1.0D;
@@ -258,6 +263,8 @@ namespace CSSPServices.Tests
                     // [Range(-10, 40)]
                     // vpAmbient.AmbientTemperature_C   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [AmbientTemperature_C]
 
                     //Error: Type not implemented [AmbientTemperature_C]
 
@@ -301,6 +308,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [PollutantDecayRate_per_day]
 
+                    //Error: Type not implemented [PollutantDecayRate_per_day]
+
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.PollutantDecayRate_per_day = -1.0D;
@@ -319,6 +328,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 10)]
                     // vpAmbient.FarFieldCurrentSpeed_m_s   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [FarFieldCurrentSpeed_m_s]
 
                     //Error: Type not implemented [FarFieldCurrentSpeed_m_s]
 
@@ -343,6 +354,8 @@ namespace CSSPServices.Tests
 
                     //Error: Type not implemented [FarFieldCurrentDirection_deg]
 
+                    //Error: Type not implemented [FarFieldCurrentDirection_deg]
+
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.FarFieldCurrentDirection_deg = -181.0D;
@@ -361,6 +374,8 @@ namespace CSSPServices.Tests
                     // [Range(0, 1)]
                     // vpAmbient.FarFieldDiffusionCoefficient   (Double)
                     // -----------------------------------
+
+                    //Error: Type not implemented [FarFieldDiffusionCoefficient]
 
                     //Error: Type not implemented [FarFieldDiffusionCoefficient]
 
@@ -383,8 +398,15 @@ namespace CSSPServices.Tests
                     // vpAmbient.VPAmbientWeb   (VPAmbientWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VPAmbientWeb]
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.VPAmbientWeb = null;
+                    Assert.IsNull(vpAmbient.VPAmbientWeb);
 
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.VPAmbientWeb = new VPAmbientWeb();
+                    Assert.IsNotNull(vpAmbient.VPAmbientWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -392,8 +414,15 @@ namespace CSSPServices.Tests
                     // vpAmbient.VPAmbientReport   (VPAmbientReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [VPAmbientReport]
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.VPAmbientReport = null;
+                    Assert.IsNull(vpAmbient.VPAmbientReport);
 
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.VPAmbientReport = new VPAmbientReport();
+                    Assert.IsNotNull(vpAmbient.VPAmbientReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -401,6 +430,16 @@ namespace CSSPServices.Tests
                     // vpAmbient.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.LastUpdateDate_UTC = new DateTime();
+                    vpAmbientService.Add(vpAmbient);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPAmbientLastUpdateDate_UTC), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    vpAmbientService.Add(vpAmbient);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPAmbientLastUpdateDate_UTC, "1980"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -427,6 +466,7 @@ namespace CSSPServices.Tests
                     // vpAmbient.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -434,6 +474,7 @@ namespace CSSPServices.Tests
                     // vpAmbient.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -454,7 +495,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpAmbient);
 
                     VPAmbient vpAmbientRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -468,11 +509,15 @@ namespace CSSPServices.Tests
                         {
                             vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // VPAmbient fields
                         Assert.IsNotNull(vpAmbientRet.VPAmbientID);
                         Assert.IsNotNull(vpAmbientRet.VPScenarioID);
                         Assert.IsNotNull(vpAmbientRet.Row);
@@ -489,27 +534,31 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (vpAmbientRet.VPAmbientWeb != null)
-                            {
-                                Assert.IsNull(vpAmbientRet.VPAmbientWeb);
-                            }
-                            if (vpAmbientRet.VPAmbientReport != null)
-                            {
-                                Assert.IsNull(vpAmbientRet.VPAmbientReport);
-                            }
+                            // VPAmbientWeb and VPAmbientReport fields should be null here
+                            Assert.IsNull(vpAmbientRet.VPAmbientWeb);
+                            Assert.IsNull(vpAmbientRet.VPAmbientReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (vpAmbientRet.VPAmbientWeb != null)
+                            // VPAmbientWeb fields should not be null and VPAmbientReport fields should be null here
+                            if (vpAmbientRet.VPAmbientWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(vpAmbientRet.VPAmbientWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.VPAmbientWeb.LastUpdateContactTVText));
                             }
-                            if (vpAmbientRet.VPAmbientReport != null)
+                            Assert.IsNull(vpAmbientRet.VPAmbientReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // VPAmbientWeb and VPAmbientReport fields should NOT be null here
+                            if (vpAmbientRet.VPAmbientWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(vpAmbientRet.VPAmbientReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.VPAmbientWeb.LastUpdateContactTVText));
+                            }
+                            if (vpAmbientRet.VPAmbientReport.VPAmbientReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.VPAmbientReport.VPAmbientReportTest));
                             }
                         }
                     }

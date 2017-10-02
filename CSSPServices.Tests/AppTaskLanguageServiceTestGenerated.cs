@@ -40,16 +40,13 @@ namespace CSSPServices.Tests
         {
             AppTaskLanguage appTaskLanguage = new AppTaskLanguage();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [AppTaskLanguage AppTaskID AppTask AppTaskID]
+            if (OmitPropName != "AppTaskID") appTaskLanguage.AppTaskID = 1;
             if (OmitPropName != "Language") appTaskLanguage.Language = LanguageRequest;
             if (OmitPropName != "StatusText") appTaskLanguage.StatusText = GetRandomString("", 5);
             if (OmitPropName != "ErrorText") appTaskLanguage.ErrorText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") appTaskLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            //Error: property [AppTaskLanguageWeb] and type [AppTaskLanguage] is  not implemented
-            //Error: property [AppTaskLanguageReport] and type [AppTaskLanguage] is  not implemented
             if (OmitPropName != "LastUpdateDate_UTC") appTaskLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appTaskLanguage.LastUpdateContactTVItemID = 2;
-            if (OmitPropName != "HasErrors") appTaskLanguage.HasErrors = true;
 
             return appTaskLanguage;
         }
@@ -201,8 +198,15 @@ namespace CSSPServices.Tests
                     // appTaskLanguage.AppTaskLanguageWeb   (AppTaskLanguageWeb)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AppTaskLanguageWeb]
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.AppTaskLanguageWeb = null;
+                    Assert.IsNull(appTaskLanguage.AppTaskLanguageWeb);
 
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.AppTaskLanguageWeb = new AppTaskLanguageWeb();
+                    Assert.IsNotNull(appTaskLanguage.AppTaskLanguageWeb);
 
                     // -----------------------------------
                     // Is Nullable
@@ -210,8 +214,15 @@ namespace CSSPServices.Tests
                     // appTaskLanguage.AppTaskLanguageReport   (AppTaskLanguageReport)
                     // -----------------------------------
 
-                    //Error: Type not implemented [AppTaskLanguageReport]
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.AppTaskLanguageReport = null;
+                    Assert.IsNull(appTaskLanguage.AppTaskLanguageReport);
 
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.AppTaskLanguageReport = new AppTaskLanguageReport();
+                    Assert.IsNotNull(appTaskLanguage.AppTaskLanguageReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -219,6 +230,16 @@ namespace CSSPServices.Tests
                     // appTaskLanguage.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
 
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.LastUpdateDate_UTC = new DateTime();
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguageLastUpdateDate_UTC), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskLanguageLastUpdateDate_UTC, "1980"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -245,6 +266,7 @@ namespace CSSPServices.Tests
                     // appTaskLanguage.HasErrors   (Boolean)
                     // -----------------------------------
 
+                    // No testing requied
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -252,6 +274,7 @@ namespace CSSPServices.Tests
                     // appTaskLanguage.ValidationResults   (IEnumerable`1)
                     // -----------------------------------
 
+                    // No testing requied
                 }
             }
         }
@@ -272,7 +295,7 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appTaskLanguage);
 
                     AppTaskLanguage appTaskLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
@@ -286,11 +309,15 @@ namespace CSSPServices.Tests
                         {
                             appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID, EntityQueryDetailTypeEnum.EntityWeb);
                         }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID, EntityQueryDetailTypeEnum.EntityReport);
+                        }
                         else
                         {
                             // nothing for now
                         }
-                        // Entity fields
+                        // AppTaskLanguage fields
                         Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageID);
                         Assert.IsNotNull(appTaskLanguageRet.AppTaskID);
                         Assert.IsNotNull(appTaskLanguageRet.Language);
@@ -306,27 +333,47 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(appTaskLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVItemID);
 
-                        // Non entity fields
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            if (appTaskLanguageRet.AppTaskLanguageWeb != null)
-                            {
-                                Assert.IsNull(appTaskLanguageRet.AppTaskLanguageWeb);
-                            }
-                            if (appTaskLanguageRet.AppTaskLanguageReport != null)
-                            {
-                                Assert.IsNull(appTaskLanguageRet.AppTaskLanguageReport);
-                            }
+                            // AppTaskLanguageWeb and AppTaskLanguageReport fields should be null here
+                            Assert.IsNull(appTaskLanguageRet.AppTaskLanguageWeb);
+                            Assert.IsNull(appTaskLanguageRet.AppTaskLanguageReport);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            if (appTaskLanguageRet.AppTaskLanguageWeb != null)
+                            // AppTaskLanguageWeb fields should not be null and AppTaskLanguageReport fields should be null here
+                            if (appTaskLanguageRet.AppTaskLanguageWeb.LastUpdateContactTVText != null)
                             {
-                                Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageWeb);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.AppTaskLanguageWeb.LastUpdateContactTVText));
                             }
-                            if (appTaskLanguageRet.AppTaskLanguageReport != null)
+                            if (appTaskLanguageRet.AppTaskLanguageWeb.LanguageText != null)
                             {
-                                Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageReport);
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.AppTaskLanguageWeb.LanguageText));
+                            }
+                            if (appTaskLanguageRet.AppTaskLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.AppTaskLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(appTaskLanguageRet.AppTaskLanguageReport);
+                        }
+                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // AppTaskLanguageWeb and AppTaskLanguageReport fields should NOT be null here
+                            if (appTaskLanguageRet.AppTaskLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.AppTaskLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (appTaskLanguageRet.AppTaskLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.AppTaskLanguageWeb.LanguageText));
+                            }
+                            if (appTaskLanguageRet.AppTaskLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.AppTaskLanguageWeb.TranslationStatusText));
+                            }
+                            if (appTaskLanguageRet.AppTaskLanguageReport.AppTaskLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.AppTaskLanguageReport.AppTaskLanguageReportTest));
                             }
                         }
                     }

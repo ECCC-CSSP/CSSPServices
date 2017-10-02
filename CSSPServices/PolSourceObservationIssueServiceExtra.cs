@@ -31,6 +31,35 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssueReport(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery, string FilterAndOrderText)
+        {
+            polSourceObservationIssueQuery = (from c in polSourceObservationIssueQuery
+                                              let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                             where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                             && cl.Language == LanguageRequest
+                                                                             select cl.TVText).FirstOrDefault()
+                                              select new PolSourceObservationIssue
+                                              {
+                                                  PolSourceObservationIssueID = c.PolSourceObservationIssueID,
+                                                  PolSourceObservationID = c.PolSourceObservationID,
+                                                  ObservationInfo = c.ObservationInfo,
+                                                  Ordinal = c.Ordinal,
+                                                  LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                                  LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                                  PolSourceObservationIssueWeb = new PolSourceObservationIssueWeb
+                                                  {
+                                                      LastUpdateContactTVText = LastUpdateContactTVText,
+                                                  },
+                                                  PolSourceObservationIssueReport = new PolSourceObservationIssueReport
+                                                  {
+                                                      PolSourceObservationIssueReportTest = "PolSourceObservationIssueReportTest",
+                                                  },
+                                                  HasErrors = false,
+                                                  ValidationResults = null,
+                                              });
+
+            return polSourceObservationIssueQuery;
+        }
         #endregion Functions private
     }
 }

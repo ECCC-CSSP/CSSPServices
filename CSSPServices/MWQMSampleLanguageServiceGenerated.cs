@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMSampleLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //MWQMSampleID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             MWQMSample MWQMSampleMWQMSampleID = (from c in db.MWQMSamples where c.MWQMSampleID == mwqmSampleLanguage.MWQMSampleID select c).FirstOrDefault();
 
             if (MWQMSampleMWQMSampleID == null)
@@ -91,8 +87,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
-                //Error: Type not implemented [MWQMSampleLanguageWeb] of type [MWQMSampleLanguageWeb]
-                //Error: Type not implemented [MWQMSampleLanguageReport] of type [MWQMSampleLanguageReport]
             if (mwqmSampleLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSampleLanguage.HasErrors = true;
@@ -106,8 +100,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSampleLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mwqmSampleLanguage.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -128,8 +120,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -155,8 +145,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSampleLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSampleLanguageWeb(mwqmSampleLanguageQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSampleLanguage(mwqmSampleLanguageQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillMWQMSampleLanguageReport(mwqmSampleLanguageQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -173,8 +164,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSampleLanguageQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillMWQMSampleLanguageWeb(mwqmSampleLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSampleLanguage(mwqmSampleLanguageQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillMWQMSampleLanguageReport(mwqmSampleLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -225,11 +217,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<MWQMSampleLanguage> FillMWQMSampleLanguage_Show_Copy_To_MWQMSampleLanguageServiceExtra_As_Fill_MWQMSampleLanguage(IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated MWQMSampleLanguageFillWeb
+        private IQueryable<MWQMSampleLanguage> FillMWQMSampleLanguageWeb(IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -260,19 +249,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        MWQMSampleLanguageReport = new MWQMSampleLanguageReport
-                        {
-                            MWQMSampleLanguageReportTest = "MWQMSampleLanguageReportTest",
-                        },
+                        MWQMSampleLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return mwqmSampleLanguageQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated MWQMSampleLanguageFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(MWQMSampleLanguage mwqmSampleLanguage)
         {
             try
@@ -287,7 +273,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

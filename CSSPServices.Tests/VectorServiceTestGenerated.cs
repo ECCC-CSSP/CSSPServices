@@ -40,7 +40,6 @@ namespace CSSPServices.Tests
         {
             Vector vector = new Vector();
 
-            if (OmitPropName != "HasErrors") vector.HasErrors = true;
 
             return vector;
         }

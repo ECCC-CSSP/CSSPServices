@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //AddressID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //AddressTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemAddressTVItemID = (from c in db.TVItems where c.TVItemID == address.AddressTVItemID select c).FirstOrDefault();
 
             if (TVItemAddressTVItemID == null)
@@ -88,8 +84,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressAddressType), new[] { "AddressType" });
             }
 
-            //CountryTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemCountryTVItemID = (from c in db.TVItems where c.TVItemID == address.CountryTVItemID select c).FirstOrDefault();
 
             if (TVItemCountryTVItemID == null)
@@ -110,8 +104,6 @@ namespace CSSPServices
                 }
             }
 
-            //ProvinceTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemProvinceTVItemID = (from c in db.TVItems where c.TVItemID == address.ProvinceTVItemID select c).FirstOrDefault();
 
             if (TVItemProvinceTVItemID == null)
@@ -131,8 +123,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
                 }
             }
-
-            //MunicipalityTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemMunicipalityTVItemID = (from c in db.TVItems where c.TVItemID == address.MunicipalityTVItemID select c).FirstOrDefault();
 
@@ -188,8 +178,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.AddressGoogleAddressText, "10", "200"), new[] { "GoogleAddressText" });
             }
 
-                //Error: Type not implemented [AddressWeb] of type [AddressWeb]
-                //Error: Type not implemented [AddressReport] of type [AddressReport]
             if (address.LastUpdateDate_UTC.Year == 1)
             {
                 address.HasErrors = true;
@@ -203,8 +191,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AddressLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == address.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -225,8 +211,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -252,8 +236,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return addressQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillAddressWeb(addressQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAddress(addressQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillAddressReport(addressQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -270,8 +255,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return addressQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillAddressWeb(addressQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAddress(addressQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillAddressReport(addressQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -322,11 +308,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<Address> FillAddress_Show_Copy_To_AddressServiceExtra_As_Fill_Address(IQueryable<Address> addressQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated AddressFillWeb
+        private IQueryable<Address> FillAddressWeb(IQueryable<Address> addressQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -387,19 +370,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.StreetType
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        AddressReport = new AddressReport
-                        {
-                            AddressReportTest = "AddressReportTest",
-                        },
+                        AddressReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return addressQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated AddressFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(Address address)
         {
             try
@@ -414,7 +394,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

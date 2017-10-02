@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //AppTaskID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemTVItemID = (from c in db.TVItems where c.TVItemID == appTask.TVItemID select c).FirstOrDefault();
 
             if (TVItemTVItemID == null)
@@ -102,8 +98,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), new[] { "TVItemID" });
                 }
             }
-
-            //TVItemID2 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemTVItemID2 = (from c in db.TVItems where c.TVItemID == appTask.TVItemID2 select c).FirstOrDefault();
 
@@ -160,8 +154,6 @@ namespace CSSPServices
                 appTask.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskStatus), new[] { "AppTaskStatus" });
             }
-
-            //PercentCompleted (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (appTask.PercentCompleted < 0 || appTask.PercentCompleted > 100)
             {
@@ -228,8 +220,6 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [AppTaskWeb] of type [AppTaskWeb]
-                //Error: Type not implemented [AppTaskReport] of type [AppTaskReport]
             if (appTask.LastUpdateDate_UTC.Year == 1)
             {
                 appTask.HasErrors = true;
@@ -243,8 +233,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == appTask.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -265,8 +253,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -292,8 +278,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appTaskQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillAppTaskWeb(appTaskQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppTask(appTaskQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillAppTaskReport(appTaskQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -310,8 +297,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appTaskQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillAppTaskWeb(appTaskQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppTask(appTaskQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillAppTaskReport(appTaskQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -362,11 +350,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<AppTask> FillAppTask_Show_Copy_To_AppTaskServiceExtra_As_Fill_AppTask(IQueryable<AppTask> appTaskQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated AppTaskFillWeb
+        private IQueryable<AppTask> FillAppTaskWeb(IQueryable<AppTask> appTaskQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -418,19 +403,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        AppTaskReport = new AppTaskReport
-                        {
-                            AppTaskReportTest = "AppTaskReportTest",
-                        },
+                        AppTaskReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return appTaskQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated AppTaskFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(AppTask appTask)
         {
             try
@@ -445,7 +427,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

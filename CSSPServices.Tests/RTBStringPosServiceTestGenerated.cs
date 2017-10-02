@@ -44,7 +44,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EndPos") rTBStringPos.EndPos = GetRandomInt(0, 10);
             if (OmitPropName != "Text") rTBStringPos.Text = GetRandomString("", 20);
             if (OmitPropName != "TagText") rTBStringPos.TagText = GetRandomString("", 20);
-            if (OmitPropName != "HasErrors") rTBStringPos.HasErrors = true;
 
             return rTBStringPos;
         }

@@ -50,15 +50,11 @@ namespace CSSPServices
 
             //Text has no StringLength Attribute
 
-            //ID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (polSourceObsInfoEnumTextAndID.ID < 1)
             {
                 polSourceObsInfoEnumTextAndID.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.PolSourceObsInfoEnumTextAndIDID, "1"), new[] { "ID" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

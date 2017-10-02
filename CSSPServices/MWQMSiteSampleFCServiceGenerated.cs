@@ -99,8 +99,6 @@ namespace CSSPServices
 
             //PercOver260 has no Range Attribute
 
-            //HasErrors (bool) is required but no testing needed 
-
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

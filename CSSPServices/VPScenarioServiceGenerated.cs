@@ -57,10 +57,6 @@ namespace CSSPServices
                 }
             }
 
-            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            //InfrastructureTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             TVItem TVItemInfrastructureTVItemID = (from c in db.TVItems where c.TVItemID == vpScenario.InfrastructureTVItemID select c).FirstOrDefault();
 
             if (TVItemInfrastructureTVItemID == null)
@@ -88,17 +84,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioStatus), new[] { "VPScenarioStatus" });
             }
 
-            //UseAsBestEstimate (bool) is required but no testing needed 
-
-            //EffluentFlow_m3_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.EffluentFlow_m3_s < 0 || vpScenario.EffluentFlow_m3_s > 1000)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), new[] { "EffluentFlow_m3_s" });
             }
-
-            //EffluentConcentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.EffluentConcentration_MPN_100ml < 0 || vpScenario.EffluentConcentration_MPN_100ml > 10000000)
             {
@@ -106,15 +96,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), new[] { "EffluentConcentration_MPN_100ml" });
             }
 
-            //FroudeNumber (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.FroudeNumber < 0 || vpScenario.FroudeNumber > 10000)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioFroudeNumber, "0", "10000"), new[] { "FroudeNumber" });
             }
-
-            //PortDiameter_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.PortDiameter_m < 0 || vpScenario.PortDiameter_m > 10)
             {
@@ -122,15 +108,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDiameter_m, "0", "10"), new[] { "PortDiameter_m" });
             }
 
-            //PortDepth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.PortDepth_m < 0 || vpScenario.PortDepth_m > 1000)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDepth_m, "0", "1000"), new[] { "PortDepth_m" });
             }
-
-            //PortElevation_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.PortElevation_m < 0 || vpScenario.PortElevation_m > 1000)
             {
@@ -138,15 +120,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortElevation_m, "0", "1000"), new[] { "PortElevation_m" });
             }
 
-            //VerticalAngle_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.VerticalAngle_deg < -90 || vpScenario.VerticalAngle_deg > 90)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), new[] { "VerticalAngle_deg" });
             }
-
-            //HorizontalAngle_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.HorizontalAngle_deg < -180 || vpScenario.HorizontalAngle_deg > 180)
             {
@@ -154,15 +132,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), new[] { "HorizontalAngle_deg" });
             }
 
-            //NumberOfPorts (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.NumberOfPorts < 1 || vpScenario.NumberOfPorts > 100)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioNumberOfPorts, "1", "100"), new[] { "NumberOfPorts" });
             }
-
-            //PortSpacing_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.PortSpacing_m < 0 || vpScenario.PortSpacing_m > 1000)
             {
@@ -170,15 +144,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortSpacing_m, "0", "1000"), new[] { "PortSpacing_m" });
             }
 
-            //AcuteMixZone_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.AcuteMixZone_m < 0 || vpScenario.AcuteMixZone_m > 100)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), new[] { "AcuteMixZone_m" });
             }
-
-            //ChronicMixZone_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.ChronicMixZone_m < 0 || vpScenario.ChronicMixZone_m > 40000)
             {
@@ -186,23 +156,17 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), new[] { "ChronicMixZone_m" });
             }
 
-            //EffluentSalinity_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.EffluentSalinity_PSU < 0 || vpScenario.EffluentSalinity_PSU > 40)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), new[] { "EffluentSalinity_PSU" });
             }
 
-            //EffluentTemperature_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (vpScenario.EffluentTemperature_C < -10 || vpScenario.EffluentTemperature_C > 40)
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), new[] { "EffluentTemperature_C" });
             }
-
-            //EffluentVelocity_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.EffluentVelocity_m_s < 0 || vpScenario.EffluentVelocity_m_s > 100)
             {
@@ -212,8 +176,6 @@ namespace CSSPServices
 
             //RawResults has no StringLength Attribute
 
-                //Error: Type not implemented [VPScenarioWeb] of type [VPScenarioWeb]
-                //Error: Type not implemented [VPScenarioReport] of type [VPScenarioReport]
             if (vpScenario.LastUpdateDate_UTC.Year == 1)
             {
                 vpScenario.HasErrors = true;
@@ -227,8 +189,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPScenarioLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
-
-            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == vpScenario.LastUpdateContactTVItemID select c).FirstOrDefault();
 
@@ -249,8 +209,6 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -276,8 +234,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpScenarioQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillVPScenarioWeb(vpScenarioQuery, "").FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPScenario(vpScenarioQuery, "", EntityQueryDetailType).FirstOrDefault();
+                    return FillVPScenarioReport(vpScenarioQuery, "").FirstOrDefault();
                 default:
                     return null;
             }
@@ -294,8 +253,9 @@ namespace CSSPServices
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpScenarioQuery;
                 case EntityQueryDetailTypeEnum.EntityWeb:
+                    return FillVPScenarioWeb(vpScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPScenario(vpScenarioQuery, FilterAndOrderText, EntityQueryDetailType).Take(MaxGetCount);
+                    return FillVPScenarioReport(vpScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
                 default:
                     return null;
             }
@@ -346,11 +306,8 @@ namespace CSSPServices
         }
         #endregion Functions public Generated CRUD
 
-        #region Functions private Generated Fill Class
-        // --------------------------------------------------------------------------------
-        // You should copy to AddressServiceExtra or sync with it then remove this function
-        // --------------------------------------------------------------------------------
-        private IQueryable<VPScenario> FillVPScenario_Show_Copy_To_VPScenarioServiceExtra_As_Fill_VPScenario(IQueryable<VPScenario> vpScenarioQuery, string FilterAndOrderText, EntityQueryDetailTypeEnum EntityQueryDetailType)
+        #region Functions private Generated VPScenarioFillWeb
+        private IQueryable<VPScenario> FillVPScenarioWeb(IQueryable<VPScenario> vpScenarioQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -397,19 +354,16 @@ namespace CSSPServices
                                 where e.EnumID == (int?)c.VPScenarioStatus
                                 select e.EnumText).FirstOrDefault(),
                         },
-                        VPScenarioReport = new VPScenarioReport
-                        {
-                            VPScenarioReportTest = "VPScenarioReportTest",
-                        },
+                        VPScenarioReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
             return vpScenarioQuery;
         }
-        #endregion Functions private Generated Fill Class
+        #endregion Functions private Generated VPScenarioFillWeb
 
-        #region Functions private Generated
+        #region Functions private Generated TryToSave
         private bool TryToSave(VPScenario vpScenario)
         {
             try
@@ -424,7 +378,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private Generated
+        #endregion Functions private Generated TryToSave
 
     }
 }

@@ -1704,5 +1704,38 @@ namespace CSSPServices
         //    Register = 2,
         //    LoggedIn = 3,
         //}
+        private IQueryable<ContactLogin> FillContactLoginReport(IQueryable<ContactLogin> contactLoginQuery, string FilterAndOrderText)
+        {
+            contactLoginQuery = (from c in contactLoginQuery
+                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                && cl.Language == LanguageRequest
+                                                                select cl.TVText).FirstOrDefault()
+                                 select new ContactLogin
+                                 {
+                                     ContactLoginID = c.ContactLoginID,
+                                     ContactID = c.ContactID,
+                                     LoginEmail = c.LoginEmail,
+                                     PasswordHash = c.PasswordHash,
+                                     PasswordSalt = c.PasswordSalt,
+                                     LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                     LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                     ContactLoginWeb = new ContactLoginWeb
+                                     {
+                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                         //Password = Password,
+                                         //ConfirmPassword = ConfirmPassword,
+                                     },
+                                     ContactLoginReport = new ContactLoginReport
+                                     {
+                                         ContactLoginReportTest = "ContactLoginReportTest",
+                                     },
+                                     HasErrors = false,
+                                     ValidationResults = null,
+                                 });
+
+            return contactLoginQuery;
+        }
+
     }
 }

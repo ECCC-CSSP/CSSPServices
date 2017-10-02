@@ -42,15 +42,11 @@ namespace CSSPServices
             ContactSearch contactSearch = validationContext.ObjectInstance as ContactSearch;
             contactSearch.HasErrors = false;
 
-            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (contactSearch.ContactID < 1)
             {
                 contactSearch.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactSearchContactID, "1"), new[] { "ContactID" });
             }
-
-            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contactSearch.ContactTVItemID < 1)
             {
@@ -69,8 +65,6 @@ namespace CSSPServices
                 contactSearch.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactSearchFullName, "255"), new[] { "FullName" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

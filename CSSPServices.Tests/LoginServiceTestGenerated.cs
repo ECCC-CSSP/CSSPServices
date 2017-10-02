@@ -43,7 +43,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LoginEmail") login.LoginEmail = GetRandomString("", 11);
             if (OmitPropName != "Password") login.Password = GetRandomString("", 11);
             if (OmitPropName != "ConfirmPassword") login.ConfirmPassword = GetRandomString("", 11);
-            if (OmitPropName != "HasErrors") login.HasErrors = true;
 
             return login;
         }

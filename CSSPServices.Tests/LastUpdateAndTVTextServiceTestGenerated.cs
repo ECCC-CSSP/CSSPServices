@@ -44,7 +44,6 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateAndTVTextDate_UTC") lastUpdateAndTVText.LastUpdateAndTVTextDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateDate_Local") lastUpdateAndTVText.LastUpdateDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "TVText") lastUpdateAndTVText.TVText = GetRandomString("", 6);
-            if (OmitPropName != "HasErrors") lastUpdateAndTVText.HasErrors = true;
 
             return lastUpdateAndTVText;
         }

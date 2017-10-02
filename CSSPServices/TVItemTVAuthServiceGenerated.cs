@@ -50,8 +50,6 @@ namespace CSSPServices
 
             //Error has no StringLength Attribute
 
-            //TVItemUserAuthID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (tvItemTVAuth.TVItemUserAuthID < 1)
             {
                 tvItemTVAuth.HasErrors = true;
@@ -69,8 +67,6 @@ namespace CSSPServices
                 tvItemTVAuth.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVItemTVAuthTVText, "1", "255"), new[] { "TVText" });
             }
-
-            //TVItemID1 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItemTVAuth.TVItemID1 < 1)
             {
@@ -102,8 +98,6 @@ namespace CSSPServices
                 tvItemTVAuth.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVAuthTVAuthText, "100"), new[] { "TVAuthText" });
             }
-
-            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
