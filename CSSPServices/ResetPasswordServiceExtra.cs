@@ -52,51 +52,51 @@ namespace CSSPServices
         }
         public bool ResetPasswordDB(ResetPassword resetPassword)
         {
-            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, db, ContactID);
+            //ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, db, ContactID);
 
-            using (TransactionScope ts = new TransactionScope())
-            {
-                IEnumerable<ValidationResult> validationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Create);
-                if (validationResults.Count() > 0)
-                {
-                    return false;
-                }
+            //using (TransactionScope ts = new TransactionScope())
+            //{
+            //    IEnumerable<ValidationResult> validationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Create);
+            //    if (validationResults.Count() > 0)
+            //    {
+            //        return false;
+            //    }
 
-                ResetPassword resetPasswordRet = GetRead().Where(c => c.Code == resetPassword.Code && c.Email == resetPassword.Email).FirstOrDefault();
-                if (resetPasswordRet == null)
-                {
-                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ResetPassword, CSSPModelsRes.ResetPasswordCode + "," + CSSPModelsRes.ResetPasswordEmail, resetPassword.Code + "," + resetPassword.Email)) };
-                    return false;
-                }
+            //    ResetPassword resetPasswordRet = GetRead().Where(c => c.Code == resetPassword.Code && c.Email == resetPassword.Email).FirstOrDefault();
+            //    if (resetPasswordRet == null)
+            //    {
+            //        validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ResetPassword, CSSPModelsRes.ResetPasswordCode + "," + CSSPModelsRes.ResetPasswordEmail, resetPassword.Code + "," + resetPassword.Email)) };
+            //        return false;
+            //    }
 
-                ContactLogin contactLogin = contactLoginService.GetEdit().Where(c => c.LoginEmail == resetPassword.Email).FirstOrDefault();
-                if (contactLogin == null)
-                {
-                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ResetPasswordEmail, resetPassword.Email)) };
-                    return false;
-                }
+            //    ContactLogin contactLogin = contactLoginService.GetEdit().Where(c => c.LoginEmail == resetPassword.Email).FirstOrDefault();
+            //    if (contactLogin == null)
+            //    {
+            //        validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ResetPasswordEmail, resetPassword.Email)) };
+            //        return false;
+            //    }
 
-                // -------------------------------------------------------------
-                // todo create passwordhash and save it to Contact
-                // -------------------------------------------------------------
+            //    // -------------------------------------------------------------
+            //    // todo create passwordhash and save it to Contact
+            //    // -------------------------------------------------------------
 
-                contactLogin.PasswordHash = contactLogin.PasswordHash; // should be the new password hash
-                //aspNetUser.Password = resetPassword.Password;
+            //    contactLogin.PasswordHash = contactLogin.PasswordHash; // should be the new password hash
+            //    //aspNetUser.Password = resetPassword.Password;
 
-                if (!contactLoginService.Update(contactLogin))
-                {
-                    validationResults = contactLogin.ValidationResults;
-                    return false;
-                };
+            //    if (!contactLoginService.Update(contactLogin))
+            //    {
+            //        validationResults = contactLogin.ValidationResults;
+            //        return false;
+            //    };
 
-                if (!Delete(resetPasswordRet))
-                {
-                    validationResults = resetPasswordRet.ValidationResults;
-                    return false;
-                }
+            //    if (!Delete(resetPasswordRet))
+            //    {
+            //        validationResults = resetPasswordRet.ValidationResults;
+            //        return false;
+            //    }
 
-                ts.Complete();
-            }
+            //    ts.Complete();
+            //}
             return true;
         }
         #endregion Function public

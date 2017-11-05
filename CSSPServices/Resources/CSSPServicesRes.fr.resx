@@ -255,4 +255,7 @@
   <data name="_IsNotOfType_" xml:space="preserve">
     <value>{0} n'est pas du type {1}</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password (fr)</value>
+  </data>
 </root>

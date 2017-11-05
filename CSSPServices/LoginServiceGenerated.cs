@@ -66,17 +66,17 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.LoginPassword, "6", "100"), new[] { "Password" });
             }
 
-            if (string.IsNullOrWhiteSpace(login.ConfirmPassword))
-            {
-                login.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LoginConfirmPassword), new[] { "ConfirmPassword" });
-            }
+            //if (string.IsNullOrWhiteSpace(login.ConfirmPassword))
+            //{
+            //    login.HasErrors = true;
+            //    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LoginConfirmPassword), new[] { "ConfirmPassword" });
+            //}
 
-            if (!string.IsNullOrWhiteSpace(login.ConfirmPassword) && (login.ConfirmPassword.Length < 6 || login.ConfirmPassword.Length > 100))
-            {
-                login.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.LoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
-            }
+            //if (!string.IsNullOrWhiteSpace(login.ConfirmPassword) && (login.ConfirmPassword.Length < 6 || login.ConfirmPassword.Length > 100))
+            //{
+            //    login.HasErrors = true;
+            //    yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.LoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
+            //}
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

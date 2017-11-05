@@ -412,6 +412,15 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please use the following unique code while resetting your password for this login email..
         /// </summary>
         public static string PlsUseFollowingUniqueCodeEtc {

@@ -18,6 +18,7 @@ using System.Transactions;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CSSPServices
 {
@@ -490,14 +491,32 @@ namespace CSSPServices
                     return string.Format(CSSPServicesRes._IsAlreadyTaken, WebName);
             }
         }
-        public bool Login(ContactLogin contactLogin)
+        public Contact Login([FromBody]Login login)
         {
-            if (string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
+            Contact contact = new Contact();
+            byte[] passwordHash, passwordSalt;
+
+            if (string.IsNullOrWhiteSpace(login.LoginEmail))
             {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail)) }.AsEnumerable();
+                return contact;
             }
 
+            if (string.IsNullOrWhiteSpace(login.Password))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
+                return contact;
+            }
+
+            CreatePasswordHash(login.Password, out passwordHash, out passwordSalt);
+
+            contact = GetRead().Where(c => c.LoginEmail == login.LoginEmail && c.PasswordHash == passwordHash && c.PasswordSalt == passwordSalt).FirstOrDefault();
+
+            if (contact != null)
+            {
+                contact.PasswordHash = null;
+                contact.PasswordSalt = null;
+            }
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("CSSPWebTools");
@@ -505,7 +524,7 @@ namespace CSSPServices
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, contactLogin.ContactID.ToString())
+                    new Claim(ClaimTypes.Name, contact.ContactID.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -513,60 +532,61 @@ namespace CSSPServices
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return true;
+            return contact;
         }
-        public bool Register(Register register)
+        public Contact Register([FromBody]Register register)
         {
+            Contact contact = new Contact();
+            byte[] passwordHash;
+            byte[] passwordSalt;
+
             if (string.IsNullOrWhiteSpace(register.LoginEmail))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLoginEmail)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLoginEmail)) }.AsEnumerable();
+                return contact;
             }
 
             if (string.IsNullOrWhiteSpace(register.Password))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
+                return contact;
             }
 
             if (string.IsNullOrWhiteSpace(register.FirstName))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterFirstName)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterFirstName)) }.AsEnumerable();
+                return contact;
             }
 
             if (string.IsNullOrWhiteSpace(register.LastName))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLastName)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLastName)) }.AsEnumerable();
+                return contact;
             }
 
-            Contact contact = GetRead().Where(c => c.LoginEmail == register.LoginEmail).FirstOrDefault();
+            contact = GetRead().Where(c => c.LoginEmail == register.LoginEmail).FirstOrDefault();
             if (contact != null)
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.UserWithLoginEmail_AlreadyExist, register.LoginEmail)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.UserWithLoginEmail_AlreadyExist, register.LoginEmail)) }.AsEnumerable();
+                return contact;
             }
 
             contact = GetRead().Where(c => c.FirstName == register.FirstName && c.Initial == register.Initial && c.LastName == register.LastName).FirstOrDefault();
             if (contact != null)
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._AlreadyExists, CSSPServicesRes.FullName)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._AlreadyExists, CSSPServicesRes.FullName)) }.AsEnumerable();
+                return contact;
             }
-            // need to verify is LoginEmail is unique, full name is unique, web name is unique etc...
 
-            byte[] passwordHash;
-            byte[] passwordSalt;
-            CreatePasswordHashAndSalt(register, out passwordHash, out passwordSalt);
+            CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
 
             TVItemService tvItemService = new TVItemService(LanguageRequest, db, ContactID);
 
             TVItem tvItemRoot = tvItemService.GetRead().Where(c => c.TVLevel == 0 && c.TVItemID == 1).FirstOrDefault();
             if (tvItemRoot == null)
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.CouldNotFindRoot) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.CouldNotFindRoot) }.AsEnumerable();
+                return contact;
             }
 
             contact = new Contact();
@@ -583,19 +603,21 @@ namespace CSSPServices
             contact.IsNew = false;
             contact.SamplingPlanner_ProvincesTVItemID = "";
             contact.LastUpdateDate_UTC = DateTime.UtcNow;
+            contact.PasswordHash = passwordHash;
+            contact.PasswordSalt = passwordSalt;
 
             string TVText = CreateTVText(contact);
             if (string.IsNullOrWhiteSpace(TVText))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPServicesRes.TVText)) }.AsEnumerable();
-                return false;
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPServicesRes.TVText)) }.AsEnumerable();
+                return contact;
             }
 
             TVItem tvItemContact = new TVItem();
             if (!tvItemService.AddChildContactTVItemDB(tvItemRoot.TVItemID, TVText, TVTypeEnum.Contact, tvItemContact))
             {
-                register.ValidationResults = tvItemContact.ValidationResults;
-                return false;
+                contact.ValidationResults = tvItemContact.ValidationResults;
+                return contact;
             }
 
             contact.ContactTVItemID = tvItemContact.TVItemID;
@@ -603,70 +625,54 @@ namespace CSSPServices
 
             if (!Add(contact, AddContactTypeEnum.Register))
             {
-                register.ValidationResults = contact.ValidationResults;
-                return false;
+                contact.ValidationResults = contact.ValidationResults;
+                return contact;
             }
 
-            ContactLogin contactLogin = new ContactLogin();
-            contactLogin.ContactID = contact.ContactID;
-            contactLogin.LoginEmail = register.LoginEmail;
-            contactLogin.PasswordHash = passwordHash;
-            contactLogin.PasswordSalt = passwordSalt;
-            contactLogin.LastUpdateDate_UTC = DateTime.UtcNow;
-            contactLogin.LastUpdateContactTVItemID = contact.ContactTVItemID;
-
-            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, db, ContactID);
-
-            if (!contactLoginService.Add(contactLogin))
-            {
-                register.ValidationResults = contactLogin.ValidationResults;
-                return false;
-            }
-
-            return true;
+            return contact;
         }
-        public void CreatePasswordHashAndSalt(Register register, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            Random rand = new Random((int)DateTime.Now.Ticks);
+        //public void CreatePasswordHashAndSalt(Register register, out byte[] passwordHash, out byte[] passwordSalt)
+        //{
+        //    Random rand = new Random((int)DateTime.Now.Ticks);
 
-            if (string.IsNullOrWhiteSpace(register.Password))
-            {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
-            }
+        //    if (string.IsNullOrWhiteSpace(register.Password))
+        //    {
+        //        register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
+        //    }
 
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(register.Password));
-            }
-        }
+        //    using (var hmac = new System.Security.Cryptography.HMACSHA512())
+        //    {
+        //        passwordSalt = hmac.Key;
+        //        passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(register.Password));
+        //    }
+        //}
 
-        public bool VerifyPasswordHashAndSalt(ContactLogin contactLogin, byte[] storedHash, byte[] storedSalt)
-        {
-            if (string.IsNullOrWhiteSpace(contactLogin.ContactLoginWeb.Password))
-            {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginWebPassword)) }.AsEnumerable();
-            }
-            if (storedHash.Length != 64)
-            {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.InvalidLengthOfPasswordHashShouldBe64Bytes) }.AsEnumerable();
-            }
-            if (storedSalt.Length != 128)
-            {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.InvalidLengthOfPasswordSaltShouldBe128Bytes) }.AsEnumerable();
-            }
+        //public bool VerifyPasswordHashAndSalt(ContactLogin contactLogin, byte[] storedHash, byte[] storedSalt)
+        //{
+        //    if (string.IsNullOrWhiteSpace(contactLogin.ContactLoginWeb.Password))
+        //    {
+        //        contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginWebPassword)) }.AsEnumerable();
+        //    }
+        //    if (storedHash.Length != 64)
+        //    {
+        //        contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.InvalidLengthOfPasswordHashShouldBe64Bytes) }.AsEnumerable();
+        //    }
+        //    if (storedSalt.Length != 128)
+        //    {
+        //        contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.InvalidLengthOfPasswordSaltShouldBe128Bytes) }.AsEnumerable();
+        //    }
 
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contactLogin.ContactLoginWeb.Password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHash[i]) return false;
-                }
-            }
+        //    using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+        //    {
+        //        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contactLogin.ContactLoginWeb.Password));
+        //        for (int i = 0; i < computedHash.Length; i++)
+        //        {
+        //            if (computedHash[i] != storedHash[i]) return false;
+        //        }
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
         // Get
         public IQueryable<Contact> GetAdminContactListDB()
         {
@@ -1740,6 +1746,35 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+        private bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != storedHash[i]) return false;
+                }
+            }
+
+            return true;
+        }
         private IQueryable<Contact> FillContactReport(IQueryable<Contact> contactQuery, string FilterAndOrderText)
         {
             Enums enums = new Enums(LanguageRequest);
