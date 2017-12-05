@@ -265,23 +265,23 @@ namespace CSSPServices.Tests
                 }
             }
             #endregion Contacts
-            #region ContactLogins
-            List<ContactLogin> ContactLoginList = dbTestDB.ContactLogins.AsNoTracking().OrderBy(c => c.ContactLoginID).ToList();
+            //#region ContactLogins
+            //List<ContactLogin> ContactLoginList = dbTestDB.ContactLogins.AsNoTracking().OrderBy(c => c.ContactLoginID).ToList();
 
-            foreach (ContactLogin ContactLogin in ContactLoginList)
-            {
-                dbMemoryTestDB.ContactLogins.Add(ContactLogin);
+            //foreach (ContactLogin ContactLogin in ContactLoginList)
+            //{
+            //    dbMemoryTestDB.ContactLogins.Add(ContactLogin);
 
-                try
-                {
-                    dbMemoryTestDB.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    Assert.AreEqual("", ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : ""));
-                }
-            }
-            #endregion ContactLogins
+            //    try
+            //    {
+            //        dbMemoryTestDB.SaveChanges();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Assert.AreEqual("", ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : ""));
+            //    }
+            //}
+            //#endregion ContactLogins
             #region ClimateSites
             List<ClimateSite> ClimateSiteList = dbTestDB.ClimateSites.AsNoTracking().OrderBy(c => c.ClimateSiteID).ToList();
 

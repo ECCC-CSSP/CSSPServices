@@ -779,6 +779,20 @@ namespace CSSPServicesGenerateCodeHelper
                                             }
                                         }
                                         break;
+                                    case "ReportType":
+                                        {
+                                            ReportTypeService reportTypeService = new ReportTypeService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ReportType reportType = reportTypeService.GetRead().FirstOrDefault();
+                                            if (reportType == null)
+                                            {
+                                                sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + reportType.ReportTypeID + ";");
+                                            }
+                                        }
+                                        break;
                                     case "SamplingPlanSubsector":
                                         {
                                             SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);

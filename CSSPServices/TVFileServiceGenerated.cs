@@ -84,6 +84,19 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
             }
 
+            if (tvFile.ReportTypeID != null)
+            {
+                ReportType ReportTypeReportTypeID = (from c in db.ReportTypes where c.ReportTypeID == tvFile.ReportTypeID select c).FirstOrDefault();
+
+                if (ReportTypeReportTypeID == null)
+                {
+                    tvFile.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.TVFileReportTypeID, tvFile.ReportTypeID.ToString()), new[] { "ReportTypeID" });
+                }
+            }
+
+            //Parameters has no StringLength Attribute
+
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFile.Language);
             if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
@@ -311,6 +324,8 @@ namespace CSSPServices
                         TVFileID = c.TVFileID,
                         TVFileTVItemID = c.TVFileTVItemID,
                         TemplateTVType = c.TemplateTVType,
+                        ReportTypeID = c.ReportTypeID,
+                        Parameters = c.Parameters,
                         Language = c.Language,
                         FilePurpose = c.FilePurpose,
                         FileType = c.FileType,

@@ -367,8 +367,6 @@
     <Compile Include="CalDecayServiceGenerated.cs" />
     <Compile Include="ClimateDataValueServiceGenerated.cs" />
     <Compile Include="ClimateSiteServiceGenerated.cs" />
-    <Compile Include="ContactLoginServiceExtra.cs" />
-    <Compile Include="ContactLoginServiceGenerated.cs" />
     <Compile Include="ContactOKServiceGenerated.cs" />
     <Compile Include="ContactPreferenceServiceGenerated.cs" />
     <Compile Include="ContactSearchServiceGenerated.cs" />
@@ -411,7 +409,7 @@
     <Compile Include="LastUpdateAndContactServiceGenerated.cs" />
     <Compile Include="LastUpdateAndTVTextServiceGenerated.cs" />
     <Compile Include="LatLngServiceGenerated.cs" />
-    <Compile Include="LoginServiceGenerated.cs" />
+    <Compile Include="LogServiceExtra.cs" />
     <Compile Include="LogServiceGenerated.cs" />
     <Compile Include="MapInfoPointServiceGenerated.cs" />
     <Compile Include="MapInfoServiceGenerated.cs" />
@@ -426,6 +424,8 @@
     <Compile Include="MWQMRunLanguageServiceGenerated.cs" />
     <Compile Include="MWQMRunServiceGenerated.cs" />
     <Compile Include="MWQMSampleDuplicateItemServiceGenerated.cs" />
+    <Compile Include="ReportTypeServiceExtra.cs" />
+    <Compile Include="ReportTypeLanguageServiceExtra.cs" />
     <Compile Include="MWQMSampleLanguageServiceGenerated.cs" />
     <Compile Include="MWQMSampleServiceGenerated.cs" />
     <Compile Include="MWQMSiteSampleFCServiceGenerated.cs" />
@@ -449,6 +449,8 @@
     <Compile Include="RatingCurveServiceGenerated.cs" />
     <Compile Include="RatingCurveValueServiceGenerated.cs" />
     <Compile Include="RegisterServiceGenerated.cs" />
+    <Compile Include="ReportTypeLanguageServiceGenerated.cs" />
+    <Compile Include="ReportTypeServiceGenerated.cs" />
     <Compile Include="ResetPasswordServiceGenerated.cs" />
     <Compile Include="Resources\CSSPServicesRes.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -556,7 +558,6 @@
     <Compile Include="AddressServiceExtra.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="ContactServiceExtra.cs" />
-    <Compile Include="LogServiceExtra.cs" />
     <Compile Include="MWQMRunServiceExtra.cs" />
     <Compile Include="PolSourceObservationServiceExtra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

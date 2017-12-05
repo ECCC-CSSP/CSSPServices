@@ -721,6 +721,25 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRBouctoucheWWTP.TVItemID = tvItemBouctoucheWWTP.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRBouctoucheWWTP)) return false;
             #endregion TVItem Municipality Bouctouche WWTP 
+            #region ReportType and ReportTypeLanguage
+            StatusTempEvent(new StatusEventArgs("doing ... ReportTypes and ReportTypeLanguages"));
+            ReportType reportType = dbCSSPWebToolsDBRead.ReportTypes.AsNoTracking().FirstOrDefault();
+            int ReportTypeIDOld = reportType.ReportTypeID;
+            reportType.ReportTypeID = 0;
+            if (!AddObject("ReportType", reportType)) return false;
+
+            // ReportTypeLanguage EN 
+            ReportTypeLanguage reportTypeLanguageEN = dbCSSPWebToolsDBRead.ReportTypeLanguages.AsNoTracking().Where(c => c.ReportTypeID == ReportTypeIDOld && c.Language == LanguageEnum.en).FirstOrDefault();
+            reportTypeLanguageEN.ReportTypeLanguageID = 0;
+            reportTypeLanguageEN.ReportTypeID = reportType.ReportTypeID;
+            if (!AddObject("ReportTypeLanguage", reportTypeLanguageEN)) return false;
+
+            // ReportTypeLanguage FR 
+            ReportTypeLanguage reportTypeLanguageFR = dbCSSPWebToolsDBRead.ReportTypeLanguages.AsNoTracking().Where(c => c.ReportTypeID == ReportTypeIDOld && c.Language == LanguageEnum.fr).FirstOrDefault();
+            reportTypeLanguageFR.ReportTypeLanguageID = 0;
+            reportTypeLanguageFR.ReportTypeID = reportType.ReportTypeID;
+            if (!AddObject("ReportTypeLanguage", reportTypeLanguageFR)) return false;
+            #endregion ReportType and ReportTypeLanguage
             #region TVItem TVFile Bouctouche WWTP 
             StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP TVFile"));
             // TVItem TVFile Bouctouche WWTP TVItemID = 28689
@@ -1962,6 +1981,20 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.RatingCurves.Add((RatingCurve)objTarget);
                     }
                     break;
+                case "ReportType":
+                    {
+                        ((ReportType)objTarget).ReportTypeID = 0;
+                        ((ReportType)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.ReportTypes.Add((ReportType)objTarget);
+                    }
+                    break;
+                case "ReportTypeLanguage":
+                    {
+                        ((ReportTypeLanguage)objTarget).ReportTypeLanguageID = 0;
+                        ((ReportTypeLanguage)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.ReportTypeLanguages.Add((ReportTypeLanguage)objTarget);
+                    }
+                    break;
                 case "ResetPassword":
                     {
                         ((ResetPassword)objTarget).ResetPasswordID = 0;
@@ -2210,7 +2243,6 @@ namespace CSSPServicesGenerateCodeHelper
                 "EmailDistributionListContacts",
                 "EmailDistributionListLanguages",
                 "EmailDistributionLists",
-                "ContactLogins",
                 "AppErrLogs",
                 "AppTaskLanguages",
                 "AppTasks",
@@ -2266,6 +2298,8 @@ namespace CSSPServicesGenerateCodeHelper
                 "TideSites",
                 "TVFileLanguages",
                 "TVFiles",
+                "ReportTypeLanguages",
+                "ReportTypes",
                 "TVItemLanguages",
                 "TVItemLinks",
                 "TVItemUserAuthorizations",

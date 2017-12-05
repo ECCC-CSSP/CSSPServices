@@ -491,26 +491,26 @@ namespace CSSPServices
                     return string.Format(CSSPServicesRes._IsAlreadyTaken, WebName);
             }
         }
-        public Contact Login([FromBody]Login login)
+        public Contact Login(Contact contact)
         {
-            Contact contact = new Contact();
+            //Contact contact = new Contact();
             byte[] passwordHash, passwordSalt;
 
-            if (string.IsNullOrWhiteSpace(login.LoginEmail))
+            if (string.IsNullOrWhiteSpace(contact.LoginEmail))
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail)) }.AsEnumerable();
                 return contact;
             }
 
-            if (string.IsNullOrWhiteSpace(login.Password))
+            if (string.IsNullOrWhiteSpace(contact.Password))
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
                 return contact;
             }
 
-            CreatePasswordHash(login.Password, out passwordHash, out passwordSalt);
+            CreatePasswordHash(contact.Password, out passwordHash, out passwordSalt);
 
-            contact = GetRead().Where(c => c.LoginEmail == login.LoginEmail && c.PasswordHash == passwordHash && c.PasswordSalt == passwordSalt).FirstOrDefault();
+            contact = GetRead().Where(c => c.LoginEmail == contact.LoginEmail && c.PasswordHash == passwordHash && c.PasswordSalt == passwordSalt).FirstOrDefault();
 
             if (contact != null)
             {
@@ -532,53 +532,56 @@ namespace CSSPServices
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
+            contact.Password = "";
+            contact.PasswordHash = null;
+            contact.PasswordSalt = null;
+
             return contact;
         }
-        public Contact Register([FromBody]Register register)
+        public Contact Register(Contact contact)
         {
-            Contact contact = new Contact();
             byte[] passwordHash;
             byte[] passwordSalt;
 
-            if (string.IsNullOrWhiteSpace(register.LoginEmail))
+            if (string.IsNullOrWhiteSpace(contact.LoginEmail))
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLoginEmail)) }.AsEnumerable();
                 return contact;
             }
 
-            if (string.IsNullOrWhiteSpace(register.Password))
+            if (string.IsNullOrWhiteSpace(contact.Password))
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
                 return contact;
             }
 
-            if (string.IsNullOrWhiteSpace(register.FirstName))
+            if (string.IsNullOrWhiteSpace(contact.FirstName))
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterFirstName)) }.AsEnumerable();
                 return contact;
             }
 
-            if (string.IsNullOrWhiteSpace(register.LastName))
+            if (string.IsNullOrWhiteSpace(contact.LastName))
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLastName)) }.AsEnumerable();
                 return contact;
             }
 
-            contact = GetRead().Where(c => c.LoginEmail == register.LoginEmail).FirstOrDefault();
+            contact = GetRead().Where(c => c.LoginEmail == contact.LoginEmail).FirstOrDefault();
             if (contact != null)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.UserWithLoginEmail_AlreadyExist, register.LoginEmail)) }.AsEnumerable();
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.UserWithLoginEmail_AlreadyExist, contact.LoginEmail)) }.AsEnumerable();
                 return contact;
             }
 
-            contact = GetRead().Where(c => c.FirstName == register.FirstName && c.Initial == register.Initial && c.LastName == register.LastName).FirstOrDefault();
+            contact = GetRead().Where(c => c.FirstName == contact.FirstName && c.Initial == contact.Initial && c.LastName == contact.LastName).FirstOrDefault();
             if (contact != null)
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._AlreadyExists, CSSPServicesRes.FullName)) }.AsEnumerable();
                 return contact;
             }
 
-            CreatePasswordHash(register.Password, out passwordHash, out passwordSalt);
+            CreatePasswordHash(contact.Password, out passwordHash, out passwordSalt);
 
             TVItemService tvItemService = new TVItemService(LanguageRequest, db, ContactID);
 
@@ -591,11 +594,11 @@ namespace CSSPServices
 
             contact = new Contact();
             contact.ContactWeb.ParentTVItemID = tvItemRoot.TVItemID;
-            contact.LoginEmail = register.LoginEmail;
-            contact.FirstName = register.FirstName;
-            contact.Initial = register.Initial;
-            contact.LastName = register.LastName;
-            contact.WebName = register.WebName;
+            contact.LoginEmail = contact.LoginEmail;
+            contact.FirstName = contact.FirstName;
+            contact.Initial = contact.Initial;
+            contact.LastName = contact.LastName;
+            contact.WebName = contact.WebName;
             contact.ContactTitle = ContactTitleEnum.Error;
             contact.IsAdmin = false;
             contact.EmailValidated = false;

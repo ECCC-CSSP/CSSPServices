@@ -243,8 +243,6 @@
     <Compile Include="ClimateDataValueServiceTestGenerated.cs" />
     <Compile Include="ClimateSiteServiceTestExtra.cs" />
     <Compile Include="ClimateSiteServiceTestGenerated.cs" />
-    <Compile Include="ContactLoginServiceTestExtra.cs" />
-    <Compile Include="ContactLoginServiceTestGenerated.cs" />
     <Compile Include="ContactOKServiceTestExtra.cs" />
     <Compile Include="ContactOKServiceTestGenerated.cs" />
     <Compile Include="ContactPreferenceServiceTestExtra.cs" />
@@ -317,8 +315,6 @@
     <Compile Include="LastUpdateAndTVTextServiceTestGenerated.cs" />
     <Compile Include="LatLngServiceTestExtra.cs" />
     <Compile Include="LatLngServiceTestGenerated.cs" />
-    <Compile Include="LoginServiceTestExtra.cs" />
-    <Compile Include="LoginServiceTestGenerated.cs" />
     <Compile Include="LogServiceTestExtra.cs" />
     <Compile Include="LogServiceTestGenerated.cs" />
     <Compile Include="MapInfoPointServiceTestExtra.cs" />
@@ -389,6 +385,8 @@
     <Compile Include="RatingCurveValueServiceTestGenerated.cs" />
     <Compile Include="RegisterServiceTestExtra.cs" />
     <Compile Include="RegisterServiceTestGenerated.cs" />
+    <Compile Include="ReportTypeLanguageServiceTestGenerated.cs" />
+    <Compile Include="ReportTypeServiceTestGenerated.cs" />
     <Compile Include="ResetPasswordServiceTestExtra.cs" />
     <Compile Include="ResetPasswordServiceTestGenerated.cs" />
     <Compile Include="RTBStringPosServiceTestExtra.cs" />

@@ -42,6 +42,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 17;
             if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 1;
+            if (OmitPropName != "Parameters") tvFile.Parameters = GetRandomString("", 20);
             if (OmitPropName != "Language") tvFile.Language = LanguageRequest;
             if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
             if (OmitPropName != "FileType") tvFile.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
@@ -164,6 +166,25 @@ namespace CSSPServices.Tests
                     tvFile.TemplateTVType = (TVTypeEnum)1000000;
                     tvFileService.Add(tvFile);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPExist(ExistTypeName = "ReportType", ExistPlurial = "s", ExistFieldID = "ReportTypeID", AllowableTVtypeList = Error)]
+                    // tvFile.ReportTypeID   (Int32)
+                    // -----------------------------------
+
+                    tvFile = null;
+                    tvFile = GetFilledRandomTVFile("");
+                    tvFile.ReportTypeID = 0;
+                    tvFileService.Add(tvFile);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.TVFileReportTypeID, tvFile.ReportTypeID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // tvFile.Parameters   (String)
+                    // -----------------------------------
 
 
                     // -----------------------------------
@@ -437,6 +458,14 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tvFileRet.TVFileID);
                         Assert.IsNotNull(tvFileRet.TVFileTVItemID);
                         Assert.IsNotNull(tvFileRet.TemplateTVType);
+                        if (tvFileRet.ReportTypeID != null)
+                        {
+                            Assert.IsNotNull(tvFileRet.ReportTypeID);
+                        }
+                        if (tvFileRet.Parameters != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.Parameters));
+                        }
                         Assert.IsNotNull(tvFileRet.Language);
                         Assert.IsNotNull(tvFileRet.FilePurpose);
                         Assert.IsNotNull(tvFileRet.FileType);

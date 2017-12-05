@@ -169,6 +169,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
             }
 
+                //Error: Type not implemented [PasswordHash] of type [Byte[]]
+                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
+            if (!string.IsNullOrWhiteSpace(contact.Password) && contact.Password.Length > 50)
+            {
+                contact.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPassword, "50"), new[] { "Password" });
+            }
+
             if (contact.LastUpdateDate_UTC.Year == 1)
             {
                 contact.HasErrors = true;
@@ -334,6 +342,9 @@ namespace CSSPServices
                         Disabled = c.Disabled,
                         IsNew = c.IsNew,
                         SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
+                        PasswordHash = c.PasswordHash,
+                        PasswordSalt = c.PasswordSalt,
+                        Password = c.Password,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         ContactWeb = new ContactWeb

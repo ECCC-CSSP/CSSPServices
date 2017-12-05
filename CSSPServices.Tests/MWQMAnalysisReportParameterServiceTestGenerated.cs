@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WetLimit72h") mwqmAnalysisReportParameter.WetLimit72h = GetRandomInt(1, 100);
             if (OmitPropName != "WetLimit96h") mwqmAnalysisReportParameter.WetLimit96h = GetRandomInt(1, 100);
             if (OmitPropName != "RunsToOmit") mwqmAnalysisReportParameter.RunsToOmit = GetRandomString("", 5);
+            if (OmitPropName != "ShowDataTypes") mwqmAnalysisReportParameter.ShowDataTypes = GetRandomString("", 5);
             if (OmitPropName != "ExcelTVFileTVItemID") mwqmAnalysisReportParameter.ExcelTVFileTVItemID = 17;
             if (OmitPropName != "Command") mwqmAnalysisReportParameter.Command = (AnalysisReportExportCommandEnum)GetRandomEnumType(typeof(AnalysisReportExportCommandEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmAnalysisReportParameter.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
@@ -518,6 +519,19 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
+                    // [StringLength(20))]
+                    // mwqmAnalysisReportParameter.ShowDataTypes   (String)
+                    // -----------------------------------
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
+                    mwqmAnalysisReportParameter.ShowDataTypes = GetRandomString("", 21);
+                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterShowDataTypes, "20"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
                     // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
                     // mwqmAnalysisReportParameter.ExcelTVFileTVItemID   (Int32)
                     // -----------------------------------
@@ -698,6 +712,10 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmAnalysisReportParameterRet.WetLimit72h);
                         Assert.IsNotNull(mwqmAnalysisReportParameterRet.WetLimit96h);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.RunsToOmit));
+                        if (mwqmAnalysisReportParameterRet.ShowDataTypes != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.ShowDataTypes));
+                        }
                         if (mwqmAnalysisReportParameterRet.ExcelTVFileTVItemID != null)
                         {
                             Assert.IsNotNull(mwqmAnalysisReportParameterRet.ExcelTVFileTVItemID);

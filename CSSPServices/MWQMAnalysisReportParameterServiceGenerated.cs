@@ -223,6 +223,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterRunsToOmit, "250"), new[] { "RunsToOmit" });
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.ShowDataTypes) && mwqmAnalysisReportParameter.ShowDataTypes.Length > 20)
+            {
+                mwqmAnalysisReportParameter.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterShowDataTypes, "20"), new[] { "ShowDataTypes" });
+            }
+
             if (mwqmAnalysisReportParameter.ExcelTVFileTVItemID != null)
             {
                 TVItem TVItemExcelTVFileTVItemID = (from c in db.TVItems where c.TVItemID == mwqmAnalysisReportParameter.ExcelTVFileTVItemID select c).FirstOrDefault();
@@ -422,6 +428,7 @@ namespace CSSPServices
                         WetLimit72h = c.WetLimit72h,
                         WetLimit96h = c.WetLimit96h,
                         RunsToOmit = c.RunsToOmit,
+                        ShowDataTypes = c.ShowDataTypes,
                         ExcelTVFileTVItemID = c.ExcelTVFileTVItemID,
                         Command = c.Command,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,

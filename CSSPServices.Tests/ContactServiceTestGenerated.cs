@@ -53,6 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Disabled") contact.Disabled = true;
             if (OmitPropName != "IsNew") contact.IsNew = true;
             if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
+            if (OmitPropName != "Password") contact.Password = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
 
@@ -331,6 +332,40 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
+                    // contact.PasswordHash   (Byte[])
+                    // -----------------------------------
+
+                    //Error: Type not implemented [PasswordHash]
+
+                    //Error: Type not implemented [PasswordHash]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // contact.PasswordSalt   (Byte[])
+                    // -----------------------------------
+
+                    //Error: Type not implemented [PasswordSalt]
+
+                    //Error: Type not implemented [PasswordSalt]
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(50))]
+                    // contact.Password   (String)
+                    // -----------------------------------
+
+                    contact = null;
+                    contact = GetFilledRandomContact("");
+                    contact.Password = GetRandomString("", 51);
+                    Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPassword, "50"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
                     // [NotMapped]
                     // contact.ContactWeb   (ContactWeb)
                     // -----------------------------------
@@ -477,6 +512,14 @@ namespace CSSPServices.Tests
                         if (contactRet.SamplingPlanner_ProvincesTVItemID != null)
                         {
                             Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.SamplingPlanner_ProvincesTVItemID));
+                        }
+                        if (contactRet.PasswordHash != null)
+                        {
+                            Assert.IsNotNull(contactRet.PasswordHash);
+                        }
+                        if (contactRet.PasswordSalt != null)
+                        {
+                            Assert.IsNotNull(contactRet.PasswordSalt);
                         }
                         Assert.IsNotNull(contactRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(contactRet.LastUpdateContactTVItemID);
