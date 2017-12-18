@@ -779,6 +779,20 @@ namespace CSSPServicesGenerateCodeHelper
                                             }
                                         }
                                         break;
+                                    case "ReportSection":
+                                        {
+                                            ReportSectionService ReportSectionService = new ReportSectionService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ReportSection ReportSection = ReportSectionService.GetRead().FirstOrDefault();
+                                            if (ReportSection == null)
+                                            {
+                                                sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + ReportSection.ReportSectionID + ";");
+                                            }
+                                        }
+                                        break;
                                     case "ReportType":
                                         {
                                             ReportTypeService reportTypeService = new ReportTypeService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
@@ -1137,7 +1151,7 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                 }
 
-                //if (TypeName != "Address")
+                //if (TypeName != "ReportSectionLanguage")
                 //{
                 //    continue;
                 //}

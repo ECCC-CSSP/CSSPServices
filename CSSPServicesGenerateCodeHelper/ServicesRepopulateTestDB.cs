@@ -740,6 +740,26 @@ namespace CSSPServicesGenerateCodeHelper
             reportTypeLanguageFR.ReportTypeID = reportType.ReportTypeID;
             if (!AddObject("ReportTypeLanguage", reportTypeLanguageFR)) return false;
             #endregion ReportType and ReportTypeLanguage
+            #region ReportSection and ReportSectionLanguage
+            StatusTempEvent(new StatusEventArgs("doing ... ReportSections and ReportSectionLanguages"));
+            ReportSection reportSection = dbCSSPWebToolsDBRead.ReportSections.AsNoTracking().Where(c => c.ReportTypeID == ReportTypeIDOld).FirstOrDefault();
+            int ReportSectionIDOld = reportSection.ReportSectionID;
+            reportSection.ReportSectionID = 0;
+            reportSection.ReportTypeID = reportType.ReportTypeID;
+            if (!AddObject("ReportSection", reportSection)) return false;
+
+            // ReportSectionLanguage EN 
+            ReportSectionLanguage reportSectionLanguageEN = dbCSSPWebToolsDBRead.ReportSectionLanguages.AsNoTracking().Where(c => c.ReportSectionID == ReportSectionIDOld && c.Language == LanguageEnum.en).FirstOrDefault();
+            reportSectionLanguageEN.ReportSectionLanguageID = 0;
+            reportSectionLanguageEN.ReportSectionID = reportSection.ReportSectionID;
+            if (!AddObject("ReportSectionLanguage", reportSectionLanguageEN)) return false;
+
+            // ReportSectionLanguage FR 
+            ReportSectionLanguage reportSectionLanguageFR = dbCSSPWebToolsDBRead.ReportSectionLanguages.AsNoTracking().Where(c => c.ReportSectionID == ReportSectionIDOld && c.Language == LanguageEnum.fr).FirstOrDefault();
+            reportSectionLanguageFR.ReportSectionLanguageID = 0;
+            reportSectionLanguageFR.ReportSectionID = reportSection.ReportSectionID;
+            if (!AddObject("ReportSectionLanguage", reportSectionLanguageFR)) return false;
+            #endregion ReportSection and ReportSectionLanguage
             #region TVItem TVFile Bouctouche WWTP 
             StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP TVFile"));
             // TVItem TVFile Bouctouche WWTP TVItemID = 28689
@@ -1981,6 +2001,20 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.RatingCurves.Add((RatingCurve)objTarget);
                     }
                     break;
+                case "ReportSection":
+                    {
+                        ((ReportSection)objTarget).ReportSectionID = 0;
+                        ((ReportSection)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.ReportSections.Add((ReportSection)objTarget);
+                    }
+                    break;
+                case "ReportSectionLanguage":
+                    {
+                        ((ReportSectionLanguage)objTarget).ReportSectionLanguageID = 0;
+                        ((ReportSectionLanguage)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.ReportSectionLanguages.Add((ReportSectionLanguage)objTarget);
+                    }
+                    break;
                 case "ReportType":
                     {
                         ((ReportType)objTarget).ReportTypeID = 0;
@@ -2298,6 +2332,8 @@ namespace CSSPServicesGenerateCodeHelper
                 "TideSites",
                 "TVFileLanguages",
                 "TVFiles",
+                "ReportSectionLanguages",
+                "ReportSections",
                 "ReportTypeLanguages",
                 "ReportTypes",
                 "TVItemLanguages",
