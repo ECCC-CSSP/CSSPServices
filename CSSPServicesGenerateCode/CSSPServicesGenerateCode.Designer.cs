@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblStatusText = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
@@ -37,11 +36,12 @@
             this.butRepopulateTesDB = new System.Windows.Forms.Button();
             this.butGenerateClassServiceGenerated = new System.Windows.Forms.Button();
             this.butGenerateClassServiceTestGenerated = new System.Windows.Forms.Button();
-            this.richTextBoxStatus = new System.Windows.Forms.RichTextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.richTextBoxStatus = new System.Windows.Forms.RichTextBox();
             this.richTextBoxStatus2 = new System.Windows.Forms.RichTextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -77,16 +77,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(1015, 725);
             this.splitContainer1.SplitterDistance = 276;
             this.splitContainer1.TabIndex = 4;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(721, 28);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel2
             // 
@@ -155,15 +145,6 @@
             this.butGenerateClassServiceTestGenerated.UseVisualStyleBackColor = true;
             this.butGenerateClassServiceTestGenerated.Click += new System.EventHandler(this.butGenerateClassServiceTestGenerated_Click);
             // 
-            // richTextBoxStatus
-            // 
-            this.richTextBoxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxStatus.Location = new System.Drawing.Point(0, 0);
-            this.richTextBoxStatus.Name = "richTextBoxStatus";
-            this.richTextBoxStatus.Size = new System.Drawing.Size(497, 445);
-            this.richTextBoxStatus.TabIndex = 0;
-            this.richTextBoxStatus.Text = "";
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -181,6 +162,15 @@
             this.splitContainer2.SplitterDistance = 497;
             this.splitContainer2.TabIndex = 1;
             // 
+            // richTextBoxStatus
+            // 
+            this.richTextBoxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxStatus.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxStatus.Name = "richTextBoxStatus";
+            this.richTextBoxStatus.Size = new System.Drawing.Size(497, 445);
+            this.richTextBoxStatus.TabIndex = 0;
+            this.richTextBoxStatus.Text = "";
+            // 
             // richTextBoxStatus2
             // 
             this.richTextBoxStatus2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -190,12 +180,15 @@
             this.richTextBoxStatus2.TabIndex = 1;
             this.richTextBoxStatus2.Text = "";
             // 
-            // textBox1
+            // button1
             // 
-            this.textBox1.Location = new System.Drawing.Point(721, 58);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(169, 20);
-            this.textBox1.TabIndex = 32;
+            this.button1.Location = new System.Drawing.Point(721, 28);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 31;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -206,6 +199,13 @@
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(721, 58);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(169, 20);
+            this.textBox1.TabIndex = 32;
             // 
             // CSSPServicesGenerateCode
             // 
@@ -241,11 +241,11 @@
         private System.Windows.Forms.RichTextBox richTextBoxStatus;
         private System.Windows.Forms.Button butGenerateClassServiceGenerated;
         private System.Windows.Forms.Button butRepopulateTesDB;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.RichTextBox richTextBoxStatus2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
 
