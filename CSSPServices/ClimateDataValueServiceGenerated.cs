@@ -62,7 +62,7 @@ namespace CSSPServices
             if (ClimateSiteClimateSiteID == null)
             {
                 climateDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateSite, CSSPModelsRes.ClimateDataValueClimateSiteID, climateDataValue.ClimateSiteID.ToString()), new[] { "ClimateSiteID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateSite, CSSPModelsRes.ClimateDataValueClimateSiteID, (climateDataValue.ClimateSiteID == null ? "" : climateDataValue.ClimateSiteID.ToString())), new[] { "ClimateSiteID" });
             }
 
             if (climateDataValue.DateTime_Local.Year == 1)
@@ -206,7 +206,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 climateDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, climateDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, (climateDataValue.LastUpdateContactTVItemID == null ? "" : climateDataValue.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {

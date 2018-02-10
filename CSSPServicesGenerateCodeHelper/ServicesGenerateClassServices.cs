@@ -32,6 +32,11 @@ namespace CSSPServicesGenerateCodeHelper
         #region Functions private
         private void CreateClassServiceFunctionsPrivateRegionFillClassWeb(Type type, Type[] types, string TypeName, string TypeNameLower, StringBuilder sb)
         {
+            if (TypeName == "AspNetUser")
+            {
+                return;
+            }
+
             bool ClassContainsEnum = false;
             sb.AppendLine(@"        #region Functions private Generated " + TypeName + @"FillWeb");
             sb.AppendLine(@"        private IQueryable<" + TypeName + @"> Fill" + TypeName + @"Web(IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query, string FilterAndOrderText)");
@@ -732,22 +737,52 @@ namespace CSSPServicesGenerateCodeHelper
                 }
                 if (csspProp.IsKey)
                 {
-                    sb.AppendLine(@"        public " + TypeName + @" Get" + TypeName + @"With" + TypeName + @"ID(int " + TypeName + @"ID,");
+                    if (TypeName == "AspNetUser")
+                    {
+                        sb.AppendLine(@"        public " + TypeName + @" Get" + TypeName + @"With" + TypeName + @"ID(string Id,");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"        public " + TypeName + @" Get" + TypeName + @"With" + TypeName + @"ID(int " + TypeName + @"ID,");
+                    }
                     sb.AppendLine(@"            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,");
                     sb.AppendLine(@"            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)");
                     sb.AppendLine(@"        {");
-                    sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
-                    sb.AppendLine(@"                                                where c." + TypeName + @"ID == " + TypeName + @"ID");
-                    sb.AppendLine(@"                                                select c);");
+                    if (TypeName == "AspNetUser")
+                    {
+                        sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
+                        sb.AppendLine(@"                                                where c.Id == Id");
+                        sb.AppendLine(@"                                                select c);");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
+                        sb.AppendLine(@"                                                where c." + TypeName + @"ID == " + TypeName + @"ID");
+                        sb.AppendLine(@"                                                select c);");
+                    }
                     sb.AppendLine(@"");
                     sb.AppendLine(@"            switch (EntityQueryDetailType)");
                     sb.AppendLine(@"            {");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
                     sb.AppendLine(@"                    return " + TypeNameLower + @"Query.FirstOrDefault();");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityWeb:");
-                    sb.AppendLine(@"                    return Fill" + TypeName + @"Web(" + TypeNameLower + @"Query, """").FirstOrDefault();");
+                    if (TypeName == "AspNetUser")
+                    {
+                        sb.AppendLine(@"                    return null;");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"                    return Fill" + TypeName + @"Web(" + TypeNameLower + @"Query, """").FirstOrDefault();");
+                    }
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityReport:");
-                    sb.AppendLine(@"                    return Fill" + TypeName + @"Report(" + TypeNameLower + @"Query, """").FirstOrDefault();");
+                    if (TypeName == "AspNetUser")
+                    {
+                        sb.AppendLine(@"                    return null;");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"                    return Fill" + TypeName + @"Report(" + TypeNameLower + @"Query, """").FirstOrDefault();");
+                    }
                     sb.AppendLine(@"                default:");
                     sb.AppendLine(@"                    return null;");
                     sb.AppendLine(@"            }");
@@ -764,9 +799,23 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
                     sb.AppendLine(@"                    return " + TypeNameLower + @"Query;");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityWeb:");
-                    sb.AppendLine(@"                    return Fill" + TypeName + @"Web(" + TypeNameLower + @"Query, FilterAndOrderText).Take(MaxGetCount);");
+                    if (TypeName == "AspNetUser")
+                    {
+                        sb.AppendLine(@"                    return null;");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"                    return Fill" + TypeName + @"Web(" + TypeNameLower + @"Query, FilterAndOrderText).Take(MaxGetCount);");
+                    }
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityReport:");
-                    sb.AppendLine(@"                    return Fill" + TypeName + @"Report(" + TypeNameLower + @"Query, FilterAndOrderText).Take(MaxGetCount);");
+                    if (TypeName == "AspNetUser")
+                    {
+                        sb.AppendLine(@"                    return null;");
+                    }
+                    else
+                    {
+                        sb.AppendLine(@"                    return Fill" + TypeName + @"Report(" + TypeNameLower + @"Query, FilterAndOrderText).Take(MaxGetCount);");
+                    }
                     sb.AppendLine(@"                default:");
                     sb.AppendLine(@"                    return null;");
                     sb.AppendLine(@"            }");
@@ -1109,16 +1158,37 @@ namespace CSSPServicesGenerateCodeHelper
             {
                 sb.AppendLine(@"            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)");
                 sb.AppendLine(@"            {");
-                sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == 0)");
+                if (TypeName == "AspNetUser")
+                {
+                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == """")");
+                }
+                else
+                {
+                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == 0)");
+                }
                 sb.AppendLine(@"                {");
                 sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
                 sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                 sb.AppendLine(@"                }");
                 sb.AppendLine(@"");
-                sb.AppendLine(@"                if (!GetRead().Where(c => c." + TypeName + @"ID == " + TypeNameLower + @"." + TypeName + @"ID).Any())");
+                if (TypeName == "AspNetUser")
+                {
+                    sb.AppendLine(@"                if (!GetRead().Where(c => c.Id == " + TypeNameLower + @".Id).Any())");
+                }
+                else
+                {
+                    sb.AppendLine(@"                if (!GetRead().Where(c => c." + TypeName + @"ID == " + TypeNameLower + @"." + TypeName + @"ID).Any())");
+                }
                 sb.AppendLine(@"                {");
                 sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + TypeName + @", CSSPModelsRes." + TypeName + TypeName + @"ID, " + TypeNameLower + @"." + TypeName + @"ID.ToString()), new[] { """ + csspProp.PropName + @""" });");
+                if (TypeName == "AspNetUser")
+                {
+                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + TypeName + @", CSSPModelsRes." + TypeName + @"Id, (" + TypeNameLower + @".Id == null ? """" : " + TypeNameLower + @".Id.ToString())), new[] { """ + csspProp.PropName + @""" });");
+                }
+                else
+                {
+                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + TypeName + @", CSSPModelsRes." + TypeName + TypeName + @"ID, " + TypeNameLower + @"." + TypeName + @"ID.ToString()), new[] { """ + csspProp.PropName + @""" });");
+                }
                 sb.AppendLine(@"                }");
                 sb.AppendLine(@"            }");
                 sb.AppendLine(@"");
@@ -1185,7 +1255,7 @@ namespace CSSPServicesGenerateCodeHelper
                         sb.AppendLine(@"                if (" + csspProp.ExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"                {");
                         sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
+                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", (" + TypeNameLower + "." + csspProp.PropName + @" == null ? """" : " + TypeNameLower + "." + csspProp.PropName + @".ToString())), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"                }");
                         if (csspProp.ExistTypeName == "TVItem")
                         {
@@ -1215,7 +1285,7 @@ namespace CSSPServicesGenerateCodeHelper
                         sb.AppendLine(@"            if (" + csspProp.ExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"            {");
                         sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
+                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", (" + TypeNameLower + "." + csspProp.PropName + @" == null ? """" : " + TypeNameLower + "." + csspProp.PropName + @".ToString())), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"            }");
                         if (csspProp.ExistTypeName == "TVItem")
                         {

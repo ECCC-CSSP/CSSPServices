@@ -44,6 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 1;
             if (OmitPropName != "Parameters") tvFile.Parameters = GetRandomString("", 20);
+            if (OmitPropName != "Year") tvFile.Year = GetRandomInt(1980, 2050);
             if (OmitPropName != "Language") tvFile.Language = LanguageRequest;
             if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
             if (OmitPropName != "FileType") tvFile.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
@@ -186,6 +187,25 @@ namespace CSSPServices.Tests
                     // tvFile.Parameters   (String)
                     // -----------------------------------
 
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(1980, 2050)]
+                    // tvFile.Year   (Int32)
+                    // -----------------------------------
+
+                    tvFile = null;
+                    tvFile = GetFilledRandomTVFile("");
+                    tvFile.Year = 1979;
+                    Assert.AreEqual(false, tvFileService.Add(tvFile));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileYear, "1980", "2050"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    tvFile = null;
+                    tvFile = GetFilledRandomTVFile("");
+                    tvFile.Year = 2051;
+                    Assert.AreEqual(false, tvFileService.Add(tvFile));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileYear, "1980", "2050"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -465,6 +485,10 @@ namespace CSSPServices.Tests
                         if (tvFileRet.Parameters != null)
                         {
                             Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.Parameters));
+                        }
+                        if (tvFileRet.Year != null)
+                        {
+                            Assert.IsNotNull(tvFileRet.Year);
                         }
                         Assert.IsNotNull(tvFileRet.Language);
                         Assert.IsNotNull(tvFileRet.FilePurpose);

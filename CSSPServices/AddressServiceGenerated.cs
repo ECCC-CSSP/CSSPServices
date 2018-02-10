@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemAddressTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { "AddressTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressAddressTVItemID, (address.AddressTVItemID == null ? "" : address.AddressTVItemID.ToString())), new[] { "AddressTVItemID" });
             }
             else
             {
@@ -89,7 +89,7 @@ namespace CSSPServices
             if (TVItemCountryTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressCountryTVItemID, address.CountryTVItemID.ToString()), new[] { "CountryTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressCountryTVItemID, (address.CountryTVItemID == null ? "" : address.CountryTVItemID.ToString())), new[] { "CountryTVItemID" });
             }
             else
             {
@@ -109,7 +109,7 @@ namespace CSSPServices
             if (TVItemProvinceTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressProvinceTVItemID, address.ProvinceTVItemID.ToString()), new[] { "ProvinceTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressProvinceTVItemID, (address.ProvinceTVItemID == null ? "" : address.ProvinceTVItemID.ToString())), new[] { "ProvinceTVItemID" });
             }
             else
             {
@@ -129,7 +129,7 @@ namespace CSSPServices
             if (TVItemMunicipalityTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressMunicipalityTVItemID, address.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressMunicipalityTVItemID, (address.MunicipalityTVItemID == null ? "" : address.MunicipalityTVItemID.ToString())), new[] { "MunicipalityTVItemID" });
             }
             else
             {
@@ -197,7 +197,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressLastUpdateContactTVItemID, address.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressLastUpdateContactTVItemID, (address.LastUpdateContactTVItemID == null ? "" : address.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {

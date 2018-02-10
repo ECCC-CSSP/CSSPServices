@@ -69,12 +69,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactId, "128"), new[] { "Id" });
             }
 
+            AspNetUser AspNetUserId = (from c in db.AspNetUsers where c.Id == contact.Id select c).FirstOrDefault();
+
+            if (AspNetUserId == null)
+            {
+                contact.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AspNetUser, CSSPModelsRes.ContactId, (contact.Id == null ? "" : contact.Id.ToString())), new[] { "Id" });
+            }
+
             TVItem TVItemContactTVItemID = (from c in db.TVItems where c.TVItemID == contact.ContactTVItemID select c).FirstOrDefault();
 
             if (TVItemContactTVItemID == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactContactTVItemID, (contact.ContactTVItemID == null ? "" : contact.ContactTVItemID.ToString())), new[] { "ContactTVItemID" });
             }
             else
             {
@@ -169,14 +177,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
             }
 
-                //Error: Type not implemented [PasswordHash] of type [Byte[]]
-                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
-            if (!string.IsNullOrWhiteSpace(contact.Password) && contact.Password.Length > 50)
-            {
-                contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPassword, "50"), new[] { "Password" });
-            }
-
             if (contact.LastUpdateDate_UTC.Year == 1)
             {
                 contact.HasErrors = true;
@@ -196,7 +196,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactLastUpdateContactTVItemID, contact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactLastUpdateContactTVItemID, (contact.LastUpdateContactTVItemID == null ? "" : contact.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -342,9 +342,6 @@ namespace CSSPServices
                         Disabled = c.Disabled,
                         IsNew = c.IsNew,
                         SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
-                        PasswordHash = c.PasswordHash,
-                        PasswordSalt = c.PasswordSalt,
-                        Password = c.Password,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         ContactWeb = new ContactWeb

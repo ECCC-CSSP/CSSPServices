@@ -226,8 +226,8 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRRoot.TVItemID = tvItemRoot.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRRoot)) return false;
             #endregion  TVItem Root
-            #region TVItem Contact Charles
-            StatusTempEvent(new StatusEventArgs("doing ... TVItem Contact Charles"));
+            #region Contact Charles with TVItem
+            StatusTempEvent(new StatusEventArgs("doing ... Contact Charles with TVItem"));
             // TVItem Charles G. LeBlanc TVItemID = 2
             TVItem tvItemContactCharles = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 2).FirstOrDefault();
             tvItemContactCharles.ParentID = tvItemRoot.TVItemID;
@@ -244,47 +244,17 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRContactCharles.TVItemID = tvItemContactCharles.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRContactCharles)) return false;
 
-            if (!AddMapInfo(tvItemRoot, RootTVItemID, tvItemContactCharles.TVItemID)) return false;
+            StatusTempEvent(new StatusEventArgs("doing ... Contact Charles with TVItem"));
 
-            #endregion TVItem Contact Charles
-            #region Contact and ContactLogin Charles
-            StatusTempEvent(new StatusEventArgs("doing ... Contact and ContactLogin Charles"));
-
-            byte[] PasswordHash;
-            byte[] PasswordSalt;
             ContactService contactService = new ContactService(LanguageEnum.en, dbTestDBWrite, 2);
-            contactService.CreatePasswordHash("Charles2!", out PasswordHash, out PasswordSalt);
 
             // Contact Charles G. LeBlanc
             Contact contactCharles = dbCSSPWebToolsDBRead.Contacts.AsNoTracking().Where(c => c.ContactTVItemID == 2).FirstOrDefault();
-            contactCharles.PasswordHash = PasswordHash;
-            contactCharles.PasswordSalt = PasswordSalt;
+            AspNetUser aspNetUserCharles = dbCSSPWebToolsDBRead.AspNetUsers.AsNoTracking().Where(c => c.Id == contactCharles.Id).FirstOrDefault();
+            if (!AddObject("AspNetUser", aspNetUserCharles)) return false;
             if (!AddObject("Contact", contactCharles)) return false;
-       
-            //Register register = new Register();
-            //register.LoginEmail = contactCharles.LoginEmail;
-            //register.FirstName = contactCharles.FirstName;
-            //register.Initial = contactCharles.Initial;
-            //register.LastName = contactCharles.LastName;
-            //register.WebName = contactCharles.WebName;
-            //register.Password = "aaaaaa2!";
-            //register.ConfirmPassword = register.Password;
-
-            //ContactService contactService = new ContactService(LanguageEnum.en, dbTestDBWrite, 2);
-            //contactService.CreatePasswordHash(register.Password, out PasswordHash, out PasswordSalt);
-
-            //ContactLogin contactLoginCharles = new ContactLogin();
-            //contactLoginCharles.ContactID = contactCharles.ContactID;
-            //contactLoginCharles.LoginEmail = contactCharles.LoginEmail;
-            //contactLoginCharles.PasswordHash = PasswordHash;
-            //contactLoginCharles.PasswordSalt = PasswordSalt;
-            //contactLoginCharles.LastUpdateDate_UTC = DateTime.UtcNow;
-            //contactLoginCharles.LastUpdateContactTVItemID = contactCharles.ContactTVItemID;
-
-            //// ContactLogin Charles G. LeBlanc
-            //if (!AddObject("ContactLogin", contactLoginCharles)) return false;
-            #endregion Contact and ContactLogin Charles
-            #region Contact and ContactLogin Test User 1
+            #endregion Contact Charles with TVItem
+            #region Contact Test User 1 with TVItem
             StatusTempEvent(new StatusEventArgs("doing ... TVItem Contact and Contact Login test user 1"));
             // TVItem Test User 1 TVItemID = 3
             TVItem tvItemContactTestUser1 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 3).FirstOrDefault();
@@ -302,37 +272,13 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRContactTestUser1.TVItemID = tvItemContactTestUser1.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRContactTestUser1)) return false;
 
-            contactService.CreatePasswordHash("aaaaaa2!", out PasswordHash, out PasswordSalt);
-
             // Contact Test User 1
             Contact contactTestUser1 = dbCSSPWebToolsDBRead.Contacts.AsNoTracking().Where(c => c.ContactTVItemID == 3).FirstOrDefault();
-            contactTestUser1.PasswordHash = PasswordHash;
-            contactTestUser1.PasswordSalt = PasswordSalt;
+            AspNetUser aspNetUserTestUser1 = dbCSSPWebToolsDBRead.AspNetUsers.AsNoTracking().Where(c => c.Id == contactTestUser1.Id).FirstOrDefault();
+            if (!AddObject("AspNetUser", aspNetUserTestUser1)) return false;
             if (!AddObject("Contact", contactTestUser1)) return false;
-
-            //register = new Register();
-            //register.LoginEmail = contactTestUser1.LoginEmail;
-            //register.FirstName = contactTestUser1.FirstName;
-            //register.Initial = contactTestUser1.Initial;
-            //register.LastName = contactTestUser1.LastName;
-            //register.WebName = contactTestUser1.WebName;
-            //register.Password = "aaaaaa2!";
-            //register.ConfirmPassword = register.Password;
-
-            //contactService.CreatePasswordHashAndSalt(register, out PasswordHash, out PasswordSalt);
-
-            //ContactLogin contactLoginTestUser1 = new ContactLogin();
-            //contactLoginTestUser1.ContactID = contactTestUser1.ContactID;
-            //contactLoginTestUser1.LoginEmail = contactTestUser1.LoginEmail;
-            //contactLoginTestUser1.PasswordHash = PasswordHash;
-            //contactLoginTestUser1.PasswordSalt = PasswordSalt;
-            //contactLoginTestUser1.LastUpdateDate_UTC = DateTime.UtcNow;
-            //contactLoginTestUser1.LastUpdateContactTVItemID = contactTestUser1.ContactTVItemID;
-
-            //// ContactLogin Test User 1
-            //if (!AddObject("ContactLogin", contactLoginTestUser1)) return false;
-            #endregion Contact and ContactLogin Test User 1
-            #region Contact and ContactLogin Test User 2
+            #endregion Contact Test User 1 with TVItem
+            #region Contact Test User 2 with TVItem
             StatusTempEvent(new StatusEventArgs("doing ... TVItem Contact and Contact Login test user 1"));
 
             // TVItem Test User 2 TVItemID = 4
@@ -351,36 +297,12 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRContactTestUser2.TVItemID = tvItemContactTestUser2.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRContactTestUser2)) return false;
 
-            contactService.CreatePasswordHash("aaaaaa2!", out PasswordHash, out PasswordSalt);
-
             // Contact Test User 2
             Contact contactTestUser2 = dbCSSPWebToolsDBRead.Contacts.AsNoTracking().Where(c => c.ContactTVItemID == 4).FirstOrDefault();
-            contactTestUser2.PasswordHash = PasswordHash;
-            contactTestUser2.PasswordSalt = PasswordSalt;
+            AspNetUser aspNetUserTestUser2 = dbCSSPWebToolsDBRead.AspNetUsers.AsNoTracking().Where(c => c.Id == contactTestUser2.Id).FirstOrDefault();
+            if (!AddObject("AspNetUser", aspNetUserTestUser2)) return false;
             if (!AddObject("Contact", contactTestUser2)) return false;
-
-            //register = new Register();
-            //register.LoginEmail = contactTestUser2.LoginEmail;
-            //register.FirstName = contactTestUser2.FirstName;
-            //register.Initial = contactTestUser2.Initial;
-            //register.LastName = contactTestUser2.LastName;
-            //register.WebName = contactTestUser2.WebName;
-            //register.Password = "aaaaaa2!";
-            //register.ConfirmPassword = register.Password;
-
-            //contactService.CreatePasswordHashAndSalt(register, out PasswordHash, out PasswordSalt);
-
-            //ContactLogin contactLoginTestUser2 = new ContactLogin();
-            //contactLoginTestUser2.ContactID = contactTestUser2.ContactID;
-            //contactLoginTestUser2.LoginEmail = contactTestUser2.LoginEmail;
-            //contactLoginTestUser2.PasswordHash = PasswordHash;
-            //contactLoginTestUser2.PasswordSalt = PasswordSalt;
-            //contactLoginTestUser2.LastUpdateDate_UTC = DateTime.Now;
-            //contactLoginTestUser2.LastUpdateContactTVItemID = contactTestUser2.ContactTVItemID;
-
-            //// ContactLogin Test User 1
-            //if (!AddObject("ContactLogin", contactLoginTestUser2)) return false;
-            #endregion Contact and ContactLogin Test User 2
+            #endregion Contact Test User 2 with TVItem
             #region TVItem Country Canada
             StatusTempEvent(new StatusEventArgs("doing ... Canada"));
             // TVItem Canada TVItemID = 5
@@ -1698,6 +1620,11 @@ namespace CSSPServicesGenerateCodeHelper
                         ((AppTaskLanguage)objTarget).AppTaskLanguageID = 0;
                         ((AppTaskLanguage)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.AppTaskLanguages.Add((AppTaskLanguage)objTarget);
+                    }
+                    break;
+                case "AspNetUser":
+                    {
+                        dbTestDBWrite.AspNetUsers.Add((AspNetUser)objTarget);
                     }
                     break;
                 case "BoxModel":

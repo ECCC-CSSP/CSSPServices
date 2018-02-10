@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTVFileTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileTVFileTVItemID, (tvFile.TVFileTVItemID == null ? "" : tvFile.TVFileTVItemID.ToString())), new[] { "TVFileTVItemID" });
             }
             else
             {
@@ -91,11 +91,20 @@ namespace CSSPServices
                 if (ReportTypeReportTypeID == null)
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.TVFileReportTypeID, tvFile.ReportTypeID.ToString()), new[] { "ReportTypeID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.TVFileReportTypeID, (tvFile.ReportTypeID == null ? "" : tvFile.ReportTypeID.ToString())), new[] { "ReportTypeID" });
                 }
             }
 
             //Parameters has no StringLength Attribute
+
+            if (tvFile.Year != null)
+            {
+                if (tvFile.Year < 1980 || tvFile.Year > 2050)
+                {
+                    tvFile.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileYear, "1980", "2050"), new[] { "Year" });
+                }
+            }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFile.Language);
             if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -189,7 +198,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLastUpdateContactTVItemID, (tvFile.LastUpdateContactTVItemID == null ? "" : tvFile.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -326,6 +335,7 @@ namespace CSSPServices
                         TemplateTVType = c.TemplateTVType,
                         ReportTypeID = c.ReportTypeID,
                         Parameters = c.Parameters,
+                        Year = c.Year,
                         Language = c.Language,
                         FilePurpose = c.FilePurpose,
                         FileType = c.FileType,

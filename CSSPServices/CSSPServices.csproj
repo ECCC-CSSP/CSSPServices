@@ -363,7 +363,9 @@
     <Compile Include="AppErrLogServiceGenerated.cs" />
     <Compile Include="AppTaskLanguageServiceGenerated.cs" />
     <Compile Include="AppTaskParameterServiceGenerated.cs" />
+    <Compile Include="AspNetUserServiceExtra.cs" />
     <Compile Include="AppTaskServiceGenerated.cs" />
+    <Compile Include="AspNetUserServiceGenerated.cs" />
     <Compile Include="BoxModelCalNumbServiceGenerated.cs" />
     <Compile Include="BoxModelLanguageServiceGenerated.cs" />
     <Compile Include="BoxModelResultServiceGenerated.cs" />
@@ -589,9 +591,6 @@
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

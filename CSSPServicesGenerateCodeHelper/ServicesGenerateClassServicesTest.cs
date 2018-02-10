@@ -433,7 +433,14 @@ namespace CSSPServicesGenerateCodeHelper
                             {
                                 sb.AppendLine(@"                    Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                             }
-                            sb.AppendLine(@"                    Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
+                            if (TypeName == "Contact" && csspProp.PropName == "Id")
+                            {
+                                sb.AppendLine(@"                    Assert.AreEqual(2, " + TypeNameLower + @".ValidationResults.Count());");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"                    Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
+                            }
                             sb.AppendLine(@"                    Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + csspProp.PropName + @")).Any());");
                             sb.AppendLine(@"                    Assert.AreEqual(null, " + TypeNameLower + @"." + csspProp.PropName + @");");
                             sb.AppendLine(@"                    Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
@@ -1037,7 +1044,35 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     StrLen = csspProp.Max;
                                 }
-                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
+                                if (TypeName == "Contact" && csspProp.HasCSSPExistAttribute)
+                                {
+                                    switch (csspProp.ExistTypeName)
+                                    {
+                                        case "AspNetUser":
+                                            {
+                                                AspNetUserService AspNetUserService = new AspNetUserService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                                AspNetUser AspNetUser = AspNetUserService.GetRead().FirstOrDefault();
+                                                if (AspNetUser == null)
+                                                {
+                                                    sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
+                                                }
+                                                else
+                                                {
+                                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = """ + AspNetUser.Id + @""";");
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            {
+                                                sb.AppendLine(@"            // Need to implement [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
+                                            }
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
+                                }
                             }
                             else
                             {
@@ -1151,10 +1186,15 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                 }
 
-                //if (TypeName != "ReportSectionLanguage")
+                //if (TypeName != "Contact")
                 //{
                 //    continue;
                 //}
+
+                if (TypeName == "AspNetUser")
+                {
+                    continue;
+                }
 
                 sb.AppendLine(@"using System;");
                 sb.AppendLine(@"using Microsoft.VisualStudio.TestTools.UnitTesting;");
@@ -1477,61 +1517,65 @@ namespace CSSPServicesGenerateCodeHelper
                         if (types.Where(c => c.Name.EndsWith("Web")).Any())
                         {
                             Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
-                            foreach (PropertyInfo prop in typeWeb.GetProperties())
+                            if (typeWeb != null)
                             {
-                                CSSPProp csspProp = new CSSPProp();
-                                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
+                                foreach (PropertyInfo prop in typeWeb.GetProperties())
                                 {
-                                    return;
-                                }
-                                if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                {
-                                    continue;
-                                }
-
-                                if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                {
-                                    continue;
-                                }
-
-                                if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                {
-                                    continue;
-                                }
-
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
-                                    sb.AppendLine(@"                            {");
-                                }
-                                if (csspProp.PropType == "Int32")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
-                                }
-                                else if (csspProp.PropType == "Single")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                }
-                                else if (csspProp.PropType == "Double")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                }
-                                else
-                                {
-                                    if (csspProp.PropType == "String")
+                                    CSSPProp csspProp = new CSSPProp();
+                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
                                     {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @"));");
+                                        return;
+                                    }
+                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
+                                        sb.AppendLine(@"                            {");
+                                    }
+                                    if (csspProp.PropType == "Int32")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
+                                    }
+                                    else if (csspProp.PropType == "Single")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
+                                    }
+                                    else if (csspProp.PropType == "Double")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
                                     }
                                     else
                                     {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @");");
+                                        if (csspProp.PropType == "String")
+                                        {
+                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @"));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @");");
+                                        }
+                                    }
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                            }");
                                     }
                                 }
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"                            }");
-                                }
                             }
+
                             if (types.Where(c => c.Name == (TypeName + "Report")).Any())
                             {
                                 sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"Ret." + TypeName + @"Report);");
@@ -1544,118 +1588,124 @@ namespace CSSPServicesGenerateCodeHelper
                         if (types.Where(c => c.Name == (TypeName + "Web")).Any())
                         {
                             Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
-                            foreach (PropertyInfo prop in typeWeb.GetProperties())
+                            if (typeWeb != null)
                             {
-                                CSSPProp csspProp = new CSSPProp();
-                                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
+                                foreach (PropertyInfo prop in typeWeb.GetProperties())
                                 {
-                                    return;
-                                }
-                                if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                {
-                                    continue;
-                                }
-
-                                if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                {
-                                    continue;
-                                }
-
-                                if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                {
-                                    continue;
-                                }
-
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
-                                    sb.AppendLine(@"                            {");
-                                }
-                                if (csspProp.PropType == "Int32")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
-                                }
-                                else if (csspProp.PropType == "Single")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                }
-                                else if (csspProp.PropType == "Double")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                }
-                                else
-                                {
-                                    if (csspProp.PropType == "String")
+                                    CSSPProp csspProp = new CSSPProp();
+                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
                                     {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @"));");
+                                        return;
+                                    }
+                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
+                                        sb.AppendLine(@"                            {");
+                                    }
+                                    if (csspProp.PropType == "Int32")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
+                                    }
+                                    else if (csspProp.PropType == "Single")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
+                                    }
+                                    else if (csspProp.PropType == "Double")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
                                     }
                                     else
                                     {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @");");
+                                        if (csspProp.PropType == "String")
+                                        {
+                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @"));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @");");
+                                        }
+                                    }
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                            }");
                                     }
                                 }
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"                            }");
-                                }
                             }
-                          }
+                        }
                         if (types.Where(c => c.Name == (TypeName + "Report")).Any())
                         {
                             Type typeReport = types.Where(c => c.Name == (TypeName + "Report")).FirstOrDefault();
-                            foreach (PropertyInfo prop in typeReport.GetProperties())
+                            if (typeReport != null)
                             {
-                                CSSPProp csspProp = new CSSPProp();
-                                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeReport))
+                                foreach (PropertyInfo prop in typeReport.GetProperties())
                                 {
-                                    return;
-                                }
-                                if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                {
-                                    continue;
-                                }
-
-                                if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                {
-                                    continue;
-                                }
-
-                                if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                {
-                                    continue;
-                                }
-
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" != null)");
-                                    sb.AppendLine(@"                            {");
-                                }
-                                if (csspProp.PropType == "Int32")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0);");
-                                }
-                                else if (csspProp.PropType == "Single")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                }
-                                else if (csspProp.PropType == "Double")
-                                {
-                                    sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                }
-                                else
-                                {
-                                    if (csspProp.PropType == "String")
+                                    CSSPProp csspProp = new CSSPProp();
+                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeReport))
                                     {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @"));");
+                                        return;
+                                    }
+                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" != null)");
+                                        sb.AppendLine(@"                            {");
+                                    }
+                                    if (csspProp.PropType == "Int32")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0);");
+                                    }
+                                    else if (csspProp.PropType == "Single")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0f);");
+                                    }
+                                    else if (csspProp.PropType == "Double")
+                                    {
+                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0D);");
                                     }
                                     else
                                     {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @");");
+                                        if (csspProp.PropType == "String")
+                                        {
+                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @"));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @");");
+                                        }
                                     }
-                                }
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"                            }");
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                            }");
+                                    }
                                 }
                             }
                         }
