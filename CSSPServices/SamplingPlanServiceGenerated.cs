@@ -207,6 +207,36 @@ namespace CSSPServices
                 }
             }
 
+            if (samplingPlan.AnalyzeMethodDefault != null)
+            {
+                retStr = enums.EnumTypeOK(typeof(AnalyzeMethodEnum), (int?)samplingPlan.AnalyzeMethodDefault);
+                if (samplingPlan.AnalyzeMethodDefault == AnalyzeMethodEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    samplingPlan.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanAnalyzeMethodDefault), new[] { "AnalyzeMethodDefault" });
+                }
+            }
+
+            if (samplingPlan.SampleMatrixDefault != null)
+            {
+                retStr = enums.EnumTypeOK(typeof(SampleMatrixEnum), (int?)samplingPlan.SampleMatrixDefault);
+                if (samplingPlan.SampleMatrixDefault == SampleMatrixEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    samplingPlan.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSampleMatrixDefault), new[] { "SampleMatrixDefault" });
+                }
+            }
+
+            if (samplingPlan.LaboratoryDefault != null)
+            {
+                retStr = enums.EnumTypeOK(typeof(LaboratoryEnum), (int?)samplingPlan.LaboratoryDefault);
+                if (samplingPlan.LaboratoryDefault == LaboratoryEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    samplingPlan.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLaboratoryDefault), new[] { "LaboratoryDefault" });
+                }
+            }
+
             if (samplingPlan.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlan.HasErrors = true;
@@ -380,6 +410,9 @@ namespace CSSPServices
                         IncludeLaboratoryQAQC = c.IncludeLaboratoryQAQC,
                         ApprovalCode = c.ApprovalCode,
                         SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
+                        AnalyzeMethodDefault = c.AnalyzeMethodDefault,
+                        SampleMatrixDefault = c.SampleMatrixDefault,
+                        LaboratoryDefault = c.LaboratoryDefault,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         SamplingPlanWeb = new SamplingPlanWeb

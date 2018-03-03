@@ -43,6 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PolSourceObservationID") polSourceObservationIssue.PolSourceObservationID = 1;
             if (OmitPropName != "ObservationInfo") polSourceObservationIssue.ObservationInfo = GetRandomString("", 5);
             if (OmitPropName != "Ordinal") polSourceObservationIssue.Ordinal = GetRandomInt(0, 1000);
+            if (OmitPropName != "ExtraComment") polSourceObservationIssue.ExtraComment = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") polSourceObservationIssue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservationIssue.LastUpdateContactTVItemID = 2;
 
@@ -180,6 +181,12 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
+                    // polSourceObservationIssue.ExtraComment   (String)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
                     // [NotMapped]
                     // polSourceObservationIssue.PolSourceObservationIssueWeb   (PolSourceObservationIssueWeb)
                     // -----------------------------------
@@ -308,6 +315,10 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationID);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.ObservationInfo));
                         Assert.IsNotNull(polSourceObservationIssueRet.Ordinal);
+                        if (polSourceObservationIssueRet.ExtraComment != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.ExtraComment));
+                        }
                         Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVItemID);
 

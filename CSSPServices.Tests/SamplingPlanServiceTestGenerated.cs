@@ -54,6 +54,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IncludeLaboratoryQAQC") samplingPlan.IncludeLaboratoryQAQC = true;
             if (OmitPropName != "ApprovalCode") samplingPlan.ApprovalCode = GetRandomString("", 5);
             if (OmitPropName != "SamplingPlanFileTVItemID") samplingPlan.SamplingPlanFileTVItemID = 17;
+            if (OmitPropName != "AnalyzeMethodDefault") samplingPlan.AnalyzeMethodDefault = (AnalyzeMethodEnum)GetRandomEnumType(typeof(AnalyzeMethodEnum));
+            if (OmitPropName != "SampleMatrixDefault") samplingPlan.SampleMatrixDefault = (SampleMatrixEnum)GetRandomEnumType(typeof(SampleMatrixEnum));
+            if (OmitPropName != "LaboratoryDefault") samplingPlan.LaboratoryDefault = (LaboratoryEnum)GetRandomEnumType(typeof(LaboratoryEnum));
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlan.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlan.LastUpdateContactTVItemID = 2;
 
@@ -389,6 +392,45 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
+                    // [CSSPEnumType]
+                    // samplingPlan.AnalyzeMethodDefault   (AnalyzeMethodEnum)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.AnalyzeMethodDefault = (AnalyzeMethodEnum)1000000;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanAnalyzeMethodDefault), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPEnumType]
+                    // samplingPlan.SampleMatrixDefault   (SampleMatrixEnum)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SampleMatrixDefault = (SampleMatrixEnum)1000000;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSampleMatrixDefault), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPEnumType]
+                    // samplingPlan.LaboratoryDefault   (LaboratoryEnum)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.LaboratoryDefault = (LaboratoryEnum)1000000;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLaboratoryDefault), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
                     // [NotMapped]
                     // samplingPlan.SamplingPlanWeb   (SamplingPlanWeb)
                     // -----------------------------------
@@ -530,6 +572,18 @@ namespace CSSPServices.Tests
                         if (samplingPlanRet.SamplingPlanFileTVItemID != null)
                         {
                             Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVItemID);
+                        }
+                        if (samplingPlanRet.AnalyzeMethodDefault != null)
+                        {
+                            Assert.IsNotNull(samplingPlanRet.AnalyzeMethodDefault);
+                        }
+                        if (samplingPlanRet.SampleMatrixDefault != null)
+                        {
+                            Assert.IsNotNull(samplingPlanRet.SampleMatrixDefault);
+                        }
+                        if (samplingPlanRet.LaboratoryDefault != null)
+                        {
+                            Assert.IsNotNull(samplingPlanRet.LaboratoryDefault);
                         }
                         Assert.IsNotNull(samplingPlanRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVItemID);

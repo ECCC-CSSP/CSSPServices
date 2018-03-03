@@ -83,6 +83,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.PolSourceObservationIssueOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
+            //ExtraComment has no StringLength Attribute
+
             if (polSourceObservationIssue.LastUpdateDate_UTC.Year == 1)
             {
                 polSourceObservationIssue.HasErrors = true;
@@ -227,6 +229,7 @@ namespace CSSPServices
                         PolSourceObservationID = c.PolSourceObservationID,
                         ObservationInfo = c.ObservationInfo,
                         Ordinal = c.Ordinal,
+                        ExtraComment = c.ExtraComment,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         PolSourceObservationIssueWeb = new PolSourceObservationIssueWeb
