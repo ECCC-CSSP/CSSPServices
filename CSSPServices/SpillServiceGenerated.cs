@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SpillService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public SpillService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -177,15 +177,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Spill GetSpillWithSpillID(int SpillID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public Spill GetSpillWithSpillID(int SpillID, GetParam getParam)
         {
-            IQueryable<Spill> spillQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Spill> spillQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SpillID == SpillID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillQuery.FirstOrDefault();
@@ -197,21 +195,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<Spill> GetSpillList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<Spill> GetSpillList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<Spill> spillQuery = (from c in GetRead()
+            IQueryable<Spill> spillQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return spillQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            spillQuery  = spillQuery.OrderByDescending(c => c.SpillID);
+                        }
+                        spillQuery = spillQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return spillQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSpillWeb(spillQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            spillQuery = FillSpillWeb(spillQuery, FilterAndOrderText).OrderByDescending(c => c.SpillID);
+                        }
+                        spillQuery = FillSpillWeb(spillQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return spillQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSpillReport(spillQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            spillQuery = FillSpillReport(spillQuery, FilterAndOrderText).OrderByDescending(c => c.SpillID);
+                        }
+                        spillQuery = FillSpillReport(spillQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return spillQuery;
+                    }
                 default:
                     return null;
             }

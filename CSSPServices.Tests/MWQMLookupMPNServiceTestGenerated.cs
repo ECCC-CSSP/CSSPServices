@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, dbTestDB, ContactID);
+                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -300,28 +300,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new GetParam(), dbTestDB, ContactID);
                     MWQMLookupMPN mwqmLookupMPN = (from c in mwqmLookupMPNService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmLookupMPN);
 
                     MWQMLookupMPN mwqmLookupMPNRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
+                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, getParam);
+                            Assert.IsNull(mwqmLookupMPNRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, EntityQueryDetailTypeEnum.EntityOnly);
+                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, EntityQueryDetailTypeEnum.EntityWeb);
+                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, EntityQueryDetailTypeEnum.EntityReport);
+                            mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID, getParam);
                         }
                         else
                         {

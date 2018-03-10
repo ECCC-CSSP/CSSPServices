@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MapObjService mapObjService = new MapObjService(LanguageRequest, dbTestDB, ContactID);
+                    MapObjService mapObjService = new MapObjService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

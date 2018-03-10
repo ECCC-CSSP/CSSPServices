@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public DocTemplateService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public DocTemplateService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -148,15 +148,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID, GetParam getParam)
         {
-            IQueryable<DocTemplate> docTemplateQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<DocTemplate> docTemplateQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.DocTemplateID == DocTemplateID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return docTemplateQuery.FirstOrDefault();
@@ -168,21 +166,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<DocTemplate> GetDocTemplateList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<DocTemplate> GetDocTemplateList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<DocTemplate> docTemplateQuery = (from c in GetRead()
+            IQueryable<DocTemplate> docTemplateQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return docTemplateQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            docTemplateQuery  = docTemplateQuery.OrderByDescending(c => c.DocTemplateID);
+                        }
+                        docTemplateQuery = docTemplateQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return docTemplateQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillDocTemplateWeb(docTemplateQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            docTemplateQuery = FillDocTemplateWeb(docTemplateQuery, FilterAndOrderText).OrderByDescending(c => c.DocTemplateID);
+                        }
+                        docTemplateQuery = FillDocTemplateWeb(docTemplateQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return docTemplateQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillDocTemplateReport(docTemplateQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            docTemplateQuery = FillDocTemplateReport(docTemplateQuery, FilterAndOrderText).OrderByDescending(c => c.DocTemplateID);
+                        }
+                        docTemplateQuery = FillDocTemplateReport(docTemplateQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return docTemplateQuery;
+                    }
                 default:
                     return null;
             }

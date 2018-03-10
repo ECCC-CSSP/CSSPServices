@@ -73,7 +73,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, dbTestDB, ContactID);
+                    ClimateDataValueService climateDataValueService = new ClimateDataValueService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -544,28 +544,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    ClimateDataValueService climateDataValueService = new ClimateDataValueService(new GetParam(), dbTestDB, ContactID);
                     ClimateDataValue climateDataValue = (from c in climateDataValueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(climateDataValue);
 
                     ClimateDataValue climateDataValueRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID);
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, getParam);
+                            Assert.IsNull(climateDataValueRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityOnly);
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityWeb);
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, EntityQueryDetailTypeEnum.EntityReport);
+                            climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID, getParam);
                         }
                         else
                         {

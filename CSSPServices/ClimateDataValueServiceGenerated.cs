@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ClimateDataValueService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public ClimateDataValueService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -232,15 +232,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ClimateDataValue GetClimateDataValueWithClimateDataValueID(int ClimateDataValueID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public ClimateDataValue GetClimateDataValueWithClimateDataValueID(int ClimateDataValueID, GetParam getParam)
         {
-            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ClimateDataValueID == ClimateDataValueID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateDataValueQuery.FirstOrDefault();
@@ -252,21 +250,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<ClimateDataValue> GetClimateDataValueList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<ClimateDataValue> GetClimateDataValueList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in GetRead()
+            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return climateDataValueQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            climateDataValueQuery  = climateDataValueQuery.OrderByDescending(c => c.ClimateDataValueID);
+                        }
+                        climateDataValueQuery = climateDataValueQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return climateDataValueQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillClimateDataValueWeb(climateDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            climateDataValueQuery = FillClimateDataValueWeb(climateDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.ClimateDataValueID);
+                        }
+                        climateDataValueQuery = FillClimateDataValueWeb(climateDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return climateDataValueQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateDataValueReport(climateDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            climateDataValueQuery = FillClimateDataValueReport(climateDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.ClimateDataValueID);
+                        }
+                        climateDataValueQuery = FillClimateDataValueReport(climateDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return climateDataValueQuery;
+                    }
                 default:
                     return null;
             }

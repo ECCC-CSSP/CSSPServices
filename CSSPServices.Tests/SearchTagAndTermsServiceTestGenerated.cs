@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(LanguageRequest, dbTestDB, ContactID);
+                    SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

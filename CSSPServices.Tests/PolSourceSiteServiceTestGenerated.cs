@@ -65,7 +65,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolSourceSiteService polSourceSiteService = new PolSourceSiteService(LanguageRequest, dbTestDB, ContactID);
+                    PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -355,28 +355,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolSourceSiteService polSourceSiteService = new PolSourceSiteService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new GetParam(), dbTestDB, ContactID);
                     PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceSite);
 
                     PolSourceSite polSourceSiteRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
+                            Assert.IsNull(polSourceSiteRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityOnly);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityWeb);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, EntityQueryDetailTypeEnum.EntityReport);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
                         }
                         else
                         {

@@ -16,19 +16,19 @@ using CSSPEnums.Resources;
 namespace CSSPServices.Tests
 {
     [TestClass]
-    public partial class VPFullServiceTest : TestHelper
+    public partial class GetParamServiceTest : TestHelper
     {
         #region Variables
         #endregion Variables
 
         #region Properties
-        //private VPFullService vpFullService { get; set; }
+        //private GetParamService getParamService { get; set; }
         #endregion Properties
 
         #region Constructors
-        public VPFullServiceTest() : base()
+        public GetParamServiceTest() : base()
         {
-            //vpFullService = new VPFullService(LanguageRequest, dbTestDB, ContactID);
+            //getParamService = new GetParamService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -36,18 +36,24 @@ namespace CSSPServices.Tests
         #endregion Functions public
 
         #region Functions private
-        private VPFull GetFilledRandomVPFull(string OmitPropName)
+        private GetParam GetFilledRandomGetParam(string OmitPropName)
         {
-            VPFull vpFull = new VPFull();
+            GetParam getParam = new GetParam();
 
+            if (OmitPropName != "Language") getParam.Language = LanguageRequest;
+            if (OmitPropName != "Skip") getParam.Skip = GetRandomInt(0, 10);
+            if (OmitPropName != "Take") getParam.Take = GetRandomInt(0, 10);
+            if (OmitPropName != "OrderAscending") getParam.OrderAscending = true;
+            if (OmitPropName != "EntityQueryDetailType") getParam.EntityQueryDetailType = (EntityQueryDetailTypeEnum)GetRandomEnumType(typeof(EntityQueryDetailTypeEnum));
+            if (OmitPropName != "EntityQueryType") getParam.EntityQueryType = (EntityQueryTypeEnum)GetRandomEnumType(typeof(EntityQueryTypeEnum));
 
-            return vpFull;
+            return getParam;
         }
         #endregion Functions private
 
         #region Tests Generated CRUD and Properties
         [TestMethod]
-        public void VPFull_CRUD_And_Properties_Test()
+        public void GetParam_CRUD_And_Properties_Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -55,7 +61,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPFullService vpFullService = new VPFullService(new GetParam(), dbTestDB, ContactID);
+                    GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -63,7 +69,7 @@ namespace CSSPServices.Tests
                         // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
                     }
 
-                    VPFull vpFull = GetFilledRandomVPFull("");
+                    GetParam getParam = GetFilledRandomGetParam("");
 
                     // -------------------------------
                     // -------------------------------
@@ -85,8 +91,8 @@ namespace CSSPServices.Tests
         #region Tests Generated Get With Key
         #endregion Tests Get With Key
 
-        #region Tests Generated Get List of VPFull
-        #endregion Tests Get List of VPFull
+        #region Tests Generated Get List of GetParam
+        #endregion Tests Get List of GetParam
 
     }
 }

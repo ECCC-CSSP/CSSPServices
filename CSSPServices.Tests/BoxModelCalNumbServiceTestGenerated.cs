@@ -65,7 +65,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(LanguageRequest, dbTestDB, ContactID);
+                    BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

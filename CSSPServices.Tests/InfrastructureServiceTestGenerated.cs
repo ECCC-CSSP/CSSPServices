@@ -102,7 +102,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    InfrastructureService infrastructureService = new InfrastructureService(LanguageRequest, dbTestDB, ContactID);
+                    InfrastructureService infrastructureService = new InfrastructureService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -1079,28 +1079,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    InfrastructureService infrastructureService = new InfrastructureService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    InfrastructureService infrastructureService = new InfrastructureService(new GetParam(), dbTestDB, ContactID);
                     Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
                     Infrastructure infrastructureRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
+                            Assert.IsNull(infrastructureRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityOnly);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityWeb);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, EntityQueryDetailTypeEnum.EntityReport);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
                         }
                         else
                         {

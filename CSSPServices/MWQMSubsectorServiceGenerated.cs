@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSubsectorService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMSubsectorService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -140,15 +140,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID, GetParam getParam)
         {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSubsectorID == MWQMSubsectorID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorQuery.FirstOrDefault();
@@ -160,21 +158,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMSubsector> GetMWQMSubsectorList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMSubsector> GetMWQMSubsectorList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in GetRead()
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSubsectorQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSubsectorQuery  = mwqmSubsectorQuery.OrderByDescending(c => c.MWQMSubsectorID);
+                        }
+                        mwqmSubsectorQuery = mwqmSubsectorQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSubsectorQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSubsectorWeb(mwqmSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSubsectorQuery = FillMWQMSubsectorWeb(mwqmSubsectorQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSubsectorID);
+                        }
+                        mwqmSubsectorQuery = FillMWQMSubsectorWeb(mwqmSubsectorQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSubsectorQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsectorReport(mwqmSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSubsectorQuery = FillMWQMSubsectorReport(mwqmSubsectorQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSubsectorID);
+                        }
+                        mwqmSubsectorQuery = FillMWQMSubsectorReport(mwqmSubsectorQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSubsectorQuery;
+                    }
                 default:
                     return null;
             }

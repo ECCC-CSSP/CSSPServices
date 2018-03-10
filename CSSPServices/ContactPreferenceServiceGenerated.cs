@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ContactPreferenceService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public ContactPreferenceService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -123,15 +123,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ContactPreference GetContactPreferenceWithContactPreferenceID(int ContactPreferenceID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public ContactPreference GetContactPreferenceWithContactPreferenceID(int ContactPreferenceID, GetParam getParam)
         {
-            IQueryable<ContactPreference> contactPreferenceQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ContactPreference> contactPreferenceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactPreferenceID == ContactPreferenceID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactPreferenceQuery.FirstOrDefault();
@@ -143,21 +141,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<ContactPreference> GetContactPreferenceList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<ContactPreference> GetContactPreferenceList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<ContactPreference> contactPreferenceQuery = (from c in GetRead()
+            IQueryable<ContactPreference> contactPreferenceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return contactPreferenceQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactPreferenceQuery  = contactPreferenceQuery.OrderByDescending(c => c.ContactPreferenceID);
+                        }
+                        contactPreferenceQuery = contactPreferenceQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return contactPreferenceQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactPreferenceWeb(contactPreferenceQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactPreferenceQuery = FillContactPreferenceWeb(contactPreferenceQuery, FilterAndOrderText).OrderByDescending(c => c.ContactPreferenceID);
+                        }
+                        contactPreferenceQuery = FillContactPreferenceWeb(contactPreferenceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return contactPreferenceQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactPreferenceReport(contactPreferenceQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactPreferenceQuery = FillContactPreferenceReport(contactPreferenceQuery, FilterAndOrderText).OrderByDescending(c => c.ContactPreferenceID);
+                        }
+                        contactPreferenceQuery = FillContactPreferenceReport(contactPreferenceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return contactPreferenceQuery;
+                    }
                 default:
                     return null;
             }

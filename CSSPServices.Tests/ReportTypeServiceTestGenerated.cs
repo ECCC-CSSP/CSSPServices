@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ReportTypeService reportTypeService = new ReportTypeService(LanguageRequest, dbTestDB, ContactID);
+                    ReportTypeService reportTypeService = new ReportTypeService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -270,28 +270,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ReportTypeService reportTypeService = new ReportTypeService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    ReportTypeService reportTypeService = new ReportTypeService(new GetParam(), dbTestDB, ContactID);
                     ReportType reportType = (from c in reportTypeService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(reportType);
 
                     ReportType reportTypeRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
+                            Assert.IsNull(reportTypeRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, EntityQueryDetailTypeEnum.EntityOnly);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, EntityQueryDetailTypeEnum.EntityWeb);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, EntityQueryDetailTypeEnum.EntityReport);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
                         }
                         else
                         {

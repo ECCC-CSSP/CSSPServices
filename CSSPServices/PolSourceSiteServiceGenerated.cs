@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public PolSourceSiteService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public PolSourceSiteService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -188,15 +188,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public PolSourceSite GetPolSourceSiteWithPolSourceSiteID(int PolSourceSiteID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public PolSourceSite GetPolSourceSiteWithPolSourceSiteID(int PolSourceSiteID, GetParam getParam)
         {
-            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.PolSourceSiteID == PolSourceSiteID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceSiteQuery.FirstOrDefault();
@@ -208,21 +206,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<PolSourceSite> GetPolSourceSiteList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<PolSourceSite> GetPolSourceSiteList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in GetRead()
+            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return polSourceSiteQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            polSourceSiteQuery  = polSourceSiteQuery.OrderByDescending(c => c.PolSourceSiteID);
+                        }
+                        polSourceSiteQuery = polSourceSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return polSourceSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillPolSourceSiteWeb(polSourceSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            polSourceSiteQuery = FillPolSourceSiteWeb(polSourceSiteQuery, FilterAndOrderText).OrderByDescending(c => c.PolSourceSiteID);
+                        }
+                        polSourceSiteQuery = FillPolSourceSiteWeb(polSourceSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return polSourceSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillPolSourceSiteReport(polSourceSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            polSourceSiteQuery = FillPolSourceSiteReport(polSourceSiteQuery, FilterAndOrderText).OrderByDescending(c => c.PolSourceSiteID);
+                        }
+                        polSourceSiteQuery = FillPolSourceSiteReport(polSourceSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return polSourceSiteQuery;
+                    }
                 default:
                     return null;
             }

@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVItemUserAuthorizationService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TVItemUserAuthorizationService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -302,15 +302,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVItemUserAuthorization GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public TVItemUserAuthorization GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID, GetParam getParam)
         {
-            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVItemUserAuthorizationID == TVItemUserAuthorizationID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemUserAuthorizationQuery.FirstOrDefault();
@@ -322,21 +320,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<TVItemUserAuthorization> GetTVItemUserAuthorizationList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<TVItemUserAuthorization> GetTVItemUserAuthorizationList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in GetRead()
+            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tvItemUserAuthorizationQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemUserAuthorizationQuery  = tvItemUserAuthorizationQuery.OrderByDescending(c => c.TVItemUserAuthorizationID);
+                        }
+                        tvItemUserAuthorizationQuery = tvItemUserAuthorizationQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemUserAuthorizationQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVItemUserAuthorizationWeb(tvItemUserAuthorizationQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemUserAuthorizationQuery = FillTVItemUserAuthorizationWeb(tvItemUserAuthorizationQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemUserAuthorizationID);
+                        }
+                        tvItemUserAuthorizationQuery = FillTVItemUserAuthorizationWeb(tvItemUserAuthorizationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemUserAuthorizationQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemUserAuthorizationReport(tvItemUserAuthorizationQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemUserAuthorizationQuery = FillTVItemUserAuthorizationReport(tvItemUserAuthorizationQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemUserAuthorizationID);
+                        }
+                        tvItemUserAuthorizationQuery = FillTVItemUserAuthorizationReport(tvItemUserAuthorizationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemUserAuthorizationQuery;
+                    }
                 default:
                     return null;
             }

@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LabSheetService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public LabSheetService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -292,15 +292,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public LabSheet GetLabSheetWithLabSheetID(int LabSheetID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public LabSheet GetLabSheetWithLabSheetID(int LabSheetID, GetParam getParam)
         {
-            IQueryable<LabSheet> labSheetQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<LabSheet> labSheetQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LabSheetID == LabSheetID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetQuery.FirstOrDefault();
@@ -312,21 +310,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<LabSheet> GetLabSheetList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<LabSheet> GetLabSheetList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<LabSheet> labSheetQuery = (from c in GetRead()
+            IQueryable<LabSheet> labSheetQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return labSheetQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            labSheetQuery  = labSheetQuery.OrderByDescending(c => c.LabSheetID);
+                        }
+                        labSheetQuery = labSheetQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return labSheetQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLabSheetWeb(labSheetQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            labSheetQuery = FillLabSheetWeb(labSheetQuery, FilterAndOrderText).OrderByDescending(c => c.LabSheetID);
+                        }
+                        labSheetQuery = FillLabSheetWeb(labSheetQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return labSheetQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheetReport(labSheetQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            labSheetQuery = FillLabSheetReport(labSheetQuery, FilterAndOrderText).OrderByDescending(c => c.LabSheetID);
+                        }
+                        labSheetQuery = FillLabSheetReport(labSheetQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return labSheetQuery;
+                    }
                 default:
                     return null;
             }

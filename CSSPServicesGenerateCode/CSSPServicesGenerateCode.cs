@@ -120,62 +120,62 @@ namespace CSSPServicesGenerateCode
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerCSSPWebToolsDB))
-            {
-                TVItemService tvItemService = new TVItemService(LanguageEnum.en, db, 2);
+            //using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerCSSPWebToolsDB))
+            //{
+            //    TVItemService tvItemService = new TVItemService(LanguageEnum.en, db, 2);
 
-                var tvList = (from c in db.TVItems
-                              from cl in db.TVItemLanguages
-                              where EF.Property<int>(c, "TVItemID") == EF.Property<int>(cl, "TVItemID")
-                              && EF.Property<LanguageEnum>(cl, "Language") == LanguageEnum.en
-                              && EF.Property<string>(cl, "TVText").Contains(textBox1.Text)
-                              select new { c, cl });
+            //    var tvList = (from c in db.TVItems
+            //                  from cl in db.TVItemLanguages
+            //                  where EF.Property<int>(c, "TVItemID") == EF.Property<int>(cl, "TVItemID")
+            //                  && EF.Property<LanguageEnum>(cl, "Language") == LanguageEnum.en
+            //                  && EF.Property<string>(cl, "TVText").Contains(textBox1.Text)
+            //                  select new { c, cl });
 
-                richTextBoxStatus.Text = "";
+            //    richTextBoxStatus.Text = "";
 
-                foreach (var tv in tvList.Take(20))
-                {
-                    richTextBoxStatus.AppendText(tv.c.TVItemID + "\t" + tv.c.TVPath + "\t" + (int)tv.c.TVType + "\t\t" + tv.cl.LastUpdateDate_UTC + "\t" + tv.cl.TVText + "\r\n");
-                }
+            //    foreach (var tv in tvList.Take(20))
+            //    {
+            //        richTextBoxStatus.AppendText(tv.c.TVItemID + "\t" + tv.c.TVPath + "\t" + (int)tv.c.TVType + "\t\t" + tv.cl.LastUpdateDate_UTC + "\t" + tv.cl.TVText + "\r\n");
+            //    }
 
-                //TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageEnum.en, db, 2);
-                //TVItemStatService tvItemStatService = new TVItemStatService(LanguageEnum.en, db, 2);
-                //var tvList = (from c in tvItemService.GetRead()
-                //              from cl in tvItemLanguageService.GetRead()
-                //              let p = (from a in tvItemStatService.GetRead()
-                //                       where a.TVItemID == c.TVItemID
-                //                       select a)
-                //              where c.TVItemID == cl.TVItemID
-                //              && cl.Language == LanguageEnum.en
-                //              select new { c, cl, p });
+            //    //TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageEnum.en, db, 2);
+            //    //TVItemStatService tvItemStatService = new TVItemStatService(LanguageEnum.en, db, 2);
+            //    //var tvList = (from c in tvItemService.GetRead()
+            //    //              from cl in tvItemLanguageService.GetRead()
+            //    //              let p = (from a in tvItemStatService.GetRead()
+            //    //                       where a.TVItemID == c.TVItemID
+            //    //                       select a)
+            //    //              where c.TVItemID == cl.TVItemID
+            //    //              && cl.Language == LanguageEnum.en
+            //    //              select new { c, cl, p });
 
-                //string allo = tvList.ToString();
-                ////var sql = ((System.Data.Objects.ObjectQuery)tvList).ToTraceString();
+            //    //string allo = tvList.ToString();
+            //    ////var sql = ((System.Data.Objects.ObjectQuery)tvList).ToTraceString();
 
-                //tvList = tvList.Where("c.TVType == @0", TVTypeEnum.Province).OrderBy("cl.TVText desc");
+            //    //tvList = tvList.Where("c.TVType == @0", TVTypeEnum.Province).OrderBy("cl.TVText desc");
 
-                //foreach (var tv in tvList.Take(20))
-                //{
-                //    richTextBoxStatus.AppendText(tv.c.TVItemID + "\t" + tv.c.TVPath + "\t" + (int)tv.c.TVType + "\t\t" + tv.cl.LastUpdateDate_UTC + "\t" + tv.cl.TVText + "\r\n");
-                //}
+            //    //foreach (var tv in tvList.Take(20))
+            //    //{
+            //    //    richTextBoxStatus.AppendText(tv.c.TVItemID + "\t" + tv.c.TVPath + "\t" + (int)tv.c.TVType + "\t\t" + tv.cl.LastUpdateDate_UTC + "\t" + tv.cl.TVText + "\r\n");
+            //    //}
 
-                //foreach (var aa in tvList.Take(20).Select("new(c.TVItemID, c.TVPath, cl.TVText, p)"))
-                //{
-                //    richTextBoxStatus.AppendText(((dynamic)aa).TVItemID + " --- " + ((dynamic)aa).TVPath + "\r\n");
-                //    foreach (var pp in ((dynamic)aa).p)
-                //    {
-                //        richTextBoxStatus.AppendText(((TVItemStat)pp).TVType.ToString() + " (" + pp.ChildCount + ")\t");
-                //    }
-                //    richTextBoxStatus.AppendText("\r\n");
-                //}
+            //    //foreach (var aa in tvList.Take(20).Select("new(c.TVItemID, c.TVPath, cl.TVText, p)"))
+            //    //{
+            //    //    richTextBoxStatus.AppendText(((dynamic)aa).TVItemID + " --- " + ((dynamic)aa).TVPath + "\r\n");
+            //    //    foreach (var pp in ((dynamic)aa).p)
+            //    //    {
+            //    //        richTextBoxStatus.AppendText(((TVItemStat)pp).TVType.ToString() + " (" + pp.ChildCount + ")\t");
+            //    //    }
+            //    //    richTextBoxStatus.AppendText("\r\n");
+            //    //}
 
-                //foreach (var aa in tvList.Take(20).ToList<dynamic>())
-                //{
-                //    richTextBoxStatus.AppendText(aa.c.TVItemID + "\t" + aa.cl.TVText + "\r\n");
-                //}
+            //    //foreach (var aa in tvList.Take(20).ToList<dynamic>())
+            //    //{
+            //    //    richTextBoxStatus.AppendText(aa.c.TVItemID + "\t" + aa.cl.TVText + "\r\n");
+            //    //}
 
 
-            }
+            //}
 
             lblStatus.Text = "Done...";
         }

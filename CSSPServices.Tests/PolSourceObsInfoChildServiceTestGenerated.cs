@@ -59,7 +59,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(LanguageRequest, dbTestDB, ContactID);
+                    PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

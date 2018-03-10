@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSampleService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMSampleService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -250,15 +250,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID, GetParam getParam)
         {
-            IQueryable<MWQMSample> mwqmSampleQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSample> mwqmSampleQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSampleID == MWQMSampleID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSampleQuery.FirstOrDefault();
@@ -270,21 +268,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMSample> GetMWQMSampleList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMSample> GetMWQMSampleList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMSample> mwqmSampleQuery = (from c in GetRead()
+            IQueryable<MWQMSample> mwqmSampleQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSampleQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSampleQuery  = mwqmSampleQuery.OrderByDescending(c => c.MWQMSampleID);
+                        }
+                        mwqmSampleQuery = mwqmSampleQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSampleQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSampleWeb(mwqmSampleQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSampleQuery = FillMWQMSampleWeb(mwqmSampleQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSampleID);
+                        }
+                        mwqmSampleQuery = FillMWQMSampleWeb(mwqmSampleQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSampleQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSampleReport(mwqmSampleQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSampleQuery = FillMWQMSampleReport(mwqmSampleQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSampleID);
+                        }
+                        mwqmSampleQuery = FillMWQMSampleReport(mwqmSampleQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSampleQuery;
+                    }
                 default:
                     return null;
             }

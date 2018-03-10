@@ -55,7 +55,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LabSheetAndA1SheetService labSheetAndA1SheetService = new LabSheetAndA1SheetService(LanguageRequest, dbTestDB, ContactID);
+                    LabSheetAndA1SheetService labSheetAndA1SheetService = new LabSheetAndA1SheetService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

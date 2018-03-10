@@ -68,7 +68,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AppTaskService appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
+                    AppTaskService appTaskService = new AppTaskService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -409,28 +409,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AppTaskService appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    AppTaskService appTaskService = new AppTaskService(new GetParam(), dbTestDB, ContactID);
                     AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(appTask);
 
                     AppTask appTaskRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
+                            Assert.IsNull(appTaskRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityOnly);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityWeb);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, EntityQueryDetailTypeEnum.EntityReport);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
                         }
                         else
                         {

@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SamplingPlanAndFilesLabSheetCountService samplingPlanAndFilesLabSheetCountService = new SamplingPlanAndFilesLabSheetCountService(LanguageRequest, dbTestDB, ContactID);
+                    SamplingPlanAndFilesLabSheetCountService samplingPlanAndFilesLabSheetCountService = new SamplingPlanAndFilesLabSheetCountService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

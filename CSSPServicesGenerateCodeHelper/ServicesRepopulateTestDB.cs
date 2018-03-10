@@ -73,6 +73,10 @@ namespace CSSPServicesGenerateCodeHelper
             if (!FillTestDB(tableTestDBList)) return;
             StatusPermanentEvent(new StatusEventArgs("Done Filling TestDB ... everything ok"));
 
+            StatusPermanentEvent(new StatusEventArgs("Making sure every table within TestDB has at least 10 items ..."));
+            if (!MakingSureEveryTableHasEnoughItemsInTestDB()) return;
+            StatusPermanentEvent(new StatusEventArgs("Done Making sure every table within TestDB has at least 10 items"));
+
             StatusTempEvent(new StatusEventArgs("Done ..."));
         }
         #endregion Functions public
@@ -246,7 +250,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             StatusTempEvent(new StatusEventArgs("doing ... Contact Charles with TVItem"));
 
-            ContactService contactService = new ContactService(LanguageEnum.en, dbTestDBWrite, 2);
+            ContactService contactService = new ContactService(new GetParam(), dbTestDBWrite, 2);
 
             // Contact Charles G. LeBlanc
             Contact contactCharles = dbCSSPWebToolsDBRead.Contacts.AsNoTracking().Where(c => c.ContactTVItemID == 2).FirstOrDefault();
@@ -1187,7 +1191,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             using (CSSPWebToolsDBContext db2 = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
-                AddressService addressService = new AddressService(LanguageEnum.en, db2, contactCharles.ContactID);
+                AddressService addressService = new AddressService(new GetParam(), db2, contactCharles.ContactID);
                 addressService.FillAddressTVText(address);
             }
 
@@ -1340,8 +1344,8 @@ namespace CSSPServicesGenerateCodeHelper
             AppTask appTask = new AppTask();
             appTask.TVItemID = tvItemCanada.TVItemID;
             appTask.TVItemID2 = tvItemCanada.TVItemID;
-            appTask.AppTaskCommand = AppTaskCommandEnum.Error;
-            appTask.AppTaskStatus = AppTaskStatusEnum.Error;
+            appTask.AppTaskCommand = AppTaskCommandEnum.GenerateWebTide;
+            appTask.AppTaskStatus = AppTaskStatusEnum.Created;
             appTask.PercentCompleted = 1;
             appTask.Parameters = "a,a";
             appTask.Language = LanguageEnum.en;
@@ -1429,14 +1433,18 @@ namespace CSSPServicesGenerateCodeHelper
             #endregion Log
             #region MWQMLookupMPN
             StatusTempEvent(new StatusEventArgs("doing ... MWQMLookupMPN"));
-            MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();
-            mwqmLookupMPN.Tubes10 = 3;
-            mwqmLookupMPN.Tubes1 = 2;
-            mwqmLookupMPN.Tubes01 = 1;
-            mwqmLookupMPN.MPN_100ml = 17;
-            mwqmLookupMPN.LastUpdateDate_UTC = DateTime.Now;
-            mwqmLookupMPN.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
-            if (!AddObject("MWQMLookupMPN", mwqmLookupMPN)) return false;
+            List<MWQMLookupMPN> mwqmLookupMPNList = dbCSSPWebToolsDBRead.MWQMLookupMPNs.AsNoTracking().Take(12).ToList();
+            foreach(MWQMLookupMPN mwqmLookupMPN2 in mwqmLookupMPNList)
+            {
+                MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();
+                mwqmLookupMPN.Tubes10 = mwqmLookupMPN2.Tubes10;
+                mwqmLookupMPN.Tubes1 = mwqmLookupMPN2.Tubes1;
+                mwqmLookupMPN.Tubes01 = mwqmLookupMPN2.Tubes01;
+                mwqmLookupMPN.MPN_100ml = mwqmLookupMPN2.MPN_100ml;
+                mwqmLookupMPN.LastUpdateDate_UTC = DateTime.Now;
+                mwqmLookupMPN.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+                if (!AddObject("MWQMLookupMPN", mwqmLookupMPN)) return false;
+            }
             #endregion MWQMLookupMPN
             #region RainExceedance
             StatusTempEvent(new StatusEventArgs("doing ... RainExceedance"));
@@ -1561,7 +1569,7 @@ namespace CSSPServicesGenerateCodeHelper
                 mapInfo.LastUpdateContactTVItemID = ContactTVItemID;
 
                 mapInfo.MapInfoID = 0;
-                MapInfoService mapInfoService = new MapInfoService(LanguageEnum.en, dbTestDBWrite, 2);
+                MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDBWrite, 2);
                 mapInfoService.Add(mapInfo);
                 if (mapInfo.ValidationResults.Count() > 0)
                 {
@@ -1573,7 +1581,7 @@ namespace CSSPServicesGenerateCodeHelper
                                                        where c.MapInfoID == MapInfoID
                                                        select c).ToList();
 
-                MapInfoPointService mapInfoPointService = new MapInfoPointService(LanguageEnum.en, dbTestDBWrite, 2);
+                MapInfoPointService mapInfoPointService = new MapInfoPointService(new GetParam(), dbTestDBWrite, 2);
                 foreach (MapInfoPoint mapInfoPoint in mapInfoPointList)
                 {
                     mapInfoPoint.MapInfoPointID = 0;
@@ -2191,6 +2199,1248 @@ namespace CSSPServicesGenerateCodeHelper
                 ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
                 return false;
             }
+
+            return true;
+        }
+        private bool MakingSureEveryTableHasEnoughItemsInTestDB()
+        {
+            int count = 0;
+
+            #region Addresses
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.Addresses select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        Address address = (from c in db.Addresses select c).OrderByDescending(c => c.AddressID).FirstOrDefault();
+                        try
+                        {
+                            address.AddressID = 0;
+                            address.StreetName = address.StreetName + "a";
+                            if (!AddObject("Address", address)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion Addresses
+            #region AppErrLogs
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.AppErrLogs select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        AppErrLog AppErrLog = (from c in db.AppErrLogs select c).OrderByDescending(c => c.AppErrLogID).FirstOrDefault();
+                        try
+                        {
+                            AppErrLog.AppErrLogID = 0;
+                            AppErrLog.Source = AppErrLog.Source + "a";
+                            if (!AddObject("AppErrLog", AppErrLog)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion AppErrLogs
+            #region AppTasks
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.AppTasks select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        AppTask AppTask = (from c in db.AppTasks select c).OrderByDescending(c => c.AppTaskID).FirstOrDefault();
+                        AppTaskLanguage AppTaskLanguageEN = (from c in db.AppTaskLanguages where c.AppTaskID == AppTask.AppTaskID && c.Language == LanguageEnum.en select c).FirstOrDefault();
+                        AppTaskLanguage AppTaskLanguageFR = (from c in db.AppTaskLanguages where c.AppTaskID == AppTask.AppTaskID && c.Language == LanguageEnum.fr select c).FirstOrDefault();
+                        try
+                        {
+                            AppTask.AppTaskID = 0;
+                            AppTask.Parameters = AppTask.Parameters + "a";
+                            if (!AddObject("AppTask", AppTask)) return false;
+
+                            AppTaskLanguageEN.AppTaskLanguageID = 0;
+                            AppTaskLanguageEN.AppTaskID = AppTask.AppTaskID;
+                            AppTaskLanguageEN.StatusText = AppTaskLanguageEN.StatusText + "a";
+                            if (!AddObject("AppTaskLanguage", AppTaskLanguageEN)) return false;
+
+                            AppTaskLanguageFR.AppTaskLanguageID = 0;
+                            AppTaskLanguageFR.AppTaskID = AppTask.AppTaskID;
+                            AppTaskLanguageFR.StatusText = AppTaskLanguageFR.StatusText + "a";
+                            if (!AddObject("AppTaskLanguage", AppTaskLanguageFR)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion AppTasks
+            #region BoxModels
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.BoxModels select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        BoxModel BoxModel = (from c in db.BoxModels select c).OrderByDescending(c => c.BoxModelID).FirstOrDefault();
+                        BoxModelLanguage BoxModelLanguageEN = (from c in db.BoxModelLanguages where c.BoxModelID == BoxModel.BoxModelID && c.Language == LanguageEnum.en select c).FirstOrDefault();
+                        BoxModelLanguage BoxModelLanguageFR = (from c in db.BoxModelLanguages where c.BoxModelID == BoxModel.BoxModelID && c.Language == LanguageEnum.fr select c).FirstOrDefault();
+                        List<BoxModelResult> BoxModelResultList = (from c in db.BoxModelResults where c.BoxModelID == BoxModel.BoxModelID select c).ToList();
+                        try
+                        {
+                            BoxModel.BoxModelID = 0;
+                            BoxModel.DecayRate_per_day = BoxModel.DecayRate_per_day + 0.1f;
+                            if (!AddObject("BoxModel", BoxModel)) return false;
+
+                            BoxModelLanguageEN.BoxModelLanguageID = 0;
+                            BoxModelLanguageEN.BoxModelID = BoxModel.BoxModelID;
+                            BoxModelLanguageEN.ScenarioName = BoxModelLanguageEN.ScenarioName + "a";
+                            if (!AddObject("BoxModelLanguage", BoxModelLanguageEN)) return false;
+
+                            BoxModelLanguageFR.BoxModelLanguageID = 0;
+                            BoxModelLanguageFR.BoxModelID = BoxModel.BoxModelID;
+                            BoxModelLanguageFR.ScenarioName = BoxModelLanguageFR.ScenarioName + "a";
+                            if (!AddObject("BoxModelLanguage", BoxModelLanguageFR)) return false;
+
+                            foreach (BoxModelResult boxModelResult in BoxModelResultList)
+                            {
+                                boxModelResult.BoxModelResultID = 0;
+                                boxModelResult.BoxModelID = BoxModel.BoxModelID;
+                                boxModelResult.Radius_m = boxModelResult.Radius_m + 1.0f;
+                                if (!AddObject("BoxModelResult", boxModelResult)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion BoxModels
+            #region ClimateSites
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.ClimateSites select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        ClimateSite ClimateSite = (from c in db.ClimateSites select c).OrderByDescending(c => c.ClimateSiteID).FirstOrDefault();
+                        List<ClimateDataValue> ClimateDataValueList = (from c in db.ClimateDataValues where c.ClimateSiteID == ClimateSite.ClimateSiteID select c).ToList();
+                        try
+                        {
+                            ClimateSite.ClimateSiteID = 0;
+                            ClimateSite.ClimateSiteName = ClimateSite.ClimateSiteName + "a";
+                            if (!AddObject("ClimateSite", ClimateSite)) return false;
+
+                            foreach (ClimateDataValue climateDataValue in ClimateDataValueList)
+                            {
+                                climateDataValue.ClimateDataValueID = 0;
+                                climateDataValue.ClimateSiteID = ClimateSite.ClimateSiteID;
+                                climateDataValue.TotalPrecip_mm_cm = climateDataValue.TotalPrecip_mm_cm + 1.0f;
+                                if (!AddObject("ClimateDataValue", climateDataValue)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion ClimateSites
+            #region ContactPreferences
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.ContactPreferences select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        ContactPreference ContactPreference = (from c in db.ContactPreferences select c).OrderByDescending(c => c.ContactPreferenceID).FirstOrDefault();
+                        try
+                        {
+                            ContactPreference.ContactPreferenceID = 0;
+                            ContactPreference.MarkerSize = ContactPreference.MarkerSize + 1;
+                            if (!AddObject("ContactPreference", ContactPreference)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion ContactPreferences
+            #region Contacts
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.Contacts select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        Contact Contact = (from c in db.Contacts select c).OrderByDescending(c => c.ContactID).FirstOrDefault();
+                        try
+                        {
+                            Contact.ContactID = 0;
+                            Contact.FirstName = Contact.FirstName + "a";
+                            if (!AddObject("Contact", Contact)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion Contacts
+            #region ContactShortcuts
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.ContactShortcuts select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        ContactShortcut ContactShortcut = (from c in db.ContactShortcuts select c).OrderByDescending(c => c.ContactShortcutID).FirstOrDefault();
+                        try
+                        {
+                            ContactShortcut.ContactShortcutID = 0;
+                            ContactShortcut.ShortCutText = ContactShortcut.ShortCutText + "a";
+                            if (!AddObject("ContactShortcut", ContactShortcut)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion ContactShortcuts
+            #region DocTemplates
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.DocTemplates select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        DocTemplate DocTemplate = (from c in db.DocTemplates select c).OrderByDescending(c => c.DocTemplateID).FirstOrDefault();
+                        try
+                        {
+                            DocTemplate.DocTemplateID = 0;
+                            DocTemplate.FileName = DocTemplate.FileName + "a";
+                            if (!AddObject("DocTemplate", DocTemplate)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion DocTemplates
+            #region EmailDistributionListContactLanguages
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.EmailDistributionLists select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        EmailDistributionList EmailDistributionList = (from c in db.EmailDistributionLists select c).OrderByDescending(c => c.EmailDistributionListID).FirstOrDefault();
+                        List<EmailDistributionListLanguage> EmailDistributionListLanguageList = (from c in db.EmailDistributionListLanguages where c.EmailDistributionListID == EmailDistributionList.EmailDistributionListID select c).ToList();
+                        List<EmailDistributionListContact> EmailDistributionListContactList = (from c in db.EmailDistributionListContacts where c.EmailDistributionListID == EmailDistributionList.EmailDistributionListID select c).ToList();
+                         try
+                        {
+                            EmailDistributionList.EmailDistributionListID = 0;
+                            //EmailDistributionList.Agency = EmailDistributionList.Agency + "a";
+                            if (!AddObject("EmailDistributionList", EmailDistributionList)) return false;
+
+                            foreach (EmailDistributionListLanguage emailDistributionListLanguage in EmailDistributionListLanguageList)
+                            {
+                                emailDistributionListLanguage.EmailDistributionListLanguageID = 0;
+                                emailDistributionListLanguage.EmailDistributionListID = EmailDistributionList.EmailDistributionListID;
+                                emailDistributionListLanguage.RegionName = emailDistributionListLanguage.RegionName + "a";
+                                if (!AddObject("EmailDistributionListLanguage", emailDistributionListLanguage)) return false;
+                            }
+
+                            foreach (EmailDistributionListContact emailDistributionListContact in EmailDistributionListContactList)
+                            {
+                                emailDistributionListContact.EmailDistributionListContactID = 0;
+                                emailDistributionListContact.EmailDistributionListID = EmailDistributionList.EmailDistributionListID;
+                                emailDistributionListContact.Name = emailDistributionListContact.Name + "a";
+                                if (!AddObject("EmailDistributionListContact", emailDistributionListContact)) return false;
+
+                                List<EmailDistributionListContactLanguage> EmailDistributionListContactLanguageList = (from c in db.EmailDistributionListContactLanguages select c).OrderByDescending(c => c.EmailDistributionListContactLanguageID).Take(2).ToList();
+
+                                foreach (EmailDistributionListContactLanguage emailDistributionListContactLanguage in EmailDistributionListContactLanguageList)
+                                {
+                                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageID = 0;
+                                    emailDistributionListContactLanguage.EmailDistributionListContactID = emailDistributionListContact.EmailDistributionListContactID;
+                                    emailDistributionListContactLanguage.Agency = emailDistributionListContactLanguage.Agency + "a";
+                                    if (!AddObject("EmailDistributionListContactLanguage", emailDistributionListContactLanguage)) return false;                                
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion EmailDistributionLists
+            #region Emails
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.Emails select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        Email Email = (from c in db.Emails select c).OrderByDescending(c => c.EmailID).FirstOrDefault();
+                        try
+                        {
+                            Email.EmailID = 0;
+                            Email.EmailAddress = Email.EmailAddress + "a";
+                            if (!AddObject("Email", Email)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion Emails
+            #region HydrometricSites
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.HydrometricSites select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        HydrometricSite HydrometricSite = (from c in db.HydrometricSites select c).OrderByDescending(c => c.HydrometricSiteID).FirstOrDefault();
+                        List<HydrometricDataValue> HydrometricDataValueList = (from c in db.HydrometricDataValues where c.HydrometricSiteID == HydrometricSite.HydrometricSiteID select c).ToList();
+                        try
+                        {
+                            HydrometricSite.HydrometricSiteID = 0;
+                            HydrometricSite.HydrometricSiteName = HydrometricSite.HydrometricSiteName + "a";
+                            if (!AddObject("HydrometricSite", HydrometricSite)) return false;
+
+                            foreach (HydrometricDataValue hydrometricDataValue in HydrometricDataValueList)
+                            {
+                                hydrometricDataValue.HydrometricDataValueID = 0;
+                                hydrometricDataValue.HydrometricSiteID = HydrometricSite.HydrometricSiteID;
+                                hydrometricDataValue.HourlyValues = hydrometricDataValue.HourlyValues + "a";
+                                if (!AddObject("HydrometricDataValue", hydrometricDataValue)) return false;
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion HydrometricSites
+            #region Infrastructures
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.Infrastructures select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        Infrastructure Infrastructure = (from c in db.Infrastructures select c).OrderByDescending(c => c.InfrastructureID).FirstOrDefault();
+                        InfrastructureLanguage InfrastructureLanguageEN = (from c in db.InfrastructureLanguages where c.InfrastructureID == Infrastructure.InfrastructureID && c.Language == LanguageEnum.en select c).FirstOrDefault();
+                        InfrastructureLanguage InfrastructureLanguageFR = (from c in db.InfrastructureLanguages where c.InfrastructureID == Infrastructure.InfrastructureID && c.Language == LanguageEnum.fr select c).FirstOrDefault();
+                        try
+                        {
+                            Infrastructure.InfrastructureID = 0;
+                            Infrastructure.PortElevation_m = Infrastructure.PortElevation_m + 0.1f;
+                            if (!AddObject("Infrastructure", Infrastructure)) return false;
+
+                            InfrastructureLanguageEN.InfrastructureLanguageID = 0;
+                            InfrastructureLanguageEN.InfrastructureID = Infrastructure.InfrastructureID;
+                            InfrastructureLanguageEN.Comment = InfrastructureLanguageEN.Comment + "a";
+                            if (!AddObject("InfrastructureLanguage", InfrastructureLanguageEN)) return false;
+
+                            InfrastructureLanguageFR.InfrastructureLanguageID = 0;
+                            InfrastructureLanguageFR.InfrastructureID = Infrastructure.InfrastructureID;
+                            InfrastructureLanguageFR.Comment = InfrastructureLanguageFR.Comment + "a";
+                            if (!AddObject("InfrastructureLanguage", InfrastructureLanguageFR)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion Infrastructures
+            #region LabSheets
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.LabSheets select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        LabSheet LabSheet = (from c in db.LabSheets select c).OrderByDescending(c => c.LabSheetID).FirstOrDefault();
+                        LabSheetDetail LabSheetDetail = (from c in db.LabSheetDetails select c).OrderByDescending(c => c.LabSheetDetailID).FirstOrDefault();
+                        try
+                        {
+                            LabSheet.LabSheetID = 0;
+                            LabSheet.SamplingPlanName = LabSheet.SamplingPlanName + "a";
+                            if (!AddObject("LabSheet", LabSheet)) return false;
+
+                            LabSheetDetail.LabSheetDetailID = 0;
+                            LabSheetDetail.RunComment = LabSheetDetail.RunComment + "a";
+                            if (!AddObject("LabSheetDetail", LabSheetDetail)) return false;
+
+                            LabSheetTubeMPNDetail LabSheetTubeMPNDetail = (from c in db.LabSheetTubeMPNDetails select c).OrderByDescending(c => c.LabSheetTubeMPNDetailID).FirstOrDefault();
+
+                            LabSheetTubeMPNDetail.LabSheetTubeMPNDetailID = 0;
+                            LabSheetTubeMPNDetail.LabSheetDetailID = LabSheetDetail.LabSheetDetailID;
+                            LabSheetTubeMPNDetail.SiteComment = LabSheetTubeMPNDetail.SiteComment + "a";
+                            if (!AddObject("LabSheetTubeMPNDetail", LabSheetTubeMPNDetail)) return false;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion LabSheets
+            #region Logs
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.Logs select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        Log Log = (from c in db.Logs select c).OrderByDescending(c => c.LogID).FirstOrDefault();
+                        try
+                        {
+                            Log.LogID = 0;
+                            Log.Information = Log.Information + "a";
+                            if (!AddObject("Log", Log)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion Logs
+            #region MikeBoundaryConditions
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MikeBoundaryConditions select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MikeBoundaryCondition MikeBoundaryCondition = (from c in db.MikeBoundaryConditions select c).OrderByDescending(c => c.MikeBoundaryConditionID).FirstOrDefault();
+                        try
+                        {
+                            MikeBoundaryCondition.MikeBoundaryConditionID = 0;
+                            MikeBoundaryCondition.MikeBoundaryConditionCode = MikeBoundaryCondition.MikeBoundaryConditionCode + "a";
+                            if (!AddObject("MikeBoundaryCondition", MikeBoundaryCondition)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MikeBoundaryConditions
+            #region MikeScenarios
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MikeScenarios select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MikeScenario MikeScenario = (from c in db.MikeScenarios select c).OrderByDescending(c => c.MikeScenarioID).FirstOrDefault();
+                        try
+                        {
+                            MikeScenario.MikeScenarioID = 0;
+                            MikeScenario.ManningNumber = MikeScenario.ManningNumber + 0.1f;
+                            if (!AddObject("MikeScenario", MikeScenario)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MikeScenarios
+            #region MikeSources
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MikeSources select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MikeSource MikeSource = (from c in db.MikeSources select c).OrderByDescending(c => c.MikeSourceID).FirstOrDefault();
+                        MikeSourceStartEnd MikeSourceStartEnd = (from c in db.MikeSourceStartEnds select c).OrderByDescending(c => c.MikeSourceStartEndID).FirstOrDefault();
+                        try
+                        {
+                            MikeSource.MikeSourceID = 0;
+                            MikeSource.SourceNumberString = MikeSource.SourceNumberString + "a";
+                            if (!AddObject("MikeSource", MikeSource)) return false;
+
+                            MikeSourceStartEnd.MikeSourceStartEndID = 0;
+                            MikeSourceStartEnd.SourcePollutionStart_MPN_100ml = MikeSourceStartEnd.SourcePollutionStart_MPN_100ml + 1;
+                            MikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = MikeSourceStartEnd.SourcePollutionEnd_MPN_100ml + 1;
+                            if (!AddObject("MikeSourceStartEnd", MikeSourceStartEnd)) return false;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MikeSources
+            #region MWQMAnalysisReportParameters
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MWQMAnalysisReportParameters select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MWQMAnalysisReportParameter MWQMAnalysisReportParameter = (from c in db.MWQMAnalysisReportParameters select c).OrderByDescending(c => c.MWQMAnalysisReportParameterID).FirstOrDefault();
+                        try
+                        {
+                            MWQMAnalysisReportParameter.MWQMAnalysisReportParameterID = 0;
+                            MWQMAnalysisReportParameter.AnalysisName = MWQMAnalysisReportParameter.AnalysisName + "a";
+                            if (!AddObject("MWQMAnalysisReportParameter", MWQMAnalysisReportParameter)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MWQMAnalysisReportParameters            
+            #region MWQMRuns
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MWQMRuns select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MWQMRun MWQMRun = (from c in db.MWQMRuns select c).OrderByDescending(c => c.MWQMRunID).FirstOrDefault();
+                        List<MWQMRunLanguage> MWQMRunLanguageList = (from c in db.MWQMRunLanguages select c).OrderByDescending(c => c.MWQMRunLanguageID).Take(2).ToList();
+                        try
+                        {
+                            MWQMRun.MWQMRunID = 0;
+                            MWQMRun.TemperatureControl1_C = MWQMRun.TemperatureControl1_C + 1.1f;
+                            if (!AddObject("MWQMRun", MWQMRun)) return false;
+
+                            foreach (MWQMRunLanguage MWQMRunLanguage in MWQMRunLanguageList)
+                            {
+                                MWQMRunLanguage.MWQMRunLanguageID = 0;
+                                MWQMRunLanguage.RunComment = MWQMRunLanguage.RunComment + "a";
+                                if (!AddObject("MWQMRunLanguage", MWQMRunLanguage)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MWQMRuns
+            #region MWQMSamples
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MWQMSamples select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MWQMSample MWQMSample = (from c in db.MWQMSamples select c).OrderByDescending(c => c.MWQMSampleID).FirstOrDefault();
+                        List<MWQMSampleLanguage> MWQMSampleLanguageList = (from c in db.MWQMSampleLanguages select c).OrderByDescending(c => c.MWQMSampleLanguageID).Take(2).ToList();
+                        try
+                        {
+                            MWQMSample.MWQMSampleID = 0;
+                            MWQMSample.PH = MWQMSample.PH + 1.1f;
+                            if (!AddObject("MWQMSample", MWQMSample)) return false;
+
+                            foreach (MWQMSampleLanguage MWQMSampleLanguage in MWQMSampleLanguageList)
+                            {
+                                MWQMSampleLanguage.MWQMSampleLanguageID = 0;
+                                MWQMSampleLanguage.MWQMSampleNote = MWQMSampleLanguage.MWQMSampleNote + "a";
+                                if (!AddObject("MWQMSampleLanguage", MWQMSampleLanguage)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MWQMSamples
+            #region MWQMSites
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MWQMSites select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MWQMSite MWQMSite = (from c in db.MWQMSites select c).OrderByDescending(c => c.MWQMSiteID).FirstOrDefault();
+                        MWQMSiteStartEndDate MWQMSiteStartEndDate = (from c in db.MWQMSiteStartEndDates select c).OrderByDescending(c => c.MWQMSiteStartEndDateID).FirstOrDefault();
+                        try
+                        {
+                            MWQMSite.MWQMSiteID = 0;
+                            MWQMSite.MWQMSiteDescription = MWQMSite.MWQMSiteDescription + "a";
+                            if (!AddObject("MWQMSite", MWQMSite)) return false;
+
+                            MWQMSiteStartEndDate.MWQMSiteStartEndDateID = 0;
+                            MWQMSiteStartEndDate.StartDate = MWQMSiteStartEndDate.StartDate.AddHours(1);
+                            MWQMSiteStartEndDate.EndDate = MWQMSiteStartEndDate.EndDate.Value.AddHours(1);
+                            if (!AddObject("MWQMSiteStartEndDate", MWQMSiteStartEndDate)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MWQMSites
+            #region MWQMSubsectors
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.MWQMSubsectors select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        MWQMSubsector MWQMSubsector = (from c in db.MWQMSubsectors select c).OrderByDescending(c => c.MWQMSubsectorID).FirstOrDefault();
+                        List<MWQMSubsectorLanguage> MWQMSubsectorLanguageList = (from c in db.MWQMSubsectorLanguages select c).OrderByDescending(c => c.MWQMSubsectorLanguageID).Take(2).ToList();
+                        try
+                        {
+                            MWQMSubsector.MWQMSubsectorID = 0;
+                            MWQMSubsector.SubsectorHistoricKey = (MWQMSubsector.SubsectorHistoricKey.Length > 19 ? "bbb" : MWQMSubsector.SubsectorHistoricKey + "a");
+                            if (!AddObject("MWQMSubsector", MWQMSubsector)) return false;
+
+                            foreach (MWQMSubsectorLanguage MWQMSubsectorLanguage in MWQMSubsectorLanguageList)
+                            {
+                                MWQMSubsectorLanguage.MWQMSubsectorLanguageID = 0;
+                                MWQMSubsectorLanguage.SubsectorDesc = MWQMSubsectorLanguage.SubsectorDesc + "a";
+                                if (!AddObject("MWQMSubsectorLanguage", MWQMSubsectorLanguage)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion MWQMSubsectors
+            #region PolSourceSites
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.PolSourceSites select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        PolSourceSite PolSourceSite = (from c in db.PolSourceSites select c).OrderByDescending(c => c.PolSourceSiteID).FirstOrDefault();
+                        PolSourceObservation PolSourceObservation = (from c in db.PolSourceObservations select c).OrderByDescending(c => c.PolSourceObservationID).FirstOrDefault();
+                        PolSourceObservationIssue PolSourceObservationIssue = (from c in db.PolSourceObservationIssues select c).OrderByDescending(c => c.PolSourceObservationIssueID).FirstOrDefault();
+                        try
+                        {
+                            PolSourceSite.PolSourceSiteID = 0;
+                            PolSourceSite.Temp_Locator_CanDelete = PolSourceSite.Temp_Locator_CanDelete + "a";
+                            if (!AddObject("PolSourceSite", PolSourceSite)) return false;
+
+                            PolSourceObservation.PolSourceObservationID = 0;
+                            PolSourceObservation.PolSourceSiteID = PolSourceSite.PolSourceSiteID;
+                            PolSourceObservation.Observation_ToBeDeleted = PolSourceObservation.Observation_ToBeDeleted + "a";
+                            if (!AddObject("PolSourceObservation", PolSourceObservation)) return false;
+
+                            PolSourceObservationIssue.PolSourceObservationIssueID = 0;
+                            PolSourceObservationIssue.PolSourceObservationID = PolSourceObservation.PolSourceObservationID;
+                            PolSourceObservationIssue.ExtraComment = PolSourceObservationIssue.ExtraComment + "a";
+                            if (!AddObject("PolSourceObservationIssue", PolSourceObservationIssue)) return false;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion PolSourceSites
+            #region RainExceedances
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.RainExceedances select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        RainExceedance RainExceedance = (from c in db.RainExceedances select c).OrderByDescending(c => c.RainExceedanceID).FirstOrDefault();
+                        try
+                        {
+                            RainExceedance.RainExceedanceID = 0;
+                            RainExceedance.DaysPriorToStart = RainExceedance.DaysPriorToStart + 1;
+                            if (!AddObject("RainExceedance", RainExceedance)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion RainExceedances
+            #region RatingCurves
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.RatingCurves select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        RatingCurve RatingCurve = (from c in db.RatingCurves select c).OrderByDescending(c => c.RatingCurveID).FirstOrDefault();
+                        RatingCurveValue RatingCurveValue = (from c in db.RatingCurveValues select c).OrderByDescending(c => c.RatingCurveValueID).FirstOrDefault();
+                        try
+                        {
+                            RatingCurve.RatingCurveID = 0;
+                            RatingCurve.RatingCurveNumber = RatingCurve.RatingCurveNumber + 1;
+                            if (!AddObject("RatingCurve", RatingCurve)) return false;
+
+                            RatingCurveValue.RatingCurveValueID = 0;
+                            RatingCurveValue.RatingCurveID = RatingCurve.RatingCurveID;
+                            RatingCurveValue.StageValue_m = RatingCurveValue.StageValue_m + 1;
+                            if (!AddObject("RatingCurveValue", RatingCurveValue)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion RatingCurves
+            #region ReportSections
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.ReportSections select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        ReportSection ReportSection = (from c in db.ReportSections select c).OrderByDescending(c => c.ReportSectionID).FirstOrDefault();
+                        List<ReportSectionLanguage> ReportSectionLanguageList = (from c in db.ReportSectionLanguages select c).OrderByDescending(c => c.ReportSectionLanguageID).Take(2).ToList();
+                        try
+                        {
+                            ReportSection.ReportSectionID = 0;
+                            ReportSection.Year = ReportSection.Year + 1;
+                            if (!AddObject("ReportSection", ReportSection)) return false;
+
+                            foreach (ReportSectionLanguage ReportSectionLanguage in ReportSectionLanguageList)
+                            {
+                                ReportSectionLanguage.ReportSectionLanguageID = 0;
+                                ReportSectionLanguage.ReportSectionID = ReportSection.ReportSectionID;
+                                ReportSectionLanguage.ReportSectionName = ReportSectionLanguage.ReportSectionName + "a";
+                                if (!AddObject("ReportSectionLanguage", ReportSectionLanguage)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion ReportSections
+            #region ReportTypes
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.ReportTypes select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        ReportType ReportType = (from c in db.ReportTypes select c).OrderByDescending(c => c.ReportTypeID).FirstOrDefault();
+                        List<ReportTypeLanguage> ReportTypeLanguageList = (from c in db.ReportTypeLanguages select c).OrderByDescending(c => c.ReportTypeLanguageID).Take(2).ToList();
+                        try
+                        {
+                            ReportType.ReportTypeID = 0;
+                            ReportType.UniqueCode = ReportType.UniqueCode + "a";
+                            if (!AddObject("ReportType", ReportType)) return false;
+
+                            foreach (ReportTypeLanguage ReportTypeLanguage in ReportTypeLanguageList)
+                            {
+                                ReportTypeLanguage.ReportTypeLanguageID = 0;
+                                ReportTypeLanguage.ReportTypeID = ReportType.ReportTypeID;
+                                ReportTypeLanguage.Name = ReportTypeLanguage.Name + "a";
+                                if (!AddObject("ReportTypeLanguage", ReportTypeLanguage)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion ReportTypes
+            #region ResetPasswords
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.ResetPasswords select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        ResetPassword ResetPassword = (from c in db.ResetPasswords select c).OrderByDescending(c => c.ResetPasswordID).FirstOrDefault();
+                        try
+                        {
+                            ResetPassword.ResetPasswordID = 0;
+                            ResetPassword.Email = ResetPassword.Email + "a";
+                            if (!AddObject("ResetPassword", ResetPassword)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion ResetPasswords
+            #region SamplingPlans
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.SamplingPlans select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        SamplingPlan SamplingPlan = (from c in db.SamplingPlans select c).OrderByDescending(c => c.SamplingPlanID).FirstOrDefault();
+                        SamplingPlanSubsector SamplingPlanSubsector = (from c in db.SamplingPlanSubsectors select c).OrderByDescending(c => c.SamplingPlanSubsectorID).FirstOrDefault();
+                        SamplingPlanSubsectorSite SamplingPlanSubsectorSite = (from c in db.SamplingPlanSubsectorSites select c).OrderByDescending(c => c.SamplingPlanSubsectorSiteID).FirstOrDefault();
+                        try
+                        {
+                            SamplingPlan.SamplingPlanID = 0;
+                            SamplingPlan.ForGroupName = SamplingPlan.ForGroupName + "a";
+                            SamplingPlan.SamplingPlanName = SamplingPlan.SamplingPlanName + "a";
+                            if (!AddObject("SamplingPlan", SamplingPlan)) return false;
+
+                            SamplingPlanSubsector.SamplingPlanSubsectorID = 0;
+                            SamplingPlanSubsector.SamplingPlanID = SamplingPlan.SamplingPlanID;
+                            if (!AddObject("SamplingPlanSubsector", SamplingPlanSubsector)) return false;
+
+                            SamplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 0;
+                            SamplingPlanSubsectorSite.SamplingPlanSubsectorID = SamplingPlanSubsectorSite.SamplingPlanSubsectorID;
+                            if (!AddObject("SamplingPlanSubsectorSite", SamplingPlanSubsectorSite)) return false;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion SamplingPlans
+            #region Spills
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.Spills select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        Spill Spill = (from c in db.Spills select c).OrderByDescending(c => c.SpillID).FirstOrDefault();
+                        List<SpillLanguage> SpillLanguageList = (from c in db.SpillLanguages select c).OrderByDescending(c => c.SpillLanguageID).Take(2).ToList();
+                        try
+                        {
+                            Spill.SpillID = 0;
+                            Spill.AverageFlow_m3_day = Spill.AverageFlow_m3_day + 1;
+                            if (!AddObject("Spill", Spill)) return false;
+
+                            foreach (SpillLanguage SpillLanguage in SpillLanguageList)
+                            {
+                                SpillLanguage.SpillLanguageID = 0;
+                                SpillLanguage.SpillComment = SpillLanguage.SpillComment + "a";
+                                if (!AddObject("SpillLanguage", SpillLanguage)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion Spills
+            #region Tels
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.Tels select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        Tel Tel = (from c in db.Tels select c).OrderByDescending(c => c.TelID).FirstOrDefault();
+                        try
+                        {
+                            Tel.TelID = 0;
+                            Tel.TelNumber = Tel.TelNumber.Substring(Tel.TelNumber.Length - 2) + count*2;
+                            if (!AddObject("Tel", Tel)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion Tels
+            #region TideDataValues
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TideDataValues select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TideDataValue TideDataValue = (from c in db.TideDataValues select c).OrderByDescending(c => c.TideDataValueID).FirstOrDefault();
+                        try
+                        {
+                            TideDataValue.TideDataValueID = 0;
+                            TideDataValue.Depth_m = TideDataValue.Depth_m + 1;
+                            if (!AddObject("TideDataValue", TideDataValue)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TideDataValues
+            #region TideLocations
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TideLocations select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TideLocation TideLocation = (from c in db.TideLocations select c).OrderByDescending(c => c.TideLocationID).FirstOrDefault();
+                        try
+                        {
+                            TideLocation.TideLocationID = 0;
+                            TideLocation.Name = TideLocation.Name + "a";
+                            if (!AddObject("TideLocation", TideLocation)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TideLocations
+            #region TideSites
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TideSites select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TideSite TideSite = (from c in db.TideSites select c).OrderByDescending(c => c.TideSiteID).FirstOrDefault();
+                        try
+                        {
+                            TideSite.TideSiteID = 0;
+                            TideSite.WebTideModel = TideSite.WebTideModel + "a";
+                            if (!AddObject("TideSite", TideSite)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TideSites
+            #region TVFiles
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TVFiles select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TVFile TVFile = (from c in db.TVFiles select c).OrderByDescending(c => c.TVFileID).FirstOrDefault();
+                        List<TVFileLanguage> TVFileLanguageList = (from c in db.TVFileLanguages select c).OrderByDescending(c => c.TVFileLanguageID).Take(2).ToList();
+                        try
+                        {
+                            TVFile.TVFileID = 0;
+                            TVFile.Parameters = TVFile.Parameters + "a";
+                            if (!AddObject("TVFile", TVFile)) return false;
+
+                            foreach (TVFileLanguage TVFileLanguage in TVFileLanguageList)
+                            {
+                                TVFileLanguage.TVFileLanguageID = 0;
+                                TVFileLanguage.FileDescription = TVFileLanguage.FileDescription + "a";
+                                if (!AddObject("TVFileLanguage", TVFileLanguage)) return false;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TVFiles
+            #region TVItemLinks
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TVItemLinks select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TVItemLink TVItemLink = (from c in db.TVItemLinks select c).OrderByDescending(c => c.TVItemLinkID).FirstOrDefault();
+                        try
+                        {
+                            TVItemLink.TVItemLinkID = 0;
+                            //TVItemLink.Email = TVItemLink.Email + "a";
+                            if (!AddObject("TVItemLink", TVItemLink)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TVItemLinks
+            #region TVItemStats
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TVItemStats select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TVItemStat TVItemStat = (from c in db.TVItemStats select c).OrderByDescending(c => c.TVItemStatID).FirstOrDefault();
+                        try
+                        {
+                            TVItemStat.TVItemStatID = 0;
+                            TVItemStat.ChildCount = TVItemStat.ChildCount + 1;
+                            if (!AddObject("TVItemStat", TVItemStat)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TVItemStats
+            #region TVItemUserAuthorizations
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TVItemUserAuthorizations select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TVItemUserAuthorization TVItemUserAuthorization = (from c in db.TVItemUserAuthorizations select c).OrderByDescending(c => c.TVItemUserAuthorizationID).FirstOrDefault();
+                        try
+                        {
+                            TVItemUserAuthorization.TVItemUserAuthorizationID = 0;
+                            if (!AddObject("TVItemUserAuthorization", TVItemUserAuthorization)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TVItemUserAuthorizations
+            #region TVTypeUserAuthorizations
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.TVTypeUserAuthorizations select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        TVTypeUserAuthorization TVTypeUserAuthorization = (from c in db.TVTypeUserAuthorizations select c).OrderByDescending(c => c.TVTypeUserAuthorizationID).FirstOrDefault();
+                        try
+                        {
+                            TVTypeUserAuthorization.TVTypeUserAuthorizationID = 0;
+                            if (!AddObject("TVTypeUserAuthorization", TVTypeUserAuthorization)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion TVTypeUserAuthorizations
+            #region UseOfSites
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.UseOfSites select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        UseOfSite UseOfSite = (from c in db.UseOfSites select c).OrderByDescending(c => c.UseOfSiteID).FirstOrDefault();
+                        try
+                        {
+                            UseOfSite.UseOfSiteID = 0;
+                            UseOfSite.Weight_perc = UseOfSite.Weight_perc + 1;
+                            if (!AddObject("UseOfSite", UseOfSite)) return false;
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion UseOfSites
+            #region VPScenarios
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                count = (from c in db.VPScenarios select c).Count();
+                if (count < 10)
+                {
+                    for (int i = count; i < 10; i++)
+                    {
+                        VPScenario VPScenario = (from c in db.VPScenarios select c).OrderByDescending(c => c.VPScenarioID).FirstOrDefault();
+                        VPResult VPResult = (from c in db.VPResults select c).OrderByDescending(c => c.VPResultID).FirstOrDefault();
+                        VPAmbient VPAmbient = (from c in db.VPAmbients select c).OrderByDescending(c => c.VPAmbientID).FirstOrDefault();
+                        List<VPScenarioLanguage> VPScenarioLanguageList = (from c in db.VPScenarioLanguages select c).OrderByDescending(c => c.VPScenarioLanguageID).Take(2).ToList();
+                        try
+                        {
+                            VPScenario.VPScenarioID = 0;
+                            VPScenario.PortDiameter_m = VPScenario.PortDiameter_m + 0.1f;
+                            if (!AddObject("VPScenario", VPScenario)) return false;
+
+                            VPResult.VPResultID = 0;
+                            VPResult.VPScenarioID = VPScenario.VPScenarioID;
+                            VPResult.TravelTime_hour = VPResult.TravelTime_hour + 1;
+                            if (!AddObject("VPResult", VPResult)) return false;
+
+                            VPAmbient.VPAmbientID = 0;
+                            VPAmbient.VPScenarioID = VPAmbient.VPScenarioID;
+                            VPAmbient.MeasurementDepth_m = VPAmbient.MeasurementDepth_m + 0.02f;
+                            if (!AddObject("VPAmbient", VPAmbient)) return false;
+
+                            foreach (VPScenarioLanguage VPScenarioLanguage in VPScenarioLanguageList)
+                            {
+                                VPScenarioLanguage.VPScenarioLanguageID = 0;
+                                VPScenarioLanguage.VPScenarioID = VPScenario.VPScenarioID;
+                                VPScenarioLanguage.VPScenarioName = VPScenarioLanguage.VPScenarioName + "a";
+                                if (!AddObject("VPScenarioLanguage", VPScenarioLanguage)) return false;
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                            return false;
+                        }
+                    }
+                }
+            }
+            #endregion VPScenarios
 
             return true;
         }

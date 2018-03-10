@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SpillService spillService = new SpillService(LanguageRequest, dbTestDB, ContactID);
+                    SpillService spillService = new SpillService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -316,28 +316,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SpillService spillService = new SpillService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    SpillService spillService = new SpillService(new GetParam(), dbTestDB, ContactID);
                     Spill spill = (from c in spillService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(spill);
 
                     Spill spillRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID);
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, getParam);
+                            Assert.IsNull(spillRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityOnly);
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityWeb);
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, EntityQueryDetailTypeEnum.EntityReport);
+                            spillRet = spillService.GetSpillWithSpillID(spill.SpillID, getParam);
                         }
                         else
                         {

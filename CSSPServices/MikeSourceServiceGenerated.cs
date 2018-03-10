@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MikeSourceService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MikeSourceService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -134,15 +134,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID, GetParam getParam)
         {
-            IQueryable<MikeSource> mikeSourceQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeSource> mikeSourceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeSourceID == MikeSourceID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceQuery.FirstOrDefault();
@@ -154,21 +152,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MikeSource> GetMikeSourceList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MikeSource> GetMikeSourceList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MikeSource> mikeSourceQuery = (from c in GetRead()
+            IQueryable<MikeSource> mikeSourceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mikeSourceQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeSourceQuery  = mikeSourceQuery.OrderByDescending(c => c.MikeSourceID);
+                        }
+                        mikeSourceQuery = mikeSourceQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeSourceQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeSourceWeb(mikeSourceQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeSourceQuery = FillMikeSourceWeb(mikeSourceQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceID);
+                        }
+                        mikeSourceQuery = FillMikeSourceWeb(mikeSourceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeSourceQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceReport(mikeSourceQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeSourceQuery = FillMikeSourceReport(mikeSourceQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceID);
+                        }
+                        mikeSourceQuery = FillMikeSourceReport(mikeSourceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeSourceQuery;
+                    }
                 default:
                     return null;
             }

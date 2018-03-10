@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MikeScenarioService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MikeScenarioService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -317,15 +317,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeScenario GetMikeScenarioWithMikeScenarioID(int MikeScenarioID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MikeScenario GetMikeScenarioWithMikeScenarioID(int MikeScenarioID, GetParam getParam)
         {
-            IQueryable<MikeScenario> mikeScenarioQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeScenario> mikeScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeScenarioID == MikeScenarioID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeScenarioQuery.FirstOrDefault();
@@ -337,21 +335,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MikeScenario> GetMikeScenarioList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MikeScenario> GetMikeScenarioList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MikeScenario> mikeScenarioQuery = (from c in GetRead()
+            IQueryable<MikeScenario> mikeScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mikeScenarioQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeScenarioQuery  = mikeScenarioQuery.OrderByDescending(c => c.MikeScenarioID);
+                        }
+                        mikeScenarioQuery = mikeScenarioQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeScenarioQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeScenarioWeb(mikeScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeScenarioQuery = FillMikeScenarioWeb(mikeScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.MikeScenarioID);
+                        }
+                        mikeScenarioQuery = FillMikeScenarioWeb(mikeScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeScenarioQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeScenarioReport(mikeScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeScenarioQuery = FillMikeScenarioReport(mikeScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.MikeScenarioID);
+                        }
+                        mikeScenarioQuery = FillMikeScenarioReport(mikeScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeScenarioQuery;
+                    }
                 default:
                     return null;
             }

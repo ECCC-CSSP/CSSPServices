@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemService tvItemService = new TVItemService(LanguageRequest, dbTestDB, ContactID);
+                    TVItemService tvItemService = new TVItemService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -303,28 +303,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemService tvItemService = new TVItemService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    TVItemService tvItemService = new TVItemService(new GetParam(), dbTestDB, ContactID);
                     TVItem tvItem = (from c in tvItemService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvItem);
 
                     TVItem tvItemRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID);
+                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, getParam);
+                            Assert.IsNull(tvItemRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, EntityQueryDetailTypeEnum.EntityOnly);
+                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, EntityQueryDetailTypeEnum.EntityWeb);
+                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, EntityQueryDetailTypeEnum.EntityReport);
+                            tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID, getParam);
                         }
                         else
                         {

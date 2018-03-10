@@ -59,7 +59,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    RTBStringPosService rTBStringPosService = new RTBStringPosService(LanguageRequest, dbTestDB, ContactID);
+                    RTBStringPosService rTBStringPosService = new RTBStringPosService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

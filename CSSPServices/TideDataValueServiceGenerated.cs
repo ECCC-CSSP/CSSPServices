@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TideDataValueService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TideDataValueService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -188,15 +188,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID, GetParam getParam)
         {
-            IQueryable<TideDataValue> tideDataValueQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TideDataValue> tideDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideDataValueID == TideDataValueID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideDataValueQuery.FirstOrDefault();
@@ -208,21 +206,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<TideDataValue> GetTideDataValueList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<TideDataValue> GetTideDataValueList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<TideDataValue> tideDataValueQuery = (from c in GetRead()
+            IQueryable<TideDataValue> tideDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tideDataValueQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideDataValueQuery  = tideDataValueQuery.OrderByDescending(c => c.TideDataValueID);
+                        }
+                        tideDataValueQuery = tideDataValueQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return tideDataValueQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideDataValueWeb(tideDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideDataValueQuery = FillTideDataValueWeb(tideDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.TideDataValueID);
+                        }
+                        tideDataValueQuery = FillTideDataValueWeb(tideDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tideDataValueQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideDataValueReport(tideDataValueQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideDataValueQuery = FillTideDataValueReport(tideDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.TideDataValueID);
+                        }
+                        tideDataValueQuery = FillTideDataValueReport(tideDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tideDataValueQuery;
+                    }
                 default:
                     return null;
             }

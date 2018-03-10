@@ -76,7 +76,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LabSheetService labSheetService = new LabSheetService(LanguageRequest, dbTestDB, ContactID);
+                    LabSheetService labSheetService = new LabSheetService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -546,28 +546,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LabSheetService labSheetService = new LabSheetService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    LabSheetService labSheetService = new LabSheetService(new GetParam(), dbTestDB, ContactID);
                     LabSheet labSheet = (from c in labSheetService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(labSheet);
 
                     LabSheet labSheetRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
+                            Assert.IsNull(labSheetRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, EntityQueryDetailTypeEnum.EntityOnly);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, EntityQueryDetailTypeEnum.EntityWeb);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, EntityQueryDetailTypeEnum.EntityReport);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
                         }
                         else
                         {

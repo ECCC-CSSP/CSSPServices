@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ContactShortcutService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public ContactShortcutService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -134,15 +134,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID, GetParam getParam)
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactShortcutID == ContactShortcutID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactShortcutQuery.FirstOrDefault();
@@ -154,21 +152,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<ContactShortcut> GetContactShortcutList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<ContactShortcut> GetContactShortcutList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = (from c in GetRead()
+            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return contactShortcutQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactShortcutQuery  = contactShortcutQuery.OrderByDescending(c => c.ContactShortcutID);
+                        }
+                        contactShortcutQuery = contactShortcutQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return contactShortcutQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactShortcutWeb(contactShortcutQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactShortcutQuery = FillContactShortcutWeb(contactShortcutQuery, FilterAndOrderText).OrderByDescending(c => c.ContactShortcutID);
+                        }
+                        contactShortcutQuery = FillContactShortcutWeb(contactShortcutQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return contactShortcutQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactShortcutReport(contactShortcutQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactShortcutQuery = FillContactShortcutReport(contactShortcutQuery, FilterAndOrderText).OrderByDescending(c => c.ContactShortcutID);
+                        }
+                        contactShortcutQuery = FillContactShortcutReport(contactShortcutQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return contactShortcutQuery;
+                    }
                 default:
                     return null;
             }

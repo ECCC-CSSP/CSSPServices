@@ -55,7 +55,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VectorService vectorService = new VectorService(LanguageRequest, dbTestDB, ContactID);
+                    VectorService vectorService = new VectorService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

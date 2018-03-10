@@ -72,7 +72,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVFileService tvFileService = new TVFileService(LanguageRequest, dbTestDB, ContactID);
+                    TVFileService tvFileService = new TVFileService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -447,28 +447,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVFileService tvFileService = new TVFileService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    TVFileService tvFileService = new TVFileService(new GetParam(), dbTestDB, ContactID);
                     TVFile tvFile = (from c in tvFileService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvFile);
 
                     TVFile tvFileRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID);
+                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, getParam);
+                            Assert.IsNull(tvFileRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, EntityQueryDetailTypeEnum.EntityOnly);
+                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, EntityQueryDetailTypeEnum.EntityWeb);
+                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, EntityQueryDetailTypeEnum.EntityReport);
+                            tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID, getParam);
                         }
                         else
                         {

@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(LanguageRequest, dbTestDB, ContactID);
+                    PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

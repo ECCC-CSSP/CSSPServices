@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    DataPathOfTideService dataPathOfTideService = new DataPathOfTideService(LanguageRequest, dbTestDB, ContactID);
+                    DataPathOfTideService dataPathOfTideService = new DataPathOfTideService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

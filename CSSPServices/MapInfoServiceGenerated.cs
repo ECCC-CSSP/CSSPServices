@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MapInfoService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MapInfoService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -194,15 +194,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MapInfo GetMapInfoWithMapInfoID(int MapInfoID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MapInfo GetMapInfoWithMapInfoID(int MapInfoID, GetParam getParam)
         {
-            IQueryable<MapInfo> mapInfoQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MapInfo> mapInfoQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MapInfoID == MapInfoID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoQuery.FirstOrDefault();
@@ -214,21 +212,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MapInfo> GetMapInfoList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MapInfo> GetMapInfoList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MapInfo> mapInfoQuery = (from c in GetRead()
+            IQueryable<MapInfo> mapInfoQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mapInfoQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mapInfoQuery  = mapInfoQuery.OrderByDescending(c => c.MapInfoID);
+                        }
+                        mapInfoQuery = mapInfoQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mapInfoQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMapInfoWeb(mapInfoQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mapInfoQuery = FillMapInfoWeb(mapInfoQuery, FilterAndOrderText).OrderByDescending(c => c.MapInfoID);
+                        }
+                        mapInfoQuery = FillMapInfoWeb(mapInfoQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mapInfoQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfoReport(mapInfoQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mapInfoQuery = FillMapInfoReport(mapInfoQuery, FilterAndOrderText).OrderByDescending(c => c.MapInfoID);
+                        }
+                        mapInfoQuery = FillMapInfoReport(mapInfoQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mapInfoQuery;
+                    }
                 default:
                     return null;
             }

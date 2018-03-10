@@ -71,7 +71,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSiteSampleFCService mwqmSiteSampleFCService = new MWQMSiteSampleFCService(LanguageRequest, dbTestDB, ContactID);
+                    MWQMSiteSampleFCService mwqmSiteSampleFCService = new MWQMSiteSampleFCService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

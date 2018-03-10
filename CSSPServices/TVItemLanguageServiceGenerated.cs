@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVItemLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TVItemLanguageService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -169,15 +169,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVItemLanguage GetTVItemLanguageWithTVItemLanguageID(int TVItemLanguageID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public TVItemLanguage GetTVItemLanguageWithTVItemLanguageID(int TVItemLanguageID, GetParam getParam)
         {
-            IQueryable<TVItemLanguage> tvItemLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVItemLanguage> tvItemLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVItemLanguageID == TVItemLanguageID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemLanguageQuery.FirstOrDefault();
@@ -189,21 +187,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<TVItemLanguage> GetTVItemLanguageList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<TVItemLanguage> GetTVItemLanguageList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<TVItemLanguage> tvItemLanguageQuery = (from c in GetRead()
+            IQueryable<TVItemLanguage> tvItemLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tvItemLanguageQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemLanguageQuery  = tvItemLanguageQuery.OrderByDescending(c => c.TVItemLanguageID);
+                        }
+                        tvItemLanguageQuery = tvItemLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVItemLanguageWeb(tvItemLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemLanguageQuery = FillTVItemLanguageWeb(tvItemLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemLanguageID);
+                        }
+                        tvItemLanguageQuery = FillTVItemLanguageWeb(tvItemLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemLanguageReport(tvItemLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemLanguageQuery = FillTVItemLanguageReport(tvItemLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemLanguageID);
+                        }
+                        tvItemLanguageQuery = FillTVItemLanguageReport(tvItemLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemLanguageQuery;
+                    }
                 default:
                     return null;
             }

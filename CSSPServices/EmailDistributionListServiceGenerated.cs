@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public EmailDistributionListService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public EmailDistributionListService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -128,15 +128,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID, GetParam getParam)
         {
-            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailDistributionListID == EmailDistributionListID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListQuery.FirstOrDefault();
@@ -148,21 +146,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<EmailDistributionList> GetEmailDistributionListList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<EmailDistributionList> GetEmailDistributionListList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in GetRead()
+            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return emailDistributionListQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            emailDistributionListQuery  = emailDistributionListQuery.OrderByDescending(c => c.EmailDistributionListID);
+                        }
+                        emailDistributionListQuery = emailDistributionListQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return emailDistributionListQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillEmailDistributionListWeb(emailDistributionListQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            emailDistributionListQuery = FillEmailDistributionListWeb(emailDistributionListQuery, FilterAndOrderText).OrderByDescending(c => c.EmailDistributionListID);
+                        }
+                        emailDistributionListQuery = FillEmailDistributionListWeb(emailDistributionListQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return emailDistributionListQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionListReport(emailDistributionListQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            emailDistributionListQuery = FillEmailDistributionListReport(emailDistributionListQuery, FilterAndOrderText).OrderByDescending(c => c.EmailDistributionListID);
+                        }
+                        emailDistributionListQuery = FillEmailDistributionListReport(emailDistributionListQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return emailDistributionListQuery;
+                    }
                 default:
                     return null;
             }

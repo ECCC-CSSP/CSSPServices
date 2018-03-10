@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSubsectorLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMSubsectorLanguageService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -148,15 +148,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSubsectorLanguage GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMSubsectorLanguage GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID, GetParam getParam)
         {
-            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorLanguageQuery.FirstOrDefault();
@@ -168,21 +166,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMSubsectorLanguage> GetMWQMSubsectorLanguageList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMSubsectorLanguage> GetMWQMSubsectorLanguageList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in GetRead()
+            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSubsectorLanguageQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSubsectorLanguageQuery  = mwqmSubsectorLanguageQuery.OrderByDescending(c => c.MWQMSubsectorLanguageID);
+                        }
+                        mwqmSubsectorLanguageQuery = mwqmSubsectorLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSubsectorLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSubsectorLanguageWeb(mwqmSubsectorLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSubsectorLanguageQuery = FillMWQMSubsectorLanguageWeb(mwqmSubsectorLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSubsectorLanguageID);
+                        }
+                        mwqmSubsectorLanguageQuery = FillMWQMSubsectorLanguageWeb(mwqmSubsectorLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSubsectorLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsectorLanguageReport(mwqmSubsectorLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSubsectorLanguageQuery = FillMWQMSubsectorLanguageReport(mwqmSubsectorLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSubsectorLanguageID);
+                        }
+                        mwqmSubsectorLanguageQuery = FillMWQMSubsectorLanguageReport(mwqmSubsectorLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSubsectorLanguageQuery;
+                    }
                 default:
                     return null;
             }

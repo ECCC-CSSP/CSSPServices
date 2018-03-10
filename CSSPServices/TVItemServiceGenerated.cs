@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVItemService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TVItemService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -183,15 +183,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVItem GetTVItemWithTVItemID(int TVItemID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public TVItem GetTVItemWithTVItemID(int TVItemID, GetParam getParam)
         {
-            IQueryable<TVItem> tvItemQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVItem> tvItemQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVItemID == TVItemID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemQuery.FirstOrDefault();
@@ -203,21 +201,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<TVItem> GetTVItemList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<TVItem> GetTVItemList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<TVItem> tvItemQuery = (from c in GetRead()
+            IQueryable<TVItem> tvItemQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tvItemQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemQuery  = tvItemQuery.OrderByDescending(c => c.TVItemID);
+                        }
+                        tvItemQuery = tvItemQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVItemWeb(tvItemQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemQuery = FillTVItemWeb(tvItemQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemID);
+                        }
+                        tvItemQuery = FillTVItemWeb(tvItemQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemReport(tvItemQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvItemQuery = FillTVItemReport(tvItemQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemID);
+                        }
+                        tvItemQuery = FillTVItemReport(tvItemQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvItemQuery;
+                    }
                 default:
                     return null;
             }

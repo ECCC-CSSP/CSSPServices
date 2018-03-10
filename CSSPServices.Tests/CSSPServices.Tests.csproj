@@ -314,8 +314,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressServiceTestExtra.cs" />
-    <Compile Include="AppErrLogServiceTestExtra.cs" />
     <Compile Include="AddressServiceTestGenerated.cs" />
+    <Compile Include="AppErrLogServiceTestExtra.cs" />
     <Compile Include="AppErrLogServiceTestGenerated.cs" />
     <Compile Include="AppTaskLanguageServiceTestExtra.cs" />
     <Compile Include="AppTaskLanguageServiceTestGenerated.cs" />

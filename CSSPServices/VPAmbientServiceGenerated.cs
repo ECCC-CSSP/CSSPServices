@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public VPAmbientService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public VPAmbientService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -176,15 +176,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID, GetParam getParam)
         {
-            IQueryable<VPAmbient> vpAmbientQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<VPAmbient> vpAmbientQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPAmbientID == VPAmbientID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpAmbientQuery.FirstOrDefault();
@@ -196,21 +194,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<VPAmbient> GetVPAmbientList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<VPAmbient> GetVPAmbientList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<VPAmbient> vpAmbientQuery = (from c in GetRead()
+            IQueryable<VPAmbient> vpAmbientQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return vpAmbientQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpAmbientQuery  = vpAmbientQuery.OrderByDescending(c => c.VPAmbientID);
+                        }
+                        vpAmbientQuery = vpAmbientQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return vpAmbientQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPAmbientWeb(vpAmbientQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpAmbientQuery = FillVPAmbientWeb(vpAmbientQuery, FilterAndOrderText).OrderByDescending(c => c.VPAmbientID);
+                        }
+                        vpAmbientQuery = FillVPAmbientWeb(vpAmbientQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpAmbientQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPAmbientReport(vpAmbientQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpAmbientQuery = FillVPAmbientReport(vpAmbientQuery, FilterAndOrderText).OrderByDescending(c => c.VPAmbientID);
+                        }
+                        vpAmbientQuery = FillVPAmbientReport(vpAmbientQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpAmbientQuery;
+                    }
                 default:
                     return null;
             }

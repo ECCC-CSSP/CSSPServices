@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TelService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TelService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -141,15 +141,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Tel GetTelWithTelID(int TelID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public Tel GetTelWithTelID(int TelID, GetParam getParam)
         {
-            IQueryable<Tel> telQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Tel> telQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TelID == TelID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return telQuery.FirstOrDefault();
@@ -161,21 +159,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<Tel> GetTelList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<Tel> GetTelList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<Tel> telQuery = (from c in GetRead()
+            IQueryable<Tel> telQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return telQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            telQuery  = telQuery.OrderByDescending(c => c.TelID);
+                        }
+                        telQuery = telQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return telQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTelWeb(telQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            telQuery = FillTelWeb(telQuery, FilterAndOrderText).OrderByDescending(c => c.TelID);
+                        }
+                        telQuery = FillTelWeb(telQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return telQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTelReport(telQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            telQuery = FillTelReport(telQuery, FilterAndOrderText).OrderByDescending(c => c.TelID);
+                        }
+                        telQuery = FillTelReport(telQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return telQuery;
+                    }
                 default:
                     return null;
             }

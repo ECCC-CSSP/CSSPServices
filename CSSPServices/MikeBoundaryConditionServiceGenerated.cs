@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MikeBoundaryConditionService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MikeBoundaryConditionService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -200,15 +200,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeBoundaryCondition GetMikeBoundaryConditionWithMikeBoundaryConditionID(int MikeBoundaryConditionID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MikeBoundaryCondition GetMikeBoundaryConditionWithMikeBoundaryConditionID(int MikeBoundaryConditionID, GetParam getParam)
         {
-            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeBoundaryConditionID == MikeBoundaryConditionID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeBoundaryConditionQuery.FirstOrDefault();
@@ -220,21 +218,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MikeBoundaryCondition> GetMikeBoundaryConditionList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MikeBoundaryCondition> GetMikeBoundaryConditionList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in GetRead()
+            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mikeBoundaryConditionQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeBoundaryConditionQuery  = mikeBoundaryConditionQuery.OrderByDescending(c => c.MikeBoundaryConditionID);
+                        }
+                        mikeBoundaryConditionQuery = mikeBoundaryConditionQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeBoundaryConditionQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeBoundaryConditionWeb(mikeBoundaryConditionQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeBoundaryConditionQuery = FillMikeBoundaryConditionWeb(mikeBoundaryConditionQuery, FilterAndOrderText).OrderByDescending(c => c.MikeBoundaryConditionID);
+                        }
+                        mikeBoundaryConditionQuery = FillMikeBoundaryConditionWeb(mikeBoundaryConditionQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeBoundaryConditionQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeBoundaryConditionReport(mikeBoundaryConditionQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeBoundaryConditionQuery = FillMikeBoundaryConditionReport(mikeBoundaryConditionQuery, FilterAndOrderText).OrderByDescending(c => c.MikeBoundaryConditionID);
+                        }
+                        mikeBoundaryConditionQuery = FillMikeBoundaryConditionReport(mikeBoundaryConditionQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeBoundaryConditionQuery;
+                    }
                 default:
                     return null;
             }

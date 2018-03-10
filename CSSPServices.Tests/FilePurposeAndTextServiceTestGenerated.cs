@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(LanguageRequest, dbTestDB, ContactID);
+                    FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

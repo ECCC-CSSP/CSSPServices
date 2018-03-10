@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    CalDecayService calDecayService = new CalDecayService(LanguageRequest, dbTestDB, ContactID);
+                    CalDecayService calDecayService = new CalDecayService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

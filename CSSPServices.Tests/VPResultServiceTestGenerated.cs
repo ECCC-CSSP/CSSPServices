@@ -64,7 +64,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPResultService vpResultService = new VPResultService(LanguageRequest, dbTestDB, ContactID);
+                    VPResultService vpResultService = new VPResultService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -370,28 +370,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPResultService vpResultService = new VPResultService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    VPResultService vpResultService = new VPResultService(new GetParam(), dbTestDB, ContactID);
                     VPResult vpResult = (from c in vpResultService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpResult);
 
                     VPResult vpResultRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
+                            Assert.IsNull(vpResultRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, EntityQueryDetailTypeEnum.EntityOnly);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, EntityQueryDetailTypeEnum.EntityWeb);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, EntityQueryDetailTypeEnum.EntityReport);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
                         }
                         else
                         {

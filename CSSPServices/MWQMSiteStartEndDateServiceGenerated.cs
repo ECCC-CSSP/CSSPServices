@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSiteStartEndDateService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMSiteStartEndDateService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -148,15 +148,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID, GetParam getParam)
         {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteStartEndDateQuery.FirstOrDefault();
@@ -168,21 +166,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMSiteStartEndDate> GetMWQMSiteStartEndDateList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMSiteStartEndDate> GetMWQMSiteStartEndDateList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in GetRead()
+            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSiteStartEndDateQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSiteStartEndDateQuery  = mwqmSiteStartEndDateQuery.OrderByDescending(c => c.MWQMSiteStartEndDateID);
+                        }
+                        mwqmSiteStartEndDateQuery = mwqmSiteStartEndDateQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSiteStartEndDateQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSiteStartEndDateWeb(mwqmSiteStartEndDateQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSiteStartEndDateQuery = FillMWQMSiteStartEndDateWeb(mwqmSiteStartEndDateQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSiteStartEndDateID);
+                        }
+                        mwqmSiteStartEndDateQuery = FillMWQMSiteStartEndDateWeb(mwqmSiteStartEndDateQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSiteStartEndDateQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSiteStartEndDateReport(mwqmSiteStartEndDateQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSiteStartEndDateQuery = FillMWQMSiteStartEndDateReport(mwqmSiteStartEndDateQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSiteStartEndDateID);
+                        }
+                        mwqmSiteStartEndDateQuery = FillMWQMSiteStartEndDateReport(mwqmSiteStartEndDateQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSiteStartEndDateQuery;
+                    }
                 default:
                     return null;
             }

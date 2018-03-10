@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public PolSourceObservationIssueService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public PolSourceObservationIssueService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -130,15 +130,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public PolSourceObservationIssue GetPolSourceObservationIssueWithPolSourceObservationIssueID(int PolSourceObservationIssueID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public PolSourceObservationIssue GetPolSourceObservationIssueWithPolSourceObservationIssueID(int PolSourceObservationIssueID, GetParam getParam)
         {
-            IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.PolSourceObservationIssueID == PolSourceObservationIssueID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return polSourceObservationIssueQuery.FirstOrDefault();
@@ -150,21 +148,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<PolSourceObservationIssue> GetPolSourceObservationIssueList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<PolSourceObservationIssue> GetPolSourceObservationIssueList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery = (from c in GetRead()
+            IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return polSourceObservationIssueQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            polSourceObservationIssueQuery  = polSourceObservationIssueQuery.OrderByDescending(c => c.PolSourceObservationIssueID);
+                        }
+                        polSourceObservationIssueQuery = polSourceObservationIssueQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return polSourceObservationIssueQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillPolSourceObservationIssueWeb(polSourceObservationIssueQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            polSourceObservationIssueQuery = FillPolSourceObservationIssueWeb(polSourceObservationIssueQuery, FilterAndOrderText).OrderByDescending(c => c.PolSourceObservationIssueID);
+                        }
+                        polSourceObservationIssueQuery = FillPolSourceObservationIssueWeb(polSourceObservationIssueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return polSourceObservationIssueQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillPolSourceObservationIssueReport(polSourceObservationIssueQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            polSourceObservationIssueQuery = FillPolSourceObservationIssueReport(polSourceObservationIssueQuery, FilterAndOrderText).OrderByDescending(c => c.PolSourceObservationIssueID);
+                        }
+                        polSourceObservationIssueQuery = FillPolSourceObservationIssueReport(polSourceObservationIssueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return polSourceObservationIssueQuery;
+                    }
                 default:
                     return null;
             }

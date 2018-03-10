@@ -59,7 +59,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(LanguageRequest, dbTestDB, ContactID);
+                    LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

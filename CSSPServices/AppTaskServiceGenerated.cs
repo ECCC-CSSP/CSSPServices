@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public AppTaskService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public AppTaskService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -265,15 +265,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AppTask GetAppTaskWithAppTaskID(int AppTaskID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public AppTask GetAppTaskWithAppTaskID(int AppTaskID, GetParam getParam)
         {
-            IQueryable<AppTask> appTaskQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<AppTask> appTaskQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AppTaskID == AppTaskID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appTaskQuery.FirstOrDefault();
@@ -285,21 +283,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<AppTask> GetAppTaskList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<AppTask> GetAppTaskList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<AppTask> appTaskQuery = (from c in GetRead()
+            IQueryable<AppTask> appTaskQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return appTaskQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            appTaskQuery  = appTaskQuery.OrderByDescending(c => c.AppTaskID);
+                        }
+                        appTaskQuery = appTaskQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return appTaskQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAppTaskWeb(appTaskQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            appTaskQuery = FillAppTaskWeb(appTaskQuery, FilterAndOrderText).OrderByDescending(c => c.AppTaskID);
+                        }
+                        appTaskQuery = FillAppTaskWeb(appTaskQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return appTaskQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppTaskReport(appTaskQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            appTaskQuery = FillAppTaskReport(appTaskQuery, FilterAndOrderText).OrderByDescending(c => c.AppTaskID);
+                        }
+                        appTaskQuery = FillAppTaskReport(appTaskQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return appTaskQuery;
+                    }
                 default:
                     return null;
             }

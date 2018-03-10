@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(LanguageRequest, dbTestDB, ContactID);
+                    VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

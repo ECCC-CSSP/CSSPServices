@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    NewContactService newContactService = new NewContactService(LanguageRequest, dbTestDB, ContactID);
+                    NewContactService newContactService = new NewContactService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

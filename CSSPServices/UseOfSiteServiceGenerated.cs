@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public UseOfSiteService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public UseOfSiteService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -217,15 +217,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public UseOfSite GetUseOfSiteWithUseOfSiteID(int UseOfSiteID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public UseOfSite GetUseOfSiteWithUseOfSiteID(int UseOfSiteID, GetParam getParam)
         {
-            IQueryable<UseOfSite> useOfSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<UseOfSite> useOfSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.UseOfSiteID == UseOfSiteID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return useOfSiteQuery.FirstOrDefault();
@@ -237,21 +235,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<UseOfSite> GetUseOfSiteList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<UseOfSite> GetUseOfSiteList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<UseOfSite> useOfSiteQuery = (from c in GetRead()
+            IQueryable<UseOfSite> useOfSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return useOfSiteQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            useOfSiteQuery  = useOfSiteQuery.OrderByDescending(c => c.UseOfSiteID);
+                        }
+                        useOfSiteQuery = useOfSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return useOfSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillUseOfSiteWeb(useOfSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            useOfSiteQuery = FillUseOfSiteWeb(useOfSiteQuery, FilterAndOrderText).OrderByDescending(c => c.UseOfSiteID);
+                        }
+                        useOfSiteQuery = FillUseOfSiteWeb(useOfSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return useOfSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillUseOfSiteReport(useOfSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            useOfSiteQuery = FillUseOfSiteReport(useOfSiteQuery, FilterAndOrderText).OrderByDescending(c => c.UseOfSiteID);
+                        }
+                        useOfSiteQuery = FillUseOfSiteReport(useOfSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return useOfSiteQuery;
+                    }
                 default:
                     return null;
             }

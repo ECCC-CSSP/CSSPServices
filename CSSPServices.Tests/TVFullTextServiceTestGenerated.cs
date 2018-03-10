@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVFullTextService tvFullTextService = new TVFullTextService(LanguageRequest, dbTestDB, ContactID);
+                    TVFullTextService tvFullTextService = new TVFullTextService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

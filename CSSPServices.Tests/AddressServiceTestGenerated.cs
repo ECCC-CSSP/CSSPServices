@@ -67,7 +67,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AddressService addressService = new AddressService(LanguageRequest, dbTestDB, ContactID);
+                    AddressService addressService = new AddressService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -396,28 +396,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AddressService addressService = new AddressService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    AddressService addressService = new AddressService(new GetParam(), dbTestDB, ContactID);
                     Address address = (from c in addressService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
                     Address addressRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            addressRet = addressService.GetAddressWithAddressID(address.AddressID);
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, getParam);
+                            Assert.IsNull(addressRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityOnly);
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityWeb);
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, EntityQueryDetailTypeEnum.EntityReport);
+                            addressRet = addressService.GetAddressWithAddressID(address.AddressID, getParam);
                         }
                         else
                         {

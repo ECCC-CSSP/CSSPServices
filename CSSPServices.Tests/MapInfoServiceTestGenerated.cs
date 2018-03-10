@@ -64,7 +64,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MapInfoService mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
+                    MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -364,28 +364,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MapInfoService mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDB, ContactID);
                     MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
                     MapInfo mapInfoRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
+                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, getParam);
+                            Assert.IsNull(mapInfoRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, EntityQueryDetailTypeEnum.EntityOnly);
+                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, EntityQueryDetailTypeEnum.EntityWeb);
+                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, EntityQueryDetailTypeEnum.EntityReport);
+                            mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID, getParam);
                         }
                         else
                         {

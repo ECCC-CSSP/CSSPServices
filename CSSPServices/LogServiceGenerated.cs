@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LogService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public LogService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -135,15 +135,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Log GetLogWithLogID(int LogID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public Log GetLogWithLogID(int LogID, GetParam getParam)
         {
-            IQueryable<Log> logQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Log> logQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LogID == LogID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return logQuery.FirstOrDefault();
@@ -155,21 +153,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<Log> GetLogList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<Log> GetLogList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<Log> logQuery = (from c in GetRead()
+            IQueryable<Log> logQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return logQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            logQuery  = logQuery.OrderByDescending(c => c.LogID);
+                        }
+                        logQuery = logQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return logQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLogWeb(logQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            logQuery = FillLogWeb(logQuery, FilterAndOrderText).OrderByDescending(c => c.LogID);
+                        }
+                        logQuery = FillLogWeb(logQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return logQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLogReport(logQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            logQuery = FillLogReport(logQuery, FilterAndOrderText).OrderByDescending(c => c.LogID);
+                        }
+                        logQuery = FillLogReport(logQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return logQuery;
+                    }
                 default:
                     return null;
             }

@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(LanguageRequest, dbTestDB, ContactID);
+                    URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolSourceObsInfoEnumTextAndIDService polSourceObsInfoEnumTextAndIDService = new PolSourceObsInfoEnumTextAndIDService(LanguageRequest, dbTestDB, ContactID);
+                    PolSourceObsInfoEnumTextAndIDService polSourceObsInfoEnumTextAndIDService = new PolSourceObsInfoEnumTextAndIDService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

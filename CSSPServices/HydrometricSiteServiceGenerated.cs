@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public HydrometricSiteService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public HydrometricSiteService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -209,15 +209,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID, GetParam getParam)
         {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.HydrometricSiteID == HydrometricSiteID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricSiteQuery.FirstOrDefault();
@@ -229,21 +227,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<HydrometricSite> GetHydrometricSiteList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<HydrometricSite> GetHydrometricSiteList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in GetRead()
+            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return hydrometricSiteQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            hydrometricSiteQuery  = hydrometricSiteQuery.OrderByDescending(c => c.HydrometricSiteID);
+                        }
+                        hydrometricSiteQuery = hydrometricSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return hydrometricSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillHydrometricSiteWeb(hydrometricSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            hydrometricSiteQuery = FillHydrometricSiteWeb(hydrometricSiteQuery, FilterAndOrderText).OrderByDescending(c => c.HydrometricSiteID);
+                        }
+                        hydrometricSiteQuery = FillHydrometricSiteWeb(hydrometricSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return hydrometricSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillHydrometricSiteReport(hydrometricSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            hydrometricSiteQuery = FillHydrometricSiteReport(hydrometricSiteQuery, FilterAndOrderText).OrderByDescending(c => c.HydrometricSiteID);
+                        }
+                        hydrometricSiteQuery = FillHydrometricSiteReport(hydrometricSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return hydrometricSiteQuery;
+                    }
                 default:
                     return null;
             }

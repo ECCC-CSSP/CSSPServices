@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    CoordService coordService = new CoordService(LanguageRequest, dbTestDB, ContactID);
+                    CoordService coordService = new CoordService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

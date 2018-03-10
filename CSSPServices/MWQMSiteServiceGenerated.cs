@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSiteService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMSiteService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -159,15 +159,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID, GetParam getParam)
         {
-            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSiteID == MWQMSiteID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteQuery.FirstOrDefault();
@@ -179,21 +177,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMSite> GetMWQMSiteList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMSite> GetMWQMSiteList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMSite> mwqmSiteQuery = (from c in GetRead()
+            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSiteQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSiteQuery  = mwqmSiteQuery.OrderByDescending(c => c.MWQMSiteID);
+                        }
+                        mwqmSiteQuery = mwqmSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSiteWeb(mwqmSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSiteQuery = FillMWQMSiteWeb(mwqmSiteQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSiteID);
+                        }
+                        mwqmSiteQuery = FillMWQMSiteWeb(mwqmSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSiteReport(mwqmSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSiteQuery = FillMWQMSiteReport(mwqmSiteQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSiteID);
+                        }
+                        mwqmSiteQuery = FillMWQMSiteReport(mwqmSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSiteQuery;
+                    }
                 default:
                     return null;
             }

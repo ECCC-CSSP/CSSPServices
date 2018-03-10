@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVFileService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TVFileService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -224,15 +224,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVFile GetTVFileWithTVFileID(int TVFileID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public TVFile GetTVFileWithTVFileID(int TVFileID, GetParam getParam)
         {
-            IQueryable<TVFile> tvFileQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVFile> tvFileQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVFileID == TVFileID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileQuery.FirstOrDefault();
@@ -244,21 +242,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<TVFile> GetTVFileList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<TVFile> GetTVFileList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<TVFile> tvFileQuery = (from c in GetRead()
+            IQueryable<TVFile> tvFileQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tvFileQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvFileQuery  = tvFileQuery.OrderByDescending(c => c.TVFileID);
+                        }
+                        tvFileQuery = tvFileQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return tvFileQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVFileWeb(tvFileQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvFileQuery = FillTVFileWeb(tvFileQuery, FilterAndOrderText).OrderByDescending(c => c.TVFileID);
+                        }
+                        tvFileQuery = FillTVFileWeb(tvFileQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvFileQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVFileReport(tvFileQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tvFileQuery = FillTVFileReport(tvFileQuery, FilterAndOrderText).OrderByDescending(c => c.TVFileID);
+                        }
+                        tvFileQuery = FillTVFileReport(tvFileQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tvFileQuery;
+                    }
                 default:
                     return null;
             }

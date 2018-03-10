@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AppTaskParameterService appTaskParameterService = new AppTaskParameterService(LanguageRequest, dbTestDB, ContactID);
+                    AppTaskParameterService appTaskParameterService = new AppTaskParameterService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

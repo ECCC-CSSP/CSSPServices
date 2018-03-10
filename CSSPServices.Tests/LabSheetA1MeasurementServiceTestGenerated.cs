@@ -68,7 +68,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(LanguageRequest, dbTestDB, ContactID);
+                    LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

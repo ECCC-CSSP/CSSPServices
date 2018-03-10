@@ -36,6 +36,7 @@ namespace CSSPServices
         public string FromEmail { get; set; }
         public LanguageEnum LanguageRequest { get; set; }
         public int MaxGetCount { get; set; }
+        public GetParam GetParam { get; set; }
         #endregion Properties
 
         #region Constructors
@@ -48,6 +49,33 @@ namespace CSSPServices
             else
             {
                 this.LanguageRequest = LanguageRequest;
+            }
+
+            if (LanguageRequest == LanguageEnum.fr)
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-CA");
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-CA");
+            }
+            else
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-CA");
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-CA");
+            }
+            this.ContactID = ContactID;
+            this.db = db;
+            this.CanSendEmail = true;
+            this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
+            this.MaxGetCount = 25;
+        }
+        public BaseService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+        {
+            if (!LanguageListAllowable.Contains(getParam.Language))
+            {
+                this.LanguageRequest = LanguageEnum.en;
+            }
+            else
+            {
+                this.LanguageRequest = getParam.Language;
             }
 
             if (LanguageRequest == LanguageEnum.fr)

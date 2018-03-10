@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LogService logService = new LogService(LanguageRequest, dbTestDB, ContactID);
+                    LogService logService = new LogService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -285,28 +285,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LogService logService = new LogService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    LogService logService = new LogService(new GetParam(), dbTestDB, ContactID);
                     Log log = (from c in logService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
                     Log logRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID);
+                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
+                            Assert.IsNull(logRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityOnly);
+                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityWeb);
+                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, EntityQueryDetailTypeEnum.EntityReport);
+                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
                         }
                         else
                         {

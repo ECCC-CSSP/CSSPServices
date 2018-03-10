@@ -70,7 +70,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
+                    ContactService contactService = new ContactService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -428,28 +428,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    ContactService contactService = new ContactService(new GetParam(), dbTestDB, ContactID);
                     Contact contact = (from c in contactService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(contact);
 
                     Contact contactRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            contactRet = contactService.GetContactWithContactID(contact.ContactID);
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, getParam);
+                            Assert.IsNull(contactRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityOnly);
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityWeb);
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            contactRet = contactService.GetContactWithContactID(contact.ContactID, EntityQueryDetailTypeEnum.EntityReport);
+                            contactRet = contactService.GetContactWithContactID(contact.ContactID, getParam);
                         }
                         else
                         {

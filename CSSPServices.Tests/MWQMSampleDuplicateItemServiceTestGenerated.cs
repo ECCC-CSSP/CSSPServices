@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(LanguageRequest, dbTestDB, ContactID);
+                    MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

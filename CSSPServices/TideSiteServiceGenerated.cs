@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TideSiteService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TideSiteService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -140,15 +140,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideSite GetTideSiteWithTideSiteID(int TideSiteID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public TideSite GetTideSiteWithTideSiteID(int TideSiteID, GetParam getParam)
         {
-            IQueryable<TideSite> tideSiteQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TideSite> tideSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideSiteID == TideSiteID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideSiteQuery.FirstOrDefault();
@@ -160,21 +158,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<TideSite> GetTideSiteList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<TideSite> GetTideSiteList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<TideSite> tideSiteQuery = (from c in GetRead()
+            IQueryable<TideSite> tideSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tideSiteQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideSiteQuery  = tideSiteQuery.OrderByDescending(c => c.TideSiteID);
+                        }
+                        tideSiteQuery = tideSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return tideSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideSiteWeb(tideSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideSiteQuery = FillTideSiteWeb(tideSiteQuery, FilterAndOrderText).OrderByDescending(c => c.TideSiteID);
+                        }
+                        tideSiteQuery = FillTideSiteWeb(tideSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tideSiteQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideSiteReport(tideSiteQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideSiteQuery = FillTideSiteReport(tideSiteQuery, FilterAndOrderText).OrderByDescending(c => c.TideSiteID);
+                        }
+                        tideSiteQuery = FillTideSiteReport(tideSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tideSiteQuery;
+                    }
                 default:
                     return null;
             }

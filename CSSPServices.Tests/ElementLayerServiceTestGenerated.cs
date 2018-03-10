@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ElementLayerService elementLayerService = new ElementLayerService(LanguageRequest, dbTestDB, ContactID);
+                    ElementLayerService elementLayerService = new ElementLayerService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

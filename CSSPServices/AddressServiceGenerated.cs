@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public AddressService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public AddressService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -223,15 +223,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Address GetAddressWithAddressID(int AddressID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public Address GetAddressWithAddressID(int AddressID, GetParam getParam)
         {
-            IQueryable<Address> addressQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Address> addressQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AddressID == AddressID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return addressQuery.FirstOrDefault();
@@ -243,21 +241,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<Address> GetAddressList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<Address> GetAddressList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<Address> addressQuery = (from c in GetRead()
+            IQueryable<Address> addressQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return addressQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            addressQuery  = addressQuery.OrderByDescending(c => c.AddressID);
+                        }
+                        addressQuery = addressQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return addressQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAddressWeb(addressQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            addressQuery = FillAddressWeb(addressQuery, FilterAndOrderText).OrderByDescending(c => c.AddressID);
+                        }
+                        addressQuery = FillAddressWeb(addressQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return addressQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAddressReport(addressQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            addressQuery = FillAddressReport(addressQuery, FilterAndOrderText).OrderByDescending(c => c.AddressID);
+                        }
+                        addressQuery = FillAddressReport(addressQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return addressQuery;
+                    }
                 default:
                     return null;
             }

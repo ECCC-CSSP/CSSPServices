@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ContactService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public ContactService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -222,15 +222,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Contact GetContactWithContactID(int ContactID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public Contact GetContactWithContactID(int ContactID, GetParam getParam)
         {
-            IQueryable<Contact> contactQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Contact> contactQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactID == ContactID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactQuery.FirstOrDefault();
@@ -242,21 +240,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<Contact> GetContactList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<Contact> GetContactList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<Contact> contactQuery = (from c in GetRead()
+            IQueryable<Contact> contactQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return contactQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactQuery  = contactQuery.OrderByDescending(c => c.ContactID);
+                        }
+                        contactQuery = contactQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return contactQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactWeb(contactQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactQuery = FillContactWeb(contactQuery, FilterAndOrderText).OrderByDescending(c => c.ContactID);
+                        }
+                        contactQuery = FillContactWeb(contactQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return contactQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactReport(contactQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            contactQuery = FillContactReport(contactQuery, FilterAndOrderText).OrderByDescending(c => c.ContactID);
+                        }
+                        contactQuery = FillContactReport(contactQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return contactQuery;
+                    }
                 default:
                     return null;
             }

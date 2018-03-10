@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVTextLanguageService tvTextLanguageService = new TVTextLanguageService(LanguageRequest, dbTestDB, ContactID);
+                    TVTextLanguageService tvTextLanguageService = new TVTextLanguageService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

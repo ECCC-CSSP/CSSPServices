@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public AppErrLogService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public AppErrLogService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -150,15 +150,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID, GetParam getParam)
         {
-            IQueryable<AppErrLog> appErrLogQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<AppErrLog> appErrLogQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AppErrLogID == AppErrLogID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appErrLogQuery.FirstOrDefault();
@@ -170,21 +168,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<AppErrLog> GetAppErrLogList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<AppErrLog> GetAppErrLogList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<AppErrLog> appErrLogQuery = (from c in GetRead()
+            IQueryable<AppErrLog> appErrLogQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return appErrLogQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            appErrLogQuery  = appErrLogQuery.OrderByDescending(c => c.AppErrLogID);
+                        }
+                        appErrLogQuery = appErrLogQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return appErrLogQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAppErrLogWeb(appErrLogQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            appErrLogQuery = FillAppErrLogWeb(appErrLogQuery, FilterAndOrderText).OrderByDescending(c => c.AppErrLogID);
+                        }
+                        appErrLogQuery = FillAppErrLogWeb(appErrLogQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return appErrLogQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppErrLogReport(appErrLogQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            appErrLogQuery = FillAppErrLogReport(appErrLogQuery, FilterAndOrderText).OrderByDescending(c => c.AppErrLogID);
+                        }
+                        appErrLogQuery = FillAppErrLogReport(appErrLogQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return appErrLogQuery;
+                    }
                 default:
                     return null;
             }

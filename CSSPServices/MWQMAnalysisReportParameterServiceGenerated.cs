@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMAnalysisReportParameterService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMAnalysisReportParameterService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -304,15 +304,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMAnalysisReportParameter GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMAnalysisReportParameter GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID, GetParam getParam)
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmAnalysisReportParameterQuery.FirstOrDefault();
@@ -324,21 +322,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMAnalysisReportParameter> GetMWQMAnalysisReportParameterList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMAnalysisReportParameter> GetMWQMAnalysisReportParameterList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in GetRead()
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmAnalysisReportParameterQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmAnalysisReportParameterQuery  = mwqmAnalysisReportParameterQuery.OrderByDescending(c => c.MWQMAnalysisReportParameterID);
+                        }
+                        mwqmAnalysisReportParameterQuery = mwqmAnalysisReportParameterQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmAnalysisReportParameterQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMAnalysisReportParameterID);
+                        }
+                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmAnalysisReportParameterQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMAnalysisReportParameterID);
+                        }
+                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmAnalysisReportParameterQuery;
+                    }
                 default:
                     return null;
             }

@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolyPointService polyPointService = new PolyPointService(LanguageRequest, dbTestDB, ContactID);
+                    PolyPointService polyPointService = new PolyPointService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

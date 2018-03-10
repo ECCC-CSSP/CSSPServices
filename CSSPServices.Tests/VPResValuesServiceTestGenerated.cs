@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPResValuesService vpResValuesService = new VPResValuesService(LanguageRequest, dbTestDB, ContactID);
+                    VPResValuesService vpResValuesService = new VPResValuesService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

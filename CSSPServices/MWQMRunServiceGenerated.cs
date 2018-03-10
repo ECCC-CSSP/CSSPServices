@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMRunService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMRunService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -470,15 +470,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMRun GetMWQMRunWithMWQMRunID(int MWQMRunID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMRun GetMWQMRunWithMWQMRunID(int MWQMRunID, GetParam getParam)
         {
-            IQueryable<MWQMRun> mwqmRunQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMRun> mwqmRunQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMRunID == MWQMRunID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunQuery.FirstOrDefault();
@@ -490,21 +488,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMRun> GetMWQMRunList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMRun> GetMWQMRunList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMRun> mwqmRunQuery = (from c in GetRead()
+            IQueryable<MWQMRun> mwqmRunQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmRunQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmRunQuery  = mwqmRunQuery.OrderByDescending(c => c.MWQMRunID);
+                        }
+                        mwqmRunQuery = mwqmRunQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmRunQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMRunWeb(mwqmRunQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmRunQuery = FillMWQMRunWeb(mwqmRunQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMRunID);
+                        }
+                        mwqmRunQuery = FillMWQMRunWeb(mwqmRunQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmRunQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMRunReport(mwqmRunQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmRunQuery = FillMWQMRunReport(mwqmRunQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMRunID);
+                        }
+                        mwqmRunQuery = FillMWQMRunReport(mwqmRunQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmRunQuery;
+                    }
                 default:
                     return null;
             }

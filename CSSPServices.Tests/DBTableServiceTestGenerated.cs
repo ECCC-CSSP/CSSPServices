@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    DBTableService dBTableService = new DBTableService(LanguageRequest, dbTestDB, ContactID);
+                    DBTableService dBTableService = new DBTableService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

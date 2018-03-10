@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVLocationService tvLocationService = new TVLocationService(LanguageRequest, dbTestDB, ContactID);
+                    TVLocationService tvLocationService = new TVLocationService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

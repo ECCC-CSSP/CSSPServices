@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    EmailService emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
+                    EmailService emailService = new EmailService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -277,28 +277,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    EmailService emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    EmailService emailService = new EmailService(new GetParam(), dbTestDB, ContactID);
                     Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(email);
 
                     Email emailRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
+                            Assert.IsNull(emailRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityOnly);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityWeb);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, EntityQueryDetailTypeEnum.EntityReport);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
                         }
                         else
                         {

@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public VPResultService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public VPResultService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -146,15 +146,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPResult GetVPResultWithVPResultID(int VPResultID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public VPResult GetVPResultWithVPResultID(int VPResultID, GetParam getParam)
         {
-            IQueryable<VPResult> vpResultQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<VPResult> vpResultQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPResultID == VPResultID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpResultQuery.FirstOrDefault();
@@ -166,21 +164,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<VPResult> GetVPResultList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<VPResult> GetVPResultList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<VPResult> vpResultQuery = (from c in GetRead()
+            IQueryable<VPResult> vpResultQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return vpResultQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpResultQuery  = vpResultQuery.OrderByDescending(c => c.VPResultID);
+                        }
+                        vpResultQuery = vpResultQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return vpResultQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPResultWeb(vpResultQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpResultQuery = FillVPResultWeb(vpResultQuery, FilterAndOrderText).OrderByDescending(c => c.VPResultID);
+                        }
+                        vpResultQuery = FillVPResultWeb(vpResultQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpResultQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPResultReport(vpResultQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpResultQuery = FillVPResultReport(vpResultQuery, FilterAndOrderText).OrderByDescending(c => c.VPResultID);
+                        }
+                        vpResultQuery = FillVPResultReport(vpResultQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpResultQuery;
+                    }
                 default:
                     return null;
             }

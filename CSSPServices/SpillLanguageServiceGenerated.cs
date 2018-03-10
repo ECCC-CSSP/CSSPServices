@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SpillLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public SpillLanguageService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -132,15 +132,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SpillLanguage GetSpillLanguageWithSpillLanguageID(int SpillLanguageID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public SpillLanguage GetSpillLanguageWithSpillLanguageID(int SpillLanguageID, GetParam getParam)
         {
-            IQueryable<SpillLanguage> spillLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<SpillLanguage> spillLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SpillLanguageID == SpillLanguageID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillLanguageQuery.FirstOrDefault();
@@ -152,21 +150,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<SpillLanguage> GetSpillLanguageList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<SpillLanguage> GetSpillLanguageList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<SpillLanguage> spillLanguageQuery = (from c in GetRead()
+            IQueryable<SpillLanguage> spillLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return spillLanguageQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            spillLanguageQuery  = spillLanguageQuery.OrderByDescending(c => c.SpillLanguageID);
+                        }
+                        spillLanguageQuery = spillLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return spillLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSpillLanguageWeb(spillLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            spillLanguageQuery = FillSpillLanguageWeb(spillLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.SpillLanguageID);
+                        }
+                        spillLanguageQuery = FillSpillLanguageWeb(spillLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return spillLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSpillLanguageReport(spillLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            spillLanguageQuery = FillSpillLanguageReport(spillLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.SpillLanguageID);
+                        }
+                        spillLanguageQuery = FillSpillLanguageReport(spillLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return spillLanguageQuery;
+                    }
                 default:
                     return null;
             }

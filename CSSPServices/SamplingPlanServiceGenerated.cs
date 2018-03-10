@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SamplingPlanService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public SamplingPlanService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -282,15 +282,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SamplingPlan GetSamplingPlanWithSamplingPlanID(int SamplingPlanID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public SamplingPlan GetSamplingPlanWithSamplingPlanID(int SamplingPlanID, GetParam getParam)
         {
-            IQueryable<SamplingPlan> samplingPlanQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<SamplingPlan> samplingPlanQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SamplingPlanID == SamplingPlanID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanQuery.FirstOrDefault();
@@ -302,21 +300,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<SamplingPlan> GetSamplingPlanList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<SamplingPlan> GetSamplingPlanList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<SamplingPlan> samplingPlanQuery = (from c in GetRead()
+            IQueryable<SamplingPlan> samplingPlanQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return samplingPlanQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            samplingPlanQuery  = samplingPlanQuery.OrderByDescending(c => c.SamplingPlanID);
+                        }
+                        samplingPlanQuery = samplingPlanQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return samplingPlanQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSamplingPlanWeb(samplingPlanQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            samplingPlanQuery = FillSamplingPlanWeb(samplingPlanQuery, FilterAndOrderText).OrderByDescending(c => c.SamplingPlanID);
+                        }
+                        samplingPlanQuery = FillSamplingPlanWeb(samplingPlanQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return samplingPlanQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSamplingPlanReport(samplingPlanQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            samplingPlanQuery = FillSamplingPlanReport(samplingPlanQuery, FilterAndOrderText).OrderByDescending(c => c.SamplingPlanID);
+                        }
+                        samplingPlanQuery = FillSamplingPlanReport(samplingPlanQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return samplingPlanQuery;
+                    }
                 default:
                     return null;
             }

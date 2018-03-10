@@ -68,7 +68,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    BoxModelService boxModelService = new BoxModelService(LanguageRequest, dbTestDB, ContactID);
+                    BoxModelService boxModelService = new BoxModelService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -458,28 +458,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    BoxModelService boxModelService = new BoxModelService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    BoxModelService boxModelService = new BoxModelService(new GetParam(), dbTestDB, ContactID);
                     BoxModel boxModel = (from c in boxModelService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModel);
 
                     BoxModel boxModelRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID);
+                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, getParam);
+                            Assert.IsNull(boxModelRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, EntityQueryDetailTypeEnum.EntityOnly);
+                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, EntityQueryDetailTypeEnum.EntityWeb);
+                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, EntityQueryDetailTypeEnum.EntityReport);
+                            boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID, getParam);
                         }
                         else
                         {

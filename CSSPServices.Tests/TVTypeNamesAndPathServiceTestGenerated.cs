@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(LanguageRequest, dbTestDB, ContactID);
+                    TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

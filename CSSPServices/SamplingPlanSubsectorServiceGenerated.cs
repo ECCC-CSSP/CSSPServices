@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SamplingPlanSubsectorService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public SamplingPlanSubsectorService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -130,15 +130,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SamplingPlanSubsector GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public SamplingPlanSubsector GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID, GetParam getParam)
         {
-            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SamplingPlanSubsectorID == SamplingPlanSubsectorID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanSubsectorQuery.FirstOrDefault();
@@ -150,21 +148,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<SamplingPlanSubsector> GetSamplingPlanSubsectorList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<SamplingPlanSubsector> GetSamplingPlanSubsectorList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in GetRead()
+            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return samplingPlanSubsectorQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            samplingPlanSubsectorQuery  = samplingPlanSubsectorQuery.OrderByDescending(c => c.SamplingPlanSubsectorID);
+                        }
+                        samplingPlanSubsectorQuery = samplingPlanSubsectorQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return samplingPlanSubsectorQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSamplingPlanSubsectorWeb(samplingPlanSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            samplingPlanSubsectorQuery = FillSamplingPlanSubsectorWeb(samplingPlanSubsectorQuery, FilterAndOrderText).OrderByDescending(c => c.SamplingPlanSubsectorID);
+                        }
+                        samplingPlanSubsectorQuery = FillSamplingPlanSubsectorWeb(samplingPlanSubsectorQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return samplingPlanSubsectorQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSamplingPlanSubsectorReport(samplingPlanSubsectorQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            samplingPlanSubsectorQuery = FillSamplingPlanSubsectorReport(samplingPlanSubsectorQuery, FilterAndOrderText).OrderByDescending(c => c.SamplingPlanSubsectorID);
+                        }
+                        samplingPlanSubsectorQuery = FillSamplingPlanSubsectorReport(samplingPlanSubsectorQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return samplingPlanSubsectorQuery;
+                    }
                 default:
                     return null;
             }

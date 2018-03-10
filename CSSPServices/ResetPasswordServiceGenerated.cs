@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ResetPasswordService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public ResetPasswordService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -140,15 +140,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID, GetParam getParam)
         {
-            IQueryable<ResetPassword> resetPasswordQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ResetPassword> resetPasswordQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ResetPasswordID == ResetPasswordID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return resetPasswordQuery.FirstOrDefault();
@@ -160,21 +158,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<ResetPassword> GetResetPasswordList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<ResetPassword> GetResetPasswordList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<ResetPassword> resetPasswordQuery = (from c in GetRead()
+            IQueryable<ResetPassword> resetPasswordQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return resetPasswordQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            resetPasswordQuery  = resetPasswordQuery.OrderByDescending(c => c.ResetPasswordID);
+                        }
+                        resetPasswordQuery = resetPasswordQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return resetPasswordQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillResetPasswordWeb(resetPasswordQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            resetPasswordQuery = FillResetPasswordWeb(resetPasswordQuery, FilterAndOrderText).OrderByDescending(c => c.ResetPasswordID);
+                        }
+                        resetPasswordQuery = FillResetPasswordWeb(resetPasswordQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return resetPasswordQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillResetPasswordReport(resetPasswordQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            resetPasswordQuery = FillResetPasswordReport(resetPasswordQuery, FilterAndOrderText).OrderByDescending(c => c.ResetPasswordID);
+                        }
+                        resetPasswordQuery = FillResetPasswordReport(resetPasswordQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return resetPasswordQuery;
+                    }
                 default:
                     return null;
             }

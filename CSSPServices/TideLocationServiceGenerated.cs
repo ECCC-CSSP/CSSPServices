@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TideLocationService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public TideLocationService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -150,15 +150,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideLocation GetTideLocationWithTideLocationID(int TideLocationID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public TideLocation GetTideLocationWithTideLocationID(int TideLocationID, GetParam getParam)
         {
-            IQueryable<TideLocation> tideLocationQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TideLocation> tideLocationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideLocationID == TideLocationID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideLocationQuery.FirstOrDefault();
@@ -170,21 +168,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<TideLocation> GetTideLocationList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<TideLocation> GetTideLocationList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<TideLocation> tideLocationQuery = (from c in GetRead()
+            IQueryable<TideLocation> tideLocationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tideLocationQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideLocationQuery  = tideLocationQuery.OrderByDescending(c => c.TideLocationID);
+                        }
+                        tideLocationQuery = tideLocationQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return tideLocationQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideLocationWeb(tideLocationQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideLocationQuery = FillTideLocationWeb(tideLocationQuery, FilterAndOrderText).OrderByDescending(c => c.TideLocationID);
+                        }
+                        tideLocationQuery = FillTideLocationWeb(tideLocationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tideLocationQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideLocationReport(tideLocationQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            tideLocationQuery = FillTideLocationReport(tideLocationQuery, FilterAndOrderText).OrderByDescending(c => c.TideLocationID);
+                        }
+                        tideLocationQuery = FillTideLocationReport(tideLocationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return tideLocationQuery;
+                    }
                 default:
                     return null;
             }

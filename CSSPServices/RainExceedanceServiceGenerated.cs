@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public RainExceedanceService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public RainExceedanceService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -192,15 +192,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID, GetParam getParam)
         {
-            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.RainExceedanceID == RainExceedanceID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return rainExceedanceQuery.FirstOrDefault();
@@ -212,21 +210,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<RainExceedance> GetRainExceedanceList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<RainExceedance> GetRainExceedanceList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<RainExceedance> rainExceedanceQuery = (from c in GetRead()
+            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return rainExceedanceQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            rainExceedanceQuery  = rainExceedanceQuery.OrderByDescending(c => c.RainExceedanceID);
+                        }
+                        rainExceedanceQuery = rainExceedanceQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return rainExceedanceQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillRainExceedanceWeb(rainExceedanceQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            rainExceedanceQuery = FillRainExceedanceWeb(rainExceedanceQuery, FilterAndOrderText).OrderByDescending(c => c.RainExceedanceID);
+                        }
+                        rainExceedanceQuery = FillRainExceedanceWeb(rainExceedanceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return rainExceedanceQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillRainExceedanceReport(rainExceedanceQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            rainExceedanceQuery = FillRainExceedanceReport(rainExceedanceQuery, FilterAndOrderText).OrderByDescending(c => c.RainExceedanceID);
+                        }
+                        rainExceedanceQuery = FillRainExceedanceReport(rainExceedanceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return rainExceedanceQuery;
+                    }
                 default:
                     return null;
             }

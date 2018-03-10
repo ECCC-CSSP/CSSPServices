@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ReportSectionLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public ReportSectionLanguageService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -155,15 +155,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ReportSectionLanguage GetReportSectionLanguageWithReportSectionLanguageID(int ReportSectionLanguageID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public ReportSectionLanguage GetReportSectionLanguageWithReportSectionLanguageID(int ReportSectionLanguageID, GetParam getParam)
         {
-            IQueryable<ReportSectionLanguage> reportSectionLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ReportSectionLanguage> reportSectionLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ReportSectionLanguageID == ReportSectionLanguageID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return reportSectionLanguageQuery.FirstOrDefault();
@@ -175,21 +173,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<ReportSectionLanguage> GetReportSectionLanguageList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<ReportSectionLanguage> GetReportSectionLanguageList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<ReportSectionLanguage> reportSectionLanguageQuery = (from c in GetRead()
+            IQueryable<ReportSectionLanguage> reportSectionLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return reportSectionLanguageQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            reportSectionLanguageQuery  = reportSectionLanguageQuery.OrderByDescending(c => c.ReportSectionLanguageID);
+                        }
+                        reportSectionLanguageQuery = reportSectionLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return reportSectionLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportSectionLanguageWeb(reportSectionLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            reportSectionLanguageQuery = FillReportSectionLanguageWeb(reportSectionLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.ReportSectionLanguageID);
+                        }
+                        reportSectionLanguageQuery = FillReportSectionLanguageWeb(reportSectionLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return reportSectionLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportSectionLanguageReport(reportSectionLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            reportSectionLanguageQuery = FillReportSectionLanguageReport(reportSectionLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.ReportSectionLanguageID);
+                        }
+                        reportSectionLanguageQuery = FillReportSectionLanguageReport(reportSectionLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return reportSectionLanguageQuery;
+                    }
                 default:
                     return null;
             }

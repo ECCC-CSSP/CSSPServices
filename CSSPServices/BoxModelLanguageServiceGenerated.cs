@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public BoxModelLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public BoxModelLanguageService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -136,15 +136,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public BoxModelLanguage GetBoxModelLanguageWithBoxModelLanguageID(int BoxModelLanguageID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public BoxModelLanguage GetBoxModelLanguageWithBoxModelLanguageID(int BoxModelLanguageID, GetParam getParam)
         {
-            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.BoxModelLanguageID == BoxModelLanguageID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelLanguageQuery.FirstOrDefault();
@@ -156,21 +154,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<BoxModelLanguage> GetBoxModelLanguageList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<BoxModelLanguage> GetBoxModelLanguageList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in GetRead()
+            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return boxModelLanguageQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            boxModelLanguageQuery  = boxModelLanguageQuery.OrderByDescending(c => c.BoxModelLanguageID);
+                        }
+                        boxModelLanguageQuery = boxModelLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return boxModelLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillBoxModelLanguageWeb(boxModelLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            boxModelLanguageQuery = FillBoxModelLanguageWeb(boxModelLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelLanguageID);
+                        }
+                        boxModelLanguageQuery = FillBoxModelLanguageWeb(boxModelLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return boxModelLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModelLanguageReport(boxModelLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            boxModelLanguageQuery = FillBoxModelLanguageReport(boxModelLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelLanguageID);
+                        }
+                        boxModelLanguageQuery = FillBoxModelLanguageReport(boxModelLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return boxModelLanguageQuery;
+                    }
                 default:
                     return null;
             }

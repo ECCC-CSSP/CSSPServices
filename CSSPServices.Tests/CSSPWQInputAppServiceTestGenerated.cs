@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(LanguageRequest, dbTestDB, ContactID);
+                    CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

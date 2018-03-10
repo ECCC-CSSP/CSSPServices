@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public InfrastructureService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public InfrastructureService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -529,15 +529,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Infrastructure GetInfrastructureWithInfrastructureID(int InfrastructureID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public Infrastructure GetInfrastructureWithInfrastructureID(int InfrastructureID, GetParam getParam)
         {
-            IQueryable<Infrastructure> infrastructureQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Infrastructure> infrastructureQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.InfrastructureID == InfrastructureID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureQuery.FirstOrDefault();
@@ -549,21 +547,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<Infrastructure> GetInfrastructureList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<Infrastructure> GetInfrastructureList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<Infrastructure> infrastructureQuery = (from c in GetRead()
+            IQueryable<Infrastructure> infrastructureQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return infrastructureQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            infrastructureQuery  = infrastructureQuery.OrderByDescending(c => c.InfrastructureID);
+                        }
+                        infrastructureQuery = infrastructureQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return infrastructureQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillInfrastructureWeb(infrastructureQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            infrastructureQuery = FillInfrastructureWeb(infrastructureQuery, FilterAndOrderText).OrderByDescending(c => c.InfrastructureID);
+                        }
+                        infrastructureQuery = FillInfrastructureWeb(infrastructureQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return infrastructureQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillInfrastructureReport(infrastructureQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            infrastructureQuery = FillInfrastructureReport(infrastructureQuery, FilterAndOrderText).OrderByDescending(c => c.InfrastructureID);
+                        }
+                        infrastructureQuery = FillInfrastructureReport(infrastructureQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return infrastructureQuery;
+                    }
                 default:
                     return null;
             }

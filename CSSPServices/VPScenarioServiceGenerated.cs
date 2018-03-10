@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public VPScenarioService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public VPScenarioService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -221,15 +221,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID, GetParam getParam)
         {
-            IQueryable<VPScenario> vpScenarioQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<VPScenario> vpScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPScenarioID == VPScenarioID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpScenarioQuery.FirstOrDefault();
@@ -241,21 +239,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<VPScenario> GetVPScenarioList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<VPScenario> GetVPScenarioList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<VPScenario> vpScenarioQuery = (from c in GetRead()
+            IQueryable<VPScenario> vpScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return vpScenarioQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpScenarioQuery  = vpScenarioQuery.OrderByDescending(c => c.VPScenarioID);
+                        }
+                        vpScenarioQuery = vpScenarioQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return vpScenarioQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPScenarioWeb(vpScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpScenarioQuery = FillVPScenarioWeb(vpScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.VPScenarioID);
+                        }
+                        vpScenarioQuery = FillVPScenarioWeb(vpScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpScenarioQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPScenarioReport(vpScenarioQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpScenarioQuery = FillVPScenarioReport(vpScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.VPScenarioID);
+                        }
+                        vpScenarioQuery = FillVPScenarioReport(vpScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpScenarioQuery;
+                    }
                 default:
                     return null;
             }

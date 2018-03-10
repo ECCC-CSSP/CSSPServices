@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TelService telService = new TelService(LanguageRequest, dbTestDB, ContactID);
+                    TelService telService = new TelService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -276,28 +276,33 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TelService telService = new TelService(LanguageRequest, dbTestDB, ContactID);
+                    GetParam getParam = new GetParam();
+                    TelService telService = new TelService(new GetParam(), dbTestDB, ContactID);
                     Tel tel = (from c in telService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tel);
 
                     Tel telRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
+                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+
                         if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID);
+                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
+                            Assert.IsNull(telRet);
+                            continue;
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityOnly);
+                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityWeb);
+                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
                         }
                         else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, EntityQueryDetailTypeEnum.EntityReport);
+                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
                         }
                         else
                         {

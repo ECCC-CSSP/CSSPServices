@@ -69,24 +69,24 @@ namespace CSSPServices.Tests
                 LanguageRequest = LanguageEnum.en;
             }
         }
-        public Contact GetRandomContact()
-        {
+        //public Contact GetRandomContact()
+        //{
 
-            ContactService contactService = new ContactService(LanguageRequest, dbMemoryTestDB, ContactID);
+        //    ContactService contactService = new ContactService(LanguageRequest, dbMemoryTestDB, ContactID);
 
-            int Count = contactService.GetRead().Count();
+        //    int Count = contactService.GetRead().Count();
 
-            if (Count == 0)
-            {
-                return new Contact() { ContactID = 0 };
-            }
+        //    if (Count == 0)
+        //    {
+        //        return new Contact() { ContactID = 0 };
+        //    }
 
-            int skip = random.Next(0, Count);
+        //    int skip = random.Next(0, Count);
 
-            Contact contact = contactService.GetRead().Skip(skip).Take(1).FirstOrDefault<Contact>();
+        //    Contact contact = contactService.GetRead().Skip(skip).Take(1).FirstOrDefault<Contact>();
 
-            return contact;
-        }
+        //    return contact;
+        //}
         public DateTime GetRandomDateTime()
         {
             int Year = random.Next(2005, 2050);
@@ -170,21 +170,21 @@ namespace CSSPServices.Tests
 
             return Email;
         }
-        public TVItem GetRandomTVItem(TVTypeEnum TVType)
-        {
-            TVItemService tvItemService = new TVItemService(LanguageRequest, dbMemoryTestDB, ContactID);
+        //public TVItem GetRandomTVItem(TVTypeEnum TVType)
+        //{
+        //    TVItemService tvItemService = new TVItemService(LanguageRequest, dbMemoryTestDB, ContactID);
 
-            int Count = tvItemService.GetRead().Where(c => c.TVType == TVType).Count();
+        //    int Count = tvItemService.GetRead().Where(c => c.TVType == TVType).Count();
 
-            if (Count == 0)
-            {
-                return new TVItem() { TVItemID = 0 };
-            }
+        //    if (Count == 0)
+        //    {
+        //        return new TVItem() { TVItemID = 0 };
+        //    }
 
-            int skip = random.Next(0, Count);
+        //    int skip = random.Next(0, Count);
 
-            return tvItemService.GetRead().Where(c => c.TVType == TVType).Skip(skip).Take(1).FirstOrDefault<TVItem>();
-        }
+        //    return tvItemService.GetRead().Where(c => c.TVType == TVType).Skip(skip).Take(1).FirstOrDefault<TVItem>();
+        //}
         public int GetRandomEnumType(Type enumType)
         {
             int retValue = 0;

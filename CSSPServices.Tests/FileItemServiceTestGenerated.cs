@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    FileItemService fileItemService = new FileItemService(LanguageRequest, dbTestDB, ContactID);
+                    FileItemService fileItemService = new FileItemService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

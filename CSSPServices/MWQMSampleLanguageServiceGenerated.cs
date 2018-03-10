@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSampleLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MWQMSampleLanguageService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -132,15 +132,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSampleLanguage GetMWQMSampleLanguageWithMWQMSampleLanguageID(int MWQMSampleLanguageID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MWQMSampleLanguage GetMWQMSampleLanguageWithMWQMSampleLanguageID(int MWQMSampleLanguageID, GetParam getParam)
         {
-            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSampleLanguageID == MWQMSampleLanguageID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSampleLanguageQuery.FirstOrDefault();
@@ -152,21 +150,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MWQMSampleLanguage> GetMWQMSampleLanguageList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MWQMSampleLanguage> GetMWQMSampleLanguageList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in GetRead()
+            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSampleLanguageQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSampleLanguageQuery  = mwqmSampleLanguageQuery.OrderByDescending(c => c.MWQMSampleLanguageID);
+                        }
+                        mwqmSampleLanguageQuery = mwqmSampleLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSampleLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSampleLanguageWeb(mwqmSampleLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSampleLanguageQuery = FillMWQMSampleLanguageWeb(mwqmSampleLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSampleLanguageID);
+                        }
+                        mwqmSampleLanguageQuery = FillMWQMSampleLanguageWeb(mwqmSampleLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSampleLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSampleLanguageReport(mwqmSampleLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mwqmSampleLanguageQuery = FillMWQMSampleLanguageReport(mwqmSampleLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSampleLanguageID);
+                        }
+                        mwqmSampleLanguageQuery = FillMWQMSampleLanguageReport(mwqmSampleLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mwqmSampleLanguageQuery;
+                    }
                 default:
                     return null;
             }

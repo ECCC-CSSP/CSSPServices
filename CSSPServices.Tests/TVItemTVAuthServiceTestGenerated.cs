@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(LanguageRequest, dbTestDB, ContactID);
+                    TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

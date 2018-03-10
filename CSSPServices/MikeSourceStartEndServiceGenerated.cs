@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MikeSourceStartEndService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public MikeSourceStartEndService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -192,15 +192,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID, GetParam getParam)
         {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeSourceStartEndID == MikeSourceStartEndID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceStartEndQuery.FirstOrDefault();
@@ -212,21 +210,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<MikeSourceStartEnd> GetMikeSourceStartEndList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<MikeSourceStartEnd> GetMikeSourceStartEndList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in GetRead()
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mikeSourceStartEndQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeSourceStartEndQuery  = mikeSourceStartEndQuery.OrderByDescending(c => c.MikeSourceStartEndID);
+                        }
+                        mikeSourceStartEndQuery = mikeSourceStartEndQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeSourceStartEndQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeSourceStartEndQuery = FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceStartEndID);
+                        }
+                        mikeSourceStartEndQuery = FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeSourceStartEndQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceStartEndReport(mikeSourceStartEndQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            mikeSourceStartEndQuery = FillMikeSourceStartEndReport(mikeSourceStartEndQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceStartEndID);
+                        }
+                        mikeSourceStartEndQuery = FillMikeSourceStartEndReport(mikeSourceStartEndQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return mikeSourceStartEndQuery;
+                    }
                 default:
                     return null;
             }

@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public BoxModelResultService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public BoxModelResultService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -183,15 +183,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public BoxModelResult GetBoxModelResultWithBoxModelResultID(int BoxModelResultID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public BoxModelResult GetBoxModelResultWithBoxModelResultID(int BoxModelResultID, GetParam getParam)
         {
-            IQueryable<BoxModelResult> boxModelResultQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<BoxModelResult> boxModelResultQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.BoxModelResultID == BoxModelResultID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelResultQuery.FirstOrDefault();
@@ -203,21 +201,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<BoxModelResult> GetBoxModelResultList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<BoxModelResult> GetBoxModelResultList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<BoxModelResult> boxModelResultQuery = (from c in GetRead()
+            IQueryable<BoxModelResult> boxModelResultQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return boxModelResultQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            boxModelResultQuery  = boxModelResultQuery.OrderByDescending(c => c.BoxModelResultID);
+                        }
+                        boxModelResultQuery = boxModelResultQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return boxModelResultQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillBoxModelResultWeb(boxModelResultQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            boxModelResultQuery = FillBoxModelResultWeb(boxModelResultQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelResultID);
+                        }
+                        boxModelResultQuery = FillBoxModelResultWeb(boxModelResultQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return boxModelResultQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModelResultReport(boxModelResultQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            boxModelResultQuery = FillBoxModelResultReport(boxModelResultQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelResultID);
+                        }
+                        boxModelResultQuery = FillBoxModelResultReport(boxModelResultQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return boxModelResultQuery;
+                    }
                 default:
                     return null;
             }

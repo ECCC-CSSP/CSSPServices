@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContourPolygonService contourPolygonService = new ContourPolygonService(LanguageRequest, dbTestDB, ContactID);
+                    ContourPolygonService contourPolygonService = new ContourPolygonService(new GetParam(), dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)

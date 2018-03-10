@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public EmailService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public EmailService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -151,15 +151,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Email GetEmailWithEmailID(int EmailID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public Email GetEmailWithEmailID(int EmailID, GetParam getParam)
         {
-            IQueryable<Email> emailQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Email> emailQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailID == EmailID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailQuery.FirstOrDefault();
@@ -171,21 +169,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<Email> GetEmailList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<Email> GetEmailList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<Email> emailQuery = (from c in GetRead()
+            IQueryable<Email> emailQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return emailQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            emailQuery  = emailQuery.OrderByDescending(c => c.EmailID);
+                        }
+                        emailQuery = emailQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return emailQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillEmailWeb(emailQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            emailQuery = FillEmailWeb(emailQuery, FilterAndOrderText).OrderByDescending(c => c.EmailID);
+                        }
+                        emailQuery = FillEmailWeb(emailQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return emailQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailReport(emailQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            emailQuery = FillEmailReport(emailQuery, FilterAndOrderText).OrderByDescending(c => c.EmailID);
+                        }
+                        emailQuery = FillEmailReport(emailQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return emailQuery;
+                    }
                 default:
                     return null;
             }

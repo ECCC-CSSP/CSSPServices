@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public VPScenarioLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public VPScenarioLanguageService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -136,15 +136,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPScenarioLanguage GetVPScenarioLanguageWithVPScenarioLanguageID(int VPScenarioLanguageID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public VPScenarioLanguage GetVPScenarioLanguageWithVPScenarioLanguageID(int VPScenarioLanguageID, GetParam getParam)
         {
-            IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPScenarioLanguageID == VPScenarioLanguageID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpScenarioLanguageQuery.FirstOrDefault();
@@ -156,21 +154,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<VPScenarioLanguage> GetVPScenarioLanguageList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<VPScenarioLanguage> GetVPScenarioLanguageList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery = (from c in GetRead()
+            IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return vpScenarioLanguageQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpScenarioLanguageQuery  = vpScenarioLanguageQuery.OrderByDescending(c => c.VPScenarioLanguageID);
+                        }
+                        vpScenarioLanguageQuery = vpScenarioLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return vpScenarioLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPScenarioLanguageWeb(vpScenarioLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpScenarioLanguageQuery = FillVPScenarioLanguageWeb(vpScenarioLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.VPScenarioLanguageID);
+                        }
+                        vpScenarioLanguageQuery = FillVPScenarioLanguageWeb(vpScenarioLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpScenarioLanguageQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPScenarioLanguageReport(vpScenarioLanguageQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            vpScenarioLanguageQuery = FillVPScenarioLanguageReport(vpScenarioLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.VPScenarioLanguageID);
+                        }
+                        vpScenarioLanguageQuery = FillVPScenarioLanguageReport(vpScenarioLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return vpScenarioLanguageQuery;
+                    }
                 default:
                     return null;
             }

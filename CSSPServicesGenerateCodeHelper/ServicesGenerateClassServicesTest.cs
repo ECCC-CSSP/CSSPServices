@@ -522,7 +522,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     case "AppTask":
                                         {
-                                            AppTaskService appTaskService = new AppTaskService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            AppTaskService appTaskService = new AppTaskService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             AppTask appTask = appTaskService.GetRead().FirstOrDefault();
                                             if (appTask == null)
                                             {
@@ -536,7 +536,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "BoxModel":
                                         {
-                                            BoxModelService boxModelService = new BoxModelService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            BoxModelService boxModelService = new BoxModelService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             BoxModel boxModel = boxModelService.GetRead().FirstOrDefault();
                                             if (boxModel == null)
                                             {
@@ -550,7 +550,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "ClimateSite":
                                         {
-                                            ClimateSiteService climateSiteService = new ClimateSiteService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ClimateSiteService climateSiteService = new ClimateSiteService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             ClimateSite climateSite = climateSiteService.GetRead().FirstOrDefault();
                                             if (climateSite == null)
                                             {
@@ -564,7 +564,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "Contact":
                                         {
-                                            ContactService contactService = new ContactService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ContactService contactService = new ContactService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             Contact contact = contactService.GetRead().FirstOrDefault();
                                             if (contact == null)
                                             {
@@ -578,7 +578,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "EmailDistributionList":
                                         {
-                                            EmailDistributionListService emailDistributionListService = new EmailDistributionListService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             EmailDistributionList emailDistributionList = emailDistributionListService.GetRead().FirstOrDefault();
                                             if (emailDistributionList == null)
                                             {
@@ -592,7 +592,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "EmailDistributionListContact":
                                         {
-                                            EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             EmailDistributionListContact emailDistributionListContact = emailDistributionListContactService.GetRead().FirstOrDefault();
                                             if (emailDistributionListContact == null)
                                             {
@@ -606,7 +606,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "HydrometricSite":
                                         {
-                                            HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             HydrometricSite hydrometricSite = hydrometricSiteService.GetRead().FirstOrDefault();
                                             if (hydrometricSite == null)
                                             {
@@ -620,7 +620,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "Infrastructure":
                                         {
-                                            InfrastructureService infrastructureService = new InfrastructureService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            InfrastructureService infrastructureService = new InfrastructureService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             Infrastructure infrastructure = infrastructureService.GetRead().FirstOrDefault();
                                             if (infrastructure == null)
                                             {
@@ -634,7 +634,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "LabSheet":
                                         {
-                                            LabSheetService labSheetService = new LabSheetService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            LabSheetService labSheetService = new LabSheetService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             LabSheet labSheet = labSheetService.GetRead().FirstOrDefault();
                                             if (labSheet == null)
                                             {
@@ -648,7 +648,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "LabSheetDetail":
                                         {
-                                            LabSheetDetailService labSheetDetailService = new LabSheetDetailService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             LabSheetDetail labSheetDetail = labSheetDetailService.GetRead().FirstOrDefault();
                                             if (labSheetDetail == null)
                                             {
@@ -662,7 +662,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MapInfo":
                                         {
-                                            MapInfoService mapInfoService = new MapInfoService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MapInfo mapInfo = mapInfoService.GetRead().FirstOrDefault();
                                             if (mapInfo == null)
                                             {
@@ -676,7 +676,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MikeSource":
                                         {
-                                            MikeSourceService mikeSourceService = new MikeSourceService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MikeSourceService mikeSourceService = new MikeSourceService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MikeSource mikeSource = mikeSourceService.GetRead().FirstOrDefault();
                                             if (mikeSource == null)
                                             {
@@ -690,7 +690,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMAnalysisReportParameter":
                                         {
-                                            MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMAnalysisReportParameter mwqmAnalysisReportParameter = mwqmAnalysisReportParameterService.GetRead().FirstOrDefault();
                                             if (mwqmAnalysisReportParameter == null)
                                             {
@@ -704,7 +704,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMRun":
                                         {
-                                            MWQMRunService mwqmRunService = new MWQMRunService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMRunService mwqmRunService = new MWQMRunService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMRun mwqmRun = mwqmRunService.GetRead().FirstOrDefault();
                                             if (mwqmRun == null)
                                             {
@@ -718,7 +718,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMSample":
                                         {
-                                            MWQMSampleService mwqmSampleService = new MWQMSampleService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMSampleService mwqmSampleService = new MWQMSampleService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMSample mwqmSample = mwqmSampleService.GetRead().FirstOrDefault();
                                             if (mwqmSample == null)
                                             {
@@ -732,7 +732,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMSubsector":
                                         {
-                                            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMSubsector mwqmSubsector = mwqmSubsectorService.GetRead().FirstOrDefault();
                                             if (mwqmSubsector == null)
                                             {
@@ -746,7 +746,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "PolSourceObservation":
                                         {
-                                            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             PolSourceObservation polSourceObservation = polSourceObservationService.GetRead().FirstOrDefault();
                                             if (polSourceObservation == null)
                                             {
@@ -760,7 +760,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "PolSourceSite":
                                         {
-                                            PolSourceSiteService polSourceSiteService = new PolSourceSiteService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             PolSourceSite polSourceSite = polSourceSiteService.GetRead().FirstOrDefault();
                                             if (polSourceSite == null)
                                             {
@@ -774,7 +774,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "RatingCurve":
                                         {
-                                            RatingCurveService ratingCurveService = new RatingCurveService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            RatingCurveService ratingCurveService = new RatingCurveService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             RatingCurve ratingCurve = ratingCurveService.GetRead().FirstOrDefault();
                                             if (ratingCurve == null)
                                             {
@@ -788,7 +788,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "ReportSection":
                                         {
-                                            ReportSectionService ReportSectionService = new ReportSectionService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ReportSectionService ReportSectionService = new ReportSectionService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             ReportSection ReportSection = ReportSectionService.GetRead().FirstOrDefault();
                                             if (ReportSection == null)
                                             {
@@ -802,7 +802,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "ReportType":
                                         {
-                                            ReportTypeService reportTypeService = new ReportTypeService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ReportTypeService reportTypeService = new ReportTypeService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             ReportType reportType = reportTypeService.GetRead().FirstOrDefault();
                                             if (reportType == null)
                                             {
@@ -816,7 +816,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "SamplingPlanSubsector":
                                         {
-                                            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             SamplingPlanSubsector samplingPlanSubsector = samplingPlanSubsectorService.GetRead().FirstOrDefault();
                                             if (samplingPlanSubsector == null)
                                             {
@@ -830,7 +830,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "SamplingPlan":
                                         {
-                                            SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            SamplingPlanService samplingPlanService = new SamplingPlanService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             SamplingPlan samplingPlan = samplingPlanService.GetRead().FirstOrDefault();
                                             if (samplingPlan == null)
                                             {
@@ -844,7 +844,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "Spill":
                                         {
-                                            SpillService spillService = new SpillService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            SpillService spillService = new SpillService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             Spill spill = spillService.GetRead().FirstOrDefault();
                                             if (spill == null)
                                             {
@@ -858,7 +858,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "TVFile":
                                         {
-                                            TVFileService tvFileService = new TVFileService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            TVFileService tvFileService = new TVFileService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             TVFile tvFile = tvFileService.GetRead().FirstOrDefault();
                                             if (tvFile == null)
                                             {
@@ -872,7 +872,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "VPScenario":
                                         {
-                                            VPScenarioService vpScenarioService = new VPScenarioService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            VPScenarioService vpScenarioService = new VPScenarioService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             VPScenario vpScenario = vpScenarioService.GetRead().FirstOrDefault();
                                             if (vpScenario == null)
                                             {
@@ -892,7 +892,7 @@ namespace CSSPServicesGenerateCodeHelper
                                             }
                                             else
                                             {
-                                                TVItemService tvItemService = new TVItemService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                                TVItemService tvItemService = new TVItemService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                                 TVItem tvItem = tvItemService.GetRead().Where(c => c.TVType == csspProp.AllowableTVTypeList[0]).FirstOrDefault();
                                                 if (tvItem == null)
                                                 {
@@ -1186,15 +1186,15 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                 }
 
-                //if (TypeName != "Contact")
+                //if (TypeName != "Address")
                 //{
                 //    continue;
                 //}
 
-                if (TypeName == "AspNetUser")
-                {
-                    continue;
-                }
+                //if (TypeName == "AspNetUser")
+                //{
+                //    continue;
+                //}
 
                 sb.AppendLine(@"using System;");
                 sb.AppendLine(@"using Microsoft.VisualStudio.TestTools.UnitTesting;");
@@ -1270,7 +1270,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
                 sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
                 sb.AppendLine(@"                {");
-                sb.AppendLine(@"                    " + TypeName + "Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, dbTestDB, ContactID);");
+                sb.AppendLine(@"                    " + TypeName + "Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new GetParam(), dbTestDB, ContactID);");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"                    int count = 0;");
                 sb.AppendLine(@"                    if (count == 1)");
@@ -1419,28 +1419,33 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
                     sb.AppendLine(@"                {");
-                    sb.AppendLine(@"                    " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, dbTestDB, ContactID);");
+                    sb.AppendLine(@"                    GetParam getParam = new GetParam();");
+                    sb.AppendLine(@"                    " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new GetParam(), dbTestDB, ContactID);");
                     sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @" = (from c in " + TypeNameLower + @"Service.GetRead() select c).FirstOrDefault();");
                     sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @");");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @"Ret = null;");
                     sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
                     sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;");
+                    sb.AppendLine(@"");
                     sb.AppendLine(@"                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)");
                     sb.AppendLine(@"                        {");
-                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID);");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, getParam);");
+                    sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"Ret);");
+                    sb.AppendLine(@"                            continue;");
                     sb.AppendLine(@"                        }");
                     sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)");
                     sb.AppendLine(@"                        {");
-                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityOnly);");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, getParam);");
                     sb.AppendLine(@"                        }");
                     sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)");
                     sb.AppendLine(@"                        {");
-                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityWeb);");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, getParam);");
                     sb.AppendLine(@"                        }");
                     sb.AppendLine(@"                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)");
                     sb.AppendLine(@"                        {");
-                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, EntityQueryDetailTypeEnum.EntityReport);");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"Ret = " + TypeNameLower + @"Service.Get" + TypeName + @"With" + TypeName + @"ID(" + TypeNameLower + @"." + TypeName + @"ID, getParam);");
                     sb.AppendLine(@"                        }");
                     sb.AppendLine(@"                        else");
                     sb.AppendLine(@"                        {");

@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ReportTypeService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
-            : base(LanguageRequest, db, ContactID)
+        public ReportTypeService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
+            : base(getParam, db, ContactID)
         {
         }
         #endregion Constructors
@@ -128,15 +128,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ReportType GetReportTypeWithReportTypeID(int ReportTypeID,
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public ReportType GetReportTypeWithReportTypeID(int ReportTypeID, GetParam getParam)
         {
-            IQueryable<ReportType> reportTypeQuery = (from c in (EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ReportType> reportTypeQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ReportTypeID == ReportTypeID
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return reportTypeQuery.FirstOrDefault();
@@ -148,21 +146,40 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<ReportType> GetReportTypeList(string FilterAndOrderText = "",
-            EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-            EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+        public IQueryable<ReportType> GetReportTypeList(GetParam getParam, string FilterAndOrderText = "")
         {
-            IQueryable<ReportType> reportTypeQuery = (from c in GetRead()
+            IQueryable<ReportType> reportTypeQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (EntityQueryDetailType)
+            switch (getParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
-                    return reportTypeQuery;
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            reportTypeQuery  = reportTypeQuery.OrderByDescending(c => c.ReportTypeID);
+                        }
+                        reportTypeQuery = reportTypeQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        return reportTypeQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportTypeWeb(reportTypeQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            reportTypeQuery = FillReportTypeWeb(reportTypeQuery, FilterAndOrderText).OrderByDescending(c => c.ReportTypeID);
+                        }
+                        reportTypeQuery = FillReportTypeWeb(reportTypeQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return reportTypeQuery;
+                    }
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportTypeReport(reportTypeQuery, FilterAndOrderText).Take(MaxGetCount);
+                    {
+                        if (!getParam.OrderAscending)
+                        {
+                            reportTypeQuery = FillReportTypeReport(reportTypeQuery, FilterAndOrderText).OrderByDescending(c => c.ReportTypeID);
+                        }
+                        reportTypeQuery = FillReportTypeReport(reportTypeQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        return reportTypeQuery;
+                    }
                 default:
                     return null;
             }
