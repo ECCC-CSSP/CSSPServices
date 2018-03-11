@@ -28,6 +28,15 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public
+        public bool Login(string username, string password)
+        {
+            bool exist = (from c in GetRead()
+                          where c.UserName == username
+                          && c.PasswordHash == password
+                          select c).Any();
+
+            return false;
+        }
         #endregion Functions public
 
         #region Functions private

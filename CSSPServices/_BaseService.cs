@@ -35,7 +35,6 @@ namespace CSSPServices
         public int ContactID { get; set; }
         public string FromEmail { get; set; }
         public LanguageEnum LanguageRequest { get; set; }
-        public int MaxGetCount { get; set; }
         public GetParam GetParam { get; set; }
         #endregion Properties
 
@@ -65,7 +64,7 @@ namespace CSSPServices
             this.db = db;
             this.CanSendEmail = true;
             this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
-            this.MaxGetCount = 25;
+
         }
         public BaseService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
         {
@@ -92,7 +91,6 @@ namespace CSSPServices
             this.db = db;
             this.CanSendEmail = true;
             this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
-            this.MaxGetCount = 25;
         }
         #endregion Constructors  
     }

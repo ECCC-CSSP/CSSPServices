@@ -414,6 +414,7 @@
     <Compile Include="FileItemServiceGenerated.cs" />
     <Compile Include="FilePurposeAndTextServiceGenerated.cs" />
     <Compile Include="FillPolSourceObsInfoChildServiceGenerated.cs" />
+    <Compile Include="GetParamServiceGenerated.cs" />
     <Compile Include="HydrometricDataValueServiceExtra.cs" />
     <Compile Include="HydrometricDataValueServiceGenerated.cs" />
     <Compile Include="HydrometricSiteServiceExtra.cs" />
@@ -514,7 +515,7 @@
       <DependentUpon>CSSPServicesRes.fr.resx</DependentUpon>
     </Compile>
     <Compile Include="AddressServiceExtra.cs" />
-    <Compile Include="BaseService.cs" />
+    <Compile Include="_BaseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RTBStringPosServiceGenerated.cs" />
     <Compile Include="SamplingPlanAndFilesLabSheetCountServiceGenerated.cs" />
