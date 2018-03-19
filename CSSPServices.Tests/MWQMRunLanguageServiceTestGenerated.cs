@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MWQMRunLanguage mwqmRunLanguage = new MWQMRunLanguage();
 
-            if (OmitPropName != "MWQMRunID") mwqmRunLanguage.MWQMRunID = 1;
+            if (OmitPropName != "MWQMRunID") mwqmRunLanguage.MWQMRunID = 0;
             if (OmitPropName != "Language") mwqmRunLanguage.Language = LanguageRequest;
             if (OmitPropName != "RunComment") mwqmRunLanguage.RunComment = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatusRunComment") mwqmRunLanguage.TranslationStatusRunComment = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

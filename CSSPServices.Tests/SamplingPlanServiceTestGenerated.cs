@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "AnalyzeMethodDefault") samplingPlan.AnalyzeMethodDefault = (AnalyzeMethodEnum)GetRandomEnumType(typeof(AnalyzeMethodEnum));
             if (OmitPropName != "SampleMatrixDefault") samplingPlan.SampleMatrixDefault = (SampleMatrixEnum)GetRandomEnumType(typeof(SampleMatrixEnum));
             if (OmitPropName != "LaboratoryDefault") samplingPlan.LaboratoryDefault = (LaboratoryEnum)GetRandomEnumType(typeof(LaboratoryEnum));
+            if (OmitPropName != "BackupDirectory") samplingPlan.BackupDirectory = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlan.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlan.LastUpdateContactTVItemID = 2;
 
@@ -430,6 +431,27 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(250))]
+                    // samplingPlan.BackupDirectory   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("BackupDirectory");
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanBackupDirectory)).Any());
+                    Assert.AreEqual(null, samplingPlan.BackupDirectory);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.BackupDirectory = GetRandomString("", 251);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanBackupDirectory, "250"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
                     // Is Nullable
                     // [NotMapped]
                     // samplingPlan.SamplingPlanWeb   (SamplingPlanWeb)
@@ -590,6 +612,7 @@ namespace CSSPServices.Tests
                         {
                             Assert.IsNotNull(samplingPlanRet.LaboratoryDefault);
                         }
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.BackupDirectory));
                         Assert.IsNotNull(samplingPlanRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVItemID);
 

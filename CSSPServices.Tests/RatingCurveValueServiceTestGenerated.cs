@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             RatingCurveValue ratingCurveValue = new RatingCurveValue();
 
-            if (OmitPropName != "RatingCurveID") ratingCurveValue.RatingCurveID = 1;
+            if (OmitPropName != "RatingCurveID") ratingCurveValue.RatingCurveID = 0;
             if (OmitPropName != "StageValue_m") ratingCurveValue.StageValue_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurveValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

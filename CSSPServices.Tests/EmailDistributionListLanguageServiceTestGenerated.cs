@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             EmailDistributionListLanguage emailDistributionListLanguage = new EmailDistributionListLanguage();
 
-            if (OmitPropName != "EmailDistributionListID") emailDistributionListLanguage.EmailDistributionListID = 1;
+            if (OmitPropName != "EmailDistributionListID") emailDistributionListLanguage.EmailDistributionListID = 0;
             if (OmitPropName != "Language") emailDistributionListLanguage.Language = LanguageRequest;
             if (OmitPropName != "RegionName") emailDistributionListLanguage.RegionName = GetRandomString("", 6);
             if (OmitPropName != "TranslationStatus") emailDistributionListLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

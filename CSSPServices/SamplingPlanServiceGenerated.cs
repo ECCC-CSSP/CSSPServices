@@ -237,6 +237,18 @@ namespace CSSPServices
                 }
             }
 
+            if (string.IsNullOrWhiteSpace(samplingPlan.BackupDirectory))
+            {
+                samplingPlan.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanBackupDirectory), new[] { "BackupDirectory" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.BackupDirectory) && samplingPlan.BackupDirectory.Length > 250)
+            {
+                samplingPlan.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanBackupDirectory, "250"), new[] { "BackupDirectory" });
+            }
+
             if (samplingPlan.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlan.HasErrors = true;
@@ -430,6 +442,7 @@ namespace CSSPServices
                         AnalyzeMethodDefault = c.AnalyzeMethodDefault,
                         SampleMatrixDefault = c.SampleMatrixDefault,
                         LaboratoryDefault = c.LaboratoryDefault,
+                        BackupDirectory = c.BackupDirectory,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         SamplingPlanWeb = new SamplingPlanWeb

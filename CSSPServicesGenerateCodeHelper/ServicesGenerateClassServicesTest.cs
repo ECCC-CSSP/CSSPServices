@@ -1050,15 +1050,19 @@ namespace CSSPServicesGenerateCodeHelper
                                     {
                                         case "AspNetUser":
                                             {
-                                                AspNetUserService AspNetUserService = new AspNetUserService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
-                                                AspNetUser AspNetUser = AspNetUserService.GetRead().FirstOrDefault();
-                                                if (AspNetUser == null)
+                                                using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                                                 {
-                                                    sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = """ + AspNetUser.Id + @""";");
+                                                    AspNetUserService AspNetUserService = new AspNetUserService(new GetParam(), db, 2);
+                                                    AspNetUser AspNetUser = AspNetUserService.GetRead().FirstOrDefault();
+
+                                                    if (AspNetUser == null)
+                                                    {
+                                                        sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ExistTypeName + " " + csspProp.ExistFieldID + "]");
+                                                    }
+                                                    else
+                                                    {
+                                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = """ + AspNetUser.Id + @""";");
+                                                    }
                                                 }
                                             }
                                             break;

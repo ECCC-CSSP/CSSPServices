@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             VPScenarioLanguage vpScenarioLanguage = new VPScenarioLanguage();
 
-            if (OmitPropName != "VPScenarioID") vpScenarioLanguage.VPScenarioID = 1;
+            if (OmitPropName != "VPScenarioID") vpScenarioLanguage.VPScenarioID = 0;
             if (OmitPropName != "Language") vpScenarioLanguage.Language = LanguageRequest;
             if (OmitPropName != "VPScenarioName") vpScenarioLanguage.VPScenarioName = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") vpScenarioLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

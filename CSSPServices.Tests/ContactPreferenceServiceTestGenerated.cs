@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ContactPreference contactPreference = new ContactPreference();
 
-            if (OmitPropName != "ContactID") contactPreference.ContactID = 1;
+            if (OmitPropName != "ContactID") contactPreference.ContactID = 0;
             if (OmitPropName != "TVType") contactPreference.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "MarkerSize") contactPreference.MarkerSize = GetRandomInt(1, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") contactPreference.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
