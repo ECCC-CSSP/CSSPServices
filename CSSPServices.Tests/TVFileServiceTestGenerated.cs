@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 17;
             if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 0;
+            if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 1;
             if (OmitPropName != "Parameters") tvFile.Parameters = GetRandomString("", 20);
             if (OmitPropName != "Year") tvFile.Year = GetRandomInt(1980, 2050);
             if (OmitPropName != "Language") tvFile.Language = LanguageRequest;

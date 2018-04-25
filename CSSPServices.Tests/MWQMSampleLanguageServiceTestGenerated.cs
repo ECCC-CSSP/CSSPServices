@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MWQMSampleLanguage mwqmSampleLanguage = new MWQMSampleLanguage();
 
-            if (OmitPropName != "MWQMSampleID") mwqmSampleLanguage.MWQMSampleID = 0;
+            if (OmitPropName != "MWQMSampleID") mwqmSampleLanguage.MWQMSampleID = 1;
             if (OmitPropName != "Language") mwqmSampleLanguage.Language = LanguageRequest;
             if (OmitPropName != "MWQMSampleNote") mwqmSampleLanguage.MWQMSampleNote = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") mwqmSampleLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

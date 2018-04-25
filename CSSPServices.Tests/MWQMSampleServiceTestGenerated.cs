@@ -54,6 +54,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Tube_1_0") mwqmSample.Tube_1_0 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube_0_1") mwqmSample.Tube_0_1 = GetRandomInt(0, 5);
             if (OmitPropName != "ProcessedBy") mwqmSample.ProcessedBy = GetRandomString("", 5);
+            if (OmitPropName != "UseForOpenData") mwqmSample.UseForOpenData = true;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSample.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSample.LastUpdateContactTVItemID = 2;
 
@@ -407,6 +408,12 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is NOT Nullable
+                    // mwqmSample.UseForOpenData   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
                     // Is Nullable
                     // [NotMapped]
                     // mwqmSample.MWQMSampleWeb   (MWQMSampleWeb)
@@ -576,6 +583,7 @@ namespace CSSPServices.Tests
                         {
                             Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.ProcessedBy));
                         }
+                        Assert.IsNotNull(mwqmSampleRet.UseForOpenData);
                         Assert.IsNotNull(mwqmSampleRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmSampleRet.LastUpdateContactTVItemID);
 

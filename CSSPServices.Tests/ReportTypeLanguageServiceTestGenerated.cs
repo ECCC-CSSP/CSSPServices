@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ReportTypeLanguage reportTypeLanguage = new ReportTypeLanguage();
 
-            if (OmitPropName != "ReportTypeID") reportTypeLanguage.ReportTypeID = 0;
+            if (OmitPropName != "ReportTypeID") reportTypeLanguage.ReportTypeID = 1;
             if (OmitPropName != "Language") reportTypeLanguage.Language = LanguageRequest;
             if (OmitPropName != "Name") reportTypeLanguage.Name = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusName") reportTypeLanguage.TranslationStatusName = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

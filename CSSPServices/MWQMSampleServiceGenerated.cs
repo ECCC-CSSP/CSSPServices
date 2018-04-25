@@ -389,6 +389,7 @@ namespace CSSPServices
                         Tube_1_0 = c.Tube_1_0,
                         Tube_0_1 = c.Tube_0_1,
                         ProcessedBy = c.ProcessedBy,
+                        UseForOpenData = c.UseForOpenData,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MWQMSampleWeb = new MWQMSampleWeb

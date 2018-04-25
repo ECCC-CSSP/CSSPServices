@@ -425,6 +425,7 @@ namespace CSSPServices
                     select new SamplingPlan
                     {
                         SamplingPlanID = c.SamplingPlanID,
+                        IsActive = c.IsActive,
                         SamplingPlanName = c.SamplingPlanName,
                         ForGroupName = c.ForGroupName,
                         SampleType = c.SampleType,

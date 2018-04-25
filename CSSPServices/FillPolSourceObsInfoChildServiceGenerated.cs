@@ -390,11 +390,6 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.PathwayRouteMarineStart, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteMarineStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
                 PolSourceObsInfo = PolSourceObsInfoEnum.SecondaryHazardousLevelStart, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SecondaryHazardousLevelStart,
             });
@@ -410,33 +405,8 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.DilutionAnalysesWaterDepthStart, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.DilutionAnalysesWaterDepthStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalAmplitudeStart, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalAmplitudeStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalLargeDeepStart, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalLargeDeepStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalSmallDeepStart, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalSmallDeepStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalLgShallowStart, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalLgShallowStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalSmallShallowStart, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalSmallShallowStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ConductDilutionAnalysesStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -452,6 +422,166 @@ namespace CSSPModels
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.FollowUpStart, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FollowUpStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TypeOfSourceStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TypeOfSourceStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterwayWidthInMetersStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterwayWidthInMetersStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.AverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat10mStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StructureDiameterStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StructureDiameterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.HeigthOfFlowStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEIStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.BCTidalAmplitudeStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthTideStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthTideStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthTideStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAreaWidthTideStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.ImpactZoneStart, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -1076,7 +1206,7 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.IndustrialEffluentAnchorageMooringSite, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SourcesOfContaminantStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BoatStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -1241,7 +1371,12 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.FishBuildingTypeSingleAbandoned, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteFirstStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SourcesOfContaminantStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FishBuildingTypeSingleWarehouse, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SourcesOfContaminantStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -1271,6 +1406,11 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.FishBuildingTypeMultipleAbandoned, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SourcesOfContaminantStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FishBuildingTypeMultipleWarehouse, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SourcesOfContaminantStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -1350,7 +1490,7 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.ShorelineSourceSlipway, 
+                PolSourceObsInfo = PolSourceObsInfoEnum.ShorelineSourceBoatRamp, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SlipwayStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -1375,7 +1515,7 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.WharfPrivate, 
+                PolSourceObsInfo = PolSourceObsInfoEnum.WharfRecreational, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VesselCountStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -1455,6 +1595,11 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VesselCountNotApplicable, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WharfTransportationStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
                 PolSourceObsInfo = PolSourceObsInfoEnum.WharfTransportationCommericalSingle, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
             });
@@ -1492,6 +1637,11 @@ namespace CSSPModels
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.WharfTransportationBarges, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WharfTransportationRecreation, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SourcesOfContaminantStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -2091,87 +2241,87 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals1, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeSingleStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals2, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals3, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals4, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals5, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals6, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals7, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals8, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals9, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountEquals10, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountBetween11to25, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountBetween26to50, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountBetween51to75, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountBetween76to100, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountGreaterThan100, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountGreaterThan150, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.BoatCountGreaterThan250, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.OilDumpingFacilityStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterAquacultureTypeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -2280,17 +2430,17 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleCages, 
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleCage, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SewageStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleFloatingBags, 
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleFloatingBag, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.MarineSourcesOfContaminantStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleSubmergedLines, 
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleSubmergedLine, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.MarineSourcesOfContaminantStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -2300,7 +2450,12 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleBarges, 
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleBarge, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.MarineSourcesOfContaminantStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeSingleBoat, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.MarineSourcesOfContaminantStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -2326,6 +2481,11 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeBarges, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.MarineSourcesOfContaminantStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterAquacultureTypeBoats, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.MarineSourcesOfContaminantStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -2431,6 +2591,11 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.MarineSourcesOfContaminantEffluent, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathWayStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.MarineSourcesOfContaminantEffluentMultiple, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathWayStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -2566,6 +2731,11 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.SewageRetentionTankMarine, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ObservationHazardousLevelStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SewageMixedMarine, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ObservationHazardousLevelStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -2857,6 +3027,11 @@ namespace CSSPModels
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.PathwaySourceFirstMunicipalityOFFSITE, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PathwaySourceFirstMixesMARINE, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SecondaryHazardousLevelStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -4315,6 +4490,11 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PipeFlowRainfall, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteSecondPipeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
                 PolSourceObsInfo = PolSourceObsInfoEnum.PipeFlowNA, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteSecondPipeStart,
             });
@@ -4335,6 +4515,11 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PipeFlowRainfallMed, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteSecondPipeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
                 PolSourceObsInfo = PolSourceObsInfoEnum.PipeFlowNAMed, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteSecondPipeStart,
             });
@@ -4351,6 +4536,11 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.PipeFlowLowLow, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteSecondPipeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PipeFlowRainfallLow, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PathwayRouteSecondPipeStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
@@ -4661,22 +4851,22 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.ImpactRatingDirectHighHaz, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ConductDilutionAnalysesStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.ImpactRatingindirectHighHaz, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ConductDilutionAnalysesStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.ImpactRatingDirectMedHaz, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ConductDilutionAnalysesStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.ImpactRatingindirectMedHaz, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ConductDilutionAnalysesStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -4696,17 +4886,17 @@ namespace CSSPModels
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.StatusDefiniteHi, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.DilutionAnalysesWaterDepthStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.StatusPotentialHi, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.DilutionAnalysesWaterDepthStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.StatusDefiniteMed, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.DilutionAnalysesWaterDepthStart,
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -4735,593 +4925,43 @@ namespace CSSPModels
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.DepthDeepDef, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalAmplitudeStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesDirectHighYes, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TypeOfSourceStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.DepthShallowDef, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalAmplitudeStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesDirectHighNo, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.DepthDeepPot, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalAmplitudeStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesIndirectHighYes, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TypeOfSourceStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.DepthShallowPot, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalAmplitudeStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesIndirectHighNo, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.DepthUnknown, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesDirectMedYes, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TypeOfSourceStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalLargeDeepDef, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalLargeDeepStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesDirectMedNo, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalLargeDeepPot, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalLargeDeepStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesIndirectMedYes, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TypeOfSourceStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalSmallDeepDef, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalSmallDeepStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalSmallDeepPot, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalSmallDeepStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalLargeshallowDef, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalLgShallowStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalLargeShallowPot, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalLgShallowStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalSmallShallowDef, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalSmallShallowStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalSmallShallowPot, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TidalSmallShallowStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.TidalUnknown, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet50, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet100, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet200, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet300, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet400, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet500, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet600, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet700, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet800, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet900, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDistToGrowAreaInMetGrThan1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDistToGrowAreaInMetInfoReq, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet50P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet100P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet200P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet300P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet400P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet500P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet600P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet700P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet800P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet900P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDisToGrowAreaInMet1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDistToGrowAreaInMetGrThan1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLarDeDistToGrowAreaInMetInfoReqP, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet50, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet100, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet200, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet300, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet400, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet500, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet600, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet700, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet800, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet900, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMetGrThan1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrAreaInMetInfoReq, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet50P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet100P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet200P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet300P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet400P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet500P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet600P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet700P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet800P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet900P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMet1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrowAreaInMetGrThan1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidSmDeDistToGrAreaInMetInfoReqP, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet50, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet100, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet200, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet300, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet400, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet500, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet600, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet700, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet800, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet900, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMetGrThan1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrAreaInMetInfoReq, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet50P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet100P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet200P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet300P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet400P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet500P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet600P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet700P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet800P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet900P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMet1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrowAreaInMetGrThan1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpenTidalLgShalSeaDistToGrAreaInMetInfoReqP, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet50, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet100, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet200, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet300, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet400, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet500, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet600, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet700, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet800, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet900, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrAreaInMetGrTh1000, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrAreaInMetInfoReq, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet50P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet100P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet200P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet300P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet400P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet500P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet600P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet700P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet800P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet900P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrowAreaInMet1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrAreaInMetGrTh1000P, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
-            });
-            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
-            {
-                PolSourceObsInfo = PolSourceObsInfoEnum.OpTidalSmShalDistToGrAreaInMetInfoReqP, 
-                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
+                PolSourceObsInfo = PolSourceObsInfoEnum.ConductDilutionAnalysesIndirectMedNo, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
             });
             polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
             {
@@ -5372,6 +5012,4366 @@ namespace CSSPModels
             {
                 PolSourceObsInfo = PolSourceObsInfoEnum.RiskNotDetermined, 
                 PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FollowUpStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TypeOfSourceCircular, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StructureDiameterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TypeOfSourceWaterWays, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.WaterwayWidthInMetersStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterwayWidthInMetersApprox1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.AverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterwayWidthInMetersApprox2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.AverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterwayWidthInMetersApprox3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.AverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterwayWidthInMetersApprox5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.AverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.WaterwayWidthInMetersApprox10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.AverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox50cm1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox1m1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox2m1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox3m1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox50cm2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox1m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox2m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox3m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox50cm3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox1m3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox2m3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox3m3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox50cm5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox1m5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox2m5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox3m5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox50cm10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox1m10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox2m10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.AverageDepthApprox3m10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StreamVolSqMeterStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterEquals05m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterEquals1m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterEquals3m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterEquals6m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterEquals9m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterEquals15m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StreamVolSqMeterEquals30m2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.TimeToFloat10mStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat30SecondsHalf, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat1MinuteHalf, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat2MinutesHalf, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat3MinutesHalf, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat30SecondsOne, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat1MinuteOne, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat2MinutesOne, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat3MinutesOne, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat30SecondsThree, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat1MinuteThree, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat2MinutesThree, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat3MinutesThree, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat30SecondsSix, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat1MinuteSix, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat2MinutesSix, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat3MinutesSix, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat30SecondsNine, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat1MinuteNine, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat2MinutesNine, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat3MinutesNine, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat30SecondsFifteen, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat1MinuteFifteen, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat2MinutesFifteen, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat3MinutesFifteen, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat30SecondsThirty, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat1MinuteThirty, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat2MinutesThirty, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.TimeToFloat3MinutesThirty, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500a, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000a, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700a, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500b, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000b, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700b, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500c, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000c, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700c, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500d, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000d, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700d, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500e, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000e, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700e, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500f, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000f, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700f, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500g, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000g, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700g, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500h, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000h, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700h, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500i, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000i, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700i, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500j, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000j, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700j, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo500k, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1000k, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.FecalCountNumberApproxTo1700k, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Start,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Starta, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Startb, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Startc, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14Startd, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.StatusStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StarteGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartfGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartgGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StarthGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartiGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartjGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartkGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartlGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartmGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartnGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartoGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartpGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartqGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartrGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartsGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StarttGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartuGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartvGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartwGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartxGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartyGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.CubicMeterToDiluteToMPN14StartzGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RegionStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StructureDiameter30cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.HeigthOfFlowStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StructureDiameter50cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.HeigthOfFlowStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StructureDiameter75cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.HeigthOfFlowStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StructureDiameter1m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.HeigthOfFlowStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StructureDiameter2m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.HeigthOfFlowStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.StructureDiameter3m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.HeigthOfFlowStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox25Percent300cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox50Percent300cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox75Percent300cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox25Percent500cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox50Percent500cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox75Percent500cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox25Percent750cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox50Percent750cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox75Percent750cm, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox25Percent1m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox50Percent1m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox75Percent1m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox25Percent2m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox50Percent2m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox75Percent2m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox25Percent3m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox50Percent3m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.HeigthOfFlowApprox75Percent3m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.VolumeCubicMeterSecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual005, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual01, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual02, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual03, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual05, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual075, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual11, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual28, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual33, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual52, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual89, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.VolumeCubicMeterSecEqual152, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.FecalCountNumberStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween14And100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween14And100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween14And100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween14And100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween14And100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween14And100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween101And250, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween101And250, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween101And250, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween101And250, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween101And250, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween101And250, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween251And600, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween251And600, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween251And600, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween251And600, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween251And600, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween251And600, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween601and1000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween601and1000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween601and1000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween601and1000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween601and1000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween601and1000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween1001And2000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween1001And2000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween1001And2000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween1001And2000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween1001And2000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween1001And2000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween2001And5500, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween2001And5500, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween2001And5500, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween2001And5500, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween2001And5500, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween2001And5500, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween5501And11000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween5501And11000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween5501And11000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween5501And11000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween5501And11000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween5501And11000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewBrunswickBetween11001And20000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNBStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNovaScotiaBetween11001And20000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNSStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionPEIBetween11001And20000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInPEIStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionNewfoundlandBetween11001And20000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInNfldStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionQuebecBetween11001And20000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInQuebecStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.RegionBritishCBetween11001And20000, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SectorsInBCStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB1To2GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB3To4GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB5To7GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB9To12GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB13To15GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals16GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNB17To18GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNBEquals19GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals1GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS2To3GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS4To6GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals7GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNS8To14GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNEquals15GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals16GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals18GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNSEquals20GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NSTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI1To4Plus9GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI5To6GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInPEI7To8GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PEITidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual2GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfld6To7G8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual15G8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual29G8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual30GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual35GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInNfldEqual43GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualAGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualGGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecTandPandNGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecLandKandSandPGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualBGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ01GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ02GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ03GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInQuebecEqualZ04GP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.QuebecTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox50cmGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox1mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox2mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox5mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.QuebecTidalAmplitudeApprox8mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBEGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualGBWGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualNCQCGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.SectorsInBCEqualWCVIGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.BCTidalAmplitudeStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.BCTidalAmplitudeApprox1mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.RiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox2mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox2mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox2mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox2mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox4mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox2mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox2mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox1mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldTidalAmplitudeApprox2mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt15m2Wide15, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt30m2Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt30m5Wide60, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt60m5Wide30, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt60m5Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt60m10Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt100m10Wide40a, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt100m10Wide70, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt15m2Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt30m05Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt30m05Wide120, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt60m05Wide15, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt60m05Wide30, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt100m10Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt100m10Wide40, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAverageDepthAt100m10Wide80, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NfldAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals5m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals10m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals15m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals20m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals30m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals40m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals60m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals70m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals80m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NfldAreaWidthEquals120m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox50cmGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox1mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PEITidalAmplitudeApprox2mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt100m105Wide15, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt100m105Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt100m105Wide40, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt100m105Wide100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt150m205Wide90, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt150m205Wide150, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt500m1Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt500m1Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt500m1Wide30, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt500m1Wide65, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt1500m4Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAverageDepthAt1500m4Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.PrinceEAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals5m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals10m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals15m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals20m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals30m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals40m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals65m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals90m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals100m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.PrinceEAreaWidthEquals150m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox50cmGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox1mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox2mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox5mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox6mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBTidalAmplitudeApprox7mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NewBAverageDepthStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt60m05Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt60m05Wide25, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt60m05Wide60, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt60m05Wide100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt60m05Wide200, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt100m2Wide15, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt100m2Wide30, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt100m2Wide80, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m05Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m05Wide25, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m05Wide40, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m05Wide100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m05Wide200, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m2Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m2Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m2Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m2Wide50, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m2Wide100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m2Wide110, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m2Wide200, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m5Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m5Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m5Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m5Wide40, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m5Wide75, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt150m5Wide80, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m05Wide150, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m05Wide250, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m205Wide25, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m205Wide45, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m6Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m6Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m6Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m20Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NewBAverageDepthAt500m30Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NBAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals5m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals10m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals15m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals20m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals25m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals30m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals40m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals45m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals50m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals60m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals70m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals75m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals80m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals100m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals110m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals150m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals200m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NBAreaWidthEquals250m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP1, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP2, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP3, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP4, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP6, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP7, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox50cmGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox1mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox2mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox3mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox5mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox8mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSTidalAmplitudeApprox14mGP8, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAverageDepthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt30m1Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt30m1Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt60m1Wide30, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt60m1Wide50, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt60m1Wide100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt100m1Wide150, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide15, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide40, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide110, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide200, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m1Wide400, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m2Wide50, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m2Wide100, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m3Wide15, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m5Wide40, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt150m5Wide70, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m2Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m2Wide15, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m2Wide30, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m2Wide65, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m3Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m3Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m3Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m3Wide35, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt500m10Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt1500m1Wide5, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt1500m1Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt1500m1Wide25, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt1500m1Wide40, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt1500m2Wide10, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NovaSAverageDepthAt1500m2Wide20, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.NovaSAreaWidthTideStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals5m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals10m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals15m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals20m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals25m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals30m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals35m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals40m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals50m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals60m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals70m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals100m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals110m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals150m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals200m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.NSAreaWidthEquals400m, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.ImpactZoneStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.ImpactZoneYes, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.ImpactZonePotential, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.ImpactZoneNo, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
+            });
+            polSourceObsInfoChildList.Add(new PolSourceObsInfoChild()
+            {
+                PolSourceObsInfo = PolSourceObsInfoEnum.ImpactZoneNotSure, 
+                PolSourceObsInfoChildStart = PolSourceObsInfoEnum.SuggestedRiskStart,
             });
         }
         #endregion Functions public 

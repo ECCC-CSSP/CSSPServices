@@ -928,25 +928,25 @@ namespace CSSPServicesGenerateCodeHelper
             #endregion PolSourceSite, PolSourceObservation, PolSourceObservationIssue Subsector NB-06_020_002 Pol Source Site 000024
             #region TVItem SamplingPlan, SamplingPlanSubsector, SamplingPlanSubsectorSite
             StatusTempEvent(new StatusEventArgs("doing ... Sampling Plan"));
-            // NB TVItem Sampling Plan with SamplingPlanID = 42 and TVFileTVItemID = 322276
-            TVItem tvItemNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 322276).FirstOrDefault();
+            // NB TVItem Sampling Plan with SamplingPlanID = 69 and TVFileTVItemID = 344431
+            TVItem tvItemNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 344431).FirstOrDefault();
             tvItemNBSamplingPlanFileTVItem.ParentID = tvItemNB.TVItemID;
             if (!AddObject("TVItem", tvItemNBSamplingPlanFileTVItem)) return false;
             if (!CorrectTVPath(tvItemNBSamplingPlanFileTVItem, tvItemNB)) return false;
             if (!AddMapInfo(tvItemNBSamplingPlanFileTVItem, 322276, tvItemContactCharles.TVItemID)) return false;
 
-            // NB EN TVItem Sampling Plan with SamplingPlanID = 42 and TVFileTVItemID = 322276
-            TVItemLanguage tvItemLanguageENNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 322276 && c.Language == LanguageEnum.en).FirstOrDefault();
+            // NB EN TVItem Sampling Plan with SamplingPlanID = 69 and TVFileTVItemID = 344431
+            TVItemLanguage tvItemLanguageENNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 344431 && c.Language == LanguageEnum.en).FirstOrDefault();
             tvItemLanguageENNBSamplingPlanFileTVItem.TVItemID = tvItemNBSamplingPlanFileTVItem.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageENNBSamplingPlanFileTVItem)) return false;
 
-            // NB FR TVItem Sampling Plan with SamplingPlanID = 42 and TVFileTVItemID = 322276
-            TVItemLanguage tvItemLanguageFRNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 322276 && c.Language == LanguageEnum.fr).FirstOrDefault();
+            // NB FR TVItem Sampling Plan with SamplingPlanID = 69 and TVFileTVItemID = 344431
+            TVItemLanguage tvItemLanguageFRNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 344431 && c.Language == LanguageEnum.fr).FirstOrDefault();
             tvItemLanguageFRNBSamplingPlanFileTVItem.TVItemID = tvItemNBSamplingPlanFileTVItem.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNBSamplingPlanFileTVItem)) return false;
 
-            // NB TVFile Sampling Plan with SamplingPlanID = 42 and TVFileTVItemID = 322276
-            TVFile tvFile = dbCSSPWebToolsDBRead.TVFiles.AsNoTracking().Where(c => c.TVFileTVItemID == 322276).FirstOrDefault();
+            // NB TVFile Sampling Plan with SamplingPlanID = 69 and TVFileTVItemID = 344431
+            TVFile tvFile = dbCSSPWebToolsDBRead.TVFiles.AsNoTracking().Where(c => c.TVFileTVItemID == 344431).FirstOrDefault();
             //int TVFileID = tvFile.TVFileID;
             tvFile.TVFileTVItemID = tvItemNBSamplingPlanFileTVItem.TVItemID;
             if (!AddObject("TVFile", tvFile)) return false;
@@ -3487,6 +3487,7 @@ namespace CSSPServicesGenerateCodeHelper
                 "MikeSourceStartEnds",
                 "MWQMAnalysisReportParameters",
                 "MWQMLookupMPNs",
+                "SamplingPlanEmails",
                 "SamplingPlans",
                 "SamplingPlanSubsectors",
                 "SamplingPlanSubsectorSites",

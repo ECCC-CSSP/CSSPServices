@@ -41,7 +41,7 @@ namespace CSSPServices.Tests
             LabSheet labSheet = new LabSheet();
 
             if (OmitPropName != "OtherServerLabSheetID") labSheet.OtherServerLabSheetID = GetRandomInt(1, 11);
-            if (OmitPropName != "SamplingPlanID") labSheet.SamplingPlanID = 0;
+            if (OmitPropName != "SamplingPlanID") labSheet.SamplingPlanID = 1;
             if (OmitPropName != "SamplingPlanName") labSheet.SamplingPlanName = GetRandomString("", 6);
             if (OmitPropName != "Year") labSheet.Year = GetRandomInt(1980, 1990);
             if (OmitPropName != "Month") labSheet.Month = GetRandomInt(1, 12);

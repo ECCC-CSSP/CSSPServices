@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             AppTaskLanguage appTaskLanguage = new AppTaskLanguage();
 
-            if (OmitPropName != "AppTaskID") appTaskLanguage.AppTaskID = 0;
+            if (OmitPropName != "AppTaskID") appTaskLanguage.AppTaskID = 1;
             if (OmitPropName != "Language") appTaskLanguage.Language = LanguageRequest;
             if (OmitPropName != "StatusText") appTaskLanguage.StatusText = GetRandomString("", 5);
             if (OmitPropName != "ErrorText") appTaskLanguage.ErrorText = GetRandomString("", 5);

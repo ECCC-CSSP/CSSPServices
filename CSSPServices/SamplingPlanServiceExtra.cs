@@ -73,6 +73,10 @@ namespace CSSPServices
                                      IncludeLaboratoryQAQC = c.IncludeLaboratoryQAQC,
                                      ApprovalCode = c.ApprovalCode,
                                      SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
+                                     AnalyzeMethodDefault = c.AnalyzeMethodDefault,
+                                     SampleMatrixDefault = c.SampleMatrixDefault,
+                                     LaboratoryDefault = c.LaboratoryDefault,
+                                     BackupDirectory = c.BackupDirectory,
                                      LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                      SamplingPlanWeb = new SamplingPlanWeb

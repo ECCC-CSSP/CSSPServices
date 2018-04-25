@@ -40,6 +40,7 @@ namespace CSSPServices.Tests
         {
             SamplingPlan samplingPlan = new SamplingPlan();
 
+            if (OmitPropName != "IsActive") samplingPlan.IsActive = true;
             if (OmitPropName != "SamplingPlanName") samplingPlan.SamplingPlanName = GetRandomString("", 5);
             if (OmitPropName != "ForGroupName") samplingPlan.ForGroupName = GetRandomString("", 5);
             if (OmitPropName != "SampleType") samplingPlan.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
@@ -138,6 +139,12 @@ namespace CSSPServices.Tests
                     samplingPlan.SamplingPlanID = 10000000;
                     samplingPlanService.Update(samplingPlan);
                     Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // samplingPlan.IsActive   (Boolean)
+                    // -----------------------------------
 
 
                     // -----------------------------------
@@ -583,6 +590,7 @@ namespace CSSPServices.Tests
                         }
                         // SamplingPlan fields
                         Assert.IsNotNull(samplingPlanRet.SamplingPlanID);
+                        Assert.IsNotNull(samplingPlanRet.IsActive);
                         Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanName));
                         Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ForGroupName));
                         Assert.IsNotNull(samplingPlanRet.SampleType);

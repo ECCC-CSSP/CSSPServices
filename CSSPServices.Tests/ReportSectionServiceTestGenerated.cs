@@ -40,14 +40,14 @@ namespace CSSPServices.Tests
         {
             ReportSection reportSection = new ReportSection();
 
-            if (OmitPropName != "ReportTypeID") reportSection.ReportTypeID = 0;
+            if (OmitPropName != "ReportTypeID") reportSection.ReportTypeID = 1;
             // Need to implement (no items found, would need to add at least one in the TestDB) [ReportSection TVItemID TVItem TVItemID]
             if (OmitPropName != "Ordinal") reportSection.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "IsStatic") reportSection.IsStatic = true;
-            if (OmitPropName != "ParentReportSectionID") reportSection.ParentReportSectionID = 0;
+            if (OmitPropName != "ParentReportSectionID") reportSection.ParentReportSectionID = 1;
             if (OmitPropName != "Year") reportSection.Year = GetRandomInt(1979, 2050);
             if (OmitPropName != "Locked") reportSection.Locked = true;
-            if (OmitPropName != "TemplateReportSectionID") reportSection.TemplateReportSectionID = 0;
+            if (OmitPropName != "TemplateReportSectionID") reportSection.TemplateReportSectionID = 1;
             if (OmitPropName != "LastUpdateDate_UTC") reportSection.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") reportSection.LastUpdateContactTVItemID = 2;
 
