@@ -69,33 +69,34 @@ namespace CSSPServices
                 List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                 {
                     TVTypeEnum.Root,
-                    TVTypeEnum.Country,
-                    TVTypeEnum.Province,
+                    TVTypeEnum.Address,
                     TVTypeEnum.Area,
-                    TVTypeEnum.Sector,
-                    TVTypeEnum.Subsector,
                     TVTypeEnum.ClimateSite,
+                    TVTypeEnum.Country,
                     TVTypeEnum.File,
                     TVTypeEnum.HydrometricSite,
-                    TVTypeEnum.Infrastructure,
-                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeBoundaryConditionWebTide,
-                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeSource,
                     TVTypeEnum.Municipality,
-                    TVTypeEnum.MWQMRun,
                     TVTypeEnum.MWQMSite,
-                    TVTypeEnum.MWQMSiteSample,
                     TVTypeEnum.PolSourceSite,
-                    TVTypeEnum.SamplingPlan,
-                    TVTypeEnum.Spill,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
                     TVTypeEnum.TideSite,
-                    TVTypeEnum.VisualPlumesScenario,
+                    TVTypeEnum.WasteWaterTreatmentPlant,
+                    TVTypeEnum.LiftStation,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.Outfall,
+                    TVTypeEnum.OtherInfrastructure,
+                    TVTypeEnum.SeeOther,
+                    TVTypeEnum.LineOverflow,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID" });
                 }
             }
 
@@ -111,33 +112,34 @@ namespace CSSPServices
                 List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                 {
                     TVTypeEnum.Root,
-                    TVTypeEnum.Country,
-                    TVTypeEnum.Province,
+                    TVTypeEnum.Address,
                     TVTypeEnum.Area,
-                    TVTypeEnum.Sector,
-                    TVTypeEnum.Subsector,
                     TVTypeEnum.ClimateSite,
+                    TVTypeEnum.Country,
                     TVTypeEnum.File,
                     TVTypeEnum.HydrometricSite,
-                    TVTypeEnum.Infrastructure,
-                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeBoundaryConditionWebTide,
-                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeSource,
                     TVTypeEnum.Municipality,
-                    TVTypeEnum.MWQMRun,
                     TVTypeEnum.MWQMSite,
-                    TVTypeEnum.MWQMSiteSample,
                     TVTypeEnum.PolSourceSite,
-                    TVTypeEnum.SamplingPlan,
-                    TVTypeEnum.Spill,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
                     TVTypeEnum.TideSite,
-                    TVTypeEnum.VisualPlumesScenario,
+                    TVTypeEnum.WasteWaterTreatmentPlant,
+                    TVTypeEnum.LiftStation,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.Outfall,
+                    TVTypeEnum.OtherInfrastructure,
+                    TVTypeEnum.SeeOther,
+                    TVTypeEnum.LineOverflow,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID2.TVType))
                 {
                     appTask.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), new[] { "TVItemID2" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID2, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID2" });
                 }
             }
 
@@ -359,11 +361,25 @@ namespace CSSPServices
         }
         public IQueryable<AppTask> GetRead()
         {
-            return db.AppTasks.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.AppTasks.AsNoTracking();
+            }
+            else
+            {
+                return db.AppTasks.AsNoTracking().OrderByDescending(c => c.AppTaskID);
+            }
         }
         public IQueryable<AppTask> GetEdit()
         {
-            return db.AppTasks;
+            if (GetParam.OrderAscending)
+            {
+                return db.AppTasks;
+            }
+            else
+            {
+                return db.AppTasks.OrderByDescending(c => c.AppTaskID);
+            }
         }
         #endregion Functions public Generated CRUD
 

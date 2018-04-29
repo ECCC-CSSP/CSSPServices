@@ -635,7 +635,9 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemBouctoucheWWTP.ParentID = tvItemBouctouche.TVItemID;
             if (!AddObject("TVItem", tvItemBouctoucheWWTP)) return false;
             if (!CorrectTVPath(tvItemBouctoucheWWTP, tvItemBouctouche)) return false;
+            tvItemBouctoucheWWTP.TVType = TVTypeEnum.WasteWaterTreatmentPlant;
             if (!AddMapInfo(tvItemBouctoucheWWTP, 28689, tvItemContactCharles.TVItemID)) return false;
+            tvItemBouctoucheWWTP.TVType = TVTypeEnum.Infrastructure;
 
             // TVItemLanguage EN Bouctouche WWTP TVItemID = 28689
             TVItemLanguage tvItemLanguageENBouctoucheWWTP = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 28689 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -815,7 +817,9 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemBouctoucheLS2RueAcadie.ParentID = tvItemBouctouche.TVItemID;
             if (!AddObject("TVItem", tvItemBouctoucheLS2RueAcadie)) return false;
             if (!CorrectTVPath(tvItemBouctoucheLS2RueAcadie, tvItemBouctouche)) return false;
+            tvItemBouctoucheLS2RueAcadie.TVType = TVTypeEnum.LiftStation;
             if (!AddMapInfo(tvItemBouctoucheLS2RueAcadie, 28695, tvItemContactCharles.TVItemID)) return false;
+            tvItemBouctoucheLS2RueAcadie.TVType = TVTypeEnum.Infrastructure;
 
             // TVItemLanguage EN Bouctouche LS 2 Rue Acadie TVItemID = 28695
             TVItemLanguage tvItemLanguageENBouctoucheLS2RueAcadie = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 28695 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -867,6 +871,41 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRNB_06_020_002Site0002.TVItemID = tvItemNB_06_020_002Site0002.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_002Site0002)) return false;
             #endregion TVItem Subsector NB-06_020_002 MWQM Site 0002
+            #region TVItem Address and Address
+            StatusTempEvent(new StatusEventArgs("doing ... Address"));
+            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
+            TVItem tvItemAddress = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 232655).FirstOrDefault();
+            tvItemAddress.ParentID = tvItemRoot.TVItemID;
+            if (!AddObject("TVItem", tvItemAddress)) return false;
+            if (!CorrectTVPath(tvItemAddress, tvItemRoot)) return false;
+            if (!AddMapInfo(tvItemAddress, 232655, tvItemContactCharles.TVItemID)) return false;
+
+            // Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
+            Address address = dbCSSPWebToolsDBRead.Addresses.AsNoTracking().Where(c => c.AddressTVItemID == 232655).FirstOrDefault();
+            address.AddressTVItemID = tvItemAddress.TVItemID;
+            address.CountryTVItemID = tvItemCanada.TVItemID;
+            address.ProvinceTVItemID = tvItemNB.TVItemID;
+            address.MunicipalityTVItemID = tvItemBouctouche.TVItemID;
+            if (!AddObject("Address", address)) return false;
+
+            using (CSSPWebToolsDBContext db2 = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+            {
+                AddressService addressService = new AddressService(new GetParam(), db2, contactCharles.ContactID);
+                addressService.FillAddressTVText(address);
+            }
+
+            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
+            TVItemLanguage tvItemLanguageENAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.en).FirstOrDefault();
+            tvItemLanguageENAddress.TVItemID = tvItemAddress.TVItemID;
+            tvItemLanguageENAddress.TVText = address.AddressWeb.AddressTVText;
+            if (!AddObject("TVItemLanguage", tvItemLanguageENAddress)) return false;
+
+            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
+            TVItemLanguage tvItemLanguageFRAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.fr).FirstOrDefault();
+            tvItemLanguageFRAddress.TVItemID = tvItemAddress.TVItemID;
+            tvItemLanguageFRAddress.TVText = address.AddressWeb.AddressTVText;
+            if (!AddObject("TVItemLanguage", tvItemLanguageFRAddress)) return false;
+            #endregion TVItem Address and Address
             #region TVItem Subsector NB-06_020_002 Pol Source Site 000023
             StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-002 PolSource site 00023"));
             // TVItem Subsector NB-06_020_002 Pol Source Site 000023 TVItemID = 202466
@@ -892,6 +931,10 @@ namespace CSSPServicesGenerateCodeHelper
             PolSourceSite polSourceSitePolSite000023 = dbCSSPWebToolsDBRead.PolSourceSites.AsNoTracking().Where(c => c.PolSourceSiteTVItemID == 202466).FirstOrDefault();
             int PolSourceSiteID = polSourceSitePolSite000023.PolSourceSiteID;
             polSourceSitePolSite000023.PolSourceSiteTVItemID = tvItemNB_06_020_002PolSite000023.TVItemID;
+            if (polSourceSitePolSite000023.CivicAddressTVItemID != null)
+            {
+                polSourceSitePolSite000023.CivicAddressTVItemID = tvItemAddress.TVItemID;
+            }
             if (!AddObject("PolSourceSite", polSourceSitePolSite000023)) return false;
 
             // PolSourceObservation with PolSourceSiteTVItemID = 202466
@@ -955,6 +998,7 @@ namespace CSSPServicesGenerateCodeHelper
             SamplingPlan samplingPlan = dbCSSPWebToolsDBRead.SamplingPlans.AsNoTracking().Where(c => c.SamplingPlanID == 42).FirstOrDefault();
             int SamplingPlanID = samplingPlan.SamplingPlanID;
             samplingPlan.CreatorTVItemID = tvItemContactCharles.TVItemID;
+            samplingPlan.ProvinceTVItemID = tvItemNB.TVItemID;
             samplingPlan.SamplingPlanFileTVItemID = tvFile.TVFileTVItemID;
             samplingPlan.ApprovalCode = "aaabbb";
             if (!AddObject("SamplingPlan", samplingPlan)) return false;
@@ -1172,41 +1216,6 @@ namespace CSSPServicesGenerateCodeHelper
             labSheetTubeMPNDetail.MWQMSiteTVItemID = tvItemNB_06_020_002Site0001.TVItemID;
             if (!AddObject("LabSheetTubeMPNDetail", labSheetTubeMPNDetail)) return false;
             #endregion LabSheet, LabSheetDetail, LabSheetTubeMPNDetail
-            #region TVItem Address and Address
-            StatusTempEvent(new StatusEventArgs("doing ... Address"));
-            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
-            TVItem tvItemAddress = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 232655).FirstOrDefault();
-            tvItemAddress.ParentID = tvItemRoot.TVItemID;
-            if (!AddObject("TVItem", tvItemAddress)) return false;
-            if (!CorrectTVPath(tvItemAddress, tvItemRoot)) return false;
-            if (!AddMapInfo(tvItemAddress, 232655, tvItemContactCharles.TVItemID)) return false;
-
-            // Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
-            Address address = dbCSSPWebToolsDBRead.Addresses.AsNoTracking().Where(c => c.AddressTVItemID == 232655).FirstOrDefault();
-            address.AddressTVItemID = tvItemAddress.TVItemID;
-            address.CountryTVItemID = tvItemCanada.TVItemID;
-            address.ProvinceTVItemID = tvItemNB.TVItemID;
-            address.MunicipalityTVItemID = tvItemBouctouche.TVItemID;
-            if (!AddObject("Address", address)) return false;
-
-            using (CSSPWebToolsDBContext db2 = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-            {
-                AddressService addressService = new AddressService(new GetParam(), db2, contactCharles.ContactID);
-                addressService.FillAddressTVText(address);
-            }
-
-            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
-            TVItemLanguage tvItemLanguageENAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.en).FirstOrDefault();
-            tvItemLanguageENAddress.TVItemID = tvItemAddress.TVItemID;
-            tvItemLanguageENAddress.TVText = address.AddressWeb.AddressTVText;
-            if (!AddObject("TVItemLanguage", tvItemLanguageENAddress)) return false;
-
-            // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
-            TVItemLanguage tvItemLanguageFRAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.fr).FirstOrDefault();
-            tvItemLanguageFRAddress.TVItemID = tvItemAddress.TVItemID;
-            tvItemLanguageFRAddress.TVText = address.AddressWeb.AddressTVText;
-            if (!AddObject("TVItemLanguage", tvItemLanguageFRAddress)) return false;
-            #endregion TVItem Address and Address
             #region TVItem Email and Email
             StatusTempEvent(new StatusEventArgs("doing ... Email"));
 
@@ -1434,7 +1443,7 @@ namespace CSSPServicesGenerateCodeHelper
             #region MWQMLookupMPN
             StatusTempEvent(new StatusEventArgs("doing ... MWQMLookupMPN"));
             List<MWQMLookupMPN> mwqmLookupMPNList = dbCSSPWebToolsDBRead.MWQMLookupMPNs.AsNoTracking().Take(12).ToList();
-            foreach(MWQMLookupMPN mwqmLookupMPN2 in mwqmLookupMPNList)
+            foreach (MWQMLookupMPN mwqmLookupMPN2 in mwqmLookupMPNList)
             {
                 MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();
                 mwqmLookupMPN.Tubes10 = mwqmLookupMPN2.Tubes10;
@@ -2206,6 +2215,8 @@ namespace CSSPServicesGenerateCodeHelper
         {
             int count = 0;
 
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in Addresses"));
+
             #region Addresses
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2230,6 +2241,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion Addresses
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in AppErrLogs"));
+
             #region AppErrLogs
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2254,6 +2268,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion AppErrLogs
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in AppTasks"));
+
             #region AppTasks
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2290,6 +2307,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion AppTasks
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in BoxModels"));
+
             #region BoxModels
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2335,6 +2355,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion BoxModels
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in ClimateSites"));
+
             #region ClimateSites
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2368,6 +2391,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion ClimateSites
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in ContactPreferences"));
+
             #region ContactPreferences
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2392,6 +2418,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion ContactPreferences
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in Contacts"));
+
             #region Contacts
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2416,6 +2445,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion Contacts
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in ContactShortcuts"));
+
             #region ContactShortcuts
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2440,6 +2472,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion ContactShortcuts
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in DocTemplates"));
+
             #region DocTemplates
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2464,6 +2499,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion DocTemplates
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in EmailDistributionListContactLanguages"));
+
             #region EmailDistributionListContactLanguages
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2475,7 +2513,7 @@ namespace CSSPServicesGenerateCodeHelper
                         EmailDistributionList EmailDistributionList = (from c in db.EmailDistributionLists select c).OrderByDescending(c => c.EmailDistributionListID).FirstOrDefault();
                         List<EmailDistributionListLanguage> EmailDistributionListLanguageList = (from c in db.EmailDistributionListLanguages where c.EmailDistributionListID == EmailDistributionList.EmailDistributionListID select c).ToList();
                         List<EmailDistributionListContact> EmailDistributionListContactList = (from c in db.EmailDistributionListContacts where c.EmailDistributionListID == EmailDistributionList.EmailDistributionListID select c).ToList();
-                         try
+                        try
                         {
                             EmailDistributionList.EmailDistributionListID = 0;
                             //EmailDistributionList.Agency = EmailDistributionList.Agency + "a";
@@ -2503,7 +2541,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     emailDistributionListContactLanguage.EmailDistributionListContactLanguageID = 0;
                                     emailDistributionListContactLanguage.EmailDistributionListContactID = emailDistributionListContact.EmailDistributionListContactID;
                                     emailDistributionListContactLanguage.Agency = emailDistributionListContactLanguage.Agency + "a";
-                                    if (!AddObject("EmailDistributionListContactLanguage", emailDistributionListContactLanguage)) return false;                                
+                                    if (!AddObject("EmailDistributionListContactLanguage", emailDistributionListContactLanguage)) return false;
                                 }
                             }
                         }
@@ -2516,6 +2554,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion EmailDistributionLists
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in Emails"));
+
             #region Emails
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2528,7 +2569,7 @@ namespace CSSPServicesGenerateCodeHelper
                         try
                         {
                             Email.EmailID = 0;
-                            Email.EmailAddress = Email.EmailAddress + "a";
+                            Email.EmailAddress = "a" + Email.EmailAddress;
                             if (!AddObject("Email", Email)) return false;
                         }
                         catch (Exception ex)
@@ -2540,6 +2581,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion Emails
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in HydrometricSites"));
+
             #region HydrometricSites
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2574,6 +2618,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion HydrometricSites
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in Infrastructures"));
+
             #region Infrastructures
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2610,6 +2657,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion Infrastructures
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in LabSheets"));
+
             #region LabSheets
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2647,6 +2697,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion LabSheets
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in Logs"));
+
             #region Logs
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2671,6 +2724,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion Logs
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MikeBoundaryConditions"));
+
             #region MikeBoundaryConditions
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2695,6 +2751,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MikeBoundaryConditions
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MikeScenarios"));
+
             #region MikeScenarios
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2719,6 +2778,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MikeScenarios
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MikeSources"));
+
             #region MikeSources
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2750,6 +2812,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MikeSources
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MWQMAnalysisReportParameters"));
+
             #region MWQMAnalysisReportParameters
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2774,6 +2839,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MWQMAnalysisReportParameters            
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MWQMRuns"));
+
             #region MWQMRuns
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2806,6 +2874,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MWQMRuns
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MWQMSamples"));
+
             #region MWQMSamples
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2838,6 +2909,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MWQMSamples
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MWQMSites"));
+
             #region MWQMSites
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2868,6 +2942,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MWQMSites
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in MWQMSubsectors"));
+
             #region MWQMSubsectors
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2900,6 +2977,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion MWQMSubsectors
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in PolSourceSites"));
+
             #region PolSourceSites
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2937,6 +3017,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion PolSourceSites
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in RainExceedances"));
+
             #region RainExceedances
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2961,6 +3044,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion RainExceedances
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in RetingCurves"));
+
             #region RatingCurves
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -2991,6 +3077,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion RatingCurves
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in ReportSections"));
+
             #region ReportSections
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3024,6 +3113,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion ReportSections
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in ReportTypes"));
+
             #region ReportTypes
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3057,6 +3149,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion ReportTypes
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in ResetPasswords"));
+
             #region ResetPasswords
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3081,6 +3176,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion ResetPasswords
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in SamplingPlans"));
+
             #region SamplingPlans
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3117,6 +3215,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion SamplingPlans
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in Spills"));
+
             #region Spills
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3149,6 +3250,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion Spills
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in Tels"));
+
             #region Tels
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3161,7 +3265,7 @@ namespace CSSPServicesGenerateCodeHelper
                         try
                         {
                             Tel.TelID = 0;
-                            Tel.TelNumber = Tel.TelNumber.Substring(Tel.TelNumber.Length - 2) + count*2;
+                            Tel.TelNumber = Tel.TelNumber.Substring(Tel.TelNumber.Length - 2) + count * 2;
                             if (!AddObject("Tel", Tel)) return false;
                         }
                         catch (Exception ex)
@@ -3173,6 +3277,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion Tels
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TideDataValues"));
+
             #region TideDataValues
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3197,6 +3304,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TideDataValues
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TideLocations"));
+
             #region TideLocations
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3221,6 +3331,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TideLocations
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TideSites"));
+
             #region TideSites
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3245,6 +3358,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TideSites
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TVFiles"));
+
             #region TVFiles
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3277,6 +3393,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TVFiles
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TVItemLinks"));
+
             #region TVItemLinks
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3301,6 +3420,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TVItemLinks
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TVItemStats"));
+
             #region TVItemStats
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3325,6 +3447,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TVItemStats
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TVItemUserAuthorizations"));
+
             #region TVItemUserAuthorizations
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3348,6 +3473,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TVItemUserAuthorizations
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in TVTypeUserAuthorizations"));
+
             #region TVTypeUserAuthorizations
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3371,6 +3499,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion TVTypeUserAuthorizations
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in UseOfSites"));
+
             #region UseOfSites
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
@@ -3395,6 +3526,9 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
             #endregion UseOfSites
+
+            StatusTempEvent(new StatusEventArgs("doing ... Adding up to 10 items in VPScenarios"));
+
             #region VPScenarios
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {

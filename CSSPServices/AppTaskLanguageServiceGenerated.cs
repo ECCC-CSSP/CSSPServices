@@ -230,11 +230,25 @@ namespace CSSPServices
         }
         public IQueryable<AppTaskLanguage> GetRead()
         {
-            return db.AppTaskLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.AppTaskLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.AppTaskLanguages.AsNoTracking().OrderByDescending(c => c.AppTaskLanguageID);
+            }
         }
         public IQueryable<AppTaskLanguage> GetEdit()
         {
-            return db.AppTaskLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.AppTaskLanguages;
+            }
+            else
+            {
+                return db.AppTaskLanguages.OrderByDescending(c => c.AppTaskLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

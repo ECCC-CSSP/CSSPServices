@@ -230,11 +230,25 @@ namespace CSSPServices
         }
         public IQueryable<BoxModelLanguage> GetRead()
         {
-            return db.BoxModelLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.BoxModelLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.BoxModelLanguages.AsNoTracking().OrderByDescending(c => c.BoxModelLanguageID);
+            }
         }
         public IQueryable<BoxModelLanguage> GetEdit()
         {
-            return db.BoxModelLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.BoxModelLanguages;
+            }
+            else
+            {
+                return db.BoxModelLanguages.OrderByDescending(c => c.BoxModelLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

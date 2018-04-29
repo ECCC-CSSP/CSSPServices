@@ -294,11 +294,25 @@ namespace CSSPServices
         }
         public IQueryable<MikeBoundaryCondition> GetRead()
         {
-            return db.MikeBoundaryConditions.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MikeBoundaryConditions.AsNoTracking();
+            }
+            else
+            {
+                return db.MikeBoundaryConditions.AsNoTracking().OrderByDescending(c => c.MikeBoundaryConditionID);
+            }
         }
         public IQueryable<MikeBoundaryCondition> GetEdit()
         {
-            return db.MikeBoundaryConditions;
+            if (GetParam.OrderAscending)
+            {
+                return db.MikeBoundaryConditions;
+            }
+            else
+            {
+                return db.MikeBoundaryConditions.OrderByDescending(c => c.MikeBoundaryConditionID);
+            }
         }
         #endregion Functions public Generated CRUD
 

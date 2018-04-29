@@ -249,11 +249,25 @@ namespace CSSPServices
         }
         public IQueryable<ReportSectionLanguage> GetRead()
         {
-            return db.ReportSectionLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ReportSectionLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.ReportSectionLanguages.AsNoTracking().OrderByDescending(c => c.ReportSectionLanguageID);
+            }
         }
         public IQueryable<ReportSectionLanguage> GetEdit()
         {
-            return db.ReportSectionLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.ReportSectionLanguages;
+            }
+            else
+            {
+                return db.ReportSectionLanguages.OrderByDescending(c => c.ReportSectionLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

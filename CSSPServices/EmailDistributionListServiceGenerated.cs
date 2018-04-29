@@ -222,11 +222,25 @@ namespace CSSPServices
         }
         public IQueryable<EmailDistributionList> GetRead()
         {
-            return db.EmailDistributionLists.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.EmailDistributionLists.AsNoTracking();
+            }
+            else
+            {
+                return db.EmailDistributionLists.AsNoTracking().OrderByDescending(c => c.EmailDistributionListID);
+            }
         }
         public IQueryable<EmailDistributionList> GetEdit()
         {
-            return db.EmailDistributionLists;
+            if (GetParam.OrderAscending)
+            {
+                return db.EmailDistributionLists;
+            }
+            else
+            {
+                return db.EmailDistributionLists.OrderByDescending(c => c.EmailDistributionListID);
+            }
         }
         #endregion Functions public Generated CRUD
 

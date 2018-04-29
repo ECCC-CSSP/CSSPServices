@@ -229,11 +229,25 @@ namespace CSSPServices
         }
         public IQueryable<Log> GetRead()
         {
-            return db.Logs.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.Logs.AsNoTracking();
+            }
+            else
+            {
+                return db.Logs.AsNoTracking().OrderByDescending(c => c.LogID);
+            }
         }
         public IQueryable<Log> GetEdit()
         {
-            return db.Logs;
+            if (GetParam.OrderAscending)
+            {
+                return db.Logs;
+            }
+            else
+            {
+                return db.Logs.OrderByDescending(c => c.LogID);
+            }
         }
         #endregion Functions public Generated CRUD
 

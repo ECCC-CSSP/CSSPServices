@@ -230,11 +230,25 @@ namespace CSSPServices
         }
         public IQueryable<VPScenarioLanguage> GetRead()
         {
-            return db.VPScenarioLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.VPScenarioLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.VPScenarioLanguages.AsNoTracking().OrderByDescending(c => c.VPScenarioLanguageID);
+            }
         }
         public IQueryable<VPScenarioLanguage> GetEdit()
         {
-            return db.VPScenarioLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.VPScenarioLanguages;
+            }
+            else
+            {
+                return db.VPScenarioLanguages.OrderByDescending(c => c.VPScenarioLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

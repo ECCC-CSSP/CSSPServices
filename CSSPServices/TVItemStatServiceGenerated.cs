@@ -69,32 +69,44 @@ namespace CSSPServices
                 List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                 {
                     TVTypeEnum.Root,
-                    TVTypeEnum.Country,
-                    TVTypeEnum.Province,
+                    TVTypeEnum.Address,
                     TVTypeEnum.Area,
-                    TVTypeEnum.Sector,
-                    TVTypeEnum.Subsector,
                     TVTypeEnum.ClimateSite,
+                    TVTypeEnum.Contact,
+                    TVTypeEnum.Country,
+                    TVTypeEnum.Email,
                     TVTypeEnum.File,
                     TVTypeEnum.HydrometricSite,
                     TVTypeEnum.Infrastructure,
-                    TVTypeEnum.MikeBoundaryConditionMesh,
-                    TVTypeEnum.MikeBoundaryConditionWebTide,
                     TVTypeEnum.MikeScenario,
                     TVTypeEnum.MikeSource,
                     TVTypeEnum.Municipality,
-                    TVTypeEnum.MWQMRun,
                     TVTypeEnum.MWQMSite,
-                    TVTypeEnum.MWQMSiteSample,
                     TVTypeEnum.PolSourceSite,
-                    TVTypeEnum.SamplingPlan,
-                    TVTypeEnum.Spill,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
+                    TVTypeEnum.Tel,
                     TVTypeEnum.TideSite,
+                    TVTypeEnum.WasteWaterTreatmentPlant,
+                    TVTypeEnum.LiftStation,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.BoxModel,
+                    TVTypeEnum.VisualPlumesScenario,
+                    TVTypeEnum.OtherInfrastructure,
+                    TVTypeEnum.MWQMRun,
+                    TVTypeEnum.MeshNode,
+                    TVTypeEnum.WebTideNode,
+                    TVTypeEnum.SamplingPlan,
+                    TVTypeEnum.SeeOther,
+                    TVTypeEnum.LineOverflow,
+                    TVTypeEnum.MapInfo,
+                    TVTypeEnum.MapInfoPoint,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     tvItemStat.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemStatTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemStatTVItemID, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), new[] { "TVItemID" });
                 }
             }
 
@@ -250,11 +262,25 @@ namespace CSSPServices
         }
         public IQueryable<TVItemStat> GetRead()
         {
-            return db.TVItemStats.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.TVItemStats.AsNoTracking();
+            }
+            else
+            {
+                return db.TVItemStats.AsNoTracking().OrderByDescending(c => c.TVItemStatID);
+            }
         }
         public IQueryable<TVItemStat> GetEdit()
         {
-            return db.TVItemStats;
+            if (GetParam.OrderAscending)
+            {
+                return db.TVItemStats;
+            }
+            else
+            {
+                return db.TVItemStats.OrderByDescending(c => c.TVItemStatID);
+            }
         }
         #endregion Functions public Generated CRUD
 

@@ -48,7 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Language") tvFile.Language = LanguageRequest;
             if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
             if (OmitPropName != "FileType") tvFile.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
-            if (OmitPropName != "FileSize_kb") tvFile.FileSize_kb = GetRandomInt(0, 1000000);
+            if (OmitPropName != "FileSize_kb") tvFile.FileSize_kb = GetRandomInt(0, 100000000);
             if (OmitPropName != "FileInfo") tvFile.FileInfo = GetRandomString("", 20);
             if (OmitPropName != "FileCreatedDate_UTC") tvFile.FileCreatedDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "FromWater") tvFile.FromWater = true;
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [CSSPEnumType]
                     // tvFile.TemplateTVType   (TVTypeEnum)
                     // -----------------------------------
@@ -248,7 +248,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [Range(0, 1000000)]
+                    // [Range(0, 100000000)]
                     // tvFile.FileSize_kb   (Int32)
                     // -----------------------------------
 
@@ -256,13 +256,13 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FileSize_kb = -1;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "1000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "100000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
-                    tvFile.FileSize_kb = 1000001;
+                    tvFile.FileSize_kb = 100000001;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "1000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "100000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -482,7 +482,10 @@ namespace CSSPServices.Tests
                         // TVFile fields
                         Assert.IsNotNull(tvFileRet.TVFileID);
                         Assert.IsNotNull(tvFileRet.TVFileTVItemID);
-                        Assert.IsNotNull(tvFileRet.TemplateTVType);
+                        if (tvFileRet.TemplateTVType != null)
+                        {
+                            Assert.IsNotNull(tvFileRet.TemplateTVType);
+                        }
                         if (tvFileRet.ReportTypeID != null)
                         {
                             Assert.IsNotNull(tvFileRet.ReportTypeID);

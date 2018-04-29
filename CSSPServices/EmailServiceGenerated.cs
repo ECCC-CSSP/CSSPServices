@@ -245,11 +245,25 @@ namespace CSSPServices
         }
         public IQueryable<Email> GetRead()
         {
-            return db.Emails.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.Emails.AsNoTracking();
+            }
+            else
+            {
+                return db.Emails.AsNoTracking().OrderByDescending(c => c.EmailID);
+            }
         }
         public IQueryable<Email> GetEdit()
         {
-            return db.Emails;
+            if (GetParam.OrderAscending)
+            {
+                return db.Emails;
+            }
+            else
+            {
+                return db.Emails.OrderByDescending(c => c.EmailID);
+            }
         }
         #endregion Functions public Generated CRUD
 

@@ -68,33 +68,33 @@ namespace CSSPServices
             {
                 List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                 {
-                    TVTypeEnum.Root,
-                    TVTypeEnum.Country,
-                    TVTypeEnum.Province,
+                    TVTypeEnum.Address,
                     TVTypeEnum.Area,
-                    TVTypeEnum.Sector,
-                    TVTypeEnum.Subsector,
                     TVTypeEnum.ClimateSite,
+                    TVTypeEnum.Contact,
+                    TVTypeEnum.Country,
+                    TVTypeEnum.Email,
                     TVTypeEnum.File,
                     TVTypeEnum.HydrometricSite,
                     TVTypeEnum.Infrastructure,
-                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeBoundaryConditionWebTide,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeScenario,
                     TVTypeEnum.MikeSource,
                     TVTypeEnum.Municipality,
-                    TVTypeEnum.MWQMRun,
                     TVTypeEnum.MWQMSite,
-                    TVTypeEnum.MWQMSiteSample,
                     TVTypeEnum.PolSourceSite,
-                    TVTypeEnum.SamplingPlan,
-                    TVTypeEnum.Spill,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
+                    TVTypeEnum.Tel,
                     TVTypeEnum.TideSite,
+                    TVTypeEnum.MWQMRun,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     tvItemLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLanguageTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLanguageTVItemID, "Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,MWQMRun"), new[] { "TVItemID" });
                 }
             }
 
@@ -263,11 +263,25 @@ namespace CSSPServices
         }
         public IQueryable<TVItemLanguage> GetRead()
         {
-            return db.TVItemLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.TVItemLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.TVItemLanguages.AsNoTracking().OrderByDescending(c => c.TVItemLanguageID);
+            }
         }
         public IQueryable<TVItemLanguage> GetEdit()
         {
-            return db.TVItemLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.TVItemLanguages;
+            }
+            else
+            {
+                return db.TVItemLanguages.OrderByDescending(c => c.TVItemLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

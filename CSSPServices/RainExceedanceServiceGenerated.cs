@@ -286,11 +286,25 @@ namespace CSSPServices
         }
         public IQueryable<RainExceedance> GetRead()
         {
-            return db.RainExceedances.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.RainExceedances.AsNoTracking();
+            }
+            else
+            {
+                return db.RainExceedances.AsNoTracking().OrderByDescending(c => c.RainExceedanceID);
+            }
         }
         public IQueryable<RainExceedance> GetEdit()
         {
-            return db.RainExceedances;
+            if (GetParam.OrderAscending)
+            {
+                return db.RainExceedances;
+            }
+            else
+            {
+                return db.RainExceedances.OrderByDescending(c => c.RainExceedanceID);
+            }
         }
         #endregion Functions public Generated CRUD
 

@@ -234,11 +234,25 @@ namespace CSSPServices
         }
         public IQueryable<ResetPassword> GetRead()
         {
-            return db.ResetPasswords.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ResetPasswords.AsNoTracking();
+            }
+            else
+            {
+                return db.ResetPasswords.AsNoTracking().OrderByDescending(c => c.ResetPasswordID);
+            }
         }
         public IQueryable<ResetPassword> GetEdit()
         {
-            return db.ResetPasswords;
+            if (GetParam.OrderAscending)
+            {
+                return db.ResetPasswords;
+            }
+            else
+            {
+                return db.ResetPasswords.OrderByDescending(c => c.ResetPasswordID);
+            }
         }
         #endregion Functions public Generated CRUD
 

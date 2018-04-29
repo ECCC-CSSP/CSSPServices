@@ -216,11 +216,25 @@ namespace CSSPServices
         }
         public IQueryable<RatingCurveValue> GetRead()
         {
-            return db.RatingCurveValues.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.RatingCurveValues.AsNoTracking();
+            }
+            else
+            {
+                return db.RatingCurveValues.AsNoTracking().OrderByDescending(c => c.RatingCurveValueID);
+            }
         }
         public IQueryable<RatingCurveValue> GetEdit()
         {
-            return db.RatingCurveValues;
+            if (GetParam.OrderAscending)
+            {
+                return db.RatingCurveValues;
+            }
+            else
+            {
+                return db.RatingCurveValues.OrderByDescending(c => c.RatingCurveValueID);
+            }
         }
         #endregion Functions public Generated CRUD
 

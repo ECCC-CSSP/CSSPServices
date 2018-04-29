@@ -316,11 +316,25 @@ namespace CSSPServices
         }
         public IQueryable<Contact> GetRead()
         {
-            return db.Contacts.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.Contacts.AsNoTracking();
+            }
+            else
+            {
+                return db.Contacts.AsNoTracking().OrderByDescending(c => c.ContactID);
+            }
         }
         public IQueryable<Contact> GetEdit()
         {
-            return db.Contacts;
+            if (GetParam.OrderAscending)
+            {
+                return db.Contacts;
+            }
+            else
+            {
+                return db.Contacts.OrderByDescending(c => c.ContactID);
+            }
         }
         #endregion Functions public Generated CRUD
 

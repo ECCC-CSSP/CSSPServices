@@ -623,11 +623,25 @@ namespace CSSPServices
         }
         public IQueryable<Infrastructure> GetRead()
         {
-            return db.Infrastructures.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.Infrastructures.AsNoTracking();
+            }
+            else
+            {
+                return db.Infrastructures.AsNoTracking().OrderByDescending(c => c.InfrastructureID);
+            }
         }
         public IQueryable<Infrastructure> GetEdit()
         {
-            return db.Infrastructures;
+            if (GetParam.OrderAscending)
+            {
+                return db.Infrastructures;
+            }
+            else
+            {
+                return db.Infrastructures.OrderByDescending(c => c.InfrastructureID);
+            }
         }
         #endregion Functions public Generated CRUD
 

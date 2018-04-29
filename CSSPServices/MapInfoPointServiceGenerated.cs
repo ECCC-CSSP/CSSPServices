@@ -222,11 +222,25 @@ namespace CSSPServices
         }
         public IQueryable<MapInfoPoint> GetRead()
         {
-            return db.MapInfoPoints.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MapInfoPoints.AsNoTracking();
+            }
+            else
+            {
+                return db.MapInfoPoints.AsNoTracking().OrderByDescending(c => c.MapInfoPointID);
+            }
         }
         public IQueryable<MapInfoPoint> GetEdit()
         {
-            return db.MapInfoPoints;
+            if (GetParam.OrderAscending)
+            {
+                return db.MapInfoPoints;
+            }
+            else
+            {
+                return db.MapInfoPoints.OrderByDescending(c => c.MapInfoPointID);
+            }
         }
         #endregion Functions public Generated CRUD
 

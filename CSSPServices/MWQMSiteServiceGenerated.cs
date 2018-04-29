@@ -253,11 +253,25 @@ namespace CSSPServices
         }
         public IQueryable<MWQMSite> GetRead()
         {
-            return db.MWQMSites.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMSites.AsNoTracking();
+            }
+            else
+            {
+                return db.MWQMSites.AsNoTracking().OrderByDescending(c => c.MWQMSiteID);
+            }
         }
         public IQueryable<MWQMSite> GetEdit()
         {
-            return db.MWQMSites;
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMSites;
+            }
+            else
+            {
+                return db.MWQMSites.OrderByDescending(c => c.MWQMSiteID);
+            }
         }
         #endregion Functions public Generated CRUD
 

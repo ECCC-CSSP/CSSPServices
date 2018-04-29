@@ -224,11 +224,25 @@ namespace CSSPServices
         }
         public IQueryable<SamplingPlanSubsector> GetRead()
         {
-            return db.SamplingPlanSubsectors.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.SamplingPlanSubsectors.AsNoTracking();
+            }
+            else
+            {
+                return db.SamplingPlanSubsectors.AsNoTracking().OrderByDescending(c => c.SamplingPlanSubsectorID);
+            }
         }
         public IQueryable<SamplingPlanSubsector> GetEdit()
         {
-            return db.SamplingPlanSubsectors;
+            if (GetParam.OrderAscending)
+            {
+                return db.SamplingPlanSubsectors;
+            }
+            else
+            {
+                return db.SamplingPlanSubsectors.OrderByDescending(c => c.SamplingPlanSubsectorID);
+            }
         }
         #endregion Functions public Generated CRUD
 

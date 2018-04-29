@@ -41,7 +41,7 @@ namespace CSSPServices.Tests
             MWQMSample mwqmSample = new MWQMSample();
 
             if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = 19;
-            if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = 24;
+            if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = 25;
             if (OmitPropName != "SampleDateTime_Local") mwqmSample.SampleDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "FecCol_MPN_100ml") mwqmSample.FecCol_MPN_100ml = GetRandomInt(0, 10000000);
@@ -325,7 +325,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [CSSPEnumType]
                     // mwqmSample.SampleType_old   (SampleTypeEnum)
                     // -----------------------------------
@@ -566,7 +566,10 @@ namespace CSSPServices.Tests
                             Assert.IsNotNull(mwqmSampleRet.PH);
                         }
                         Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.SampleTypesText));
-                        Assert.IsNotNull(mwqmSampleRet.SampleType_old);
+                        if (mwqmSampleRet.SampleType_old != null)
+                        {
+                            Assert.IsNotNull(mwqmSampleRet.SampleType_old);
+                        }
                         if (mwqmSampleRet.Tube_10 != null)
                         {
                             Assert.IsNotNull(mwqmSampleRet.Tube_10);

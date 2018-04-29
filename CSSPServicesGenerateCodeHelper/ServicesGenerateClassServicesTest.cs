@@ -52,7 +52,7 @@ namespace CSSPServicesGenerateCodeHelper
                         {
                             sb.AppendLine(@"                    " + TypeNameLower + @" = null;");
                             sb.AppendLine(@"                    " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
-                            sb.AppendLine(@"                    " + TypeNameLower + @"." + csspProp.PropName + @" = new DateTime(1979, 1, 1);");
+                            sb.AppendLine(@"                    " + TypeNameLower + @"." + csspProp.PropName + @" = new DateTime(" + ((int)csspProp.Year - 1).ToString() + ", 1, 1);");
                             if (TypeName == "Contact")
                             {
                                 sb.AppendLine(@"                    " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", AddContactTypeEnum.LoggedIn);");

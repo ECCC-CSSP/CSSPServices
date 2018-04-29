@@ -264,11 +264,25 @@ namespace CSSPServices
         }
         public IQueryable<ReportSection> GetRead()
         {
-            return db.ReportSections.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ReportSections.AsNoTracking();
+            }
+            else
+            {
+                return db.ReportSections.AsNoTracking().OrderByDescending(c => c.ReportSectionID);
+            }
         }
         public IQueryable<ReportSection> GetEdit()
         {
-            return db.ReportSections;
+            if (GetParam.OrderAscending)
+            {
+                return db.ReportSections;
+            }
+            else
+            {
+                return db.ReportSections.OrderByDescending(c => c.ReportSectionID);
+            }
         }
         #endregion Functions public Generated CRUD
 

@@ -309,11 +309,25 @@ namespace CSSPServices
         }
         public IQueryable<LabSheetTubeMPNDetail> GetRead()
         {
-            return db.LabSheetTubeMPNDetails.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.LabSheetTubeMPNDetails.AsNoTracking();
+            }
+            else
+            {
+                return db.LabSheetTubeMPNDetails.AsNoTracking().OrderByDescending(c => c.LabSheetTubeMPNDetailID);
+            }
         }
         public IQueryable<LabSheetTubeMPNDetail> GetEdit()
         {
-            return db.LabSheetTubeMPNDetails;
+            if (GetParam.OrderAscending)
+            {
+                return db.LabSheetTubeMPNDetails;
+            }
+            else
+            {
+                return db.LabSheetTubeMPNDetails.OrderByDescending(c => c.LabSheetTubeMPNDetailID);
+            }
         }
         #endregion Functions public Generated CRUD
 

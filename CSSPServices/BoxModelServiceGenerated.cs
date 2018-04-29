@@ -276,11 +276,25 @@ namespace CSSPServices
         }
         public IQueryable<BoxModel> GetRead()
         {
-            return db.BoxModels.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.BoxModels.AsNoTracking();
+            }
+            else
+            {
+                return db.BoxModels.AsNoTracking().OrderByDescending(c => c.BoxModelID);
+            }
         }
         public IQueryable<BoxModel> GetEdit()
         {
-            return db.BoxModels;
+            if (GetParam.OrderAscending)
+            {
+                return db.BoxModels;
+            }
+            else
+            {
+                return db.BoxModels.OrderByDescending(c => c.BoxModelID);
+            }
         }
         #endregion Functions public Generated CRUD
 

@@ -230,11 +230,25 @@ namespace CSSPServices
         }
         public IQueryable<EmailDistributionListLanguage> GetRead()
         {
-            return db.EmailDistributionListLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.EmailDistributionListLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.EmailDistributionListLanguages.AsNoTracking().OrderByDescending(c => c.EmailDistributionListLanguageID);
+            }
         }
         public IQueryable<EmailDistributionListLanguage> GetEdit()
         {
-            return db.EmailDistributionListLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.EmailDistributionListLanguages;
+            }
+            else
+            {
+                return db.EmailDistributionListLanguages.OrderByDescending(c => c.EmailDistributionListLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MikeScenario mikeScenario = new MikeScenario();
 
-            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 25;
+            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 26;
             if (OmitPropName != "ParentMikeScenarioID") mikeScenario.ParentMikeScenarioID = null;
             if (OmitPropName != "ScenarioStatus") mikeScenario.ScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "ErrorInfo") mikeScenario.ErrorInfo = GetRandomString("", 20);
@@ -57,8 +57,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "AmbientTemperature_C") mikeScenario.AmbientTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "AmbientSalinity_PSU") mikeScenario.AmbientSalinity_PSU = GetRandomDouble(0.0D, 40.0D);
             if (OmitPropName != "ManningNumber") mikeScenario.ManningNumber = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "NumberOfElements") mikeScenario.NumberOfElements = GetRandomInt(1, 10000);
-            if (OmitPropName != "NumberOfTimeSteps") mikeScenario.NumberOfTimeSteps = GetRandomInt(1, 10000);
+            if (OmitPropName != "NumberOfElements") mikeScenario.NumberOfElements = GetRandomInt(1, 1000000);
+            if (OmitPropName != "NumberOfTimeSteps") mikeScenario.NumberOfTimeSteps = GetRandomInt(1, 1000000);
             if (OmitPropName != "NumberOfSigmaLayers") mikeScenario.NumberOfSigmaLayers = GetRandomInt(0, 100);
             if (OmitPropName != "NumberOfZLayers") mikeScenario.NumberOfZLayers = GetRandomInt(0, 100);
             if (OmitPropName != "NumberOfHydroOutputParameters") mikeScenario.NumberOfHydroOutputParameters = GetRandomInt(0, 100);
@@ -461,7 +461,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
-                    // [Range(1, 10000)]
+                    // [Range(1, 1000000)]
                     // mikeScenario.NumberOfElements   (Int32)
                     // -----------------------------------
 
@@ -469,18 +469,18 @@ namespace CSSPServices.Tests
                     mikeScenario = GetFilledRandomMikeScenario("");
                     mikeScenario.NumberOfElements = 0;
                     Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfElements, "1", "10000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfElements, "1", "1000000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
                     mikeScenario = null;
                     mikeScenario = GetFilledRandomMikeScenario("");
-                    mikeScenario.NumberOfElements = 10001;
+                    mikeScenario.NumberOfElements = 1000001;
                     Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfElements, "1", "10000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfElements, "1", "1000000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
                     // -----------------------------------
                     // Is Nullable
-                    // [Range(1, 10000)]
+                    // [Range(1, 1000000)]
                     // mikeScenario.NumberOfTimeSteps   (Int32)
                     // -----------------------------------
 
@@ -488,13 +488,13 @@ namespace CSSPServices.Tests
                     mikeScenario = GetFilledRandomMikeScenario("");
                     mikeScenario.NumberOfTimeSteps = 0;
                     Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTimeSteps, "1", "10000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTimeSteps, "1", "1000000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
                     mikeScenario = null;
                     mikeScenario = GetFilledRandomMikeScenario("");
-                    mikeScenario.NumberOfTimeSteps = 10001;
+                    mikeScenario.NumberOfTimeSteps = 1000001;
                     Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTimeSteps, "1", "10000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTimeSteps, "1", "1000000"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
                     // -----------------------------------

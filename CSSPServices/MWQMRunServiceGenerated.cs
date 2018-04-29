@@ -564,11 +564,25 @@ namespace CSSPServices
         }
         public IQueryable<MWQMRun> GetRead()
         {
-            return db.MWQMRuns.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMRuns.AsNoTracking();
+            }
+            else
+            {
+                return db.MWQMRuns.AsNoTracking().OrderByDescending(c => c.MWQMRunID);
+            }
         }
         public IQueryable<MWQMRun> GetEdit()
         {
-            return db.MWQMRuns;
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMRuns;
+            }
+            else
+            {
+                return db.MWQMRuns.OrderByDescending(c => c.MWQMRunID);
+            }
         }
         #endregion Functions public Generated CRUD
 

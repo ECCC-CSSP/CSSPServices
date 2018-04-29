@@ -398,11 +398,25 @@ namespace CSSPServices
         }
         public IQueryable<MWQMAnalysisReportParameter> GetRead()
         {
-            return db.MWQMAnalysisReportParameters.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMAnalysisReportParameters.AsNoTracking();
+            }
+            else
+            {
+                return db.MWQMAnalysisReportParameters.AsNoTracking().OrderByDescending(c => c.MWQMAnalysisReportParameterID);
+            }
         }
         public IQueryable<MWQMAnalysisReportParameter> GetEdit()
         {
-            return db.MWQMAnalysisReportParameters;
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMAnalysisReportParameters;
+            }
+            else
+            {
+                return db.MWQMAnalysisReportParameters.OrderByDescending(c => c.MWQMAnalysisReportParameterID);
+            }
         }
         #endregion Functions public Generated CRUD
 

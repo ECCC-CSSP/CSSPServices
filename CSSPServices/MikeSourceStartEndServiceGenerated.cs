@@ -286,11 +286,25 @@ namespace CSSPServices
         }
         public IQueryable<MikeSourceStartEnd> GetRead()
         {
-            return db.MikeSourceStartEnds.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MikeSourceStartEnds.AsNoTracking();
+            }
+            else
+            {
+                return db.MikeSourceStartEnds.AsNoTracking().OrderByDescending(c => c.MikeSourceStartEndID);
+            }
         }
         public IQueryable<MikeSourceStartEnd> GetEdit()
         {
-            return db.MikeSourceStartEnds;
+            if (GetParam.OrderAscending)
+            {
+                return db.MikeSourceStartEnds;
+            }
+            else
+            {
+                return db.MikeSourceStartEnds.OrderByDescending(c => c.MikeSourceStartEndID);
+            }
         }
         #endregion Functions public Generated CRUD
 

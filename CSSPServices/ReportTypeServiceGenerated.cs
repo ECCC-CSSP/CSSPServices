@@ -222,11 +222,25 @@ namespace CSSPServices
         }
         public IQueryable<ReportType> GetRead()
         {
-            return db.ReportTypes.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ReportTypes.AsNoTracking();
+            }
+            else
+            {
+                return db.ReportTypes.AsNoTracking().OrderByDescending(c => c.ReportTypeID);
+            }
         }
         public IQueryable<ReportType> GetEdit()
         {
-            return db.ReportTypes;
+            if (GetParam.OrderAscending)
+            {
+                return db.ReportTypes;
+            }
+            else
+            {
+                return db.ReportTypes.OrderByDescending(c => c.ReportTypeID);
+            }
         }
         #endregion Functions public Generated CRUD
 

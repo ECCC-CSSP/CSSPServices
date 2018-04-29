@@ -70,44 +70,33 @@ namespace CSSPServices
                 {
                     TVTypeEnum.Root,
                     TVTypeEnum.Address,
-                    TVTypeEnum.Country,
-                    TVTypeEnum.Province,
                     TVTypeEnum.Area,
-                    TVTypeEnum.Sector,
-                    TVTypeEnum.Subsector,
                     TVTypeEnum.ClimateSite,
+                    TVTypeEnum.Country,
                     TVTypeEnum.File,
                     TVTypeEnum.HydrometricSite,
-                    TVTypeEnum.Infrastructure,
-                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeBoundaryConditionWebTide,
-                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
                     TVTypeEnum.MikeSource,
                     TVTypeEnum.Municipality,
-                    TVTypeEnum.MWQMRun,
                     TVTypeEnum.MWQMSite,
-                    TVTypeEnum.MWQMSiteSample,
                     TVTypeEnum.PolSourceSite,
-                    TVTypeEnum.SamplingPlan,
-                    TVTypeEnum.Spill,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
                     TVTypeEnum.TideSite,
-                    TVTypeEnum.VisualPlumesScenario,
+                    TVTypeEnum.WasteWaterTreatmentPlant,
                     TVTypeEnum.LiftStation,
-                    TVTypeEnum.LineOverflow,
-                    TVTypeEnum.MeshNode,
-                    TVTypeEnum.MikeSourceIncluded,
-                    TVTypeEnum.MikeSourceIsRiver,
-                    TVTypeEnum.MikeSourceNotIncluded,
-                    TVTypeEnum.NoData,
-                    TVTypeEnum.NoDepuration,
+                    TVTypeEnum.Spill,
                     TVTypeEnum.Outfall,
-                    TVTypeEnum.Passed,
-                    TVTypeEnum.WebTideNode,
+                    TVTypeEnum.OtherInfrastructure,
+                    TVTypeEnum.SeeOther,
+                    TVTypeEnum.LineOverflow,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoTVItemID, "Root,Address,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoTVItemID, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID" });
                 }
             }
 
@@ -288,11 +277,25 @@ namespace CSSPServices
         }
         public IQueryable<MapInfo> GetRead()
         {
-            return db.MapInfos.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MapInfos.AsNoTracking();
+            }
+            else
+            {
+                return db.MapInfos.AsNoTracking().OrderByDescending(c => c.MapInfoID);
+            }
         }
         public IQueryable<MapInfo> GetEdit()
         {
-            return db.MapInfos;
+            if (GetParam.OrderAscending)
+            {
+                return db.MapInfos;
+            }
+            else
+            {
+                return db.MapInfos.OrderByDescending(c => c.MapInfoID);
+            }
         }
         #endregion Functions public Generated CRUD
 

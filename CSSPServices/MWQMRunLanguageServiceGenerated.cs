@@ -241,11 +241,25 @@ namespace CSSPServices
         }
         public IQueryable<MWQMRunLanguage> GetRead()
         {
-            return db.MWQMRunLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMRunLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.MWQMRunLanguages.AsNoTracking().OrderByDescending(c => c.MWQMRunLanguageID);
+            }
         }
         public IQueryable<MWQMRunLanguage> GetEdit()
         {
-            return db.MWQMRunLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMRunLanguages;
+            }
+            else
+            {
+                return db.MWQMRunLanguages.OrderByDescending(c => c.MWQMRunLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

@@ -386,11 +386,25 @@ namespace CSSPServices
         }
         public IQueryable<LabSheet> GetRead()
         {
-            return db.LabSheets.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.LabSheets.AsNoTracking();
+            }
+            else
+            {
+                return db.LabSheets.AsNoTracking().OrderByDescending(c => c.LabSheetID);
+            }
         }
         public IQueryable<LabSheet> GetEdit()
         {
-            return db.LabSheets;
+            if (GetParam.OrderAscending)
+            {
+                return db.LabSheets;
+            }
+            else
+            {
+                return db.LabSheets.OrderByDescending(c => c.LabSheetID);
+            }
         }
         #endregion Functions public Generated CRUD
 

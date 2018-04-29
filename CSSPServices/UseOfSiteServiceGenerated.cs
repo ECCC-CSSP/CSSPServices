@@ -311,11 +311,25 @@ namespace CSSPServices
         }
         public IQueryable<UseOfSite> GetRead()
         {
-            return db.UseOfSites.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.UseOfSites.AsNoTracking();
+            }
+            else
+            {
+                return db.UseOfSites.AsNoTracking().OrderByDescending(c => c.UseOfSiteID);
+            }
         }
         public IQueryable<UseOfSite> GetEdit()
         {
-            return db.UseOfSites;
+            if (GetParam.OrderAscending)
+            {
+                return db.UseOfSites;
+            }
+            else
+            {
+                return db.UseOfSites.OrderByDescending(c => c.UseOfSiteID);
+            }
         }
         #endregion Functions public Generated CRUD
 

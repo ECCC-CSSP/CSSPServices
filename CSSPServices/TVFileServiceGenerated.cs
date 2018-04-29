@@ -77,11 +77,14 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvFile.TemplateTVType);
-            if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvFile.TemplateTVType != null)
             {
-                tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
+                retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvFile.TemplateTVType);
+                if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    tvFile.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
+                }
             }
 
             if (tvFile.ReportTypeID != null)
@@ -127,10 +130,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileType), new[] { "FileType" });
             }
 
-            if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 1000000)
+            if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 100000000)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { "FileSize_kb" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "100000000"), new[] { "FileSize_kb" });
             }
 
             //FileInfo has no StringLength Attribute
@@ -318,11 +321,25 @@ namespace CSSPServices
         }
         public IQueryable<TVFile> GetRead()
         {
-            return db.TVFiles.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.TVFiles.AsNoTracking();
+            }
+            else
+            {
+                return db.TVFiles.AsNoTracking().OrderByDescending(c => c.TVFileID);
+            }
         }
         public IQueryable<TVFile> GetEdit()
         {
-            return db.TVFiles;
+            if (GetParam.OrderAscending)
+            {
+                return db.TVFiles;
+            }
+            else
+            {
+                return db.TVFiles.OrderByDescending(c => c.TVFileID);
+            }
         }
         #endregion Functions public Generated CRUD
 

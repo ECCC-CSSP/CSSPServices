@@ -333,11 +333,25 @@ namespace CSSPServices
         }
         public IQueryable<ClimateSite> GetRead()
         {
-            return db.ClimateSites.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ClimateSites.AsNoTracking();
+            }
+            else
+            {
+                return db.ClimateSites.AsNoTracking().OrderByDescending(c => c.ClimateSiteID);
+            }
         }
         public IQueryable<ClimateSite> GetEdit()
         {
-            return db.ClimateSites;
+            if (GetParam.OrderAscending)
+            {
+                return db.ClimateSites;
+            }
+            else
+            {
+                return db.ClimateSites.OrderByDescending(c => c.ClimateSiteID);
+            }
         }
         #endregion Functions public Generated CRUD
 

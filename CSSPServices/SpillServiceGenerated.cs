@@ -271,11 +271,25 @@ namespace CSSPServices
         }
         public IQueryable<Spill> GetRead()
         {
-            return db.Spills.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.Spills.AsNoTracking();
+            }
+            else
+            {
+                return db.Spills.AsNoTracking().OrderByDescending(c => c.SpillID);
+            }
         }
         public IQueryable<Spill> GetEdit()
         {
-            return db.Spills;
+            if (GetParam.OrderAscending)
+            {
+                return db.Spills;
+            }
+            else
+            {
+                return db.Spills.OrderByDescending(c => c.SpillID);
+            }
         }
         #endregion Functions public Generated CRUD
 

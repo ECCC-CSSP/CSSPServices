@@ -242,11 +242,25 @@ namespace CSSPServices
         }
         public IQueryable<MWQMSiteStartEndDate> GetRead()
         {
-            return db.MWQMSiteStartEndDates.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMSiteStartEndDates.AsNoTracking();
+            }
+            else
+            {
+                return db.MWQMSiteStartEndDates.AsNoTracking().OrderByDescending(c => c.MWQMSiteStartEndDateID);
+            }
         }
         public IQueryable<MWQMSiteStartEndDate> GetEdit()
         {
-            return db.MWQMSiteStartEndDates;
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMSiteStartEndDates;
+            }
+            else
+            {
+                return db.MWQMSiteStartEndDates.OrderByDescending(c => c.MWQMSiteStartEndDateID);
+            }
         }
         #endregion Functions public Generated CRUD
 

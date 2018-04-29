@@ -226,11 +226,25 @@ namespace CSSPServices
         }
         public IQueryable<SpillLanguage> GetRead()
         {
-            return db.SpillLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.SpillLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.SpillLanguages.AsNoTracking().OrderByDescending(c => c.SpillLanguageID);
+            }
         }
         public IQueryable<SpillLanguage> GetEdit()
         {
-            return db.SpillLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.SpillLanguages;
+            }
+            else
+            {
+                return db.SpillLanguages.OrderByDescending(c => c.SpillLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

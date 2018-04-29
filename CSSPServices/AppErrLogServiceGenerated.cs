@@ -244,11 +244,25 @@ namespace CSSPServices
         }
         public IQueryable<AppErrLog> GetRead()
         {
-            return db.AppErrLogs.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.AppErrLogs.AsNoTracking();
+            }
+            else
+            {
+                return db.AppErrLogs.AsNoTracking().OrderByDescending(c => c.AppErrLogID);
+            }
         }
         public IQueryable<AppErrLog> GetEdit()
         {
-            return db.AppErrLogs;
+            if (GetParam.OrderAscending)
+            {
+                return db.AppErrLogs;
+            }
+            else
+            {
+                return db.AppErrLogs.OrderByDescending(c => c.AppErrLogID);
+            }
         }
         #endregion Functions public Generated CRUD
 

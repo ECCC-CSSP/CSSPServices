@@ -224,11 +224,25 @@ namespace CSSPServices
         }
         public IQueryable<PolSourceObservationIssue> GetRead()
         {
-            return db.PolSourceObservationIssues.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.PolSourceObservationIssues.AsNoTracking();
+            }
+            else
+            {
+                return db.PolSourceObservationIssues.AsNoTracking().OrderByDescending(c => c.PolSourceObservationIssueID);
+            }
         }
         public IQueryable<PolSourceObservationIssue> GetEdit()
         {
-            return db.PolSourceObservationIssues;
+            if (GetParam.OrderAscending)
+            {
+                return db.PolSourceObservationIssues;
+            }
+            else
+            {
+                return db.PolSourceObservationIssues.OrderByDescending(c => c.PolSourceObservationIssueID);
+            }
         }
         #endregion Functions public Generated CRUD
 

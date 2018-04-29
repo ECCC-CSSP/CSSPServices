@@ -264,28 +264,28 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
-                    // [CSSPAfter(Year = 1980)]
+                    // [CSSPAfter(Year = 1849)]
                     // hydrometricSite.StartDate_Local   (DateTime)
                     // -----------------------------------
 
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
-                    hydrometricSite.StartDate_Local = new DateTime(1979, 1, 1);
+                    hydrometricSite.StartDate_Local = new DateTime(1848, 1, 1);
                     hydrometricSiteService.Add(hydrometricSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteStartDate_Local, "1980"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteStartDate_Local, "1849"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
-                    // [CSSPAfter(Year = 1980)]
+                    // [CSSPAfter(Year = 1849)]
                     // [CSSPBigger(OtherField = StartDate_Local)]
                     // hydrometricSite.EndDate_Local   (DateTime)
                     // -----------------------------------
 
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
-                    hydrometricSite.EndDate_Local = new DateTime(1979, 1, 1);
+                    hydrometricSite.EndDate_Local = new DateTime(1848, 1, 1);
                     hydrometricSiteService.Add(hydrometricSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteEndDate_Local, "1980"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteEndDate_Local, "1849"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable

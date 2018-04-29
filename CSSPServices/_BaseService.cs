@@ -91,6 +91,7 @@ namespace CSSPServices
             this.db = db;
             this.CanSendEmail = true;
             this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
+            this.GetParam = getParam;
         }
         #endregion Constructors  
     }

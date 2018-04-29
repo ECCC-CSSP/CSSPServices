@@ -165,11 +165,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleSampleTypesText, "50"), new[] { "SampleTypesText" });
             }
 
-            retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)mwqmSample.SampleType_old);
-            if (mwqmSample.SampleType_old == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmSample.SampleType_old != null)
             {
-                mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleSampleType_old), new[] { "SampleType_old" });
+                retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)mwqmSample.SampleType_old);
+                if (mwqmSample.SampleType_old == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    mwqmSample.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleSampleType_old), new[] { "SampleType_old" });
+                }
             }
 
             if (mwqmSample.Tube_10 != null)
@@ -344,11 +347,25 @@ namespace CSSPServices
         }
         public IQueryable<MWQMSample> GetRead()
         {
-            return db.MWQMSamples.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMSamples.AsNoTracking();
+            }
+            else
+            {
+                return db.MWQMSamples.AsNoTracking().OrderByDescending(c => c.MWQMSampleID);
+            }
         }
         public IQueryable<MWQMSample> GetEdit()
         {
-            return db.MWQMSamples;
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMSamples;
+            }
+            else
+            {
+                return db.MWQMSamples.OrderByDescending(c => c.MWQMSampleID);
+            }
         }
         #endregion Functions public Generated CRUD
 

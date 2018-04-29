@@ -228,11 +228,25 @@ namespace CSSPServices
         }
         public IQueryable<ContactShortcut> GetRead()
         {
-            return db.ContactShortcuts.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ContactShortcuts.AsNoTracking();
+            }
+            else
+            {
+                return db.ContactShortcuts.AsNoTracking().OrderByDescending(c => c.ContactShortcutID);
+            }
         }
         public IQueryable<ContactShortcut> GetEdit()
         {
-            return db.ContactShortcuts;
+            if (GetParam.OrderAscending)
+            {
+                return db.ContactShortcuts;
+            }
+            else
+            {
+                return db.ContactShortcuts.OrderByDescending(c => c.ContactShortcutID);
+            }
         }
         #endregion Functions public Generated CRUD
 

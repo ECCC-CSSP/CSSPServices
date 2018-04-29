@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             Address address = new Address();
 
-            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 28;
+            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 21;
             if (OmitPropName != "AddressType") address.AddressType = (AddressTypeEnum)GetRandomEnumType(typeof(AddressTypeEnum));
             if (OmitPropName != "CountryTVItemID") address.CountryTVItemID = 5;
             if (OmitPropName != "ProvinceTVItemID") address.ProvinceTVItemID = 6;

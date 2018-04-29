@@ -221,7 +221,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 360)]
                     // boxModelResult.LeftSideDiameterLineAngle_deg   (Double)
                     // -----------------------------------
@@ -244,7 +244,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-90, 90)]
                     // boxModelResult.CircleCenterLatitude   (Double)
                     // -----------------------------------
@@ -267,7 +267,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-180, 180)]
                     // boxModelResult.CircleCenterLongitude   (Double)
                     // -----------------------------------
@@ -348,7 +348,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 360)]
                     // boxModelResult.LeftSideLineAngle_deg   (Double)
                     // -----------------------------------
@@ -371,7 +371,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-90, 90)]
                     // boxModelResult.LeftSideLineStartLatitude   (Double)
                     // -----------------------------------
@@ -394,7 +394,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-180, 180)]
                     // boxModelResult.LeftSideLineStartLongitude   (Double)
                     // -----------------------------------
@@ -553,16 +553,34 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(boxModelResultRet.Volume_m3);
                         Assert.IsNotNull(boxModelResultRet.Surface_m2);
                         Assert.IsNotNull(boxModelResultRet.Radius_m);
-                        Assert.IsNotNull(boxModelResultRet.LeftSideDiameterLineAngle_deg);
-                        Assert.IsNotNull(boxModelResultRet.CircleCenterLatitude);
-                        Assert.IsNotNull(boxModelResultRet.CircleCenterLongitude);
+                        if (boxModelResultRet.LeftSideDiameterLineAngle_deg != null)
+                        {
+                            Assert.IsNotNull(boxModelResultRet.LeftSideDiameterLineAngle_deg);
+                        }
+                        if (boxModelResultRet.CircleCenterLatitude != null)
+                        {
+                            Assert.IsNotNull(boxModelResultRet.CircleCenterLatitude);
+                        }
+                        if (boxModelResultRet.CircleCenterLongitude != null)
+                        {
+                            Assert.IsNotNull(boxModelResultRet.CircleCenterLongitude);
+                        }
                         Assert.IsNotNull(boxModelResultRet.FixLength);
                         Assert.IsNotNull(boxModelResultRet.FixWidth);
                         Assert.IsNotNull(boxModelResultRet.RectLength_m);
                         Assert.IsNotNull(boxModelResultRet.RectWidth_m);
-                        Assert.IsNotNull(boxModelResultRet.LeftSideLineAngle_deg);
-                        Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLatitude);
-                        Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLongitude);
+                        if (boxModelResultRet.LeftSideLineAngle_deg != null)
+                        {
+                            Assert.IsNotNull(boxModelResultRet.LeftSideLineAngle_deg);
+                        }
+                        if (boxModelResultRet.LeftSideLineStartLatitude != null)
+                        {
+                            Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLatitude);
+                        }
+                        if (boxModelResultRet.LeftSideLineStartLongitude != null)
+                        {
+                            Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLongitude);
+                        }
                         Assert.IsNotNull(boxModelResultRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVItemID);
 

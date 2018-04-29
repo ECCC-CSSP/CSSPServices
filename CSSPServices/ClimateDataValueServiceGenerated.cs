@@ -326,11 +326,25 @@ namespace CSSPServices
         }
         public IQueryable<ClimateDataValue> GetRead()
         {
-            return db.ClimateDataValues.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ClimateDataValues.AsNoTracking();
+            }
+            else
+            {
+                return db.ClimateDataValues.AsNoTracking().OrderByDescending(c => c.ClimateDataValueID);
+            }
         }
         public IQueryable<ClimateDataValue> GetEdit()
         {
-            return db.ClimateDataValues;
+            if (GetParam.OrderAscending)
+            {
+                return db.ClimateDataValues;
+            }
+            else
+            {
+                return db.ClimateDataValues.OrderByDescending(c => c.ClimateDataValueID);
+            }
         }
         #endregion Functions public Generated CRUD
 
@@ -353,6 +367,7 @@ namespace CSSPServices
                         DateTime_Local = c.DateTime_Local,
                         Keep = c.Keep,
                         StorageDataType = c.StorageDataType,
+                        HasBeenRead = c.HasBeenRead,
                         Snow_cm = c.Snow_cm,
                         Rainfall_mm = c.Rainfall_mm,
                         RainfallEntered_mm = c.RainfallEntered_mm,

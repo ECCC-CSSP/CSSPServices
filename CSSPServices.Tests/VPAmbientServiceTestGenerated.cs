@@ -167,7 +167,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 1000)]
                     // vpAmbient.MeasurementDepth_m   (Double)
                     // -----------------------------------
@@ -190,7 +190,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 10)]
                     // vpAmbient.CurrentSpeed_m_s   (Double)
                     // -----------------------------------
@@ -213,7 +213,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-180, 180)]
                     // vpAmbient.CurrentDirection_deg   (Double)
                     // -----------------------------------
@@ -236,7 +236,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 40)]
                     // vpAmbient.AmbientSalinity_PSU   (Double)
                     // -----------------------------------
@@ -259,7 +259,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-10, 40)]
                     // vpAmbient.AmbientTemperature_C   (Double)
                     // -----------------------------------
@@ -282,7 +282,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 10000000)]
                     // vpAmbient.BackgroundConcentration_MPN_100ml   (Int32)
                     // -----------------------------------
@@ -301,7 +301,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 100)]
                     // vpAmbient.PollutantDecayRate_per_day   (Double)
                     // -----------------------------------
@@ -324,7 +324,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 10)]
                     // vpAmbient.FarFieldCurrentSpeed_m_s   (Double)
                     // -----------------------------------
@@ -347,7 +347,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-180, 180)]
                     // vpAmbient.FarFieldCurrentDirection_deg   (Double)
                     // -----------------------------------
@@ -370,7 +370,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 1)]
                     // vpAmbient.FarFieldDiffusionCoefficient   (Double)
                     // -----------------------------------
@@ -526,16 +526,46 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(vpAmbientRet.VPAmbientID);
                         Assert.IsNotNull(vpAmbientRet.VPScenarioID);
                         Assert.IsNotNull(vpAmbientRet.Row);
-                        Assert.IsNotNull(vpAmbientRet.MeasurementDepth_m);
-                        Assert.IsNotNull(vpAmbientRet.CurrentSpeed_m_s);
-                        Assert.IsNotNull(vpAmbientRet.CurrentDirection_deg);
-                        Assert.IsNotNull(vpAmbientRet.AmbientSalinity_PSU);
-                        Assert.IsNotNull(vpAmbientRet.AmbientTemperature_C);
-                        Assert.IsNotNull(vpAmbientRet.BackgroundConcentration_MPN_100ml);
-                        Assert.IsNotNull(vpAmbientRet.PollutantDecayRate_per_day);
-                        Assert.IsNotNull(vpAmbientRet.FarFieldCurrentSpeed_m_s);
-                        Assert.IsNotNull(vpAmbientRet.FarFieldCurrentDirection_deg);
-                        Assert.IsNotNull(vpAmbientRet.FarFieldDiffusionCoefficient);
+                        if (vpAmbientRet.MeasurementDepth_m != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.MeasurementDepth_m);
+                        }
+                        if (vpAmbientRet.CurrentSpeed_m_s != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.CurrentSpeed_m_s);
+                        }
+                        if (vpAmbientRet.CurrentDirection_deg != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.CurrentDirection_deg);
+                        }
+                        if (vpAmbientRet.AmbientSalinity_PSU != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.AmbientSalinity_PSU);
+                        }
+                        if (vpAmbientRet.AmbientTemperature_C != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.AmbientTemperature_C);
+                        }
+                        if (vpAmbientRet.BackgroundConcentration_MPN_100ml != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.BackgroundConcentration_MPN_100ml);
+                        }
+                        if (vpAmbientRet.PollutantDecayRate_per_day != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.PollutantDecayRate_per_day);
+                        }
+                        if (vpAmbientRet.FarFieldCurrentSpeed_m_s != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.FarFieldCurrentSpeed_m_s);
+                        }
+                        if (vpAmbientRet.FarFieldCurrentDirection_deg != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.FarFieldCurrentDirection_deg);
+                        }
+                        if (vpAmbientRet.FarFieldDiffusionCoefficient != null)
+                        {
+                            Assert.IsNotNull(vpAmbientRet.FarFieldDiffusionCoefficient);
+                        }
                         Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
 

@@ -44,6 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") climateDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") climateDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
+            if (OmitPropName != "HasBeenRead") climateDataValue.HasBeenRead = true;
             if (OmitPropName != "Snow_cm") climateDataValue.Snow_cm = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "Rainfall_mm") climateDataValue.Rainfall_mm = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "RainfallEntered_mm") climateDataValue.RainfallEntered_mm = GetRandomDouble(0.0D, 10000.0D);
@@ -185,6 +186,12 @@ namespace CSSPServices.Tests
                     climateDataValue.StorageDataType = (StorageDataTypeEnum)1000000;
                     climateDataValueService.Add(climateDataValue);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateDataValueStorageDataType), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // climateDataValue.HasBeenRead   (Boolean)
+                    // -----------------------------------
 
 
                     // -----------------------------------
@@ -582,6 +589,7 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(climateDataValueRet.DateTime_Local);
                         Assert.IsNotNull(climateDataValueRet.Keep);
                         Assert.IsNotNull(climateDataValueRet.StorageDataType);
+                        Assert.IsNotNull(climateDataValueRet.HasBeenRead);
                         if (climateDataValueRet.Snow_cm != null)
                         {
                             Assert.IsNotNull(climateDataValueRet.Snow_cm);

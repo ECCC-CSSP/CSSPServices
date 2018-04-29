@@ -202,19 +202,19 @@ namespace CSSPServices
 
             if (mikeScenario.NumberOfElements != null)
             {
-                if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 10000)
+                if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 1000000)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfElements, "1", "10000"), new[] { "NumberOfElements" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfElements, "1", "1000000"), new[] { "NumberOfElements" });
                 }
             }
 
             if (mikeScenario.NumberOfTimeSteps != null)
             {
-                if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 10000)
+                if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 1000000)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTimeSteps, "1", "10000"), new[] { "NumberOfTimeSteps" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTimeSteps, "1", "1000000"), new[] { "NumberOfTimeSteps" });
                 }
             }
 
@@ -411,11 +411,25 @@ namespace CSSPServices
         }
         public IQueryable<MikeScenario> GetRead()
         {
-            return db.MikeScenarios.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MikeScenarios.AsNoTracking();
+            }
+            else
+            {
+                return db.MikeScenarios.AsNoTracking().OrderByDescending(c => c.MikeScenarioID);
+            }
         }
         public IQueryable<MikeScenario> GetEdit()
         {
-            return db.MikeScenarios;
+            if (GetParam.OrderAscending)
+            {
+                return db.MikeScenarios;
+            }
+            else
+            {
+                return db.MikeScenarios.OrderByDescending(c => c.MikeScenarioID);
+            }
         }
         #endregion Functions public Generated CRUD
 

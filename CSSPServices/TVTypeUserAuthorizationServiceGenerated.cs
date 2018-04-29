@@ -230,11 +230,25 @@ namespace CSSPServices
         }
         public IQueryable<TVTypeUserAuthorization> GetRead()
         {
-            return db.TVTypeUserAuthorizations.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.TVTypeUserAuthorizations.AsNoTracking();
+            }
+            else
+            {
+                return db.TVTypeUserAuthorizations.AsNoTracking().OrderByDescending(c => c.TVTypeUserAuthorizationID);
+            }
         }
         public IQueryable<TVTypeUserAuthorization> GetEdit()
         {
-            return db.TVTypeUserAuthorizations;
+            if (GetParam.OrderAscending)
+            {
+                return db.TVTypeUserAuthorizations;
+            }
+            else
+            {
+                return db.TVTypeUserAuthorizations.OrderByDescending(c => c.TVTypeUserAuthorizationID);
+            }
         }
         #endregion Functions public Generated CRUD
 

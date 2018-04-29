@@ -235,11 +235,25 @@ namespace CSSPServices
         }
         public IQueryable<Tel> GetRead()
         {
-            return db.Tels.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.Tels.AsNoTracking();
+            }
+            else
+            {
+                return db.Tels.AsNoTracking().OrderByDescending(c => c.TelID);
+            }
         }
         public IQueryable<Tel> GetEdit()
         {
-            return db.Tels;
+            if (GetParam.OrderAscending)
+            {
+                return db.Tels;
+            }
+            else
+            {
+                return db.Tels.OrderByDescending(c => c.TelID);
+            }
         }
         #endregion Functions public Generated CRUD
 

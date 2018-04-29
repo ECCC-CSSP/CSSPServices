@@ -233,11 +233,25 @@ namespace CSSPServices
         }
         public IQueryable<HydrometricDataValue> GetRead()
         {
-            return db.HydrometricDataValues.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.HydrometricDataValues.AsNoTracking();
+            }
+            else
+            {
+                return db.HydrometricDataValues.AsNoTracking().OrderByDescending(c => c.HydrometricDataValueID);
+            }
         }
         public IQueryable<HydrometricDataValue> GetEdit()
         {
-            return db.HydrometricDataValues;
+            if (GetParam.OrderAscending)
+            {
+                return db.HydrometricDataValues;
+            }
+            else
+            {
+                return db.HydrometricDataValues.OrderByDescending(c => c.HydrometricDataValueID);
+            }
         }
         #endregion Functions public Generated CRUD
 

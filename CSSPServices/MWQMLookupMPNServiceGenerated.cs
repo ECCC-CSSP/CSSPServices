@@ -220,11 +220,25 @@ namespace CSSPServices
         }
         public IQueryable<MWQMLookupMPN> GetRead()
         {
-            return db.MWQMLookupMPNs.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMLookupMPNs.AsNoTracking();
+            }
+            else
+            {
+                return db.MWQMLookupMPNs.AsNoTracking().OrderByDescending(c => c.MWQMLookupMPNID);
+            }
         }
         public IQueryable<MWQMLookupMPN> GetEdit()
         {
-            return db.MWQMLookupMPNs;
+            if (GetParam.OrderAscending)
+            {
+                return db.MWQMLookupMPNs;
+            }
+            else
+            {
+                return db.MWQMLookupMPNs.OrderByDescending(c => c.MWQMLookupMPNID);
+            }
         }
         #endregion Functions public Generated CRUD
 

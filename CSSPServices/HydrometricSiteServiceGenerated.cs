@@ -128,16 +128,16 @@ namespace CSSPServices
                 }
             }
 
-            if (hydrometricSite.StartDate_Local != null && ((DateTime)hydrometricSite.StartDate_Local).Year < 1980)
+            if (hydrometricSite.StartDate_Local != null && ((DateTime)hydrometricSite.StartDate_Local).Year < 1849)
             {
                 hydrometricSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteStartDate_Local, "1980"), new[] { CSSPModelsRes.HydrometricSiteStartDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteStartDate_Local, "1849"), new[] { CSSPModelsRes.HydrometricSiteStartDate_Local });
             }
 
-            if (hydrometricSite.EndDate_Local != null && ((DateTime)hydrometricSite.EndDate_Local).Year < 1980)
+            if (hydrometricSite.EndDate_Local != null && ((DateTime)hydrometricSite.EndDate_Local).Year < 1849)
             {
                 hydrometricSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteEndDate_Local, "1980"), new[] { CSSPModelsRes.HydrometricSiteEndDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricSiteEndDate_Local, "1849"), new[] { CSSPModelsRes.HydrometricSiteEndDate_Local });
             }
 
             if (hydrometricSite.StartDate_Local > hydrometricSite.EndDate_Local)
@@ -303,11 +303,25 @@ namespace CSSPServices
         }
         public IQueryable<HydrometricSite> GetRead()
         {
-            return db.HydrometricSites.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.HydrometricSites.AsNoTracking();
+            }
+            else
+            {
+                return db.HydrometricSites.AsNoTracking().OrderByDescending(c => c.HydrometricSiteID);
+            }
         }
         public IQueryable<HydrometricSite> GetEdit()
         {
-            return db.HydrometricSites;
+            if (GetParam.OrderAscending)
+            {
+                return db.HydrometricSites;
+            }
+            else
+            {
+                return db.HydrometricSites.OrderByDescending(c => c.HydrometricSiteID);
+            }
         }
         #endregion Functions public Generated CRUD
 

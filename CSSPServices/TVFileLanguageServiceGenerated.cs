@@ -220,11 +220,25 @@ namespace CSSPServices
         }
         public IQueryable<TVFileLanguage> GetRead()
         {
-            return db.TVFileLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.TVFileLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.TVFileLanguages.AsNoTracking().OrderByDescending(c => c.TVFileLanguageID);
+            }
         }
         public IQueryable<TVFileLanguage> GetEdit()
         {
-            return db.TVFileLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.TVFileLanguages;
+            }
+            else
+            {
+                return db.TVFileLanguages.OrderByDescending(c => c.TVFileLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

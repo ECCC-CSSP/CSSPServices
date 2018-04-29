@@ -240,11 +240,25 @@ namespace CSSPServices
         }
         public IQueryable<VPResult> GetRead()
         {
-            return db.VPResults.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.VPResults.AsNoTracking();
+            }
+            else
+            {
+                return db.VPResults.AsNoTracking().OrderByDescending(c => c.VPResultID);
+            }
         }
         public IQueryable<VPResult> GetEdit()
         {
-            return db.VPResults;
+            if (GetParam.OrderAscending)
+            {
+                return db.VPResults;
+            }
+            else
+            {
+                return db.VPResults.OrderByDescending(c => c.VPResultID);
+            }
         }
         #endregion Functions public Generated CRUD
 

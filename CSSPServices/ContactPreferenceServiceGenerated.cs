@@ -217,11 +217,25 @@ namespace CSSPServices
         }
         public IQueryable<ContactPreference> GetRead()
         {
-            return db.ContactPreferences.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.ContactPreferences.AsNoTracking();
+            }
+            else
+            {
+                return db.ContactPreferences.AsNoTracking().OrderByDescending(c => c.ContactPreferenceID);
+            }
         }
         public IQueryable<ContactPreference> GetEdit()
         {
-            return db.ContactPreferences;
+            if (GetParam.OrderAscending)
+            {
+                return db.ContactPreferences;
+            }
+            else
+            {
+                return db.ContactPreferences.OrderByDescending(c => c.ContactPreferenceID);
+            }
         }
         #endregion Functions public Generated CRUD
 

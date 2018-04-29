@@ -282,11 +282,25 @@ namespace CSSPServices
         }
         public IQueryable<TideDataValue> GetRead()
         {
-            return db.TideDataValues.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.TideDataValues.AsNoTracking();
+            }
+            else
+            {
+                return db.TideDataValues.AsNoTracking().OrderByDescending(c => c.TideDataValueID);
+            }
         }
         public IQueryable<TideDataValue> GetEdit()
         {
-            return db.TideDataValues;
+            if (GetParam.OrderAscending)
+            {
+                return db.TideDataValues;
+            }
+            else
+            {
+                return db.TideDataValues.OrderByDescending(c => c.TideDataValueID);
+            }
         }
         #endregion Functions public Generated CRUD
 

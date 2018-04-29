@@ -226,11 +226,25 @@ namespace CSSPServices
         }
         public IQueryable<InfrastructureLanguage> GetRead()
         {
-            return db.InfrastructureLanguages.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.InfrastructureLanguages.AsNoTracking();
+            }
+            else
+            {
+                return db.InfrastructureLanguages.AsNoTracking().OrderByDescending(c => c.InfrastructureLanguageID);
+            }
         }
         public IQueryable<InfrastructureLanguage> GetEdit()
         {
-            return db.InfrastructureLanguages;
+            if (GetParam.OrderAscending)
+            {
+                return db.InfrastructureLanguages;
+            }
+            else
+            {
+                return db.InfrastructureLanguages.OrderByDescending(c => c.InfrastructureLanguageID);
+            }
         }
         #endregion Functions public Generated CRUD
 

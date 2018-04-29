@@ -242,11 +242,25 @@ namespace CSSPServices
         }
         public IQueryable<DocTemplate> GetRead()
         {
-            return db.DocTemplates.AsNoTracking();
+            if (GetParam.OrderAscending)
+            {
+                return db.DocTemplates.AsNoTracking();
+            }
+            else
+            {
+                return db.DocTemplates.AsNoTracking().OrderByDescending(c => c.DocTemplateID);
+            }
         }
         public IQueryable<DocTemplate> GetEdit()
         {
-            return db.DocTemplates;
+            if (GetParam.OrderAscending)
+            {
+                return db.DocTemplates;
+            }
+            else
+            {
+                return db.DocTemplates.OrderByDescending(c => c.DocTemplateID);
+            }
         }
         #endregion Functions public Generated CRUD
 

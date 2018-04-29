@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
 
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 1000)]
                     // vpScenario.EffluentFlow_m3_s   (Double)
                     // -----------------------------------
@@ -203,7 +203,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 10000000)]
                     // vpScenario.EffluentConcentration_MPN_100ml   (Int32)
                     // -----------------------------------
@@ -222,7 +222,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 10000)]
                     // vpScenario.FroudeNumber   (Double)
                     // -----------------------------------
@@ -245,7 +245,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 10)]
                     // vpScenario.PortDiameter_m   (Double)
                     // -----------------------------------
@@ -268,7 +268,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 1000)]
                     // vpScenario.PortDepth_m   (Double)
                     // -----------------------------------
@@ -291,7 +291,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 1000)]
                     // vpScenario.PortElevation_m   (Double)
                     // -----------------------------------
@@ -314,7 +314,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-90, 90)]
                     // vpScenario.VerticalAngle_deg   (Double)
                     // -----------------------------------
@@ -337,7 +337,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-180, 180)]
                     // vpScenario.HorizontalAngle_deg   (Double)
                     // -----------------------------------
@@ -360,7 +360,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(1, 100)]
                     // vpScenario.NumberOfPorts   (Int32)
                     // -----------------------------------
@@ -379,7 +379,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 1000)]
                     // vpScenario.PortSpacing_m   (Double)
                     // -----------------------------------
@@ -402,7 +402,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 100)]
                     // vpScenario.AcuteMixZone_m   (Double)
                     // -----------------------------------
@@ -425,7 +425,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 40000)]
                     // vpScenario.ChronicMixZone_m   (Double)
                     // -----------------------------------
@@ -448,7 +448,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 40)]
                     // vpScenario.EffluentSalinity_PSU   (Double)
                     // -----------------------------------
@@ -471,7 +471,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(-10, 40)]
                     // vpScenario.EffluentTemperature_C   (Double)
                     // -----------------------------------
@@ -494,7 +494,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(0, 100)]
                     // vpScenario.EffluentVelocity_m_s   (Double)
                     // -----------------------------------
@@ -657,21 +657,66 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(vpScenarioRet.InfrastructureTVItemID);
                         Assert.IsNotNull(vpScenarioRet.VPScenarioStatus);
                         Assert.IsNotNull(vpScenarioRet.UseAsBestEstimate);
-                        Assert.IsNotNull(vpScenarioRet.EffluentFlow_m3_s);
-                        Assert.IsNotNull(vpScenarioRet.EffluentConcentration_MPN_100ml);
-                        Assert.IsNotNull(vpScenarioRet.FroudeNumber);
-                        Assert.IsNotNull(vpScenarioRet.PortDiameter_m);
-                        Assert.IsNotNull(vpScenarioRet.PortDepth_m);
-                        Assert.IsNotNull(vpScenarioRet.PortElevation_m);
-                        Assert.IsNotNull(vpScenarioRet.VerticalAngle_deg);
-                        Assert.IsNotNull(vpScenarioRet.HorizontalAngle_deg);
-                        Assert.IsNotNull(vpScenarioRet.NumberOfPorts);
-                        Assert.IsNotNull(vpScenarioRet.PortSpacing_m);
-                        Assert.IsNotNull(vpScenarioRet.AcuteMixZone_m);
-                        Assert.IsNotNull(vpScenarioRet.ChronicMixZone_m);
-                        Assert.IsNotNull(vpScenarioRet.EffluentSalinity_PSU);
-                        Assert.IsNotNull(vpScenarioRet.EffluentTemperature_C);
-                        Assert.IsNotNull(vpScenarioRet.EffluentVelocity_m_s);
+                        if (vpScenarioRet.EffluentFlow_m3_s != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.EffluentFlow_m3_s);
+                        }
+                        if (vpScenarioRet.EffluentConcentration_MPN_100ml != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.EffluentConcentration_MPN_100ml);
+                        }
+                        if (vpScenarioRet.FroudeNumber != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.FroudeNumber);
+                        }
+                        if (vpScenarioRet.PortDiameter_m != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.PortDiameter_m);
+                        }
+                        if (vpScenarioRet.PortDepth_m != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.PortDepth_m);
+                        }
+                        if (vpScenarioRet.PortElevation_m != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.PortElevation_m);
+                        }
+                        if (vpScenarioRet.VerticalAngle_deg != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.VerticalAngle_deg);
+                        }
+                        if (vpScenarioRet.HorizontalAngle_deg != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.HorizontalAngle_deg);
+                        }
+                        if (vpScenarioRet.NumberOfPorts != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.NumberOfPorts);
+                        }
+                        if (vpScenarioRet.PortSpacing_m != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.PortSpacing_m);
+                        }
+                        if (vpScenarioRet.AcuteMixZone_m != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.AcuteMixZone_m);
+                        }
+                        if (vpScenarioRet.ChronicMixZone_m != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.ChronicMixZone_m);
+                        }
+                        if (vpScenarioRet.EffluentSalinity_PSU != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.EffluentSalinity_PSU);
+                        }
+                        if (vpScenarioRet.EffluentTemperature_C != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.EffluentTemperature_C);
+                        }
+                        if (vpScenarioRet.EffluentVelocity_m_s != null)
+                        {
+                            Assert.IsNotNull(vpScenarioRet.EffluentVelocity_m_s);
+                        }
                         if (vpScenarioRet.RawResults != null)
                         {
                             Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.RawResults));
