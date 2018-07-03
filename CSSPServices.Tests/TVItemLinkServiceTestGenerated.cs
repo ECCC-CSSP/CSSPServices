@@ -146,7 +146,7 @@ namespace CSSPServices.Tests
 
                     tvItemLink = null;
                     tvItemLink = GetFilledRandomTVItemLink("");
-                    tvItemLink.FromTVItemID = 27;
+                    tvItemLink.FromTVItemID = 13;
                     tvItemLinkService.Add(tvItemLink);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLinkFromTVItemID, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
 
                     tvItemLink = null;
                     tvItemLink = GetFilledRandomTVItemLink("");
-                    tvItemLink.ToTVItemID = 27;
+                    tvItemLink.ToTVItemID = 13;
                     tvItemLinkService.Add(tvItemLink);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLinkToTVItemID, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 

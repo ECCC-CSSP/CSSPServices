@@ -139,7 +139,7 @@ namespace CSSPServices.Tests
 
                     tvItemStat = null;
                     tvItemStat = GetFilledRandomTVItemStat("");
-                    tvItemStat.TVItemID = 27;
+                    tvItemStat.TVItemID = 13;
                     tvItemStatService.Add(tvItemStat);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemStatTVItemID, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 

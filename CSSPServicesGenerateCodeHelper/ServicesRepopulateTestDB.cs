@@ -556,6 +556,36 @@ namespace CSSPServicesGenerateCodeHelper
             mwqmSubsector002FR.LogBook = "Something in the logbook";
             if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector002FR)) return false;
             #endregion TVItem Subsector NB-06_020_002 
+            #region TVItem Classification  and Classification
+            StatusTempEvent(new StatusEventArgs("doing ... Classification"));
+            // TVItem Classification where parent TVItemID = 635
+            List<TVItem> tvItemClassificationList  = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.ParentID == 635 && c.TVType == TVTypeEnum.Classification).ToList();
+            foreach (TVItem tvItem in tvItemClassificationList)
+            {
+                int oldTVItemID = tvItem.TVItemID;
+                TVItem tvItemClassNew = tvItem;
+                tvItemClassNew.ParentID = tvItemNB_06_020_002.TVItemID;
+                if (!AddObject("TVItem", tvItemClassNew)) return false;
+                if (!CorrectTVPath(tvItemClassNew, tvItemNB_06_020_002)) return false;
+                if (!AddMapInfo(tvItemClassNew, oldTVItemID, tvItemContactCharles.TVItemID)) return false;
+
+                // TVItemLanguage EN where parent TVItemID = 635
+                TVItemLanguage tvItemLanguageENNClass = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == oldTVItemID && c.Language == LanguageEnum.en).FirstOrDefault();
+                tvItemLanguageENNClass.TVItemID = tvItemClassNew.TVItemID;
+                if (!AddObject("TVItemLanguage", tvItemLanguageENNClass)) return false;
+
+                // TVItemLanguage FR NB_06_020 TVItemID = 635
+                TVItemLanguage tvItemLanguageFRClass = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == oldTVItemID && c.Language == LanguageEnum.fr).FirstOrDefault();
+                tvItemLanguageFRClass.TVItemID = tvItemClassNew.TVItemID;
+                if (!AddObject("TVItemLanguage", tvItemLanguageFRClass)) return false;
+
+
+                Classification classificaton = dbCSSPWebToolsDBRead.Classifications.AsNoTracking().Where(c => c.ClassificationTVItemID == oldTVItemID).FirstOrDefault();
+                Classification classificationNew = classificaton;
+                classificationNew.ClassificationTVItemID = tvItemClassNew.TVItemID;
+                if (!AddObject("Classification", classificationNew)) return false;
+            }
+            #endregion TVItem Classification and Classification
             #region TVItem TideSite Subsector NB-06-020-002
             StatusTempEvent(new StatusEventArgs("doing ... Tide Site"));
             // TVItem TideSite Subsector NB-06-020-002 TVItemID = 1553
@@ -769,7 +799,8 @@ namespace CSSPServicesGenerateCodeHelper
             // BoxModelResult Bouctouche WWTP TVItemID = 28689
             for (int i = 1; i < 6; i++)
             {
-                BoxModelResult boxModelResult = dbCSSPWebToolsDBRead.BoxModelResults.AsNoTracking().Where(c => c.BoxModelID == BoxModelID && c.BoxModelResultType == (BoxModelResultTypeEnum)i).FirstOrDefault();
+                BoxModelResultTypeEnum boxModelResultTypeEnum = (BoxModelResultTypeEnum)i;
+                BoxModelResult boxModelResult = dbCSSPWebToolsDBRead.BoxModelResults.AsNoTracking().Where(c => c.BoxModelID == BoxModelID && c.BoxModelResultType == boxModelResultTypeEnum).FirstOrDefault();
                 boxModelResult.BoxModelID = boxModel.BoxModelID;
                 if (!AddObject("BoxModelResult", boxModelResult)) return false;
             }
@@ -1663,6 +1694,13 @@ namespace CSSPServicesGenerateCodeHelper
                         ((BoxModelResult)objTarget).BoxModelResultID = 0;
                         ((BoxModelResult)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.BoxModelResults.Add((BoxModelResult)objTarget);
+                    }
+                    break;
+                case "Classification":
+                    {
+                        ((Classification)objTarget).ClassificationID = 0;
+                        ((Classification)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.Classifications.Add((Classification)objTarget);
                     }
                     break;
                 case "ClimateDataValue":
@@ -3599,6 +3637,7 @@ namespace CSSPServicesGenerateCodeHelper
                 "BoxModelResults",
                 "BoxModels",
                 "UseOfSites",
+                "Classifications",
                 "ClimateDataValues",
                 "ClimateSites",
                 "DocTemplates",

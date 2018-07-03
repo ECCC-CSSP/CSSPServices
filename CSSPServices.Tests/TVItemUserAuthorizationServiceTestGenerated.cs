@@ -161,7 +161,7 @@ namespace CSSPServices.Tests
 
                     tvItemUserAuthorization = null;
                     tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
-                    tvItemUserAuthorization.TVItemID1 = 27;
+                    tvItemUserAuthorization.TVItemID1 = 13;
                     tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemUserAuthorizationTVItemID1, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
 
                     tvItemUserAuthorization = null;
                     tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
-                    tvItemUserAuthorization.TVItemID2 = 27;
+                    tvItemUserAuthorization.TVItemID2 = 13;
                     tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemUserAuthorizationTVItemID2, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
@@ -199,7 +199,7 @@ namespace CSSPServices.Tests
 
                     tvItemUserAuthorization = null;
                     tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
-                    tvItemUserAuthorization.TVItemID3 = 27;
+                    tvItemUserAuthorization.TVItemID3 = 13;
                     tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemUserAuthorizationTVItemID3, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
@@ -218,7 +218,7 @@ namespace CSSPServices.Tests
 
                     tvItemUserAuthorization = null;
                     tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
-                    tvItemUserAuthorization.TVItemID4 = 27;
+                    tvItemUserAuthorization.TVItemID4 = 13;
                     tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemUserAuthorizationTVItemID4, "Root,Address,Area,ClimateSite,Contact,Country,Email,File,HydrometricSite,Infrastructure,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,BoxModel,VisualPlumesScenario,OtherInfrastructure,MWQMRun,MeshNode,WebTideNode,SamplingPlan,SeeOther,LineOverflow,MapInfo,MapInfoPoint"), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 

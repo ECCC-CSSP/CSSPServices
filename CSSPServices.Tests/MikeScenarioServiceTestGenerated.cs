@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             MikeScenario mikeScenario = new MikeScenario();
 
-            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 26;
+            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 47;
             if (OmitPropName != "ParentMikeScenarioID") mikeScenario.ParentMikeScenarioID = null;
             if (OmitPropName != "ScenarioStatus") mikeScenario.ScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "ErrorInfo") mikeScenario.ErrorInfo = GetRandomString("", 20);

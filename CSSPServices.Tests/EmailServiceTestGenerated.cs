@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             Email email = new Email();
 
-            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 29;
+            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 50;
             if (OmitPropName != "EmailAddress") email.EmailAddress = GetRandomEmail();
             if (OmitPropName != "EmailType") email.EmailType = (EmailTypeEnum)GetRandomEnumType(typeof(EmailTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

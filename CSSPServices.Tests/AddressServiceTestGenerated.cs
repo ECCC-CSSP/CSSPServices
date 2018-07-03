@@ -40,11 +40,11 @@ namespace CSSPServices.Tests
         {
             Address address = new Address();
 
-            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 21;
+            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 42;
             if (OmitPropName != "AddressType") address.AddressType = (AddressTypeEnum)GetRandomEnumType(typeof(AddressTypeEnum));
             if (OmitPropName != "CountryTVItemID") address.CountryTVItemID = 5;
             if (OmitPropName != "ProvinceTVItemID") address.ProvinceTVItemID = 6;
-            if (OmitPropName != "MunicipalityTVItemID") address.MunicipalityTVItemID = 14;
+            if (OmitPropName != "MunicipalityTVItemID") address.MunicipalityTVItemID = 35;
             if (OmitPropName != "StreetName") address.StreetName = GetRandomString("", 5);
             if (OmitPropName != "StreetNumber") address.StreetNumber = GetRandomString("", 5);
             if (OmitPropName != "StreetType") address.StreetType = (StreetTypeEnum)GetRandomEnumType(typeof(StreetTypeEnum));

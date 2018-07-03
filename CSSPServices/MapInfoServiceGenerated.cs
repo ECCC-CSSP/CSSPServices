@@ -92,11 +92,17 @@ namespace CSSPServices
                     TVTypeEnum.OtherInfrastructure,
                     TVTypeEnum.SeeOther,
                     TVTypeEnum.LineOverflow,
+                    TVTypeEnum.Classification,
+                    TVTypeEnum.Approved,
+                    TVTypeEnum.Restricted,
+                    TVTypeEnum.Prohibited,
+                    TVTypeEnum.ConditionallyApproved,
+                    TVTypeEnum.ConditionallyRestricted,
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoTVItemID, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoTVItemID, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow,Classification,Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted"), new[] { "TVItemID" });
                 }
             }
 

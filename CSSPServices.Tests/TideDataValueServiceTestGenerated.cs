@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             TideDataValue tideDataValue = new TideDataValue();
 
-            if (OmitPropName != "TideSiteTVItemID") tideDataValue.TideSiteTVItemID = 13;
+            if (OmitPropName != "TideSiteTVItemID") tideDataValue.TideSiteTVItemID = 34;
             if (OmitPropName != "DateTime_Local") tideDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") tideDataValue.Keep = true;
             if (OmitPropName != "TideDataType") tideDataValue.TideDataType = (TideDataTypeEnum)GetRandomEnumType(typeof(TideDataTypeEnum));

@@ -110,6 +110,7 @@ namespace CSSPServices
                         TVTypeEnum.ClimateSite,
                         TVTypeEnum.Contact,
                         TVTypeEnum.Country,
+                        TVTypeEnum.Email,
                         TVTypeEnum.HydrometricSite,
                         TVTypeEnum.Infrastructure,
                         TVTypeEnum.MikeBoundaryConditionWebTide,
@@ -122,12 +123,14 @@ namespace CSSPServices
                         TVTypeEnum.Province,
                         TVTypeEnum.Sector,
                         TVTypeEnum.Subsector,
+                        TVTypeEnum.Tel,
                         TVTypeEnum.MWQMRun,
+                        TVTypeEnum.Classification,
                     };
                     if (!AllowableTVTypes.Contains(TVItemParentID.TVType))
                     {
                         tvItem.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemParentID, "Root,Address,Area,ClimateSite,Contact,Country,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,MWQMRun"), new[] { "ParentID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemParentID, "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), new[] { "ParentID" });
                     }
                 }
             }
