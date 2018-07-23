@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
                 Assert.AreEqual(LanguageEnum.en, baseService.GetParam.Language);
                 Assert.AreEqual(0, baseService.GetParam.Skip);
                 Assert.AreEqual(100, baseService.GetParam.Take);
-                Assert.AreEqual("", baseService.GetParam.OrderByNames);
+                Assert.AreEqual("", baseService.GetParam.Order);
                 Assert.AreEqual("", baseService.GetParam.Where);
                 Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.GetParam.EntityQueryDetailType);
                 Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, baseService.GetParam.EntityQueryType);

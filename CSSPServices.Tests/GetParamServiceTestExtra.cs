@@ -48,7 +48,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -84,7 +84,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -100,7 +100,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.fr, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -116,7 +116,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(1, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -132,23 +132,23 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(2, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
                     Assert.AreEqual(0, getParamService.GetParam.OrderList.Count);
                     Assert.AreEqual(0, getParamService.GetParam.WhereInfoList.Count);
 
-                    // FillProp orderByNames = "Bonjour,Testing,Allo"
+                    // FillProp Order = "Bonjour,Testing,Allo"
                     getParam = new GetParam();
                     orderByName = "AddressID,StreetType,StreetNumber,StreetName";
-                    getParamService.GetParam = getParamService.FillProp(modelType: typeof(Address), orderByNames: orderByName);
+                    getParamService.GetParam = getParamService.FillProp(modelType: typeof(Address), Order: orderByName);
 
                     Assert.AreEqual(typeof(Address), getParamService.GetParam.ModelType);
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual(orderByName, getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual(orderByName, getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -159,16 +159,16 @@ namespace CSSPServices.Tests
                     Assert.AreEqual("StreetName", getParamService.GetParam.OrderList[3]);
                     Assert.AreEqual(0, getParamService.GetParam.WhereInfoList.Count);
 
-                    // FillProp orderByNames = "Bonjour,Testing,Allo" with spaces
+                    // FillProp Order = "Bonjour,Testing,Allo" with spaces
                     getParam = new GetParam();
                     orderByName = "AddressID, StreetType, StreetNumber ,StreetName";
-                    getParamService.GetParam = getParamService.FillProp(modelType: typeof(Address), orderByNames: orderByName);
+                    getParamService.GetParam = getParamService.FillProp(modelType: typeof(Address), Order: orderByName);
 
                     Assert.AreEqual(typeof(Address), getParamService.GetParam.ModelType);
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual(orderByName, getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual(orderByName, getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -210,7 +210,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -232,7 +232,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -252,7 +252,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -272,7 +272,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -292,7 +292,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -312,7 +312,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -332,7 +332,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -352,7 +352,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -373,7 +373,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -394,7 +394,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityReport, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.AsNoTracking, getParamService.GetParam.EntityQueryType);
@@ -410,7 +410,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.en, getParamService.GetParam.Language);
                     Assert.AreEqual(0, getParamService.GetParam.Skip);
                     Assert.AreEqual(100, getParamService.GetParam.Take);
-                    Assert.AreEqual("", getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual("", getParamService.GetParam.Order);
                     Assert.AreEqual("", getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.WithTracking, getParamService.GetParam.EntityQueryType);
@@ -432,7 +432,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(LanguageEnum.fr, getParamService.GetParam.Language);
                     Assert.AreEqual(2, getParamService.GetParam.Skip);
                     Assert.AreEqual(4, getParamService.GetParam.Take);
-                    Assert.AreEqual(orderByName, getParamService.GetParam.OrderByNames);
+                    Assert.AreEqual(orderByName, getParamService.GetParam.Order);
                     Assert.AreEqual(where, getParamService.GetParam.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityReport, getParamService.GetParam.EntityQueryDetailType);
                     Assert.AreEqual(EntityQueryTypeEnum.WithTracking, getParamService.GetParam.EntityQueryType);
@@ -492,26 +492,26 @@ namespace CSSPServices.Tests
                     Assert.IsTrue(getParamService.GetParam.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._ShouldBeBelow_, "Take", "1000000"), getParamService.GetParam.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                    // Testing ErrorMessage for OrderByNames 
-                    string orderByNames = "AddressID_Not";
+                    // Testing ErrorMessage for Order 
+                    string Order = "AddressID_Not";
 
-                    getParamService.GetParam = getParamService.FillProp(typeof(Address), orderByNames: orderByNames);
-
-                    Assert.IsTrue(getParamService.GetParam.HasErrors);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), getParamService.GetParam.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                    // Testing ErrorMessage for OrderByNames with multiple PropertyNames
-                    orderByNames = "AddressID,StreetName,AddressID_Not";
-
-                    getParamService.GetParam = getParamService.FillProp(typeof(Address), orderByNames: orderByNames);
+                    getParamService.GetParam = getParamService.FillProp(typeof(Address), Order: Order);
 
                     Assert.IsTrue(getParamService.GetParam.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), getParamService.GetParam.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                    // Testing ErrorMessage for OrderByNames with multiple PropertyNames with space
-                     orderByNames = "AddressID, StreetName, AddressID_Not";
+                    // Testing ErrorMessage for Order with multiple PropertyNames
+                    Order = "AddressID,StreetName,AddressID_Not";
 
-                    getParamService.GetParam = getParamService.FillProp(typeof(Address), orderByNames: orderByNames);
+                    getParamService.GetParam = getParamService.FillProp(typeof(Address), Order: Order);
+
+                    Assert.IsTrue(getParamService.GetParam.HasErrors);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), getParamService.GetParam.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    // Testing ErrorMessage for Order with multiple PropertyNames with space
+                     Order = "AddressID, StreetName, AddressID_Not";
+
+                    getParamService.GetParam = getParamService.FillProp(typeof(Address), Order: Order);
 
                     Assert.IsTrue(getParamService.GetParam.HasErrors);
                     Assert.AreEqual(string.Format(CSSPServicesRes._DoesNotExistForModelType_, "AddressID_Not", typeof(Address).Name), getParamService.GetParam.ValidationResults.FirstOrDefault().ErrorMessage);

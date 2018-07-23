@@ -54,6 +54,13 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.WhereInfoPropertyName, "100"), new[] { "PropertyName" });
             }
 
+            retStr = enums.EnumTypeOK(typeof(PropertyTypeEnum), (int?)whereInfo.PropertyType);
+            if (whereInfo.PropertyType == PropertyTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                whereInfo.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.WhereInfoPropertyType), new[] { "PropertyType" });
+            }
+
             retStr = enums.EnumTypeOK(typeof(WhereOperatorEnum), (int?)whereInfo.WhereOperator);
             if (whereInfo.WhereOperator == WhereOperatorEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {

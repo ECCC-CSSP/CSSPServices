@@ -45,7 +45,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Lang") getParam.Lang = GetRandomString("", 2);
             if (OmitPropName != "Skip") getParam.Skip = GetRandomInt(0, 10);
             if (OmitPropName != "Take") getParam.Take = GetRandomInt(0, 10);
-            if (OmitPropName != "OrderByNames") getParam.OrderByNames = GetRandomString("", 5);
+            if (OmitPropName != "Order") getParam.Order = GetRandomString("", 5);
             if (OmitPropName != "Where") getParam.Where = GetRandomString("", 5);
             if (OmitPropName != "EntityQueryDetailType") getParam.EntityQueryDetailType = (EntityQueryDetailTypeEnum)GetRandomEnumType(typeof(EntityQueryDetailTypeEnum));
             if (OmitPropName != "EntityQueryType") getParam.EntityQueryType = (EntityQueryTypeEnum)GetRandomEnumType(typeof(EntityQueryTypeEnum));

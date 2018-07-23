@@ -76,16 +76,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.GetParamTake, "0"), new[] { "Take" });
             }
 
-            if (string.IsNullOrWhiteSpace(getParam.OrderByNames))
+            if (string.IsNullOrWhiteSpace(getParam.Order))
             {
                 getParam.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.GetParamOrderByNames), new[] { "OrderByNames" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.GetParamOrder), new[] { "Order" });
             }
 
-            if (!string.IsNullOrWhiteSpace(getParam.OrderByNames) && getParam.OrderByNames.Length > 200)
+            if (!string.IsNullOrWhiteSpace(getParam.Order) && getParam.Order.Length > 200)
             {
                 getParam.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.GetParamOrderByNames, "200"), new[] { "OrderByNames" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.GetParamOrder, "200"), new[] { "Order" });
             }
 
             if (string.IsNullOrWhiteSpace(getParam.Where))

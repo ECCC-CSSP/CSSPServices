@@ -143,7 +143,7 @@ namespace CSSPServices
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!string.IsNullOrWhiteSpace(getParam.OrderByNames))
+                        if (!string.IsNullOrWhiteSpace(getParam.Order))
                         {
                             aspNetUserQuery  = aspNetUserQuery.OrderByDescending(c => c.Email);
                         }

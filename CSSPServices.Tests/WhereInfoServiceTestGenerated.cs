@@ -41,6 +41,7 @@ namespace CSSPServices.Tests
             WhereInfo whereInfo = new WhereInfo();
 
             if (OmitPropName != "PropertyName") whereInfo.PropertyName = GetRandomString("", 5);
+            if (OmitPropName != "PropertyType") whereInfo.PropertyType = (PropertyTypeEnum)GetRandomEnumType(typeof(PropertyTypeEnum));
             if (OmitPropName != "WhereOperator") whereInfo.WhereOperator = (WhereOperatorEnum)GetRandomEnumType(typeof(WhereOperatorEnum));
             if (OmitPropName != "Value") whereInfo.Value = GetRandomString("", 5);
             if (OmitPropName != "ValueInt") whereInfo.ValueInt = GetRandomInt(-1, -1);

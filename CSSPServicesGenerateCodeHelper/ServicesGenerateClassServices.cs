@@ -1311,7 +1311,14 @@ namespace CSSPServicesGenerateCodeHelper
                         sb.AppendLine(@"            if (" + csspProp.ExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"            {");
                         sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
+                        if (TypeName == "Contact" && csspProp.PropName == "Id")
+                        {
+                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", (" + TypeNameLower + "." + csspProp.PropName + @" == null ? """" : " + TypeNameLower + "." + csspProp.PropName + @".ToString())), new[] { """ + csspProp.PropName + @""" });");
+                        }
+                        else
+                        {
+                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
+                        }
                         sb.AppendLine(@"            }");
                         if (csspProp.ExistTypeName == "TVItem")
                         {

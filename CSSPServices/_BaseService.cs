@@ -75,43 +75,126 @@ namespace CSSPServices
         {
             IQueryable<T> query = (IQueryable<T>)obj;
 
-            // Example of GetParam.Where == "TVItemID,EQ,5|TVItemID,EQ,7"
-            // This would be 2 where statement
-            List<string> WhereList = GetParam.Where.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            foreach (string where in WhereList)
+            foreach (WhereInfo whereInfo in GetParam.WhereInfoList)
             {
-                // Example of where == "TVItemID,EQ,5"
-                List<string> ValList = where.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
-                if (ValList.Count == 3)
+                switch (whereInfo.WhereOperator)
                 {
-                    switch (ValList[1].ToLower())
-                    {
-                        case "eq":
+                    case WhereOperatorEnum.Contains:
+                        {
+                            query = EF_Where_Expression.WhereContains(query, whereInfo.PropertyName, whereInfo.Value);
+                        }
+                        break;
+                    case WhereOperatorEnum.EndsWith:
+                        {
+                            query = EF_Where_Expression.WhereEndsWith(query, whereInfo.PropertyName, whereInfo.Value);
+                        }
+                        break;
+                    case WhereOperatorEnum.Equal:
+                        {
+                            switch (whereInfo.PropertyType)
                             {
-                                query = query.Where(c => EF.Property<string>(c, ValList[0]) == ValList[2]);
+                                case PropertyTypeEnum.Int:
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.ValueInt);
+                                    break;
+                                case PropertyTypeEnum.Double:
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.ValueDouble);
+                                    break;
+                                case PropertyTypeEnum.String:
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.Value);
+                                    break;
+                                case PropertyTypeEnum.Boolean:
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.ValueBool);
+                                    break;
+                                case PropertyTypeEnum.DateTime:
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.ValueDateTime);
+                                    break;
+                                case PropertyTypeEnum.Enum:
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.ValueInt);
+                                    break;
+                                default:
+                                    query = EF_Where_Expression.WhereEqual(query, whereInfo.PropertyName, whereInfo.Value);
+                                    break;
                             }
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
+                    case WhereOperatorEnum.GreaterThan:
+                        {
+                            switch (whereInfo.PropertyType)
+                            {
+                                case PropertyTypeEnum.Int:
+                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.ValueInt);
+                                    break;
+                                case PropertyTypeEnum.Double:
+                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.ValueDouble);
+                                    break;
+                                case PropertyTypeEnum.String:
+                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.Value);
+                                    break;
+                                case PropertyTypeEnum.Boolean:
+                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.ValueBool);
+                                    break;
+                                case PropertyTypeEnum.DateTime:
+                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.ValueDateTime);
+                                    break;
+                                case PropertyTypeEnum.Enum:
+                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.ValueInt);
+                                    break;
+                                default:
+                                    query = EF_Where_Expression.WhereGreaterThan(query, whereInfo.PropertyName, whereInfo.Value);
+                                    break;
+                            }
+                        }
+                        break;
+                    case WhereOperatorEnum.LessThan:
+                        {
+                            switch (whereInfo.PropertyType)
+                            {
+                                case PropertyTypeEnum.Int:
+                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.ValueInt);
+                                    break;
+                                case PropertyTypeEnum.Double:
+                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.ValueDouble);
+                                    break;
+                                case PropertyTypeEnum.String:
+                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.Value);
+                                    break;
+                                case PropertyTypeEnum.Boolean:
+                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.ValueBool);
+                                    break;
+                                case PropertyTypeEnum.DateTime:
+                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.ValueDateTime);
+                                    break;
+                                case PropertyTypeEnum.Enum:
+                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.ValueInt);
+                                    break;
+                                default:
+                                    query = EF_Where_Expression.WhereLessThan(query, whereInfo.PropertyName, whereInfo.Value);
+                                    break;
+                            }
+                        }
+                        break;
+                    case WhereOperatorEnum.StartsWith:
+                        {
+                            query = EF_Where_Expression.WhereStartsWith(query, whereInfo.PropertyName, whereInfo.Value);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
 
-            List<string> OrderByNamesList = GetParam.OrderByNames.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            if (OrderByNamesList.Count > 0)
+            if (GetParam.OrderList.Count > 0)
             {
-                foreach (string OrderByName in OrderByNamesList)
+                foreach (string PropertyName in GetParam.OrderList)
                 {
-                    query = query.OrderBy(c => EF.Property<string>(c, OrderByName));
+                    query = OrderExpression.OrderByProp(query, PropertyName);
                 }
             }
             else
             {
-                string TypeName = typeof(T).Name + "ID";
+                string PropertyName = typeof(T).Name + "ID";
 
-                query = OrderExpression.OrderByProp<T>(query, TypeName);
+                query = OrderExpression.OrderByProp(query, PropertyName);
             }
 
             if (GetParam.Skip > 0)

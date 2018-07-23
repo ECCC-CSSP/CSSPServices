@@ -58,14 +58,14 @@ namespace CSSPServices
             }
 
             getParam.OrderList = new List<string>();
-            getParam.OrderList = getParam.OrderByNames.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToList();
+            getParam.OrderList = getParam.Order.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(c => c.Trim()).ToList();
 
             foreach (string PropertyName in getParam.OrderList)
             {
                 if (!getParam.ModelType.GetProperties().Where(c => c.Name == PropertyName).Any())
                 {
                     getParam.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._DoesNotExistForModelType_, PropertyName, getParam.ModelType.Name), new[] { "OrderByNames" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._DoesNotExistForModelType_, PropertyName, getParam.ModelType.Name), new[] { "Order" });
                 }
             }
 
@@ -111,6 +111,7 @@ namespace CSSPServices
                                 case "System.Int32":
                                 case "System.Int64":
                                     {
+                                        whereInfo.PropertyType = PropertyTypeEnum.Int;
                                         int TempInt;
                                         if (int.TryParse(whereInfo.Value, out TempInt))
                                         {
@@ -125,6 +126,7 @@ namespace CSSPServices
                                     break;
                                 case "System.Double":
                                     {
+                                        whereInfo.PropertyType = PropertyTypeEnum.Double;
                                         double TempDouble;
                                         if (Double.TryParse(whereInfo.Value, out TempDouble))
                                         {
@@ -139,11 +141,13 @@ namespace CSSPServices
                                     break;
                                 case "System.String":
                                     {
+                                        whereInfo.PropertyType = PropertyTypeEnum.String;
                                         // no need to do anything here as the string value has already been saved under the whereInfo.Value
                                     }
                                     break;
                                 case "System.Boolean":
                                     {
+                                        whereInfo.PropertyType = PropertyTypeEnum.Boolean;
                                         bool TempBool;
                                         if (bool.TryParse(whereInfo.Value, out TempBool))
                                         {
@@ -158,6 +162,7 @@ namespace CSSPServices
                                     break;
                                 case "System.DateTime":
                                     {
+                                        whereInfo.PropertyType = PropertyTypeEnum.DateTime;
                                         DateTime TempDateTime;
                                         if (DateTime.TryParse(whereInfo.Value, out TempDateTime))
                                         {
@@ -174,6 +179,7 @@ namespace CSSPServices
                                     {
                                         if (propertyInfo.PropertyType.FullName.Contains("Enum, CSSPEnums, "))
                                         {
+                                            whereInfo.PropertyType = PropertyTypeEnum.Enum;
                                             string EnumTypeName = propertyInfo.PropertyType.FullName.Substring(propertyInfo.PropertyType.FullName.IndexOf("CSSPEnums.") + "CSSPEnums.".Length);
                                             EnumTypeName = EnumTypeName.Substring(0, EnumTypeName.IndexOf(","));
 
@@ -312,7 +318,7 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public
-        public GetParam FillProp(Type modelType, string lang = "en", int skip = 0, int take = 100, string orderByNames = "", string where = "",
+        public GetParam FillProp(Type modelType, string lang = "en", int skip = 0, int take = 100, string Order = "", string where = "",
                  EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
                  EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
@@ -323,7 +329,7 @@ namespace CSSPServices
             getParam.Lang = lang;
             getParam.Skip = skip;
             getParam.Take = take;
-            getParam.OrderByNames = orderByNames;
+            getParam.Order = Order;
             getParam.Where = where;
             getParam.EntityQueryDetailType = EntityQueryDetailType;
             getParam.EntityQueryType = EntityQueryType;

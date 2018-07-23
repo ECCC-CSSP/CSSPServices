@@ -74,7 +74,7 @@ namespace CSSPServices
             if (AspNetUserId == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AspNetUser, CSSPModelsRes.ContactId, contact.Id.ToString()), new[] { "Id" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AspNetUser, CSSPModelsRes.ContactId, (contact.Id == null ? "" : contact.Id.ToString())), new[] { "Id" });
             }
 
             TVItem TVItemContactTVItemID = (from c in db.TVItems where c.TVItemID == contact.ContactTVItemID select c).FirstOrDefault();
