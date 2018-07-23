@@ -62,22 +62,18 @@ namespace CSSPServices
             if (TVItemClassificationTVItemID == null)
             {
                 classification.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClassificationClassificationTVItemID, (classification.ClassificationTVItemID == null ? "" : classification.ClassificationTVItemID.ToString())), new[] { "ClassificationTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClassificationClassificationTVItemID, classification.ClassificationTVItemID.ToString()), new[] { "ClassificationTVItemID" });
             }
             else
             {
                 List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                 {
-                    TVTypeEnum.Approved,
-                    TVTypeEnum.Restricted,
-                    TVTypeEnum.Prohibited,
-                    TVTypeEnum.ConditionallyApproved,
-                    TVTypeEnum.ConditionallyRestricted,
+                    TVTypeEnum.Classification,
                 };
                 if (!AllowableTVTypes.Contains(TVItemClassificationTVItemID.TVType))
                 {
                     classification.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClassificationClassificationTVItemID, "Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted"), new[] { "ClassificationTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClassificationClassificationTVItemID, "Classification"), new[] { "ClassificationTVItemID" });
                 }
             }
 
@@ -113,7 +109,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 classification.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClassificationLastUpdateContactTVItemID, (classification.LastUpdateContactTVItemID == null ? "" : classification.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClassificationLastUpdateContactTVItemID, classification.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -139,60 +135,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Classification GetClassificationWithClassificationID(int ClassificationID, GetParam getParam)
+        public Classification GetClassificationWithClassificationID(int ClassificationID)
         {
-            IQueryable<Classification> classificationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Classification> classificationQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ClassificationID == ClassificationID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return classificationQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillClassificationWeb(classificationQuery, "").FirstOrDefault();
+                    return FillClassificationWeb(classificationQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClassificationReport(classificationQuery, "").FirstOrDefault();
+                    return FillClassificationReport(classificationQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Classification> GetClassificationList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Classification> GetClassificationList()
         {
-            IQueryable<Classification> classificationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Classification> classificationQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            classificationQuery  = classificationQuery.OrderByDescending(c => c.ClassificationID);
-                        }
-                        classificationQuery = classificationQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        classificationQuery = EnhanceQueryStatements<Classification>(classificationQuery) as IQueryable<Classification>;
+
                         return classificationQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            classificationQuery = FillClassificationWeb(classificationQuery, FilterAndOrderText).OrderByDescending(c => c.ClassificationID);
-                        }
-                        classificationQuery = FillClassificationWeb(classificationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        classificationQuery = FillClassificationWeb(classificationQuery);
+
+                        classificationQuery = EnhanceQueryStatements<Classification>(classificationQuery) as IQueryable<Classification>;
+
                         return classificationQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            classificationQuery = FillClassificationReport(classificationQuery, FilterAndOrderText).OrderByDescending(c => c.ClassificationID);
-                        }
-                        classificationQuery = FillClassificationReport(classificationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        classificationQuery = FillClassificationReport(classificationQuery);
+
+                        classificationQuery = EnhanceQueryStatements<Classification>(classificationQuery) as IQueryable<Classification>;
+
                         return classificationQuery;
                     }
                 default:
-                    return null;
+                    {
+                        classificationQuery = classificationQuery.Where(c => c.ClassificationID == 0);
+
+                        return classificationQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -233,34 +227,24 @@ namespace CSSPServices
         }
         public IQueryable<Classification> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Classifications.AsNoTracking();
-            }
-            else
-            {
-                return db.Classifications.AsNoTracking().OrderByDescending(c => c.ClassificationID);
-            }
+            IQueryable<Classification> classificationQuery = db.Classifications.AsNoTracking();
+
+            return classificationQuery;
         }
         public IQueryable<Classification> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Classifications;
-            }
-            else
-            {
-                return db.Classifications.OrderByDescending(c => c.ClassificationID);
-            }
+            IQueryable<Classification> classificationQuery = db.Classifications;
+
+            return classificationQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ClassificationFillWeb
-        private IQueryable<Classification> FillClassificationWeb(IQueryable<Classification> classificationQuery, string FilterAndOrderText)
+        private IQueryable<Classification> FillClassificationWeb(IQueryable<Classification> classificationQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 
-            List<EnumIDAndText> ClassificationEnumList = enums.GetEnumTextOrderedList(typeof(ClassificationEnum));
+            List<EnumIDAndText> ClassificationTypeEnumList = enums.GetEnumTextOrderedList(typeof(ClassificationTypeEnum));
 
             classificationQuery = (from c in classificationQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
@@ -278,7 +262,7 @@ namespace CSSPServices
                         ClassificationWeb = new ClassificationWeb
                         {
                             LastUpdateContactTVText = LastUpdateContactTVText,
-                            ClassificationTVText = (from e in ClassificationEnumList
+                            ClassificationTVText = (from e in ClassificationTypeEnumList
                                 where e.EnumID == (int?)c.ClassificationType
                                 select e.EnumText).FirstOrDefault(),
                         },

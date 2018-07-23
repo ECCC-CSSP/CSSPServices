@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemHydrometricSiteTVItemID == null)
             {
                 hydrometricSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.HydrometricSiteHydrometricSiteTVItemID, (hydrometricSite.HydrometricSiteTVItemID == null ? "" : hydrometricSite.HydrometricSiteTVItemID.ToString())), new[] { "HydrometricSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.HydrometricSiteHydrometricSiteTVItemID, hydrometricSite.HydrometricSiteTVItemID.ToString()), new[] { "HydrometricSiteTVItemID" });
             }
             else
             {
@@ -183,7 +183,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 hydrometricSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.HydrometricSiteLastUpdateContactTVItemID, (hydrometricSite.LastUpdateContactTVItemID == null ? "" : hydrometricSite.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.HydrometricSiteLastUpdateContactTVItemID, hydrometricSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -209,60 +209,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID, GetParam getParam)
+        public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID)
         {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.HydrometricSiteID == HydrometricSiteID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillHydrometricSiteWeb(hydrometricSiteQuery, "").FirstOrDefault();
+                    return FillHydrometricSiteWeb(hydrometricSiteQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillHydrometricSiteReport(hydrometricSiteQuery, "").FirstOrDefault();
+                    return FillHydrometricSiteReport(hydrometricSiteQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<HydrometricSite> GetHydrometricSiteList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<HydrometricSite> GetHydrometricSiteList()
         {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<HydrometricSite> hydrometricSiteQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            hydrometricSiteQuery  = hydrometricSiteQuery.OrderByDescending(c => c.HydrometricSiteID);
-                        }
-                        hydrometricSiteQuery = hydrometricSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        hydrometricSiteQuery = EnhanceQueryStatements<HydrometricSite>(hydrometricSiteQuery) as IQueryable<HydrometricSite>;
+
                         return hydrometricSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            hydrometricSiteQuery = FillHydrometricSiteWeb(hydrometricSiteQuery, FilterAndOrderText).OrderByDescending(c => c.HydrometricSiteID);
-                        }
-                        hydrometricSiteQuery = FillHydrometricSiteWeb(hydrometricSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        hydrometricSiteQuery = FillHydrometricSiteWeb(hydrometricSiteQuery);
+
+                        hydrometricSiteQuery = EnhanceQueryStatements<HydrometricSite>(hydrometricSiteQuery) as IQueryable<HydrometricSite>;
+
                         return hydrometricSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            hydrometricSiteQuery = FillHydrometricSiteReport(hydrometricSiteQuery, FilterAndOrderText).OrderByDescending(c => c.HydrometricSiteID);
-                        }
-                        hydrometricSiteQuery = FillHydrometricSiteReport(hydrometricSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        hydrometricSiteQuery = FillHydrometricSiteReport(hydrometricSiteQuery);
+
+                        hydrometricSiteQuery = EnhanceQueryStatements<HydrometricSite>(hydrometricSiteQuery) as IQueryable<HydrometricSite>;
+
                         return hydrometricSiteQuery;
                     }
                 default:
-                    return null;
+                    {
+                        hydrometricSiteQuery = hydrometricSiteQuery.Where(c => c.HydrometricSiteID == 0);
+
+                        return hydrometricSiteQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -303,30 +301,20 @@ namespace CSSPServices
         }
         public IQueryable<HydrometricSite> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.HydrometricSites.AsNoTracking();
-            }
-            else
-            {
-                return db.HydrometricSites.AsNoTracking().OrderByDescending(c => c.HydrometricSiteID);
-            }
+            IQueryable<HydrometricSite> hydrometricSiteQuery = db.HydrometricSites.AsNoTracking();
+
+            return hydrometricSiteQuery;
         }
         public IQueryable<HydrometricSite> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.HydrometricSites;
-            }
-            else
-            {
-                return db.HydrometricSites.OrderByDescending(c => c.HydrometricSiteID);
-            }
+            IQueryable<HydrometricSite> hydrometricSiteQuery = db.HydrometricSites;
+
+            return hydrometricSiteQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated HydrometricSiteFillWeb
-        private IQueryable<HydrometricSite> FillHydrometricSiteWeb(IQueryable<HydrometricSite> hydrometricSiteQuery, string FilterAndOrderText)
+        private IQueryable<HydrometricSite> FillHydrometricSiteWeb(IQueryable<HydrometricSite> hydrometricSiteQuery)
         {
             hydrometricSiteQuery = (from c in hydrometricSiteQuery
                 let HydrometricTVText = (from cl in db.TVItemLanguages

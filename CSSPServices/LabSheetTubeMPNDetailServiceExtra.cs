@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetailReport(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery, string FilterAndOrderText)
+        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetailReport(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

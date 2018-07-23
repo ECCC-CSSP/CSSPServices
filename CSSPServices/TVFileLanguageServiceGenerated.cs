@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVFileTVFileID == null)
             {
                 tvFileLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVFile, CSSPModelsRes.TVFileLanguageTVFileID, (tvFileLanguage.TVFileID == null ? "" : tvFileLanguage.TVFileID.ToString())), new[] { "TVFileID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVFile, CSSPModelsRes.TVFileLanguageTVFileID, tvFileLanguage.TVFileID.ToString()), new[] { "TVFileID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFileLanguage.Language);
@@ -100,7 +100,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tvFileLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLanguageLastUpdateContactTVItemID, (tvFileLanguage.LastUpdateContactTVItemID == null ? "" : tvFileLanguage.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLanguageLastUpdateContactTVItemID, tvFileLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -126,60 +126,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVFileLanguage GetTVFileLanguageWithTVFileLanguageID(int TVFileLanguageID, GetParam getParam)
+        public TVFileLanguage GetTVFileLanguageWithTVFileLanguageID(int TVFileLanguageID)
         {
-            IQueryable<TVFileLanguage> tvFileLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVFileLanguage> tvFileLanguageQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVFileLanguageID == TVFileLanguageID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVFileLanguageWeb(tvFileLanguageQuery, "").FirstOrDefault();
+                    return FillTVFileLanguageWeb(tvFileLanguageQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVFileLanguageReport(tvFileLanguageQuery, "").FirstOrDefault();
+                    return FillTVFileLanguageReport(tvFileLanguageQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<TVFileLanguage> GetTVFileLanguageList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<TVFileLanguage> GetTVFileLanguageList()
         {
-            IQueryable<TVFileLanguage> tvFileLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<TVFileLanguage> tvFileLanguageQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvFileLanguageQuery  = tvFileLanguageQuery.OrderByDescending(c => c.TVFileLanguageID);
-                        }
-                        tvFileLanguageQuery = tvFileLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        tvFileLanguageQuery = EnhanceQueryStatements<TVFileLanguage>(tvFileLanguageQuery) as IQueryable<TVFileLanguage>;
+
                         return tvFileLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvFileLanguageQuery = FillTVFileLanguageWeb(tvFileLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.TVFileLanguageID);
-                        }
-                        tvFileLanguageQuery = FillTVFileLanguageWeb(tvFileLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tvFileLanguageQuery = FillTVFileLanguageWeb(tvFileLanguageQuery);
+
+                        tvFileLanguageQuery = EnhanceQueryStatements<TVFileLanguage>(tvFileLanguageQuery) as IQueryable<TVFileLanguage>;
+
                         return tvFileLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvFileLanguageQuery = FillTVFileLanguageReport(tvFileLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.TVFileLanguageID);
-                        }
-                        tvFileLanguageQuery = FillTVFileLanguageReport(tvFileLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tvFileLanguageQuery = FillTVFileLanguageReport(tvFileLanguageQuery);
+
+                        tvFileLanguageQuery = EnhanceQueryStatements<TVFileLanguage>(tvFileLanguageQuery) as IQueryable<TVFileLanguage>;
+
                         return tvFileLanguageQuery;
                     }
                 default:
-                    return null;
+                    {
+                        tvFileLanguageQuery = tvFileLanguageQuery.Where(c => c.TVFileLanguageID == 0);
+
+                        return tvFileLanguageQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -220,30 +218,20 @@ namespace CSSPServices
         }
         public IQueryable<TVFileLanguage> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TVFileLanguages.AsNoTracking();
-            }
-            else
-            {
-                return db.TVFileLanguages.AsNoTracking().OrderByDescending(c => c.TVFileLanguageID);
-            }
+            IQueryable<TVFileLanguage> tvFileLanguageQuery = db.TVFileLanguages.AsNoTracking();
+
+            return tvFileLanguageQuery;
         }
         public IQueryable<TVFileLanguage> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TVFileLanguages;
-            }
-            else
-            {
-                return db.TVFileLanguages.OrderByDescending(c => c.TVFileLanguageID);
-            }
+            IQueryable<TVFileLanguage> tvFileLanguageQuery = db.TVFileLanguages;
+
+            return tvFileLanguageQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVFileLanguageFillWeb
-        private IQueryable<TVFileLanguage> FillTVFileLanguageWeb(IQueryable<TVFileLanguage> tvFileLanguageQuery, string FilterAndOrderText)
+        private IQueryable<TVFileLanguage> FillTVFileLanguageWeb(IQueryable<TVFileLanguage> tvFileLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

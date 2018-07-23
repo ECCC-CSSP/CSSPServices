@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetTVTypeNamesAndPathWithTVTypeNamesAndPathID(tvTypeNamesAndPath.TVTypeNamesAndPathID)
+        #endregion Tests Generated for GetTVTypeNamesAndPathWithTVTypeNamesAndPathID(tvTypeNamesAndPath.TVTypeNamesAndPathID)
 
-        #region Tests Generated Get List of TVTypeNamesAndPath
-        #endregion Tests Get List of TVTypeNamesAndPath
+        #region Tests Generated for GetTVTypeNamesAndPathList()
+        #endregion Tests Generated for GetTVTypeNamesAndPathList()
+
+        #region Tests Generated for GetTVTypeNamesAndPathList() Skip Take
+        #endregion Tests Generated for GetTVTypeNamesAndPathList() Skip Take
 
     }
 }

@@ -264,4 +264,46 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="AllowableLanguagesAreFRAndEN" xml:space="preserve">
+    <value>Allowable languages are [fr and en]</value>
+  </data>
+  <data name="CouldNotFindFile_" xml:space="preserve">
+    <value>Could not find file [{0}]</value>
+  </data>
+  <data name="WhereOperator_NotImplementedYet" xml:space="preserve">
+    <value>Where operator {0} not implemented yet</value>
+  </data>
+  <data name="_DoesNotExistForModelType_" xml:space="preserve">
+    <value>{0} does not exist for ModelType = {1}</value>
+  </data>
+  <data name="_NeedsToBeADateFor_OfModel_" xml:space="preserve">
+    <value>[{0}] needs to be a date for {1} of model {2}</value>
+  </data>
+  <data name="_NeedsToBeANumberFor_OfModel_" xml:space="preserve">
+    <value>[{0}] needs to be a number for {1} of model {2}</value>
+  </data>
+  <data name="_NeedsToBeAValidEnumNumberFor_OfModel_" xml:space="preserve">
+    <value>[{0}] needs to be a valid enum number for {1} of model {2}</value>
+  </data>
+  <data name="_NeedsToBeAValidEnumTextFor_OfModel_" xml:space="preserve">
+    <value>[{0}] needs to be a valid enum text for {1} of model {2}</value>
+  </data>
+  <data name="_NeedsToBeTrueOrFalseFor_OfModel_" xml:space="preserve">
+    <value>[{0}] needs to be true or false for {1} of model {2}</value>
+  </data>
+  <data name="_NeedToHaveValidStringFormatEx_" xml:space="preserve">
+    <value>{0} need to have valid string format - Ex: {1}</value>
+  </data>
+  <data name="_NotImplementedYet" xml:space="preserve">
+    <value>{0} not implemented yet</value>
+  </data>
+  <data name="_ShouldBeAbove_" xml:space="preserve">
+    <value>{0} should be above {1}</value>
+  </data>
+  <data name="_ShouldBeBelow_" xml:space="preserve">
+    <value>{0} should be below {1}</value>
+  </data>
+  <data name="_ShouldNotBeNullOrEmpty" xml:space="preserve">
+    <value>{0} should not be null or empty</value>
+  </data>
 </root>

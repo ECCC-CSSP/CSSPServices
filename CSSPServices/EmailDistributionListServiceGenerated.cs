@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemCountryTVItemID == null)
             {
                 emailDistributionList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListCountryTVItemID, (emailDistributionList.CountryTVItemID == null ? "" : emailDistributionList.CountryTVItemID.ToString())), new[] { "CountryTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListCountryTVItemID, emailDistributionList.CountryTVItemID.ToString()), new[] { "CountryTVItemID" });
             }
             else
             {
@@ -102,7 +102,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 emailDistributionList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListLastUpdateContactTVItemID, (emailDistributionList.LastUpdateContactTVItemID == null ? "" : emailDistributionList.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListLastUpdateContactTVItemID, emailDistributionList.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -128,60 +128,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID, GetParam getParam)
+        public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID)
         {
-            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailDistributionListID == EmailDistributionListID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillEmailDistributionListWeb(emailDistributionListQuery, "").FirstOrDefault();
+                    return FillEmailDistributionListWeb(emailDistributionListQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionListReport(emailDistributionListQuery, "").FirstOrDefault();
+                    return FillEmailDistributionListReport(emailDistributionListQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<EmailDistributionList> GetEmailDistributionListList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<EmailDistributionList> GetEmailDistributionListList()
         {
-            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<EmailDistributionList> emailDistributionListQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailDistributionListQuery  = emailDistributionListQuery.OrderByDescending(c => c.EmailDistributionListID);
-                        }
-                        emailDistributionListQuery = emailDistributionListQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        emailDistributionListQuery = EnhanceQueryStatements<EmailDistributionList>(emailDistributionListQuery) as IQueryable<EmailDistributionList>;
+
                         return emailDistributionListQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailDistributionListQuery = FillEmailDistributionListWeb(emailDistributionListQuery, FilterAndOrderText).OrderByDescending(c => c.EmailDistributionListID);
-                        }
-                        emailDistributionListQuery = FillEmailDistributionListWeb(emailDistributionListQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        emailDistributionListQuery = FillEmailDistributionListWeb(emailDistributionListQuery);
+
+                        emailDistributionListQuery = EnhanceQueryStatements<EmailDistributionList>(emailDistributionListQuery) as IQueryable<EmailDistributionList>;
+
                         return emailDistributionListQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailDistributionListQuery = FillEmailDistributionListReport(emailDistributionListQuery, FilterAndOrderText).OrderByDescending(c => c.EmailDistributionListID);
-                        }
-                        emailDistributionListQuery = FillEmailDistributionListReport(emailDistributionListQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        emailDistributionListQuery = FillEmailDistributionListReport(emailDistributionListQuery);
+
+                        emailDistributionListQuery = EnhanceQueryStatements<EmailDistributionList>(emailDistributionListQuery) as IQueryable<EmailDistributionList>;
+
                         return emailDistributionListQuery;
                     }
                 default:
-                    return null;
+                    {
+                        emailDistributionListQuery = emailDistributionListQuery.Where(c => c.EmailDistributionListID == 0);
+
+                        return emailDistributionListQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -222,30 +220,20 @@ namespace CSSPServices
         }
         public IQueryable<EmailDistributionList> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.EmailDistributionLists.AsNoTracking();
-            }
-            else
-            {
-                return db.EmailDistributionLists.AsNoTracking().OrderByDescending(c => c.EmailDistributionListID);
-            }
+            IQueryable<EmailDistributionList> emailDistributionListQuery = db.EmailDistributionLists.AsNoTracking();
+
+            return emailDistributionListQuery;
         }
         public IQueryable<EmailDistributionList> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.EmailDistributionLists;
-            }
-            else
-            {
-                return db.EmailDistributionLists.OrderByDescending(c => c.EmailDistributionListID);
-            }
+            IQueryable<EmailDistributionList> emailDistributionListQuery = db.EmailDistributionLists;
+
+            return emailDistributionListQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailDistributionListFillWeb
-        private IQueryable<EmailDistributionList> FillEmailDistributionListWeb(IQueryable<EmailDistributionList> emailDistributionListQuery, string FilterAndOrderText)
+        private IQueryable<EmailDistributionList> FillEmailDistributionListWeb(IQueryable<EmailDistributionList> emailDistributionListQuery)
         {
             emailDistributionListQuery = (from c in emailDistributionListQuery
                 let CountryTVText = (from cl in db.TVItemLanguages

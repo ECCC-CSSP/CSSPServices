@@ -1069,9 +1069,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID)
         [TestMethod]
-        public void Infrastructure_Get_With_Key_Test()
+        public void GetInfrastructureWithInfrastructureID__infrastructure_InfrastructureID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -1079,33 +1079,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     InfrastructureService infrastructureService = new InfrastructureService(new GetParam(), dbTestDB, ContactID);
                     Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
                     Infrastructure infrastructureRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        infrastructureService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
                             Assert.IsNull(infrastructureRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID, getParam);
+                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
                         }
                         else
                         {
@@ -1293,13 +1292,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(infrastructureRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(infrastructureRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // InfrastructureWeb and InfrastructureReport fields should be null here
                             Assert.IsNull(infrastructureRet.InfrastructureWeb);
                             Assert.IsNull(infrastructureRet.InfrastructureReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // InfrastructureWeb fields should not be null and InfrastructureReport fields should be null here
                             if (infrastructureRet.InfrastructureWeb.InfrastructureTVText != null)
@@ -1364,7 +1363,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(infrastructureRet.InfrastructureReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // InfrastructureWeb and InfrastructureReport fields should NOT be null here
                             if (infrastructureRet.InfrastructureWeb.InfrastructureTVText != null)
@@ -1436,10 +1435,423 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID)
 
-        #region Tests Generated Get List of Infrastructure
-        #endregion Tests Get List of Infrastructure
+        #region Tests Generated for GetInfrastructureList()
+        [TestMethod]
+        public void GetInfrastructureList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    InfrastructureService infrastructureService = new InfrastructureService(new GetParam(), dbTestDB, ContactID);
+                    Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(infrastructure);
+
+                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        infrastructureService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            Assert.AreEqual(0, infrastructureList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Infrastructure fields
+                        Assert.IsNotNull(infrastructureList[0].InfrastructureID);
+                        Assert.IsNotNull(infrastructureList[0].InfrastructureTVItemID);
+                        if (infrastructureList[0].PrismID != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PrismID);
+                        }
+                        if (infrastructureList[0].TPID != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].TPID);
+                        }
+                        if (infrastructureList[0].LSID != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].LSID);
+                        }
+                        if (infrastructureList[0].SiteID != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].SiteID);
+                        }
+                        if (infrastructureList[0].Site != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].Site);
+                        }
+                        if (infrastructureList[0].InfrastructureCategory != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureCategory));
+                        }
+                        if (infrastructureList[0].InfrastructureType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].InfrastructureType);
+                        }
+                        if (infrastructureList[0].FacilityType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].FacilityType);
+                        }
+                        if (infrastructureList[0].IsMechanicallyAerated != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].IsMechanicallyAerated);
+                        }
+                        if (infrastructureList[0].NumberOfCells != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].NumberOfCells);
+                        }
+                        if (infrastructureList[0].NumberOfAeratedCells != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].NumberOfAeratedCells);
+                        }
+                        if (infrastructureList[0].AerationType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].AerationType);
+                        }
+                        if (infrastructureList[0].PreliminaryTreatmentType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PreliminaryTreatmentType);
+                        }
+                        if (infrastructureList[0].PrimaryTreatmentType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PrimaryTreatmentType);
+                        }
+                        if (infrastructureList[0].SecondaryTreatmentType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].SecondaryTreatmentType);
+                        }
+                        if (infrastructureList[0].TertiaryTreatmentType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].TertiaryTreatmentType);
+                        }
+                        if (infrastructureList[0].TreatmentType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].TreatmentType);
+                        }
+                        if (infrastructureList[0].DisinfectionType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].DisinfectionType);
+                        }
+                        if (infrastructureList[0].CollectionSystemType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].CollectionSystemType);
+                        }
+                        if (infrastructureList[0].AlarmSystemType != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].AlarmSystemType);
+                        }
+                        if (infrastructureList[0].DesignFlow_m3_day != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].DesignFlow_m3_day);
+                        }
+                        if (infrastructureList[0].AverageFlow_m3_day != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].AverageFlow_m3_day);
+                        }
+                        if (infrastructureList[0].PeakFlow_m3_day != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PeakFlow_m3_day);
+                        }
+                        if (infrastructureList[0].PopServed != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PopServed);
+                        }
+                        if (infrastructureList[0].CanOverflow != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].CanOverflow);
+                        }
+                        if (infrastructureList[0].PercFlowOfTotal != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PercFlowOfTotal);
+                        }
+                        if (infrastructureList[0].TimeOffset_hour != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].TimeOffset_hour);
+                        }
+                        if (infrastructureList[0].TempCatchAllRemoveLater != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].TempCatchAllRemoveLater));
+                        }
+                        if (infrastructureList[0].AverageDepth_m != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].AverageDepth_m);
+                        }
+                        if (infrastructureList[0].NumberOfPorts != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].NumberOfPorts);
+                        }
+                        if (infrastructureList[0].PortDiameter_m != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PortDiameter_m);
+                        }
+                        if (infrastructureList[0].PortSpacing_m != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PortSpacing_m);
+                        }
+                        if (infrastructureList[0].PortElevation_m != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].PortElevation_m);
+                        }
+                        if (infrastructureList[0].VerticalAngle_deg != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].VerticalAngle_deg);
+                        }
+                        if (infrastructureList[0].HorizontalAngle_deg != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].HorizontalAngle_deg);
+                        }
+                        if (infrastructureList[0].DecayRate_per_day != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].DecayRate_per_day);
+                        }
+                        if (infrastructureList[0].NearFieldVelocity_m_s != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].NearFieldVelocity_m_s);
+                        }
+                        if (infrastructureList[0].FarFieldVelocity_m_s != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].FarFieldVelocity_m_s);
+                        }
+                        if (infrastructureList[0].ReceivingWaterSalinity_PSU != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].ReceivingWaterSalinity_PSU);
+                        }
+                        if (infrastructureList[0].ReceivingWaterTemperature_C != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].ReceivingWaterTemperature_C);
+                        }
+                        if (infrastructureList[0].ReceivingWater_MPN_per_100ml != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].ReceivingWater_MPN_per_100ml);
+                        }
+                        if (infrastructureList[0].DistanceFromShore_m != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].DistanceFromShore_m);
+                        }
+                        if (infrastructureList[0].SeeOtherTVItemID != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].SeeOtherTVItemID);
+                        }
+                        if (infrastructureList[0].CivicAddressTVItemID != null)
+                        {
+                            Assert.IsNotNull(infrastructureList[0].CivicAddressTVItemID);
+                        }
+                        Assert.IsNotNull(infrastructureList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(infrastructureList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // InfrastructureWeb and InfrastructureReport fields should be null here
+                            Assert.IsNull(infrastructureList[0].InfrastructureWeb);
+                            Assert.IsNull(infrastructureList[0].InfrastructureReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // InfrastructureWeb fields should not be null and InfrastructureReport fields should be null here
+                            if (infrastructureList[0].InfrastructureWeb.InfrastructureTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.SeeOtherTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SeeOtherTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.CivicAddressTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CivicAddressTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.InfrastructureTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.FacilityTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.FacilityTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.AerationTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AerationTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.TreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.DisinfectionTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.DisinfectionTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText));
+                            }
+                            Assert.IsNull(infrastructureList[0].InfrastructureReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // InfrastructureWeb and InfrastructureReport fields should NOT be null here
+                            if (infrastructureList[0].InfrastructureWeb.InfrastructureTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.SeeOtherTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SeeOtherTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.CivicAddressTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CivicAddressTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.InfrastructureTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.FacilityTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.FacilityTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.AerationTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AerationTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.TreatmentTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TreatmentTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.DisinfectionTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.DisinfectionTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText));
+                            }
+                            if (infrastructureList[0].InfrastructureReport.InfrastructureReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureReport.InfrastructureReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureList()
+
+        #region Tests Generated for GetInfrastructureList() Skip Take
+        [TestMethod]
+        public void GetInfrastructureList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(Infrastructure), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        InfrastructureService infrastructureService = new InfrastructureService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            Assert.AreEqual(0, infrastructureList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, infrastructureList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureList() Skip Take
 
     }
 }

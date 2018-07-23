@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemInfrastructureTVItemID == null)
             {
                 vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioInfrastructureTVItemID, (vpScenario.InfrastructureTVItemID == null ? "" : vpScenario.InfrastructureTVItemID.ToString())), new[] { "InfrastructureTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioInfrastructureTVItemID, vpScenario.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
             }
             else
             {
@@ -240,7 +240,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, (vpScenario.LastUpdateContactTVItemID == null ? "" : vpScenario.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, vpScenario.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -266,60 +266,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID, GetParam getParam)
+        public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID)
         {
-            IQueryable<VPScenario> vpScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<VPScenario> vpScenarioQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPScenarioID == VPScenarioID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpScenarioQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPScenarioWeb(vpScenarioQuery, "").FirstOrDefault();
+                    return FillVPScenarioWeb(vpScenarioQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPScenarioReport(vpScenarioQuery, "").FirstOrDefault();
+                    return FillVPScenarioReport(vpScenarioQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<VPScenario> GetVPScenarioList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<VPScenario> GetVPScenarioList()
         {
-            IQueryable<VPScenario> vpScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<VPScenario> vpScenarioQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            vpScenarioQuery  = vpScenarioQuery.OrderByDescending(c => c.VPScenarioID);
-                        }
-                        vpScenarioQuery = vpScenarioQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        vpScenarioQuery = EnhanceQueryStatements<VPScenario>(vpScenarioQuery) as IQueryable<VPScenario>;
+
                         return vpScenarioQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            vpScenarioQuery = FillVPScenarioWeb(vpScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.VPScenarioID);
-                        }
-                        vpScenarioQuery = FillVPScenarioWeb(vpScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        vpScenarioQuery = FillVPScenarioWeb(vpScenarioQuery);
+
+                        vpScenarioQuery = EnhanceQueryStatements<VPScenario>(vpScenarioQuery) as IQueryable<VPScenario>;
+
                         return vpScenarioQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            vpScenarioQuery = FillVPScenarioReport(vpScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.VPScenarioID);
-                        }
-                        vpScenarioQuery = FillVPScenarioReport(vpScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        vpScenarioQuery = FillVPScenarioReport(vpScenarioQuery);
+
+                        vpScenarioQuery = EnhanceQueryStatements<VPScenario>(vpScenarioQuery) as IQueryable<VPScenario>;
+
                         return vpScenarioQuery;
                     }
                 default:
-                    return null;
+                    {
+                        vpScenarioQuery = vpScenarioQuery.Where(c => c.VPScenarioID == 0);
+
+                        return vpScenarioQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -360,30 +358,20 @@ namespace CSSPServices
         }
         public IQueryable<VPScenario> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.VPScenarios.AsNoTracking();
-            }
-            else
-            {
-                return db.VPScenarios.AsNoTracking().OrderByDescending(c => c.VPScenarioID);
-            }
+            IQueryable<VPScenario> vpScenarioQuery = db.VPScenarios.AsNoTracking();
+
+            return vpScenarioQuery;
         }
         public IQueryable<VPScenario> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.VPScenarios;
-            }
-            else
-            {
-                return db.VPScenarios.OrderByDescending(c => c.VPScenarioID);
-            }
+            IQueryable<VPScenario> vpScenarioQuery = db.VPScenarios;
+
+            return vpScenarioQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPScenarioFillWeb
-        private IQueryable<VPScenario> FillVPScenarioWeb(IQueryable<VPScenario> vpScenarioQuery, string FilterAndOrderText)
+        private IQueryable<VPScenario> FillVPScenarioWeb(IQueryable<VPScenario> vpScenarioQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

@@ -286,9 +286,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID)
         [TestMethod]
-        public void MapInfoPoint_Get_With_Key_Test()
+        public void GetMapInfoPointWithMapInfoPointID__mapInfoPoint_MapInfoPointID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -296,33 +296,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     MapInfoPointService mapInfoPointService = new MapInfoPointService(new GetParam(), dbTestDB, ContactID);
                     MapInfoPoint mapInfoPoint = (from c in mapInfoPointService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfoPoint);
 
                     MapInfoPoint mapInfoPointRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        mapInfoPointService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID, getParam);
+                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
                             Assert.IsNull(mapInfoPointRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID, getParam);
+                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID, getParam);
+                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID, getParam);
+                            mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
                         }
                         else
                         {
@@ -337,13 +336,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mapInfoPointRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mapInfoPointRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // MapInfoPointWeb and MapInfoPointReport fields should be null here
                             Assert.IsNull(mapInfoPointRet.MapInfoPointWeb);
                             Assert.IsNull(mapInfoPointRet.MapInfoPointReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // MapInfoPointWeb fields should not be null and MapInfoPointReport fields should be null here
                             if (mapInfoPointRet.MapInfoPointWeb.LastUpdateContactTVText != null)
@@ -352,7 +351,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(mapInfoPointRet.MapInfoPointReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // MapInfoPointWeb and MapInfoPointReport fields should NOT be null here
                             if (mapInfoPointRet.MapInfoPointWeb.LastUpdateContactTVText != null)
@@ -368,10 +367,138 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID)
 
-        #region Tests Generated Get List of MapInfoPoint
-        #endregion Tests Get List of MapInfoPoint
+        #region Tests Generated for GetMapInfoPointList()
+        [TestMethod]
+        public void GetMapInfoPointList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MapInfoPointService mapInfoPointService = new MapInfoPointService(new GetParam(), dbTestDB, ContactID);
+                    MapInfoPoint mapInfoPoint = (from c in mapInfoPointService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mapInfoPoint);
+
+                    List<MapInfoPoint> mapInfoPointList = new List<MapInfoPoint>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        mapInfoPointService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                            Assert.AreEqual(0, mapInfoPointList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // MapInfoPoint fields
+                        Assert.IsNotNull(mapInfoPointList[0].MapInfoPointID);
+                        Assert.IsNotNull(mapInfoPointList[0].MapInfoID);
+                        Assert.IsNotNull(mapInfoPointList[0].Ordinal);
+                        Assert.IsNotNull(mapInfoPointList[0].Lat);
+                        Assert.IsNotNull(mapInfoPointList[0].Lng);
+                        Assert.IsNotNull(mapInfoPointList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(mapInfoPointList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // MapInfoPointWeb and MapInfoPointReport fields should be null here
+                            Assert.IsNull(mapInfoPointList[0].MapInfoPointWeb);
+                            Assert.IsNull(mapInfoPointList[0].MapInfoPointReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // MapInfoPointWeb fields should not be null and MapInfoPointReport fields should be null here
+                            if (mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(mapInfoPointList[0].MapInfoPointReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MapInfoPointWeb and MapInfoPointReport fields should NOT be null here
+                            if (mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText));
+                            }
+                            if (mapInfoPointList[0].MapInfoPointReport.MapInfoPointReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointList[0].MapInfoPointReport.MapInfoPointReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoPointList()
+
+        #region Tests Generated for GetMapInfoPointList() Skip Take
+        [TestMethod]
+        public void GetMapInfoPointList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MapInfoPoint> mapInfoPointList = new List<MapInfoPoint>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(MapInfoPoint), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        MapInfoPointService mapInfoPointService = new MapInfoPointService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                            Assert.AreEqual(0, mapInfoPointList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mapInfoPointList = mapInfoPointService.GetMapInfoPointList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, mapInfoPointList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoPointList() Skip Take
 
     }
 }

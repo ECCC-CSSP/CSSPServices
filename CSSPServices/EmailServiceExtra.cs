@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<Email> FillEmailReport(IQueryable<Email> emailQuery, string FilterAndOrderText)
+        private IQueryable<Email> FillEmailReport(IQueryable<Email> emailQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

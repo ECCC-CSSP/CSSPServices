@@ -62,7 +62,7 @@ namespace CSSPServices
             if (ReportTypeReportTypeID == null)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.ReportTypeLanguageReportTypeID, (reportTypeLanguage.ReportTypeID == null ? "" : reportTypeLanguage.ReportTypeID.ToString())), new[] { "ReportTypeID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.ReportTypeLanguageReportTypeID, reportTypeLanguage.ReportTypeID.ToString()), new[] { "ReportTypeID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportTypeLanguage.Language);
@@ -148,7 +148,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportTypeLanguageLastUpdateContactTVItemID, (reportTypeLanguage.LastUpdateContactTVItemID == null ? "" : reportTypeLanguage.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportTypeLanguageLastUpdateContactTVItemID, reportTypeLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -174,60 +174,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ReportTypeLanguage GetReportTypeLanguageWithReportTypeLanguageID(int ReportTypeLanguageID, GetParam getParam)
+        public ReportTypeLanguage GetReportTypeLanguageWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ReportTypeLanguageID == ReportTypeLanguageID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return reportTypeLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportTypeLanguageWeb(reportTypeLanguageQuery, "").FirstOrDefault();
+                    return FillReportTypeLanguageWeb(reportTypeLanguageQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportTypeLanguageReport(reportTypeLanguageQuery, "").FirstOrDefault();
+                    return FillReportTypeLanguageReport(reportTypeLanguageQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<ReportTypeLanguage> GetReportTypeLanguageList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<ReportTypeLanguage> GetReportTypeLanguageList()
         {
-            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportTypeLanguageQuery  = reportTypeLanguageQuery.OrderByDescending(c => c.ReportTypeLanguageID);
-                        }
-                        reportTypeLanguageQuery = reportTypeLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        reportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(reportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
+
                         return reportTypeLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportTypeLanguageQuery = FillReportTypeLanguageWeb(reportTypeLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.ReportTypeLanguageID);
-                        }
-                        reportTypeLanguageQuery = FillReportTypeLanguageWeb(reportTypeLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        reportTypeLanguageQuery = FillReportTypeLanguageWeb(reportTypeLanguageQuery);
+
+                        reportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(reportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
+
                         return reportTypeLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportTypeLanguageQuery = FillReportTypeLanguageReport(reportTypeLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.ReportTypeLanguageID);
-                        }
-                        reportTypeLanguageQuery = FillReportTypeLanguageReport(reportTypeLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        reportTypeLanguageQuery = FillReportTypeLanguageReport(reportTypeLanguageQuery);
+
+                        reportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(reportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
+
                         return reportTypeLanguageQuery;
                     }
                 default:
-                    return null;
+                    {
+                        reportTypeLanguageQuery = reportTypeLanguageQuery.Where(c => c.ReportTypeLanguageID == 0);
+
+                        return reportTypeLanguageQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -268,30 +266,20 @@ namespace CSSPServices
         }
         public IQueryable<ReportTypeLanguage> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ReportTypeLanguages.AsNoTracking();
-            }
-            else
-            {
-                return db.ReportTypeLanguages.AsNoTracking().OrderByDescending(c => c.ReportTypeLanguageID);
-            }
+            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = db.ReportTypeLanguages.AsNoTracking();
+
+            return reportTypeLanguageQuery;
         }
         public IQueryable<ReportTypeLanguage> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ReportTypeLanguages;
-            }
-            else
-            {
-                return db.ReportTypeLanguages.OrderByDescending(c => c.ReportTypeLanguageID);
-            }
+            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = db.ReportTypeLanguages;
+
+            return reportTypeLanguageQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportTypeLanguageFillWeb
-        private IQueryable<ReportTypeLanguage> FillReportTypeLanguageWeb(IQueryable<ReportTypeLanguage> reportTypeLanguageQuery, string FilterAndOrderText)
+        private IQueryable<ReportTypeLanguage> FillReportTypeLanguageWeb(IQueryable<ReportTypeLanguage> reportTypeLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

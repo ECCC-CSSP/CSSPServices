@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<ReportSection> FillReportSectionReport(IQueryable<ReportSection> ReportSectionQuery, string FilterAndOrderText)
+        private IQueryable<ReportSection> FillReportSectionReport(IQueryable<ReportSection> ReportSectionQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

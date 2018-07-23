@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<TVItemUserAuthorization> FillTVItemUserAuthorizationReport(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery, string FilterAndOrderText)
+        private IQueryable<TVItemUserAuthorization> FillTVItemUserAuthorizationReport(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

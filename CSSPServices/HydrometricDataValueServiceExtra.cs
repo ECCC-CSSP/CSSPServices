@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<HydrometricDataValue> FillHydrometricDataValueReport(IQueryable<HydrometricDataValue> hydrometricDataValueQuery, string FilterAndOrderText)
+        private IQueryable<HydrometricDataValue> FillHydrometricDataValueReport(IQueryable<HydrometricDataValue> hydrometricDataValueQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

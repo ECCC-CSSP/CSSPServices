@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssueReport(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery, string FilterAndOrderText)
+        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssueReport(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery)
         {
             polSourceObservationIssueQuery = (from c in polSourceObservationIssueQuery
                                               let LastUpdateContactTVText = (from cl in db.TVItemLanguages

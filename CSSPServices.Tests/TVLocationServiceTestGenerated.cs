@@ -89,11 +89,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetTVLocationWithTVLocationID(tvLocation.TVLocationID)
+        #endregion Tests Generated for GetTVLocationWithTVLocationID(tvLocation.TVLocationID)
 
-        #region Tests Generated Get List of TVLocation
-        #endregion Tests Get List of TVLocation
+        #region Tests Generated for GetTVLocationList()
+        #endregion Tests Generated for GetTVLocationList()
+
+        #region Tests Generated for GetTVLocationList() Skip Take
+        #endregion Tests Generated for GetTVLocationList() Skip Take
 
     }
 }

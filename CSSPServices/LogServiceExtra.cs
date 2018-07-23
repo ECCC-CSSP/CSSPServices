@@ -43,7 +43,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<Log> FillLogReport(IQueryable<Log> logQuery, string FilterAndOrderText)
+        private IQueryable<Log> FillLogReport(IQueryable<Log> logQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

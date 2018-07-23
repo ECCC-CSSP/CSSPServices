@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MapInfoPoint> FillMapInfoPointReport(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText)
+        private IQueryable<MapInfoPoint> FillMapInfoPointReport(IQueryable<MapInfoPoint> mapInfoPointQuery)
         {
             mapInfoPointQuery = (from c in mapInfoPointQuery
                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages

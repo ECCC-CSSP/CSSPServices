@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDWithPolSourceInactiveReasonEnumTextAndIDID(polSourceInactiveReasonEnumTextAndID.PolSourceInactiveReasonEnumTextAndIDID)
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDWithPolSourceInactiveReasonEnumTextAndIDID(polSourceInactiveReasonEnumTextAndID.PolSourceInactiveReasonEnumTextAndIDID)
 
-        #region Tests Generated Get List of PolSourceInactiveReasonEnumTextAndID
-        #endregion Tests Get List of PolSourceInactiveReasonEnumTextAndID
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList()
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList()
+
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take
 
     }
 }

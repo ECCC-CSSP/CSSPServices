@@ -89,11 +89,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetTVItemTVAuthWithTVItemTVAuthID(tvItemTVAuth.TVItemTVAuthID)
+        #endregion Tests Generated for GetTVItemTVAuthWithTVItemTVAuthID(tvItemTVAuth.TVItemTVAuthID)
 
-        #region Tests Generated Get List of TVItemTVAuth
-        #endregion Tests Get List of TVItemTVAuth
+        #region Tests Generated for GetTVItemTVAuthList()
+        #endregion Tests Generated for GetTVItemTVAuthList()
+
+        #region Tests Generated for GetTVItemTVAuthList() Skip Take
+        #endregion Tests Generated for GetTVItemTVAuthList() Skip Take
 
     }
 }

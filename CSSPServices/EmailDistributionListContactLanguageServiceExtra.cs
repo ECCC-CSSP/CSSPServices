@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<EmailDistributionListContactLanguage> FillEmailDistributionListContactLanguageReport(IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery, string FilterAndOrderText)
+        private IQueryable<EmailDistributionListContactLanguage> FillEmailDistributionListContactLanguageReport(IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

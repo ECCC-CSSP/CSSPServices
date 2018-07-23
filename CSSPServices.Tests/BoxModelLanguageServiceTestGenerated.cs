@@ -274,9 +274,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID)
         [TestMethod]
-        public void BoxModelLanguage_Get_With_Key_Test()
+        public void GetBoxModelLanguageWithBoxModelLanguageID__boxModelLanguage_BoxModelLanguageID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -284,33 +284,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new GetParam(), dbTestDB, ContactID);
                     BoxModelLanguage boxModelLanguage = (from c in boxModelLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelLanguage);
 
                     BoxModelLanguage boxModelLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        boxModelLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID, getParam);
+                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                             Assert.IsNull(boxModelLanguageRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID, getParam);
+                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID, getParam);
+                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID, getParam);
+                            boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                         }
                         else
                         {
@@ -325,13 +324,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(boxModelLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(boxModelLanguageRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // BoxModelLanguageWeb and BoxModelLanguageReport fields should be null here
                             Assert.IsNull(boxModelLanguageRet.BoxModelLanguageWeb);
                             Assert.IsNull(boxModelLanguageRet.BoxModelLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // BoxModelLanguageWeb fields should not be null and BoxModelLanguageReport fields should be null here
                             if (boxModelLanguageRet.BoxModelLanguageWeb.LastUpdateContactTVText != null)
@@ -348,7 +347,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(boxModelLanguageRet.BoxModelLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // BoxModelLanguageWeb and BoxModelLanguageReport fields should NOT be null here
                             if (boxModelLanguageRet.BoxModelLanguageWeb.LastUpdateContactTVText != null)
@@ -372,10 +371,154 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID)
 
-        #region Tests Generated Get List of BoxModelLanguage
-        #endregion Tests Get List of BoxModelLanguage
+        #region Tests Generated for GetBoxModelLanguageList()
+        [TestMethod]
+        public void GetBoxModelLanguageList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new GetParam(), dbTestDB, ContactID);
+                    BoxModelLanguage boxModelLanguage = (from c in boxModelLanguageService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(boxModelLanguage);
+
+                    List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        boxModelLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                            Assert.AreEqual(0, boxModelLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // BoxModelLanguage fields
+                        Assert.IsNotNull(boxModelLanguageList[0].BoxModelLanguageID);
+                        Assert.IsNotNull(boxModelLanguageList[0].BoxModelID);
+                        Assert.IsNotNull(boxModelLanguageList[0].Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].ScenarioName));
+                        Assert.IsNotNull(boxModelLanguageList[0].TranslationStatus);
+                        Assert.IsNotNull(boxModelLanguageList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(boxModelLanguageList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // BoxModelLanguageWeb and BoxModelLanguageReport fields should be null here
+                            Assert.IsNull(boxModelLanguageList[0].BoxModelLanguageWeb);
+                            Assert.IsNull(boxModelLanguageList[0].BoxModelLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // BoxModelLanguageWeb fields should not be null and BoxModelLanguageReport fields should be null here
+                            if (boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText));
+                            }
+                            if (boxModelLanguageList[0].BoxModelLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(boxModelLanguageList[0].BoxModelLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // BoxModelLanguageWeb and BoxModelLanguageReport fields should NOT be null here
+                            if (boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText));
+                            }
+                            if (boxModelLanguageList[0].BoxModelLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.TranslationStatusText));
+                            }
+                            if (boxModelLanguageList[0].BoxModelLanguageReport.BoxModelLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageReport.BoxModelLanguageReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelLanguageList()
+
+        #region Tests Generated for GetBoxModelLanguageList() Skip Take
+        [TestMethod]
+        public void GetBoxModelLanguageList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(BoxModelLanguage), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                            Assert.AreEqual(0, boxModelLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, boxModelLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelLanguageList() Skip Take
 
     }
 }

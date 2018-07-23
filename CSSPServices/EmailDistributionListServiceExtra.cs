@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<EmailDistributionList> FillEmailDistributionListReport(IQueryable<EmailDistributionList> emailDistributionListQuery, string FilterAndOrderText)
+        private IQueryable<EmailDistributionList> FillEmailDistributionListReport(IQueryable<EmailDistributionList> emailDistributionListQuery)
         {
             emailDistributionListQuery = (from c in emailDistributionListQuery
                                           let CountryTVText = (from cl in db.TVItemLanguages

@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<LabSheetDetail> FillLabSheetDetailReport(IQueryable<LabSheetDetail> labSheetDetailQuery, string FilterAndOrderText)
+        private IQueryable<LabSheetDetail> FillLabSheetDetailReport(IQueryable<LabSheetDetail> labSheetDetailQuery)
         {
             labSheetDetailQuery = (from c in labSheetDetailQuery
                                    let SubsectorTVText = (from cl in db.TVItemLanguages

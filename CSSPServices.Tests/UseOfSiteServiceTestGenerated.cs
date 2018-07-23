@@ -458,9 +458,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID)
         [TestMethod]
-        public void UseOfSite_Get_With_Key_Test()
+        public void GetUseOfSiteWithUseOfSiteID__useOfSite_UseOfSiteID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -468,33 +468,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     UseOfSiteService useOfSiteService = new UseOfSiteService(new GetParam(), dbTestDB, ContactID);
                     UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(useOfSite);
 
                     UseOfSite useOfSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        useOfSiteService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, getParam);
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                             Assert.IsNull(useOfSiteRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, getParam);
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, getParam);
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID, getParam);
+                            useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                         }
                         else
                         {
@@ -542,13 +541,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(useOfSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // UseOfSiteWeb and UseOfSiteReport fields should be null here
                             Assert.IsNull(useOfSiteRet.UseOfSiteWeb);
                             Assert.IsNull(useOfSiteRet.UseOfSiteReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // UseOfSiteWeb fields should not be null and UseOfSiteReport fields should be null here
                             if (useOfSiteRet.UseOfSiteWeb.SiteTVText != null)
@@ -569,7 +568,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(useOfSiteRet.UseOfSiteReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // UseOfSiteWeb and UseOfSiteReport fields should NOT be null here
                             if (useOfSiteRet.UseOfSiteWeb.SiteTVText != null)
@@ -597,10 +596,195 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID)
 
-        #region Tests Generated Get List of UseOfSite
-        #endregion Tests Get List of UseOfSite
+        #region Tests Generated for GetUseOfSiteList()
+        [TestMethod]
+        public void GetUseOfSiteList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    UseOfSiteService useOfSiteService = new UseOfSiteService(new GetParam(), dbTestDB, ContactID);
+                    UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(useOfSite);
+
+                    List<UseOfSite> useOfSiteList = new List<UseOfSite>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        useOfSiteService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                            Assert.AreEqual(0, useOfSiteList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // UseOfSite fields
+                        Assert.IsNotNull(useOfSiteList[0].UseOfSiteID);
+                        Assert.IsNotNull(useOfSiteList[0].SiteTVItemID);
+                        Assert.IsNotNull(useOfSiteList[0].SubsectorTVItemID);
+                        Assert.IsNotNull(useOfSiteList[0].SiteType);
+                        Assert.IsNotNull(useOfSiteList[0].Ordinal);
+                        Assert.IsNotNull(useOfSiteList[0].StartYear);
+                        if (useOfSiteList[0].EndYear != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].EndYear);
+                        }
+                        if (useOfSiteList[0].UseWeight != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].UseWeight);
+                        }
+                        if (useOfSiteList[0].Weight_perc != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].Weight_perc);
+                        }
+                        if (useOfSiteList[0].UseEquation != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].UseEquation);
+                        }
+                        if (useOfSiteList[0].Param1 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].Param1);
+                        }
+                        if (useOfSiteList[0].Param2 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].Param2);
+                        }
+                        if (useOfSiteList[0].Param3 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].Param3);
+                        }
+                        if (useOfSiteList[0].Param4 != null)
+                        {
+                            Assert.IsNotNull(useOfSiteList[0].Param4);
+                        }
+                        Assert.IsNotNull(useOfSiteList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(useOfSiteList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // UseOfSiteWeb and UseOfSiteReport fields should be null here
+                            Assert.IsNull(useOfSiteList[0].UseOfSiteWeb);
+                            Assert.IsNull(useOfSiteList[0].UseOfSiteReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // UseOfSiteWeb fields should not be null and UseOfSiteReport fields should be null here
+                            if (useOfSiteList[0].UseOfSiteWeb.SiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTVText));
+                            }
+                            if (useOfSiteList[0].UseOfSiteWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SubsectorTVText));
+                            }
+                            if (useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (useOfSiteList[0].UseOfSiteWeb.SiteTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTypeText));
+                            }
+                            Assert.IsNull(useOfSiteList[0].UseOfSiteReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // UseOfSiteWeb and UseOfSiteReport fields should NOT be null here
+                            if (useOfSiteList[0].UseOfSiteWeb.SiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTVText));
+                            }
+                            if (useOfSiteList[0].UseOfSiteWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SubsectorTVText));
+                            }
+                            if (useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (useOfSiteList[0].UseOfSiteWeb.SiteTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTypeText));
+                            }
+                            if (useOfSiteList[0].UseOfSiteReport.UseOfSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteReport.UseOfSiteReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetUseOfSiteList()
+
+        #region Tests Generated for GetUseOfSiteList() Skip Take
+        [TestMethod]
+        public void GetUseOfSiteList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<UseOfSite> useOfSiteList = new List<UseOfSite>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(UseOfSite), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        UseOfSiteService useOfSiteService = new UseOfSiteService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                            Assert.AreEqual(0, useOfSiteList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, useOfSiteList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetUseOfSiteList() Skip Take
 
     }
 }

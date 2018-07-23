@@ -310,9 +310,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID)
         [TestMethod]
-        public void ReportSectionLanguage_Get_With_Key_Test()
+        public void GetReportSectionLanguageWithReportSectionLanguageID__reportSectionLanguage_ReportSectionLanguageID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -320,33 +320,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     ReportSectionLanguageService reportSectionLanguageService = new ReportSectionLanguageService(new GetParam(), dbTestDB, ContactID);
                     ReportSectionLanguage reportSectionLanguage = (from c in reportSectionLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(reportSectionLanguage);
 
                     ReportSectionLanguage reportSectionLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        reportSectionLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID, getParam);
+                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID);
                             Assert.IsNull(reportSectionLanguageRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID, getParam);
+                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID, getParam);
+                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID, getParam);
+                            reportSectionLanguageRet = reportSectionLanguageService.GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID);
                         }
                         else
                         {
@@ -363,13 +362,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(reportSectionLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(reportSectionLanguageRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // ReportSectionLanguageWeb and ReportSectionLanguageReport fields should be null here
                             Assert.IsNull(reportSectionLanguageRet.ReportSectionLanguageWeb);
                             Assert.IsNull(reportSectionLanguageRet.ReportSectionLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // ReportSectionLanguageWeb fields should not be null and ReportSectionLanguageReport fields should be null here
                             if (reportSectionLanguageRet.ReportSectionLanguageWeb.LastUpdateContactTVText != null)
@@ -390,7 +389,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(reportSectionLanguageRet.ReportSectionLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // ReportSectionLanguageWeb and ReportSectionLanguageReport fields should NOT be null here
                             if (reportSectionLanguageRet.ReportSectionLanguageWeb.LastUpdateContactTVText != null)
@@ -418,10 +417,164 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetReportSectionLanguageWithReportSectionLanguageID(reportSectionLanguage.ReportSectionLanguageID)
 
-        #region Tests Generated Get List of ReportSectionLanguage
-        #endregion Tests Get List of ReportSectionLanguage
+        #region Tests Generated for GetReportSectionLanguageList()
+        [TestMethod]
+        public void GetReportSectionLanguageList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ReportSectionLanguageService reportSectionLanguageService = new ReportSectionLanguageService(new GetParam(), dbTestDB, ContactID);
+                    ReportSectionLanguage reportSectionLanguage = (from c in reportSectionLanguageService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(reportSectionLanguage);
+
+                    List<ReportSectionLanguage> reportSectionLanguageList = new List<ReportSectionLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        reportSectionLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                            Assert.AreEqual(0, reportSectionLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // ReportSectionLanguage fields
+                        Assert.IsNotNull(reportSectionLanguageList[0].ReportSectionLanguageID);
+                        Assert.IsNotNull(reportSectionLanguageList[0].ReportSectionID);
+                        Assert.IsNotNull(reportSectionLanguageList[0].Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionName));
+                        Assert.IsNotNull(reportSectionLanguageList[0].TranslationStatusReportSectionName);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionText));
+                        Assert.IsNotNull(reportSectionLanguageList[0].TranslationStatusReportSectionText);
+                        Assert.IsNotNull(reportSectionLanguageList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(reportSectionLanguageList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // ReportSectionLanguageWeb and ReportSectionLanguageReport fields should be null here
+                            Assert.IsNull(reportSectionLanguageList[0].ReportSectionLanguageWeb);
+                            Assert.IsNull(reportSectionLanguageList[0].ReportSectionLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // ReportSectionLanguageWeb fields should not be null and ReportSectionLanguageReport fields should be null here
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.LanguageText));
+                            }
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameText));
+                            }
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameTextText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameTextText));
+                            }
+                            Assert.IsNull(reportSectionLanguageList[0].ReportSectionLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ReportSectionLanguageWeb and ReportSectionLanguageReport fields should NOT be null here
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.LanguageText));
+                            }
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameText));
+                            }
+                            if (reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameTextText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageWeb.TranslationStatusReportSectionNameTextText));
+                            }
+                            if (reportSectionLanguageList[0].ReportSectionLanguageReport.ReportSectionLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionLanguageList[0].ReportSectionLanguageReport.ReportSectionLanguageReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionLanguageList()
+
+        #region Tests Generated for GetReportSectionLanguageList() Skip Take
+        [TestMethod]
+        public void GetReportSectionLanguageList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ReportSectionLanguage> reportSectionLanguageList = new List<ReportSectionLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(ReportSectionLanguage), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        ReportSectionLanguageService reportSectionLanguageService = new ReportSectionLanguageService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                            Assert.AreEqual(0, reportSectionLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportSectionLanguageList = reportSectionLanguageService.GetReportSectionLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, reportSectionLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionLanguageList() Skip Take
 
     }
 }

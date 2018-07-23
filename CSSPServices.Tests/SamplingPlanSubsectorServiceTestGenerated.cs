@@ -244,9 +244,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID)
         [TestMethod]
-        public void SamplingPlanSubsector_Get_With_Key_Test()
+        public void GetSamplingPlanSubsectorWithSamplingPlanSubsectorID__samplingPlanSubsector_SamplingPlanSubsectorID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -254,33 +254,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new GetParam(), dbTestDB, ContactID);
                     SamplingPlanSubsector samplingPlanSubsector = (from c in samplingPlanSubsectorService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsector);
 
                     SamplingPlanSubsector samplingPlanSubsectorRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        samplingPlanSubsectorService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, getParam);
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                             Assert.IsNull(samplingPlanSubsectorRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, getParam);
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, getParam);
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID, getParam);
+                            samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                         }
                         else
                         {
@@ -293,13 +292,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // SamplingPlanSubsectorWeb and SamplingPlanSubsectorReport fields should be null here
                             Assert.IsNull(samplingPlanSubsectorRet.SamplingPlanSubsectorWeb);
                             Assert.IsNull(samplingPlanSubsectorRet.SamplingPlanSubsectorReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // SamplingPlanSubsectorWeb fields should not be null and SamplingPlanSubsectorReport fields should be null here
                             if (samplingPlanSubsectorRet.SamplingPlanSubsectorWeb.SubsectorTVText != null)
@@ -312,7 +311,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(samplingPlanSubsectorRet.SamplingPlanSubsectorReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // SamplingPlanSubsectorWeb and SamplingPlanSubsectorReport fields should NOT be null here
                             if (samplingPlanSubsectorRet.SamplingPlanSubsectorWeb.SubsectorTVText != null)
@@ -332,10 +331,144 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID)
 
-        #region Tests Generated Get List of SamplingPlanSubsector
-        #endregion Tests Get List of SamplingPlanSubsector
+        #region Tests Generated for GetSamplingPlanSubsectorList()
+        [TestMethod]
+        public void GetSamplingPlanSubsectorList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new GetParam(), dbTestDB, ContactID);
+                    SamplingPlanSubsector samplingPlanSubsector = (from c in samplingPlanSubsectorService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(samplingPlanSubsector);
+
+                    List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        samplingPlanSubsectorService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                            Assert.AreEqual(0, samplingPlanSubsectorList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // SamplingPlanSubsector fields
+                        Assert.IsNotNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorID);
+                        Assert.IsNotNull(samplingPlanSubsectorList[0].SamplingPlanID);
+                        Assert.IsNotNull(samplingPlanSubsectorList[0].SubsectorTVItemID);
+                        Assert.IsNotNull(samplingPlanSubsectorList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(samplingPlanSubsectorList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // SamplingPlanSubsectorWeb and SamplingPlanSubsectorReport fields should be null here
+                            Assert.IsNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb);
+                            Assert.IsNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // SamplingPlanSubsectorWeb fields should not be null and SamplingPlanSubsectorReport fields should be null here
+                            if (samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText));
+                            }
+                            if (samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // SamplingPlanSubsectorWeb and SamplingPlanSubsectorReport fields should NOT be null here
+                            if (samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText));
+                            }
+                            if (samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText));
+                            }
+                            if (samplingPlanSubsectorList[0].SamplingPlanSubsectorReport.SamplingPlanSubsectorReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorReport.SamplingPlanSubsectorReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSamplingPlanSubsectorList()
+
+        #region Tests Generated for GetSamplingPlanSubsectorList() Skip Take
+        [TestMethod]
+        public void GetSamplingPlanSubsectorList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<SamplingPlanSubsector> samplingPlanSubsectorList = new List<SamplingPlanSubsector>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(SamplingPlanSubsector), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                            Assert.AreEqual(0, samplingPlanSubsectorList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            samplingPlanSubsectorList = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, samplingPlanSubsectorList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSamplingPlanSubsectorList() Skip Take
 
     }
 }

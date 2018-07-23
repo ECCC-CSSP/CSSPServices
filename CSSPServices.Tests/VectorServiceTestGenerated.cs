@@ -82,11 +82,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetVectorWithVectorID(vector.VectorID)
+        #endregion Tests Generated for GetVectorWithVectorID(vector.VectorID)
 
-        #region Tests Generated Get List of Vector
-        #endregion Tests Get List of Vector
+        #region Tests Generated for GetVectorList()
+        #endregion Tests Generated for GetVectorList()
+
+        #region Tests Generated for GetVectorList() Skip Take
+        #endregion Tests Generated for GetVectorList() Skip Take
 
     }
 }

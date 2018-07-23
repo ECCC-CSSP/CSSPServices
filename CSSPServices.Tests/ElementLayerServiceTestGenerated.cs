@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetElementLayerWithElementLayerID(elementLayer.ElementLayerID)
+        #endregion Tests Generated for GetElementLayerWithElementLayerID(elementLayer.ElementLayerID)
 
-        #region Tests Generated Get List of ElementLayer
-        #endregion Tests Get List of ElementLayer
+        #region Tests Generated for GetElementLayerList()
+        #endregion Tests Generated for GetElementLayerList()
+
+        #region Tests Generated for GetElementLayerList() Skip Take
+        #endregion Tests Generated for GetElementLayerList() Skip Take
 
     }
 }

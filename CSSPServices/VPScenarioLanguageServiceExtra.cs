@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<VPScenarioLanguage> FillVPScenarioLanguageReport(IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery, string FilterAndOrderText)
+        private IQueryable<VPScenarioLanguage> FillVPScenarioLanguageReport(IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

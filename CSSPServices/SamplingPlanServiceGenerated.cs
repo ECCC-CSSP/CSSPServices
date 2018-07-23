@@ -107,7 +107,7 @@ namespace CSSPServices
             if (TVItemProvinceTVItemID == null)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanProvinceTVItemID, (samplingPlan.ProvinceTVItemID == null ? "" : samplingPlan.ProvinceTVItemID.ToString())), new[] { "ProvinceTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), new[] { "ProvinceTVItemID" });
             }
             else
             {
@@ -127,7 +127,7 @@ namespace CSSPServices
             if (TVItemCreatorTVItemID == null)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanCreatorTVItemID, (samplingPlan.CreatorTVItemID == null ? "" : samplingPlan.CreatorTVItemID.ToString())), new[] { "CreatorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), new[] { "CreatorTVItemID" });
             }
             else
             {
@@ -268,7 +268,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanLastUpdateContactTVItemID, (samplingPlan.LastUpdateContactTVItemID == null ? "" : samplingPlan.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -294,60 +294,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SamplingPlan GetSamplingPlanWithSamplingPlanID(int SamplingPlanID, GetParam getParam)
+        public SamplingPlan GetSamplingPlanWithSamplingPlanID(int SamplingPlanID)
         {
-            IQueryable<SamplingPlan> samplingPlanQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<SamplingPlan> samplingPlanQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SamplingPlanID == SamplingPlanID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return samplingPlanQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSamplingPlanWeb(samplingPlanQuery, "").FirstOrDefault();
+                    return FillSamplingPlanWeb(samplingPlanQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSamplingPlanReport(samplingPlanQuery, "").FirstOrDefault();
+                    return FillSamplingPlanReport(samplingPlanQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<SamplingPlan> GetSamplingPlanList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<SamplingPlan> GetSamplingPlanList()
         {
-            IQueryable<SamplingPlan> samplingPlanQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<SamplingPlan> samplingPlanQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            samplingPlanQuery  = samplingPlanQuery.OrderByDescending(c => c.SamplingPlanID);
-                        }
-                        samplingPlanQuery = samplingPlanQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        samplingPlanQuery = EnhanceQueryStatements<SamplingPlan>(samplingPlanQuery) as IQueryable<SamplingPlan>;
+
                         return samplingPlanQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            samplingPlanQuery = FillSamplingPlanWeb(samplingPlanQuery, FilterAndOrderText).OrderByDescending(c => c.SamplingPlanID);
-                        }
-                        samplingPlanQuery = FillSamplingPlanWeb(samplingPlanQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        samplingPlanQuery = FillSamplingPlanWeb(samplingPlanQuery);
+
+                        samplingPlanQuery = EnhanceQueryStatements<SamplingPlan>(samplingPlanQuery) as IQueryable<SamplingPlan>;
+
                         return samplingPlanQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            samplingPlanQuery = FillSamplingPlanReport(samplingPlanQuery, FilterAndOrderText).OrderByDescending(c => c.SamplingPlanID);
-                        }
-                        samplingPlanQuery = FillSamplingPlanReport(samplingPlanQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        samplingPlanQuery = FillSamplingPlanReport(samplingPlanQuery);
+
+                        samplingPlanQuery = EnhanceQueryStatements<SamplingPlan>(samplingPlanQuery) as IQueryable<SamplingPlan>;
+
                         return samplingPlanQuery;
                     }
                 default:
-                    return null;
+                    {
+                        samplingPlanQuery = samplingPlanQuery.Where(c => c.SamplingPlanID == 0);
+
+                        return samplingPlanQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -388,30 +386,20 @@ namespace CSSPServices
         }
         public IQueryable<SamplingPlan> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.SamplingPlans.AsNoTracking();
-            }
-            else
-            {
-                return db.SamplingPlans.AsNoTracking().OrderByDescending(c => c.SamplingPlanID);
-            }
+            IQueryable<SamplingPlan> samplingPlanQuery = db.SamplingPlans.AsNoTracking();
+
+            return samplingPlanQuery;
         }
         public IQueryable<SamplingPlan> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.SamplingPlans;
-            }
-            else
-            {
-                return db.SamplingPlans.OrderByDescending(c => c.SamplingPlanID);
-            }
+            IQueryable<SamplingPlan> samplingPlanQuery = db.SamplingPlans;
+
+            return samplingPlanQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SamplingPlanFillWeb
-        private IQueryable<SamplingPlan> FillSamplingPlanWeb(IQueryable<SamplingPlan> samplingPlanQuery, string FilterAndOrderText)
+        private IQueryable<SamplingPlan> FillSamplingPlanWeb(IQueryable<SamplingPlan> samplingPlanQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

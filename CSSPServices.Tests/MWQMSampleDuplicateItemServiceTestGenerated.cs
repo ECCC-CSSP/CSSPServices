@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetMWQMSampleDuplicateItemWithMWQMSampleDuplicateItemID(mwqmSampleDuplicateItem.MWQMSampleDuplicateItemID)
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemWithMWQMSampleDuplicateItemID(mwqmSampleDuplicateItem.MWQMSampleDuplicateItemID)
 
-        #region Tests Generated Get List of MWQMSampleDuplicateItem
-        #endregion Tests Get List of MWQMSampleDuplicateItem
+        #region Tests Generated for GetMWQMSampleDuplicateItemList()
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemList()
+
+        #region Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take
 
     }
 }

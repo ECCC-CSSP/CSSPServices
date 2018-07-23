@@ -275,9 +275,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetLogWithLogID(log.LogID)
         [TestMethod]
-        public void Log_Get_With_Key_Test()
+        public void GetLogWithLogID__log_LogID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -285,33 +285,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     LogService logService = new LogService(new GetParam(), dbTestDB, ContactID);
                     Log log = (from c in logService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
                     Log logRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        logService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
+                            logRet = logService.GetLogWithLogID(log.LogID);
                             Assert.IsNull(logRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
+                            logRet = logService.GetLogWithLogID(log.LogID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
+                            logRet = logService.GetLogWithLogID(log.LogID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            logRet = logService.GetLogWithLogID(log.LogID, getParam);
+                            logRet = logService.GetLogWithLogID(log.LogID);
                         }
                         else
                         {
@@ -326,13 +325,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(logRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(logRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // LogWeb and LogReport fields should be null here
                             Assert.IsNull(logRet.LogWeb);
                             Assert.IsNull(logRet.LogReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // LogWeb fields should not be null and LogReport fields should be null here
                             if (logRet.LogWeb.LastUpdateContactTVText != null)
@@ -345,7 +344,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(logRet.LogReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // LogWeb and LogReport fields should NOT be null here
                             if (logRet.LogWeb.LastUpdateContactTVText != null)
@@ -365,10 +364,146 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetLogWithLogID(log.LogID)
 
-        #region Tests Generated Get List of Log
-        #endregion Tests Get List of Log
+        #region Tests Generated for GetLogList()
+        [TestMethod]
+        public void GetLogList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    LogService logService = new LogService(new GetParam(), dbTestDB, ContactID);
+                    Log log = (from c in logService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(log);
+
+                    List<Log> logList = new List<Log>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        logService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            logList = logService.GetLogList().ToList();
+                            Assert.AreEqual(0, logList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            logList = logService.GetLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            logList = logService.GetLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            logList = logService.GetLogList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Log fields
+                        Assert.IsNotNull(logList[0].LogID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].TableName));
+                        Assert.IsNotNull(logList[0].ID);
+                        Assert.IsNotNull(logList[0].LogCommand);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].Information));
+                        Assert.IsNotNull(logList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(logList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // LogWeb and LogReport fields should be null here
+                            Assert.IsNull(logList[0].LogWeb);
+                            Assert.IsNull(logList[0].LogReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // LogWeb fields should not be null and LogReport fields should be null here
+                            if (logList[0].LogWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LastUpdateContactTVText));
+                            }
+                            if (logList[0].LogWeb.LogCommandText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LogCommandText));
+                            }
+                            Assert.IsNull(logList[0].LogReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // LogWeb and LogReport fields should NOT be null here
+                            if (logList[0].LogWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LastUpdateContactTVText));
+                            }
+                            if (logList[0].LogWeb.LogCommandText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LogCommandText));
+                            }
+                            if (logList[0].LogReport.LogReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogReport.LogReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLogList()
+
+        #region Tests Generated for GetLogList() Skip Take
+        [TestMethod]
+        public void GetLogList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Log> logList = new List<Log>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(Log), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        LogService logService = new LogService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            logList = logService.GetLogList().ToList();
+                            Assert.AreEqual(0, logList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            logList = logService.GetLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            logList = logService.GetLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            logList = logService.GetLogList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, logList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLogList() Skip Take
 
     }
 }

@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetDBTableWithDBTableID(dBTable.DBTableID)
+        #endregion Tests Generated for GetDBTableWithDBTableID(dBTable.DBTableID)
 
-        #region Tests Generated Get List of DBTable
-        #endregion Tests Get List of DBTable
+        #region Tests Generated for GetDBTableList()
+        #endregion Tests Generated for GetDBTableList()
+
+        #region Tests Generated for GetDBTableList() Skip Take
+        #endregion Tests Generated for GetDBTableList() Skip Take
 
     }
 }

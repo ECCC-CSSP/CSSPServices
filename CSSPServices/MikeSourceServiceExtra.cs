@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MikeSource> FillMikeSourceReport(IQueryable<MikeSource> mikeSourceQuery, string FilterAndOrderText)
+        private IQueryable<MikeSource> FillMikeSourceReport(IQueryable<MikeSource> mikeSourceQuery)
         {
             mikeSourceQuery = (from c in mikeSourceQuery
                                let MikeSourceTVText = (from cl in db.TVItemLanguages

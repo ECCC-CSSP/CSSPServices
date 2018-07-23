@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMunicipalityTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillMunicipalityTVItemID, (spill.MunicipalityTVItemID == null ? "" : spill.MunicipalityTVItemID.ToString())), new[] { "MunicipalityTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
             }
             else
             {
@@ -151,7 +151,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLastUpdateContactTVItemID, (spill.LastUpdateContactTVItemID == null ? "" : spill.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -177,60 +177,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Spill GetSpillWithSpillID(int SpillID, GetParam getParam)
+        public Spill GetSpillWithSpillID(int SpillID)
         {
-            IQueryable<Spill> spillQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Spill> spillQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SpillID == SpillID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSpillWeb(spillQuery, "").FirstOrDefault();
+                    return FillSpillWeb(spillQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSpillReport(spillQuery, "").FirstOrDefault();
+                    return FillSpillReport(spillQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Spill> GetSpillList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Spill> GetSpillList()
         {
-            IQueryable<Spill> spillQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Spill> spillQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            spillQuery  = spillQuery.OrderByDescending(c => c.SpillID);
-                        }
-                        spillQuery = spillQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        spillQuery = EnhanceQueryStatements<Spill>(spillQuery) as IQueryable<Spill>;
+
                         return spillQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            spillQuery = FillSpillWeb(spillQuery, FilterAndOrderText).OrderByDescending(c => c.SpillID);
-                        }
-                        spillQuery = FillSpillWeb(spillQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        spillQuery = FillSpillWeb(spillQuery);
+
+                        spillQuery = EnhanceQueryStatements<Spill>(spillQuery) as IQueryable<Spill>;
+
                         return spillQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            spillQuery = FillSpillReport(spillQuery, FilterAndOrderText).OrderByDescending(c => c.SpillID);
-                        }
-                        spillQuery = FillSpillReport(spillQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        spillQuery = FillSpillReport(spillQuery);
+
+                        spillQuery = EnhanceQueryStatements<Spill>(spillQuery) as IQueryable<Spill>;
+
                         return spillQuery;
                     }
                 default:
-                    return null;
+                    {
+                        spillQuery = spillQuery.Where(c => c.SpillID == 0);
+
+                        return spillQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -271,30 +269,20 @@ namespace CSSPServices
         }
         public IQueryable<Spill> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Spills.AsNoTracking();
-            }
-            else
-            {
-                return db.Spills.AsNoTracking().OrderByDescending(c => c.SpillID);
-            }
+            IQueryable<Spill> spillQuery = db.Spills.AsNoTracking();
+
+            return spillQuery;
         }
         public IQueryable<Spill> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Spills;
-            }
-            else
-            {
-                return db.Spills.OrderByDescending(c => c.SpillID);
-            }
+            IQueryable<Spill> spillQuery = db.Spills;
+
+            return spillQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SpillFillWeb
-        private IQueryable<Spill> FillSpillWeb(IQueryable<Spill> spillQuery, string FilterAndOrderText)
+        private IQueryable<Spill> FillSpillWeb(IQueryable<Spill> spillQuery)
         {
             spillQuery = (from c in spillQuery
                 let MunicipalityTVText = (from cl in db.TVItemLanguages

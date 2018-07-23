@@ -102,7 +102,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportTypeLastUpdateContactTVItemID, (reportType.LastUpdateContactTVItemID == null ? "" : reportType.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportTypeLastUpdateContactTVItemID, reportType.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -128,60 +128,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ReportType GetReportTypeWithReportTypeID(int ReportTypeID, GetParam getParam)
+        public ReportType GetReportTypeWithReportTypeID(int ReportTypeID)
         {
-            IQueryable<ReportType> reportTypeQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ReportType> reportTypeQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ReportTypeID == ReportTypeID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return reportTypeQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportTypeWeb(reportTypeQuery, "").FirstOrDefault();
+                    return FillReportTypeWeb(reportTypeQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportTypeReport(reportTypeQuery, "").FirstOrDefault();
+                    return FillReportTypeReport(reportTypeQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<ReportType> GetReportTypeList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<ReportType> GetReportTypeList()
         {
-            IQueryable<ReportType> reportTypeQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<ReportType> reportTypeQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportTypeQuery  = reportTypeQuery.OrderByDescending(c => c.ReportTypeID);
-                        }
-                        reportTypeQuery = reportTypeQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        reportTypeQuery = EnhanceQueryStatements<ReportType>(reportTypeQuery) as IQueryable<ReportType>;
+
                         return reportTypeQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportTypeQuery = FillReportTypeWeb(reportTypeQuery, FilterAndOrderText).OrderByDescending(c => c.ReportTypeID);
-                        }
-                        reportTypeQuery = FillReportTypeWeb(reportTypeQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        reportTypeQuery = FillReportTypeWeb(reportTypeQuery);
+
+                        reportTypeQuery = EnhanceQueryStatements<ReportType>(reportTypeQuery) as IQueryable<ReportType>;
+
                         return reportTypeQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportTypeQuery = FillReportTypeReport(reportTypeQuery, FilterAndOrderText).OrderByDescending(c => c.ReportTypeID);
-                        }
-                        reportTypeQuery = FillReportTypeReport(reportTypeQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        reportTypeQuery = FillReportTypeReport(reportTypeQuery);
+
+                        reportTypeQuery = EnhanceQueryStatements<ReportType>(reportTypeQuery) as IQueryable<ReportType>;
+
                         return reportTypeQuery;
                     }
                 default:
-                    return null;
+                    {
+                        reportTypeQuery = reportTypeQuery.Where(c => c.ReportTypeID == 0);
+
+                        return reportTypeQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -222,30 +220,20 @@ namespace CSSPServices
         }
         public IQueryable<ReportType> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ReportTypes.AsNoTracking();
-            }
-            else
-            {
-                return db.ReportTypes.AsNoTracking().OrderByDescending(c => c.ReportTypeID);
-            }
+            IQueryable<ReportType> reportTypeQuery = db.ReportTypes.AsNoTracking();
+
+            return reportTypeQuery;
         }
         public IQueryable<ReportType> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ReportTypes;
-            }
-            else
-            {
-                return db.ReportTypes.OrderByDescending(c => c.ReportTypeID);
-            }
+            IQueryable<ReportType> reportTypeQuery = db.ReportTypes;
+
+            return reportTypeQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportTypeFillWeb
-        private IQueryable<ReportType> FillReportTypeWeb(IQueryable<ReportType> reportTypeQuery, string FilterAndOrderText)
+        private IQueryable<ReportType> FillReportTypeWeb(IQueryable<ReportType> reportTypeQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

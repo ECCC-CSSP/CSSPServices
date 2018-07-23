@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetFilePurposeAndTextWithFilePurposeAndTextID(filePurposeAndText.FilePurposeAndTextID)
+        #endregion Tests Generated for GetFilePurposeAndTextWithFilePurposeAndTextID(filePurposeAndText.FilePurposeAndTextID)
 
-        #region Tests Generated Get List of FilePurposeAndText
-        #endregion Tests Get List of FilePurposeAndText
+        #region Tests Generated for GetFilePurposeAndTextList()
+        #endregion Tests Generated for GetFilePurposeAndTextList()
+
+        #region Tests Generated for GetFilePurposeAndTextList() Skip Take
+        #endregion Tests Generated for GetFilePurposeAndTextList() Skip Take
 
     }
 }

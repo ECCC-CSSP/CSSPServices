@@ -280,9 +280,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID)
         [TestMethod]
-        public void DocTemplate_Get_With_Key_Test()
+        public void GetDocTemplateWithDocTemplateID__docTemplate_DocTemplateID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -290,33 +290,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     DocTemplateService docTemplateService = new DocTemplateService(new GetParam(), dbTestDB, ContactID);
                     DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(docTemplate);
 
                     DocTemplate docTemplateRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        docTemplateService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, getParam);
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
                             Assert.IsNull(docTemplateRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, getParam);
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, getParam);
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID, getParam);
+                            docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
                         }
                         else
                         {
@@ -331,13 +330,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(docTemplateRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(docTemplateRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // DocTemplateWeb and DocTemplateReport fields should be null here
                             Assert.IsNull(docTemplateRet.DocTemplateWeb);
                             Assert.IsNull(docTemplateRet.DocTemplateReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // DocTemplateWeb fields should not be null and DocTemplateReport fields should be null here
                             if (docTemplateRet.DocTemplateWeb.LastUpdateContactTVText != null)
@@ -354,7 +353,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(docTemplateRet.DocTemplateReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // DocTemplateWeb and DocTemplateReport fields should NOT be null here
                             if (docTemplateRet.DocTemplateWeb.LastUpdateContactTVText != null)
@@ -378,10 +377,154 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID)
 
-        #region Tests Generated Get List of DocTemplate
-        #endregion Tests Get List of DocTemplate
+        #region Tests Generated for GetDocTemplateList()
+        [TestMethod]
+        public void GetDocTemplateList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    DocTemplateService docTemplateService = new DocTemplateService(new GetParam(), dbTestDB, ContactID);
+                    DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(docTemplate);
+
+                    List<DocTemplate> docTemplateList = new List<DocTemplate>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        docTemplateService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                            Assert.AreEqual(0, docTemplateList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // DocTemplate fields
+                        Assert.IsNotNull(docTemplateList[0].DocTemplateID);
+                        Assert.IsNotNull(docTemplateList[0].Language);
+                        Assert.IsNotNull(docTemplateList[0].TVType);
+                        Assert.IsNotNull(docTemplateList[0].TVFileTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].FileName));
+                        Assert.IsNotNull(docTemplateList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(docTemplateList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // DocTemplateWeb and DocTemplateReport fields should be null here
+                            Assert.IsNull(docTemplateList[0].DocTemplateWeb);
+                            Assert.IsNull(docTemplateList[0].DocTemplateReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // DocTemplateWeb fields should not be null and DocTemplateReport fields should be null here
+                            if (docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText));
+                            }
+                            if (docTemplateList[0].DocTemplateWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LanguageText));
+                            }
+                            if (docTemplateList[0].DocTemplateWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.TVTypeText));
+                            }
+                            Assert.IsNull(docTemplateList[0].DocTemplateReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // DocTemplateWeb and DocTemplateReport fields should NOT be null here
+                            if (docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText));
+                            }
+                            if (docTemplateList[0].DocTemplateWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LanguageText));
+                            }
+                            if (docTemplateList[0].DocTemplateWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.TVTypeText));
+                            }
+                            if (docTemplateList[0].DocTemplateReport.DocTemplateReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateReport.DocTemplateReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetDocTemplateList()
+
+        #region Tests Generated for GetDocTemplateList() Skip Take
+        [TestMethod]
+        public void GetDocTemplateList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<DocTemplate> docTemplateList = new List<DocTemplate>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(DocTemplate), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        DocTemplateService docTemplateService = new DocTemplateService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                            Assert.AreEqual(0, docTemplateList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            docTemplateList = docTemplateService.GetDocTemplateList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, docTemplateList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetDocTemplateList() Skip Take
 
     }
 }

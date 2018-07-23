@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Function public
 
         #region Function private
-        private IQueryable<MWQMRun> FillMWQMRunReport(IQueryable<MWQMRun> mwqmRunQuery, string FilterAndOrderText)
+        private IQueryable<MWQMRun> FillMWQMRunReport(IQueryable<MWQMRun> mwqmRunQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

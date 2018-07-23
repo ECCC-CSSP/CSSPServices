@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<PolSourceSite> FillPolSourceSiteReport(IQueryable<PolSourceSite> polSourceSiteQuery, string FilterAndOrderText)
+        private IQueryable<PolSourceSite> FillPolSourceSiteReport(IQueryable<PolSourceSite> polSourceSiteQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

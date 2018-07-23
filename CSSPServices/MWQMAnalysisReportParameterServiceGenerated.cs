@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, (mwqmAnalysisReportParameter.SubsectorTVItemID == null ? "" : mwqmAnalysisReportParameter.SubsectorTVItemID.ToString())), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, mwqmAnalysisReportParameter.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -278,7 +278,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, (mwqmAnalysisReportParameter.LastUpdateContactTVItemID == null ? "" : mwqmAnalysisReportParameter.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, mwqmAnalysisReportParameter.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -304,60 +304,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMAnalysisReportParameter GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID, GetParam getParam)
+        public MWQMAnalysisReportParameter GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmAnalysisReportParameterQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, "").FirstOrDefault();
+                    return FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, "").FirstOrDefault();
+                    return FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MWQMAnalysisReportParameter> GetMWQMAnalysisReportParameterList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MWQMAnalysisReportParameter> GetMWQMAnalysisReportParameterList()
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmAnalysisReportParameterQuery  = mwqmAnalysisReportParameterQuery.OrderByDescending(c => c.MWQMAnalysisReportParameterID);
-                        }
-                        mwqmAnalysisReportParameterQuery = mwqmAnalysisReportParameterQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(mwqmAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
+
                         return mwqmAnalysisReportParameterQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMAnalysisReportParameterID);
-                        }
-                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery);
+
+                        mwqmAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(mwqmAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
+
                         return mwqmAnalysisReportParameterQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMAnalysisReportParameterID);
-                        }
-                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery);
+
+                        mwqmAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(mwqmAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
+
                         return mwqmAnalysisReportParameterQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mwqmAnalysisReportParameterQuery = mwqmAnalysisReportParameterQuery.Where(c => c.MWQMAnalysisReportParameterID == 0);
+
+                        return mwqmAnalysisReportParameterQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -398,30 +396,20 @@ namespace CSSPServices
         }
         public IQueryable<MWQMAnalysisReportParameter> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMAnalysisReportParameters.AsNoTracking();
-            }
-            else
-            {
-                return db.MWQMAnalysisReportParameters.AsNoTracking().OrderByDescending(c => c.MWQMAnalysisReportParameterID);
-            }
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = db.MWQMAnalysisReportParameters.AsNoTracking();
+
+            return mwqmAnalysisReportParameterQuery;
         }
         public IQueryable<MWQMAnalysisReportParameter> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMAnalysisReportParameters;
-            }
-            else
-            {
-                return db.MWQMAnalysisReportParameters.OrderByDescending(c => c.MWQMAnalysisReportParameterID);
-            }
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = db.MWQMAnalysisReportParameters;
+
+            return mwqmAnalysisReportParameterQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMAnalysisReportParameterFillWeb
-        private IQueryable<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameterWeb(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery, string FilterAndOrderText)
+        private IQueryable<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameterWeb(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

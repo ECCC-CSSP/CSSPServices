@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<VPAmbient> FillVPAmbientReport(IQueryable<VPAmbient> vpAmbientQuery, string FilterAndOrderText)
+        private IQueryable<VPAmbient> FillVPAmbientReport(IQueryable<VPAmbient> vpAmbientQuery)
         {
             vpAmbientQuery = (from c in vpAmbientQuery
                               let LastUpdateContactTVText = (from cl in db.TVItemLanguages

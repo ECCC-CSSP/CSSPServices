@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleMWQMSiteTVItemID, (mwqmSample.MWQMSiteTVItemID == null ? "" : mwqmSample.MWQMSiteTVItemID.ToString())), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleMWQMSiteTVItemID, mwqmSample.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -82,7 +82,7 @@ namespace CSSPServices
             if (TVItemMWQMRunTVItemID == null)
             {
                 mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleMWQMRunTVItemID, (mwqmSample.MWQMRunTVItemID == null ? "" : mwqmSample.MWQMRunTVItemID.ToString())), new[] { "MWQMRunTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleMWQMRunTVItemID, mwqmSample.MWQMRunTVItemID.ToString()), new[] { "MWQMRunTVItemID" });
             }
             else
             {
@@ -227,7 +227,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSample.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleLastUpdateContactTVItemID, (mwqmSample.LastUpdateContactTVItemID == null ? "" : mwqmSample.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleLastUpdateContactTVItemID, mwqmSample.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -253,60 +253,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID, GetParam getParam)
+        public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID)
         {
-            IQueryable<MWQMSample> mwqmSampleQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSample> mwqmSampleQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSampleID == MWQMSampleID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSampleQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSampleWeb(mwqmSampleQuery, "").FirstOrDefault();
+                    return FillMWQMSampleWeb(mwqmSampleQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSampleReport(mwqmSampleQuery, "").FirstOrDefault();
+                    return FillMWQMSampleReport(mwqmSampleQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MWQMSample> GetMWQMSampleList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MWQMSample> GetMWQMSampleList()
         {
-            IQueryable<MWQMSample> mwqmSampleQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MWQMSample> mwqmSampleQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSampleQuery  = mwqmSampleQuery.OrderByDescending(c => c.MWQMSampleID);
-                        }
-                        mwqmSampleQuery = mwqmSampleQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSampleQuery = EnhanceQueryStatements<MWQMSample>(mwqmSampleQuery) as IQueryable<MWQMSample>;
+
                         return mwqmSampleQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSampleQuery = FillMWQMSampleWeb(mwqmSampleQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSampleID);
-                        }
-                        mwqmSampleQuery = FillMWQMSampleWeb(mwqmSampleQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSampleQuery = FillMWQMSampleWeb(mwqmSampleQuery);
+
+                        mwqmSampleQuery = EnhanceQueryStatements<MWQMSample>(mwqmSampleQuery) as IQueryable<MWQMSample>;
+
                         return mwqmSampleQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSampleQuery = FillMWQMSampleReport(mwqmSampleQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSampleID);
-                        }
-                        mwqmSampleQuery = FillMWQMSampleReport(mwqmSampleQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSampleQuery = FillMWQMSampleReport(mwqmSampleQuery);
+
+                        mwqmSampleQuery = EnhanceQueryStatements<MWQMSample>(mwqmSampleQuery) as IQueryable<MWQMSample>;
+
                         return mwqmSampleQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mwqmSampleQuery = mwqmSampleQuery.Where(c => c.MWQMSampleID == 0);
+
+                        return mwqmSampleQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -347,30 +345,20 @@ namespace CSSPServices
         }
         public IQueryable<MWQMSample> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMSamples.AsNoTracking();
-            }
-            else
-            {
-                return db.MWQMSamples.AsNoTracking().OrderByDescending(c => c.MWQMSampleID);
-            }
+            IQueryable<MWQMSample> mwqmSampleQuery = db.MWQMSamples.AsNoTracking();
+
+            return mwqmSampleQuery;
         }
         public IQueryable<MWQMSample> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMSamples;
-            }
-            else
-            {
-                return db.MWQMSamples.OrderByDescending(c => c.MWQMSampleID);
-            }
+            IQueryable<MWQMSample> mwqmSampleQuery = db.MWQMSamples;
+
+            return mwqmSampleQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSampleFillWeb
-        private IQueryable<MWQMSample> FillMWQMSampleWeb(IQueryable<MWQMSample> mwqmSampleQuery, string FilterAndOrderText)
+        private IQueryable<MWQMSample> FillMWQMSampleWeb(IQueryable<MWQMSample> mwqmSampleQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountWithSamplingPlanAndFilesLabSheetCountID(samplingPlanAndFilesLabSheetCount.SamplingPlanAndFilesLabSheetCountID)
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountWithSamplingPlanAndFilesLabSheetCountID(samplingPlanAndFilesLabSheetCount.SamplingPlanAndFilesLabSheetCountID)
 
-        #region Tests Generated Get List of SamplingPlanAndFilesLabSheetCount
-        #endregion Tests Get List of SamplingPlanAndFilesLabSheetCount
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList()
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList()
+
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take
 
     }
 }

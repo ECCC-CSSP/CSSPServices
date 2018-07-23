@@ -74,7 +74,7 @@ namespace CSSPServices
             if (AspNetUserId == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AspNetUser, CSSPModelsRes.ContactId, (contact.Id == null ? "" : contact.Id.ToString())), new[] { "Id" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AspNetUser, CSSPModelsRes.ContactId, contact.Id.ToString()), new[] { "Id" });
             }
 
             TVItem TVItemContactTVItemID = (from c in db.TVItems where c.TVItemID == contact.ContactTVItemID select c).FirstOrDefault();
@@ -82,7 +82,7 @@ namespace CSSPServices
             if (TVItemContactTVItemID == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactContactTVItemID, (contact.ContactTVItemID == null ? "" : contact.ContactTVItemID.ToString())), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
             }
             else
             {
@@ -196,7 +196,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactLastUpdateContactTVItemID, (contact.LastUpdateContactTVItemID == null ? "" : contact.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactLastUpdateContactTVItemID, contact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -222,60 +222,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Contact GetContactWithContactID(int ContactID, GetParam getParam)
+        public Contact GetContactWithContactID(int ContactID)
         {
-            IQueryable<Contact> contactQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Contact> contactQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactID == ContactID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactWeb(contactQuery, "").FirstOrDefault();
+                    return FillContactWeb(contactQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactReport(contactQuery, "").FirstOrDefault();
+                    return FillContactReport(contactQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Contact> GetContactList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Contact> GetContactList()
         {
-            IQueryable<Contact> contactQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Contact> contactQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            contactQuery  = contactQuery.OrderByDescending(c => c.ContactID);
-                        }
-                        contactQuery = contactQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        contactQuery = EnhanceQueryStatements<Contact>(contactQuery) as IQueryable<Contact>;
+
                         return contactQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            contactQuery = FillContactWeb(contactQuery, FilterAndOrderText).OrderByDescending(c => c.ContactID);
-                        }
-                        contactQuery = FillContactWeb(contactQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        contactQuery = FillContactWeb(contactQuery);
+
+                        contactQuery = EnhanceQueryStatements<Contact>(contactQuery) as IQueryable<Contact>;
+
                         return contactQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            contactQuery = FillContactReport(contactQuery, FilterAndOrderText).OrderByDescending(c => c.ContactID);
-                        }
-                        contactQuery = FillContactReport(contactQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        contactQuery = FillContactReport(contactQuery);
+
+                        contactQuery = EnhanceQueryStatements<Contact>(contactQuery) as IQueryable<Contact>;
+
                         return contactQuery;
                     }
                 default:
-                    return null;
+                    {
+                        contactQuery = contactQuery.Where(c => c.ContactID == 0);
+
+                        return contactQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -316,30 +314,20 @@ namespace CSSPServices
         }
         public IQueryable<Contact> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Contacts.AsNoTracking();
-            }
-            else
-            {
-                return db.Contacts.AsNoTracking().OrderByDescending(c => c.ContactID);
-            }
+            IQueryable<Contact> contactQuery = db.Contacts.AsNoTracking();
+
+            return contactQuery;
         }
         public IQueryable<Contact> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Contacts;
-            }
-            else
-            {
-                return db.Contacts.OrderByDescending(c => c.ContactID);
-            }
+            IQueryable<Contact> contactQuery = db.Contacts;
+
+            return contactQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ContactFillWeb
-        private IQueryable<Contact> FillContactWeb(IQueryable<Contact> contactQuery, string FilterAndOrderText)
+        private IQueryable<Contact> FillContactWeb(IQueryable<Contact> contactQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

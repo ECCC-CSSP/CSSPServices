@@ -62,7 +62,7 @@ namespace CSSPServices
             if (ContactContactID == null)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactShortcutContactID, (contactShortcut.ContactID == null ? "" : contactShortcut.ContactID.ToString())), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactShortcutContactID, contactShortcut.ContactID.ToString()), new[] { "ContactID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutText))
@@ -108,7 +108,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactShortcutLastUpdateContactTVItemID, (contactShortcut.LastUpdateContactTVItemID == null ? "" : contactShortcut.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactShortcutLastUpdateContactTVItemID, contactShortcut.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -134,60 +134,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID, GetParam getParam)
+        public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID)
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactShortcutID == ContactShortcutID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactShortcutQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactShortcutWeb(contactShortcutQuery, "").FirstOrDefault();
+                    return FillContactShortcutWeb(contactShortcutQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactShortcutReport(contactShortcutQuery, "").FirstOrDefault();
+                    return FillContactShortcutReport(contactShortcutQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<ContactShortcut> GetContactShortcutList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<ContactShortcut> GetContactShortcutList()
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<ContactShortcut> contactShortcutQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            contactShortcutQuery  = contactShortcutQuery.OrderByDescending(c => c.ContactShortcutID);
-                        }
-                        contactShortcutQuery = contactShortcutQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        contactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(contactShortcutQuery) as IQueryable<ContactShortcut>;
+
                         return contactShortcutQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            contactShortcutQuery = FillContactShortcutWeb(contactShortcutQuery, FilterAndOrderText).OrderByDescending(c => c.ContactShortcutID);
-                        }
-                        contactShortcutQuery = FillContactShortcutWeb(contactShortcutQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        contactShortcutQuery = FillContactShortcutWeb(contactShortcutQuery);
+
+                        contactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(contactShortcutQuery) as IQueryable<ContactShortcut>;
+
                         return contactShortcutQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            contactShortcutQuery = FillContactShortcutReport(contactShortcutQuery, FilterAndOrderText).OrderByDescending(c => c.ContactShortcutID);
-                        }
-                        contactShortcutQuery = FillContactShortcutReport(contactShortcutQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        contactShortcutQuery = FillContactShortcutReport(contactShortcutQuery);
+
+                        contactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(contactShortcutQuery) as IQueryable<ContactShortcut>;
+
                         return contactShortcutQuery;
                     }
                 default:
-                    return null;
+                    {
+                        contactShortcutQuery = contactShortcutQuery.Where(c => c.ContactShortcutID == 0);
+
+                        return contactShortcutQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -228,30 +226,20 @@ namespace CSSPServices
         }
         public IQueryable<ContactShortcut> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ContactShortcuts.AsNoTracking();
-            }
-            else
-            {
-                return db.ContactShortcuts.AsNoTracking().OrderByDescending(c => c.ContactShortcutID);
-            }
+            IQueryable<ContactShortcut> contactShortcutQuery = db.ContactShortcuts.AsNoTracking();
+
+            return contactShortcutQuery;
         }
         public IQueryable<ContactShortcut> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ContactShortcuts;
-            }
-            else
-            {
-                return db.ContactShortcuts.OrderByDescending(c => c.ContactShortcutID);
-            }
+            IQueryable<ContactShortcut> contactShortcutQuery = db.ContactShortcuts;
+
+            return contactShortcutQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ContactShortcutFillWeb
-        private IQueryable<ContactShortcut> FillContactShortcutWeb(IQueryable<ContactShortcut> contactShortcutQuery, string FilterAndOrderText)
+        private IQueryable<ContactShortcut> FillContactShortcutWeb(IQueryable<ContactShortcut> contactShortcutQuery)
         {
             contactShortcutQuery = (from c in contactShortcutQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

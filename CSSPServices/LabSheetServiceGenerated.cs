@@ -68,7 +68,7 @@ namespace CSSPServices
             if (SamplingPlanSamplingPlanID == null)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.LabSheetSamplingPlanID, (labSheet.SamplingPlanID == null ? "" : labSheet.SamplingPlanID.ToString())), new[] { "SamplingPlanID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.LabSheetSamplingPlanID, labSheet.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
             }
 
             if (string.IsNullOrWhiteSpace(labSheet.SamplingPlanName))
@@ -112,7 +112,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetSubsectorTVItemID, (labSheet.SubsectorTVItemID == null ? "" : labSheet.SubsectorTVItemID.ToString())), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetSubsectorTVItemID, labSheet.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -266,7 +266,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetLastUpdateContactTVItemID, (labSheet.LastUpdateContactTVItemID == null ? "" : labSheet.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetLastUpdateContactTVItemID, labSheet.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -292,60 +292,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public LabSheet GetLabSheetWithLabSheetID(int LabSheetID, GetParam getParam)
+        public LabSheet GetLabSheetWithLabSheetID(int LabSheetID)
         {
-            IQueryable<LabSheet> labSheetQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<LabSheet> labSheetQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LabSheetID == LabSheetID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLabSheetWeb(labSheetQuery, "").FirstOrDefault();
+                    return FillLabSheetWeb(labSheetQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheetReport(labSheetQuery, "").FirstOrDefault();
+                    return FillLabSheetReport(labSheetQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<LabSheet> GetLabSheetList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<LabSheet> GetLabSheetList()
         {
-            IQueryable<LabSheet> labSheetQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<LabSheet> labSheetQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            labSheetQuery  = labSheetQuery.OrderByDescending(c => c.LabSheetID);
-                        }
-                        labSheetQuery = labSheetQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        labSheetQuery = EnhanceQueryStatements<LabSheet>(labSheetQuery) as IQueryable<LabSheet>;
+
                         return labSheetQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            labSheetQuery = FillLabSheetWeb(labSheetQuery, FilterAndOrderText).OrderByDescending(c => c.LabSheetID);
-                        }
-                        labSheetQuery = FillLabSheetWeb(labSheetQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        labSheetQuery = FillLabSheetWeb(labSheetQuery);
+
+                        labSheetQuery = EnhanceQueryStatements<LabSheet>(labSheetQuery) as IQueryable<LabSheet>;
+
                         return labSheetQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            labSheetQuery = FillLabSheetReport(labSheetQuery, FilterAndOrderText).OrderByDescending(c => c.LabSheetID);
-                        }
-                        labSheetQuery = FillLabSheetReport(labSheetQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        labSheetQuery = FillLabSheetReport(labSheetQuery);
+
+                        labSheetQuery = EnhanceQueryStatements<LabSheet>(labSheetQuery) as IQueryable<LabSheet>;
+
                         return labSheetQuery;
                     }
                 default:
-                    return null;
+                    {
+                        labSheetQuery = labSheetQuery.Where(c => c.LabSheetID == 0);
+
+                        return labSheetQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -386,30 +384,20 @@ namespace CSSPServices
         }
         public IQueryable<LabSheet> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.LabSheets.AsNoTracking();
-            }
-            else
-            {
-                return db.LabSheets.AsNoTracking().OrderByDescending(c => c.LabSheetID);
-            }
+            IQueryable<LabSheet> labSheetQuery = db.LabSheets.AsNoTracking();
+
+            return labSheetQuery;
         }
         public IQueryable<LabSheet> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.LabSheets;
-            }
-            else
-            {
-                return db.LabSheets.OrderByDescending(c => c.LabSheetID);
-            }
+            IQueryable<LabSheet> labSheetQuery = db.LabSheets;
+
+            return labSheetQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LabSheetFillWeb
-        private IQueryable<LabSheet> FillLabSheetWeb(IQueryable<LabSheet> labSheetQuery, string FilterAndOrderText)
+        private IQueryable<LabSheet> FillLabSheetWeb(IQueryable<LabSheet> labSheetQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

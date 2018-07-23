@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetDataPathOfTideWithDataPathOfTideID(dataPathOfTide.DataPathOfTideID)
+        #endregion Tests Generated for GetDataPathOfTideWithDataPathOfTideID(dataPathOfTide.DataPathOfTideID)
 
-        #region Tests Generated Get List of DataPathOfTide
-        #endregion Tests Get List of DataPathOfTide
+        #region Tests Generated for GetDataPathOfTideList()
+        #endregion Tests Generated for GetDataPathOfTideList()
+
+        #region Tests Generated for GetDataPathOfTideList() Skip Take
+        #endregion Tests Generated for GetDataPathOfTideList() Skip Take
 
     }
 }

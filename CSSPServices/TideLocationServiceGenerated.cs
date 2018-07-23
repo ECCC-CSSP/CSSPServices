@@ -124,7 +124,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, (tideLocation.LastUpdateContactTVItemID == null ? "" : tideLocation.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, tideLocation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -150,60 +150,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideLocation GetTideLocationWithTideLocationID(int TideLocationID, GetParam getParam)
+        public TideLocation GetTideLocationWithTideLocationID(int TideLocationID)
         {
-            IQueryable<TideLocation> tideLocationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TideLocation> tideLocationQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideLocationID == TideLocationID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideLocationQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideLocationWeb(tideLocationQuery, "").FirstOrDefault();
+                    return FillTideLocationWeb(tideLocationQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideLocationReport(tideLocationQuery, "").FirstOrDefault();
+                    return FillTideLocationReport(tideLocationQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<TideLocation> GetTideLocationList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<TideLocation> GetTideLocationList()
         {
-            IQueryable<TideLocation> tideLocationQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<TideLocation> tideLocationQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideLocationQuery  = tideLocationQuery.OrderByDescending(c => c.TideLocationID);
-                        }
-                        tideLocationQuery = tideLocationQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        tideLocationQuery = EnhanceQueryStatements<TideLocation>(tideLocationQuery) as IQueryable<TideLocation>;
+
                         return tideLocationQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideLocationQuery = FillTideLocationWeb(tideLocationQuery, FilterAndOrderText).OrderByDescending(c => c.TideLocationID);
-                        }
-                        tideLocationQuery = FillTideLocationWeb(tideLocationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tideLocationQuery = FillTideLocationWeb(tideLocationQuery);
+
+                        tideLocationQuery = EnhanceQueryStatements<TideLocation>(tideLocationQuery) as IQueryable<TideLocation>;
+
                         return tideLocationQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideLocationQuery = FillTideLocationReport(tideLocationQuery, FilterAndOrderText).OrderByDescending(c => c.TideLocationID);
-                        }
-                        tideLocationQuery = FillTideLocationReport(tideLocationQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tideLocationQuery = FillTideLocationReport(tideLocationQuery);
+
+                        tideLocationQuery = EnhanceQueryStatements<TideLocation>(tideLocationQuery) as IQueryable<TideLocation>;
+
                         return tideLocationQuery;
                     }
                 default:
-                    return null;
+                    {
+                        tideLocationQuery = tideLocationQuery.Where(c => c.TideLocationID == 0);
+
+                        return tideLocationQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -244,30 +242,20 @@ namespace CSSPServices
         }
         public IQueryable<TideLocation> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TideLocations.AsNoTracking();
-            }
-            else
-            {
-                return db.TideLocations.AsNoTracking().OrderByDescending(c => c.TideLocationID);
-            }
+            IQueryable<TideLocation> tideLocationQuery = db.TideLocations.AsNoTracking();
+
+            return tideLocationQuery;
         }
         public IQueryable<TideLocation> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TideLocations;
-            }
-            else
-            {
-                return db.TideLocations.OrderByDescending(c => c.TideLocationID);
-            }
+            IQueryable<TideLocation> tideLocationQuery = db.TideLocations;
+
+            return tideLocationQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TideLocationFillWeb
-        private IQueryable<TideLocation> FillTideLocationWeb(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText)
+        private IQueryable<TideLocation> FillTideLocationWeb(IQueryable<TideLocation> tideLocationQuery)
         {
             tideLocationQuery = (from c in tideLocationQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

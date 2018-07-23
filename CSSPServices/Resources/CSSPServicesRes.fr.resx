@@ -258,4 +258,46 @@
   <data name="Password" xml:space="preserve">
     <value>Password (fr)</value>
   </data>
+  <data name="AllowableLanguagesAreFRAndEN" xml:space="preserve">
+    <value>Langues disponible sont [fr et en]</value>
+  </data>
+  <data name="CouldNotFindFile_" xml:space="preserve">
+    <value>Dans l'impossibilité de trouver la filière [{0}]</value>
+  </data>
+  <data name="WhereOperator_NotImplementedYet" xml:space="preserve">
+    <value>Opérateur (where) {0} pas encore implanté</value>
+  </data>
+  <data name="_DoesNotExistForModelType_" xml:space="preserve">
+    <value>{0} n'existe pas pour ModelType = {1}</value>
+  </data>
+  <data name="_NeedsToBeADateFor_OfModel_" xml:space="preserve">
+    <value>[{0}] devrait être une date pour {1} pour model {2}</value>
+  </data>
+  <data name="_NeedsToBeANumberFor_OfModel_" xml:space="preserve">
+    <value>[{0}] devrait être un chiffre pour {1} pour model {2}</value>
+  </data>
+  <data name="_NeedsToBeAValidEnumNumberFor_OfModel_" xml:space="preserve">
+    <value>[{0}] devrait être un chiffre d'énumération valid pour {1} pour model {2}</value>
+  </data>
+  <data name="_NeedsToBeAValidEnumTextFor_OfModel_" xml:space="preserve">
+    <value>[{0}] devrait être un texte d'énumération valid pour {1} pour model {2}</value>
+  </data>
+  <data name="_NeedsToBeTrueOrFalseFor_OfModel_" xml:space="preserve">
+    <value>[{0}] devrait être soit true ou false pour {1} pour model {2}</value>
+  </data>
+  <data name="_NeedToHaveValidStringFormatEx_" xml:space="preserve">
+    <value>{0} (string) a besoin d'être dans un format valid - Ex: {1}</value>
+  </data>
+  <data name="_NotImplementedYet" xml:space="preserve">
+    <value>{0} pas encore implanté</value>
+  </data>
+  <data name="_ShouldBeAbove_" xml:space="preserve">
+    <value>{0} devrait être au dessus {1}</value>
+  </data>
+  <data name="_ShouldBeBelow_" xml:space="preserve">
+    <value>{0} devrait être en dessous {1}</value>
+  </data>
+  <data name="_ShouldNotBeNullOrEmpty" xml:space="preserve">
+    <value>{0} ne devrait pas être null ou vide</value>
+  </data>
 </root>

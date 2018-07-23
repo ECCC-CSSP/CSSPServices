@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<AppTaskLanguage> FillAppTaskLanguageReport(IQueryable<AppTaskLanguage> appTaskLanguageQuery, string FilterAndOrderText)
+        private IQueryable<AppTaskLanguage> FillAppTaskLanguageReport(IQueryable<AppTaskLanguage> appTaskLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

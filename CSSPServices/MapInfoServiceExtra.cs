@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MapInfo> FillMapInfoReport(IQueryable<MapInfo> mapInfoQuery, string FilterAndOrderText)
+        private IQueryable<MapInfo> FillMapInfoReport(IQueryable<MapInfo> mapInfoQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

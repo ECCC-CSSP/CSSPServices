@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTVItemID == null)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID, (appTask.TVItemID == null ? "" : appTask.TVItemID.ToString())), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), new[] { "TVItemID" });
             }
             else
             {
@@ -105,7 +105,7 @@ namespace CSSPServices
             if (TVItemTVItemID2 == null)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID2, (appTask.TVItemID2 == null ? "" : appTask.TVItemID2.ToString())), new[] { "TVItemID2" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), new[] { "TVItemID2" });
             }
             else
             {
@@ -241,7 +241,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 appTask.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, (appTask.LastUpdateContactTVItemID == null ? "" : appTask.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -267,60 +267,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AppTask GetAppTaskWithAppTaskID(int AppTaskID, GetParam getParam)
+        public AppTask GetAppTaskWithAppTaskID(int AppTaskID)
         {
-            IQueryable<AppTask> appTaskQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<AppTask> appTaskQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AppTaskID == AppTaskID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appTaskQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAppTaskWeb(appTaskQuery, "").FirstOrDefault();
+                    return FillAppTaskWeb(appTaskQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppTaskReport(appTaskQuery, "").FirstOrDefault();
+                    return FillAppTaskReport(appTaskQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<AppTask> GetAppTaskList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<AppTask> GetAppTaskList()
         {
-            IQueryable<AppTask> appTaskQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<AppTask> appTaskQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appTaskQuery  = appTaskQuery.OrderByDescending(c => c.AppTaskID);
-                        }
-                        appTaskQuery = appTaskQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        appTaskQuery = EnhanceQueryStatements<AppTask>(appTaskQuery) as IQueryable<AppTask>;
+
                         return appTaskQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appTaskQuery = FillAppTaskWeb(appTaskQuery, FilterAndOrderText).OrderByDescending(c => c.AppTaskID);
-                        }
-                        appTaskQuery = FillAppTaskWeb(appTaskQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        appTaskQuery = FillAppTaskWeb(appTaskQuery);
+
+                        appTaskQuery = EnhanceQueryStatements<AppTask>(appTaskQuery) as IQueryable<AppTask>;
+
                         return appTaskQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appTaskQuery = FillAppTaskReport(appTaskQuery, FilterAndOrderText).OrderByDescending(c => c.AppTaskID);
-                        }
-                        appTaskQuery = FillAppTaskReport(appTaskQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        appTaskQuery = FillAppTaskReport(appTaskQuery);
+
+                        appTaskQuery = EnhanceQueryStatements<AppTask>(appTaskQuery) as IQueryable<AppTask>;
+
                         return appTaskQuery;
                     }
                 default:
-                    return null;
+                    {
+                        appTaskQuery = appTaskQuery.Where(c => c.AppTaskID == 0);
+
+                        return appTaskQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -361,30 +359,20 @@ namespace CSSPServices
         }
         public IQueryable<AppTask> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.AppTasks.AsNoTracking();
-            }
-            else
-            {
-                return db.AppTasks.AsNoTracking().OrderByDescending(c => c.AppTaskID);
-            }
+            IQueryable<AppTask> appTaskQuery = db.AppTasks.AsNoTracking();
+
+            return appTaskQuery;
         }
         public IQueryable<AppTask> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.AppTasks;
-            }
-            else
-            {
-                return db.AppTasks.OrderByDescending(c => c.AppTaskID);
-            }
+            IQueryable<AppTask> appTaskQuery = db.AppTasks;
+
+            return appTaskQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AppTaskFillWeb
-        private IQueryable<AppTask> FillAppTaskWeb(IQueryable<AppTask> appTaskQuery, string FilterAndOrderText)
+        private IQueryable<AppTask> FillAppTaskWeb(IQueryable<AppTask> appTaskQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

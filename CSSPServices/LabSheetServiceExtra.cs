@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<LabSheet> FillLabSheetReport(IQueryable<LabSheet> labSheetQuery, string FilterAndOrderText)
+        private IQueryable<LabSheet> FillLabSheetReport(IQueryable<LabSheet> labSheetQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

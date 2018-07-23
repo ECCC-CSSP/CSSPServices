@@ -273,9 +273,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID)
         [TestMethod]
-        public void MikeSource_Get_With_Key_Test()
+        public void GetMikeSourceWithMikeSourceID__mikeSource_MikeSourceID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -283,33 +283,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     MikeSourceService mikeSourceService = new MikeSourceService(new GetParam(), dbTestDB, ContactID);
                     MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSource);
 
                     MikeSource mikeSourceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        mikeSourceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, getParam);
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                             Assert.IsNull(mikeSourceRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, getParam);
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, getParam);
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID, getParam);
+                            mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                         }
                         else
                         {
@@ -325,13 +324,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // MikeSourceWeb and MikeSourceReport fields should be null here
                             Assert.IsNull(mikeSourceRet.MikeSourceWeb);
                             Assert.IsNull(mikeSourceRet.MikeSourceReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // MikeSourceWeb fields should not be null and MikeSourceReport fields should be null here
                             if (mikeSourceRet.MikeSourceWeb.MikeSourceTVText != null)
@@ -344,7 +343,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(mikeSourceRet.MikeSourceReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // MikeSourceWeb and MikeSourceReport fields should NOT be null here
                             if (mikeSourceRet.MikeSourceWeb.MikeSourceTVText != null)
@@ -364,10 +363,147 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID)
 
-        #region Tests Generated Get List of MikeSource
-        #endregion Tests Get List of MikeSource
+        #region Tests Generated for GetMikeSourceList()
+        [TestMethod]
+        public void GetMikeSourceList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MikeSourceService mikeSourceService = new MikeSourceService(new GetParam(), dbTestDB, ContactID);
+                    MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mikeSource);
+
+                    List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        mikeSourceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                            Assert.AreEqual(0, mikeSourceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // MikeSource fields
+                        Assert.IsNotNull(mikeSourceList[0].MikeSourceID);
+                        Assert.IsNotNull(mikeSourceList[0].MikeSourceTVItemID);
+                        Assert.IsNotNull(mikeSourceList[0].IsContinuous);
+                        Assert.IsNotNull(mikeSourceList[0].Include);
+                        Assert.IsNotNull(mikeSourceList[0].IsRiver);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].SourceNumberString));
+                        Assert.IsNotNull(mikeSourceList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(mikeSourceList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // MikeSourceWeb and MikeSourceReport fields should be null here
+                            Assert.IsNull(mikeSourceList[0].MikeSourceWeb);
+                            Assert.IsNull(mikeSourceList[0].MikeSourceReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // MikeSourceWeb fields should not be null and MikeSourceReport fields should be null here
+                            if (mikeSourceList[0].MikeSourceWeb.MikeSourceTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
+                            }
+                            if (mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(mikeSourceList[0].MikeSourceReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MikeSourceWeb and MikeSourceReport fields should NOT be null here
+                            if (mikeSourceList[0].MikeSourceWeb.MikeSourceTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
+                            }
+                            if (mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
+                            }
+                            if (mikeSourceList[0].MikeSourceReport.MikeSourceReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceReport.MikeSourceReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceList()
+
+        #region Tests Generated for GetMikeSourceList() Skip Take
+        [TestMethod]
+        public void GetMikeSourceList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(MikeSource), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        MikeSourceService mikeSourceService = new MikeSourceService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                            Assert.AreEqual(0, mikeSourceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, mikeSourceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceList() Skip Take
 
     }
 }

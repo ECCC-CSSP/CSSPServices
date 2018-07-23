@@ -931,9 +931,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID)
         [TestMethod]
-        public void MWQMRun_Get_With_Key_Test()
+        public void GetMWQMRunWithMWQMRunID__mwqmRun_MWQMRunID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -941,33 +941,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     MWQMRunService mwqmRunService = new MWQMRunService(new GetParam(), dbTestDB, ContactID);
                     MWQMRun mwqmRun = (from c in mwqmRunService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmRun);
 
                     MWQMRun mwqmRunRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        mwqmRunService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, getParam);
+                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID);
                             Assert.IsNull(mwqmRunRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, getParam);
+                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, getParam);
+                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID, getParam);
+                            mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID);
                         }
                         else
                         {
@@ -1119,13 +1118,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmRunRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmRunRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // MWQMRunWeb and MWQMRunReport fields should be null here
                             Assert.IsNull(mwqmRunRet.MWQMRunWeb);
                             Assert.IsNull(mwqmRunRet.MWQMRunReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // MWQMRunWeb fields should not be null and MWQMRunReport fields should be null here
                             if (mwqmRunRet.MWQMRunWeb.SubsectorTVText != null)
@@ -1182,7 +1181,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(mwqmRunRet.MWQMRunReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // MWQMRunWeb and MWQMRunReport fields should NOT be null here
                             if (mwqmRunRet.MWQMRunWeb.SubsectorTVText != null)
@@ -1246,10 +1245,371 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID)
 
-        #region Tests Generated Get List of MWQMRun
-        #endregion Tests Get List of MWQMRun
+        #region Tests Generated for GetMWQMRunList()
+        [TestMethod]
+        public void GetMWQMRunList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MWQMRunService mwqmRunService = new MWQMRunService(new GetParam(), dbTestDB, ContactID);
+                    MWQMRun mwqmRun = (from c in mwqmRunService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mwqmRun);
+
+                    List<MWQMRun> mwqmRunList = new List<MWQMRun>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        mwqmRunService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                            Assert.AreEqual(0, mwqmRunList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // MWQMRun fields
+                        Assert.IsNotNull(mwqmRunList[0].MWQMRunID);
+                        Assert.IsNotNull(mwqmRunList[0].SubsectorTVItemID);
+                        Assert.IsNotNull(mwqmRunList[0].MWQMRunTVItemID);
+                        Assert.IsNotNull(mwqmRunList[0].RunSampleType);
+                        Assert.IsNotNull(mwqmRunList[0].DateTime_Local);
+                        Assert.IsNotNull(mwqmRunList[0].RunNumber);
+                        if (mwqmRunList[0].StartDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].StartDateTime_Local);
+                        }
+                        if (mwqmRunList[0].EndDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].EndDateTime_Local);
+                        }
+                        if (mwqmRunList[0].LabReceivedDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].LabReceivedDateTime_Local);
+                        }
+                        if (mwqmRunList[0].TemperatureControl1_C != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].TemperatureControl1_C);
+                        }
+                        if (mwqmRunList[0].TemperatureControl2_C != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].TemperatureControl2_C);
+                        }
+                        if (mwqmRunList[0].SeaStateAtStart_BeaufortScale != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].SeaStateAtStart_BeaufortScale);
+                        }
+                        if (mwqmRunList[0].SeaStateAtEnd_BeaufortScale != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].SeaStateAtEnd_BeaufortScale);
+                        }
+                        if (mwqmRunList[0].WaterLevelAtBrook_m != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].WaterLevelAtBrook_m);
+                        }
+                        if (mwqmRunList[0].WaveHightAtStart_m != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].WaveHightAtStart_m);
+                        }
+                        if (mwqmRunList[0].WaveHightAtEnd_m != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].WaveHightAtEnd_m);
+                        }
+                        if (mwqmRunList[0].SampleCrewInitials != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].SampleCrewInitials));
+                        }
+                        if (mwqmRunList[0].AnalyzeMethod != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].AnalyzeMethod);
+                        }
+                        if (mwqmRunList[0].SampleMatrix != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].SampleMatrix);
+                        }
+                        if (mwqmRunList[0].Laboratory != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].Laboratory);
+                        }
+                        if (mwqmRunList[0].SampleStatus != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].SampleStatus);
+                        }
+                        if (mwqmRunList[0].LabSampleApprovalContactTVItemID != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].LabSampleApprovalContactTVItemID);
+                        }
+                        if (mwqmRunList[0].LabAnalyzeBath1IncubationStartDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].LabAnalyzeBath1IncubationStartDateTime_Local);
+                        }
+                        if (mwqmRunList[0].LabAnalyzeBath2IncubationStartDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].LabAnalyzeBath2IncubationStartDateTime_Local);
+                        }
+                        if (mwqmRunList[0].LabAnalyzeBath3IncubationStartDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].LabAnalyzeBath3IncubationStartDateTime_Local);
+                        }
+                        if (mwqmRunList[0].LabRunSampleApprovalDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].LabRunSampleApprovalDateTime_Local);
+                        }
+                        if (mwqmRunList[0].Tide_Start != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].Tide_Start);
+                        }
+                        if (mwqmRunList[0].Tide_End != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].Tide_End);
+                        }
+                        if (mwqmRunList[0].RainDay0_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay0_mm);
+                        }
+                        if (mwqmRunList[0].RainDay1_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay1_mm);
+                        }
+                        if (mwqmRunList[0].RainDay2_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay2_mm);
+                        }
+                        if (mwqmRunList[0].RainDay3_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay3_mm);
+                        }
+                        if (mwqmRunList[0].RainDay4_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay4_mm);
+                        }
+                        if (mwqmRunList[0].RainDay5_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay5_mm);
+                        }
+                        if (mwqmRunList[0].RainDay6_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay6_mm);
+                        }
+                        if (mwqmRunList[0].RainDay7_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay7_mm);
+                        }
+                        if (mwqmRunList[0].RainDay8_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay8_mm);
+                        }
+                        if (mwqmRunList[0].RainDay9_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay9_mm);
+                        }
+                        if (mwqmRunList[0].RainDay10_mm != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RainDay10_mm);
+                        }
+                        if (mwqmRunList[0].RemoveFromStat != null)
+                        {
+                            Assert.IsNotNull(mwqmRunList[0].RemoveFromStat);
+                        }
+                        Assert.IsNotNull(mwqmRunList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(mwqmRunList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // MWQMRunWeb and MWQMRunReport fields should be null here
+                            Assert.IsNull(mwqmRunList[0].MWQMRunWeb);
+                            Assert.IsNull(mwqmRunList[0].MWQMRunReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // MWQMRunWeb fields should not be null and MWQMRunReport fields should be null here
+                            if (mwqmRunList[0].MWQMRunWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SubsectorTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.MWQMRunTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.MWQMRunTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.LabSampleApprovalContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.LabSampleApprovalContactTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.RunSampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.RunSampleTypeText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SeaStateAtStart_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SeaStateAtStart_BeaufortScaleText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.AnalyzeMethodText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.AnalyzeMethodText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SampleMatrixText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SampleMatrixText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.LaboratoryText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.LaboratoryText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SampleStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SampleStatusText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.Tide_StartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.Tide_StartText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.Tide_EndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.Tide_EndText));
+                            }
+                            Assert.IsNull(mwqmRunList[0].MWQMRunReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MWQMRunWeb and MWQMRunReport fields should NOT be null here
+                            if (mwqmRunList[0].MWQMRunWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SubsectorTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.MWQMRunTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.MWQMRunTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.LabSampleApprovalContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.LabSampleApprovalContactTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.RunSampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.RunSampleTypeText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SeaStateAtStart_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SeaStateAtStart_BeaufortScaleText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SeaStateAtEnd_BeaufortScaleText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.AnalyzeMethodText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.AnalyzeMethodText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SampleMatrixText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SampleMatrixText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.LaboratoryText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.LaboratoryText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.SampleStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.SampleStatusText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.Tide_StartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.Tide_StartText));
+                            }
+                            if (mwqmRunList[0].MWQMRunWeb.Tide_EndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunWeb.Tide_EndText));
+                            }
+                            if (mwqmRunList[0].MWQMRunReport.MWQMRunReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunList[0].MWQMRunReport.MWQMRunReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMRunList()
+
+        #region Tests Generated for GetMWQMRunList() Skip Take
+        [TestMethod]
+        public void GetMWQMRunList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMRun> mwqmRunList = new List<MWQMRun>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(MWQMRun), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        MWQMRunService mwqmRunService = new MWQMRunService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                            Assert.AreEqual(0, mwqmRunList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmRunList = mwqmRunService.GetMWQMRunList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, mwqmRunList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMRunList() Skip Take
 
     }
 }

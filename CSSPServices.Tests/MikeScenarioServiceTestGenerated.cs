@@ -699,9 +699,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID)
         [TestMethod]
-        public void MikeScenario_Get_With_Key_Test()
+        public void GetMikeScenarioWithMikeScenarioID__mikeScenario_MikeScenarioID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -709,33 +709,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     MikeScenarioService mikeScenarioService = new MikeScenarioService(new GetParam(), dbTestDB, ContactID);
                     MikeScenario mikeScenario = (from c in mikeScenarioService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeScenario);
 
                     MikeScenario mikeScenarioRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        mikeScenarioService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, getParam);
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
                             Assert.IsNull(mikeScenarioRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, getParam);
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, getParam);
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID, getParam);
+                            mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
                         }
                         else
                         {
@@ -807,13 +806,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mikeScenarioRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mikeScenarioRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // MikeScenarioWeb and MikeScenarioReport fields should be null here
                             Assert.IsNull(mikeScenarioRet.MikeScenarioWeb);
                             Assert.IsNull(mikeScenarioRet.MikeScenarioReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // MikeScenarioWeb fields should not be null and MikeScenarioReport fields should be null here
                             if (mikeScenarioRet.MikeScenarioWeb.MikeScenarioTVText != null)
@@ -830,7 +829,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(mikeScenarioRet.MikeScenarioReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // MikeScenarioWeb and MikeScenarioReport fields should NOT be null here
                             if (mikeScenarioRet.MikeScenarioWeb.MikeScenarioTVText != null)
@@ -854,10 +853,211 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID)
 
-        #region Tests Generated Get List of MikeScenario
-        #endregion Tests Get List of MikeScenario
+        #region Tests Generated for GetMikeScenarioList()
+        [TestMethod]
+        public void GetMikeScenarioList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MikeScenarioService mikeScenarioService = new MikeScenarioService(new GetParam(), dbTestDB, ContactID);
+                    MikeScenario mikeScenario = (from c in mikeScenarioService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mikeScenario);
+
+                    List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        mikeScenarioService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                            Assert.AreEqual(0, mikeScenarioList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // MikeScenario fields
+                        Assert.IsNotNull(mikeScenarioList[0].MikeScenarioID);
+                        Assert.IsNotNull(mikeScenarioList[0].MikeScenarioTVItemID);
+                        if (mikeScenarioList[0].ParentMikeScenarioID != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].ParentMikeScenarioID);
+                        }
+                        Assert.IsNotNull(mikeScenarioList[0].ScenarioStatus);
+                        if (mikeScenarioList[0].ErrorInfo != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].ErrorInfo));
+                        }
+                        Assert.IsNotNull(mikeScenarioList[0].MikeScenarioStartDateTime_Local);
+                        Assert.IsNotNull(mikeScenarioList[0].MikeScenarioEndDateTime_Local);
+                        if (mikeScenarioList[0].MikeScenarioStartExecutionDateTime_Local != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].MikeScenarioStartExecutionDateTime_Local);
+                        }
+                        if (mikeScenarioList[0].MikeScenarioExecutionTime_min != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].MikeScenarioExecutionTime_min);
+                        }
+                        Assert.IsNotNull(mikeScenarioList[0].WindSpeed_km_h);
+                        Assert.IsNotNull(mikeScenarioList[0].WindDirection_deg);
+                        Assert.IsNotNull(mikeScenarioList[0].DecayFactor_per_day);
+                        Assert.IsNotNull(mikeScenarioList[0].DecayIsConstant);
+                        Assert.IsNotNull(mikeScenarioList[0].DecayFactorAmplitude);
+                        Assert.IsNotNull(mikeScenarioList[0].ResultFrequency_min);
+                        Assert.IsNotNull(mikeScenarioList[0].AmbientTemperature_C);
+                        Assert.IsNotNull(mikeScenarioList[0].AmbientSalinity_PSU);
+                        Assert.IsNotNull(mikeScenarioList[0].ManningNumber);
+                        if (mikeScenarioList[0].NumberOfElements != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].NumberOfElements);
+                        }
+                        if (mikeScenarioList[0].NumberOfTimeSteps != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].NumberOfTimeSteps);
+                        }
+                        if (mikeScenarioList[0].NumberOfSigmaLayers != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].NumberOfSigmaLayers);
+                        }
+                        if (mikeScenarioList[0].NumberOfZLayers != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].NumberOfZLayers);
+                        }
+                        if (mikeScenarioList[0].NumberOfHydroOutputParameters != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].NumberOfHydroOutputParameters);
+                        }
+                        if (mikeScenarioList[0].NumberOfTransOutputParameters != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].NumberOfTransOutputParameters);
+                        }
+                        if (mikeScenarioList[0].EstimatedHydroFileSize != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].EstimatedHydroFileSize);
+                        }
+                        if (mikeScenarioList[0].EstimatedTransFileSize != null)
+                        {
+                            Assert.IsNotNull(mikeScenarioList[0].EstimatedTransFileSize);
+                        }
+                        Assert.IsNotNull(mikeScenarioList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(mikeScenarioList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // MikeScenarioWeb and MikeScenarioReport fields should be null here
+                            Assert.IsNull(mikeScenarioList[0].MikeScenarioWeb);
+                            Assert.IsNull(mikeScenarioList[0].MikeScenarioReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // MikeScenarioWeb fields should not be null and MikeScenarioReport fields should be null here
+                            if (mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText));
+                            }
+                            if (mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText));
+                            }
+                            if (mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText));
+                            }
+                            Assert.IsNull(mikeScenarioList[0].MikeScenarioReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MikeScenarioWeb and MikeScenarioReport fields should NOT be null here
+                            if (mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText));
+                            }
+                            if (mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText));
+                            }
+                            if (mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText));
+                            }
+                            if (mikeScenarioList[0].MikeScenarioReport.MikeScenarioReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioReport.MikeScenarioReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeScenarioList()
+
+        #region Tests Generated for GetMikeScenarioList() Skip Take
+        [TestMethod]
+        public void GetMikeScenarioList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(MikeScenario), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        MikeScenarioService mikeScenarioService = new MikeScenarioService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                            Assert.AreEqual(0, mikeScenarioList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, mikeScenarioList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeScenarioList() Skip Take
 
     }
 }

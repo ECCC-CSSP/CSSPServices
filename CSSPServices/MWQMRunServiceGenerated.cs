@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunSubsectorTVItemID, (mwqmRun.SubsectorTVItemID == null ? "" : mwqmRun.SubsectorTVItemID.ToString())), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunSubsectorTVItemID, mwqmRun.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -82,7 +82,7 @@ namespace CSSPServices
             if (TVItemMWQMRunTVItemID == null)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunMWQMRunTVItemID, (mwqmRun.MWQMRunTVItemID == null ? "" : mwqmRun.MWQMRunTVItemID.ToString())), new[] { "MWQMRunTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunMWQMRunTVItemID, mwqmRun.MWQMRunTVItemID.ToString()), new[] { "MWQMRunTVItemID" });
             }
             else
             {
@@ -444,7 +444,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, (mwqmRun.LastUpdateContactTVItemID == null ? "" : mwqmRun.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, mwqmRun.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -470,60 +470,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMRun GetMWQMRunWithMWQMRunID(int MWQMRunID, GetParam getParam)
+        public MWQMRun GetMWQMRunWithMWQMRunID(int MWQMRunID)
         {
-            IQueryable<MWQMRun> mwqmRunQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMRun> mwqmRunQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMRunID == MWQMRunID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmRunQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMRunWeb(mwqmRunQuery, "").FirstOrDefault();
+                    return FillMWQMRunWeb(mwqmRunQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMRunReport(mwqmRunQuery, "").FirstOrDefault();
+                    return FillMWQMRunReport(mwqmRunQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MWQMRun> GetMWQMRunList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MWQMRun> GetMWQMRunList()
         {
-            IQueryable<MWQMRun> mwqmRunQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MWQMRun> mwqmRunQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmRunQuery  = mwqmRunQuery.OrderByDescending(c => c.MWQMRunID);
-                        }
-                        mwqmRunQuery = mwqmRunQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmRunQuery = EnhanceQueryStatements<MWQMRun>(mwqmRunQuery) as IQueryable<MWQMRun>;
+
                         return mwqmRunQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmRunQuery = FillMWQMRunWeb(mwqmRunQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMRunID);
-                        }
-                        mwqmRunQuery = FillMWQMRunWeb(mwqmRunQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmRunQuery = FillMWQMRunWeb(mwqmRunQuery);
+
+                        mwqmRunQuery = EnhanceQueryStatements<MWQMRun>(mwqmRunQuery) as IQueryable<MWQMRun>;
+
                         return mwqmRunQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmRunQuery = FillMWQMRunReport(mwqmRunQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMRunID);
-                        }
-                        mwqmRunQuery = FillMWQMRunReport(mwqmRunQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmRunQuery = FillMWQMRunReport(mwqmRunQuery);
+
+                        mwqmRunQuery = EnhanceQueryStatements<MWQMRun>(mwqmRunQuery) as IQueryable<MWQMRun>;
+
                         return mwqmRunQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mwqmRunQuery = mwqmRunQuery.Where(c => c.MWQMRunID == 0);
+
+                        return mwqmRunQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -564,30 +562,20 @@ namespace CSSPServices
         }
         public IQueryable<MWQMRun> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMRuns.AsNoTracking();
-            }
-            else
-            {
-                return db.MWQMRuns.AsNoTracking().OrderByDescending(c => c.MWQMRunID);
-            }
+            IQueryable<MWQMRun> mwqmRunQuery = db.MWQMRuns.AsNoTracking();
+
+            return mwqmRunQuery;
         }
         public IQueryable<MWQMRun> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMRuns;
-            }
-            else
-            {
-                return db.MWQMRuns.OrderByDescending(c => c.MWQMRunID);
-            }
+            IQueryable<MWQMRun> mwqmRunQuery = db.MWQMRuns;
+
+            return mwqmRunQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMRunFillWeb
-        private IQueryable<MWQMRun> FillMWQMRunWeb(IQueryable<MWQMRun> mwqmRunQuery, string FilterAndOrderText)
+        private IQueryable<MWQMRun> FillMWQMRunWeb(IQueryable<MWQMRun> mwqmRunQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

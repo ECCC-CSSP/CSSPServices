@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<ClimateDataValue> FillClimateDataValueReport(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText)
+        private IQueryable<ClimateDataValue> FillClimateDataValueReport(IQueryable<ClimateDataValue> climateDataValueQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

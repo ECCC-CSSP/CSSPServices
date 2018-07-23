@@ -1563,7 +1563,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<Contact> FillContactReport(IQueryable<Contact> contactQuery, string FilterAndOrderText)
+        private IQueryable<Contact> FillContactReport(IQueryable<Contact> contactQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

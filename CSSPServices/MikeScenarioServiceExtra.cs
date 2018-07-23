@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MikeScenario> FillMikeScenarioReport(IQueryable<MikeScenario> mikeScenarioQuery, string FilterAndOrderText)
+        private IQueryable<MikeScenario> FillMikeScenarioReport(IQueryable<MikeScenario> mikeScenarioQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

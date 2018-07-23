@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, (mwqmSite.MWQMSiteTVItemID == null ? "" : mwqmSite.MWQMSiteTVItemID.ToString())), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -133,7 +133,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, (mwqmSite.LastUpdateContactTVItemID == null ? "" : mwqmSite.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -159,60 +159,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID, GetParam getParam)
+        public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID)
         {
-            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSiteID == MWQMSiteID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSiteWeb(mwqmSiteQuery, "").FirstOrDefault();
+                    return FillMWQMSiteWeb(mwqmSiteQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSiteReport(mwqmSiteQuery, "").FirstOrDefault();
+                    return FillMWQMSiteReport(mwqmSiteQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MWQMSite> GetMWQMSiteList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MWQMSite> GetMWQMSiteList()
         {
-            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MWQMSite> mwqmSiteQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSiteQuery  = mwqmSiteQuery.OrderByDescending(c => c.MWQMSiteID);
-                        }
-                        mwqmSiteQuery = mwqmSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSiteQuery = EnhanceQueryStatements<MWQMSite>(mwqmSiteQuery) as IQueryable<MWQMSite>;
+
                         return mwqmSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSiteQuery = FillMWQMSiteWeb(mwqmSiteQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSiteID);
-                        }
-                        mwqmSiteQuery = FillMWQMSiteWeb(mwqmSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSiteQuery = FillMWQMSiteWeb(mwqmSiteQuery);
+
+                        mwqmSiteQuery = EnhanceQueryStatements<MWQMSite>(mwqmSiteQuery) as IQueryable<MWQMSite>;
+
                         return mwqmSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSiteQuery = FillMWQMSiteReport(mwqmSiteQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSiteID);
-                        }
-                        mwqmSiteQuery = FillMWQMSiteReport(mwqmSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSiteQuery = FillMWQMSiteReport(mwqmSiteQuery);
+
+                        mwqmSiteQuery = EnhanceQueryStatements<MWQMSite>(mwqmSiteQuery) as IQueryable<MWQMSite>;
+
                         return mwqmSiteQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mwqmSiteQuery = mwqmSiteQuery.Where(c => c.MWQMSiteID == 0);
+
+                        return mwqmSiteQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -253,30 +251,20 @@ namespace CSSPServices
         }
         public IQueryable<MWQMSite> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMSites.AsNoTracking();
-            }
-            else
-            {
-                return db.MWQMSites.AsNoTracking().OrderByDescending(c => c.MWQMSiteID);
-            }
+            IQueryable<MWQMSite> mwqmSiteQuery = db.MWQMSites.AsNoTracking();
+
+            return mwqmSiteQuery;
         }
         public IQueryable<MWQMSite> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMSites;
-            }
-            else
-            {
-                return db.MWQMSites.OrderByDescending(c => c.MWQMSiteID);
-            }
+            IQueryable<MWQMSite> mwqmSiteQuery = db.MWQMSites;
+
+            return mwqmSiteQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSiteFillWeb
-        private IQueryable<MWQMSite> FillMWQMSiteWeb(IQueryable<MWQMSite> mwqmSiteQuery, string FilterAndOrderText)
+        private IQueryable<MWQMSite> FillMWQMSiteWeb(IQueryable<MWQMSite> mwqmSiteQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

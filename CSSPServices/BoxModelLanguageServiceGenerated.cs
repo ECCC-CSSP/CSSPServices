@@ -62,7 +62,7 @@ namespace CSSPServices
             if (BoxModelBoxModelID == null)
             {
                 boxModelLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModel, CSSPModelsRes.BoxModelLanguageBoxModelID, (boxModelLanguage.BoxModelID == null ? "" : boxModelLanguage.BoxModelID.ToString())), new[] { "BoxModelID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModel, CSSPModelsRes.BoxModelLanguageBoxModelID, boxModelLanguage.BoxModelID.ToString()), new[] { "BoxModelID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)boxModelLanguage.Language);
@@ -110,7 +110,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 boxModelLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVItemID, (boxModelLanguage.LastUpdateContactTVItemID == null ? "" : boxModelLanguage.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVItemID, boxModelLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -136,60 +136,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public BoxModelLanguage GetBoxModelLanguageWithBoxModelLanguageID(int BoxModelLanguageID, GetParam getParam)
+        public BoxModelLanguage GetBoxModelLanguageWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.BoxModelLanguageID == BoxModelLanguageID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillBoxModelLanguageWeb(boxModelLanguageQuery, "").FirstOrDefault();
+                    return FillBoxModelLanguageWeb(boxModelLanguageQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModelLanguageReport(boxModelLanguageQuery, "").FirstOrDefault();
+                    return FillBoxModelLanguageReport(boxModelLanguageQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<BoxModelLanguage> GetBoxModelLanguageList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<BoxModelLanguage> GetBoxModelLanguageList()
         {
-            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<BoxModelLanguage> boxModelLanguageQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            boxModelLanguageQuery  = boxModelLanguageQuery.OrderByDescending(c => c.BoxModelLanguageID);
-                        }
-                        boxModelLanguageQuery = boxModelLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        boxModelLanguageQuery = EnhanceQueryStatements<BoxModelLanguage>(boxModelLanguageQuery) as IQueryable<BoxModelLanguage>;
+
                         return boxModelLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            boxModelLanguageQuery = FillBoxModelLanguageWeb(boxModelLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelLanguageID);
-                        }
-                        boxModelLanguageQuery = FillBoxModelLanguageWeb(boxModelLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        boxModelLanguageQuery = FillBoxModelLanguageWeb(boxModelLanguageQuery);
+
+                        boxModelLanguageQuery = EnhanceQueryStatements<BoxModelLanguage>(boxModelLanguageQuery) as IQueryable<BoxModelLanguage>;
+
                         return boxModelLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            boxModelLanguageQuery = FillBoxModelLanguageReport(boxModelLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelLanguageID);
-                        }
-                        boxModelLanguageQuery = FillBoxModelLanguageReport(boxModelLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        boxModelLanguageQuery = FillBoxModelLanguageReport(boxModelLanguageQuery);
+
+                        boxModelLanguageQuery = EnhanceQueryStatements<BoxModelLanguage>(boxModelLanguageQuery) as IQueryable<BoxModelLanguage>;
+
                         return boxModelLanguageQuery;
                     }
                 default:
-                    return null;
+                    {
+                        boxModelLanguageQuery = boxModelLanguageQuery.Where(c => c.BoxModelLanguageID == 0);
+
+                        return boxModelLanguageQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -230,30 +228,20 @@ namespace CSSPServices
         }
         public IQueryable<BoxModelLanguage> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.BoxModelLanguages.AsNoTracking();
-            }
-            else
-            {
-                return db.BoxModelLanguages.AsNoTracking().OrderByDescending(c => c.BoxModelLanguageID);
-            }
+            IQueryable<BoxModelLanguage> boxModelLanguageQuery = db.BoxModelLanguages.AsNoTracking();
+
+            return boxModelLanguageQuery;
         }
         public IQueryable<BoxModelLanguage> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.BoxModelLanguages;
-            }
-            else
-            {
-                return db.BoxModelLanguages.OrderByDescending(c => c.BoxModelLanguageID);
-            }
+            IQueryable<BoxModelLanguage> boxModelLanguageQuery = db.BoxModelLanguages;
+
+            return boxModelLanguageQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated BoxModelLanguageFillWeb
-        private IQueryable<BoxModelLanguage> FillBoxModelLanguageWeb(IQueryable<BoxModelLanguage> boxModelLanguageQuery, string FilterAndOrderText)
+        private IQueryable<BoxModelLanguage> FillBoxModelLanguageWeb(IQueryable<BoxModelLanguage> boxModelLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

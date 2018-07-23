@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MikeBoundaryCondition> FillMikeBoundaryConditionReport(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery, string FilterAndOrderText)
+        private IQueryable<MikeBoundaryCondition> FillMikeBoundaryConditionReport(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

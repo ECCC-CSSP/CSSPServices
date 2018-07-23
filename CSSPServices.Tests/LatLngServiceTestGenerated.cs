@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetLatLngWithLatLngID(latLng.LatLngID)
+        #endregion Tests Generated for GetLatLngWithLatLngID(latLng.LatLngID)
 
-        #region Tests Generated Get List of LatLng
-        #endregion Tests Get List of LatLng
+        #region Tests Generated for GetLatLngList()
+        #endregion Tests Generated for GetLatLngList()
+
+        #region Tests Generated for GetLatLngList() Skip Take
+        #endregion Tests Generated for GetLatLngList() Skip Take
 
     }
 }

@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<TVFileLanguage> FillTVFileLanguageReport(IQueryable<TVFileLanguage> tvFileLanguageQuery, string FilterAndOrderText)
+        private IQueryable<TVFileLanguage> FillTVFileLanguageReport(IQueryable<TVFileLanguage> tvFileLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

@@ -360,9 +360,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetVPResultWithVPResultID(vpResult.VPResultID)
         [TestMethod]
-        public void VPResult_Get_With_Key_Test()
+        public void GetVPResultWithVPResultID__vpResult_VPResultID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -370,33 +370,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     VPResultService vpResultService = new VPResultService(new GetParam(), dbTestDB, ContactID);
                     VPResult vpResult = (from c in vpResultService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpResult);
 
                     VPResult vpResultRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        vpResultService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                             Assert.IsNull(vpResultRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID, getParam);
+                            vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                         }
                         else
                         {
@@ -414,13 +413,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(vpResultRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(vpResultRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // VPResultWeb and VPResultReport fields should be null here
                             Assert.IsNull(vpResultRet.VPResultWeb);
                             Assert.IsNull(vpResultRet.VPResultReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // VPResultWeb fields should not be null and VPResultReport fields should be null here
                             if (vpResultRet.VPResultWeb.LastUpdateContactTVText != null)
@@ -429,7 +428,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(vpResultRet.VPResultReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // VPResultWeb and VPResultReport fields should NOT be null here
                             if (vpResultRet.VPResultWeb.LastUpdateContactTVText != null)
@@ -445,10 +444,141 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetVPResultWithVPResultID(vpResult.VPResultID)
 
-        #region Tests Generated Get List of VPResult
-        #endregion Tests Get List of VPResult
+        #region Tests Generated for GetVPResultList()
+        [TestMethod]
+        public void GetVPResultList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    VPResultService vpResultService = new VPResultService(new GetParam(), dbTestDB, ContactID);
+                    VPResult vpResult = (from c in vpResultService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(vpResult);
+
+                    List<VPResult> vpResultList = new List<VPResult>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        vpResultService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                            Assert.AreEqual(0, vpResultList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // VPResult fields
+                        Assert.IsNotNull(vpResultList[0].VPResultID);
+                        Assert.IsNotNull(vpResultList[0].VPScenarioID);
+                        Assert.IsNotNull(vpResultList[0].Ordinal);
+                        Assert.IsNotNull(vpResultList[0].Concentration_MPN_100ml);
+                        Assert.IsNotNull(vpResultList[0].Dilution);
+                        Assert.IsNotNull(vpResultList[0].FarFieldWidth_m);
+                        Assert.IsNotNull(vpResultList[0].DispersionDistance_m);
+                        Assert.IsNotNull(vpResultList[0].TravelTime_hour);
+                        Assert.IsNotNull(vpResultList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(vpResultList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // VPResultWeb and VPResultReport fields should be null here
+                            Assert.IsNull(vpResultList[0].VPResultWeb);
+                            Assert.IsNull(vpResultList[0].VPResultReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // VPResultWeb fields should not be null and VPResultReport fields should be null here
+                            if (vpResultList[0].VPResultWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultList[0].VPResultWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(vpResultList[0].VPResultReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // VPResultWeb and VPResultReport fields should NOT be null here
+                            if (vpResultList[0].VPResultWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultList[0].VPResultWeb.LastUpdateContactTVText));
+                            }
+                            if (vpResultList[0].VPResultReport.VPResultReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultList[0].VPResultReport.VPResultReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPResultList()
+
+        #region Tests Generated for GetVPResultList() Skip Take
+        [TestMethod]
+        public void GetVPResultList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<VPResult> vpResultList = new List<VPResult>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(VPResult), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        VPResultService vpResultService = new VPResultService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                            Assert.AreEqual(0, vpResultList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpResultList = vpResultService.GetVPResultList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, vpResultList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPResultList() Skip Take
 
     }
 }

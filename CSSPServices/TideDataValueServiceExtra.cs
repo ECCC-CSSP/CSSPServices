@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<TideDataValue> FillTideDataValueReport(IQueryable<TideDataValue> tideDataValueQuery, string FilterAndOrderText)
+        private IQueryable<TideDataValue> FillTideDataValueReport(IQueryable<TideDataValue> tideDataValueQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

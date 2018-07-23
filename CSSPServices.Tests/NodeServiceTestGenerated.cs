@@ -88,11 +88,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetNodeWithNodeID(node.NodeID)
+        #endregion Tests Generated for GetNodeWithNodeID(node.NodeID)
 
-        #region Tests Generated Get List of Node
-        #endregion Tests Get List of Node
+        #region Tests Generated for GetNodeList()
+        #endregion Tests Generated for GetNodeList()
+
+        #region Tests Generated for GetNodeList() Skip Take
+        #endregion Tests Generated for GetNodeList() Skip Take
 
     }
 }

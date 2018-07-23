@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetContourPolygonWithContourPolygonID(contourPolygon.ContourPolygonID)
+        #endregion Tests Generated for GetContourPolygonWithContourPolygonID(contourPolygon.ContourPolygonID)
 
-        #region Tests Generated Get List of ContourPolygon
-        #endregion Tests Get List of ContourPolygon
+        #region Tests Generated for GetContourPolygonList()
+        #endregion Tests Generated for GetContourPolygonList()
+
+        #region Tests Generated for GetContourPolygonList() Skip Take
+        #endregion Tests Generated for GetContourPolygonList() Skip Take
 
     }
 }

@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkWithTVItemInfrastructureTypeTVItemLinkID(tvItemInfrastructureTypeTVItemLink.TVItemInfrastructureTypeTVItemLinkID)
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkWithTVItemInfrastructureTypeTVItemLinkID(tvItemInfrastructureTypeTVItemLink.TVItemInfrastructureTypeTVItemLinkID)
 
-        #region Tests Generated Get List of TVItemInfrastructureTypeTVItemLink
-        #endregion Tests Get List of TVItemInfrastructureTypeTVItemLink
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList()
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList()
+
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take
 
     }
 }

@@ -76,7 +76,7 @@ namespace CSSPServices
                 address.AddressWeb.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
         }
-        private IQueryable<Address> FillAddressReport(IQueryable<Address> addressQuery, string FilterAndOrderText)
+        private IQueryable<Address> FillAddressReport(IQueryable<Address> addressQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

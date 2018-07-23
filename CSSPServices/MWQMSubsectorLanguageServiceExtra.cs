@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MWQMSubsectorLanguage> FillMWQMSubsectorLanguageReport(IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery, string FilterAndOrderText)
+        private IQueryable<MWQMSubsectorLanguage> FillMWQMSubsectorLanguageReport(IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

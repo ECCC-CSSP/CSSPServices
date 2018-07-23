@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<BoxModel> FillBoxModelReport(IQueryable<BoxModel> boxModelQuery, string FilterAndOrderText)
+        private IQueryable<BoxModel> FillBoxModelReport(IQueryable<BoxModel> boxModelQuery)
         {
             boxModelQuery = (from c in boxModelQuery
                              let InfrastructureTVText = (from cl in db.TVItemLanguages

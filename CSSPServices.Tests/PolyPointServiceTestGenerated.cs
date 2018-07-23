@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetPolyPointWithPolyPointID(polyPoint.PolyPointID)
+        #endregion Tests Generated for GetPolyPointWithPolyPointID(polyPoint.PolyPointID)
 
-        #region Tests Generated Get List of PolyPoint
-        #endregion Tests Get List of PolyPoint
+        #region Tests Generated for GetPolyPointList()
+        #endregion Tests Generated for GetPolyPointList()
+
+        #region Tests Generated for GetPolyPointList() Skip Take
+        #endregion Tests Generated for GetPolyPointList() Skip Take
 
     }
 }

@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetFileItemWithFileItemID(fileItem.FileItemID)
+        #endregion Tests Generated for GetFileItemWithFileItemID(fileItem.FileItemID)
 
-        #region Tests Generated Get List of FileItem
-        #endregion Tests Get List of FileItem
+        #region Tests Generated for GetFileItemList()
+        #endregion Tests Generated for GetFileItemList()
+
+        #region Tests Generated for GetFileItemList() Skip Take
+        #endregion Tests Generated for GetFileItemList() Skip Take
 
     }
 }

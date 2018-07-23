@@ -383,9 +383,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID)
         [TestMethod]
-        public void TideDataValue_Get_With_Key_Test()
+        public void GetTideDataValueWithTideDataValueID__tideDataValue_TideDataValueID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -393,33 +393,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     TideDataValueService tideDataValueService = new TideDataValueService(new GetParam(), dbTestDB, ContactID);
                     TideDataValue tideDataValue = (from c in tideDataValueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tideDataValue);
 
                     TideDataValue tideDataValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        tideDataValueService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID, getParam);
+                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID);
                             Assert.IsNull(tideDataValueRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID, getParam);
+                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID, getParam);
+                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID, getParam);
+                            tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID);
                         }
                         else
                         {
@@ -446,13 +445,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tideDataValueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tideDataValueRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // TideDataValueWeb and TideDataValueReport fields should be null here
                             Assert.IsNull(tideDataValueRet.TideDataValueWeb);
                             Assert.IsNull(tideDataValueRet.TideDataValueReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // TideDataValueWeb fields should not be null and TideDataValueReport fields should be null here
                             if (tideDataValueRet.TideDataValueWeb.TideSiteTVText != null)
@@ -481,7 +480,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(tideDataValueRet.TideDataValueReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // TideDataValueWeb and TideDataValueReport fields should NOT be null here
                             if (tideDataValueRet.TideDataValueWeb.TideSiteTVText != null)
@@ -517,10 +516,190 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID)
 
-        #region Tests Generated Get List of TideDataValue
-        #endregion Tests Get List of TideDataValue
+        #region Tests Generated for GetTideDataValueList()
+        [TestMethod]
+        public void GetTideDataValueList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TideDataValueService tideDataValueService = new TideDataValueService(new GetParam(), dbTestDB, ContactID);
+                    TideDataValue tideDataValue = (from c in tideDataValueService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(tideDataValue);
+
+                    List<TideDataValue> tideDataValueList = new List<TideDataValue>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        tideDataValueService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                            Assert.AreEqual(0, tideDataValueList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // TideDataValue fields
+                        Assert.IsNotNull(tideDataValueList[0].TideDataValueID);
+                        Assert.IsNotNull(tideDataValueList[0].TideSiteTVItemID);
+                        Assert.IsNotNull(tideDataValueList[0].DateTime_Local);
+                        Assert.IsNotNull(tideDataValueList[0].Keep);
+                        Assert.IsNotNull(tideDataValueList[0].TideDataType);
+                        Assert.IsNotNull(tideDataValueList[0].StorageDataType);
+                        Assert.IsNotNull(tideDataValueList[0].Depth_m);
+                        Assert.IsNotNull(tideDataValueList[0].UVelocity_m_s);
+                        Assert.IsNotNull(tideDataValueList[0].VVelocity_m_s);
+                        if (tideDataValueList[0].TideStart != null)
+                        {
+                            Assert.IsNotNull(tideDataValueList[0].TideStart);
+                        }
+                        if (tideDataValueList[0].TideEnd != null)
+                        {
+                            Assert.IsNotNull(tideDataValueList[0].TideEnd);
+                        }
+                        Assert.IsNotNull(tideDataValueList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(tideDataValueList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // TideDataValueWeb and TideDataValueReport fields should be null here
+                            Assert.IsNull(tideDataValueList[0].TideDataValueWeb);
+                            Assert.IsNull(tideDataValueList[0].TideDataValueReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // TideDataValueWeb fields should not be null and TideDataValueReport fields should be null here
+                            if (tideDataValueList[0].TideDataValueWeb.TideSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideSiteTVText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.TideDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideDataTypeText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.StorageDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.StorageDataTypeText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.TideStartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideStartText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.TideEndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideEndText));
+                            }
+                            Assert.IsNull(tideDataValueList[0].TideDataValueReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TideDataValueWeb and TideDataValueReport fields should NOT be null here
+                            if (tideDataValueList[0].TideDataValueWeb.TideSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideSiteTVText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.TideDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideDataTypeText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.StorageDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.StorageDataTypeText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.TideStartText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideStartText));
+                            }
+                            if (tideDataValueList[0].TideDataValueWeb.TideEndText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideEndText));
+                            }
+                            if (tideDataValueList[0].TideDataValueReport.TideDataValueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueReport.TideDataValueReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTideDataValueList()
+
+        #region Tests Generated for GetTideDataValueList() Skip Take
+        [TestMethod]
+        public void GetTideDataValueList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TideDataValue> tideDataValueList = new List<TideDataValue>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(TideDataValue), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        TideDataValueService tideDataValueService = new TideDataValueService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                            Assert.AreEqual(0, tideDataValueList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tideDataValueList = tideDataValueService.GetTideDataValueList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, tideDataValueList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTideDataValueList() Skip Take
 
     }
 }

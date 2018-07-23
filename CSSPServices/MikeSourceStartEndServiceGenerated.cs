@@ -62,7 +62,7 @@ namespace CSSPServices
             if (MikeSourceMikeSourceID == null)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeSource, CSSPModelsRes.MikeSourceStartEndMikeSourceID, (mikeSourceStartEnd.MikeSourceID == null ? "" : mikeSourceStartEnd.MikeSourceID.ToString())), new[] { "MikeSourceID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeSource, CSSPModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), new[] { "MikeSourceID" });
             }
 
             if (mikeSourceStartEnd.StartDateAndTime_Local.Year == 1)
@@ -166,7 +166,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, (mikeSourceStartEnd.LastUpdateContactTVItemID == null ? "" : mikeSourceStartEnd.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -192,60 +192,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID, GetParam getParam)
+        public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeSourceStartEndID == MikeSourceStartEndID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceStartEndQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, "").FirstOrDefault();
+                    return FillMikeSourceStartEndWeb(mikeSourceStartEndQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceStartEndReport(mikeSourceStartEndQuery, "").FirstOrDefault();
+                    return FillMikeSourceStartEndReport(mikeSourceStartEndQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MikeSourceStartEnd> GetMikeSourceStartEndList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MikeSourceStartEnd> GetMikeSourceStartEndList()
         {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeSourceStartEndQuery  = mikeSourceStartEndQuery.OrderByDescending(c => c.MikeSourceStartEndID);
-                        }
-                        mikeSourceStartEndQuery = mikeSourceStartEndQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(mikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
+
                         return mikeSourceStartEndQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeSourceStartEndQuery = FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceStartEndID);
-                        }
-                        mikeSourceStartEndQuery = FillMikeSourceStartEndWeb(mikeSourceStartEndQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mikeSourceStartEndQuery = FillMikeSourceStartEndWeb(mikeSourceStartEndQuery);
+
+                        mikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(mikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
+
                         return mikeSourceStartEndQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeSourceStartEndQuery = FillMikeSourceStartEndReport(mikeSourceStartEndQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceStartEndID);
-                        }
-                        mikeSourceStartEndQuery = FillMikeSourceStartEndReport(mikeSourceStartEndQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mikeSourceStartEndQuery = FillMikeSourceStartEndReport(mikeSourceStartEndQuery);
+
+                        mikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(mikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
+
                         return mikeSourceStartEndQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mikeSourceStartEndQuery = mikeSourceStartEndQuery.Where(c => c.MikeSourceStartEndID == 0);
+
+                        return mikeSourceStartEndQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -286,30 +284,20 @@ namespace CSSPServices
         }
         public IQueryable<MikeSourceStartEnd> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MikeSourceStartEnds.AsNoTracking();
-            }
-            else
-            {
-                return db.MikeSourceStartEnds.AsNoTracking().OrderByDescending(c => c.MikeSourceStartEndID);
-            }
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = db.MikeSourceStartEnds.AsNoTracking();
+
+            return mikeSourceStartEndQuery;
         }
         public IQueryable<MikeSourceStartEnd> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MikeSourceStartEnds;
-            }
-            else
-            {
-                return db.MikeSourceStartEnds.OrderByDescending(c => c.MikeSourceStartEndID);
-            }
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = db.MikeSourceStartEnds;
+
+            return mikeSourceStartEndQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeSourceStartEndFillWeb
-        private IQueryable<MikeSourceStartEnd> FillMikeSourceStartEndWeb(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery, string FilterAndOrderText)
+        private IQueryable<MikeSourceStartEnd> FillMikeSourceStartEndWeb(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery)
         {
             mikeSourceStartEndQuery = (from c in mikeSourceStartEndQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

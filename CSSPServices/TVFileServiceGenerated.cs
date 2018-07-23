@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTVFileTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileTVFileTVItemID, (tvFile.TVFileTVItemID == null ? "" : tvFile.TVFileTVItemID.ToString())), new[] { "TVFileTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
             {
@@ -201,7 +201,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLastUpdateContactTVItemID, (tvFile.LastUpdateContactTVItemID == null ? "" : tvFile.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -227,60 +227,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVFile GetTVFileWithTVFileID(int TVFileID, GetParam getParam)
+        public TVFile GetTVFileWithTVFileID(int TVFileID)
         {
-            IQueryable<TVFile> tvFileQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVFile> tvFileQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVFileID == TVFileID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVFileWeb(tvFileQuery, "").FirstOrDefault();
+                    return FillTVFileWeb(tvFileQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVFileReport(tvFileQuery, "").FirstOrDefault();
+                    return FillTVFileReport(tvFileQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<TVFile> GetTVFileList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<TVFile> GetTVFileList()
         {
-            IQueryable<TVFile> tvFileQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<TVFile> tvFileQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvFileQuery  = tvFileQuery.OrderByDescending(c => c.TVFileID);
-                        }
-                        tvFileQuery = tvFileQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        tvFileQuery = EnhanceQueryStatements<TVFile>(tvFileQuery) as IQueryable<TVFile>;
+
                         return tvFileQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvFileQuery = FillTVFileWeb(tvFileQuery, FilterAndOrderText).OrderByDescending(c => c.TVFileID);
-                        }
-                        tvFileQuery = FillTVFileWeb(tvFileQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tvFileQuery = FillTVFileWeb(tvFileQuery);
+
+                        tvFileQuery = EnhanceQueryStatements<TVFile>(tvFileQuery) as IQueryable<TVFile>;
+
                         return tvFileQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvFileQuery = FillTVFileReport(tvFileQuery, FilterAndOrderText).OrderByDescending(c => c.TVFileID);
-                        }
-                        tvFileQuery = FillTVFileReport(tvFileQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tvFileQuery = FillTVFileReport(tvFileQuery);
+
+                        tvFileQuery = EnhanceQueryStatements<TVFile>(tvFileQuery) as IQueryable<TVFile>;
+
                         return tvFileQuery;
                     }
                 default:
-                    return null;
+                    {
+                        tvFileQuery = tvFileQuery.Where(c => c.TVFileID == 0);
+
+                        return tvFileQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -321,30 +319,20 @@ namespace CSSPServices
         }
         public IQueryable<TVFile> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TVFiles.AsNoTracking();
-            }
-            else
-            {
-                return db.TVFiles.AsNoTracking().OrderByDescending(c => c.TVFileID);
-            }
+            IQueryable<TVFile> tvFileQuery = db.TVFiles.AsNoTracking();
+
+            return tvFileQuery;
         }
         public IQueryable<TVFile> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TVFiles;
-            }
-            else
-            {
-                return db.TVFiles.OrderByDescending(c => c.TVFileID);
-            }
+            IQueryable<TVFile> tvFileQuery = db.TVFiles;
+
+            return tvFileQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVFileFillWeb
-        private IQueryable<TVFile> FillTVFileWeb(IQueryable<TVFile> tvFileQuery, string FilterAndOrderText)
+        private IQueryable<TVFile> FillTVFileWeb(IQueryable<TVFile> tvFileQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

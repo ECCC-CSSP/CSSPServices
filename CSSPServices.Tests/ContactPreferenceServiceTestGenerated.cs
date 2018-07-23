@@ -258,9 +258,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID)
         [TestMethod]
-        public void ContactPreference_Get_With_Key_Test()
+        public void GetContactPreferenceWithContactPreferenceID__contactPreference_ContactPreferenceID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -268,33 +268,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new GetParam(), dbTestDB, ContactID);
                     ContactPreference contactPreference = (from c in contactPreferenceService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(contactPreference);
 
                     ContactPreference contactPreferenceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        contactPreferenceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, getParam);
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
                             Assert.IsNull(contactPreferenceRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, getParam);
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, getParam);
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID, getParam);
+                            contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
                         }
                         else
                         {
@@ -308,13 +307,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(contactPreferenceRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(contactPreferenceRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // ContactPreferenceWeb and ContactPreferenceReport fields should be null here
                             Assert.IsNull(contactPreferenceRet.ContactPreferenceWeb);
                             Assert.IsNull(contactPreferenceRet.ContactPreferenceReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // ContactPreferenceWeb fields should not be null and ContactPreferenceReport fields should be null here
                             if (contactPreferenceRet.ContactPreferenceWeb.LastUpdateContactTVText != null)
@@ -327,7 +326,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(contactPreferenceRet.ContactPreferenceReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // ContactPreferenceWeb and ContactPreferenceReport fields should NOT be null here
                             if (contactPreferenceRet.ContactPreferenceWeb.LastUpdateContactTVText != null)
@@ -347,10 +346,145 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID)
 
-        #region Tests Generated Get List of ContactPreference
-        #endregion Tests Get List of ContactPreference
+        #region Tests Generated for GetContactPreferenceList()
+        [TestMethod]
+        public void GetContactPreferenceList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new GetParam(), dbTestDB, ContactID);
+                    ContactPreference contactPreference = (from c in contactPreferenceService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(contactPreference);
+
+                    List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        contactPreferenceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                            Assert.AreEqual(0, contactPreferenceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // ContactPreference fields
+                        Assert.IsNotNull(contactPreferenceList[0].ContactPreferenceID);
+                        Assert.IsNotNull(contactPreferenceList[0].ContactID);
+                        Assert.IsNotNull(contactPreferenceList[0].TVType);
+                        Assert.IsNotNull(contactPreferenceList[0].MarkerSize);
+                        Assert.IsNotNull(contactPreferenceList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(contactPreferenceList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // ContactPreferenceWeb and ContactPreferenceReport fields should be null here
+                            Assert.IsNull(contactPreferenceList[0].ContactPreferenceWeb);
+                            Assert.IsNull(contactPreferenceList[0].ContactPreferenceReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // ContactPreferenceWeb fields should not be null and ContactPreferenceReport fields should be null here
+                            if (contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText));
+                            }
+                            if (contactPreferenceList[0].ContactPreferenceWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.TVTypeText));
+                            }
+                            Assert.IsNull(contactPreferenceList[0].ContactPreferenceReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ContactPreferenceWeb and ContactPreferenceReport fields should NOT be null here
+                            if (contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText));
+                            }
+                            if (contactPreferenceList[0].ContactPreferenceWeb.TVTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.TVTypeText));
+                            }
+                            if (contactPreferenceList[0].ContactPreferenceReport.ContactPreferenceReportText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceReport.ContactPreferenceReportText));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactPreferenceList()
+
+        #region Tests Generated for GetContactPreferenceList() Skip Take
+        [TestMethod]
+        public void GetContactPreferenceList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(ContactPreference), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        ContactPreferenceService contactPreferenceService = new ContactPreferenceService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                            Assert.AreEqual(0, contactPreferenceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, contactPreferenceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactPreferenceList() Skip Take
 
     }
 }

@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetMapObjWithMapObjID(mapObj.MapObjID)
+        #endregion Tests Generated for GetMapObjWithMapObjID(mapObj.MapObjID)
 
-        #region Tests Generated Get List of MapObj
-        #endregion Tests Get List of MapObj
+        #region Tests Generated for GetMapObjList()
+        #endregion Tests Generated for GetMapObjList()
+
+        #region Tests Generated for GetMapObjList() Skip Take
+        #endregion Tests Generated for GetMapObjList() Skip Take
 
     }
 }

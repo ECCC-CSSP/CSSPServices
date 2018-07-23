@@ -109,7 +109,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LogLastUpdateContactTVItemID, (log.LastUpdateContactTVItemID == null ? "" : log.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -135,60 +135,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Log GetLogWithLogID(int LogID, GetParam getParam)
+        public Log GetLogWithLogID(int LogID)
         {
-            IQueryable<Log> logQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Log> logQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LogID == LogID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return logQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLogWeb(logQuery, "").FirstOrDefault();
+                    return FillLogWeb(logQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLogReport(logQuery, "").FirstOrDefault();
+                    return FillLogReport(logQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Log> GetLogList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Log> GetLogList()
         {
-            IQueryable<Log> logQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Log> logQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            logQuery  = logQuery.OrderByDescending(c => c.LogID);
-                        }
-                        logQuery = logQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        logQuery = EnhanceQueryStatements<Log>(logQuery) as IQueryable<Log>;
+
                         return logQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            logQuery = FillLogWeb(logQuery, FilterAndOrderText).OrderByDescending(c => c.LogID);
-                        }
-                        logQuery = FillLogWeb(logQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        logQuery = FillLogWeb(logQuery);
+
+                        logQuery = EnhanceQueryStatements<Log>(logQuery) as IQueryable<Log>;
+
                         return logQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            logQuery = FillLogReport(logQuery, FilterAndOrderText).OrderByDescending(c => c.LogID);
-                        }
-                        logQuery = FillLogReport(logQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        logQuery = FillLogReport(logQuery);
+
+                        logQuery = EnhanceQueryStatements<Log>(logQuery) as IQueryable<Log>;
+
                         return logQuery;
                     }
                 default:
-                    return null;
+                    {
+                        logQuery = logQuery.Where(c => c.LogID == 0);
+
+                        return logQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -229,30 +227,20 @@ namespace CSSPServices
         }
         public IQueryable<Log> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Logs.AsNoTracking();
-            }
-            else
-            {
-                return db.Logs.AsNoTracking().OrderByDescending(c => c.LogID);
-            }
+            IQueryable<Log> logQuery = db.Logs.AsNoTracking();
+
+            return logQuery;
         }
         public IQueryable<Log> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Logs;
-            }
-            else
-            {
-                return db.Logs.OrderByDescending(c => c.LogID);
-            }
+            IQueryable<Log> logQuery = db.Logs;
+
+            return logQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LogFillWeb
-        private IQueryable<Log> FillLogWeb(IQueryable<Log> logQuery, string FilterAndOrderText)
+        private IQueryable<Log> FillLogWeb(IQueryable<Log> logQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

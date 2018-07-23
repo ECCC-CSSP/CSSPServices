@@ -399,9 +399,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetAppTaskWithAppTaskID(appTask.AppTaskID)
         [TestMethod]
-        public void AppTask_Get_With_Key_Test()
+        public void GetAppTaskWithAppTaskID__appTask_AppTaskID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -409,33 +409,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     AppTaskService appTaskService = new AppTaskService(new GetParam(), dbTestDB, ContactID);
                     AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(appTask);
 
                     AppTask appTaskRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        appTaskService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
                             Assert.IsNull(appTaskRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID, getParam);
+                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
                         }
                         else
                         {
@@ -466,13 +465,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(appTaskRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(appTaskRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // AppTaskWeb and AppTaskReport fields should be null here
                             Assert.IsNull(appTaskRet.AppTaskWeb);
                             Assert.IsNull(appTaskRet.AppTaskReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // AppTaskWeb fields should not be null and AppTaskReport fields should be null here
                             if (appTaskRet.AppTaskWeb.TVItemTVText != null)
@@ -501,7 +500,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(appTaskRet.AppTaskReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // AppTaskWeb and AppTaskReport fields should NOT be null here
                             if (appTaskRet.AppTaskWeb.TVItemTVText != null)
@@ -537,10 +536,194 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetAppTaskWithAppTaskID(appTask.AppTaskID)
 
-        #region Tests Generated Get List of AppTask
-        #endregion Tests Get List of AppTask
+        #region Tests Generated for GetAppTaskList()
+        [TestMethod]
+        public void GetAppTaskList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    AppTaskService appTaskService = new AppTaskService(new GetParam(), dbTestDB, ContactID);
+                    AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(appTask);
+
+                    List<AppTask> appTaskList = new List<AppTask>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        appTaskService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            Assert.AreEqual(0, appTaskList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // AppTask fields
+                        Assert.IsNotNull(appTaskList[0].AppTaskID);
+                        Assert.IsNotNull(appTaskList[0].TVItemID);
+                        Assert.IsNotNull(appTaskList[0].TVItemID2);
+                        Assert.IsNotNull(appTaskList[0].AppTaskCommand);
+                        Assert.IsNotNull(appTaskList[0].AppTaskStatus);
+                        Assert.IsNotNull(appTaskList[0].PercentCompleted);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].Parameters));
+                        Assert.IsNotNull(appTaskList[0].Language);
+                        Assert.IsNotNull(appTaskList[0].StartDateTime_UTC);
+                        if (appTaskList[0].EndDateTime_UTC != null)
+                        {
+                            Assert.IsNotNull(appTaskList[0].EndDateTime_UTC);
+                        }
+                        if (appTaskList[0].EstimatedLength_second != null)
+                        {
+                            Assert.IsNotNull(appTaskList[0].EstimatedLength_second);
+                        }
+                        if (appTaskList[0].RemainingTime_second != null)
+                        {
+                            Assert.IsNotNull(appTaskList[0].RemainingTime_second);
+                        }
+                        Assert.IsNotNull(appTaskList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(appTaskList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // AppTaskWeb and AppTaskReport fields should be null here
+                            Assert.IsNull(appTaskList[0].AppTaskWeb);
+                            Assert.IsNull(appTaskList[0].AppTaskReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // AppTaskWeb fields should not be null and AppTaskReport fields should be null here
+                            if (appTaskList[0].AppTaskWeb.TVItemTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItemTVText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.TVItem2TVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItem2TVText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LastUpdateContactTVText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.AppTaskCommandText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.AppTaskStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskStatusText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LanguageText));
+                            }
+                            Assert.IsNull(appTaskList[0].AppTaskReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // AppTaskWeb and AppTaskReport fields should NOT be null here
+                            if (appTaskList[0].AppTaskWeb.TVItemTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItemTVText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.TVItem2TVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItem2TVText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LastUpdateContactTVText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.AppTaskCommandText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.AppTaskStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskStatusText));
+                            }
+                            if (appTaskList[0].AppTaskWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LanguageText));
+                            }
+                            if (appTaskList[0].AppTaskReport.AppTaskReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskReport.AppTaskReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskList()
+
+        #region Tests Generated for GetAppTaskList() Skip Take
+        [TestMethod]
+        public void GetAppTaskList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<AppTask> appTaskList = new List<AppTask>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(AppTask), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        AppTaskService appTaskService = new AppTaskService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            Assert.AreEqual(0, appTaskList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, appTaskList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppTaskList() Skip Take
 
     }
 }

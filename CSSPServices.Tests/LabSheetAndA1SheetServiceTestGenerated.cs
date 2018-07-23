@@ -82,11 +82,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetLabSheetAndA1SheetWithLabSheetAndA1SheetID(labSheetAndA1Sheet.LabSheetAndA1SheetID)
+        #endregion Tests Generated for GetLabSheetAndA1SheetWithLabSheetAndA1SheetID(labSheetAndA1Sheet.LabSheetAndA1SheetID)
 
-        #region Tests Generated Get List of LabSheetAndA1Sheet
-        #endregion Tests Get List of LabSheetAndA1Sheet
+        #region Tests Generated for GetLabSheetAndA1SheetList()
+        #endregion Tests Generated for GetLabSheetAndA1SheetList()
+
+        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take
+        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take
 
     }
 }

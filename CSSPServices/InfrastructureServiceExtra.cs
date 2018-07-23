@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<Infrastructure> FillInfrastructureReport(IQueryable<Infrastructure> infrastructureQuery, string FilterAndOrderText)
+        private IQueryable<Infrastructure> FillInfrastructureReport(IQueryable<Infrastructure> infrastructureQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

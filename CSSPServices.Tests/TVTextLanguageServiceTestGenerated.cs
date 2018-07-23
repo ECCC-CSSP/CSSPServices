@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetTVTextLanguageWithTVTextLanguageID(tvTextLanguage.TVTextLanguageID)
+        #endregion Tests Generated for GetTVTextLanguageWithTVTextLanguageID(tvTextLanguage.TVTextLanguageID)
 
-        #region Tests Generated Get List of TVTextLanguage
-        #endregion Tests Get List of TVTextLanguage
+        #region Tests Generated for GetTVTextLanguageList()
+        #endregion Tests Generated for GetTVTextLanguageList()
+
+        #region Tests Generated for GetTVTextLanguageList() Skip Take
+        #endregion Tests Generated for GetTVTextLanguageList() Skip Take
 
     }
 }

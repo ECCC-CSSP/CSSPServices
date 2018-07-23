@@ -267,9 +267,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID)
         [TestMethod]
-        public void SpillLanguage_Get_With_Key_Test()
+        public void GetSpillLanguageWithSpillLanguageID__spillLanguage_SpillLanguageID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -277,33 +277,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     SpillLanguageService spillLanguageService = new SpillLanguageService(new GetParam(), dbTestDB, ContactID);
                     SpillLanguage spillLanguage = (from c in spillLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(spillLanguage);
 
                     SpillLanguage spillLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        spillLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, getParam);
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
                             Assert.IsNull(spillLanguageRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, getParam);
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, getParam);
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID, getParam);
+                            spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
                         }
                         else
                         {
@@ -318,13 +317,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(spillLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(spillLanguageRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // SpillLanguageWeb and SpillLanguageReport fields should be null here
                             Assert.IsNull(spillLanguageRet.SpillLanguageWeb);
                             Assert.IsNull(spillLanguageRet.SpillLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // SpillLanguageWeb fields should not be null and SpillLanguageReport fields should be null here
                             if (spillLanguageRet.SpillLanguageWeb.LastUpdateContactTVText != null)
@@ -341,7 +340,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(spillLanguageRet.SpillLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // SpillLanguageWeb and SpillLanguageReport fields should NOT be null here
                             if (spillLanguageRet.SpillLanguageWeb.LastUpdateContactTVText != null)
@@ -365,10 +364,154 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID)
 
-        #region Tests Generated Get List of SpillLanguage
-        #endregion Tests Get List of SpillLanguage
+        #region Tests Generated for GetSpillLanguageList()
+        [TestMethod]
+        public void GetSpillLanguageList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    SpillLanguageService spillLanguageService = new SpillLanguageService(new GetParam(), dbTestDB, ContactID);
+                    SpillLanguage spillLanguage = (from c in spillLanguageService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(spillLanguage);
+
+                    List<SpillLanguage> spillLanguageList = new List<SpillLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        spillLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                            Assert.AreEqual(0, spillLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // SpillLanguage fields
+                        Assert.IsNotNull(spillLanguageList[0].SpillLanguageID);
+                        Assert.IsNotNull(spillLanguageList[0].SpillID);
+                        Assert.IsNotNull(spillLanguageList[0].Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillComment));
+                        Assert.IsNotNull(spillLanguageList[0].TranslationStatus);
+                        Assert.IsNotNull(spillLanguageList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(spillLanguageList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // SpillLanguageWeb and SpillLanguageReport fields should be null here
+                            Assert.IsNull(spillLanguageList[0].SpillLanguageWeb);
+                            Assert.IsNull(spillLanguageList[0].SpillLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // SpillLanguageWeb fields should not be null and SpillLanguageReport fields should be null here
+                            if (spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (spillLanguageList[0].SpillLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LanguageText));
+                            }
+                            if (spillLanguageList[0].SpillLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(spillLanguageList[0].SpillLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // SpillLanguageWeb and SpillLanguageReport fields should NOT be null here
+                            if (spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (spillLanguageList[0].SpillLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LanguageText));
+                            }
+                            if (spillLanguageList[0].SpillLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.TranslationStatusText));
+                            }
+                            if (spillLanguageList[0].SpillLanguageReport.SpillLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageReport.SpillLanguageReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSpillLanguageList()
+
+        #region Tests Generated for GetSpillLanguageList() Skip Take
+        [TestMethod]
+        public void GetSpillLanguageList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<SpillLanguage> spillLanguageList = new List<SpillLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(SpillLanguage), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        SpillLanguageService spillLanguageService = new SpillLanguageService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                            Assert.AreEqual(0, spillLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            spillLanguageList = spillLanguageService.GetSpillLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, spillLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetSpillLanguageList() Skip Take
 
     }
 }

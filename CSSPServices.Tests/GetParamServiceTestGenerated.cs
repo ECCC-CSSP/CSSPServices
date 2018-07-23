@@ -40,10 +40,13 @@ namespace CSSPServices.Tests
         {
             GetParam getParam = new GetParam();
 
+            //Error: property [ModelType] and type [GetParam] is  not implemented
             if (OmitPropName != "Language") getParam.Language = LanguageRequest;
+            if (OmitPropName != "Lang") getParam.Lang = GetRandomString("", 2);
             if (OmitPropName != "Skip") getParam.Skip = GetRandomInt(0, 10);
             if (OmitPropName != "Take") getParam.Take = GetRandomInt(0, 10);
-            if (OmitPropName != "OrderAscending") getParam.OrderAscending = true;
+            if (OmitPropName != "OrderByNames") getParam.OrderByNames = GetRandomString("", 5);
+            if (OmitPropName != "Where") getParam.Where = GetRandomString("", 5);
             if (OmitPropName != "EntityQueryDetailType") getParam.EntityQueryDetailType = (EntityQueryDetailTypeEnum)GetRandomEnumType(typeof(EntityQueryDetailTypeEnum));
             if (OmitPropName != "EntityQueryType") getParam.EntityQueryType = (EntityQueryTypeEnum)GetRandomEnumType(typeof(EntityQueryTypeEnum));
 
@@ -88,11 +91,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetGetParamWithGetParamID(getParam.GetParamID)
+        #endregion Tests Generated for GetGetParamWithGetParamID(getParam.GetParamID)
 
-        #region Tests Generated Get List of GetParam
-        #endregion Tests Get List of GetParam
+        #region Tests Generated for GetGetParamList()
+        #endregion Tests Generated for GetGetParamList()
+
+        #region Tests Generated for GetGetParamList() Skip Take
+        #endregion Tests Generated for GetGetParamList() Skip Take
 
     }
 }

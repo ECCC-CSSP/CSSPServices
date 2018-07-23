@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<RatingCurveValue> FillRatingCurveValueReport(IQueryable<RatingCurveValue> ratingCurveValueQuery, string FilterAndOrderText)
+        private IQueryable<RatingCurveValue> FillRatingCurveValueReport(IQueryable<RatingCurveValue> ratingCurveValueQuery)
         {
             ratingCurveValueQuery = (from c in ratingCurveValueQuery
                                      let LastUpdateContactTVText = (from cl in db.TVItemLanguages

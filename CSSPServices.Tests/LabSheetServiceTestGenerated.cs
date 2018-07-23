@@ -536,9 +536,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetLabSheetWithLabSheetID(labSheet.LabSheetID)
         [TestMethod]
-        public void LabSheet_Get_With_Key_Test()
+        public void GetLabSheetWithLabSheetID__labSheet_LabSheetID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -546,33 +546,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     LabSheetService labSheetService = new LabSheetService(new GetParam(), dbTestDB, ContactID);
                     LabSheet labSheet = (from c in labSheetService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(labSheet);
 
                     LabSheet labSheetRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        labSheetService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID);
                             Assert.IsNull(labSheetRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID, getParam);
+                            labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID);
                         }
                         else
                         {
@@ -614,13 +613,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(labSheetRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(labSheetRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // LabSheetWeb and LabSheetReport fields should be null here
                             Assert.IsNull(labSheetRet.LabSheetWeb);
                             Assert.IsNull(labSheetRet.LabSheetReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // LabSheetWeb fields should not be null and LabSheetReport fields should be null here
                             if (labSheetRet.LabSheetWeb.SubsectorTVText != null)
@@ -657,7 +656,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(labSheetRet.LabSheetReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // LabSheetWeb and LabSheetReport fields should NOT be null here
                             if (labSheetRet.LabSheetWeb.SubsectorTVText != null)
@@ -701,10 +700,221 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetLabSheetWithLabSheetID(labSheet.LabSheetID)
 
-        #region Tests Generated Get List of LabSheet
-        #endregion Tests Get List of LabSheet
+        #region Tests Generated for GetLabSheetList()
+        [TestMethod]
+        public void GetLabSheetList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    LabSheetService labSheetService = new LabSheetService(new GetParam(), dbTestDB, ContactID);
+                    LabSheet labSheet = (from c in labSheetService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(labSheet);
+
+                    List<LabSheet> labSheetList = new List<LabSheet>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        labSheetService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                            Assert.AreEqual(0, labSheetList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // LabSheet fields
+                        Assert.IsNotNull(labSheetList[0].LabSheetID);
+                        Assert.IsNotNull(labSheetList[0].OtherServerLabSheetID);
+                        Assert.IsNotNull(labSheetList[0].SamplingPlanID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].SamplingPlanName));
+                        Assert.IsNotNull(labSheetList[0].Year);
+                        Assert.IsNotNull(labSheetList[0].Month);
+                        Assert.IsNotNull(labSheetList[0].Day);
+                        Assert.IsNotNull(labSheetList[0].RunNumber);
+                        Assert.IsNotNull(labSheetList[0].SubsectorTVItemID);
+                        if (labSheetList[0].MWQMRunTVItemID != null)
+                        {
+                            Assert.IsNotNull(labSheetList[0].MWQMRunTVItemID);
+                        }
+                        Assert.IsNotNull(labSheetList[0].SamplingPlanType);
+                        Assert.IsNotNull(labSheetList[0].SampleType);
+                        Assert.IsNotNull(labSheetList[0].LabSheetType);
+                        Assert.IsNotNull(labSheetList[0].LabSheetStatus);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].FileName));
+                        Assert.IsNotNull(labSheetList[0].FileLastModifiedDate_Local);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].FileContent));
+                        if (labSheetList[0].AcceptedOrRejectedByContactTVItemID != null)
+                        {
+                            Assert.IsNotNull(labSheetList[0].AcceptedOrRejectedByContactTVItemID);
+                        }
+                        if (labSheetList[0].AcceptedOrRejectedDateTime != null)
+                        {
+                            Assert.IsNotNull(labSheetList[0].AcceptedOrRejectedDateTime);
+                        }
+                        if (labSheetList[0].RejectReason != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].RejectReason));
+                        }
+                        Assert.IsNotNull(labSheetList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(labSheetList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // LabSheetWeb and LabSheetReport fields should be null here
+                            Assert.IsNull(labSheetList[0].LabSheetWeb);
+                            Assert.IsNull(labSheetList[0].LabSheetReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // LabSheetWeb fields should not be null and LabSheetReport fields should be null here
+                            if (labSheetList[0].LabSheetWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SubsectorTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.MWQMRunTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.MWQMRunTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LastUpdateContactTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.SamplingPlanTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SamplingPlanTypeText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.SampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SampleTypeText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.LabSheetTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LabSheetTypeText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.LabSheetStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LabSheetStatusText));
+                            }
+                            Assert.IsNull(labSheetList[0].LabSheetReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // LabSheetWeb and LabSheetReport fields should NOT be null here
+                            if (labSheetList[0].LabSheetWeb.SubsectorTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SubsectorTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.MWQMRunTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.MWQMRunTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LastUpdateContactTVText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.SamplingPlanTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SamplingPlanTypeText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.SampleTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SampleTypeText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.LabSheetTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LabSheetTypeText));
+                            }
+                            if (labSheetList[0].LabSheetWeb.LabSheetStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LabSheetStatusText));
+                            }
+                            if (labSheetList[0].LabSheetReport.LabSheetReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetReport.LabSheetReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLabSheetList()
+
+        #region Tests Generated for GetLabSheetList() Skip Take
+        [TestMethod]
+        public void GetLabSheetList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<LabSheet> labSheetList = new List<LabSheet>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(LabSheet), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        LabSheetService labSheetService = new LabSheetService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                            Assert.AreEqual(0, labSheetList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            labSheetList = labSheetService.GetLabSheetList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, labSheetList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetLabSheetList() Skip Take
 
     }
 }

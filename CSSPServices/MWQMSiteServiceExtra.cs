@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MWQMSite> FillMWQMSiteReport(IQueryable<MWQMSite> mwqmSiteQuery, string FilterAndOrderText)
+        private IQueryable<MWQMSite> FillMWQMSiteReport(IQueryable<MWQMSite> mwqmSiteQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

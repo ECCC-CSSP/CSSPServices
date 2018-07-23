@@ -82,11 +82,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteWithTVItemSubsectorAndMWQMSiteID(tvItemSubsectorAndMWQMSite.TVItemSubsectorAndMWQMSiteID)
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteWithTVItemSubsectorAndMWQMSiteID(tvItemSubsectorAndMWQMSite.TVItemSubsectorAndMWQMSiteID)
 
-        #region Tests Generated Get List of TVItemSubsectorAndMWQMSite
-        #endregion Tests Get List of TVItemSubsectorAndMWQMSite
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList()
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList()
+
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take
 
     }
 }

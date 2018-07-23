@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMikeSourceTVItemID == null)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceMikeSourceTVItemID, (mikeSource.MikeSourceTVItemID == null ? "" : mikeSource.MikeSourceTVItemID.ToString())), new[] { "MikeSourceTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceMikeSourceTVItemID, mikeSource.MikeSourceTVItemID.ToString()), new[] { "MikeSourceTVItemID" });
             }
             else
             {
@@ -108,7 +108,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceLastUpdateContactTVItemID, (mikeSource.LastUpdateContactTVItemID == null ? "" : mikeSource.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceLastUpdateContactTVItemID, mikeSource.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -134,60 +134,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID, GetParam getParam)
+        public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID)
         {
-            IQueryable<MikeSource> mikeSourceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeSource> mikeSourceQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeSourceID == MikeSourceID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeSourceQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeSourceWeb(mikeSourceQuery, "").FirstOrDefault();
+                    return FillMikeSourceWeb(mikeSourceQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceReport(mikeSourceQuery, "").FirstOrDefault();
+                    return FillMikeSourceReport(mikeSourceQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MikeSource> GetMikeSourceList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MikeSource> GetMikeSourceList()
         {
-            IQueryable<MikeSource> mikeSourceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MikeSource> mikeSourceQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeSourceQuery  = mikeSourceQuery.OrderByDescending(c => c.MikeSourceID);
-                        }
-                        mikeSourceQuery = mikeSourceQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mikeSourceQuery = EnhanceQueryStatements<MikeSource>(mikeSourceQuery) as IQueryable<MikeSource>;
+
                         return mikeSourceQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeSourceQuery = FillMikeSourceWeb(mikeSourceQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceID);
-                        }
-                        mikeSourceQuery = FillMikeSourceWeb(mikeSourceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mikeSourceQuery = FillMikeSourceWeb(mikeSourceQuery);
+
+                        mikeSourceQuery = EnhanceQueryStatements<MikeSource>(mikeSourceQuery) as IQueryable<MikeSource>;
+
                         return mikeSourceQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeSourceQuery = FillMikeSourceReport(mikeSourceQuery, FilterAndOrderText).OrderByDescending(c => c.MikeSourceID);
-                        }
-                        mikeSourceQuery = FillMikeSourceReport(mikeSourceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mikeSourceQuery = FillMikeSourceReport(mikeSourceQuery);
+
+                        mikeSourceQuery = EnhanceQueryStatements<MikeSource>(mikeSourceQuery) as IQueryable<MikeSource>;
+
                         return mikeSourceQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mikeSourceQuery = mikeSourceQuery.Where(c => c.MikeSourceID == 0);
+
+                        return mikeSourceQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -228,30 +226,20 @@ namespace CSSPServices
         }
         public IQueryable<MikeSource> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MikeSources.AsNoTracking();
-            }
-            else
-            {
-                return db.MikeSources.AsNoTracking().OrderByDescending(c => c.MikeSourceID);
-            }
+            IQueryable<MikeSource> mikeSourceQuery = db.MikeSources.AsNoTracking();
+
+            return mikeSourceQuery;
         }
         public IQueryable<MikeSource> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MikeSources;
-            }
-            else
-            {
-                return db.MikeSources.OrderByDescending(c => c.MikeSourceID);
-            }
+            IQueryable<MikeSource> mikeSourceQuery = db.MikeSources;
+
+            return mikeSourceQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeSourceFillWeb
-        private IQueryable<MikeSource> FillMikeSourceWeb(IQueryable<MikeSource> mikeSourceQuery, string FilterAndOrderText)
+        private IQueryable<MikeSource> FillMikeSourceWeb(IQueryable<MikeSource> mikeSourceQuery)
         {
             mikeSourceQuery = (from c in mikeSourceQuery
                 let MikeSourceTVText = (from cl in db.TVItemLanguages

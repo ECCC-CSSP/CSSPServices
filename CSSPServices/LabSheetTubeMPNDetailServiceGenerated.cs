@@ -62,7 +62,7 @@ namespace CSSPServices
             if (LabSheetDetailLabSheetDetailID == null)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.LabSheetDetail, CSSPModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, (labSheetTubeMPNDetail.LabSheetDetailID == null ? "" : labSheetTubeMPNDetail.LabSheetDetailID.ToString())), new[] { "LabSheetDetailID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.LabSheetDetail, CSSPModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, labSheetTubeMPNDetail.LabSheetDetailID.ToString()), new[] { "LabSheetDetailID" });
             }
 
             if (labSheetTubeMPNDetail.Ordinal < 0 || labSheetTubeMPNDetail.Ordinal > 1000)
@@ -76,7 +76,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, (labSheetTubeMPNDetail.MWQMSiteTVItemID == null ? "" : labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString())), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -189,7 +189,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, (labSheetTubeMPNDetail.LastUpdateContactTVItemID == null ? "" : labSheetTubeMPNDetail.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, labSheetTubeMPNDetail.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -215,60 +215,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public LabSheetTubeMPNDetail GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID, GetParam getParam)
+        public LabSheetTubeMPNDetail GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return labSheetTubeMPNDetailQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery, "").FirstOrDefault();
+                    return FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery, "").FirstOrDefault();
+                    return FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<LabSheetTubeMPNDetail> GetLabSheetTubeMPNDetailList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<LabSheetTubeMPNDetail> GetLabSheetTubeMPNDetailList()
         {
-            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            labSheetTubeMPNDetailQuery  = labSheetTubeMPNDetailQuery.OrderByDescending(c => c.LabSheetTubeMPNDetailID);
-                        }
-                        labSheetTubeMPNDetailQuery = labSheetTubeMPNDetailQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        labSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(labSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
+
                         return labSheetTubeMPNDetailQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery, FilterAndOrderText).OrderByDescending(c => c.LabSheetTubeMPNDetailID);
-                        }
-                        labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery);
+
+                        labSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(labSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
+
                         return labSheetTubeMPNDetailQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery, FilterAndOrderText).OrderByDescending(c => c.LabSheetTubeMPNDetailID);
-                        }
-                        labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery);
+
+                        labSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(labSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
+
                         return labSheetTubeMPNDetailQuery;
                     }
                 default:
-                    return null;
+                    {
+                        labSheetTubeMPNDetailQuery = labSheetTubeMPNDetailQuery.Where(c => c.LabSheetTubeMPNDetailID == 0);
+
+                        return labSheetTubeMPNDetailQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -309,30 +307,20 @@ namespace CSSPServices
         }
         public IQueryable<LabSheetTubeMPNDetail> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.LabSheetTubeMPNDetails.AsNoTracking();
-            }
-            else
-            {
-                return db.LabSheetTubeMPNDetails.AsNoTracking().OrderByDescending(c => c.LabSheetTubeMPNDetailID);
-            }
+            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = db.LabSheetTubeMPNDetails.AsNoTracking();
+
+            return labSheetTubeMPNDetailQuery;
         }
         public IQueryable<LabSheetTubeMPNDetail> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.LabSheetTubeMPNDetails;
-            }
-            else
-            {
-                return db.LabSheetTubeMPNDetails.OrderByDescending(c => c.LabSheetTubeMPNDetailID);
-            }
+            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = db.LabSheetTubeMPNDetails;
+
+            return labSheetTubeMPNDetailQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LabSheetTubeMPNDetailFillWeb
-        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetailWeb(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery, string FilterAndOrderText)
+        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetailWeb(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

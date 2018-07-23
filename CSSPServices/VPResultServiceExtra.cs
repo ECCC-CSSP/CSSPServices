@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<VPResult> FillVPResultReport(IQueryable<VPResult> vpResultQuery, string FilterAndOrderText)
+        private IQueryable<VPResult> FillVPResultReport(IQueryable<VPResult> vpResultQuery)
         {
             vpResultQuery = (from c in vpResultQuery
                              let LastUpdateContactTVText = (from cl in db.TVItemLanguages

@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetCalDecayWithCalDecayID(calDecay.CalDecayID)
+        #endregion Tests Generated for GetCalDecayWithCalDecayID(calDecay.CalDecayID)
 
-        #region Tests Generated Get List of CalDecay
-        #endregion Tests Get List of CalDecay
+        #region Tests Generated for GetCalDecayList()
+        #endregion Tests Generated for GetCalDecayList()
+
+        #region Tests Generated for GetCalDecayList() Skip Take
+        #endregion Tests Generated for GetCalDecayList() Skip Take
 
     }
 }

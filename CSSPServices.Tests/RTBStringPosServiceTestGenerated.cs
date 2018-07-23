@@ -86,11 +86,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetRTBStringPosWithRTBStringPosID(rTBStringPos.RTBStringPosID)
+        #endregion Tests Generated for GetRTBStringPosWithRTBStringPosID(rTBStringPos.RTBStringPosID)
 
-        #region Tests Generated Get List of RTBStringPos
-        #endregion Tests Get List of RTBStringPos
+        #region Tests Generated for GetRTBStringPosList()
+        #endregion Tests Generated for GetRTBStringPosList()
+
+        #region Tests Generated for GetRTBStringPosList() Skip Take
+        #endregion Tests Generated for GetRTBStringPosList() Skip Take
 
     }
 }

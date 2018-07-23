@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMWQMSubsectorTVItemID == null)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, (mwqmSubsector.MWQMSubsectorTVItemID == null ? "" : mwqmSubsector.MWQMSubsectorTVItemID.ToString())), new[] { "MWQMSubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, mwqmSubsector.MWQMSubsectorTVItemID.ToString()), new[] { "MWQMSubsectorTVItemID" });
             }
             else
             {
@@ -114,7 +114,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, (mwqmSubsector.LastUpdateContactTVItemID == null ? "" : mwqmSubsector.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, mwqmSubsector.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -140,60 +140,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID, GetParam getParam)
+        public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSubsectorID == MWQMSubsectorID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSubsectorQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSubsectorWeb(mwqmSubsectorQuery, "").FirstOrDefault();
+                    return FillMWQMSubsectorWeb(mwqmSubsectorQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsectorReport(mwqmSubsectorQuery, "").FirstOrDefault();
+                    return FillMWQMSubsectorReport(mwqmSubsectorQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MWQMSubsector> GetMWQMSubsectorList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MWQMSubsector> GetMWQMSubsectorList()
         {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSubsectorQuery  = mwqmSubsectorQuery.OrderByDescending(c => c.MWQMSubsectorID);
-                        }
-                        mwqmSubsectorQuery = mwqmSubsectorQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(mwqmSubsectorQuery) as IQueryable<MWQMSubsector>;
+
                         return mwqmSubsectorQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSubsectorQuery = FillMWQMSubsectorWeb(mwqmSubsectorQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSubsectorID);
-                        }
-                        mwqmSubsectorQuery = FillMWQMSubsectorWeb(mwqmSubsectorQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSubsectorQuery = FillMWQMSubsectorWeb(mwqmSubsectorQuery);
+
+                        mwqmSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(mwqmSubsectorQuery) as IQueryable<MWQMSubsector>;
+
                         return mwqmSubsectorQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmSubsectorQuery = FillMWQMSubsectorReport(mwqmSubsectorQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMSubsectorID);
-                        }
-                        mwqmSubsectorQuery = FillMWQMSubsectorReport(mwqmSubsectorQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmSubsectorQuery = FillMWQMSubsectorReport(mwqmSubsectorQuery);
+
+                        mwqmSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(mwqmSubsectorQuery) as IQueryable<MWQMSubsector>;
+
                         return mwqmSubsectorQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mwqmSubsectorQuery = mwqmSubsectorQuery.Where(c => c.MWQMSubsectorID == 0);
+
+                        return mwqmSubsectorQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -234,30 +232,20 @@ namespace CSSPServices
         }
         public IQueryable<MWQMSubsector> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMSubsectors.AsNoTracking();
-            }
-            else
-            {
-                return db.MWQMSubsectors.AsNoTracking().OrderByDescending(c => c.MWQMSubsectorID);
-            }
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = db.MWQMSubsectors.AsNoTracking();
+
+            return mwqmSubsectorQuery;
         }
         public IQueryable<MWQMSubsector> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMSubsectors;
-            }
-            else
-            {
-                return db.MWQMSubsectors.OrderByDescending(c => c.MWQMSubsectorID);
-            }
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = db.MWQMSubsectors;
+
+            return mwqmSubsectorQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSubsectorFillWeb
-        private IQueryable<MWQMSubsector> FillMWQMSubsectorWeb(IQueryable<MWQMSubsector> mwqmSubsectorQuery, string FilterAndOrderText)
+        private IQueryable<MWQMSubsector> FillMWQMSubsectorWeb(IQueryable<MWQMSubsector> mwqmSubsectorQuery)
         {
             mwqmSubsectorQuery = (from c in mwqmSubsectorQuery
                 let SubsectorTVText = (from cl in db.TVItemLanguages

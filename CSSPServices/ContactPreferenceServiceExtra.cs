@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<ContactPreference> FillContactPreferenceReport(IQueryable<ContactPreference> contactPreferenceQuery, string FilterAndOrderText)
+        private IQueryable<ContactPreference> FillContactPreferenceReport(IQueryable<ContactPreference> contactPreferenceQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

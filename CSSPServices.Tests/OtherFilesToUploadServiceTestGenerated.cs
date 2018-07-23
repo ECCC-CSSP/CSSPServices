@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetOtherFilesToUploadWithOtherFilesToUploadID(otherFilesToUpload.OtherFilesToUploadID)
+        #endregion Tests Generated for GetOtherFilesToUploadWithOtherFilesToUploadID(otherFilesToUpload.OtherFilesToUploadID)
 
-        #region Tests Generated Get List of OtherFilesToUpload
-        #endregion Tests Get List of OtherFilesToUpload
+        #region Tests Generated for GetOtherFilesToUploadList()
+        #endregion Tests Generated for GetOtherFilesToUploadList()
+
+        #region Tests Generated for GetOtherFilesToUploadList() Skip Take
+        #endregion Tests Generated for GetOtherFilesToUploadList() Skip Take
 
     }
 }

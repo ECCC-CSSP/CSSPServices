@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetCoordWithCoordID(coord.CoordID)
+        #endregion Tests Generated for GetCoordWithCoordID(coord.CoordID)
 
-        #region Tests Generated Get List of Coord
-        #endregion Tests Get List of Coord
+        #region Tests Generated for GetCoordList()
+        #endregion Tests Generated for GetCoordList()
+
+        #region Tests Generated for GetCoordList() Skip Take
+        #endregion Tests Generated for GetCoordList() Skip Take
 
     }
 }

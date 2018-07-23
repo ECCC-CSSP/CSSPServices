@@ -124,7 +124,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, (appErrLog.LastUpdateContactTVItemID == null ? "" : appErrLog.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -150,60 +150,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID, GetParam getParam)
+        public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID)
         {
-            IQueryable<AppErrLog> appErrLogQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<AppErrLog> appErrLogQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AppErrLogID == AppErrLogID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appErrLogQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAppErrLogWeb(appErrLogQuery, "").FirstOrDefault();
+                    return FillAppErrLogWeb(appErrLogQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppErrLogReport(appErrLogQuery, "").FirstOrDefault();
+                    return FillAppErrLogReport(appErrLogQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<AppErrLog> GetAppErrLogList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<AppErrLog> GetAppErrLogList()
         {
-            IQueryable<AppErrLog> appErrLogQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<AppErrLog> appErrLogQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appErrLogQuery  = appErrLogQuery.OrderByDescending(c => c.AppErrLogID);
-                        }
-                        appErrLogQuery = appErrLogQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        appErrLogQuery = EnhanceQueryStatements<AppErrLog>(appErrLogQuery) as IQueryable<AppErrLog>;
+
                         return appErrLogQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appErrLogQuery = FillAppErrLogWeb(appErrLogQuery, FilterAndOrderText).OrderByDescending(c => c.AppErrLogID);
-                        }
-                        appErrLogQuery = FillAppErrLogWeb(appErrLogQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        appErrLogQuery = FillAppErrLogWeb(appErrLogQuery);
+
+                        appErrLogQuery = EnhanceQueryStatements<AppErrLog>(appErrLogQuery) as IQueryable<AppErrLog>;
+
                         return appErrLogQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appErrLogQuery = FillAppErrLogReport(appErrLogQuery, FilterAndOrderText).OrderByDescending(c => c.AppErrLogID);
-                        }
-                        appErrLogQuery = FillAppErrLogReport(appErrLogQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        appErrLogQuery = FillAppErrLogReport(appErrLogQuery);
+
+                        appErrLogQuery = EnhanceQueryStatements<AppErrLog>(appErrLogQuery) as IQueryable<AppErrLog>;
+
                         return appErrLogQuery;
                     }
                 default:
-                    return null;
+                    {
+                        appErrLogQuery = appErrLogQuery.Where(c => c.AppErrLogID == 0);
+
+                        return appErrLogQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -244,30 +242,20 @@ namespace CSSPServices
         }
         public IQueryable<AppErrLog> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.AppErrLogs.AsNoTracking();
-            }
-            else
-            {
-                return db.AppErrLogs.AsNoTracking().OrderByDescending(c => c.AppErrLogID);
-            }
+            IQueryable<AppErrLog> appErrLogQuery = db.AppErrLogs.AsNoTracking();
+
+            return appErrLogQuery;
         }
         public IQueryable<AppErrLog> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.AppErrLogs;
-            }
-            else
-            {
-                return db.AppErrLogs.OrderByDescending(c => c.AppErrLogID);
-            }
+            IQueryable<AppErrLog> appErrLogQuery = db.AppErrLogs;
+
+            return appErrLogQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AppErrLogFillWeb
-        private IQueryable<AppErrLog> FillAppErrLogWeb(IQueryable<AppErrLog> appErrLogQuery, string FilterAndOrderText)
+        private IQueryable<AppErrLog> FillAppErrLogWeb(IQueryable<AppErrLog> appErrLogQuery)
         {
             appErrLogQuery = (from c in appErrLogQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

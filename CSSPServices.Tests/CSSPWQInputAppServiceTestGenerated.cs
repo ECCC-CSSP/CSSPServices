@@ -89,11 +89,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetCSSPWQInputAppWithCSSPWQInputAppID(cSSPWQInputApp.CSSPWQInputAppID)
+        #endregion Tests Generated for GetCSSPWQInputAppWithCSSPWQInputAppID(cSSPWQInputApp.CSSPWQInputAppID)
 
-        #region Tests Generated Get List of CSSPWQInputApp
-        #endregion Tests Get List of CSSPWQInputApp
+        #region Tests Generated for GetCSSPWQInputAppList()
+        #endregion Tests Generated for GetCSSPWQInputAppList()
+
+        #region Tests Generated for GetCSSPWQInputAppList() Skip Take
+        #endregion Tests Generated for GetCSSPWQInputAppList() Skip Take
 
     }
 }

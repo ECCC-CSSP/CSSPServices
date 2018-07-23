@@ -62,7 +62,7 @@ namespace CSSPServices
             if (MapInfoMapInfoID == null)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfo, CSSPModelsRes.MapInfoPointMapInfoID, (mapInfoPoint.MapInfoID == null ? "" : mapInfoPoint.MapInfoID.ToString())), new[] { "MapInfoID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfo, CSSPModelsRes.MapInfoPointMapInfoID, mapInfoPoint.MapInfoID.ToString()), new[] { "MapInfoID" });
             }
 
             if (mapInfoPoint.Ordinal < 0)
@@ -102,7 +102,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, (mapInfoPoint.LastUpdateContactTVItemID == null ? "" : mapInfoPoint.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, mapInfoPoint.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -128,60 +128,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID, GetParam getParam)
+        public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID)
         {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MapInfoPointID == MapInfoPointID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoPointQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMapInfoPointWeb(mapInfoPointQuery, "").FirstOrDefault();
+                    return FillMapInfoPointWeb(mapInfoPointQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfoPointReport(mapInfoPointQuery, "").FirstOrDefault();
+                    return FillMapInfoPointReport(mapInfoPointQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MapInfoPoint> GetMapInfoPointList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MapInfoPoint> GetMapInfoPointList()
         {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MapInfoPoint> mapInfoPointQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mapInfoPointQuery  = mapInfoPointQuery.OrderByDescending(c => c.MapInfoPointID);
-                        }
-                        mapInfoPointQuery = mapInfoPointQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(mapInfoPointQuery) as IQueryable<MapInfoPoint>;
+
                         return mapInfoPointQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mapInfoPointQuery = FillMapInfoPointWeb(mapInfoPointQuery, FilterAndOrderText).OrderByDescending(c => c.MapInfoPointID);
-                        }
-                        mapInfoPointQuery = FillMapInfoPointWeb(mapInfoPointQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mapInfoPointQuery = FillMapInfoPointWeb(mapInfoPointQuery);
+
+                        mapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(mapInfoPointQuery) as IQueryable<MapInfoPoint>;
+
                         return mapInfoPointQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mapInfoPointQuery = FillMapInfoPointReport(mapInfoPointQuery, FilterAndOrderText).OrderByDescending(c => c.MapInfoPointID);
-                        }
-                        mapInfoPointQuery = FillMapInfoPointReport(mapInfoPointQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mapInfoPointQuery = FillMapInfoPointReport(mapInfoPointQuery);
+
+                        mapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(mapInfoPointQuery) as IQueryable<MapInfoPoint>;
+
                         return mapInfoPointQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mapInfoPointQuery = mapInfoPointQuery.Where(c => c.MapInfoPointID == 0);
+
+                        return mapInfoPointQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -222,30 +220,20 @@ namespace CSSPServices
         }
         public IQueryable<MapInfoPoint> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MapInfoPoints.AsNoTracking();
-            }
-            else
-            {
-                return db.MapInfoPoints.AsNoTracking().OrderByDescending(c => c.MapInfoPointID);
-            }
+            IQueryable<MapInfoPoint> mapInfoPointQuery = db.MapInfoPoints.AsNoTracking();
+
+            return mapInfoPointQuery;
         }
         public IQueryable<MapInfoPoint> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MapInfoPoints;
-            }
-            else
-            {
-                return db.MapInfoPoints.OrderByDescending(c => c.MapInfoPointID);
-            }
+            IQueryable<MapInfoPoint> mapInfoPointQuery = db.MapInfoPoints;
+
+            return mapInfoPointQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MapInfoPointFillWeb
-        private IQueryable<MapInfoPoint> FillMapInfoPointWeb(IQueryable<MapInfoPoint> mapInfoPointQuery, string FilterAndOrderText)
+        private IQueryable<MapInfoPoint> FillMapInfoPointWeb(IQueryable<MapInfoPoint> mapInfoPointQuery)
         {
             mapInfoPointQuery = (from c in mapInfoPointQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

@@ -183,60 +183,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TVItem GetTVItemWithTVItemID(int TVItemID, GetParam getParam)
+        public TVItem GetTVItemWithTVItemID(int TVItemID)
         {
-            IQueryable<TVItem> tvItemQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVItem> tvItemQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVItemID == TVItemID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvItemQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVItemWeb(tvItemQuery, "").FirstOrDefault();
+                    return FillTVItemWeb(tvItemQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemReport(tvItemQuery, "").FirstOrDefault();
+                    return FillTVItemReport(tvItemQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<TVItem> GetTVItemList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<TVItem> GetTVItemList()
         {
-            IQueryable<TVItem> tvItemQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<TVItem> tvItemQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvItemQuery  = tvItemQuery.OrderByDescending(c => c.TVItemID);
-                        }
-                        tvItemQuery = tvItemQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        tvItemQuery = EnhanceQueryStatements<TVItem>(tvItemQuery) as IQueryable<TVItem>;
+
                         return tvItemQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvItemQuery = FillTVItemWeb(tvItemQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemID);
-                        }
-                        tvItemQuery = FillTVItemWeb(tvItemQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tvItemQuery = FillTVItemWeb(tvItemQuery);
+
+                        tvItemQuery = EnhanceQueryStatements<TVItem>(tvItemQuery) as IQueryable<TVItem>;
+
                         return tvItemQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tvItemQuery = FillTVItemReport(tvItemQuery, FilterAndOrderText).OrderByDescending(c => c.TVItemID);
-                        }
-                        tvItemQuery = FillTVItemReport(tvItemQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tvItemQuery = FillTVItemReport(tvItemQuery);
+
+                        tvItemQuery = EnhanceQueryStatements<TVItem>(tvItemQuery) as IQueryable<TVItem>;
+
                         return tvItemQuery;
                     }
                 default:
-                    return null;
+                    {
+                        tvItemQuery = tvItemQuery.Where(c => c.TVItemID == 0);
+
+                        return tvItemQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -277,30 +275,20 @@ namespace CSSPServices
         }
         public IQueryable<TVItem> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TVItems.AsNoTracking();
-            }
-            else
-            {
-                return db.TVItems.AsNoTracking().OrderByDescending(c => c.TVItemID);
-            }
+            IQueryable<TVItem> tvItemQuery = db.TVItems.AsNoTracking();
+
+            return tvItemQuery;
         }
         public IQueryable<TVItem> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TVItems;
-            }
-            else
-            {
-                return db.TVItems.OrderByDescending(c => c.TVItemID);
-            }
+            IQueryable<TVItem> tvItemQuery = db.TVItems;
+
+            return tvItemQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVItemFillWeb
-        private IQueryable<TVItem> FillTVItemWeb(IQueryable<TVItem> tvItemQuery, string FilterAndOrderText)
+        private IQueryable<TVItem> FillTVItemWeb(IQueryable<TVItem> tvItemQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

@@ -102,7 +102,7 @@ namespace CSSPServices
         #endregion Function public
 
         #region Function private
-        private IQueryable<ResetPassword> FillResetPasswordReport(IQueryable<ResetPassword> resetPasswordQuery, string FilterAndOrderText)
+        private IQueryable<ResetPassword> FillResetPasswordReport(IQueryable<ResetPassword> resetPasswordQuery)
         {
             resetPasswordQuery = (from c in resetPasswordQuery
                                   let LastUpdateContactTVText = (from cl in db.TVItemLanguages

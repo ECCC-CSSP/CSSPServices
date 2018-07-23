@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetVPScenarioIDAndRawResultsWithVPScenarioIDAndRawResultsID(vpScenarioIDAndRawResults.VPScenarioIDAndRawResultsID)
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsWithVPScenarioIDAndRawResultsID(vpScenarioIDAndRawResults.VPScenarioIDAndRawResultsID)
 
-        #region Tests Generated Get List of VPScenarioIDAndRawResults
-        #endregion Tests Get List of VPScenarioIDAndRawResults
+        #region Tests Generated for GetVPScenarioIDAndRawResultsList()
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsList()
+
+        #region Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take
 
     }
 }

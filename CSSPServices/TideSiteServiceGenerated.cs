@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTideSiteTVItemID == null)
             {
                 tideSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideSiteTideSiteTVItemID, (tideSite.TideSiteTVItemID == null ? "" : tideSite.TideSiteTVItemID.ToString())), new[] { "TideSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideSiteTideSiteTVItemID, tideSite.TideSiteTVItemID.ToString()), new[] { "TideSiteTVItemID" });
             }
             else
             {
@@ -114,7 +114,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tideSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideSiteLastUpdateContactTVItemID, (tideSite.LastUpdateContactTVItemID == null ? "" : tideSite.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideSiteLastUpdateContactTVItemID, tideSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -140,60 +140,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideSite GetTideSiteWithTideSiteID(int TideSiteID, GetParam getParam)
+        public TideSite GetTideSiteWithTideSiteID(int TideSiteID)
         {
-            IQueryable<TideSite> tideSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TideSite> tideSiteQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideSiteID == TideSiteID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideSiteWeb(tideSiteQuery, "").FirstOrDefault();
+                    return FillTideSiteWeb(tideSiteQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideSiteReport(tideSiteQuery, "").FirstOrDefault();
+                    return FillTideSiteReport(tideSiteQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<TideSite> GetTideSiteList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<TideSite> GetTideSiteList()
         {
-            IQueryable<TideSite> tideSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<TideSite> tideSiteQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideSiteQuery  = tideSiteQuery.OrderByDescending(c => c.TideSiteID);
-                        }
-                        tideSiteQuery = tideSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        tideSiteQuery = EnhanceQueryStatements<TideSite>(tideSiteQuery) as IQueryable<TideSite>;
+
                         return tideSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideSiteQuery = FillTideSiteWeb(tideSiteQuery, FilterAndOrderText).OrderByDescending(c => c.TideSiteID);
-                        }
-                        tideSiteQuery = FillTideSiteWeb(tideSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tideSiteQuery = FillTideSiteWeb(tideSiteQuery);
+
+                        tideSiteQuery = EnhanceQueryStatements<TideSite>(tideSiteQuery) as IQueryable<TideSite>;
+
                         return tideSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideSiteQuery = FillTideSiteReport(tideSiteQuery, FilterAndOrderText).OrderByDescending(c => c.TideSiteID);
-                        }
-                        tideSiteQuery = FillTideSiteReport(tideSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tideSiteQuery = FillTideSiteReport(tideSiteQuery);
+
+                        tideSiteQuery = EnhanceQueryStatements<TideSite>(tideSiteQuery) as IQueryable<TideSite>;
+
                         return tideSiteQuery;
                     }
                 default:
-                    return null;
+                    {
+                        tideSiteQuery = tideSiteQuery.Where(c => c.TideSiteID == 0);
+
+                        return tideSiteQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -234,30 +232,20 @@ namespace CSSPServices
         }
         public IQueryable<TideSite> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TideSites.AsNoTracking();
-            }
-            else
-            {
-                return db.TideSites.AsNoTracking().OrderByDescending(c => c.TideSiteID);
-            }
+            IQueryable<TideSite> tideSiteQuery = db.TideSites.AsNoTracking();
+
+            return tideSiteQuery;
         }
         public IQueryable<TideSite> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TideSites;
-            }
-            else
-            {
-                return db.TideSites.OrderByDescending(c => c.TideSiteID);
-            }
+            IQueryable<TideSite> tideSiteQuery = db.TideSites;
+
+            return tideSiteQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TideSiteFillWeb
-        private IQueryable<TideSite> FillTideSiteWeb(IQueryable<TideSite> tideSiteQuery, string FilterAndOrderText)
+        private IQueryable<TideSite> FillTideSiteWeb(IQueryable<TideSite> tideSiteQuery)
         {
             tideSiteQuery = (from c in tideSiteQuery
                 let TideSiteTVText = (from cl in db.TVItemLanguages

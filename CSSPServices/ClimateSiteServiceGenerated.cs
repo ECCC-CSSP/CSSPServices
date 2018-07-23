@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemClimateSiteTVItemID == null)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteClimateSiteTVItemID, (climateSite.ClimateSiteTVItemID == null ? "" : climateSite.ClimateSiteTVItemID.ToString())), new[] { "ClimateSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteClimateSiteTVItemID, climateSite.ClimateSiteTVItemID.ToString()), new[] { "ClimateSiteTVItemID" });
             }
             else
             {
@@ -213,7 +213,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, (climateSite.LastUpdateContactTVItemID == null ? "" : climateSite.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, climateSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -239,60 +239,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ClimateSite GetClimateSiteWithClimateSiteID(int ClimateSiteID, GetParam getParam)
+        public ClimateSite GetClimateSiteWithClimateSiteID(int ClimateSiteID)
         {
-            IQueryable<ClimateSite> climateSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ClimateSite> climateSiteQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ClimateSiteID == ClimateSiteID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillClimateSiteWeb(climateSiteQuery, "").FirstOrDefault();
+                    return FillClimateSiteWeb(climateSiteQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateSiteReport(climateSiteQuery, "").FirstOrDefault();
+                    return FillClimateSiteReport(climateSiteQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<ClimateSite> GetClimateSiteList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<ClimateSite> GetClimateSiteList()
         {
-            IQueryable<ClimateSite> climateSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<ClimateSite> climateSiteQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            climateSiteQuery  = climateSiteQuery.OrderByDescending(c => c.ClimateSiteID);
-                        }
-                        climateSiteQuery = climateSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        climateSiteQuery = EnhanceQueryStatements<ClimateSite>(climateSiteQuery) as IQueryable<ClimateSite>;
+
                         return climateSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            climateSiteQuery = FillClimateSiteWeb(climateSiteQuery, FilterAndOrderText).OrderByDescending(c => c.ClimateSiteID);
-                        }
-                        climateSiteQuery = FillClimateSiteWeb(climateSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        climateSiteQuery = FillClimateSiteWeb(climateSiteQuery);
+
+                        climateSiteQuery = EnhanceQueryStatements<ClimateSite>(climateSiteQuery) as IQueryable<ClimateSite>;
+
                         return climateSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            climateSiteQuery = FillClimateSiteReport(climateSiteQuery, FilterAndOrderText).OrderByDescending(c => c.ClimateSiteID);
-                        }
-                        climateSiteQuery = FillClimateSiteReport(climateSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        climateSiteQuery = FillClimateSiteReport(climateSiteQuery);
+
+                        climateSiteQuery = EnhanceQueryStatements<ClimateSite>(climateSiteQuery) as IQueryable<ClimateSite>;
+
                         return climateSiteQuery;
                     }
                 default:
-                    return null;
+                    {
+                        climateSiteQuery = climateSiteQuery.Where(c => c.ClimateSiteID == 0);
+
+                        return climateSiteQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -333,30 +331,20 @@ namespace CSSPServices
         }
         public IQueryable<ClimateSite> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ClimateSites.AsNoTracking();
-            }
-            else
-            {
-                return db.ClimateSites.AsNoTracking().OrderByDescending(c => c.ClimateSiteID);
-            }
+            IQueryable<ClimateSite> climateSiteQuery = db.ClimateSites.AsNoTracking();
+
+            return climateSiteQuery;
         }
         public IQueryable<ClimateSite> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ClimateSites;
-            }
-            else
-            {
-                return db.ClimateSites.OrderByDescending(c => c.ClimateSiteID);
-            }
+            IQueryable<ClimateSite> climateSiteQuery = db.ClimateSites;
+
+            return climateSiteQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ClimateSiteFillWeb
-        private IQueryable<ClimateSite> FillClimateSiteWeb(IQueryable<ClimateSite> climateSiteQuery, string FilterAndOrderText)
+        private IQueryable<ClimateSite> FillClimateSiteWeb(IQueryable<ClimateSite> climateSiteQuery)
         {
             climateSiteQuery = (from c in climateSiteQuery
                 let ClimateSiteTVText = (from cl in db.TVItemLanguages

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             Classification classification = new Classification();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [Classification ClassificationTVItemID TVItem TVItemID]
+            if (OmitPropName != "ClassificationTVItemID") classification.ClassificationTVItemID = 13;
             if (OmitPropName != "ClassificationType") classification.ClassificationType = (ClassificationTypeEnum)GetRandomEnumType(typeof(ClassificationTypeEnum));
             if (OmitPropName != "Ordinal") classification.Ordinal = GetRandomInt(0, 10000);
             if (OmitPropName != "LastUpdateDate_UTC") classification.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
@@ -127,7 +127,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted)]
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Classification)]
                     // classification.ClassificationTVItemID   (Int32)
                     // -----------------------------------
 
@@ -141,7 +141,7 @@ namespace CSSPServices.Tests
                     classification = GetFilledRandomClassification("");
                     classification.ClassificationTVItemID = 1;
                     classificationService.Add(classification);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClassificationClassificationTVItemID, "Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted"), classification.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClassificationClassificationTVItemID, "Classification"), classification.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -264,9 +264,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetClassificationWithClassificationID(classification.ClassificationID)
         [TestMethod]
-        public void Classification_Get_With_Key_Test()
+        public void GetClassificationWithClassificationID__classification_ClassificationID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -274,33 +274,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     ClassificationService classificationService = new ClassificationService(new GetParam(), dbTestDB, ContactID);
                     Classification classification = (from c in classificationService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(classification);
 
                     Classification classificationRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        classificationService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID, getParam);
+                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID);
                             Assert.IsNull(classificationRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID, getParam);
+                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID, getParam);
+                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID, getParam);
+                            classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID);
                         }
                         else
                         {
@@ -314,13 +313,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(classificationRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(classificationRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // ClassificationWeb and ClassificationReport fields should be null here
                             Assert.IsNull(classificationRet.ClassificationWeb);
                             Assert.IsNull(classificationRet.ClassificationReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // ClassificationWeb fields should not be null and ClassificationReport fields should be null here
                             if (classificationRet.ClassificationWeb.LastUpdateContactTVText != null)
@@ -333,7 +332,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(classificationRet.ClassificationReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // ClassificationWeb and ClassificationReport fields should NOT be null here
                             if (classificationRet.ClassificationWeb.LastUpdateContactTVText != null)
@@ -353,10 +352,145 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetClassificationWithClassificationID(classification.ClassificationID)
 
-        #region Tests Generated Get List of Classification
-        #endregion Tests Get List of Classification
+        #region Tests Generated for GetClassificationList()
+        [TestMethod]
+        public void GetClassificationList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ClassificationService classificationService = new ClassificationService(new GetParam(), dbTestDB, ContactID);
+                    Classification classification = (from c in classificationService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(classification);
+
+                    List<Classification> classificationList = new List<Classification>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        classificationService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                            Assert.AreEqual(0, classificationList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Classification fields
+                        Assert.IsNotNull(classificationList[0].ClassificationID);
+                        Assert.IsNotNull(classificationList[0].ClassificationTVItemID);
+                        Assert.IsNotNull(classificationList[0].ClassificationType);
+                        Assert.IsNotNull(classificationList[0].Ordinal);
+                        Assert.IsNotNull(classificationList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(classificationList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // ClassificationWeb and ClassificationReport fields should be null here
+                            Assert.IsNull(classificationList[0].ClassificationWeb);
+                            Assert.IsNull(classificationList[0].ClassificationReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // ClassificationWeb fields should not be null and ClassificationReport fields should be null here
+                            if (classificationList[0].ClassificationWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.LastUpdateContactTVText));
+                            }
+                            if (classificationList[0].ClassificationWeb.ClassificationTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.ClassificationTVText));
+                            }
+                            Assert.IsNull(classificationList[0].ClassificationReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ClassificationWeb and ClassificationReport fields should NOT be null here
+                            if (classificationList[0].ClassificationWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.LastUpdateContactTVText));
+                            }
+                            if (classificationList[0].ClassificationWeb.ClassificationTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.ClassificationTVText));
+                            }
+                            if (classificationList[0].ClassificationReport.ClassificationReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationReport.ClassificationReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetClassificationList()
+
+        #region Tests Generated for GetClassificationList() Skip Take
+        [TestMethod]
+        public void GetClassificationList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Classification> classificationList = new List<Classification>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(Classification), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        ClassificationService classificationService = new ClassificationService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                            Assert.AreEqual(0, classificationList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            classificationList = classificationService.GetClassificationList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, classificationList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetClassificationList() Skip Take
 
     }
 }

@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTelTVItemID == null)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelTelTVItemID, (tel.TelTVItemID == null ? "" : tel.TelTVItemID.ToString())), new[] { "TelTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), new[] { "TelTVItemID" });
             }
             else
             {
@@ -115,7 +115,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelLastUpdateContactTVItemID, (tel.LastUpdateContactTVItemID == null ? "" : tel.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -141,60 +141,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Tel GetTelWithTelID(int TelID, GetParam getParam)
+        public Tel GetTelWithTelID(int TelID)
         {
-            IQueryable<Tel> telQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Tel> telQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TelID == TelID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return telQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTelWeb(telQuery, "").FirstOrDefault();
+                    return FillTelWeb(telQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTelReport(telQuery, "").FirstOrDefault();
+                    return FillTelReport(telQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Tel> GetTelList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Tel> GetTelList()
         {
-            IQueryable<Tel> telQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Tel> telQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            telQuery  = telQuery.OrderByDescending(c => c.TelID);
-                        }
-                        telQuery = telQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        telQuery = EnhanceQueryStatements<Tel>(telQuery) as IQueryable<Tel>;
+
                         return telQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            telQuery = FillTelWeb(telQuery, FilterAndOrderText).OrderByDescending(c => c.TelID);
-                        }
-                        telQuery = FillTelWeb(telQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        telQuery = FillTelWeb(telQuery);
+
+                        telQuery = EnhanceQueryStatements<Tel>(telQuery) as IQueryable<Tel>;
+
                         return telQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            telQuery = FillTelReport(telQuery, FilterAndOrderText).OrderByDescending(c => c.TelID);
-                        }
-                        telQuery = FillTelReport(telQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        telQuery = FillTelReport(telQuery);
+
+                        telQuery = EnhanceQueryStatements<Tel>(telQuery) as IQueryable<Tel>;
+
                         return telQuery;
                     }
                 default:
-                    return null;
+                    {
+                        telQuery = telQuery.Where(c => c.TelID == 0);
+
+                        return telQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -235,30 +233,20 @@ namespace CSSPServices
         }
         public IQueryable<Tel> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Tels.AsNoTracking();
-            }
-            else
-            {
-                return db.Tels.AsNoTracking().OrderByDescending(c => c.TelID);
-            }
+            IQueryable<Tel> telQuery = db.Tels.AsNoTracking();
+
+            return telQuery;
         }
         public IQueryable<Tel> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Tels;
-            }
-            else
-            {
-                return db.Tels.OrderByDescending(c => c.TelID);
-            }
+            IQueryable<Tel> telQuery = db.Tels;
+
+            return telQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TelFillWeb
-        private IQueryable<Tel> FillTelWeb(IQueryable<Tel> telQuery, string FilterAndOrderText)
+        private IQueryable<Tel> FillTelWeb(IQueryable<Tel> telQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

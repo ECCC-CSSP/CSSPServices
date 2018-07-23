@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<ClimateSite> FillClimateSiteReport(IQueryable<ClimateSite> climateSiteQuery, string FilterAndOrderText)
+        private IQueryable<ClimateSite> FillClimateSiteReport(IQueryable<ClimateSite> climateSiteQuery)
         {
             climateSiteQuery = (from c in climateSiteQuery
                                 let ClimateSiteTVText = (from cl in db.TVItemLanguages

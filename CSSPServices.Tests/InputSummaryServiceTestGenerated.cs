@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetInputSummaryWithInputSummaryID(inputSummary.InputSummaryID)
+        #endregion Tests Generated for GetInputSummaryWithInputSummaryID(inputSummary.InputSummaryID)
 
-        #region Tests Generated Get List of InputSummary
-        #endregion Tests Get List of InputSummary
+        #region Tests Generated for GetInputSummaryList()
+        #endregion Tests Generated for GetInputSummaryList()
+
+        #region Tests Generated for GetInputSummaryList() Skip Take
+        #endregion Tests Generated for GetInputSummaryList() Skip Take
 
     }
 }

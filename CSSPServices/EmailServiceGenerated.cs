@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemEmailTVItemID == null)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailEmailTVItemID, (email.EmailTVItemID == null ? "" : email.EmailTVItemID.ToString())), new[] { "EmailTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), new[] { "EmailTVItemID" });
             }
             else
             {
@@ -125,7 +125,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailLastUpdateContactTVItemID, (email.LastUpdateContactTVItemID == null ? "" : email.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -151,60 +151,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Email GetEmailWithEmailID(int EmailID, GetParam getParam)
+        public Email GetEmailWithEmailID(int EmailID)
         {
-            IQueryable<Email> emailQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Email> emailQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailID == EmailID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillEmailWeb(emailQuery, "").FirstOrDefault();
+                    return FillEmailWeb(emailQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailReport(emailQuery, "").FirstOrDefault();
+                    return FillEmailReport(emailQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Email> GetEmailList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Email> GetEmailList()
         {
-            IQueryable<Email> emailQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Email> emailQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailQuery  = emailQuery.OrderByDescending(c => c.EmailID);
-                        }
-                        emailQuery = emailQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        emailQuery = EnhanceQueryStatements<Email>(emailQuery) as IQueryable<Email>;
+
                         return emailQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailQuery = FillEmailWeb(emailQuery, FilterAndOrderText).OrderByDescending(c => c.EmailID);
-                        }
-                        emailQuery = FillEmailWeb(emailQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        emailQuery = FillEmailWeb(emailQuery);
+
+                        emailQuery = EnhanceQueryStatements<Email>(emailQuery) as IQueryable<Email>;
+
                         return emailQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailQuery = FillEmailReport(emailQuery, FilterAndOrderText).OrderByDescending(c => c.EmailID);
-                        }
-                        emailQuery = FillEmailReport(emailQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        emailQuery = FillEmailReport(emailQuery);
+
+                        emailQuery = EnhanceQueryStatements<Email>(emailQuery) as IQueryable<Email>;
+
                         return emailQuery;
                     }
                 default:
-                    return null;
+                    {
+                        emailQuery = emailQuery.Where(c => c.EmailID == 0);
+
+                        return emailQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -245,30 +243,20 @@ namespace CSSPServices
         }
         public IQueryable<Email> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Emails.AsNoTracking();
-            }
-            else
-            {
-                return db.Emails.AsNoTracking().OrderByDescending(c => c.EmailID);
-            }
+            IQueryable<Email> emailQuery = db.Emails.AsNoTracking();
+
+            return emailQuery;
         }
         public IQueryable<Email> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Emails;
-            }
-            else
-            {
-                return db.Emails.OrderByDescending(c => c.EmailID);
-            }
+            IQueryable<Email> emailQuery = db.Emails;
+
+            return emailQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailFillWeb
-        private IQueryable<Email> FillEmailWeb(IQueryable<Email> emailQuery, string FilterAndOrderText)
+        private IQueryable<Email> FillEmailWeb(IQueryable<Email> emailQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

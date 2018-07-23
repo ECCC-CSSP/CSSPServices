@@ -62,7 +62,7 @@ namespace CSSPServices
             if (EmailDistributionListEmailDistributionListID == null)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionList, CSSPModelsRes.EmailDistributionListContactEmailDistributionListID, (emailDistributionListContact.EmailDistributionListID == null ? "" : emailDistributionListContact.EmailDistributionListID.ToString())), new[] { "EmailDistributionListID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionList, CSSPModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), new[] { "EmailDistributionListID" });
             }
 
             if (string.IsNullOrWhiteSpace(emailDistributionListContact.Name))
@@ -118,7 +118,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, (emailDistributionListContact.LastUpdateContactTVItemID == null ? "" : emailDistributionListContact.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -144,60 +144,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public EmailDistributionListContact GetEmailDistributionListContactWithEmailDistributionListContactID(int EmailDistributionListContactID, GetParam getParam)
+        public EmailDistributionListContact GetEmailDistributionListContactWithEmailDistributionListContactID(int EmailDistributionListContactID)
         {
-            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.EmailDistributionListContactID == EmailDistributionListContactID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return emailDistributionListContactQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillEmailDistributionListContactWeb(emailDistributionListContactQuery, "").FirstOrDefault();
+                    return FillEmailDistributionListContactWeb(emailDistributionListContactQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionListContactReport(emailDistributionListContactQuery, "").FirstOrDefault();
+                    return FillEmailDistributionListContactReport(emailDistributionListContactQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<EmailDistributionListContact> GetEmailDistributionListContactList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<EmailDistributionListContact> GetEmailDistributionListContactList()
         {
-            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailDistributionListContactQuery  = emailDistributionListContactQuery.OrderByDescending(c => c.EmailDistributionListContactID);
-                        }
-                        emailDistributionListContactQuery = emailDistributionListContactQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        emailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(emailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
+
                         return emailDistributionListContactQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailDistributionListContactQuery = FillEmailDistributionListContactWeb(emailDistributionListContactQuery, FilterAndOrderText).OrderByDescending(c => c.EmailDistributionListContactID);
-                        }
-                        emailDistributionListContactQuery = FillEmailDistributionListContactWeb(emailDistributionListContactQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        emailDistributionListContactQuery = FillEmailDistributionListContactWeb(emailDistributionListContactQuery);
+
+                        emailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(emailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
+
                         return emailDistributionListContactQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            emailDistributionListContactQuery = FillEmailDistributionListContactReport(emailDistributionListContactQuery, FilterAndOrderText).OrderByDescending(c => c.EmailDistributionListContactID);
-                        }
-                        emailDistributionListContactQuery = FillEmailDistributionListContactReport(emailDistributionListContactQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        emailDistributionListContactQuery = FillEmailDistributionListContactReport(emailDistributionListContactQuery);
+
+                        emailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(emailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
+
                         return emailDistributionListContactQuery;
                     }
                 default:
-                    return null;
+                    {
+                        emailDistributionListContactQuery = emailDistributionListContactQuery.Where(c => c.EmailDistributionListContactID == 0);
+
+                        return emailDistributionListContactQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -238,30 +236,20 @@ namespace CSSPServices
         }
         public IQueryable<EmailDistributionListContact> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.EmailDistributionListContacts.AsNoTracking();
-            }
-            else
-            {
-                return db.EmailDistributionListContacts.AsNoTracking().OrderByDescending(c => c.EmailDistributionListContactID);
-            }
+            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = db.EmailDistributionListContacts.AsNoTracking();
+
+            return emailDistributionListContactQuery;
         }
         public IQueryable<EmailDistributionListContact> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.EmailDistributionListContacts;
-            }
-            else
-            {
-                return db.EmailDistributionListContacts.OrderByDescending(c => c.EmailDistributionListContactID);
-            }
+            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = db.EmailDistributionListContacts;
+
+            return emailDistributionListContactQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailDistributionListContactFillWeb
-        private IQueryable<EmailDistributionListContact> FillEmailDistributionListContactWeb(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery, string FilterAndOrderText)
+        private IQueryable<EmailDistributionListContact> FillEmailDistributionListContactWeb(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery)
         {
             emailDistributionListContactQuery = (from c in emailDistributionListContactQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

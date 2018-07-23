@@ -311,9 +311,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID)
         [TestMethod]
-        public void EmailDistributionListContact_Get_With_Key_Test()
+        public void GetEmailDistributionListContactWithEmailDistributionListContactID__emailDistributionListContact_EmailDistributionListContactID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -321,33 +321,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new GetParam(), dbTestDB, ContactID);
                     EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionListContact);
 
                     EmailDistributionListContact emailDistributionListContactRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        emailDistributionListContactService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID, getParam);
+                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
                             Assert.IsNull(emailDistributionListContactRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID, getParam);
+                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID, getParam);
+                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID, getParam);
+                            emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
                         }
                         else
                         {
@@ -367,13 +366,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(emailDistributionListContactRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // EmailDistributionListContactWeb and EmailDistributionListContactReport fields should be null here
                             Assert.IsNull(emailDistributionListContactRet.EmailDistributionListContactWeb);
                             Assert.IsNull(emailDistributionListContactRet.EmailDistributionListContactReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // EmailDistributionListContactWeb fields should not be null and EmailDistributionListContactReport fields should be null here
                             if (emailDistributionListContactRet.EmailDistributionListContactWeb.LastUpdateContactTVText != null)
@@ -382,7 +381,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(emailDistributionListContactRet.EmailDistributionListContactReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // EmailDistributionListContactWeb and EmailDistributionListContactReport fields should NOT be null here
                             if (emailDistributionListContactRet.EmailDistributionListContactWeb.LastUpdateContactTVText != null)
@@ -398,10 +397,143 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID)
 
-        #region Tests Generated Get List of EmailDistributionListContact
-        #endregion Tests Get List of EmailDistributionListContact
+        #region Tests Generated for GetEmailDistributionListContactList()
+        [TestMethod]
+        public void GetEmailDistributionListContactList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new GetParam(), dbTestDB, ContactID);
+                    EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(emailDistributionListContact);
+
+                    List<EmailDistributionListContact> emailDistributionListContactList = new List<EmailDistributionListContact>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        emailDistributionListContactService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                            Assert.AreEqual(0, emailDistributionListContactList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // EmailDistributionListContact fields
+                        Assert.IsNotNull(emailDistributionListContactList[0].EmailDistributionListContactID);
+                        Assert.IsNotNull(emailDistributionListContactList[0].EmailDistributionListID);
+                        Assert.IsNotNull(emailDistributionListContactList[0].IsCC);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].Name));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].Email));
+                        Assert.IsNotNull(emailDistributionListContactList[0].CMPRainfallSeasonal);
+                        Assert.IsNotNull(emailDistributionListContactList[0].CMPWastewater);
+                        Assert.IsNotNull(emailDistributionListContactList[0].EmergencyWeather);
+                        Assert.IsNotNull(emailDistributionListContactList[0].EmergencyWastewater);
+                        Assert.IsNotNull(emailDistributionListContactList[0].ReopeningAllTypes);
+                        Assert.IsNotNull(emailDistributionListContactList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(emailDistributionListContactList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // EmailDistributionListContactWeb and EmailDistributionListContactReport fields should be null here
+                            Assert.IsNull(emailDistributionListContactList[0].EmailDistributionListContactWeb);
+                            Assert.IsNull(emailDistributionListContactList[0].EmailDistributionListContactReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // EmailDistributionListContactWeb fields should not be null and EmailDistributionListContactReport fields should be null here
+                            if (emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(emailDistributionListContactList[0].EmailDistributionListContactReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // EmailDistributionListContactWeb and EmailDistributionListContactReport fields should NOT be null here
+                            if (emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText));
+                            }
+                            if (emailDistributionListContactList[0].EmailDistributionListContactReport.EmailDistributionListContactReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].EmailDistributionListContactReport.EmailDistributionListContactReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListContactList()
+
+        #region Tests Generated for GetEmailDistributionListContactList() Skip Take
+        [TestMethod]
+        public void GetEmailDistributionListContactList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<EmailDistributionListContact> emailDistributionListContactList = new List<EmailDistributionListContact>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(EmailDistributionListContact), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                            Assert.AreEqual(0, emailDistributionListContactList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListContactList = emailDistributionListContactService.GetEmailDistributionListContactList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, emailDistributionListContactList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListContactList() Skip Take
 
     }
 }

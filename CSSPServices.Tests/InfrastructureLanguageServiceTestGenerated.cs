@@ -267,9 +267,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID)
         [TestMethod]
-        public void InfrastructureLanguage_Get_With_Key_Test()
+        public void GetInfrastructureLanguageWithInfrastructureLanguageID__infrastructureLanguage_InfrastructureLanguageID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -277,33 +277,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new GetParam(), dbTestDB, ContactID);
                     InfrastructureLanguage infrastructureLanguage = (from c in infrastructureLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructureLanguage);
 
                     InfrastructureLanguage infrastructureLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        infrastructureLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID, getParam);
+                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                             Assert.IsNull(infrastructureLanguageRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID, getParam);
+                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID, getParam);
+                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID, getParam);
+                            infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                         }
                         else
                         {
@@ -318,13 +317,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(infrastructureLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(infrastructureLanguageRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // InfrastructureLanguageWeb and InfrastructureLanguageReport fields should be null here
                             Assert.IsNull(infrastructureLanguageRet.InfrastructureLanguageWeb);
                             Assert.IsNull(infrastructureLanguageRet.InfrastructureLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // InfrastructureLanguageWeb fields should not be null and InfrastructureLanguageReport fields should be null here
                             if (infrastructureLanguageRet.InfrastructureLanguageWeb.LastUpdateContactTVText != null)
@@ -341,7 +340,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(infrastructureLanguageRet.InfrastructureLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // InfrastructureLanguageWeb and InfrastructureLanguageReport fields should NOT be null here
                             if (infrastructureLanguageRet.InfrastructureLanguageWeb.LastUpdateContactTVText != null)
@@ -365,10 +364,154 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID)
 
-        #region Tests Generated Get List of InfrastructureLanguage
-        #endregion Tests Get List of InfrastructureLanguage
+        #region Tests Generated for GetInfrastructureLanguageList()
+        [TestMethod]
+        public void GetInfrastructureLanguageList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(new GetParam(), dbTestDB, ContactID);
+                    InfrastructureLanguage infrastructureLanguage = (from c in infrastructureLanguageService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(infrastructureLanguage);
+
+                    List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        infrastructureLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                            Assert.AreEqual(0, infrastructureLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // InfrastructureLanguage fields
+                        Assert.IsNotNull(infrastructureLanguageList[0].InfrastructureLanguageID);
+                        Assert.IsNotNull(infrastructureLanguageList[0].InfrastructureID);
+                        Assert.IsNotNull(infrastructureLanguageList[0].Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].Comment));
+                        Assert.IsNotNull(infrastructureLanguageList[0].TranslationStatus);
+                        Assert.IsNotNull(infrastructureLanguageList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(infrastructureLanguageList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // InfrastructureLanguageWeb and InfrastructureLanguageReport fields should be null here
+                            Assert.IsNull(infrastructureLanguageList[0].InfrastructureLanguageWeb);
+                            Assert.IsNull(infrastructureLanguageList[0].InfrastructureLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // InfrastructureLanguageWeb fields should not be null and InfrastructureLanguageReport fields should be null here
+                            if (infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText));
+                            }
+                            if (infrastructureLanguageList[0].InfrastructureLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(infrastructureLanguageList[0].InfrastructureLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // InfrastructureLanguageWeb and InfrastructureLanguageReport fields should NOT be null here
+                            if (infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText));
+                            }
+                            if (infrastructureLanguageList[0].InfrastructureLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.TranslationStatusText));
+                            }
+                            if (infrastructureLanguageList[0].InfrastructureLanguageReport.InfrastructureLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageReport.InfrastructureLanguageReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureLanguageList()
+
+        #region Tests Generated for GetInfrastructureLanguageList() Skip Take
+        [TestMethod]
+        public void GetInfrastructureLanguageList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<InfrastructureLanguage> infrastructureLanguageList = new List<InfrastructureLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(InfrastructureLanguage), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                            Assert.AreEqual(0, infrastructureLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            infrastructureLanguageList = infrastructureLanguageService.GetInfrastructureLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, infrastructureLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetInfrastructureLanguageList() Skip Take
 
     }
 }

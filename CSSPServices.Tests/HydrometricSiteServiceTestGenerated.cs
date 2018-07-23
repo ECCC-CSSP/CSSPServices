@@ -457,9 +457,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID)
         [TestMethod]
-        public void HydrometricSite_Get_With_Key_Test()
+        public void GetHydrometricSiteWithHydrometricSiteID__hydrometricSite_HydrometricSiteID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -467,33 +467,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new GetParam(), dbTestDB, ContactID);
                     HydrometricSite hydrometricSite = (from c in hydrometricSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(hydrometricSite);
 
                     HydrometricSite hydrometricSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        hydrometricSiteService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID, getParam);
+                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
                             Assert.IsNull(hydrometricSiteRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID, getParam);
+                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID, getParam);
+                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID, getParam);
+                            hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
                         }
                         else
                         {
@@ -563,13 +562,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(hydrometricSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(hydrometricSiteRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // HydrometricSiteWeb and HydrometricSiteReport fields should be null here
                             Assert.IsNull(hydrometricSiteRet.HydrometricSiteWeb);
                             Assert.IsNull(hydrometricSiteRet.HydrometricSiteReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // HydrometricSiteWeb fields should not be null and HydrometricSiteReport fields should be null here
                             if (hydrometricSiteRet.HydrometricSiteWeb.HydrometricTVText != null)
@@ -582,7 +581,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(hydrometricSiteRet.HydrometricSiteReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // HydrometricSiteWeb and HydrometricSiteReport fields should NOT be null here
                             if (hydrometricSiteRet.HydrometricSiteWeb.HydrometricTVText != null)
@@ -602,10 +601,201 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID)
 
-        #region Tests Generated Get List of HydrometricSite
-        #endregion Tests Get List of HydrometricSite
+        #region Tests Generated for GetHydrometricSiteList()
+        [TestMethod]
+        public void GetHydrometricSiteList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new GetParam(), dbTestDB, ContactID);
+                    HydrometricSite hydrometricSite = (from c in hydrometricSiteService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(hydrometricSite);
+
+                    List<HydrometricSite> hydrometricSiteList = new List<HydrometricSite>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        hydrometricSiteService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                            Assert.AreEqual(0, hydrometricSiteList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // HydrometricSite fields
+                        Assert.IsNotNull(hydrometricSiteList[0].HydrometricSiteID);
+                        Assert.IsNotNull(hydrometricSiteList[0].HydrometricSiteTVItemID);
+                        if (hydrometricSiteList[0].FedSiteNumber != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].FedSiteNumber));
+                        }
+                        if (hydrometricSiteList[0].QuebecSiteNumber != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].QuebecSiteNumber));
+                        }
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteName));
+                        if (hydrometricSiteList[0].Description != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].Description));
+                        }
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].Province));
+                        if (hydrometricSiteList[0].Elevation_m != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].Elevation_m);
+                        }
+                        if (hydrometricSiteList[0].StartDate_Local != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].StartDate_Local);
+                        }
+                        if (hydrometricSiteList[0].EndDate_Local != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].EndDate_Local);
+                        }
+                        if (hydrometricSiteList[0].TimeOffset_hour != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].TimeOffset_hour);
+                        }
+                        if (hydrometricSiteList[0].DrainageArea_km2 != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].DrainageArea_km2);
+                        }
+                        if (hydrometricSiteList[0].IsNatural != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].IsNatural);
+                        }
+                        if (hydrometricSiteList[0].IsActive != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].IsActive);
+                        }
+                        if (hydrometricSiteList[0].Sediment != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].Sediment);
+                        }
+                        if (hydrometricSiteList[0].RHBN != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].RHBN);
+                        }
+                        if (hydrometricSiteList[0].RealTime != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].RealTime);
+                        }
+                        if (hydrometricSiteList[0].HasRatingCurve != null)
+                        {
+                            Assert.IsNotNull(hydrometricSiteList[0].HasRatingCurve);
+                        }
+                        Assert.IsNotNull(hydrometricSiteList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(hydrometricSiteList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // HydrometricSiteWeb and HydrometricSiteReport fields should be null here
+                            Assert.IsNull(hydrometricSiteList[0].HydrometricSiteWeb);
+                            Assert.IsNull(hydrometricSiteList[0].HydrometricSiteReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // HydrometricSiteWeb fields should not be null and HydrometricSiteReport fields should be null here
+                            if (hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText));
+                            }
+                            if (hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(hydrometricSiteList[0].HydrometricSiteReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // HydrometricSiteWeb and HydrometricSiteReport fields should NOT be null here
+                            if (hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText));
+                            }
+                            if (hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (hydrometricSiteList[0].HydrometricSiteReport.HydrometricSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteReport.HydrometricSiteReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricSiteList()
+
+        #region Tests Generated for GetHydrometricSiteList() Skip Take
+        [TestMethod]
+        public void GetHydrometricSiteList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<HydrometricSite> hydrometricSiteList = new List<HydrometricSite>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(HydrometricSite), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                            Assert.AreEqual(0, hydrometricSiteList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            hydrometricSiteList = hydrometricSiteService.GetHydrometricSiteList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, hydrometricSiteList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricSiteList() Skip Take
 
     }
 }

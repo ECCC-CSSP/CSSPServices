@@ -272,9 +272,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID)
         [TestMethod]
-        public void RatingCurveValue_Get_With_Key_Test()
+        public void GetRatingCurveValueWithRatingCurveValueID__ratingCurveValue_RatingCurveValueID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -282,33 +282,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new GetParam(), dbTestDB, ContactID);
                     RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(ratingCurveValue);
 
                     RatingCurveValue ratingCurveValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        ratingCurveValueService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID, getParam);
+                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
                             Assert.IsNull(ratingCurveValueRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID, getParam);
+                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID, getParam);
+                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID, getParam);
+                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
                         }
                         else
                         {
@@ -322,13 +321,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(ratingCurveValueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // RatingCurveValueWeb and RatingCurveValueReport fields should be null here
                             Assert.IsNull(ratingCurveValueRet.RatingCurveValueWeb);
                             Assert.IsNull(ratingCurveValueRet.RatingCurveValueReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // RatingCurveValueWeb fields should not be null and RatingCurveValueReport fields should be null here
                             if (ratingCurveValueRet.RatingCurveValueWeb.LastUpdateContactTVText != null)
@@ -337,7 +336,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(ratingCurveValueRet.RatingCurveValueReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // RatingCurveValueWeb and RatingCurveValueReport fields should NOT be null here
                             if (ratingCurveValueRet.RatingCurveValueWeb.LastUpdateContactTVText != null)
@@ -353,10 +352,137 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID)
 
-        #region Tests Generated Get List of RatingCurveValue
-        #endregion Tests Get List of RatingCurveValue
+        #region Tests Generated for GetRatingCurveValueList()
+        [TestMethod]
+        public void GetRatingCurveValueList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new GetParam(), dbTestDB, ContactID);
+                    RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(ratingCurveValue);
+
+                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ratingCurveValueService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            Assert.AreEqual(0, ratingCurveValueList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // RatingCurveValue fields
+                        Assert.IsNotNull(ratingCurveValueList[0].RatingCurveValueID);
+                        Assert.IsNotNull(ratingCurveValueList[0].RatingCurveID);
+                        Assert.IsNotNull(ratingCurveValueList[0].StageValue_m);
+                        Assert.IsNotNull(ratingCurveValueList[0].DischargeValue_m3_s);
+                        Assert.IsNotNull(ratingCurveValueList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(ratingCurveValueList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // RatingCurveValueWeb and RatingCurveValueReport fields should be null here
+                            Assert.IsNull(ratingCurveValueList[0].RatingCurveValueWeb);
+                            Assert.IsNull(ratingCurveValueList[0].RatingCurveValueReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // RatingCurveValueWeb fields should not be null and RatingCurveValueReport fields should be null here
+                            if (ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(ratingCurveValueList[0].RatingCurveValueReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // RatingCurveValueWeb and RatingCurveValueReport fields should NOT be null here
+                            if (ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText));
+                            }
+                            if (ratingCurveValueList[0].RatingCurveValueReport.RatingCurveValueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueReport.RatingCurveValueReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRatingCurveValueList()
+
+        #region Tests Generated for GetRatingCurveValueList() Skip Take
+        [TestMethod]
+        public void GetRatingCurveValueList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(RatingCurveValue), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            Assert.AreEqual(0, ratingCurveValueList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, ratingCurveValueList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRatingCurveValueList() Skip Take
 
     }
 }

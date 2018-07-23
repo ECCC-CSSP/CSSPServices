@@ -62,7 +62,7 @@ namespace CSSPServices
             if (HydrometricSiteHydrometricSiteID == null)
             {
                 ratingCurve.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.HydrometricSite, CSSPModelsRes.RatingCurveHydrometricSiteID, (ratingCurve.HydrometricSiteID == null ? "" : ratingCurve.HydrometricSiteID.ToString())), new[] { "HydrometricSiteID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.HydrometricSite, CSSPModelsRes.RatingCurveHydrometricSiteID, ratingCurve.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
             }
 
             if (string.IsNullOrWhiteSpace(ratingCurve.RatingCurveNumber))
@@ -96,7 +96,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 ratingCurve.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RatingCurveLastUpdateContactTVItemID, (ratingCurve.LastUpdateContactTVItemID == null ? "" : ratingCurve.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RatingCurveLastUpdateContactTVItemID, ratingCurve.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -122,60 +122,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public RatingCurve GetRatingCurveWithRatingCurveID(int RatingCurveID, GetParam getParam)
+        public RatingCurve GetRatingCurveWithRatingCurveID(int RatingCurveID)
         {
-            IQueryable<RatingCurve> ratingCurveQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<RatingCurve> ratingCurveQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.RatingCurveID == RatingCurveID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return ratingCurveQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillRatingCurveWeb(ratingCurveQuery, "").FirstOrDefault();
+                    return FillRatingCurveWeb(ratingCurveQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillRatingCurveReport(ratingCurveQuery, "").FirstOrDefault();
+                    return FillRatingCurveReport(ratingCurveQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<RatingCurve> GetRatingCurveList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<RatingCurve> GetRatingCurveList()
         {
-            IQueryable<RatingCurve> ratingCurveQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<RatingCurve> ratingCurveQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            ratingCurveQuery  = ratingCurveQuery.OrderByDescending(c => c.RatingCurveID);
-                        }
-                        ratingCurveQuery = ratingCurveQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        ratingCurveQuery = EnhanceQueryStatements<RatingCurve>(ratingCurveQuery) as IQueryable<RatingCurve>;
+
                         return ratingCurveQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            ratingCurveQuery = FillRatingCurveWeb(ratingCurveQuery, FilterAndOrderText).OrderByDescending(c => c.RatingCurveID);
-                        }
-                        ratingCurveQuery = FillRatingCurveWeb(ratingCurveQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        ratingCurveQuery = FillRatingCurveWeb(ratingCurveQuery);
+
+                        ratingCurveQuery = EnhanceQueryStatements<RatingCurve>(ratingCurveQuery) as IQueryable<RatingCurve>;
+
                         return ratingCurveQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            ratingCurveQuery = FillRatingCurveReport(ratingCurveQuery, FilterAndOrderText).OrderByDescending(c => c.RatingCurveID);
-                        }
-                        ratingCurveQuery = FillRatingCurveReport(ratingCurveQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        ratingCurveQuery = FillRatingCurveReport(ratingCurveQuery);
+
+                        ratingCurveQuery = EnhanceQueryStatements<RatingCurve>(ratingCurveQuery) as IQueryable<RatingCurve>;
+
                         return ratingCurveQuery;
                     }
                 default:
-                    return null;
+                    {
+                        ratingCurveQuery = ratingCurveQuery.Where(c => c.RatingCurveID == 0);
+
+                        return ratingCurveQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -216,30 +214,20 @@ namespace CSSPServices
         }
         public IQueryable<RatingCurve> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.RatingCurves.AsNoTracking();
-            }
-            else
-            {
-                return db.RatingCurves.AsNoTracking().OrderByDescending(c => c.RatingCurveID);
-            }
+            IQueryable<RatingCurve> ratingCurveQuery = db.RatingCurves.AsNoTracking();
+
+            return ratingCurveQuery;
         }
         public IQueryable<RatingCurve> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.RatingCurves;
-            }
-            else
-            {
-                return db.RatingCurves.OrderByDescending(c => c.RatingCurveID);
-            }
+            IQueryable<RatingCurve> ratingCurveQuery = db.RatingCurves;
+
+            return ratingCurveQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated RatingCurveFillWeb
-        private IQueryable<RatingCurve> FillRatingCurveWeb(IQueryable<RatingCurve> ratingCurveQuery, string FilterAndOrderText)
+        private IQueryable<RatingCurve> FillRatingCurveWeb(IQueryable<RatingCurve> ratingCurveQuery)
         {
             ratingCurveQuery = (from c in ratingCurveQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

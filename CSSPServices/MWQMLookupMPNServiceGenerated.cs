@@ -100,7 +100,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmLookupMPN.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, (mwqmLookupMPN.LastUpdateContactTVItemID == null ? "" : mwqmLookupMPN.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, mwqmLookupMPN.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -126,60 +126,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MWQMLookupMPN GetMWQMLookupMPNWithMWQMLookupMPNID(int MWQMLookupMPNID, GetParam getParam)
+        public MWQMLookupMPN GetMWQMLookupMPNWithMWQMLookupMPNID(int MWQMLookupMPNID)
         {
-            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMLookupMPNID == MWQMLookupMPNID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmLookupMPNQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMLookupMPNWeb(mwqmLookupMPNQuery, "").FirstOrDefault();
+                    return FillMWQMLookupMPNWeb(mwqmLookupMPNQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMLookupMPNReport(mwqmLookupMPNQuery, "").FirstOrDefault();
+                    return FillMWQMLookupMPNReport(mwqmLookupMPNQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MWQMLookupMPN> GetMWQMLookupMPNList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MWQMLookupMPN> GetMWQMLookupMPNList()
         {
-            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmLookupMPNQuery  = mwqmLookupMPNQuery.OrderByDescending(c => c.MWQMLookupMPNID);
-                        }
-                        mwqmLookupMPNQuery = mwqmLookupMPNQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmLookupMPNQuery = EnhanceQueryStatements<MWQMLookupMPN>(mwqmLookupMPNQuery) as IQueryable<MWQMLookupMPN>;
+
                         return mwqmLookupMPNQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmLookupMPNQuery = FillMWQMLookupMPNWeb(mwqmLookupMPNQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMLookupMPNID);
-                        }
-                        mwqmLookupMPNQuery = FillMWQMLookupMPNWeb(mwqmLookupMPNQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmLookupMPNQuery = FillMWQMLookupMPNWeb(mwqmLookupMPNQuery);
+
+                        mwqmLookupMPNQuery = EnhanceQueryStatements<MWQMLookupMPN>(mwqmLookupMPNQuery) as IQueryable<MWQMLookupMPN>;
+
                         return mwqmLookupMPNQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mwqmLookupMPNQuery = FillMWQMLookupMPNReport(mwqmLookupMPNQuery, FilterAndOrderText).OrderByDescending(c => c.MWQMLookupMPNID);
-                        }
-                        mwqmLookupMPNQuery = FillMWQMLookupMPNReport(mwqmLookupMPNQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mwqmLookupMPNQuery = FillMWQMLookupMPNReport(mwqmLookupMPNQuery);
+
+                        mwqmLookupMPNQuery = EnhanceQueryStatements<MWQMLookupMPN>(mwqmLookupMPNQuery) as IQueryable<MWQMLookupMPN>;
+
                         return mwqmLookupMPNQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mwqmLookupMPNQuery = mwqmLookupMPNQuery.Where(c => c.MWQMLookupMPNID == 0);
+
+                        return mwqmLookupMPNQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -220,30 +218,20 @@ namespace CSSPServices
         }
         public IQueryable<MWQMLookupMPN> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMLookupMPNs.AsNoTracking();
-            }
-            else
-            {
-                return db.MWQMLookupMPNs.AsNoTracking().OrderByDescending(c => c.MWQMLookupMPNID);
-            }
+            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = db.MWQMLookupMPNs.AsNoTracking();
+
+            return mwqmLookupMPNQuery;
         }
         public IQueryable<MWQMLookupMPN> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MWQMLookupMPNs;
-            }
-            else
-            {
-                return db.MWQMLookupMPNs.OrderByDescending(c => c.MWQMLookupMPNID);
-            }
+            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = db.MWQMLookupMPNs;
+
+            return mwqmLookupMPNQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMLookupMPNFillWeb
-        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPNWeb(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery, string FilterAndOrderText)
+        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPNWeb(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery)
         {
             mwqmLookupMPNQuery = (from c in mwqmLookupMPNQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

@@ -86,11 +86,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetCSSPMPNTableWithCSSPMPNTableID(cSSPMPNTable.CSSPMPNTableID)
+        #endregion Tests Generated for GetCSSPMPNTableWithCSSPMPNTableID(cSSPMPNTable.CSSPMPNTableID)
 
-        #region Tests Generated Get List of CSSPMPNTable
-        #endregion Tests Get List of CSSPMPNTable
+        #region Tests Generated for GetCSSPMPNTableList()
+        #endregion Tests Generated for GetCSSPMPNTableList()
+
+        #region Tests Generated for GetCSSPMPNTableList() Skip Take
+        #endregion Tests Generated for GetCSSPMPNTableList() Skip Take
 
     }
 }

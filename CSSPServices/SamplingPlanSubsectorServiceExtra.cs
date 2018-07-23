@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsectorReport(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery, string FilterAndOrderText)
+        private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsectorReport(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery)
         {
             samplingPlanSubsectorQuery = (from c in samplingPlanSubsectorQuery
                                           let SubsectorTVText = (from cl in db.TVItemLanguages

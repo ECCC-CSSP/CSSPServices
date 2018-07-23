@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<AppTask> FillAppTaskReport(IQueryable<AppTask> appTaskQuery, string FilterAndOrderText)
+        private IQueryable<AppTask> FillAppTaskReport(IQueryable<AppTask> appTaskQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

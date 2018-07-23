@@ -480,9 +480,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID)
         [TestMethod]
-        public void VPAmbient_Get_With_Key_Test()
+        public void GetVPAmbientWithVPAmbientID__vpAmbient_VPAmbientID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -490,33 +490,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     VPAmbientService vpAmbientService = new VPAmbientService(new GetParam(), dbTestDB, ContactID);
                     VPAmbient vpAmbient = (from c in vpAmbientService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpAmbient);
 
                     VPAmbient vpAmbientRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        vpAmbientService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, getParam);
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
                             Assert.IsNull(vpAmbientRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, getParam);
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, getParam);
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID, getParam);
+                            vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
                         }
                         else
                         {
@@ -569,13 +568,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // VPAmbientWeb and VPAmbientReport fields should be null here
                             Assert.IsNull(vpAmbientRet.VPAmbientWeb);
                             Assert.IsNull(vpAmbientRet.VPAmbientReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // VPAmbientWeb fields should not be null and VPAmbientReport fields should be null here
                             if (vpAmbientRet.VPAmbientWeb.LastUpdateContactTVText != null)
@@ -584,7 +583,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(vpAmbientRet.VPAmbientReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // VPAmbientWeb and VPAmbientReport fields should NOT be null here
                             if (vpAmbientRet.VPAmbientWeb.LastUpdateContactTVText != null)
@@ -600,10 +599,176 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID)
 
-        #region Tests Generated Get List of VPAmbient
-        #endregion Tests Get List of VPAmbient
+        #region Tests Generated for GetVPAmbientList()
+        [TestMethod]
+        public void GetVPAmbientList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    VPAmbientService vpAmbientService = new VPAmbientService(new GetParam(), dbTestDB, ContactID);
+                    VPAmbient vpAmbient = (from c in vpAmbientService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(vpAmbient);
+
+                    List<VPAmbient> vpAmbientList = new List<VPAmbient>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        vpAmbientService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                            Assert.AreEqual(0, vpAmbientList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // VPAmbient fields
+                        Assert.IsNotNull(vpAmbientList[0].VPAmbientID);
+                        Assert.IsNotNull(vpAmbientList[0].VPScenarioID);
+                        Assert.IsNotNull(vpAmbientList[0].Row);
+                        if (vpAmbientList[0].MeasurementDepth_m != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].MeasurementDepth_m);
+                        }
+                        if (vpAmbientList[0].CurrentSpeed_m_s != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].CurrentSpeed_m_s);
+                        }
+                        if (vpAmbientList[0].CurrentDirection_deg != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].CurrentDirection_deg);
+                        }
+                        if (vpAmbientList[0].AmbientSalinity_PSU != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].AmbientSalinity_PSU);
+                        }
+                        if (vpAmbientList[0].AmbientTemperature_C != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].AmbientTemperature_C);
+                        }
+                        if (vpAmbientList[0].BackgroundConcentration_MPN_100ml != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].BackgroundConcentration_MPN_100ml);
+                        }
+                        if (vpAmbientList[0].PollutantDecayRate_per_day != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].PollutantDecayRate_per_day);
+                        }
+                        if (vpAmbientList[0].FarFieldCurrentSpeed_m_s != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].FarFieldCurrentSpeed_m_s);
+                        }
+                        if (vpAmbientList[0].FarFieldCurrentDirection_deg != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].FarFieldCurrentDirection_deg);
+                        }
+                        if (vpAmbientList[0].FarFieldDiffusionCoefficient != null)
+                        {
+                            Assert.IsNotNull(vpAmbientList[0].FarFieldDiffusionCoefficient);
+                        }
+                        Assert.IsNotNull(vpAmbientList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(vpAmbientList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // VPAmbientWeb and VPAmbientReport fields should be null here
+                            Assert.IsNull(vpAmbientList[0].VPAmbientWeb);
+                            Assert.IsNull(vpAmbientList[0].VPAmbientReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // VPAmbientWeb fields should not be null and VPAmbientReport fields should be null here
+                            if (vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(vpAmbientList[0].VPAmbientReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // VPAmbientWeb and VPAmbientReport fields should NOT be null here
+                            if (vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText));
+                            }
+                            if (vpAmbientList[0].VPAmbientReport.VPAmbientReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientList[0].VPAmbientReport.VPAmbientReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPAmbientList()
+
+        #region Tests Generated for GetVPAmbientList() Skip Take
+        [TestMethod]
+        public void GetVPAmbientList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<VPAmbient> vpAmbientList = new List<VPAmbient>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(VPAmbient), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        VPAmbientService vpAmbientService = new VPAmbientService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                            Assert.AreEqual(0, vpAmbientList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, vpAmbientList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPAmbientList() Skip Take
 
     }
 }

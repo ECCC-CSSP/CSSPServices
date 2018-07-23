@@ -262,9 +262,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID)
         [TestMethod]
-        public void MWQMSiteStartEndDate_Get_With_Key_Test()
+        public void GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID__mwqmSiteStartEndDate_MWQMSiteStartEndDateID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -272,33 +272,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(new GetParam(), dbTestDB, ContactID);
                     MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in mwqmSiteStartEndDateService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSiteStartEndDate);
 
                     MWQMSiteStartEndDate mwqmSiteStartEndDateRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        mwqmSiteStartEndDateService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, getParam);
+                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
                             Assert.IsNull(mwqmSiteStartEndDateRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, getParam);
+                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, getParam);
+                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, getParam);
+                            mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
                         }
                         else
                         {
@@ -315,13 +314,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // MWQMSiteStartEndDateWeb and MWQMSiteStartEndDateReport fields should be null here
                             Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb);
                             Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // MWQMSiteStartEndDateWeb fields should not be null and MWQMSiteStartEndDateReport fields should be null here
                             if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.MWQMSiteTVText != null)
@@ -334,7 +333,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // MWQMSiteStartEndDateWeb and MWQMSiteStartEndDateReport fields should NOT be null here
                             if (mwqmSiteStartEndDateRet.MWQMSiteStartEndDateWeb.MWQMSiteTVText != null)
@@ -354,10 +353,148 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID)
 
-        #region Tests Generated Get List of MWQMSiteStartEndDate
-        #endregion Tests Get List of MWQMSiteStartEndDate
+        #region Tests Generated for GetMWQMSiteStartEndDateList()
+        [TestMethod]
+        public void GetMWQMSiteStartEndDateList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in mwqmSiteStartEndDateService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mwqmSiteStartEndDate);
+
+                    List<MWQMSiteStartEndDate> mwqmSiteStartEndDateList = new List<MWQMSiteStartEndDate>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        mwqmSiteStartEndDateService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                            Assert.AreEqual(0, mwqmSiteStartEndDateList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // MWQMSiteStartEndDate fields
+                        Assert.IsNotNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateID);
+                        Assert.IsNotNull(mwqmSiteStartEndDateList[0].MWQMSiteTVItemID);
+                        Assert.IsNotNull(mwqmSiteStartEndDateList[0].StartDate);
+                        if (mwqmSiteStartEndDateList[0].EndDate != null)
+                        {
+                            Assert.IsNotNull(mwqmSiteStartEndDateList[0].EndDate);
+                        }
+                        Assert.IsNotNull(mwqmSiteStartEndDateList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(mwqmSiteStartEndDateList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // MWQMSiteStartEndDateWeb and MWQMSiteStartEndDateReport fields should be null here
+                            Assert.IsNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb);
+                            Assert.IsNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // MWQMSiteStartEndDateWeb fields should not be null and MWQMSiteStartEndDateReport fields should be null here
+                            if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText));
+                            }
+                            if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // MWQMSiteStartEndDateWeb and MWQMSiteStartEndDateReport fields should NOT be null here
+                            if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText));
+                            }
+                            if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText));
+                            }
+                            if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateReport.MWQMSiteStartEndDateReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateReport.MWQMSiteStartEndDateReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSiteStartEndDateList()
+
+        #region Tests Generated for GetMWQMSiteStartEndDateList() Skip Take
+        [TestMethod]
+        public void GetMWQMSiteStartEndDateList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSiteStartEndDate> mwqmSiteStartEndDateList = new List<MWQMSiteStartEndDate>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(MWQMSiteStartEndDate), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                            Assert.AreEqual(0, mwqmSiteStartEndDateList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSiteStartEndDateList = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, mwqmSiteStartEndDateList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSiteStartEndDateList() Skip Take
 
     }
 }

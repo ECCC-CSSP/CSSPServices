@@ -280,9 +280,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID)
         [TestMethod]
-        public void TVItemLanguage_Get_With_Key_Test()
+        public void GetTVItemLanguageWithTVItemLanguageID__tvItemLanguage_TVItemLanguageID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -290,33 +290,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new GetParam(), dbTestDB, ContactID);
                     TVItemLanguage tvItemLanguage = (from c in tvItemLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemLanguage);
 
                     TVItemLanguage tvItemLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        tvItemLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID, getParam);
+                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID);
                             Assert.IsNull(tvItemLanguageRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID, getParam);
+                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID, getParam);
+                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID, getParam);
+                            tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID);
                         }
                         else
                         {
@@ -331,13 +330,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(tvItemLanguageRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(tvItemLanguageRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // TVItemLanguageWeb and TVItemLanguageReport fields should be null here
                             Assert.IsNull(tvItemLanguageRet.TVItemLanguageWeb);
                             Assert.IsNull(tvItemLanguageRet.TVItemLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // TVItemLanguageWeb fields should not be null and TVItemLanguageReport fields should be null here
                             if (tvItemLanguageRet.TVItemLanguageWeb.LastUpdateContactTVText != null)
@@ -354,7 +353,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(tvItemLanguageRet.TVItemLanguageReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // TVItemLanguageWeb and TVItemLanguageReport fields should NOT be null here
                             if (tvItemLanguageRet.TVItemLanguageWeb.LastUpdateContactTVText != null)
@@ -378,10 +377,154 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID)
 
-        #region Tests Generated Get List of TVItemLanguage
-        #endregion Tests Get List of TVItemLanguage
+        #region Tests Generated for GetTVItemLanguageList()
+        [TestMethod]
+        public void GetTVItemLanguageList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new GetParam(), dbTestDB, ContactID);
+                    TVItemLanguage tvItemLanguage = (from c in tvItemLanguageService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(tvItemLanguage);
+
+                    List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        tvItemLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                            Assert.AreEqual(0, tvItemLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // TVItemLanguage fields
+                        Assert.IsNotNull(tvItemLanguageList[0].TVItemLanguageID);
+                        Assert.IsNotNull(tvItemLanguageList[0].TVItemID);
+                        Assert.IsNotNull(tvItemLanguageList[0].Language);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVText));
+                        Assert.IsNotNull(tvItemLanguageList[0].TranslationStatus);
+                        Assert.IsNotNull(tvItemLanguageList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(tvItemLanguageList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // TVItemLanguageWeb and TVItemLanguageReport fields should be null here
+                            Assert.IsNull(tvItemLanguageList[0].TVItemLanguageWeb);
+                            Assert.IsNull(tvItemLanguageList[0].TVItemLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // TVItemLanguageWeb fields should not be null and TVItemLanguageReport fields should be null here
+                            if (tvItemLanguageList[0].TVItemLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVItemLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (tvItemLanguageList[0].TVItemLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVItemLanguageWeb.LanguageText));
+                            }
+                            if (tvItemLanguageList[0].TVItemLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVItemLanguageWeb.TranslationStatusText));
+                            }
+                            Assert.IsNull(tvItemLanguageList[0].TVItemLanguageReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TVItemLanguageWeb and TVItemLanguageReport fields should NOT be null here
+                            if (tvItemLanguageList[0].TVItemLanguageWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVItemLanguageWeb.LastUpdateContactTVText));
+                            }
+                            if (tvItemLanguageList[0].TVItemLanguageWeb.LanguageText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVItemLanguageWeb.LanguageText));
+                            }
+                            if (tvItemLanguageList[0].TVItemLanguageWeb.TranslationStatusText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVItemLanguageWeb.TranslationStatusText));
+                            }
+                            if (tvItemLanguageList[0].TVItemLanguageReport.TVItemLanguageReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLanguageList[0].TVItemLanguageReport.TVItemLanguageReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLanguageList()
+
+        #region Tests Generated for GetTVItemLanguageList() Skip Take
+        [TestMethod]
+        public void GetTVItemLanguageList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(TVItemLanguage), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                            Assert.AreEqual(0, tvItemLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, tvItemLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemLanguageList() Skip Take
 
     }
 }

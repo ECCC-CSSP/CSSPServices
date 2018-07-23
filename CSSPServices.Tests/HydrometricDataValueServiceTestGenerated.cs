@@ -294,9 +294,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID)
         [TestMethod]
-        public void HydrometricDataValue_Get_With_Key_Test()
+        public void GetHydrometricDataValueWithHydrometricDataValueID__hydrometricDataValue_HydrometricDataValueID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -304,33 +304,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new GetParam(), dbTestDB, ContactID);
                     HydrometricDataValue hydrometricDataValue = (from c in hydrometricDataValueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(hydrometricDataValue);
 
                     HydrometricDataValue hydrometricDataValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        hydrometricDataValueService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID, getParam);
+                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                             Assert.IsNull(hydrometricDataValueRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID, getParam);
+                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID, getParam);
+                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID, getParam);
+                            hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                         }
                         else
                         {
@@ -350,13 +349,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(hydrometricDataValueRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // HydrometricDataValueWeb and HydrometricDataValueReport fields should be null here
                             Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueWeb);
                             Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // HydrometricDataValueWeb fields should not be null and HydrometricDataValueReport fields should be null here
                             if (hydrometricDataValueRet.HydrometricDataValueWeb.LastUpdateContactTVText != null)
@@ -369,7 +368,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(hydrometricDataValueRet.HydrometricDataValueReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // HydrometricDataValueWeb and HydrometricDataValueReport fields should NOT be null here
                             if (hydrometricDataValueRet.HydrometricDataValueWeb.LastUpdateContactTVText != null)
@@ -389,10 +388,151 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID)
 
-        #region Tests Generated Get List of HydrometricDataValue
-        #endregion Tests Get List of HydrometricDataValue
+        #region Tests Generated for GetHydrometricDataValueList()
+        [TestMethod]
+        public void GetHydrometricDataValueList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new GetParam(), dbTestDB, ContactID);
+                    HydrometricDataValue hydrometricDataValue = (from c in hydrometricDataValueService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(hydrometricDataValue);
+
+                    List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        hydrometricDataValueService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                            Assert.AreEqual(0, hydrometricDataValueList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // HydrometricDataValue fields
+                        Assert.IsNotNull(hydrometricDataValueList[0].HydrometricDataValueID);
+                        Assert.IsNotNull(hydrometricDataValueList[0].HydrometricSiteID);
+                        Assert.IsNotNull(hydrometricDataValueList[0].DateTime_Local);
+                        Assert.IsNotNull(hydrometricDataValueList[0].Keep);
+                        Assert.IsNotNull(hydrometricDataValueList[0].StorageDataType);
+                        Assert.IsNotNull(hydrometricDataValueList[0].Flow_m3_s);
+                        if (hydrometricDataValueList[0].HourlyValues != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HourlyValues));
+                        }
+                        Assert.IsNotNull(hydrometricDataValueList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(hydrometricDataValueList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // HydrometricDataValueWeb and HydrometricDataValueReport fields should be null here
+                            Assert.IsNull(hydrometricDataValueList[0].HydrometricDataValueWeb);
+                            Assert.IsNull(hydrometricDataValueList[0].HydrometricDataValueReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // HydrometricDataValueWeb fields should not be null and HydrometricDataValueReport fields should be null here
+                            if (hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText));
+                            }
+                            Assert.IsNull(hydrometricDataValueList[0].HydrometricDataValueReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // HydrometricDataValueWeb and HydrometricDataValueReport fields should NOT be null here
+                            if (hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText));
+                            }
+                            if (hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText));
+                            }
+                            if (hydrometricDataValueList[0].HydrometricDataValueReport.HydrometricDataValueReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueReport.HydrometricDataValueReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricDataValueList()
+
+        #region Tests Generated for GetHydrometricDataValueList() Skip Take
+        [TestMethod]
+        public void GetHydrometricDataValueList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(HydrometricDataValue), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                            Assert.AreEqual(0, hydrometricDataValueList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, hydrometricDataValueList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetHydrometricDataValueList() Skip Take
 
     }
 }

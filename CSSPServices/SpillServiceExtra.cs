@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<Spill> FillSpillReport(IQueryable<Spill> spillQuery, string FilterAndOrderText)
+        private IQueryable<Spill> FillSpillReport(IQueryable<Spill> spillQuery)
         {
             spillQuery = (from c in spillQuery
                           let MunicipalityTVText = (from cl in db.TVItemLanguages

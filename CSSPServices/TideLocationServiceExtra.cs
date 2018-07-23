@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<TideLocation> FillTideLocationReport(IQueryable<TideLocation> tideLocationQuery, string FilterAndOrderText)
+        private IQueryable<TideLocation> FillTideLocationReport(IQueryable<TideLocation> tideLocationQuery)
         {
             tideLocationQuery = (from c in tideLocationQuery
                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages

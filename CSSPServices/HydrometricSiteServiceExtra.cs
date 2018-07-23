@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<HydrometricSite> FillHydrometricSiteReport(IQueryable<HydrometricSite> hydrometricSiteQuery, string FilterAndOrderText)
+        private IQueryable<HydrometricSite> FillHydrometricSiteReport(IQueryable<HydrometricSite> hydrometricSiteQuery)
         {
             hydrometricSiteQuery = (from c in hydrometricSiteQuery
                                     let HydrometricTVText = (from cl in db.TVItemLanguages

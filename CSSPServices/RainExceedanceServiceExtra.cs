@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<RainExceedance> FillRainExceedanceReport(IQueryable<RainExceedance> rainExceedanceQuery, string FilterAndOrderText)
+        private IQueryable<RainExceedance> FillRainExceedanceReport(IQueryable<RainExceedance> rainExceedanceQuery)
         {
             rainExceedanceQuery = (from c in rainExceedanceQuery
                                    let LastUpdateContactTVText = (from cl in db.TVItemLanguages

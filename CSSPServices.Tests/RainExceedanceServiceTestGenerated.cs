@@ -407,9 +407,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID)
         [TestMethod]
-        public void RainExceedance_Get_With_Key_Test()
+        public void GetRainExceedanceWithRainExceedanceID__rainExceedance_RainExceedanceID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -417,33 +417,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     RainExceedanceService rainExceedanceService = new RainExceedanceService(new GetParam(), dbTestDB, ContactID);
                     RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(rainExceedance);
 
                     RainExceedance rainExceedanceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        rainExceedanceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, getParam);
+                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
                             Assert.IsNull(rainExceedanceRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, getParam);
+                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, getParam);
+                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID, getParam);
+                            rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
                         }
                         else
                         {
@@ -477,13 +476,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(rainExceedanceRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // RainExceedanceWeb and RainExceedanceReport fields should be null here
                             Assert.IsNull(rainExceedanceRet.RainExceedanceWeb);
                             Assert.IsNull(rainExceedanceRet.RainExceedanceReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // RainExceedanceWeb fields should not be null and RainExceedanceReport fields should be null here
                             if (rainExceedanceRet.RainExceedanceWeb.LastUpdateContactTVText != null)
@@ -492,7 +491,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(rainExceedanceRet.RainExceedanceReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // RainExceedanceWeb and RainExceedanceReport fields should NOT be null here
                             if (rainExceedanceRet.RainExceedanceWeb.LastUpdateContactTVText != null)
@@ -508,10 +507,157 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID)
 
-        #region Tests Generated Get List of RainExceedance
-        #endregion Tests Get List of RainExceedance
+        #region Tests Generated for GetRainExceedanceList()
+        [TestMethod]
+        public void GetRainExceedanceList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    RainExceedanceService rainExceedanceService = new RainExceedanceService(new GetParam(), dbTestDB, ContactID);
+                    RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(rainExceedance);
+
+                    List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        rainExceedanceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                            Assert.AreEqual(0, rainExceedanceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // RainExceedance fields
+                        Assert.IsNotNull(rainExceedanceList[0].RainExceedanceID);
+                        Assert.IsNotNull(rainExceedanceList[0].YearRound);
+                        if (rainExceedanceList[0].StartDate_Local != null)
+                        {
+                            Assert.IsNotNull(rainExceedanceList[0].StartDate_Local);
+                        }
+                        if (rainExceedanceList[0].EndDate_Local != null)
+                        {
+                            Assert.IsNotNull(rainExceedanceList[0].EndDate_Local);
+                        }
+                        if (rainExceedanceList[0].RainMaximum_mm != null)
+                        {
+                            Assert.IsNotNull(rainExceedanceList[0].RainMaximum_mm);
+                        }
+                        if (rainExceedanceList[0].RainExtreme_mm != null)
+                        {
+                            Assert.IsNotNull(rainExceedanceList[0].RainExtreme_mm);
+                        }
+                        Assert.IsNotNull(rainExceedanceList[0].DaysPriorToStart);
+                        Assert.IsNotNull(rainExceedanceList[0].RepeatEveryYear);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].ProvinceTVItemIDs));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].SubsectorTVItemIDs));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].ClimateSiteTVItemIDs));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].EmailDistributionListIDs));
+                        Assert.IsNotNull(rainExceedanceList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(rainExceedanceList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // RainExceedanceWeb and RainExceedanceReport fields should be null here
+                            Assert.IsNull(rainExceedanceList[0].RainExceedanceWeb);
+                            Assert.IsNull(rainExceedanceList[0].RainExceedanceReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // RainExceedanceWeb fields should not be null and RainExceedanceReport fields should be null here
+                            if (rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(rainExceedanceList[0].RainExceedanceReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // RainExceedanceWeb and RainExceedanceReport fields should NOT be null here
+                            if (rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText));
+                            }
+                            if (rainExceedanceList[0].RainExceedanceReport.RainExceedanceReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].RainExceedanceReport.RainExceedanceReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRainExceedanceList()
+
+        #region Tests Generated for GetRainExceedanceList() Skip Take
+        [TestMethod]
+        public void GetRainExceedanceList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(RainExceedance), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        RainExceedanceService rainExceedanceService = new RainExceedanceService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                            Assert.AreEqual(0, rainExceedanceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, rainExceedanceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetRainExceedanceList() Skip Take
 
     }
 }

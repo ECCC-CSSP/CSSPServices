@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemSiteTVItemID == null)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteSiteTVItemID, (useOfSite.SiteTVItemID == null ? "" : useOfSite.SiteTVItemID.ToString())), new[] { "SiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), new[] { "SiteTVItemID" });
             }
             else
             {
@@ -84,7 +84,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteSubsectorTVItemID, (useOfSite.SubsectorTVItemID == null ? "" : useOfSite.SubsectorTVItemID.ToString())), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -191,7 +191,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 useOfSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteLastUpdateContactTVItemID, (useOfSite.LastUpdateContactTVItemID == null ? "" : useOfSite.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -217,60 +217,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public UseOfSite GetUseOfSiteWithUseOfSiteID(int UseOfSiteID, GetParam getParam)
+        public UseOfSite GetUseOfSiteWithUseOfSiteID(int UseOfSiteID)
         {
-            IQueryable<UseOfSite> useOfSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<UseOfSite> useOfSiteQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.UseOfSiteID == UseOfSiteID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return useOfSiteQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillUseOfSiteWeb(useOfSiteQuery, "").FirstOrDefault();
+                    return FillUseOfSiteWeb(useOfSiteQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillUseOfSiteReport(useOfSiteQuery, "").FirstOrDefault();
+                    return FillUseOfSiteReport(useOfSiteQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<UseOfSite> GetUseOfSiteList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<UseOfSite> GetUseOfSiteList()
         {
-            IQueryable<UseOfSite> useOfSiteQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<UseOfSite> useOfSiteQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            useOfSiteQuery  = useOfSiteQuery.OrderByDescending(c => c.UseOfSiteID);
-                        }
-                        useOfSiteQuery = useOfSiteQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        useOfSiteQuery = EnhanceQueryStatements<UseOfSite>(useOfSiteQuery) as IQueryable<UseOfSite>;
+
                         return useOfSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            useOfSiteQuery = FillUseOfSiteWeb(useOfSiteQuery, FilterAndOrderText).OrderByDescending(c => c.UseOfSiteID);
-                        }
-                        useOfSiteQuery = FillUseOfSiteWeb(useOfSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        useOfSiteQuery = FillUseOfSiteWeb(useOfSiteQuery);
+
+                        useOfSiteQuery = EnhanceQueryStatements<UseOfSite>(useOfSiteQuery) as IQueryable<UseOfSite>;
+
                         return useOfSiteQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            useOfSiteQuery = FillUseOfSiteReport(useOfSiteQuery, FilterAndOrderText).OrderByDescending(c => c.UseOfSiteID);
-                        }
-                        useOfSiteQuery = FillUseOfSiteReport(useOfSiteQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        useOfSiteQuery = FillUseOfSiteReport(useOfSiteQuery);
+
+                        useOfSiteQuery = EnhanceQueryStatements<UseOfSite>(useOfSiteQuery) as IQueryable<UseOfSite>;
+
                         return useOfSiteQuery;
                     }
                 default:
-                    return null;
+                    {
+                        useOfSiteQuery = useOfSiteQuery.Where(c => c.UseOfSiteID == 0);
+
+                        return useOfSiteQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -311,30 +309,20 @@ namespace CSSPServices
         }
         public IQueryable<UseOfSite> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.UseOfSites.AsNoTracking();
-            }
-            else
-            {
-                return db.UseOfSites.AsNoTracking().OrderByDescending(c => c.UseOfSiteID);
-            }
+            IQueryable<UseOfSite> useOfSiteQuery = db.UseOfSites.AsNoTracking();
+
+            return useOfSiteQuery;
         }
         public IQueryable<UseOfSite> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.UseOfSites;
-            }
-            else
-            {
-                return db.UseOfSites.OrderByDescending(c => c.UseOfSiteID);
-            }
+            IQueryable<UseOfSite> useOfSiteQuery = db.UseOfSites;
+
+            return useOfSiteQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated UseOfSiteFillWeb
-        private IQueryable<UseOfSite> FillUseOfSiteWeb(IQueryable<UseOfSite> useOfSiteQuery, string FilterAndOrderText)
+        private IQueryable<UseOfSite> FillUseOfSiteWeb(IQueryable<UseOfSite> useOfSiteQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

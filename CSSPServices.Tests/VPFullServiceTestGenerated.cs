@@ -82,11 +82,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetVPFullWithVPFullID(vpFull.VPFullID)
+        #endregion Tests Generated for GetVPFullWithVPFullID(vpFull.VPFullID)
 
-        #region Tests Generated Get List of VPFull
-        #endregion Tests Get List of VPFull
+        #region Tests Generated for GetVPFullList()
+        #endregion Tests Generated for GetVPFullList()
+
+        #region Tests Generated for GetVPFullList() Skip Take
+        #endregion Tests Generated for GetVPFullList() Skip Take
 
     }
 }

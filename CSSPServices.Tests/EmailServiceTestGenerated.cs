@@ -267,9 +267,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetEmailWithEmailID(email.EmailID)
         [TestMethod]
-        public void Email_Get_With_Key_Test()
+        public void GetEmailWithEmailID__email_EmailID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -277,33 +277,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     EmailService emailService = new EmailService(new GetParam(), dbTestDB, ContactID);
                     Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(email);
 
                     Email emailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        emailService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                             Assert.IsNull(emailRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailRet = emailService.GetEmailWithEmailID(email.EmailID, getParam);
+                            emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                         }
                         else
                         {
@@ -317,13 +316,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(emailRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(emailRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // EmailWeb and EmailReport fields should be null here
                             Assert.IsNull(emailRet.EmailWeb);
                             Assert.IsNull(emailRet.EmailReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // EmailWeb fields should not be null and EmailReport fields should be null here
                             if (emailRet.EmailWeb.EmailTVText != null)
@@ -340,7 +339,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(emailRet.EmailReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // EmailWeb and EmailReport fields should NOT be null here
                             if (emailRet.EmailWeb.EmailTVText != null)
@@ -364,10 +363,153 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetEmailWithEmailID(email.EmailID)
 
-        #region Tests Generated Get List of Email
-        #endregion Tests Get List of Email
+        #region Tests Generated for GetEmailList()
+        [TestMethod]
+        public void GetEmailList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    EmailService emailService = new EmailService(new GetParam(), dbTestDB, ContactID);
+                    Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(email);
+
+                    List<Email> emailList = new List<Email>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        emailService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                            Assert.AreEqual(0, emailList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Email fields
+                        Assert.IsNotNull(emailList[0].EmailID);
+                        Assert.IsNotNull(emailList[0].EmailTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailAddress));
+                        Assert.IsNotNull(emailList[0].EmailType);
+                        Assert.IsNotNull(emailList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(emailList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // EmailWeb and EmailReport fields should be null here
+                            Assert.IsNull(emailList[0].EmailWeb);
+                            Assert.IsNull(emailList[0].EmailReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // EmailWeb fields should not be null and EmailReport fields should be null here
+                            if (emailList[0].EmailWeb.EmailTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTVText));
+                            }
+                            if (emailList[0].EmailWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.LastUpdateContactTVText));
+                            }
+                            if (emailList[0].EmailWeb.EmailTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTypeText));
+                            }
+                            Assert.IsNull(emailList[0].EmailReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // EmailWeb and EmailReport fields should NOT be null here
+                            if (emailList[0].EmailWeb.EmailTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTVText));
+                            }
+                            if (emailList[0].EmailWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.LastUpdateContactTVText));
+                            }
+                            if (emailList[0].EmailWeb.EmailTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTypeText));
+                            }
+                            if (emailList[0].EmailReport.EmailReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailReport.EmailReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailList()
+
+        #region Tests Generated for GetEmailList() Skip Take
+        [TestMethod]
+        public void GetEmailList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Email> emailList = new List<Email>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(Email), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        EmailService emailService = new EmailService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                            Assert.AreEqual(0, emailList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailList = emailService.GetEmailList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, emailList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailList() Skip Take
 
     }
 }

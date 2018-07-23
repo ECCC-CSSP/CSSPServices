@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemAddressTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressAddressTVItemID, (address.AddressTVItemID == null ? "" : address.AddressTVItemID.ToString())), new[] { "AddressTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { "AddressTVItemID" });
             }
             else
             {
@@ -89,7 +89,7 @@ namespace CSSPServices
             if (TVItemCountryTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressCountryTVItemID, (address.CountryTVItemID == null ? "" : address.CountryTVItemID.ToString())), new[] { "CountryTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressCountryTVItemID, address.CountryTVItemID.ToString()), new[] { "CountryTVItemID" });
             }
             else
             {
@@ -109,7 +109,7 @@ namespace CSSPServices
             if (TVItemProvinceTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressProvinceTVItemID, (address.ProvinceTVItemID == null ? "" : address.ProvinceTVItemID.ToString())), new[] { "ProvinceTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressProvinceTVItemID, address.ProvinceTVItemID.ToString()), new[] { "ProvinceTVItemID" });
             }
             else
             {
@@ -129,7 +129,7 @@ namespace CSSPServices
             if (TVItemMunicipalityTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressMunicipalityTVItemID, (address.MunicipalityTVItemID == null ? "" : address.MunicipalityTVItemID.ToString())), new[] { "MunicipalityTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressMunicipalityTVItemID, address.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
             }
             else
             {
@@ -197,7 +197,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 address.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressLastUpdateContactTVItemID, (address.LastUpdateContactTVItemID == null ? "" : address.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressLastUpdateContactTVItemID, address.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -223,60 +223,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Address GetAddressWithAddressID(int AddressID, GetParam getParam)
+        public Address GetAddressWithAddressID(int AddressID)
         {
-            IQueryable<Address> addressQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Address> addressQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AddressID == AddressID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return addressQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAddressWeb(addressQuery, "").FirstOrDefault();
+                    return FillAddressWeb(addressQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAddressReport(addressQuery, "").FirstOrDefault();
+                    return FillAddressReport(addressQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Address> GetAddressList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Address> GetAddressList()
         {
-            IQueryable<Address> addressQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Address> addressQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            addressQuery  = addressQuery.OrderByDescending(c => c.AddressID);
-                        }
-                        addressQuery = addressQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        addressQuery = EnhanceQueryStatements<Address>(addressQuery) as IQueryable<Address>;
+
                         return addressQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            addressQuery = FillAddressWeb(addressQuery, FilterAndOrderText).OrderByDescending(c => c.AddressID);
-                        }
-                        addressQuery = FillAddressWeb(addressQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        addressQuery = FillAddressWeb(addressQuery);
+
+                        addressQuery = EnhanceQueryStatements<Address>(addressQuery) as IQueryable<Address>;
+
                         return addressQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            addressQuery = FillAddressReport(addressQuery, FilterAndOrderText).OrderByDescending(c => c.AddressID);
-                        }
-                        addressQuery = FillAddressReport(addressQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        addressQuery = FillAddressReport(addressQuery);
+
+                        addressQuery = EnhanceQueryStatements<Address>(addressQuery) as IQueryable<Address>;
+
                         return addressQuery;
                     }
                 default:
-                    return null;
+                    {
+                        addressQuery = addressQuery.Where(c => c.AddressID == 0);
+
+                        return addressQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -317,30 +315,20 @@ namespace CSSPServices
         }
         public IQueryable<Address> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Addresses.AsNoTracking();
-            }
-            else
-            {
-                return db.Addresses.AsNoTracking().OrderByDescending(c => c.AddressID);
-            }
+            IQueryable<Address> addressQuery = db.Addresses.AsNoTracking();
+
+            return addressQuery;
         }
         public IQueryable<Address> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Addresses;
-            }
-            else
-            {
-                return db.Addresses.OrderByDescending(c => c.AddressID);
-            }
+            IQueryable<Address> addressQuery = db.Addresses;
+
+            return addressQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AddressFillWeb
-        private IQueryable<Address> FillAddressWeb(IQueryable<Address> addressQuery, string FilterAndOrderText)
+        private IQueryable<Address> FillAddressWeb(IQueryable<Address> addressQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

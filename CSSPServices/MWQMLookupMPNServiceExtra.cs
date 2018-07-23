@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPNReport(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery, string FilterAndOrderText)
+        private IQueryable<MWQMLookupMPN> FillMWQMLookupMPNReport(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery)
         {
             mwqmLookupMPNQuery = (from c in mwqmLookupMPNQuery
                                   let LastUpdateContactTVText = (from cl in db.TVItemLanguages

@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemInfrastructureTVItemID == null)
             {
                 infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureInfrastructureTVItemID, (infrastructure.InfrastructureTVItemID == null ? "" : infrastructure.InfrastructureTVItemID.ToString())), new[] { "InfrastructureTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
             }
             else
             {
@@ -503,7 +503,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 infrastructure.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, (infrastructure.LastUpdateContactTVItemID == null ? "" : infrastructure.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, infrastructure.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -529,60 +529,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public Infrastructure GetInfrastructureWithInfrastructureID(int InfrastructureID, GetParam getParam)
+        public Infrastructure GetInfrastructureWithInfrastructureID(int InfrastructureID)
         {
-            IQueryable<Infrastructure> infrastructureQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Infrastructure> infrastructureQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.InfrastructureID == InfrastructureID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillInfrastructureWeb(infrastructureQuery, "").FirstOrDefault();
+                    return FillInfrastructureWeb(infrastructureQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillInfrastructureReport(infrastructureQuery, "").FirstOrDefault();
+                    return FillInfrastructureReport(infrastructureQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<Infrastructure> GetInfrastructureList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<Infrastructure> GetInfrastructureList()
         {
-            IQueryable<Infrastructure> infrastructureQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<Infrastructure> infrastructureQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            infrastructureQuery  = infrastructureQuery.OrderByDescending(c => c.InfrastructureID);
-                        }
-                        infrastructureQuery = infrastructureQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        infrastructureQuery = EnhanceQueryStatements<Infrastructure>(infrastructureQuery) as IQueryable<Infrastructure>;
+
                         return infrastructureQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            infrastructureQuery = FillInfrastructureWeb(infrastructureQuery, FilterAndOrderText).OrderByDescending(c => c.InfrastructureID);
-                        }
-                        infrastructureQuery = FillInfrastructureWeb(infrastructureQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        infrastructureQuery = FillInfrastructureWeb(infrastructureQuery);
+
+                        infrastructureQuery = EnhanceQueryStatements<Infrastructure>(infrastructureQuery) as IQueryable<Infrastructure>;
+
                         return infrastructureQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            infrastructureQuery = FillInfrastructureReport(infrastructureQuery, FilterAndOrderText).OrderByDescending(c => c.InfrastructureID);
-                        }
-                        infrastructureQuery = FillInfrastructureReport(infrastructureQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        infrastructureQuery = FillInfrastructureReport(infrastructureQuery);
+
+                        infrastructureQuery = EnhanceQueryStatements<Infrastructure>(infrastructureQuery) as IQueryable<Infrastructure>;
+
                         return infrastructureQuery;
                     }
                 default:
-                    return null;
+                    {
+                        infrastructureQuery = infrastructureQuery.Where(c => c.InfrastructureID == 0);
+
+                        return infrastructureQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -623,30 +621,20 @@ namespace CSSPServices
         }
         public IQueryable<Infrastructure> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Infrastructures.AsNoTracking();
-            }
-            else
-            {
-                return db.Infrastructures.AsNoTracking().OrderByDescending(c => c.InfrastructureID);
-            }
+            IQueryable<Infrastructure> infrastructureQuery = db.Infrastructures.AsNoTracking();
+
+            return infrastructureQuery;
         }
         public IQueryable<Infrastructure> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.Infrastructures;
-            }
-            else
-            {
-                return db.Infrastructures.OrderByDescending(c => c.InfrastructureID);
-            }
+            IQueryable<Infrastructure> infrastructureQuery = db.Infrastructures;
+
+            return infrastructureQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated InfrastructureFillWeb
-        private IQueryable<Infrastructure> FillInfrastructureWeb(IQueryable<Infrastructure> infrastructureQuery, string FilterAndOrderText)
+        private IQueryable<Infrastructure> FillInfrastructureWeb(IQueryable<Infrastructure> infrastructureQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

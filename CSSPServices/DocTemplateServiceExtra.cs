@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<DocTemplate> FillDocTemplateReport(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText)
+        private IQueryable<DocTemplate> FillDocTemplateReport(IQueryable<DocTemplate> docTemplateQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

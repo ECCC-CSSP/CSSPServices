@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<Tel> FillTelReport(IQueryable<Tel> telQuery, string FilterAndOrderText)
+        private IQueryable<Tel> FillTelReport(IQueryable<Tel> telQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

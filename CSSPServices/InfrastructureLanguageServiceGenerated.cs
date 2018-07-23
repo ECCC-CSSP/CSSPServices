@@ -62,7 +62,7 @@ namespace CSSPServices
             if (InfrastructureInfrastructureID == null)
             {
                 infrastructureLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Infrastructure, CSSPModelsRes.InfrastructureLanguageInfrastructureID, (infrastructureLanguage.InfrastructureID == null ? "" : infrastructureLanguage.InfrastructureID.ToString())), new[] { "InfrastructureID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Infrastructure, CSSPModelsRes.InfrastructureLanguageInfrastructureID, infrastructureLanguage.InfrastructureID.ToString()), new[] { "InfrastructureID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)infrastructureLanguage.Language);
@@ -106,7 +106,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 infrastructureLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, (infrastructureLanguage.LastUpdateContactTVItemID == null ? "" : infrastructureLanguage.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, infrastructureLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -132,60 +132,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public InfrastructureLanguage GetInfrastructureLanguageWithInfrastructureLanguageID(int InfrastructureLanguageID, GetParam getParam)
+        public InfrastructureLanguage GetInfrastructureLanguageWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.InfrastructureLanguageID == InfrastructureLanguageID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return infrastructureLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillInfrastructureLanguageWeb(infrastructureLanguageQuery, "").FirstOrDefault();
+                    return FillInfrastructureLanguageWeb(infrastructureLanguageQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillInfrastructureLanguageReport(infrastructureLanguageQuery, "").FirstOrDefault();
+                    return FillInfrastructureLanguageReport(infrastructureLanguageQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<InfrastructureLanguage> GetInfrastructureLanguageList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<InfrastructureLanguage> GetInfrastructureLanguageList()
         {
-            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            infrastructureLanguageQuery  = infrastructureLanguageQuery.OrderByDescending(c => c.InfrastructureLanguageID);
-                        }
-                        infrastructureLanguageQuery = infrastructureLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        infrastructureLanguageQuery = EnhanceQueryStatements<InfrastructureLanguage>(infrastructureLanguageQuery) as IQueryable<InfrastructureLanguage>;
+
                         return infrastructureLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            infrastructureLanguageQuery = FillInfrastructureLanguageWeb(infrastructureLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.InfrastructureLanguageID);
-                        }
-                        infrastructureLanguageQuery = FillInfrastructureLanguageWeb(infrastructureLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        infrastructureLanguageQuery = FillInfrastructureLanguageWeb(infrastructureLanguageQuery);
+
+                        infrastructureLanguageQuery = EnhanceQueryStatements<InfrastructureLanguage>(infrastructureLanguageQuery) as IQueryable<InfrastructureLanguage>;
+
                         return infrastructureLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            infrastructureLanguageQuery = FillInfrastructureLanguageReport(infrastructureLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.InfrastructureLanguageID);
-                        }
-                        infrastructureLanguageQuery = FillInfrastructureLanguageReport(infrastructureLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        infrastructureLanguageQuery = FillInfrastructureLanguageReport(infrastructureLanguageQuery);
+
+                        infrastructureLanguageQuery = EnhanceQueryStatements<InfrastructureLanguage>(infrastructureLanguageQuery) as IQueryable<InfrastructureLanguage>;
+
                         return infrastructureLanguageQuery;
                     }
                 default:
-                    return null;
+                    {
+                        infrastructureLanguageQuery = infrastructureLanguageQuery.Where(c => c.InfrastructureLanguageID == 0);
+
+                        return infrastructureLanguageQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -226,30 +224,20 @@ namespace CSSPServices
         }
         public IQueryable<InfrastructureLanguage> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.InfrastructureLanguages.AsNoTracking();
-            }
-            else
-            {
-                return db.InfrastructureLanguages.AsNoTracking().OrderByDescending(c => c.InfrastructureLanguageID);
-            }
+            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = db.InfrastructureLanguages.AsNoTracking();
+
+            return infrastructureLanguageQuery;
         }
         public IQueryable<InfrastructureLanguage> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.InfrastructureLanguages;
-            }
-            else
-            {
-                return db.InfrastructureLanguages.OrderByDescending(c => c.InfrastructureLanguageID);
-            }
+            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = db.InfrastructureLanguages;
+
+            return infrastructureLanguageQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated InfrastructureLanguageFillWeb
-        private IQueryable<InfrastructureLanguage> FillInfrastructureLanguageWeb(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery, string FilterAndOrderText)
+        private IQueryable<InfrastructureLanguage> FillInfrastructureLanguageWeb(IQueryable<InfrastructureLanguage> infrastructureLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

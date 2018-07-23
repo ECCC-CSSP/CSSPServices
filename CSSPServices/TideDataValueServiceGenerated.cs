@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTideSiteTVItemID == null)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueTideSiteTVItemID, (tideDataValue.TideSiteTVItemID == null ? "" : tideDataValue.TideSiteTVItemID.ToString())), new[] { "TideSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueTideSiteTVItemID, tideDataValue.TideSiteTVItemID.ToString()), new[] { "TideSiteTVItemID" });
             }
             else
             {
@@ -162,7 +162,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueLastUpdateContactTVItemID, (tideDataValue.LastUpdateContactTVItemID == null ? "" : tideDataValue.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueLastUpdateContactTVItemID, tideDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -188,60 +188,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID, GetParam getParam)
+        public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID)
         {
-            IQueryable<TideDataValue> tideDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TideDataValue> tideDataValueQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TideDataValueID == TideDataValueID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tideDataValueQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideDataValueWeb(tideDataValueQuery, "").FirstOrDefault();
+                    return FillTideDataValueWeb(tideDataValueQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideDataValueReport(tideDataValueQuery, "").FirstOrDefault();
+                    return FillTideDataValueReport(tideDataValueQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<TideDataValue> GetTideDataValueList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<TideDataValue> GetTideDataValueList()
         {
-            IQueryable<TideDataValue> tideDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<TideDataValue> tideDataValueQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideDataValueQuery  = tideDataValueQuery.OrderByDescending(c => c.TideDataValueID);
-                        }
-                        tideDataValueQuery = tideDataValueQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        tideDataValueQuery = EnhanceQueryStatements<TideDataValue>(tideDataValueQuery) as IQueryable<TideDataValue>;
+
                         return tideDataValueQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideDataValueQuery = FillTideDataValueWeb(tideDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.TideDataValueID);
-                        }
-                        tideDataValueQuery = FillTideDataValueWeb(tideDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tideDataValueQuery = FillTideDataValueWeb(tideDataValueQuery);
+
+                        tideDataValueQuery = EnhanceQueryStatements<TideDataValue>(tideDataValueQuery) as IQueryable<TideDataValue>;
+
                         return tideDataValueQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            tideDataValueQuery = FillTideDataValueReport(tideDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.TideDataValueID);
-                        }
-                        tideDataValueQuery = FillTideDataValueReport(tideDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        tideDataValueQuery = FillTideDataValueReport(tideDataValueQuery);
+
+                        tideDataValueQuery = EnhanceQueryStatements<TideDataValue>(tideDataValueQuery) as IQueryable<TideDataValue>;
+
                         return tideDataValueQuery;
                     }
                 default:
-                    return null;
+                    {
+                        tideDataValueQuery = tideDataValueQuery.Where(c => c.TideDataValueID == 0);
+
+                        return tideDataValueQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -282,30 +280,20 @@ namespace CSSPServices
         }
         public IQueryable<TideDataValue> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TideDataValues.AsNoTracking();
-            }
-            else
-            {
-                return db.TideDataValues.AsNoTracking().OrderByDescending(c => c.TideDataValueID);
-            }
+            IQueryable<TideDataValue> tideDataValueQuery = db.TideDataValues.AsNoTracking();
+
+            return tideDataValueQuery;
         }
         public IQueryable<TideDataValue> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.TideDataValues;
-            }
-            else
-            {
-                return db.TideDataValues.OrderByDescending(c => c.TideDataValueID);
-            }
+            IQueryable<TideDataValue> tideDataValueQuery = db.TideDataValues;
+
+            return tideDataValueQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TideDataValueFillWeb
-        private IQueryable<TideDataValue> FillTideDataValueWeb(IQueryable<TideDataValue> tideDataValueQuery, string FilterAndOrderText)
+        private IQueryable<TideDataValue> FillTideDataValueWeb(IQueryable<TideDataValue> tideDataValueQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

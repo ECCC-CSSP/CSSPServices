@@ -106,6 +106,15 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} does not exist for ModelType = {1}.
+        /// </summary>
+        public static string _DoesNotExistForModelType_ {
+            get {
+                return ResourceManager.GetString("_DoesNotExistForModelType_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} email not valid..
         /// </summary>
         public static string _EmailNotWellFormed {
@@ -241,11 +250,101 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [{0}] needs to be a date for {1} of model {2}.
+        /// </summary>
+        public static string _NeedsToBeADateFor_OfModel_ {
+            get {
+                return ResourceManager.GetString("_NeedsToBeADateFor_OfModel_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [{0}] needs to be a number for {1} of model {2}.
+        /// </summary>
+        public static string _NeedsToBeANumberFor_OfModel_ {
+            get {
+                return ResourceManager.GetString("_NeedsToBeANumberFor_OfModel_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [{0}] needs to be a valid enum number for {1} of model {2}.
+        /// </summary>
+        public static string _NeedsToBeAValidEnumNumberFor_OfModel_ {
+            get {
+                return ResourceManager.GetString("_NeedsToBeAValidEnumNumberFor_OfModel_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [{0}] needs to be a valid enum text for {1} of model {2}.
+        /// </summary>
+        public static string _NeedsToBeAValidEnumTextFor_OfModel_ {
+            get {
+                return ResourceManager.GetString("_NeedsToBeAValidEnumTextFor_OfModel_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [{0}] needs to be true or false for {1} of model {2}.
+        /// </summary>
+        public static string _NeedsToBeTrueOrFalseFor_OfModel_ {
+            get {
+                return ResourceManager.GetString("_NeedsToBeTrueOrFalseFor_OfModel_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} need to have valid string format - Ex: {1}.
+        /// </summary>
+        public static string _NeedToHaveValidStringFormatEx_ {
+            get {
+                return ResourceManager.GetString("_NeedToHaveValidStringFormatEx_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} not implemented yet.
+        /// </summary>
+        public static string _NotImplementedYet {
+            get {
+                return ResourceManager.GetString("_NotImplementedYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} was registered on the website..
         /// </summary>
         public static string _RegisteredAndAddedInWebSite {
             get {
                 return ResourceManager.GetString("_RegisteredAndAddedInWebSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} should be above {1}.
+        /// </summary>
+        public static string _ShouldBeAbove_ {
+            get {
+                return ResourceManager.GetString("_ShouldBeAbove_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} should be below {1}.
+        /// </summary>
+        public static string _ShouldBeBelow_ {
+            get {
+                return ResourceManager.GetString("_ShouldBeBelow_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} should not be null or empty.
+        /// </summary>
+        public static string _ShouldNotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("_ShouldNotBeNullOrEmpty", resourceCulture);
             }
         }
         
@@ -264,6 +363,15 @@ namespace CSSPServices.Resources {
         public static string _YearShouldBeBiggerThan_ {
             get {
                 return ResourceManager.GetString("_YearShouldBeBiggerThan_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allowable languages are [fr and en].
+        /// </summary>
+        public static string AllowableLanguagesAreFRAndEN {
+            get {
+                return ResourceManager.GetString("AllowableLanguagesAreFRAndEN", resourceCulture);
             }
         }
         
@@ -336,6 +444,15 @@ namespace CSSPServices.Resources {
         public static string CouldNotFind_With_Equal_ {
             get {
                 return ResourceManager.GetString("CouldNotFind_With_Equal_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find file [{0}].
+        /// </summary>
+        public static string CouldNotFindFile_ {
+            get {
+                return ResourceManager.GetString("CouldNotFindFile_", resourceCulture);
             }
         }
         
@@ -480,6 +597,15 @@ namespace CSSPServices.Resources {
         public static string UserWithLoginEmail_AlreadyExist {
             get {
                 return ResourceManager.GetString("UserWithLoginEmail_AlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Where operator {0} not implemented yet.
+        /// </summary>
+        public static string WhereOperator_NotImplementedYet {
+            get {
+                return ResourceManager.GetString("WhereOperator_NotImplementedYet", resourceCulture);
             }
         }
         

@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetAppTaskParameterWithAppTaskParameterID(appTaskParameter.AppTaskParameterID)
+        #endregion Tests Generated for GetAppTaskParameterWithAppTaskParameterID(appTaskParameter.AppTaskParameterID)
 
-        #region Tests Generated Get List of AppTaskParameter
-        #endregion Tests Get List of AppTaskParameter
+        #region Tests Generated for GetAppTaskParameterList()
+        #endregion Tests Generated for GetAppTaskParameterList()
+
+        #region Tests Generated for GetAppTaskParameterList() Skip Take
+        #endregion Tests Generated for GetAppTaskParameterList() Skip Take
 
     }
 }

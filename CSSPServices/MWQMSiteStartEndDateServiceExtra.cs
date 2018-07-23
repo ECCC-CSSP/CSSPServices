@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MWQMSiteStartEndDate> FillMWQMSiteStartEndDateReport(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery, string FilterAndOrderText)
+        private IQueryable<MWQMSiteStartEndDate> FillMWQMSiteStartEndDateReport(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery)
         {
             mwqmSiteStartEndDateQuery = (from c in mwqmSiteStartEndDateQuery
                                          let MWQMSiteTVText = (from cl in db.TVItemLanguages

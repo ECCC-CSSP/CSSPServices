@@ -62,7 +62,7 @@ namespace CSSPServices
             if (ClimateSiteClimateSiteID == null)
             {
                 climateDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateSite, CSSPModelsRes.ClimateDataValueClimateSiteID, (climateDataValue.ClimateSiteID == null ? "" : climateDataValue.ClimateSiteID.ToString())), new[] { "ClimateSiteID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateSite, CSSPModelsRes.ClimateDataValueClimateSiteID, climateDataValue.ClimateSiteID.ToString()), new[] { "ClimateSiteID" });
             }
 
             if (climateDataValue.DateTime_Local.Year == 1)
@@ -206,7 +206,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 climateDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, (climateDataValue.LastUpdateContactTVItemID == null ? "" : climateDataValue.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, climateDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -232,60 +232,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ClimateDataValue GetClimateDataValueWithClimateDataValueID(int ClimateDataValueID, GetParam getParam)
+        public ClimateDataValue GetClimateDataValueWithClimateDataValueID(int ClimateDataValueID)
         {
-            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ClimateDataValueID == ClimateDataValueID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateDataValueQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillClimateDataValueWeb(climateDataValueQuery, "").FirstOrDefault();
+                    return FillClimateDataValueWeb(climateDataValueQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateDataValueReport(climateDataValueQuery, "").FirstOrDefault();
+                    return FillClimateDataValueReport(climateDataValueQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<ClimateDataValue> GetClimateDataValueList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<ClimateDataValue> GetClimateDataValueList()
         {
-            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<ClimateDataValue> climateDataValueQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            climateDataValueQuery  = climateDataValueQuery.OrderByDescending(c => c.ClimateDataValueID);
-                        }
-                        climateDataValueQuery = climateDataValueQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        climateDataValueQuery = EnhanceQueryStatements<ClimateDataValue>(climateDataValueQuery) as IQueryable<ClimateDataValue>;
+
                         return climateDataValueQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            climateDataValueQuery = FillClimateDataValueWeb(climateDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.ClimateDataValueID);
-                        }
-                        climateDataValueQuery = FillClimateDataValueWeb(climateDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        climateDataValueQuery = FillClimateDataValueWeb(climateDataValueQuery);
+
+                        climateDataValueQuery = EnhanceQueryStatements<ClimateDataValue>(climateDataValueQuery) as IQueryable<ClimateDataValue>;
+
                         return climateDataValueQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            climateDataValueQuery = FillClimateDataValueReport(climateDataValueQuery, FilterAndOrderText).OrderByDescending(c => c.ClimateDataValueID);
-                        }
-                        climateDataValueQuery = FillClimateDataValueReport(climateDataValueQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        climateDataValueQuery = FillClimateDataValueReport(climateDataValueQuery);
+
+                        climateDataValueQuery = EnhanceQueryStatements<ClimateDataValue>(climateDataValueQuery) as IQueryable<ClimateDataValue>;
+
                         return climateDataValueQuery;
                     }
                 default:
-                    return null;
+                    {
+                        climateDataValueQuery = climateDataValueQuery.Where(c => c.ClimateDataValueID == 0);
+
+                        return climateDataValueQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -326,30 +324,20 @@ namespace CSSPServices
         }
         public IQueryable<ClimateDataValue> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ClimateDataValues.AsNoTracking();
-            }
-            else
-            {
-                return db.ClimateDataValues.AsNoTracking().OrderByDescending(c => c.ClimateDataValueID);
-            }
+            IQueryable<ClimateDataValue> climateDataValueQuery = db.ClimateDataValues.AsNoTracking();
+
+            return climateDataValueQuery;
         }
         public IQueryable<ClimateDataValue> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ClimateDataValues;
-            }
-            else
-            {
-                return db.ClimateDataValues.OrderByDescending(c => c.ClimateDataValueID);
-            }
+            IQueryable<ClimateDataValue> climateDataValueQuery = db.ClimateDataValues;
+
+            return climateDataValueQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ClimateDataValueFillWeb
-        private IQueryable<ClimateDataValue> FillClimateDataValueWeb(IQueryable<ClimateDataValue> climateDataValueQuery, string FilterAndOrderText)
+        private IQueryable<ClimateDataValue> FillClimateDataValueWeb(IQueryable<ClimateDataValue> climateDataValueQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

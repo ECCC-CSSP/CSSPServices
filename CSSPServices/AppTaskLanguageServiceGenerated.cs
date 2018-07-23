@@ -62,7 +62,7 @@ namespace CSSPServices
             if (AppTaskAppTaskID == null)
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppTask, CSSPModelsRes.AppTaskLanguageAppTaskID, (appTaskLanguage.AppTaskID == null ? "" : appTaskLanguage.AppTaskID.ToString())), new[] { "AppTaskID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppTask, CSSPModelsRes.AppTaskLanguageAppTaskID, appTaskLanguage.AppTaskID.ToString()), new[] { "AppTaskID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)appTaskLanguage.Language);
@@ -110,7 +110,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskLanguageLastUpdateContactTVItemID, (appTaskLanguage.LastUpdateContactTVItemID == null ? "" : appTaskLanguage.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskLanguageLastUpdateContactTVItemID, appTaskLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -136,60 +136,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AppTaskLanguage GetAppTaskLanguageWithAppTaskLanguageID(int AppTaskLanguageID, GetParam getParam)
+        public AppTaskLanguage GetAppTaskLanguageWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            IQueryable<AppTaskLanguage> appTaskLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<AppTaskLanguage> appTaskLanguageQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AppTaskLanguageID == AppTaskLanguageID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return appTaskLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAppTaskLanguageWeb(appTaskLanguageQuery, "").FirstOrDefault();
+                    return FillAppTaskLanguageWeb(appTaskLanguageQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppTaskLanguageReport(appTaskLanguageQuery, "").FirstOrDefault();
+                    return FillAppTaskLanguageReport(appTaskLanguageQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<AppTaskLanguage> GetAppTaskLanguageList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<AppTaskLanguage> GetAppTaskLanguageList()
         {
-            IQueryable<AppTaskLanguage> appTaskLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<AppTaskLanguage> appTaskLanguageQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appTaskLanguageQuery  = appTaskLanguageQuery.OrderByDescending(c => c.AppTaskLanguageID);
-                        }
-                        appTaskLanguageQuery = appTaskLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        appTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(appTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
+
                         return appTaskLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appTaskLanguageQuery = FillAppTaskLanguageWeb(appTaskLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.AppTaskLanguageID);
-                        }
-                        appTaskLanguageQuery = FillAppTaskLanguageWeb(appTaskLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        appTaskLanguageQuery = FillAppTaskLanguageWeb(appTaskLanguageQuery);
+
+                        appTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(appTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
+
                         return appTaskLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            appTaskLanguageQuery = FillAppTaskLanguageReport(appTaskLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.AppTaskLanguageID);
-                        }
-                        appTaskLanguageQuery = FillAppTaskLanguageReport(appTaskLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        appTaskLanguageQuery = FillAppTaskLanguageReport(appTaskLanguageQuery);
+
+                        appTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(appTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
+
                         return appTaskLanguageQuery;
                     }
                 default:
-                    return null;
+                    {
+                        appTaskLanguageQuery = appTaskLanguageQuery.Where(c => c.AppTaskLanguageID == 0);
+
+                        return appTaskLanguageQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -230,30 +228,20 @@ namespace CSSPServices
         }
         public IQueryable<AppTaskLanguage> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.AppTaskLanguages.AsNoTracking();
-            }
-            else
-            {
-                return db.AppTaskLanguages.AsNoTracking().OrderByDescending(c => c.AppTaskLanguageID);
-            }
+            IQueryable<AppTaskLanguage> appTaskLanguageQuery = db.AppTaskLanguages.AsNoTracking();
+
+            return appTaskLanguageQuery;
         }
         public IQueryable<AppTaskLanguage> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.AppTaskLanguages;
-            }
-            else
-            {
-                return db.AppTaskLanguages.OrderByDescending(c => c.AppTaskLanguageID);
-            }
+            IQueryable<AppTaskLanguage> appTaskLanguageQuery = db.AppTaskLanguages;
+
+            return appTaskLanguageQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AppTaskLanguageFillWeb
-        private IQueryable<AppTaskLanguage> FillAppTaskLanguageWeb(IQueryable<AppTaskLanguage> appTaskLanguageQuery, string FilterAndOrderText)
+        private IQueryable<AppTaskLanguage> FillAppTaskLanguageWeb(IQueryable<AppTaskLanguage> appTaskLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTVItemID == null)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoTVItemID, (mapInfo.TVItemID == null ? "" : mapInfo.TVItemID.ToString())), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), new[] { "TVItemID" });
             }
             else
             {
@@ -163,7 +163,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoLastUpdateContactTVItemID, (mapInfo.LastUpdateContactTVItemID == null ? "" : mapInfo.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -189,60 +189,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MapInfo GetMapInfoWithMapInfoID(int MapInfoID, GetParam getParam)
+        public MapInfo GetMapInfoWithMapInfoID(int MapInfoID)
         {
-            IQueryable<MapInfo> mapInfoQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MapInfo> mapInfoQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MapInfoID == MapInfoID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMapInfoWeb(mapInfoQuery, "").FirstOrDefault();
+                    return FillMapInfoWeb(mapInfoQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfoReport(mapInfoQuery, "").FirstOrDefault();
+                    return FillMapInfoReport(mapInfoQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MapInfo> GetMapInfoList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MapInfo> GetMapInfoList()
         {
-            IQueryable<MapInfo> mapInfoQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MapInfo> mapInfoQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mapInfoQuery  = mapInfoQuery.OrderByDescending(c => c.MapInfoID);
-                        }
-                        mapInfoQuery = mapInfoQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mapInfoQuery = EnhanceQueryStatements<MapInfo>(mapInfoQuery) as IQueryable<MapInfo>;
+
                         return mapInfoQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mapInfoQuery = FillMapInfoWeb(mapInfoQuery, FilterAndOrderText).OrderByDescending(c => c.MapInfoID);
-                        }
-                        mapInfoQuery = FillMapInfoWeb(mapInfoQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mapInfoQuery = FillMapInfoWeb(mapInfoQuery);
+
+                        mapInfoQuery = EnhanceQueryStatements<MapInfo>(mapInfoQuery) as IQueryable<MapInfo>;
+
                         return mapInfoQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mapInfoQuery = FillMapInfoReport(mapInfoQuery, FilterAndOrderText).OrderByDescending(c => c.MapInfoID);
-                        }
-                        mapInfoQuery = FillMapInfoReport(mapInfoQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mapInfoQuery = FillMapInfoReport(mapInfoQuery);
+
+                        mapInfoQuery = EnhanceQueryStatements<MapInfo>(mapInfoQuery) as IQueryable<MapInfo>;
+
                         return mapInfoQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mapInfoQuery = mapInfoQuery.Where(c => c.MapInfoID == 0);
+
+                        return mapInfoQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -283,30 +281,20 @@ namespace CSSPServices
         }
         public IQueryable<MapInfo> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MapInfos.AsNoTracking();
-            }
-            else
-            {
-                return db.MapInfos.AsNoTracking().OrderByDescending(c => c.MapInfoID);
-            }
+            IQueryable<MapInfo> mapInfoQuery = db.MapInfos.AsNoTracking();
+
+            return mapInfoQuery;
         }
         public IQueryable<MapInfo> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MapInfos;
-            }
-            else
-            {
-                return db.MapInfos.OrderByDescending(c => c.MapInfoID);
-            }
+            IQueryable<MapInfo> mapInfoQuery = db.MapInfos;
+
+            return mapInfoQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MapInfoFillWeb
-        private IQueryable<MapInfo> FillMapInfoWeb(IQueryable<MapInfo> mapInfoQuery, string FilterAndOrderText)
+        private IQueryable<MapInfo> FillMapInfoWeb(IQueryable<MapInfo> mapInfoQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

@@ -86,11 +86,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetSubsectorMWQMSampleYearWithSubsectorMWQMSampleYearID(subsectorMWQMSampleYear.SubsectorMWQMSampleYearID)
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearWithSubsectorMWQMSampleYearID(subsectorMWQMSampleYear.SubsectorMWQMSampleYearID)
 
-        #region Tests Generated Get List of SubsectorMWQMSampleYear
-        #endregion Tests Get List of SubsectorMWQMSampleYear
+        #region Tests Generated for GetSubsectorMWQMSampleYearList()
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearList()
+
+        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take
 
     }
 }

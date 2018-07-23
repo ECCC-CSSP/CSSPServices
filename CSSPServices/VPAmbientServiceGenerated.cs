@@ -62,7 +62,7 @@ namespace CSSPServices
             if (VPScenarioVPScenarioID == null)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPAmbientVPScenarioID, (vpAmbient.VPScenarioID == null ? "" : vpAmbient.VPScenarioID.ToString())), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
             if (vpAmbient.Row < 0 || vpAmbient.Row > 10)
@@ -180,7 +180,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, (vpAmbient.LastUpdateContactTVItemID == null ? "" : vpAmbient.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -206,60 +206,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID, GetParam getParam)
+        public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID)
         {
-            IQueryable<VPAmbient> vpAmbientQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<VPAmbient> vpAmbientQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.VPAmbientID == VPAmbientID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return vpAmbientQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPAmbientWeb(vpAmbientQuery, "").FirstOrDefault();
+                    return FillVPAmbientWeb(vpAmbientQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPAmbientReport(vpAmbientQuery, "").FirstOrDefault();
+                    return FillVPAmbientReport(vpAmbientQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<VPAmbient> GetVPAmbientList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<VPAmbient> GetVPAmbientList()
         {
-            IQueryable<VPAmbient> vpAmbientQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<VPAmbient> vpAmbientQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            vpAmbientQuery  = vpAmbientQuery.OrderByDescending(c => c.VPAmbientID);
-                        }
-                        vpAmbientQuery = vpAmbientQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        vpAmbientQuery = EnhanceQueryStatements<VPAmbient>(vpAmbientQuery) as IQueryable<VPAmbient>;
+
                         return vpAmbientQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            vpAmbientQuery = FillVPAmbientWeb(vpAmbientQuery, FilterAndOrderText).OrderByDescending(c => c.VPAmbientID);
-                        }
-                        vpAmbientQuery = FillVPAmbientWeb(vpAmbientQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        vpAmbientQuery = FillVPAmbientWeb(vpAmbientQuery);
+
+                        vpAmbientQuery = EnhanceQueryStatements<VPAmbient>(vpAmbientQuery) as IQueryable<VPAmbient>;
+
                         return vpAmbientQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            vpAmbientQuery = FillVPAmbientReport(vpAmbientQuery, FilterAndOrderText).OrderByDescending(c => c.VPAmbientID);
-                        }
-                        vpAmbientQuery = FillVPAmbientReport(vpAmbientQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        vpAmbientQuery = FillVPAmbientReport(vpAmbientQuery);
+
+                        vpAmbientQuery = EnhanceQueryStatements<VPAmbient>(vpAmbientQuery) as IQueryable<VPAmbient>;
+
                         return vpAmbientQuery;
                     }
                 default:
-                    return null;
+                    {
+                        vpAmbientQuery = vpAmbientQuery.Where(c => c.VPAmbientID == 0);
+
+                        return vpAmbientQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -300,30 +298,20 @@ namespace CSSPServices
         }
         public IQueryable<VPAmbient> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.VPAmbients.AsNoTracking();
-            }
-            else
-            {
-                return db.VPAmbients.AsNoTracking().OrderByDescending(c => c.VPAmbientID);
-            }
+            IQueryable<VPAmbient> vpAmbientQuery = db.VPAmbients.AsNoTracking();
+
+            return vpAmbientQuery;
         }
         public IQueryable<VPAmbient> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.VPAmbients;
-            }
-            else
-            {
-                return db.VPAmbients.OrderByDescending(c => c.VPAmbientID);
-            }
+            IQueryable<VPAmbient> vpAmbientQuery = db.VPAmbients;
+
+            return vpAmbientQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPAmbientFillWeb
-        private IQueryable<VPAmbient> FillVPAmbientWeb(IQueryable<VPAmbient> vpAmbientQuery, string FilterAndOrderText)
+        private IQueryable<VPAmbient> FillVPAmbientWeb(IQueryable<VPAmbient> vpAmbientQuery)
         {
             vpAmbientQuery = (from c in vpAmbientQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

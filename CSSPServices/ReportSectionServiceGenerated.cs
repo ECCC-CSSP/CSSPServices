@@ -62,7 +62,7 @@ namespace CSSPServices
             if (ReportTypeReportTypeID == null)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.ReportSectionReportTypeID, (reportSection.ReportTypeID == null ? "" : reportSection.ReportTypeID.ToString())), new[] { "ReportTypeID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.ReportSectionReportTypeID, reportSection.ReportTypeID.ToString()), new[] { "ReportTypeID" });
             }
 
             if (reportSection.TVItemID != null)
@@ -144,7 +144,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportSectionLastUpdateContactTVItemID, (reportSection.LastUpdateContactTVItemID == null ? "" : reportSection.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportSectionLastUpdateContactTVItemID, reportSection.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -170,60 +170,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public ReportSection GetReportSectionWithReportSectionID(int ReportSectionID, GetParam getParam)
+        public ReportSection GetReportSectionWithReportSectionID(int ReportSectionID)
         {
-            IQueryable<ReportSection> reportSectionQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ReportSection> reportSectionQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ReportSectionID == ReportSectionID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return reportSectionQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportSectionWeb(reportSectionQuery, "").FirstOrDefault();
+                    return FillReportSectionWeb(reportSectionQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportSectionReport(reportSectionQuery, "").FirstOrDefault();
+                    return FillReportSectionReport(reportSectionQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<ReportSection> GetReportSectionList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<ReportSection> GetReportSectionList()
         {
-            IQueryable<ReportSection> reportSectionQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<ReportSection> reportSectionQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportSectionQuery  = reportSectionQuery.OrderByDescending(c => c.ReportSectionID);
-                        }
-                        reportSectionQuery = reportSectionQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        reportSectionQuery = EnhanceQueryStatements<ReportSection>(reportSectionQuery) as IQueryable<ReportSection>;
+
                         return reportSectionQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportSectionQuery = FillReportSectionWeb(reportSectionQuery, FilterAndOrderText).OrderByDescending(c => c.ReportSectionID);
-                        }
-                        reportSectionQuery = FillReportSectionWeb(reportSectionQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        reportSectionQuery = FillReportSectionWeb(reportSectionQuery);
+
+                        reportSectionQuery = EnhanceQueryStatements<ReportSection>(reportSectionQuery) as IQueryable<ReportSection>;
+
                         return reportSectionQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            reportSectionQuery = FillReportSectionReport(reportSectionQuery, FilterAndOrderText).OrderByDescending(c => c.ReportSectionID);
-                        }
-                        reportSectionQuery = FillReportSectionReport(reportSectionQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        reportSectionQuery = FillReportSectionReport(reportSectionQuery);
+
+                        reportSectionQuery = EnhanceQueryStatements<ReportSection>(reportSectionQuery) as IQueryable<ReportSection>;
+
                         return reportSectionQuery;
                     }
                 default:
-                    return null;
+                    {
+                        reportSectionQuery = reportSectionQuery.Where(c => c.ReportSectionID == 0);
+
+                        return reportSectionQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -264,30 +262,20 @@ namespace CSSPServices
         }
         public IQueryable<ReportSection> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ReportSections.AsNoTracking();
-            }
-            else
-            {
-                return db.ReportSections.AsNoTracking().OrderByDescending(c => c.ReportSectionID);
-            }
+            IQueryable<ReportSection> reportSectionQuery = db.ReportSections.AsNoTracking();
+
+            return reportSectionQuery;
         }
         public IQueryable<ReportSection> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.ReportSections;
-            }
-            else
-            {
-                return db.ReportSections.OrderByDescending(c => c.ReportSectionID);
-            }
+            IQueryable<ReportSection> reportSectionQuery = db.ReportSections;
+
+            return reportSectionQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportSectionFillWeb
-        private IQueryable<ReportSection> FillReportSectionWeb(IQueryable<ReportSection> reportSectionQuery, string FilterAndOrderText)
+        private IQueryable<ReportSection> FillReportSectionWeb(IQueryable<ReportSection> reportSectionQuery)
         {
             reportSectionQuery = (from c in reportSectionQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

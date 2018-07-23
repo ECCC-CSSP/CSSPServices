@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemInfrastructureTVItemID == null)
             {
                 boxModel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelInfrastructureTVItemID, (boxModel.InfrastructureTVItemID == null ? "" : boxModel.InfrastructureTVItemID.ToString())), new[] { "InfrastructureTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
             }
             else
             {
@@ -156,7 +156,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 boxModel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelLastUpdateContactTVItemID, (boxModel.LastUpdateContactTVItemID == null ? "" : boxModel.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelLastUpdateContactTVItemID, boxModel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -182,60 +182,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public BoxModel GetBoxModelWithBoxModelID(int BoxModelID, GetParam getParam)
+        public BoxModel GetBoxModelWithBoxModelID(int BoxModelID)
         {
-            IQueryable<BoxModel> boxModelQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<BoxModel> boxModelQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.BoxModelID == BoxModelID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return boxModelQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillBoxModelWeb(boxModelQuery, "").FirstOrDefault();
+                    return FillBoxModelWeb(boxModelQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModelReport(boxModelQuery, "").FirstOrDefault();
+                    return FillBoxModelReport(boxModelQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<BoxModel> GetBoxModelList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<BoxModel> GetBoxModelList()
         {
-            IQueryable<BoxModel> boxModelQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<BoxModel> boxModelQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            boxModelQuery  = boxModelQuery.OrderByDescending(c => c.BoxModelID);
-                        }
-                        boxModelQuery = boxModelQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        boxModelQuery = EnhanceQueryStatements<BoxModel>(boxModelQuery) as IQueryable<BoxModel>;
+
                         return boxModelQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            boxModelQuery = FillBoxModelWeb(boxModelQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelID);
-                        }
-                        boxModelQuery = FillBoxModelWeb(boxModelQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        boxModelQuery = FillBoxModelWeb(boxModelQuery);
+
+                        boxModelQuery = EnhanceQueryStatements<BoxModel>(boxModelQuery) as IQueryable<BoxModel>;
+
                         return boxModelQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            boxModelQuery = FillBoxModelReport(boxModelQuery, FilterAndOrderText).OrderByDescending(c => c.BoxModelID);
-                        }
-                        boxModelQuery = FillBoxModelReport(boxModelQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        boxModelQuery = FillBoxModelReport(boxModelQuery);
+
+                        boxModelQuery = EnhanceQueryStatements<BoxModel>(boxModelQuery) as IQueryable<BoxModel>;
+
                         return boxModelQuery;
                     }
                 default:
-                    return null;
+                    {
+                        boxModelQuery = boxModelQuery.Where(c => c.BoxModelID == 0);
+
+                        return boxModelQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -276,30 +274,20 @@ namespace CSSPServices
         }
         public IQueryable<BoxModel> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.BoxModels.AsNoTracking();
-            }
-            else
-            {
-                return db.BoxModels.AsNoTracking().OrderByDescending(c => c.BoxModelID);
-            }
+            IQueryable<BoxModel> boxModelQuery = db.BoxModels.AsNoTracking();
+
+            return boxModelQuery;
         }
         public IQueryable<BoxModel> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.BoxModels;
-            }
-            else
-            {
-                return db.BoxModels.OrderByDescending(c => c.BoxModelID);
-            }
+            IQueryable<BoxModel> boxModelQuery = db.BoxModels;
+
+            return boxModelQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated BoxModelFillWeb
-        private IQueryable<BoxModel> FillBoxModelWeb(IQueryable<BoxModel> boxModelQuery, string FilterAndOrderText)
+        private IQueryable<BoxModel> FillBoxModelWeb(IQueryable<BoxModel> boxModelQuery)
         {
             boxModelQuery = (from c in boxModelQuery
                 let InfrastructureTVText = (from cl in db.TVItemLanguages

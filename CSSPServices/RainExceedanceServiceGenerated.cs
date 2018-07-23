@@ -166,7 +166,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 rainExceedance.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RainExceedanceLastUpdateContactTVItemID, (rainExceedance.LastUpdateContactTVItemID == null ? "" : rainExceedance.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -192,60 +192,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID, GetParam getParam)
+        public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID)
         {
-            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.RainExceedanceID == RainExceedanceID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return rainExceedanceQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillRainExceedanceWeb(rainExceedanceQuery, "").FirstOrDefault();
+                    return FillRainExceedanceWeb(rainExceedanceQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillRainExceedanceReport(rainExceedanceQuery, "").FirstOrDefault();
+                    return FillRainExceedanceReport(rainExceedanceQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<RainExceedance> GetRainExceedanceList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<RainExceedance> GetRainExceedanceList()
         {
-            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<RainExceedance> rainExceedanceQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            rainExceedanceQuery  = rainExceedanceQuery.OrderByDescending(c => c.RainExceedanceID);
-                        }
-                        rainExceedanceQuery = rainExceedanceQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        rainExceedanceQuery = EnhanceQueryStatements<RainExceedance>(rainExceedanceQuery) as IQueryable<RainExceedance>;
+
                         return rainExceedanceQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            rainExceedanceQuery = FillRainExceedanceWeb(rainExceedanceQuery, FilterAndOrderText).OrderByDescending(c => c.RainExceedanceID);
-                        }
-                        rainExceedanceQuery = FillRainExceedanceWeb(rainExceedanceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        rainExceedanceQuery = FillRainExceedanceWeb(rainExceedanceQuery);
+
+                        rainExceedanceQuery = EnhanceQueryStatements<RainExceedance>(rainExceedanceQuery) as IQueryable<RainExceedance>;
+
                         return rainExceedanceQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            rainExceedanceQuery = FillRainExceedanceReport(rainExceedanceQuery, FilterAndOrderText).OrderByDescending(c => c.RainExceedanceID);
-                        }
-                        rainExceedanceQuery = FillRainExceedanceReport(rainExceedanceQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        rainExceedanceQuery = FillRainExceedanceReport(rainExceedanceQuery);
+
+                        rainExceedanceQuery = EnhanceQueryStatements<RainExceedance>(rainExceedanceQuery) as IQueryable<RainExceedance>;
+
                         return rainExceedanceQuery;
                     }
                 default:
-                    return null;
+                    {
+                        rainExceedanceQuery = rainExceedanceQuery.Where(c => c.RainExceedanceID == 0);
+
+                        return rainExceedanceQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -286,30 +284,20 @@ namespace CSSPServices
         }
         public IQueryable<RainExceedance> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.RainExceedances.AsNoTracking();
-            }
-            else
-            {
-                return db.RainExceedances.AsNoTracking().OrderByDescending(c => c.RainExceedanceID);
-            }
+            IQueryable<RainExceedance> rainExceedanceQuery = db.RainExceedances.AsNoTracking();
+
+            return rainExceedanceQuery;
         }
         public IQueryable<RainExceedance> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.RainExceedances;
-            }
-            else
-            {
-                return db.RainExceedances.OrderByDescending(c => c.RainExceedanceID);
-            }
+            IQueryable<RainExceedance> rainExceedanceQuery = db.RainExceedances;
+
+            return rainExceedanceQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated RainExceedanceFillWeb
-        private IQueryable<RainExceedance> FillRainExceedanceWeb(IQueryable<RainExceedance> rainExceedanceQuery, string FilterAndOrderText)
+        private IQueryable<RainExceedance> FillRainExceedanceWeb(IQueryable<RainExceedance> rainExceedanceQuery)
         {
             rainExceedanceQuery = (from c in rainExceedanceQuery
                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages

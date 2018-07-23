@@ -266,9 +266,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetTelWithTelID(tel.TelID)
         [TestMethod]
-        public void Tel_Get_With_Key_Test()
+        public void GetTelWithTelID__tel_TelID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -276,33 +276,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     TelService telService = new TelService(new GetParam(), dbTestDB, ContactID);
                     Tel tel = (from c in telService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tel);
 
                     Tel telRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        telService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
+                            telRet = telService.GetTelWithTelID(tel.TelID);
                             Assert.IsNull(telRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
+                            telRet = telService.GetTelWithTelID(tel.TelID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
+                            telRet = telService.GetTelWithTelID(tel.TelID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            telRet = telService.GetTelWithTelID(tel.TelID, getParam);
+                            telRet = telService.GetTelWithTelID(tel.TelID);
                         }
                         else
                         {
@@ -316,13 +315,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(telRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(telRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // TelWeb and TelReport fields should be null here
                             Assert.IsNull(telRet.TelWeb);
                             Assert.IsNull(telRet.TelReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // TelWeb fields should not be null and TelReport fields should be null here
                             if (telRet.TelWeb.TelTVText != null)
@@ -339,7 +338,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(telRet.TelReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // TelWeb and TelReport fields should NOT be null here
                             if (telRet.TelWeb.TelTVText != null)
@@ -363,10 +362,153 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetTelWithTelID(tel.TelID)
 
-        #region Tests Generated Get List of Tel
-        #endregion Tests Get List of Tel
+        #region Tests Generated for GetTelList()
+        [TestMethod]
+        public void GetTelList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TelService telService = new TelService(new GetParam(), dbTestDB, ContactID);
+                    Tel tel = (from c in telService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(tel);
+
+                    List<Tel> telList = new List<Tel>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        telService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            telList = telService.GetTelList().ToList();
+                            Assert.AreEqual(0, telList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            telList = telService.GetTelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            telList = telService.GetTelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            telList = telService.GetTelList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // Tel fields
+                        Assert.IsNotNull(telList[0].TelID);
+                        Assert.IsNotNull(telList[0].TelTVItemID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelNumber));
+                        Assert.IsNotNull(telList[0].TelType);
+                        Assert.IsNotNull(telList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(telList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // TelWeb and TelReport fields should be null here
+                            Assert.IsNull(telList[0].TelWeb);
+                            Assert.IsNull(telList[0].TelReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // TelWeb fields should not be null and TelReport fields should be null here
+                            if (telList[0].TelWeb.TelTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTVText));
+                            }
+                            if (telList[0].TelWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.LastUpdateContactTVText));
+                            }
+                            if (telList[0].TelWeb.TelTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTypeText));
+                            }
+                            Assert.IsNull(telList[0].TelReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // TelWeb and TelReport fields should NOT be null here
+                            if (telList[0].TelWeb.TelTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTVText));
+                            }
+                            if (telList[0].TelWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.LastUpdateContactTVText));
+                            }
+                            if (telList[0].TelWeb.TelTypeText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTypeText));
+                            }
+                            if (telList[0].TelReport.TelReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelReport.TelReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTelList()
+
+        #region Tests Generated for GetTelList() Skip Take
+        [TestMethod]
+        public void GetTelList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Tel> telList = new List<Tel>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(Tel), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        TelService telService = new TelService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            telList = telService.GetTelList().ToList();
+                            Assert.AreEqual(0, telList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            telList = telService.GetTelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            telList = telService.GetTelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            telList = telService.GetTelList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, telList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTelList() Skip Take
 
     }
 }

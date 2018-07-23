@@ -62,7 +62,7 @@ namespace CSSPServices
             if (SpillSpillID == null)
             {
                 spillLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Spill, CSSPModelsRes.SpillLanguageSpillID, (spillLanguage.SpillID == null ? "" : spillLanguage.SpillID.ToString())), new[] { "SpillID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Spill, CSSPModelsRes.SpillLanguageSpillID, spillLanguage.SpillID.ToString()), new[] { "SpillID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)spillLanguage.Language);
@@ -106,7 +106,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 spillLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLanguageLastUpdateContactTVItemID, (spillLanguage.LastUpdateContactTVItemID == null ? "" : spillLanguage.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLanguageLastUpdateContactTVItemID, spillLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -132,60 +132,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public SpillLanguage GetSpillLanguageWithSpillLanguageID(int SpillLanguageID, GetParam getParam)
+        public SpillLanguage GetSpillLanguageWithSpillLanguageID(int SpillLanguageID)
         {
-            IQueryable<SpillLanguage> spillLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<SpillLanguage> spillLanguageQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.SpillLanguageID == SpillLanguageID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return spillLanguageQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSpillLanguageWeb(spillLanguageQuery, "").FirstOrDefault();
+                    return FillSpillLanguageWeb(spillLanguageQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSpillLanguageReport(spillLanguageQuery, "").FirstOrDefault();
+                    return FillSpillLanguageReport(spillLanguageQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<SpillLanguage> GetSpillLanguageList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<SpillLanguage> GetSpillLanguageList()
         {
-            IQueryable<SpillLanguage> spillLanguageQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<SpillLanguage> spillLanguageQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            spillLanguageQuery  = spillLanguageQuery.OrderByDescending(c => c.SpillLanguageID);
-                        }
-                        spillLanguageQuery = spillLanguageQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        spillLanguageQuery = EnhanceQueryStatements<SpillLanguage>(spillLanguageQuery) as IQueryable<SpillLanguage>;
+
                         return spillLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            spillLanguageQuery = FillSpillLanguageWeb(spillLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.SpillLanguageID);
-                        }
-                        spillLanguageQuery = FillSpillLanguageWeb(spillLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        spillLanguageQuery = FillSpillLanguageWeb(spillLanguageQuery);
+
+                        spillLanguageQuery = EnhanceQueryStatements<SpillLanguage>(spillLanguageQuery) as IQueryable<SpillLanguage>;
+
                         return spillLanguageQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            spillLanguageQuery = FillSpillLanguageReport(spillLanguageQuery, FilterAndOrderText).OrderByDescending(c => c.SpillLanguageID);
-                        }
-                        spillLanguageQuery = FillSpillLanguageReport(spillLanguageQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        spillLanguageQuery = FillSpillLanguageReport(spillLanguageQuery);
+
+                        spillLanguageQuery = EnhanceQueryStatements<SpillLanguage>(spillLanguageQuery) as IQueryable<SpillLanguage>;
+
                         return spillLanguageQuery;
                     }
                 default:
-                    return null;
+                    {
+                        spillLanguageQuery = spillLanguageQuery.Where(c => c.SpillLanguageID == 0);
+
+                        return spillLanguageQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -226,30 +224,20 @@ namespace CSSPServices
         }
         public IQueryable<SpillLanguage> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.SpillLanguages.AsNoTracking();
-            }
-            else
-            {
-                return db.SpillLanguages.AsNoTracking().OrderByDescending(c => c.SpillLanguageID);
-            }
+            IQueryable<SpillLanguage> spillLanguageQuery = db.SpillLanguages.AsNoTracking();
+
+            return spillLanguageQuery;
         }
         public IQueryable<SpillLanguage> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.SpillLanguages;
-            }
-            else
-            {
-                return db.SpillLanguages.OrderByDescending(c => c.SpillLanguageID);
-            }
+            IQueryable<SpillLanguage> spillLanguageQuery = db.SpillLanguages;
+
+            return spillLanguageQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SpillLanguageFillWeb
-        private IQueryable<SpillLanguage> FillSpillLanguageWeb(IQueryable<SpillLanguage> spillLanguageQuery, string FilterAndOrderText)
+        private IQueryable<SpillLanguage> FillSpillLanguageWeb(IQueryable<SpillLanguage> spillLanguageQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

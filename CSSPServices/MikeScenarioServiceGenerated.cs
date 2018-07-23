@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMikeScenarioTVItemID == null)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeScenarioMikeScenarioTVItemID, (mikeScenario.MikeScenarioTVItemID == null ? "" : mikeScenario.MikeScenarioTVItemID.ToString())), new[] { "MikeScenarioTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeScenarioMikeScenarioTVItemID, mikeScenario.MikeScenarioTVItemID.ToString()), new[] { "MikeScenarioTVItemID" });
             }
             else
             {
@@ -291,7 +291,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeScenarioLastUpdateContactTVItemID, (mikeScenario.LastUpdateContactTVItemID == null ? "" : mikeScenario.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeScenarioLastUpdateContactTVItemID, mikeScenario.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -317,60 +317,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public MikeScenario GetMikeScenarioWithMikeScenarioID(int MikeScenarioID, GetParam getParam)
+        public MikeScenario GetMikeScenarioWithMikeScenarioID(int MikeScenarioID)
         {
-            IQueryable<MikeScenario> mikeScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeScenario> mikeScenarioQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeScenarioID == MikeScenarioID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeScenarioQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeScenarioWeb(mikeScenarioQuery, "").FirstOrDefault();
+                    return FillMikeScenarioWeb(mikeScenarioQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeScenarioReport(mikeScenarioQuery, "").FirstOrDefault();
+                    return FillMikeScenarioReport(mikeScenarioQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<MikeScenario> GetMikeScenarioList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<MikeScenario> GetMikeScenarioList()
         {
-            IQueryable<MikeScenario> mikeScenarioQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<MikeScenario> mikeScenarioQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeScenarioQuery  = mikeScenarioQuery.OrderByDescending(c => c.MikeScenarioID);
-                        }
-                        mikeScenarioQuery = mikeScenarioQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        mikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(mikeScenarioQuery) as IQueryable<MikeScenario>;
+
                         return mikeScenarioQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeScenarioQuery = FillMikeScenarioWeb(mikeScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.MikeScenarioID);
-                        }
-                        mikeScenarioQuery = FillMikeScenarioWeb(mikeScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mikeScenarioQuery = FillMikeScenarioWeb(mikeScenarioQuery);
+
+                        mikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(mikeScenarioQuery) as IQueryable<MikeScenario>;
+
                         return mikeScenarioQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            mikeScenarioQuery = FillMikeScenarioReport(mikeScenarioQuery, FilterAndOrderText).OrderByDescending(c => c.MikeScenarioID);
-                        }
-                        mikeScenarioQuery = FillMikeScenarioReport(mikeScenarioQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        mikeScenarioQuery = FillMikeScenarioReport(mikeScenarioQuery);
+
+                        mikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(mikeScenarioQuery) as IQueryable<MikeScenario>;
+
                         return mikeScenarioQuery;
                     }
                 default:
-                    return null;
+                    {
+                        mikeScenarioQuery = mikeScenarioQuery.Where(c => c.MikeScenarioID == 0);
+
+                        return mikeScenarioQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -411,30 +409,20 @@ namespace CSSPServices
         }
         public IQueryable<MikeScenario> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MikeScenarios.AsNoTracking();
-            }
-            else
-            {
-                return db.MikeScenarios.AsNoTracking().OrderByDescending(c => c.MikeScenarioID);
-            }
+            IQueryable<MikeScenario> mikeScenarioQuery = db.MikeScenarios.AsNoTracking();
+
+            return mikeScenarioQuery;
         }
         public IQueryable<MikeScenario> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.MikeScenarios;
-            }
-            else
-            {
-                return db.MikeScenarios.OrderByDescending(c => c.MikeScenarioID);
-            }
+            IQueryable<MikeScenario> mikeScenarioQuery = db.MikeScenarios;
+
+            return mikeScenarioQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeScenarioFillWeb
-        private IQueryable<MikeScenario> FillMikeScenarioWeb(IQueryable<MikeScenario> mikeScenarioQuery, string FilterAndOrderText)
+        private IQueryable<MikeScenario> FillMikeScenarioWeb(IQueryable<MikeScenario> mikeScenarioQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

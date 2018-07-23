@@ -260,9 +260,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetReportTypeWithReportTypeID(reportType.ReportTypeID)
         [TestMethod]
-        public void ReportType_Get_With_Key_Test()
+        public void GetReportTypeWithReportTypeID__reportType_ReportTypeID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -270,33 +270,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     ReportTypeService reportTypeService = new ReportTypeService(new GetParam(), dbTestDB, ContactID);
                     ReportType reportType = (from c in reportTypeService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(reportType);
 
                     ReportType reportTypeRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        reportTypeService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID);
                             Assert.IsNull(reportTypeRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID, getParam);
+                            reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID);
                         }
                         else
                         {
@@ -310,13 +309,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(reportTypeRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(reportTypeRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // ReportTypeWeb and ReportTypeReport fields should be null here
                             Assert.IsNull(reportTypeRet.ReportTypeWeb);
                             Assert.IsNull(reportTypeRet.ReportTypeReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // ReportTypeWeb fields should not be null and ReportTypeReport fields should be null here
                             if (reportTypeRet.ReportTypeWeb.LastUpdateContactTVText != null)
@@ -325,7 +324,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(reportTypeRet.ReportTypeReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // ReportTypeWeb and ReportTypeReport fields should NOT be null here
                             if (reportTypeRet.ReportTypeWeb.LastUpdateContactTVText != null)
@@ -341,10 +340,137 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetReportTypeWithReportTypeID(reportType.ReportTypeID)
 
-        #region Tests Generated Get List of ReportType
-        #endregion Tests Get List of ReportType
+        #region Tests Generated for GetReportTypeList()
+        [TestMethod]
+        public void GetReportTypeList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ReportTypeService reportTypeService = new ReportTypeService(new GetParam(), dbTestDB, ContactID);
+                    ReportType reportType = (from c in reportTypeService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(reportType);
+
+                    List<ReportType> reportTypeList = new List<ReportType>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        reportTypeService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                            Assert.AreEqual(0, reportTypeList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // ReportType fields
+                        Assert.IsNotNull(reportTypeList[0].ReportTypeID);
+                        Assert.IsNotNull(reportTypeList[0].TVType);
+                        Assert.IsNotNull(reportTypeList[0].FileType);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].UniqueCode));
+                        Assert.IsNotNull(reportTypeList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(reportTypeList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // ReportTypeWeb and ReportTypeReport fields should be null here
+                            Assert.IsNull(reportTypeList[0].ReportTypeWeb);
+                            Assert.IsNull(reportTypeList[0].ReportTypeReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // ReportTypeWeb fields should not be null and ReportTypeReport fields should be null here
+                            if (reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(reportTypeList[0].ReportTypeReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // ReportTypeWeb and ReportTypeReport fields should NOT be null here
+                            if (reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText));
+                            }
+                            if (reportTypeList[0].ReportTypeReport.ReportTypeReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].ReportTypeReport.ReportTypeReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportTypeList()
+
+        #region Tests Generated for GetReportTypeList() Skip Take
+        [TestMethod]
+        public void GetReportTypeList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ReportType> reportTypeList = new List<ReportType>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(ReportType), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        ReportTypeService reportTypeService = new ReportTypeService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                            Assert.AreEqual(0, reportTypeList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportTypeList = reportTypeService.GetReportTypeList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, reportTypeList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportTypeList() Skip Take
 
     }
 }

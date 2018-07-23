@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<ContactShortcut> FillContactShortcutReport(IQueryable<ContactShortcut> contactShortcutQuery, string FilterAndOrderText)
+        private IQueryable<ContactShortcut> FillContactShortcutReport(IQueryable<ContactShortcut> contactShortcutQuery)
         {
             contactShortcutQuery = (from c in contactShortcutQuery
                                     let LastUpdateContactTVText = (from cl in db.TVItemLanguages

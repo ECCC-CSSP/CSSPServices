@@ -76,7 +76,7 @@ namespace CSSPServices
             if (TVItemTVFileTVItemID == null)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateTVFileTVItemID, (docTemplate.TVFileTVItemID == null ? "" : docTemplate.TVFileTVItemID.ToString())), new[] { "TVFileTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
             {
@@ -122,7 +122,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, (docTemplate.LastUpdateContactTVItemID == null ? "" : docTemplate.LastUpdateContactTVItemID.ToString())), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -148,60 +148,58 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID, GetParam getParam)
+        public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID)
         {
-            IQueryable<DocTemplate> docTemplateQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<DocTemplate> docTemplateQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.DocTemplateID == DocTemplateID
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return docTemplateQuery.FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillDocTemplateWeb(docTemplateQuery, "").FirstOrDefault();
+                    return FillDocTemplateWeb(docTemplateQuery).FirstOrDefault();
                 case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillDocTemplateReport(docTemplateQuery, "").FirstOrDefault();
+                    return FillDocTemplateReport(docTemplateQuery).FirstOrDefault();
                 default:
                     return null;
             }
         }
-        public IQueryable<DocTemplate> GetDocTemplateList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<DocTemplate> GetDocTemplateList()
         {
-            IQueryable<DocTemplate> docTemplateQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+            IQueryable<DocTemplate> docTemplateQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (getParam.EntityQueryDetailType)
+            switch (GetParam.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            docTemplateQuery  = docTemplateQuery.OrderByDescending(c => c.DocTemplateID);
-                        }
-                        docTemplateQuery = docTemplateQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        docTemplateQuery = EnhanceQueryStatements<DocTemplate>(docTemplateQuery) as IQueryable<DocTemplate>;
+
                         return docTemplateQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            docTemplateQuery = FillDocTemplateWeb(docTemplateQuery, FilterAndOrderText).OrderByDescending(c => c.DocTemplateID);
-                        }
-                        docTemplateQuery = FillDocTemplateWeb(docTemplateQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        docTemplateQuery = FillDocTemplateWeb(docTemplateQuery);
+
+                        docTemplateQuery = EnhanceQueryStatements<DocTemplate>(docTemplateQuery) as IQueryable<DocTemplate>;
+
                         return docTemplateQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityReport:
                     {
-                        if (!getParam.OrderAscending)
-                        {
-                            docTemplateQuery = FillDocTemplateReport(docTemplateQuery, FilterAndOrderText).OrderByDescending(c => c.DocTemplateID);
-                        }
-                        docTemplateQuery = FillDocTemplateReport(docTemplateQuery, FilterAndOrderText).Skip(getParam.Skip).Take(getParam.Take);
+                        docTemplateQuery = FillDocTemplateReport(docTemplateQuery);
+
+                        docTemplateQuery = EnhanceQueryStatements<DocTemplate>(docTemplateQuery) as IQueryable<DocTemplate>;
+
                         return docTemplateQuery;
                     }
                 default:
-                    return null;
+                    {
+                        docTemplateQuery = docTemplateQuery.Where(c => c.DocTemplateID == 0);
+
+                        return docTemplateQuery;
+                    }
             }
         }
         #endregion Functions public Generated Get
@@ -242,30 +240,20 @@ namespace CSSPServices
         }
         public IQueryable<DocTemplate> GetRead()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.DocTemplates.AsNoTracking();
-            }
-            else
-            {
-                return db.DocTemplates.AsNoTracking().OrderByDescending(c => c.DocTemplateID);
-            }
+            IQueryable<DocTemplate> docTemplateQuery = db.DocTemplates.AsNoTracking();
+
+            return docTemplateQuery;
         }
         public IQueryable<DocTemplate> GetEdit()
         {
-            if (GetParam.OrderAscending)
-            {
-                return db.DocTemplates;
-            }
-            else
-            {
-                return db.DocTemplates.OrderByDescending(c => c.DocTemplateID);
-            }
+            IQueryable<DocTemplate> docTemplateQuery = db.DocTemplates;
+
+            return docTemplateQuery;
         }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated DocTemplateFillWeb
-        private IQueryable<DocTemplate> FillDocTemplateWeb(IQueryable<DocTemplate> docTemplateQuery, string FilterAndOrderText)
+        private IQueryable<DocTemplate> FillDocTemplateWeb(IQueryable<DocTemplate> docTemplateQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

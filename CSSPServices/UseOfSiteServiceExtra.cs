@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<UseOfSite> FillUseOfSiteReport(IQueryable<UseOfSite> useOfSiteQuery, string FilterAndOrderText)
+        private IQueryable<UseOfSite> FillUseOfSiteReport(IQueryable<UseOfSite> useOfSiteQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

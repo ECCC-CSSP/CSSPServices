@@ -294,9 +294,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID)
         [TestMethod]
-        public void AppErrLog_Get_With_Key_Test()
+        public void GetAppErrLogWithAppErrLogID__appErrLog_AppErrLogID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -304,33 +304,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     AppErrLogService appErrLogService = new AppErrLogService(new GetParam(), dbTestDB, ContactID);
                     AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(appErrLog);
 
                     AppErrLog appErrLogRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        appErrLogService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, getParam);
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
                             Assert.IsNull(appErrLogRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, getParam);
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, getParam);
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID, getParam);
+                            appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
                         }
                         else
                         {
@@ -346,13 +345,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(appErrLogRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(appErrLogRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // AppErrLogWeb and AppErrLogReport fields should be null here
                             Assert.IsNull(appErrLogRet.AppErrLogWeb);
                             Assert.IsNull(appErrLogRet.AppErrLogReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // AppErrLogWeb fields should not be null and AppErrLogReport fields should be null here
                             if (appErrLogRet.AppErrLogWeb.LastUpdateContactTVText != null)
@@ -361,7 +360,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(appErrLogRet.AppErrLogReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // AppErrLogWeb and AppErrLogReport fields should NOT be null here
                             if (appErrLogRet.AppErrLogWeb.LastUpdateContactTVText != null)
@@ -377,10 +376,139 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID)
 
-        #region Tests Generated Get List of AppErrLog
-        #endregion Tests Get List of AppErrLog
+        #region Tests Generated for GetAppErrLogList()
+        [TestMethod]
+        public void GetAppErrLogList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    AppErrLogService appErrLogService = new AppErrLogService(new GetParam(), dbTestDB, ContactID);
+                    AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(appErrLog);
+
+                    List<AppErrLog> appErrLogList = new List<AppErrLog>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        appErrLogService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                            Assert.AreEqual(0, appErrLogList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // AppErrLog fields
+                        Assert.IsNotNull(appErrLogList[0].AppErrLogID);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].Tag));
+                        Assert.IsNotNull(appErrLogList[0].LineNumber);
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].Source));
+                        Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].Message));
+                        Assert.IsNotNull(appErrLogList[0].DateTime_UTC);
+                        Assert.IsNotNull(appErrLogList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(appErrLogList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // AppErrLogWeb and AppErrLogReport fields should be null here
+                            Assert.IsNull(appErrLogList[0].AppErrLogWeb);
+                            Assert.IsNull(appErrLogList[0].AppErrLogReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // AppErrLogWeb fields should not be null and AppErrLogReport fields should be null here
+                            if (appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText));
+                            }
+                            Assert.IsNull(appErrLogList[0].AppErrLogReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // AppErrLogWeb and AppErrLogReport fields should NOT be null here
+                            if (appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText));
+                            }
+                            if (appErrLogList[0].AppErrLogReport.AppErrLogTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].AppErrLogReport.AppErrLogTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppErrLogList()
+
+        #region Tests Generated for GetAppErrLogList() Skip Take
+        [TestMethod]
+        public void GetAppErrLogList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<AppErrLog> appErrLogList = new List<AppErrLog>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(AppErrLog), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        AppErrLogService appErrLogService = new AppErrLogService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                            Assert.AreEqual(0, appErrLogList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            appErrLogList = appErrLogService.GetAppErrLogList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, appErrLogList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAppErrLogList() Skip Take
 
     }
 }

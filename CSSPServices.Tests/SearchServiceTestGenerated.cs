@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetSearchWithSearchID(search.SearchID)
+        #endregion Tests Generated for GetSearchWithSearchID(search.SearchID)
 
-        #region Tests Generated Get List of Search
-        #endregion Tests Get List of Search
+        #region Tests Generated for GetSearchList()
+        #endregion Tests Generated for GetSearchList()
+
+        #region Tests Generated for GetSearchList() Skip Take
+        #endregion Tests Generated for GetSearchList() Skip Take
 
     }
 }

@@ -84,11 +84,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetURLNumberOfSamplesWithURLNumberOfSamplesID(uRLNumberOfSamples.URLNumberOfSamplesID)
+        #endregion Tests Generated for GetURLNumberOfSamplesWithURLNumberOfSamplesID(uRLNumberOfSamples.URLNumberOfSamplesID)
 
-        #region Tests Generated Get List of URLNumberOfSamples
-        #endregion Tests Get List of URLNumberOfSamples
+        #region Tests Generated for GetURLNumberOfSamplesList()
+        #endregion Tests Generated for GetURLNumberOfSamplesList()
+
+        #region Tests Generated for GetURLNumberOfSamplesList() Skip Take
+        #endregion Tests Generated for GetURLNumberOfSamplesList() Skip Take
 
     }
 }

@@ -31,7 +31,7 @@ namespace CSSPServices
         #endregion Functions public
 
         #region Functions private
-        private IQueryable<MWQMSubsector> FillMWQMSubsectorReport(IQueryable<MWQMSubsector> mwqmSubsectorQuery, string FilterAndOrderText)
+        private IQueryable<MWQMSubsector> FillMWQMSubsectorReport(IQueryable<MWQMSubsector> mwqmSubsectorQuery)
         {
             mwqmSubsectorQuery = (from c in mwqmSubsectorQuery
                                   let SubsectorTVText = (from cl in db.TVItemLanguages

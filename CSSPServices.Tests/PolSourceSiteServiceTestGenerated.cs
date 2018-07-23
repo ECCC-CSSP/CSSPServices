@@ -345,9 +345,9 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
+        #region Tests Generated for GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID)
         [TestMethod]
-        public void PolSourceSite_Get_With_Key_Test()
+        public void GetPolSourceSiteWithPolSourceSiteID__polSourceSite_PolSourceSiteID__Test()
         {
             foreach (CultureInfo culture in AllowableCulture)
             {
@@ -355,33 +355,32 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    GetParam getParam = new GetParam();
                     PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new GetParam(), dbTestDB, ContactID);
                     PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceSite);
 
                     PolSourceSite polSourceSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailTypeEnum in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        getParam.EntityQueryDetailType = entityQueryDetailTypeEnum;
+                        polSourceSiteService.GetParam.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
                             Assert.IsNull(polSourceSiteRet);
                             continue;
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID, getParam);
+                            polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
                         }
                         else
                         {
@@ -418,13 +417,13 @@ namespace CSSPServices.Tests
                         Assert.IsNotNull(polSourceSiteRet.LastUpdateDate_UTC);
                         Assert.IsNotNull(polSourceSiteRet.LastUpdateContactTVItemID);
 
-                        if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityOnly)
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
                             // PolSourceSiteWeb and PolSourceSiteReport fields should be null here
                             Assert.IsNull(polSourceSiteRet.PolSourceSiteWeb);
                             Assert.IsNull(polSourceSiteRet.PolSourceSiteReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityWeb)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
                             // PolSourceSiteWeb fields should not be null and PolSourceSiteReport fields should be null here
                             if (polSourceSiteRet.PolSourceSiteWeb.PolSourceSiteTVText != null)
@@ -441,7 +440,7 @@ namespace CSSPServices.Tests
                             }
                             Assert.IsNull(polSourceSiteRet.PolSourceSiteReport);
                         }
-                        else if (entityQueryDetailTypeEnum == EntityQueryDetailTypeEnum.EntityReport)
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
                             // PolSourceSiteWeb and PolSourceSiteReport fields should NOT be null here
                             if (polSourceSiteRet.PolSourceSiteWeb.PolSourceSiteTVText != null)
@@ -465,10 +464,176 @@ namespace CSSPServices.Tests
                 }
             }
         }
-        #endregion Tests Get With Key
+        #endregion Tests Generated for GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID)
 
-        #region Tests Generated Get List of PolSourceSite
-        #endregion Tests Get List of PolSourceSite
+        #region Tests Generated for GetPolSourceSiteList()
+        [TestMethod]
+        public void GetPolSourceSiteList_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new GetParam(), dbTestDB, ContactID);
+                    PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(polSourceSite);
+
+                    List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        polSourceSiteService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                            Assert.AreEqual(0, polSourceSiteList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        // PolSourceSite fields
+                        Assert.IsNotNull(polSourceSiteList[0].PolSourceSiteID);
+                        Assert.IsNotNull(polSourceSiteList[0].PolSourceSiteTVItemID);
+                        if (polSourceSiteList[0].Temp_Locator_CanDelete != null)
+                        {
+                            Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].Temp_Locator_CanDelete));
+                        }
+                        if (polSourceSiteList[0].Oldsiteid != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteList[0].Oldsiteid);
+                        }
+                        if (polSourceSiteList[0].Site != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteList[0].Site);
+                        }
+                        if (polSourceSiteList[0].SiteID != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteList[0].SiteID);
+                        }
+                        Assert.IsNotNull(polSourceSiteList[0].IsPointSource);
+                        if (polSourceSiteList[0].InactiveReason != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteList[0].InactiveReason);
+                        }
+                        if (polSourceSiteList[0].CivicAddressTVItemID != null)
+                        {
+                            Assert.IsNotNull(polSourceSiteList[0].CivicAddressTVItemID);
+                        }
+                        Assert.IsNotNull(polSourceSiteList[0].LastUpdateDate_UTC);
+                        Assert.IsNotNull(polSourceSiteList[0].LastUpdateContactTVItemID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            // PolSourceSiteWeb and PolSourceSiteReport fields should be null here
+                            Assert.IsNull(polSourceSiteList[0].PolSourceSiteWeb);
+                            Assert.IsNull(polSourceSiteList[0].PolSourceSiteReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            // PolSourceSiteWeb fields should not be null and PolSourceSiteReport fields should be null here
+                            if (polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText));
+                            }
+                            if (polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText));
+                            }
+                            Assert.IsNull(polSourceSiteList[0].PolSourceSiteReport);
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            // PolSourceSiteWeb and PolSourceSiteReport fields should NOT be null here
+                            if (polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText));
+                            }
+                            if (polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText));
+                            }
+                            if (polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText));
+                            }
+                            if (polSourceSiteList[0].PolSourceSiteReport.PolSourceSiteReportTest != null)
+                            {
+                                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteReport.PolSourceSiteReportTest));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetPolSourceSiteList()
+
+        #region Tests Generated for GetPolSourceSiteList() Skip Take
+        [TestMethod]
+        public void GetPolSourceSiteList_Skip_Take_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+
+                        GetParam getParam = getParamService.FillProp(typeof(PolSourceSite), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+                        PolSourceSiteService polSourceSiteService = new PolSourceSiteService(getParam, dbTestDB, ContactID);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                            Assert.AreEqual(0, polSourceSiteList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        Assert.AreEqual(getParam.Take, polSourceSiteList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetPolSourceSiteList() Skip Take
 
     }
 }

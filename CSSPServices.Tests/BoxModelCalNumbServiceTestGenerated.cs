@@ -92,11 +92,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetBoxModelCalNumbWithBoxModelCalNumbID(boxModelCalNumb.BoxModelCalNumbID)
+        #endregion Tests Generated for GetBoxModelCalNumbWithBoxModelCalNumbID(boxModelCalNumb.BoxModelCalNumbID)
 
-        #region Tests Generated Get List of BoxModelCalNumb
-        #endregion Tests Get List of BoxModelCalNumb
+        #region Tests Generated for GetBoxModelCalNumbList()
+        #endregion Tests Generated for GetBoxModelCalNumbList()
+
+        #region Tests Generated for GetBoxModelCalNumbList() Skip Take
+        #endregion Tests Generated for GetBoxModelCalNumbList() Skip Take
 
     }
 }

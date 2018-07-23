@@ -85,11 +85,14 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated CRUD and Properties
 
-        #region Tests Generated Get With Key
-        #endregion Tests Get With Key
+        #region Tests Generated for GetContactSearchWithContactSearchID(contactSearch.ContactSearchID)
+        #endregion Tests Generated for GetContactSearchWithContactSearchID(contactSearch.ContactSearchID)
 
-        #region Tests Generated Get List of ContactSearch
-        #endregion Tests Get List of ContactSearch
+        #region Tests Generated for GetContactSearchList()
+        #endregion Tests Generated for GetContactSearchList()
+
+        #region Tests Generated for GetContactSearchList() Skip Take
+        #endregion Tests Generated for GetContactSearchList() Skip Take
 
     }
 }
