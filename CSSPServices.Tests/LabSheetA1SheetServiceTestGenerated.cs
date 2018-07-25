@@ -32,8 +32,66 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
+        #region Tests Generated CRUD and Properties
+        [TestMethod]
+        public void LabSheetA1Sheet_CRUD_And_Properties_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    LabSheetA1SheetService labSheetA1SheetService = new LabSheetA1SheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    LabSheetA1Sheet labSheetA1Sheet = GetFilledRandomLabSheetA1Sheet("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
+
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
+
+                }
+            }
+        }
+        #endregion Tests Generated CRUD and Properties
+
+        #region Tests Generated for GetLabSheetA1SheetWithLabSheetA1SheetID(labSheetA1Sheet.LabSheetA1SheetID)
+        #endregion Tests Generated for GetLabSheetA1SheetWithLabSheetA1SheetID(labSheetA1Sheet.LabSheetA1SheetID)
+
+        #region Tests Generated for GetLabSheetA1SheetList()
+        #endregion Tests Generated for GetLabSheetA1SheetList()
+
+        #region Tests Generated for GetLabSheetA1SheetList() Skip Take
+        #endregion Tests Generated for GetLabSheetA1SheetList() Skip Take
+
+        #region Tests Generated for GetLabSheetA1SheetList() Skip Take Order
+        #endregion Tests Generated for GetLabSheetA1SheetList() Skip Take Order
+
+        #region Tests Generated for GetLabSheetA1SheetList() Skip Take 2Order
+        #endregion Tests Generated for GetLabSheetA1SheetList() Skip Take 2Order
+
+        #region Tests Generated for GetLabSheetA1SheetList() Skip Take Order Where
+        #endregion Tests Generated for GetLabSheetA1SheetList() Skip Take Order Where
+
+        #region Tests Generated for GetLabSheetA1SheetList() Skip Take Order 2Where
+        #endregion Tests Generated for GetLabSheetA1SheetList() Skip Take Order 2Where
+
+        #region Tests Generated for GetLabSheetA1SheetList() 2Where
+        #endregion Tests Generated for GetLabSheetA1SheetList() 2Where
 
         #region Functions private
         private LabSheetA1Sheet GetFilledRandomLabSheetA1Sheet(string OmitPropName)
@@ -129,52 +187,5 @@ namespace CSSPServices.Tests
             return labSheetA1Sheet;
         }
         #endregion Functions private
-
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void LabSheetA1Sheet_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    LabSheetA1SheetService labSheetA1SheetService = new LabSheetA1SheetService(new GetParam(), dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    LabSheetA1Sheet labSheetA1Sheet = GetFilledRandomLabSheetA1Sheet("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetLabSheetA1SheetWithLabSheetA1SheetID(labSheetA1Sheet.LabSheetA1SheetID)
-        #endregion Tests Generated for GetLabSheetA1SheetWithLabSheetA1SheetID(labSheetA1Sheet.LabSheetA1SheetID)
-
-        #region Tests Generated for GetLabSheetA1SheetList()
-        #endregion Tests Generated for GetLabSheetA1SheetList()
-
-        #region Tests Generated for GetLabSheetA1SheetList() Skip Take
-        #endregion Tests Generated for GetLabSheetA1SheetList() Skip Take
-
     }
 }

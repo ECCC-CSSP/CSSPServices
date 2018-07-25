@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public HydrometricSiteService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public HydrometricSiteService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -211,11 +211,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID)
         {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.HydrometricSiteID == HydrometricSiteID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return hydrometricSiteQuery.FirstOrDefault();
@@ -229,9 +229,9 @@ namespace CSSPServices
         }
         public IQueryable<HydrometricSite> GetHydrometricSiteList()
         {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<HydrometricSite> hydrometricSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

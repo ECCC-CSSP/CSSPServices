@@ -32,31 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Address GetFilledRandomAddress(string OmitPropName)
-        {
-            Address address = new Address();
-
-            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 42;
-            if (OmitPropName != "AddressType") address.AddressType = (AddressTypeEnum)GetRandomEnumType(typeof(AddressTypeEnum));
-            if (OmitPropName != "CountryTVItemID") address.CountryTVItemID = 5;
-            if (OmitPropName != "ProvinceTVItemID") address.ProvinceTVItemID = 6;
-            if (OmitPropName != "MunicipalityTVItemID") address.MunicipalityTVItemID = 35;
-            if (OmitPropName != "StreetName") address.StreetName = GetRandomString("", 5);
-            if (OmitPropName != "StreetNumber") address.StreetNumber = GetRandomString("", 5);
-            if (OmitPropName != "StreetType") address.StreetType = (StreetTypeEnum)GetRandomEnumType(typeof(StreetTypeEnum));
-            if (OmitPropName != "PostalCode") address.PostalCode = GetRandomString("", 11);
-            if (OmitPropName != "GoogleAddressText") address.GoogleAddressText = GetRandomString("", 15);
-            if (OmitPropName != "LastUpdateDate_UTC") address.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") address.LastUpdateContactTVItemID = 2;
-
-            return address;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Address_CRUD_And_Properties_Test()
@@ -67,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AddressService addressService = new AddressService(new GetParam(), dbTestDB, ContactID);
+                    AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -396,14 +371,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AddressService addressService = new AddressService(new GetParam(), dbTestDB, ContactID);
+                    AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     Address address = (from c in addressService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
                     Address addressRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        addressService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        addressService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -427,113 +402,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // Address fields
-                        Assert.IsNotNull(addressRet.AddressID);
-                        Assert.IsNotNull(addressRet.AddressTVItemID);
-                        Assert.IsNotNull(addressRet.AddressType);
-                        Assert.IsNotNull(addressRet.CountryTVItemID);
-                        Assert.IsNotNull(addressRet.ProvinceTVItemID);
-                        Assert.IsNotNull(addressRet.MunicipalityTVItemID);
-                        if (addressRet.StreetName != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetName));
-                        }
-                        if (addressRet.StreetNumber != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetNumber));
-                        }
-                        if (addressRet.StreetType != null)
-                        {
-                            Assert.IsNotNull(addressRet.StreetType);
-                        }
-                        if (addressRet.PostalCode != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.PostalCode));
-                        }
-                        if (addressRet.GoogleAddressText != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.GoogleAddressText));
-                        }
-                        Assert.IsNotNull(addressRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(addressRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // AddressWeb and AddressReport fields should be null here
-                            Assert.IsNull(addressRet.AddressWeb);
-                            Assert.IsNull(addressRet.AddressReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // AddressWeb fields should not be null and AddressReport fields should be null here
-                            Assert.IsTrue(addressRet.AddressWeb.ParentTVItemID > 0);
-                            if (addressRet.AddressWeb.AddressTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.AddressTVText));
-                            }
-                            if (addressRet.AddressWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.CountryTVText));
-                            }
-                            if (addressRet.AddressWeb.ProvinceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.ProvinceTVText));
-                            }
-                            if (addressRet.AddressWeb.MunicipalityTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.MunicipalityTVText));
-                            }
-                            if (addressRet.AddressWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.LastUpdateContactTVText));
-                            }
-                            if (addressRet.AddressWeb.AddressTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.AddressTypeText));
-                            }
-                            if (addressRet.AddressWeb.StreetTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.StreetTypeText));
-                            }
-                            Assert.IsNull(addressRet.AddressReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // AddressWeb and AddressReport fields should NOT be null here
-                            Assert.IsTrue(addressRet.AddressWeb.ParentTVItemID > 0);
-                            if (addressRet.AddressWeb.AddressTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.AddressTVText));
-                            }
-                            if (addressRet.AddressWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.CountryTVText));
-                            }
-                            if (addressRet.AddressWeb.ProvinceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.ProvinceTVText));
-                            }
-                            if (addressRet.AddressWeb.MunicipalityTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.MunicipalityTVText));
-                            }
-                            if (addressRet.AddressWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.LastUpdateContactTVText));
-                            }
-                            if (addressRet.AddressWeb.AddressTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.AddressTypeText));
-                            }
-                            if (addressRet.AddressWeb.StreetTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressWeb.StreetTypeText));
-                            }
-                            if (addressRet.AddressReport.AddressReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressReport.AddressReportTest));
-                            }
-                        }
+                        CheckAddressFields(new List<Address>() { addressRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -550,14 +419,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AddressService addressService = new AddressService(new GetParam(), dbTestDB, ContactID);
+                    AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     Address address = (from c in addressService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
                     List<Address> addressList = new List<Address>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        addressService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        addressService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -581,113 +450,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // Address fields
-                        Assert.IsNotNull(addressList[0].AddressID);
-                        Assert.IsNotNull(addressList[0].AddressTVItemID);
-                        Assert.IsNotNull(addressList[0].AddressType);
-                        Assert.IsNotNull(addressList[0].CountryTVItemID);
-                        Assert.IsNotNull(addressList[0].ProvinceTVItemID);
-                        Assert.IsNotNull(addressList[0].MunicipalityTVItemID);
-                        if (addressList[0].StreetName != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].StreetName));
-                        }
-                        if (addressList[0].StreetNumber != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].StreetNumber));
-                        }
-                        if (addressList[0].StreetType != null)
-                        {
-                            Assert.IsNotNull(addressList[0].StreetType);
-                        }
-                        if (addressList[0].PostalCode != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].PostalCode));
-                        }
-                        if (addressList[0].GoogleAddressText != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].GoogleAddressText));
-                        }
-                        Assert.IsNotNull(addressList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(addressList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // AddressWeb and AddressReport fields should be null here
-                            Assert.IsNull(addressList[0].AddressWeb);
-                            Assert.IsNull(addressList[0].AddressReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // AddressWeb fields should not be null and AddressReport fields should be null here
-                            Assert.IsTrue(addressList[0].AddressWeb.ParentTVItemID > 0);
-                            if (addressList[0].AddressWeb.AddressTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText));
-                            }
-                            if (addressList[0].AddressWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText));
-                            }
-                            if (addressList[0].AddressWeb.ProvinceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText));
-                            }
-                            if (addressList[0].AddressWeb.MunicipalityTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText));
-                            }
-                            if (addressList[0].AddressWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText));
-                            }
-                            if (addressList[0].AddressWeb.AddressTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText));
-                            }
-                            if (addressList[0].AddressWeb.StreetTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.StreetTypeText));
-                            }
-                            Assert.IsNull(addressList[0].AddressReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // AddressWeb and AddressReport fields should NOT be null here
-                            Assert.IsTrue(addressList[0].AddressWeb.ParentTVItemID > 0);
-                            if (addressList[0].AddressWeb.AddressTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText));
-                            }
-                            if (addressList[0].AddressWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText));
-                            }
-                            if (addressList[0].AddressWeb.ProvinceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText));
-                            }
-                            if (addressList[0].AddressWeb.MunicipalityTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText));
-                            }
-                            if (addressList[0].AddressWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText));
-                            }
-                            if (addressList[0].AddressWeb.AddressTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText));
-                            }
-                            if (addressList[0].AddressWeb.StreetTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.StreetTypeText));
-                            }
-                            if (addressList[0].AddressReport.AddressReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressReport.AddressReportTest));
-                            }
-                        }
+                        CheckAddressFields(addressList, entityQueryDetailType);
                     }
                 }
             }
@@ -705,12 +468,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<Address> addressList = new List<Address>();
+                    List<Address> addressDirectQueryList = new List<Address>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(Address), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        AddressService addressService = new AddressService(getParam, dbTestDB, ContactID);
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -734,13 +499,442 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, addressList.Count);
+                        CheckAddressFields(addressList, entityQueryDetailType);
+                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
+                        Assert.AreEqual(1, addressList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetAddressList() Skip Take
 
+        #region Tests Generated for GetAddressList() Skip Take Order
+        [TestMethod]
+        public void GetAddressList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Address> addressList = new List<Address>();
+                    List<Address> addressDirectQueryList = new List<Address>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1,  "AddressID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).OrderBy(c => c.AddressID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                            Assert.AreEqual(0, addressList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckAddressFields(addressList, entityQueryDetailType);
+                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
+                        Assert.AreEqual(1, addressList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAddressList() Skip Take Order
+
+        #region Tests Generated for GetAddressList() Skip Take 2Order
+        [TestMethod]
+        public void GetAddressList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Address> addressList = new List<Address>();
+                    List<Address> addressDirectQueryList = new List<Address>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "AddressID,AddressTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).OrderBy(c => c.AddressID).ThenBy(c => c.AddressTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                            Assert.AreEqual(0, addressList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckAddressFields(addressList, entityQueryDetailType);
+                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
+                        Assert.AreEqual(1, addressList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAddressList() Skip Take 2Order
+
+        #region Tests Generated for GetAddressList() Skip Take Order Where
+        [TestMethod]
+        public void GetAddressList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Address> addressList = new List<Address>();
+                    List<Address> addressDirectQueryList = new List<Address>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID == 4).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                            Assert.AreEqual(0, addressList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckAddressFields(addressList, entityQueryDetailType);
+                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
+                        Assert.AreEqual(1, addressList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAddressList() Skip Take Order Where
+
+        #region Tests Generated for GetAddressList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetAddressList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Address> addressList = new List<Address>();
+                    List<Address> addressDirectQueryList = new List<Address>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,GT,2|AddressID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID > 2 && c.AddressID < 5).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                            Assert.AreEqual(0, addressList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckAddressFields(addressList, entityQueryDetailType);
+                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
+                        Assert.AreEqual(1, addressList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAddressList() Skip Take Order 2Where
+
+        #region Tests Generated for GetAddressList() 2Where
+        [TestMethod]
+        public void GetAddressList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Address> addressList = new List<Address>();
+                    List<Address> addressDirectQueryList = new List<Address>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 10000, "", "AddressID,GT,2|AddressID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID > 2 && c.AddressID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                            Assert.AreEqual(0, addressList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckAddressFields(addressList, entityQueryDetailType);
+                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
+                        Assert.AreEqual(2, addressList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAddressList() 2Where
+
+        #region Tests Generated for GetAddressList() 2Where
+        [TestMethod]
+        public void GetAddressList_Order_AddressWeb_AddressTVText_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Address> addressList = new List<Address>();
+                    List<Address> addressDirectQueryList = new List<Address>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 2, "AddressWeb.AddressTVText", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            addressList = addressService.GetAddressList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+
+                        addressDirectQueryList = addressList.OrderBy(c => c.AddressWeb.AddressTVText).ToList();
+
+                        CheckAddressFields(addressList, entityQueryDetailType);
+                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
+                        Assert.AreEqual(2, addressList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetAddressList() 2Where
+
+        #region Functions private
+        private void CheckAddressFields(List<Address> addressList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // Address fields
+            Assert.IsNotNull(addressList[0].AddressID);
+            Assert.IsNotNull(addressList[0].AddressTVItemID);
+            Assert.IsNotNull(addressList[0].AddressType);
+            Assert.IsNotNull(addressList[0].CountryTVItemID);
+            Assert.IsNotNull(addressList[0].ProvinceTVItemID);
+            Assert.IsNotNull(addressList[0].MunicipalityTVItemID);
+            if (!string.IsNullOrWhiteSpace(addressList[0].StreetName))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].StreetName));
+            }
+            if (!string.IsNullOrWhiteSpace(addressList[0].StreetNumber))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].StreetNumber));
+            }
+            if (addressList[0].StreetType != null)
+            {
+                Assert.IsNotNull(addressList[0].StreetType);
+            }
+            if (!string.IsNullOrWhiteSpace(addressList[0].PostalCode))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].PostalCode));
+            }
+            if (!string.IsNullOrWhiteSpace(addressList[0].GoogleAddressText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].GoogleAddressText));
+            }
+            Assert.IsNotNull(addressList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(addressList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // AddressWeb and AddressReport fields should be null here
+                Assert.IsNull(addressList[0].AddressWeb);
+                Assert.IsNull(addressList[0].AddressReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // AddressWeb fields should not be null and AddressReport fields should be null here
+                Assert.IsTrue(addressList[0].AddressWeb.ParentTVItemID > 0);
+                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText));
+                }
+                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.StreetTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.StreetTypeText));
+                }
+                Assert.IsNull(addressList[0].AddressReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // AddressWeb and AddressReport fields should NOT be null here
+                Assert.IsTrue(addressList[0].AddressWeb.ParentTVItemID > 0);
+                if (addressList[0].AddressWeb.AddressTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText));
+                }
+                if (addressList[0].AddressWeb.CountryTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText));
+                }
+                if (addressList[0].AddressWeb.ProvinceTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText));
+                }
+                if (addressList[0].AddressWeb.MunicipalityTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText));
+                }
+                if (addressList[0].AddressWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText));
+                }
+                if (addressList[0].AddressWeb.AddressTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText));
+                }
+                if (addressList[0].AddressWeb.StreetTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.StreetTypeText));
+                }
+                if (addressList[0].AddressReport.AddressReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressReport.AddressReportTest));
+                }
+            }
+        }
+        private Address GetFilledRandomAddress(string OmitPropName)
+        {
+            Address address = new Address();
+
+            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 42;
+            if (OmitPropName != "AddressType") address.AddressType = (AddressTypeEnum)GetRandomEnumType(typeof(AddressTypeEnum));
+            if (OmitPropName != "CountryTVItemID") address.CountryTVItemID = 5;
+            if (OmitPropName != "ProvinceTVItemID") address.ProvinceTVItemID = 6;
+            if (OmitPropName != "MunicipalityTVItemID") address.MunicipalityTVItemID = 35;
+            if (OmitPropName != "StreetName") address.StreetName = GetRandomString("", 5);
+            if (OmitPropName != "StreetNumber") address.StreetNumber = GetRandomString("", 5);
+            if (OmitPropName != "StreetType") address.StreetType = (StreetTypeEnum)GetRandomEnumType(typeof(StreetTypeEnum));
+            if (OmitPropName != "PostalCode") address.PostalCode = GetRandomString("", 11);
+            if (OmitPropName != "GoogleAddressText") address.GoogleAddressText = GetRandomString("", 15);
+            if (OmitPropName != "LastUpdateDate_UTC") address.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") address.LastUpdateContactTVItemID = 2;
+
+            return address;
+        }
+        #endregion Functions private
     }
 }

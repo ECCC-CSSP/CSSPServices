@@ -32,25 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private NewContact GetFilledRandomNewContact(string OmitPropName)
-        {
-            NewContact newContact = new NewContact();
-
-            if (OmitPropName != "LoginEmail") newContact.LoginEmail = GetRandomString("", 6);
-            if (OmitPropName != "FirstName") newContact.FirstName = GetRandomString("", 6);
-            if (OmitPropName != "LastName") newContact.LastName = GetRandomString("", 6);
-            if (OmitPropName != "Initial") newContact.Initial = GetRandomString("", 5);
-            if (OmitPropName != "ContactTitle") newContact.ContactTitle = (ContactTitleEnum)GetRandomEnumType(typeof(ContactTitleEnum));
-            if (OmitPropName != "ContactTitleText") newContact.ContactTitleText = GetRandomString("", 5);
-
-            return newContact;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void NewContact_CRUD_And_Properties_Test()
@@ -61,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    NewContactService newContactService = new NewContactService(new GetParam(), dbTestDB, ContactID);
+                    NewContactService newContactService = new NewContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -97,5 +78,35 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetNewContactList() Skip Take
         #endregion Tests Generated for GetNewContactList() Skip Take
 
+        #region Tests Generated for GetNewContactList() Skip Take Order
+        #endregion Tests Generated for GetNewContactList() Skip Take Order
+
+        #region Tests Generated for GetNewContactList() Skip Take 2Order
+        #endregion Tests Generated for GetNewContactList() Skip Take 2Order
+
+        #region Tests Generated for GetNewContactList() Skip Take Order Where
+        #endregion Tests Generated for GetNewContactList() Skip Take Order Where
+
+        #region Tests Generated for GetNewContactList() Skip Take Order 2Where
+        #endregion Tests Generated for GetNewContactList() Skip Take Order 2Where
+
+        #region Tests Generated for GetNewContactList() 2Where
+        #endregion Tests Generated for GetNewContactList() 2Where
+
+        #region Functions private
+        private NewContact GetFilledRandomNewContact(string OmitPropName)
+        {
+            NewContact newContact = new NewContact();
+
+            if (OmitPropName != "LoginEmail") newContact.LoginEmail = GetRandomString("", 6);
+            if (OmitPropName != "FirstName") newContact.FirstName = GetRandomString("", 6);
+            if (OmitPropName != "LastName") newContact.LastName = GetRandomString("", 6);
+            if (OmitPropName != "Initial") newContact.Initial = GetRandomString("", 5);
+            if (OmitPropName != "ContactTitle") newContact.ContactTitle = (ContactTitleEnum)GetRandomEnumType(typeof(ContactTitleEnum));
+            if (OmitPropName != "ContactTitleText") newContact.ContactTitleText = GetRandomString("", 5);
+
+            return newContact;
+        }
+        #endregion Functions private
     }
 }

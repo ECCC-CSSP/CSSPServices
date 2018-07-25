@@ -354,7 +354,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressServiceTestExtra.cs" />
-    <Compile Include="GetParamServiceTestExtra.cs" />
+    <Compile Include="QueryServiceTestExtra.cs" />
     <Compile Include="WhereInfoServiceTestExtra.cs" />
     <Compile Include="WhereInfoServiceTestGenerated.cs" />
     <Compile Include="_BaseServiceTest.cs" />
@@ -427,7 +427,7 @@
     <Compile Include="FileItemServiceTestGenerated.cs" />
     <Compile Include="FilePurposeAndTextServiceTestExtra.cs" />
     <Compile Include="FilePurposeAndTextServiceTestGenerated.cs" />
-    <Compile Include="GetParamServiceTestGenerated.cs" />
+    <Compile Include="QueryServiceTestGenerated.cs" />
     <Compile Include="HydrometricDataValueServiceTestExtra.cs" />
     <Compile Include="HydrometricDataValueServiceTestGenerated.cs" />
     <Compile Include="HydrometricSiteServiceTestExtra.cs" />

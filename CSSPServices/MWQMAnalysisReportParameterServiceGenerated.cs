@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMAnalysisReportParameterService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public MWQMAnalysisReportParameterService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -306,11 +306,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMAnalysisReportParameter GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmAnalysisReportParameterQuery.FirstOrDefault();
@@ -324,9 +324,9 @@ namespace CSSPServices
         }
         public IQueryable<MWQMAnalysisReportParameter> GetMWQMAnalysisReportParameterList()
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

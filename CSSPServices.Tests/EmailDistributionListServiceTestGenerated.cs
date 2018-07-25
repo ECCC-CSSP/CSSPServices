@@ -32,23 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private EmailDistributionList GetFilledRandomEmailDistributionList(string OmitPropName)
-        {
-            EmailDistributionList emailDistributionList = new EmailDistributionList();
-
-            if (OmitPropName != "CountryTVItemID") emailDistributionList.CountryTVItemID = 5;
-            if (OmitPropName != "Ordinal") emailDistributionList.Ordinal = GetRandomInt(0, 1000);
-            if (OmitPropName != "LastUpdateDate_UTC") emailDistributionList.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = 2;
-
-            return emailDistributionList;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void EmailDistributionList_CRUD_And_Properties_Test()
@@ -59,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new GetParam(), dbTestDB, ContactID);
+                    EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -260,14 +243,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new GetParam(), dbTestDB, ContactID);
+                    EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     EmailDistributionList emailDistributionList = (from c in emailDistributionListService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionList);
 
                     EmailDistributionList emailDistributionListRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        emailDistributionListService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        emailDistributionListService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -291,48 +274,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // EmailDistributionList fields
-                        Assert.IsNotNull(emailDistributionListRet.EmailDistributionListID);
-                        Assert.IsNotNull(emailDistributionListRet.CountryTVItemID);
-                        Assert.IsNotNull(emailDistributionListRet.Ordinal);
-                        Assert.IsNotNull(emailDistributionListRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // EmailDistributionListWeb and EmailDistributionListReport fields should be null here
-                            Assert.IsNull(emailDistributionListRet.EmailDistributionListWeb);
-                            Assert.IsNull(emailDistributionListRet.EmailDistributionListReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // EmailDistributionListWeb fields should not be null and EmailDistributionListReport fields should be null here
-                            if (emailDistributionListRet.EmailDistributionListWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.CountryTVText));
-                            }
-                            if (emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(emailDistributionListRet.EmailDistributionListReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // EmailDistributionListWeb and EmailDistributionListReport fields should NOT be null here
-                            if (emailDistributionListRet.EmailDistributionListWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.CountryTVText));
-                            }
-                            if (emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListWeb.LastUpdateContactTVText));
-                            }
-                            if (emailDistributionListRet.EmailDistributionListReport.EmailDistributionReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.EmailDistributionListReport.EmailDistributionReportTest));
-                            }
-                        }
+                        CheckEmailDistributionListFields(new List<EmailDistributionList>() { emailDistributionListRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -349,14 +291,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new GetParam(), dbTestDB, ContactID);
+                    EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     EmailDistributionList emailDistributionList = (from c in emailDistributionListService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionList);
 
                     List<EmailDistributionList> emailDistributionListList = new List<EmailDistributionList>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        emailDistributionListService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        emailDistributionListService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -380,48 +322,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // EmailDistributionList fields
-                        Assert.IsNotNull(emailDistributionListList[0].EmailDistributionListID);
-                        Assert.IsNotNull(emailDistributionListList[0].CountryTVItemID);
-                        Assert.IsNotNull(emailDistributionListList[0].Ordinal);
-                        Assert.IsNotNull(emailDistributionListList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(emailDistributionListList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // EmailDistributionListWeb and EmailDistributionListReport fields should be null here
-                            Assert.IsNull(emailDistributionListList[0].EmailDistributionListWeb);
-                            Assert.IsNull(emailDistributionListList[0].EmailDistributionListReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // EmailDistributionListWeb fields should not be null and EmailDistributionListReport fields should be null here
-                            if (emailDistributionListList[0].EmailDistributionListWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText));
-                            }
-                            if (emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(emailDistributionListList[0].EmailDistributionListReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // EmailDistributionListWeb and EmailDistributionListReport fields should NOT be null here
-                            if (emailDistributionListList[0].EmailDistributionListWeb.CountryTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText));
-                            }
-                            if (emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText));
-                            }
-                            if (emailDistributionListList[0].EmailDistributionListReport.EmailDistributionReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListReport.EmailDistributionReportTest));
-                            }
-                        }
+                        CheckEmailDistributionListFields(emailDistributionListList, entityQueryDetailType);
                     }
                 }
             }
@@ -439,12 +340,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<EmailDistributionList> emailDistributionListList = new List<EmailDistributionList>();
+                    List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(EmailDistributionList), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        EmailDistributionListService emailDistributionListService = new EmailDistributionListService(getParam, dbTestDB, ContactID);
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        emailDistributionListDirectQueryList = emailDistributionListService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -468,13 +371,327 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, emailDistributionListList.Count);
+                        CheckEmailDistributionListFields(emailDistributionListList, entityQueryDetailType);
+                        Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
+                        Assert.AreEqual(1, emailDistributionListList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetEmailDistributionListList() Skip Take
 
+        #region Tests Generated for GetEmailDistributionListList() Skip Take Order
+        [TestMethod]
+        public void GetEmailDistributionListList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<EmailDistributionList> emailDistributionListList = new List<EmailDistributionList>();
+                    List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 1, 1,  "EmailDistributionListID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        emailDistributionListDirectQueryList = emailDistributionListService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                            Assert.AreEqual(0, emailDistributionListList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckEmailDistributionListFields(emailDistributionListList, entityQueryDetailType);
+                        Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
+                        Assert.AreEqual(1, emailDistributionListList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListList() Skip Take Order
+
+        #region Tests Generated for GetEmailDistributionListList() Skip Take 2Order
+        [TestMethod]
+        public void GetEmailDistributionListList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<EmailDistributionList> emailDistributionListList = new List<EmailDistributionList>();
+                    List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 1, 1, "EmailDistributionListID,CountryTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        emailDistributionListDirectQueryList = emailDistributionListService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListID).ThenBy(c => c.CountryTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                            Assert.AreEqual(0, emailDistributionListList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckEmailDistributionListFields(emailDistributionListList, entityQueryDetailType);
+                        Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
+                        Assert.AreEqual(1, emailDistributionListList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListList() Skip Take 2Order
+
+        #region Tests Generated for GetEmailDistributionListList() Skip Take Order Where
+        [TestMethod]
+        public void GetEmailDistributionListList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<EmailDistributionList> emailDistributionListList = new List<EmailDistributionList>();
+                    List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListID", "EmailDistributionListID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        emailDistributionListDirectQueryList = emailDistributionListService.GetRead().Where(c => c.EmailDistributionListID == 4).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                            Assert.AreEqual(0, emailDistributionListList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckEmailDistributionListFields(emailDistributionListList, entityQueryDetailType);
+                        Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
+                        Assert.AreEqual(1, emailDistributionListList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListList() Skip Take Order Where
+
+        #region Tests Generated for GetEmailDistributionListList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetEmailDistributionListList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<EmailDistributionList> emailDistributionListList = new List<EmailDistributionList>();
+                    List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListID", "EmailDistributionListID,GT,2|EmailDistributionListID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        emailDistributionListDirectQueryList = emailDistributionListService.GetRead().Where(c => c.EmailDistributionListID > 2 && c.EmailDistributionListID < 5).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                            Assert.AreEqual(0, emailDistributionListList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckEmailDistributionListFields(emailDistributionListList, entityQueryDetailType);
+                        Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
+                        Assert.AreEqual(1, emailDistributionListList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListList() Skip Take Order 2Where
+
+        #region Tests Generated for GetEmailDistributionListList() 2Where
+        [TestMethod]
+        public void GetEmailDistributionListList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<EmailDistributionList> emailDistributionListList = new List<EmailDistributionList>();
+                    List<EmailDistributionList> emailDistributionListDirectQueryList = new List<EmailDistributionList>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        emailDistributionListService.Query = emailDistributionListService.FillQuery(typeof(EmailDistributionList), culture.TwoLetterISOLanguageName, 0, 10000, "", "EmailDistributionListID,GT,2|EmailDistributionListID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        emailDistributionListDirectQueryList = emailDistributionListService.GetRead().Where(c => c.EmailDistributionListID > 2 && c.EmailDistributionListID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                            Assert.AreEqual(0, emailDistributionListList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            emailDistributionListList = emailDistributionListService.GetEmailDistributionListList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckEmailDistributionListFields(emailDistributionListList, entityQueryDetailType);
+                        Assert.AreEqual(emailDistributionListDirectQueryList[0].EmailDistributionListID, emailDistributionListList[0].EmailDistributionListID);
+                        Assert.AreEqual(2, emailDistributionListList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetEmailDistributionListList() 2Where
+
+        #region Functions private
+        private void CheckEmailDistributionListFields(List<EmailDistributionList> emailDistributionListList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // EmailDistributionList fields
+            Assert.IsNotNull(emailDistributionListList[0].EmailDistributionListID);
+            Assert.IsNotNull(emailDistributionListList[0].CountryTVItemID);
+            Assert.IsNotNull(emailDistributionListList[0].Ordinal);
+            Assert.IsNotNull(emailDistributionListList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(emailDistributionListList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // EmailDistributionListWeb and EmailDistributionListReport fields should be null here
+                Assert.IsNull(emailDistributionListList[0].EmailDistributionListWeb);
+                Assert.IsNull(emailDistributionListList[0].EmailDistributionListReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // EmailDistributionListWeb fields should not be null and EmailDistributionListReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText));
+                }
+                Assert.IsNull(emailDistributionListList[0].EmailDistributionListReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // EmailDistributionListWeb and EmailDistributionListReport fields should NOT be null here
+                if (emailDistributionListList[0].EmailDistributionListWeb.CountryTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText));
+                }
+                if (emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText));
+                }
+                if (emailDistributionListList[0].EmailDistributionListReport.EmailDistributionReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListReport.EmailDistributionReportTest));
+                }
+            }
+        }
+        private EmailDistributionList GetFilledRandomEmailDistributionList(string OmitPropName)
+        {
+            EmailDistributionList emailDistributionList = new EmailDistributionList();
+
+            if (OmitPropName != "CountryTVItemID") emailDistributionList.CountryTVItemID = 5;
+            if (OmitPropName != "Ordinal") emailDistributionList.Ordinal = GetRandomInt(0, 1000);
+            if (OmitPropName != "LastUpdateDate_UTC") emailDistributionList.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = 2;
+
+            return emailDistributionList;
+        }
+        #endregion Functions private
     }
 }

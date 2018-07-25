@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MWQMSiteStartEndDateService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public MWQMSiteStartEndDateService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -150,11 +150,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mwqmSiteStartEndDateQuery.FirstOrDefault();
@@ -168,9 +168,9 @@ namespace CSSPServices
         }
         public IQueryable<MWQMSiteStartEndDate> GetMWQMSiteStartEndDateList()
         {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

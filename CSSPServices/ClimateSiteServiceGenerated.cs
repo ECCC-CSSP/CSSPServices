@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ClimateSiteService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public ClimateSiteService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -241,11 +241,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ClimateSite GetClimateSiteWithClimateSiteID(int ClimateSiteID)
         {
-            IQueryable<ClimateSite> climateSiteQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ClimateSite> climateSiteQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ClimateSiteID == ClimateSiteID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return climateSiteQuery.FirstOrDefault();
@@ -259,9 +259,9 @@ namespace CSSPServices
         }
         public IQueryable<ClimateSite> GetClimateSiteList()
         {
-            IQueryable<ClimateSite> climateSiteQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ClimateSite> climateSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVFileService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public TVFileService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -229,11 +229,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVFile GetTVFileWithTVFileID(int TVFileID)
         {
-            IQueryable<TVFile> tvFileQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVFile> tvFileQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVFileID == TVFileID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvFileQuery.FirstOrDefault();
@@ -247,9 +247,9 @@ namespace CSSPServices
         }
         public IQueryable<TVFile> GetTVFileList()
         {
-            IQueryable<TVFile> tvFileQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVFile> tvFileQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

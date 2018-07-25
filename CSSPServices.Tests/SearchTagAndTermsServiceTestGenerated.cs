@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private SearchTagAndTerms GetFilledRandomSearchTagAndTerms(string OmitPropName)
-        {
-            SearchTagAndTerms searchTagAndTerms = new SearchTagAndTerms();
-
-            if (OmitPropName != "SearchTag") searchTagAndTerms.SearchTag = (SearchTagEnum)GetRandomEnumType(typeof(SearchTagEnum));
-            if (OmitPropName != "SearchTagText") searchTagAndTerms.SearchTagText = GetRandomString("", 5);
-
-            return searchTagAndTerms;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void SearchTagAndTerms_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(new GetParam(), dbTestDB, ContactID);
+                    SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetSearchTagAndTermsList() Skip Take
         #endregion Tests Generated for GetSearchTagAndTermsList() Skip Take
 
+        #region Tests Generated for GetSearchTagAndTermsList() Skip Take Order
+        #endregion Tests Generated for GetSearchTagAndTermsList() Skip Take Order
+
+        #region Tests Generated for GetSearchTagAndTermsList() Skip Take 2Order
+        #endregion Tests Generated for GetSearchTagAndTermsList() Skip Take 2Order
+
+        #region Tests Generated for GetSearchTagAndTermsList() Skip Take Order Where
+        #endregion Tests Generated for GetSearchTagAndTermsList() Skip Take Order Where
+
+        #region Tests Generated for GetSearchTagAndTermsList() Skip Take Order 2Where
+        #endregion Tests Generated for GetSearchTagAndTermsList() Skip Take Order 2Where
+
+        #region Tests Generated for GetSearchTagAndTermsList() 2Where
+        #endregion Tests Generated for GetSearchTagAndTermsList() 2Where
+
+        #region Functions private
+        private SearchTagAndTerms GetFilledRandomSearchTagAndTerms(string OmitPropName)
+        {
+            SearchTagAndTerms searchTagAndTerms = new SearchTagAndTerms();
+
+            if (OmitPropName != "SearchTag") searchTagAndTerms.SearchTag = (SearchTagEnum)GetRandomEnumType(typeof(SearchTagEnum));
+            if (OmitPropName != "SearchTagText") searchTagAndTerms.SearchTagText = GetRandomString("", 5);
+
+            return searchTagAndTerms;
+        }
+        #endregion Functions private
     }
 }

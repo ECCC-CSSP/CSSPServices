@@ -32,26 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private CSSPWQInputApp GetFilledRandomCSSPWQInputApp(string OmitPropName)
-        {
-            CSSPWQInputApp cSSPWQInputApp = new CSSPWQInputApp();
-
-            if (OmitPropName != "AccessCode") cSSPWQInputApp.AccessCode = GetRandomString("", 6);
-            if (OmitPropName != "ActiveYear") cSSPWQInputApp.ActiveYear = GetRandomString("", 4);
-            if (OmitPropName != "DailyDuplicatePrecisionCriteria") cSSPWQInputApp.DailyDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") cSSPWQInputApp.IntertechDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "IncludeLaboratoryQAQC") cSSPWQInputApp.IncludeLaboratoryQAQC = true;
-            if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 6);
-            if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = new DateTime(2005, 3, 6);
-
-            return cSSPWQInputApp;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void CSSPWQInputApp_CRUD_And_Properties_Test()
@@ -62,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(new GetParam(), dbTestDB, ContactID);
+                    CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -98,5 +78,36 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetCSSPWQInputAppList() Skip Take
         #endregion Tests Generated for GetCSSPWQInputAppList() Skip Take
 
+        #region Tests Generated for GetCSSPWQInputAppList() Skip Take Order
+        #endregion Tests Generated for GetCSSPWQInputAppList() Skip Take Order
+
+        #region Tests Generated for GetCSSPWQInputAppList() Skip Take 2Order
+        #endregion Tests Generated for GetCSSPWQInputAppList() Skip Take 2Order
+
+        #region Tests Generated for GetCSSPWQInputAppList() Skip Take Order Where
+        #endregion Tests Generated for GetCSSPWQInputAppList() Skip Take Order Where
+
+        #region Tests Generated for GetCSSPWQInputAppList() Skip Take Order 2Where
+        #endregion Tests Generated for GetCSSPWQInputAppList() Skip Take Order 2Where
+
+        #region Tests Generated for GetCSSPWQInputAppList() 2Where
+        #endregion Tests Generated for GetCSSPWQInputAppList() 2Where
+
+        #region Functions private
+        private CSSPWQInputApp GetFilledRandomCSSPWQInputApp(string OmitPropName)
+        {
+            CSSPWQInputApp cSSPWQInputApp = new CSSPWQInputApp();
+
+            if (OmitPropName != "AccessCode") cSSPWQInputApp.AccessCode = GetRandomString("", 6);
+            if (OmitPropName != "ActiveYear") cSSPWQInputApp.ActiveYear = GetRandomString("", 4);
+            if (OmitPropName != "DailyDuplicatePrecisionCriteria") cSSPWQInputApp.DailyDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") cSSPWQInputApp.IntertechDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "IncludeLaboratoryQAQC") cSSPWQInputApp.IncludeLaboratoryQAQC = true;
+            if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 6);
+            if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = new DateTime(2005, 3, 6);
+
+            return cSSPWQInputApp;
+        }
+        #endregion Functions private
     }
 }

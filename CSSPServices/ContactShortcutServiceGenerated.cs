@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ContactShortcutService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public ContactShortcutService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -136,11 +136,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID)
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ContactShortcutID == ContactShortcutID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return contactShortcutQuery.FirstOrDefault();
@@ -154,9 +154,9 @@ namespace CSSPServices
         }
         public IQueryable<ContactShortcut> GetContactShortcutList()
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ContactShortcut> contactShortcutQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

@@ -522,7 +522,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     case "AppTask":
                                         {
-                                            AppTaskService appTaskService = new AppTaskService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            AppTaskService appTaskService = new AppTaskService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             AppTask appTask = appTaskService.GetRead().FirstOrDefault();
                                             if (appTask == null)
                                             {
@@ -536,7 +536,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "BoxModel":
                                         {
-                                            BoxModelService boxModelService = new BoxModelService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            BoxModelService boxModelService = new BoxModelService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             BoxModel boxModel = boxModelService.GetRead().FirstOrDefault();
                                             if (boxModel == null)
                                             {
@@ -550,7 +550,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "ClimateSite":
                                         {
-                                            ClimateSiteService climateSiteService = new ClimateSiteService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ClimateSiteService climateSiteService = new ClimateSiteService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             ClimateSite climateSite = climateSiteService.GetRead().FirstOrDefault();
                                             if (climateSite == null)
                                             {
@@ -564,7 +564,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "Contact":
                                         {
-                                            ContactService contactService = new ContactService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ContactService contactService = new ContactService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             Contact contact = contactService.GetRead().FirstOrDefault();
                                             if (contact == null)
                                             {
@@ -578,7 +578,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "EmailDistributionList":
                                         {
-                                            EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            EmailDistributionListService emailDistributionListService = new EmailDistributionListService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             EmailDistributionList emailDistributionList = emailDistributionListService.GetRead().FirstOrDefault();
                                             if (emailDistributionList == null)
                                             {
@@ -592,7 +592,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "EmailDistributionListContact":
                                         {
-                                            EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             EmailDistributionListContact emailDistributionListContact = emailDistributionListContactService.GetRead().FirstOrDefault();
                                             if (emailDistributionListContact == null)
                                             {
@@ -606,7 +606,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "HydrometricSite":
                                         {
-                                            HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             HydrometricSite hydrometricSite = hydrometricSiteService.GetRead().FirstOrDefault();
                                             if (hydrometricSite == null)
                                             {
@@ -620,7 +620,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "Infrastructure":
                                         {
-                                            InfrastructureService infrastructureService = new InfrastructureService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            InfrastructureService infrastructureService = new InfrastructureService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             Infrastructure infrastructure = infrastructureService.GetRead().FirstOrDefault();
                                             if (infrastructure == null)
                                             {
@@ -634,7 +634,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "LabSheet":
                                         {
-                                            LabSheetService labSheetService = new LabSheetService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            LabSheetService labSheetService = new LabSheetService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             LabSheet labSheet = labSheetService.GetRead().FirstOrDefault();
                                             if (labSheet == null)
                                             {
@@ -648,7 +648,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "LabSheetDetail":
                                         {
-                                            LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             LabSheetDetail labSheetDetail = labSheetDetailService.GetRead().FirstOrDefault();
                                             if (labSheetDetail == null)
                                             {
@@ -662,7 +662,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MapInfo":
                                         {
-                                            MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MapInfoService mapInfoService = new MapInfoService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MapInfo mapInfo = mapInfoService.GetRead().FirstOrDefault();
                                             if (mapInfo == null)
                                             {
@@ -676,7 +676,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MikeSource":
                                         {
-                                            MikeSourceService mikeSourceService = new MikeSourceService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MikeSourceService mikeSourceService = new MikeSourceService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MikeSource mikeSource = mikeSourceService.GetRead().FirstOrDefault();
                                             if (mikeSource == null)
                                             {
@@ -690,7 +690,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMAnalysisReportParameter":
                                         {
-                                            MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMAnalysisReportParameter mwqmAnalysisReportParameter = mwqmAnalysisReportParameterService.GetRead().FirstOrDefault();
                                             if (mwqmAnalysisReportParameter == null)
                                             {
@@ -704,7 +704,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMRun":
                                         {
-                                            MWQMRunService mwqmRunService = new MWQMRunService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMRunService mwqmRunService = new MWQMRunService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMRun mwqmRun = mwqmRunService.GetRead().FirstOrDefault();
                                             if (mwqmRun == null)
                                             {
@@ -718,7 +718,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMSample":
                                         {
-                                            MWQMSampleService mwqmSampleService = new MWQMSampleService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMSample mwqmSample = mwqmSampleService.GetRead().FirstOrDefault();
                                             if (mwqmSample == null)
                                             {
@@ -732,7 +732,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "MWQMSubsector":
                                         {
-                                            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             MWQMSubsector mwqmSubsector = mwqmSubsectorService.GetRead().FirstOrDefault();
                                             if (mwqmSubsector == null)
                                             {
@@ -746,7 +746,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "PolSourceObservation":
                                         {
-                                            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             PolSourceObservation polSourceObservation = polSourceObservationService.GetRead().FirstOrDefault();
                                             if (polSourceObservation == null)
                                             {
@@ -760,7 +760,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "PolSourceSite":
                                         {
-                                            PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             PolSourceSite polSourceSite = polSourceSiteService.GetRead().FirstOrDefault();
                                             if (polSourceSite == null)
                                             {
@@ -774,7 +774,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "RatingCurve":
                                         {
-                                            RatingCurveService ratingCurveService = new RatingCurveService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            RatingCurveService ratingCurveService = new RatingCurveService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             RatingCurve ratingCurve = ratingCurveService.GetRead().FirstOrDefault();
                                             if (ratingCurve == null)
                                             {
@@ -788,7 +788,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "ReportSection":
                                         {
-                                            ReportSectionService ReportSectionService = new ReportSectionService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ReportSectionService ReportSectionService = new ReportSectionService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             ReportSection ReportSection = ReportSectionService.GetRead().FirstOrDefault();
                                             if (ReportSection == null)
                                             {
@@ -802,7 +802,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "ReportType":
                                         {
-                                            ReportTypeService reportTypeService = new ReportTypeService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            ReportTypeService reportTypeService = new ReportTypeService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             ReportType reportType = reportTypeService.GetRead().FirstOrDefault();
                                             if (reportType == null)
                                             {
@@ -816,7 +816,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "SamplingPlanSubsector":
                                         {
-                                            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             SamplingPlanSubsector samplingPlanSubsector = samplingPlanSubsectorService.GetRead().FirstOrDefault();
                                             if (samplingPlanSubsector == null)
                                             {
@@ -830,7 +830,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "SamplingPlan":
                                         {
-                                            SamplingPlanService samplingPlanService = new SamplingPlanService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            SamplingPlanService samplingPlanService = new SamplingPlanService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             SamplingPlan samplingPlan = samplingPlanService.GetRead().FirstOrDefault();
                                             if (samplingPlan == null)
                                             {
@@ -844,7 +844,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "Spill":
                                         {
-                                            SpillService spillService = new SpillService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            SpillService spillService = new SpillService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             Spill spill = spillService.GetRead().FirstOrDefault();
                                             if (spill == null)
                                             {
@@ -858,7 +858,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "TVFile":
                                         {
-                                            TVFileService tvFileService = new TVFileService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            TVFileService tvFileService = new TVFileService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             TVFile tvFile = tvFileService.GetRead().FirstOrDefault();
                                             if (tvFile == null)
                                             {
@@ -872,7 +872,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "VPScenario":
                                         {
-                                            VPScenarioService vpScenarioService = new VPScenarioService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                            VPScenarioService vpScenarioService = new VPScenarioService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                             VPScenario vpScenario = vpScenarioService.GetRead().FirstOrDefault();
                                             if (vpScenario == null)
                                             {
@@ -892,7 +892,7 @@ namespace CSSPServicesGenerateCodeHelper
                                             }
                                             else
                                             {
-                                                TVItemService tvItemService = new TVItemService(new GetParam(), dbTestDBWrite, 2 /* charles LeBlanc */);
+                                                TVItemService tvItemService = new TVItemService(new Query(), dbTestDBWrite, 2 /* charles LeBlanc */);
                                                 TVItem tvItem = tvItemService.GetRead().Where(c => c.TVType == csspProp.AllowableTVTypeList[0]).FirstOrDefault();
                                                 if (tvItem == null)
                                                 {
@@ -1052,7 +1052,7 @@ namespace CSSPServicesGenerateCodeHelper
                                             {
                                                 using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                                                 {
-                                                    AspNetUserService AspNetUserService = new AspNetUserService(new GetParam(), db, 2);
+                                                    AspNetUserService AspNetUserService = new AspNetUserService(new Query(), db, 2);
                                                     AspNetUser AspNetUser = AspNetUserService.GetRead().FirstOrDefault();
 
                                                     if (AspNetUser == null)
@@ -1195,11 +1195,6 @@ namespace CSSPServicesGenerateCodeHelper
                 //    continue;
                 //}
 
-                //if (TypeName == "AspNetUser")
-                //{
-                //    continue;
-                //}
-
                 sb.AppendLine(@"using System;");
                 sb.AppendLine(@"using Microsoft.VisualStudio.TestTools.UnitTesting;");
                 sb.AppendLine(@"using System.Linq;");
@@ -1234,36 +1229,6 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        }");
                 sb.AppendLine(@"        #endregion Constructors");
                 sb.AppendLine(@"");
-                sb.AppendLine(@"        #region Functions public");
-                sb.AppendLine(@"        #endregion Functions public");
-                sb.AppendLine(@"");
-                sb.AppendLine(@"        #region Functions private");
-                sb.AppendLine(@"        private " + TypeName + @" GetFilledRandom" + TypeName + @"(string OmitPropName)");
-                sb.AppendLine(@"        {");
-                sb.AppendLine(@"            " + TypeName + " " + TypeNameLower + @" = new " + TypeName + @"();");
-                sb.AppendLine(@"");
-
-                foreach (PropertyInfo prop in type.GetProperties())
-                {
-                    CSSPProp csspProp = new CSSPProp();
-                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
-                    {
-                        return;
-                    }
-
-                    if (csspProp.IsKey || prop.GetGetMethod().IsVirtual || prop.Name == "ValidationResults")
-                    {
-                        continue;
-                    }
-
-                    CreateGetFilledRandomClass(prop, csspProp, TypeName, TypeNameLower, sb);
-                }
-
-                sb.AppendLine(@"");
-                sb.AppendLine(@"            return " + TypeNameLower + @";");
-                sb.AppendLine(@"        }");
-                sb.AppendLine(@"        #endregion Functions private");
-                sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Tests Generated CRUD and Properties");
                 sb.AppendLine(@"        [TestMethod]");
                 sb.AppendLine(@"        public void " + TypeName + @"_CRUD_And_Properties_Test()");
@@ -1274,7 +1239,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
                 sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
                 sb.AppendLine(@"                {");
-                sb.AppendLine(@"                    " + TypeName + "Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new GetParam(), dbTestDB, ContactID);");
+                sb.AppendLine(@"                    " + TypeName + "Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"                    int count = 0;");
                 sb.AppendLine(@"                    if (count == 1)");
@@ -1423,14 +1388,14 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
                     sb.AppendLine(@"                {");
-                    sb.AppendLine(@"                    " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new GetParam(), dbTestDB, ContactID);");
+                    sb.AppendLine(@"                    " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
                     sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @" = (from c in " + TypeNameLower + @"Service.GetRead() select c).FirstOrDefault();");
                     sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @");");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @"Ret = null;");
                     sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
                     sb.AppendLine(@"                    {");
-                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.GetParam.EntityQueryDetailType = entityQueryDetailType;");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query.EntityQueryDetailType = entityQueryDetailType;");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
                     sb.AppendLine(@"                        {");
@@ -1454,271 +1419,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                        {");
                     sb.AppendLine(@"                            // nothing for now");
                     sb.AppendLine(@"                        }");
-                    sb.AppendLine(@"                        // " + TypeName + @" fields");
-                    bool NotMappedExist = true;
-                    foreach (PropertyInfo prop in type.GetProperties())
-                    {
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
-                        {
-                            return;
-                        }
-                        if (csspProp.PropName == "ValidationResults")
-                        {
-                            continue;
-                        }
-
-                        if (TypeName == "ContactLogin" && (csspProp.PropName == "PasswordHash" || csspProp.PropName == "PasswordSalt"))
-                        {
-                            continue;
-                        }
-
-                        if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                        {
-                            continue;
-                        }
-
-                        if (csspProp.HasNotMappedAttribute)
-                        {
-                            NotMappedExist = true;
-                        }
-                        else
-                        {
-                            if (csspProp.IsNullable)
-                            {
-                                sb.AppendLine(@"                        if (" + TypeNameLower + @"Ret." + csspProp.PropName + @" != null)");
-                                sb.AppendLine(@"                        {");
-                            }
-                            if (csspProp.PropType == "String")
-                            {
-                                sb.AppendLine(@"                        " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + csspProp.PropName + @"));");
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"                        " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + csspProp.PropName + @");");
-                            }
-                            if (csspProp.IsNullable)
-                            {
-                                sb.AppendLine(@"                        }");
-                            }
-                        }
-                    }
-
-                    if (NotMappedExist)
-                    {
-                        sb.AppendLine(@"");
-                        sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
-                        sb.AppendLine(@"                        {");
-                        sb.AppendLine(@"                            // " + TypeName + @"Web and " + TypeName + @"Report fields should be null here");
-                        if (types.Where(c => c.Name == (TypeName + "Web")).Any())
-                        {
-                            sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"Ret." + TypeName + @"Web);");
-                        }
-                        if (types.Where(c => c.Name == (TypeName + "Report")).Any())
-                        {
-                            sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"Ret." + TypeName + @"Report);");
-                        }
-                        sb.AppendLine(@"                        }");
-                        sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
-                        sb.AppendLine(@"                        {");
-                        sb.AppendLine(@"                            // " + TypeName + @"Web fields should not be null and " + TypeName + @"Report fields should be null here");
-                        if (types.Where(c => c.Name.EndsWith("Web")).Any())
-                        {
-                            Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
-                            if (typeWeb != null)
-                            {
-                                foreach (PropertyInfo prop in typeWeb.GetProperties())
-                                {
-                                    CSSPProp csspProp = new CSSPProp();
-                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
-                                    {
-                                        return;
-                                    }
-                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"                            {");
-                                    }
-                                    if (csspProp.PropType == "Int32")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
-                                    }
-                                    else if (csspProp.PropType == "Single")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                    }
-                                    else if (csspProp.PropType == "Double")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                    }
-                                    else
-                                    {
-                                        if (csspProp.PropType == "String")
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @"));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @");");
-                                        }
-                                    }
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            }");
-                                    }
-                                }
-                            }
-
-                            if (types.Where(c => c.Name == (TypeName + "Report")).Any())
-                            {
-                                sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"Ret." + TypeName + @"Report);");
-                            }
-                        }
-                        sb.AppendLine(@"                        }");
-                        sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
-                        sb.AppendLine(@"                        {");
-                        sb.AppendLine(@"                            // " + TypeName + @"Web and " + TypeName + @"Report fields should NOT be null here");
-                        if (types.Where(c => c.Name == (TypeName + "Web")).Any())
-                        {
-                            Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
-                            if (typeWeb != null)
-                            {
-                                foreach (PropertyInfo prop in typeWeb.GetProperties())
-                                {
-                                    CSSPProp csspProp = new CSSPProp();
-                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
-                                    {
-                                        return;
-                                    }
-                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"                            {");
-                                    }
-                                    if (csspProp.PropType == "Int32")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
-                                    }
-                                    else if (csspProp.PropType == "Single")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                    }
-                                    else if (csspProp.PropType == "Double")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                    }
-                                    else
-                                    {
-                                        if (csspProp.PropType == "String")
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @"));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeWeb.Name + @"." + csspProp.PropName + @");");
-                                        }
-                                    }
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            }");
-                                    }
-                                }
-                            }
-                        }
-                        if (types.Where(c => c.Name == (TypeName + "Report")).Any())
-                        {
-                            Type typeReport = types.Where(c => c.Name == (TypeName + "Report")).FirstOrDefault();
-                            if (typeReport != null)
-                            {
-                                foreach (PropertyInfo prop in typeReport.GetProperties())
-                                {
-                                    CSSPProp csspProp = new CSSPProp();
-                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeReport))
-                                    {
-                                        return;
-                                    }
-                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"                            {");
-                                    }
-                                    if (csspProp.PropType == "Int32")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0);");
-                                    }
-                                    else if (csspProp.PropType == "Single")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                    }
-                                    else if (csspProp.PropType == "Double")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                    }
-                                    else
-                                    {
-                                        if (csspProp.PropType == "String")
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @"));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"Ret." + typeReport.Name + @"." + csspProp.PropName + @");");
-                                        }
-                                    }
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            }");
-                                    }
-                                }
-                            }
-                        }
-                        sb.AppendLine(@"                        }");
-                    }
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(new List<" + TypeName + @">() { " + TypeNameLower + @"Ret }, entityQueryDetailType);");
                     sb.AppendLine(@"                    }");
                     sb.AppendLine(@"                }");
                     sb.AppendLine(@"            }");
@@ -1738,14 +1439,14 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
                     sb.AppendLine(@"                {");
-                    sb.AppendLine(@"                    " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new GetParam(), dbTestDB, ContactID);");
+                    sb.AppendLine(@"                    " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
                     sb.AppendLine(@"                    " + TypeName + @" " + TypeNameLower + @" = (from c in " + TypeNameLower + @"Service.GetRead() select c).FirstOrDefault();");
                     sb.AppendLine(@"                    Assert.IsNotNull(" + TypeNameLower + @");");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"List = new List<" + TypeName + @">();");
                     sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
                     sb.AppendLine(@"                    {");
-                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.GetParam.EntityQueryDetailType = entityQueryDetailType;");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query.EntityQueryDetailType = entityQueryDetailType;");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
                     sb.AppendLine(@"                        {");
@@ -1769,271 +1470,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                        {");
                     sb.AppendLine(@"                            // nothing for now");
                     sb.AppendLine(@"                        }");
-                    sb.AppendLine(@"                        // " + TypeName + @" fields");
-                    bool NotMappedExist = true;
-                    foreach (PropertyInfo prop in type.GetProperties())
-                    {
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
-                        {
-                            return;
-                        }
-                        if (csspProp.PropName == "ValidationResults")
-                        {
-                            continue;
-                        }
-
-                        if (TypeName == "ContactLogin" && (csspProp.PropName == "PasswordHash" || csspProp.PropName == "PasswordSalt"))
-                        {
-                            continue;
-                        }
-
-                        if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                        {
-                            continue;
-                        }
-
-                        if (csspProp.HasNotMappedAttribute)
-                        {
-                            NotMappedExist = true;
-                        }
-                        else
-                        {
-                            if (csspProp.IsNullable)
-                            {
-                                sb.AppendLine(@"                        if (" + TypeNameLower + @"List[0]." + csspProp.PropName + @" != null)");
-                                sb.AppendLine(@"                        {");
-                            }
-                            if (csspProp.PropType == "String")
-                            {
-                                sb.AppendLine(@"                        " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + csspProp.PropName + @"));");
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"                        " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + csspProp.PropName + @");");
-                            }
-                            if (csspProp.IsNullable)
-                            {
-                                sb.AppendLine(@"                        }");
-                            }
-                        }
-                    }
-
-                    if (NotMappedExist)
-                    {
-                        sb.AppendLine(@"");
-                        sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
-                        sb.AppendLine(@"                        {");
-                        sb.AppendLine(@"                            // " + TypeName + @"Web and " + TypeName + @"Report fields should be null here");
-                        if (types.Where(c => c.Name == (TypeName + "Web")).Any())
-                        {
-                            sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"List[0]." + TypeName + @"Web);");
-                        }
-                        if (types.Where(c => c.Name == (TypeName + "Report")).Any())
-                        {
-                            sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"List[0]." + TypeName + @"Report);");
-                        }
-                        sb.AppendLine(@"                        }");
-                        sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
-                        sb.AppendLine(@"                        {");
-                        sb.AppendLine(@"                            // " + TypeName + @"Web fields should not be null and " + TypeName + @"Report fields should be null here");
-                        if (types.Where(c => c.Name.EndsWith("Web")).Any())
-                        {
-                            Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
-                            if (typeWeb != null)
-                            {
-                                foreach (PropertyInfo prop in typeWeb.GetProperties())
-                                {
-                                    CSSPProp csspProp = new CSSPProp();
-                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
-                                    {
-                                        return;
-                                    }
-                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"                            {");
-                                    }
-                                    if (csspProp.PropType == "Int32")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
-                                    }
-                                    else if (csspProp.PropType == "Single")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                    }
-                                    else if (csspProp.PropType == "Double")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                    }
-                                    else
-                                    {
-                                        if (csspProp.PropType == "String")
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @"));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @");");
-                                        }
-                                    }
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            }");
-                                    }
-                                }
-                            }
-
-                            if (types.Where(c => c.Name == (TypeName + "Report")).Any())
-                            {
-                                sb.AppendLine(@"                            Assert.IsNull(" + TypeNameLower + @"List[0]." + TypeName + @"Report);");
-                            }
-                        }
-                        sb.AppendLine(@"                        }");
-                        sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
-                        sb.AppendLine(@"                        {");
-                        sb.AppendLine(@"                            // " + TypeName + @"Web and " + TypeName + @"Report fields should NOT be null here");
-                        if (types.Where(c => c.Name == (TypeName + "Web")).Any())
-                        {
-                            Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
-                            if (typeWeb != null)
-                            {
-                                foreach (PropertyInfo prop in typeWeb.GetProperties())
-                                {
-                                    CSSPProp csspProp = new CSSPProp();
-                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
-                                    {
-                                        return;
-                                    }
-                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"                            {");
-                                    }
-                                    if (csspProp.PropType == "Int32")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
-                                    }
-                                    else if (csspProp.PropType == "Single")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                    }
-                                    else if (csspProp.PropType == "Double")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                    }
-                                    else
-                                    {
-                                        if (csspProp.PropType == "String")
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @"));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @");");
-                                        }
-                                    }
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            }");
-                                    }
-                                }
-                            }
-                        }
-                        if (types.Where(c => c.Name == (TypeName + "Report")).Any())
-                        {
-                            Type typeReport = types.Where(c => c.Name == (TypeName + "Report")).FirstOrDefault();
-                            if (typeReport != null)
-                            {
-                                foreach (PropertyInfo prop in typeReport.GetProperties())
-                                {
-                                    CSSPProp csspProp = new CSSPProp();
-                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeReport))
-                                    {
-                                        return;
-                                    }
-                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            if (" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"                            {");
-                                    }
-                                    if (csspProp.PropType == "Int32")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" > 0);");
-                                    }
-                                    else if (csspProp.PropType == "Single")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0f);");
-                                    }
-                                    else if (csspProp.PropType == "Double")
-                                    {
-                                        sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0D);");
-                                    }
-                                    else
-                                    {
-                                        if (csspProp.PropType == "String")
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @"));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @");");
-                                        }
-                                    }
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"                            }");
-                                    }
-                                }
-                            }
-                        }
-                        sb.AppendLine(@"                        }");
-                    }
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(" + TypeNameLower + @"List, entityQueryDetailType);");
                     sb.AppendLine(@"                    }");
                     sb.AppendLine(@"                }");
                     sb.AppendLine(@"            }");
@@ -2054,12 +1491,14 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
                     sb.AppendLine(@"                {");
                     sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"List = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"DirectQueryList = new List<" + TypeName + @">();");
                     sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
                     sb.AppendLine(@"                    {");
-                    sb.AppendLine(@"                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);");
+                    sb.AppendLine(@"                        " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
                     sb.AppendLine(@"");
-                    sb.AppendLine(@"                        GetParam getParam = getParamService.FillProp(typeof(" + TypeName + @"), ""en"", 1, 1, """", """", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);");
-                    sb.AppendLine(@"                        " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(getParam, dbTestDB, ContactID);");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query = " + TypeNameLower + @"Service.FillQuery(typeof(" + TypeName + @"), culture.TwoLetterISOLanguageName, 1, 1, """", """", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"DirectQueryList = " + TypeNameLower + @"Service.GetRead().Skip(1).Take(1).ToList();");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
                     sb.AppendLine(@"                        {");
@@ -2083,8 +1522,9 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                        {");
                     sb.AppendLine(@"                            // nothing for now");
                     sb.AppendLine(@"                        }");
-                    sb.AppendLine(@"");
-                    sb.AppendLine(@"                        Assert.AreEqual(getParam.Take, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(" + TypeNameLower + @"List, entityQueryDetailType);");
+                    sb.AppendLine(@"                        Assert.AreEqual(" + TypeNameLower + @"DirectQueryList[0]." + TypeName + @"ID, " + TypeNameLower + @"List[0]." + TypeName + @"ID);");
+                    sb.AppendLine(@"                        Assert.AreEqual(1, " + TypeNameLower + @"List.Count);");
                     sb.AppendLine(@"                    }");
                     sb.AppendLine(@"                }");
                     sb.AppendLine(@"            }");
@@ -2092,6 +1532,588 @@ namespace CSSPServicesGenerateCodeHelper
                 }
                 sb.AppendLine(@"        #endregion Tests Generated for Get" + TypeName + @"List() Skip Take");
                 sb.AppendLine(@"");
+                sb.AppendLine(@"        #region Tests Generated for Get" + TypeName + @"List() Skip Take Order");
+                if (!ClassNotMapped)
+                {
+                    sb.AppendLine(@"        [TestMethod]");
+                    sb.AppendLine(@"        public void Get" + TypeName + @"List_Skip_Take_Order_Test()");
+                    sb.AppendLine(@"        {");
+                    sb.AppendLine(@"            foreach (CultureInfo culture in AllowableCulture)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                ChangeCulture(culture);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"List = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"DirectQueryList = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
+                    sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query = " + TypeNameLower + @"Service.FillQuery(typeof(" + TypeName + @"), culture.TwoLetterISOLanguageName, 1, 1,  """ + TypeName + @"ID"", """", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"DirectQueryList = " + TypeNameLower + @"Service.GetRead().Skip(1).Take(1).OrderBy(c => c." + TypeName + @"ID).ToList();");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                            Assert.AreEqual(0, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                            continue;");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            // nothing for now");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(" + TypeNameLower + @"List, entityQueryDetailType);");
+                    sb.AppendLine(@"                        Assert.AreEqual(" + TypeNameLower + @"DirectQueryList[0]." + TypeName + @"ID, " + TypeNameLower + @"List[0]." + TypeName + @"ID);");
+                    sb.AppendLine(@"                        Assert.AreEqual(1, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                    }");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"        }");
+                }
+                sb.AppendLine(@"        #endregion Tests Generated for Get" + TypeName + @"List() Skip Take Order");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"        #region Tests Generated for Get" + TypeName + @"List() Skip Take 2Order");
+                if (!ClassNotMapped)
+                {
+                    sb.AppendLine(@"        [TestMethod]");
+                    sb.AppendLine(@"        public void Get" + TypeName + @"List_Skip_Take_2Order_Test()");
+                    sb.AppendLine(@"        {");
+                    sb.AppendLine(@"            foreach (CultureInfo culture in AllowableCulture)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                ChangeCulture(culture);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"List = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"DirectQueryList = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
+                    sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
+                    sb.AppendLine(@"");
+                    string PropName2 = type.GetProperties().Skip(1).Take(1).FirstOrDefault().Name;
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query = " + TypeNameLower + @"Service.FillQuery(typeof(" + TypeName + @"), culture.TwoLetterISOLanguageName, 1, 1, """ + TypeName + @"ID," + PropName2 + @""", """", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"DirectQueryList = " + TypeNameLower + @"Service.GetRead().Skip(1).Take(1).OrderBy(c => c." + TypeName + @"ID).ThenBy(c => c." + PropName2 + @").ToList();");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                            Assert.AreEqual(0, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                            continue;");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            // nothing for now");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(" + TypeNameLower + @"List, entityQueryDetailType);");
+                    sb.AppendLine(@"                        Assert.AreEqual(" + TypeNameLower + @"DirectQueryList[0]." + TypeName + @"ID, " + TypeNameLower + @"List[0]." + TypeName + @"ID);");
+                    sb.AppendLine(@"                        Assert.AreEqual(1, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                    }");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"        }");
+                }
+                sb.AppendLine(@"        #endregion Tests Generated for Get" + TypeName + @"List() Skip Take 2Order");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"        #region Tests Generated for Get" + TypeName + @"List() Skip Take Order Where");
+                if (!ClassNotMapped)
+                {
+                    sb.AppendLine(@"        [TestMethod]");
+                    sb.AppendLine(@"        public void Get" + TypeName + @"List_Skip_Take_Order_Where_Test()");
+                    sb.AppendLine(@"        {");
+                    sb.AppendLine(@"            foreach (CultureInfo culture in AllowableCulture)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                ChangeCulture(culture);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"List = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"DirectQueryList = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
+                    sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query = " + TypeNameLower + @"Service.FillQuery(typeof(" + TypeName + @"), culture.TwoLetterISOLanguageName, 0, 1, """ + TypeName + @"ID"", """ + TypeName + @"ID,EQ,4"", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"DirectQueryList = " + TypeNameLower + @"Service.GetRead().Where(c => c." + TypeName + @"ID == 4).Skip(0).Take(1).OrderBy(c => c." + TypeName + @"ID).ToList();");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                            Assert.AreEqual(0, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                            continue;");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            // nothing for now");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(" + TypeNameLower + @"List, entityQueryDetailType);");
+                    sb.AppendLine(@"                        Assert.AreEqual(" + TypeNameLower + @"DirectQueryList[0]." + TypeName + @"ID, " + TypeNameLower + @"List[0]." + TypeName + @"ID);");
+                    sb.AppendLine(@"                        Assert.AreEqual(1, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                    }");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"        }");
+                }
+                sb.AppendLine(@"        #endregion Tests Generated for Get" + TypeName + @"List() Skip Take Order Where");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"        #region Tests Generated for Get" + TypeName + @"List() Skip Take Order 2Where");
+                if (!ClassNotMapped)
+                {
+                    sb.AppendLine(@"        [TestMethod]");
+                    sb.AppendLine(@"        public void Get" + TypeName + @"List_Skip_Take_Order_2Where_Test()");
+                    sb.AppendLine(@"        {");
+                    sb.AppendLine(@"            foreach (CultureInfo culture in AllowableCulture)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                ChangeCulture(culture);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"List = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"DirectQueryList = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
+                    sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query = " + TypeNameLower + @"Service.FillQuery(typeof(" + TypeName + @"), culture.TwoLetterISOLanguageName, 0, 1, """ + TypeName + @"ID"", """ + TypeName + @"ID,GT,2|" + TypeName + @"ID,LT,5"", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"DirectQueryList = " + TypeNameLower + @"Service.GetRead().Where(c => c." + TypeName + @"ID > 2 && c." + TypeName + @"ID < 5).Skip(0).Take(1).OrderBy(c => c." + TypeName + @"ID).ToList();");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                            Assert.AreEqual(0, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                            continue;");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            // nothing for now");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(" + TypeNameLower + @"List, entityQueryDetailType);");
+                    sb.AppendLine(@"                        Assert.AreEqual(" + TypeNameLower + @"DirectQueryList[0]." + TypeName + @"ID, " + TypeNameLower + @"List[0]." + TypeName + @"ID);");
+                    sb.AppendLine(@"                        Assert.AreEqual(1, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                    }");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"        }");
+                }
+                sb.AppendLine(@"        #endregion Tests Generated for Get" + TypeName + @"List() Skip Take Order 2Where");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"        #region Tests Generated for Get" + TypeName + @"List() 2Where");
+                if (!ClassNotMapped)
+                {
+                    sb.AppendLine(@"        [TestMethod]");
+                    sb.AppendLine(@"        public void Get" + TypeName + @"List_2Where_Test()");
+                    sb.AppendLine(@"        {");
+                    sb.AppendLine(@"            foreach (CultureInfo culture in AllowableCulture)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                ChangeCulture(culture);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"List = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    List<" + TypeName + @"> " + TypeNameLower + @"DirectQueryList = new List<" + TypeName + @">();");
+                    sb.AppendLine(@"                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })");
+                    sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"Service.Query = " + TypeNameLower + @"Service.FillQuery(typeof(" + TypeName + @"), culture.TwoLetterISOLanguageName, 0, 10000, """", """ + TypeName + @"ID,GT,2|" + TypeName + @"ID,LT,5"", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        " + TypeNameLower + @"DirectQueryList = " + TypeNameLower + @"Service.GetRead().Where(c => c." + TypeName + @"ID > 2 && c." + TypeName + @"ID < 5).ToList();");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                            Assert.AreEqual(0, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                            continue;");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            " + TypeNameLower + @"List = " + TypeNameLower + @"Service.Get" + TypeName + @"List().ToList();");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        else");
+                    sb.AppendLine(@"                        {");
+                    sb.AppendLine(@"                            // nothing for now");
+                    sb.AppendLine(@"                        }");
+                    sb.AppendLine(@"                        Check" + TypeName + @"Fields(" + TypeNameLower + @"List, entityQueryDetailType);");
+                    sb.AppendLine(@"                        Assert.AreEqual(" + TypeNameLower + @"DirectQueryList[0]." + TypeName + @"ID, " + TypeNameLower + @"List[0]." + TypeName + @"ID);");
+                    sb.AppendLine(@"                        Assert.AreEqual(2, " + TypeNameLower + @"List.Count);");
+                    sb.AppendLine(@"                    }");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"        }");
+                }
+                sb.AppendLine(@"        #endregion Tests Generated for Get" + TypeName + @"List() 2Where");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"        #region Functions private");
+                if (!ClassNotMapped)
+                {
+                    sb.AppendLine(@"        private void Check" + TypeName + @"Fields(List<" + TypeName + @"> " + TypeNameLower + @"List, EntityQueryDetailTypeEnum entityQueryDetailType)");
+                    sb.AppendLine(@"        {");
+                    sb.AppendLine(@"            // " + TypeName + @" fields");
+                    bool NotMappedExist = true;
+                    foreach (PropertyInfo prop in type.GetProperties())
+                    {
+                        CSSPProp csspProp = new CSSPProp();
+                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                        {
+                            return;
+                        }
+                        if (csspProp.PropName == "ValidationResults")
+                        {
+                            continue;
+                        }
+
+                        if (TypeName == "ContactLogin" && (csspProp.PropName == "PasswordHash" || csspProp.PropName == "PasswordSalt"))
+                        {
+                            continue;
+                        }
+
+                        if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                        {
+                            continue;
+                        }
+
+                        if (csspProp.HasNotMappedAttribute)
+                        {
+                            NotMappedExist = true;
+                        }
+                        else
+                        {
+                            if (csspProp.IsNullable)
+                            {
+                                if (csspProp.PropType == "String")
+                                {
+                                    sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + csspProp.PropName + @"))");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (" + TypeNameLower + @"List[0]." + csspProp.PropName + @" != null)");
+                                }
+                                sb.AppendLine(@"            {");
+                            }
+                            if (csspProp.PropType == "String")
+                            {
+                                sb.AppendLine(@"            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + csspProp.PropName + @"));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + csspProp.PropName + @");");
+                            }
+                            if (csspProp.IsNullable)
+                            {
+                                sb.AppendLine(@"            }");
+                            }
+                        }
+                    }
+
+                    if (NotMappedExist)
+                    {
+                        sb.AppendLine(@"");
+                        sb.AppendLine(@"            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)");
+                        sb.AppendLine(@"            {");
+                        sb.AppendLine(@"                // " + TypeName + @"Web and " + TypeName + @"Report fields should be null here");
+                        if (types.Where(c => c.Name == (TypeName + "Web")).Any())
+                        {
+                            sb.AppendLine(@"                Assert.IsNull(" + TypeNameLower + @"List[0]." + TypeName + @"Web);");
+                        }
+                        if (types.Where(c => c.Name == (TypeName + "Report")).Any())
+                        {
+                            sb.AppendLine(@"                Assert.IsNull(" + TypeNameLower + @"List[0]." + TypeName + @"Report);");
+                        }
+                        sb.AppendLine(@"            }");
+                        sb.AppendLine(@"            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)");
+                        sb.AppendLine(@"            {");
+                        sb.AppendLine(@"                // " + TypeName + @"Web fields should not be null and " + TypeName + @"Report fields should be null here");
+                        if (types.Where(c => c.Name.EndsWith("Web")).Any())
+                        {
+                            Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
+                            if (typeWeb != null)
+                            {
+                                foreach (PropertyInfo prop in typeWeb.GetProperties())
+                                {
+                                    CSSPProp csspProp = new CSSPProp();
+                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
+                                    {
+                                        return;
+                                    }
+                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (csspProp.IsNullable)
+                                    {
+                                        if (csspProp.PropType == "String")
+                                        {
+                                            sb.AppendLine(@"                if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @"))");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"                if (" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
+                                        }
+                                        sb.AppendLine(@"                {");
+                                    }
+                                    if (csspProp.PropType == "Int32")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
+                                    }
+                                    else if (csspProp.PropType == "Single")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
+                                    }
+                                    else if (csspProp.PropType == "Double")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
+                                    }
+                                    else
+                                    {
+                                        if (csspProp.PropType == "String")
+                                        {
+                                            sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @"));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @");");
+                                        }
+                                    }
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                }");
+                                    }
+                                }
+                            }
+
+                            if (types.Where(c => c.Name == (TypeName + "Report")).Any())
+                            {
+                                sb.AppendLine(@"                Assert.IsNull(" + TypeNameLower + @"List[0]." + TypeName + @"Report);");
+                            }
+                        }
+                        sb.AppendLine(@"            }");
+                        sb.AppendLine(@"            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)");
+                        sb.AppendLine(@"            {");
+                        sb.AppendLine(@"                // " + TypeName + @"Web and " + TypeName + @"Report fields should NOT be null here");
+                        if (types.Where(c => c.Name == (TypeName + "Web")).Any())
+                        {
+                            Type typeWeb = types.Where(c => c.Name == (TypeName + "Web")).FirstOrDefault();
+                            if (typeWeb != null)
+                            {
+                                foreach (PropertyInfo prop in typeWeb.GetProperties())
+                                {
+                                    CSSPProp csspProp = new CSSPProp();
+                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeWeb))
+                                    {
+                                        return;
+                                    }
+                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                if (" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" != null)");
+                                        sb.AppendLine(@"                {");
+                                    }
+                                    if (csspProp.PropType == "Int32")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0);");
+                                    }
+                                    else if (csspProp.PropType == "Single")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0f);");
+                                    }
+                                    else if (csspProp.PropType == "Double")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @" > 0.0D);");
+                                    }
+                                    else
+                                    {
+                                        if (csspProp.PropType == "String")
+                                        {
+                                            sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @"));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + typeWeb.Name + @"." + csspProp.PropName + @");");
+                                        }
+                                    }
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                }");
+                                    }
+                                }
+                            }
+                        }
+                        if (types.Where(c => c.Name == (TypeName + "Report")).Any())
+                        {
+                            Type typeReport = types.Where(c => c.Name == (TypeName + "Report")).FirstOrDefault();
+                            if (typeReport != null)
+                            {
+                                foreach (PropertyInfo prop in typeReport.GetProperties())
+                                {
+                                    CSSPProp csspProp = new CSSPProp();
+                                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, typeReport))
+                                    {
+                                        return;
+                                    }
+                                    if (csspProp.PropName == "ValidationResults" || csspProp.PropName == "HasErrors")
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ContactLogin" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (TypeName == "ResetPassword" && (csspProp.PropName == "Password" || csspProp.PropName == "ConfirmPassword"))
+                                    {
+                                        continue;
+                                    }
+
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                if (" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" != null)");
+                                        sb.AppendLine(@"                {");
+                                    }
+                                    if (csspProp.PropType == "Int32")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" > 0);");
+                                    }
+                                    else if (csspProp.PropType == "Single")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsTrue(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0f);");
+                                    }
+                                    else if (csspProp.PropType == "Double")
+                                    {
+                                        sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.AreEqual(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @" > 0.0D);");
+                                    }
+                                    else
+                                    {
+                                        if (csspProp.PropType == "String")
+                                        {
+                                            sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsFalse(string.IsNullOrWhiteSpace(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @"));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"                " + (csspProp.IsNullable ? "    " : "") + @"Assert.IsNotNull(" + TypeNameLower + @"List[0]." + typeReport.Name + @"." + csspProp.PropName + @");");
+                                        }
+                                    }
+                                    if (csspProp.IsNullable)
+                                    {
+                                        sb.AppendLine(@"                }");
+                                    }
+                                }
+                            }
+                        }
+                        sb.AppendLine(@"            }");
+                    }
+                    sb.AppendLine(@"        }");
+                }
+                sb.AppendLine(@"        private " + TypeName + @" GetFilledRandom" + TypeName + @"(string OmitPropName)");
+                sb.AppendLine(@"        {");
+                sb.AppendLine(@"            " + TypeName + " " + TypeNameLower + @" = new " + TypeName + @"();");
+                sb.AppendLine(@"");
+
+                foreach (PropertyInfo prop in type.GetProperties())
+                {
+                    CSSPProp csspProp = new CSSPProp();
+                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                    {
+                        return;
+                    }
+
+                    if (csspProp.IsKey || prop.GetGetMethod().IsVirtual || prop.Name == "ValidationResults")
+                    {
+                        continue;
+                    }
+
+                    CreateGetFilledRandomClass(prop, csspProp, TypeName, TypeNameLower, sb);
+                }
+
+                sb.AppendLine(@"");
+                sb.AppendLine(@"            return " + TypeNameLower + @";");
+                sb.AppendLine(@"        }");
+                sb.AppendLine(@"        #endregion Functions private");
                 sb.AppendLine(@"    }");
                 sb.AppendLine(@"}");
 

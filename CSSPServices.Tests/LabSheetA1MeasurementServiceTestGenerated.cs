@@ -32,32 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private LabSheetA1Measurement GetFilledRandomLabSheetA1Measurement(string OmitPropName)
-        {
-            LabSheetA1Measurement labSheetA1Measurement = new LabSheetA1Measurement();
-
-            if (OmitPropName != "Site") labSheetA1Measurement.Site = GetRandomString("", 20);
-            if (OmitPropName != "TVItemID") labSheetA1Measurement.TVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Time") labSheetA1Measurement.Time = new DateTime(2005, 3, 6);
-            // should implement a Range for the property MPN and type LabSheetA1Measurement
-            // should implement a Range for the property Tube10 and type LabSheetA1Measurement
-            // should implement a Range for the property Tube1_0 and type LabSheetA1Measurement
-            // should implement a Range for the property Tube0_1 and type LabSheetA1Measurement
-            // should implement a Range for the property Salinity and type LabSheetA1Measurement
-            // should implement a Range for the property Temperature and type LabSheetA1Measurement
-            if (OmitPropName != "ProcessedBy") labSheetA1Measurement.ProcessedBy = GetRandomString("", 20);
-            if (OmitPropName != "SampleType") labSheetA1Measurement.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
-            if (OmitPropName != "SiteComment") labSheetA1Measurement.SiteComment = GetRandomString("", 20);
-            if (OmitPropName != "SampleTypeText") labSheetA1Measurement.SampleTypeText = GetRandomString("", 5);
-
-            return labSheetA1Measurement;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void LabSheetA1Measurement_CRUD_And_Properties_Test()
@@ -68,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(new GetParam(), dbTestDB, ContactID);
+                    LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -104,5 +78,42 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take
         #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take
 
+        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order
+        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order
+
+        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take 2Order
+        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take 2Order
+
+        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order Where
+        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order Where
+
+        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order 2Where
+        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order 2Where
+
+        #region Tests Generated for GetLabSheetA1MeasurementList() 2Where
+        #endregion Tests Generated for GetLabSheetA1MeasurementList() 2Where
+
+        #region Functions private
+        private LabSheetA1Measurement GetFilledRandomLabSheetA1Measurement(string OmitPropName)
+        {
+            LabSheetA1Measurement labSheetA1Measurement = new LabSheetA1Measurement();
+
+            if (OmitPropName != "Site") labSheetA1Measurement.Site = GetRandomString("", 20);
+            if (OmitPropName != "TVItemID") labSheetA1Measurement.TVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "Time") labSheetA1Measurement.Time = new DateTime(2005, 3, 6);
+            // should implement a Range for the property MPN and type LabSheetA1Measurement
+            // should implement a Range for the property Tube10 and type LabSheetA1Measurement
+            // should implement a Range for the property Tube1_0 and type LabSheetA1Measurement
+            // should implement a Range for the property Tube0_1 and type LabSheetA1Measurement
+            // should implement a Range for the property Salinity and type LabSheetA1Measurement
+            // should implement a Range for the property Temperature and type LabSheetA1Measurement
+            if (OmitPropName != "ProcessedBy") labSheetA1Measurement.ProcessedBy = GetRandomString("", 20);
+            if (OmitPropName != "SampleType") labSheetA1Measurement.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
+            if (OmitPropName != "SiteComment") labSheetA1Measurement.SiteComment = GetRandomString("", 20);
+            if (OmitPropName != "SampleTypeText") labSheetA1Measurement.SampleTypeText = GetRandomString("", 5);
+
+            return labSheetA1Measurement;
+        }
+        #endregion Functions private
     }
 }

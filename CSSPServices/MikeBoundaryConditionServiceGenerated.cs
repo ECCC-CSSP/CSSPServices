@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MikeBoundaryConditionService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public MikeBoundaryConditionService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -202,11 +202,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeBoundaryCondition GetMikeBoundaryConditionWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
         {
-            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MikeBoundaryConditionID == MikeBoundaryConditionID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mikeBoundaryConditionQuery.FirstOrDefault();
@@ -220,9 +220,9 @@ namespace CSSPServices
         }
         public IQueryable<MikeBoundaryCondition> GetMikeBoundaryConditionList()
         {
-            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

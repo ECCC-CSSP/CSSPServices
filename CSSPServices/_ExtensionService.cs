@@ -19,32 +19,6 @@ namespace CSSPServices
 {
     public static class EF_Where_Expression
     {
-        //public static IQueryable<T> OrderByName<T>(this IQueryable<T> source, string propertyName, bool isDescending = false)
-        //{
-        //    if (source == null) throw new ArgumentNullException("source");
-        //    if (propertyName == null) throw new ArgumentNullException("propertyName");
-
-        //    Type type = typeof(T);
-        //    ParameterExpression arg = Expression.Parameter(type, "x");
-
-        //    PropertyInfo pi = type.GetProperty(propertyName);
-        //    Expression expr = Expression.Property(arg, pi);
-        //    type = pi.PropertyType;
-
-        //    Type delegateType = typeof(Func<,>).MakeGenericType(typeof(T), type);
-        //    LambdaExpression lambda = Expression.Lambda(delegateType, expr, arg);
-
-        //    String methodName = isDescending ? "OrderByDescending" : "OrderBy";
-        //    object result = typeof(Queryable).GetMethods().Single(
-        //        method => method.Name == methodName
-        //                && method.IsGenericMethodDefinition
-        //                && method.GetGenericArguments().Length == 2
-        //                && method.GetParameters().Length == 2)
-        //        .MakeGenericMethod(typeof(T), type)
-        //        .Invoke(null, new object[] { source, lambda });
-        //    return (IQueryable<T>)result;
-        //}
-
         public static IQueryable<T> WhereContains<T>(this IQueryable<T> source, string columnNames, params object[] values)
         {
             return source.Where(Custom_Expression_Common<T>((Expression left, Expression right) =>
@@ -134,23 +108,23 @@ namespace CSSPServices
 
     public static class OrderExpression
     {
-        public static IOrderedQueryable<T> OrderByProp<T>(this IQueryable<T> source, string property)
+        public static IQueryable<T> OrderByProp<T>(this IQueryable<T> source, string property)
         {
             return ApplyOrder<T>(source, property, "OrderBy");
         }
-        public static IOrderedQueryable<T> OrderByDescendingProp<T>(this IQueryable<T> source, string property)
+        public static IQueryable<T> OrderByDescendingProp<T>(this IQueryable<T> source, string property)
         {
             return ApplyOrder<T>(source, property, "OrderByDescending");
         }
-        public static IOrderedQueryable<T> ThenByProp<T>(this IOrderedQueryable<T> source, string property)
+        public static IQueryable<T> ThenByProp<T>(this IQueryable<T> source, string property)
         {
             return ApplyOrder<T>(source, property, "ThenBy");
         }
-        public static IOrderedQueryable<T> ThenByDescendingProp<T>(this IOrderedQueryable<T> source, string property)
+        public static IQueryable<T> ThenByDescendingProp<T>(this IQueryable<T> source, string property)
         {
             return ApplyOrder<T>(source, property, "ThenByDescending");
         }
-        static IOrderedQueryable<T> ApplyOrder<T>(IQueryable<T> source, string property, string methodName)
+        static IQueryable<T> ApplyOrder<T>(IQueryable<T> source, string property, string methodName)
         {
             string[] props = property.Split('.');
             Type type = typeof(T);
@@ -172,7 +146,7 @@ namespace CSSPServices
                             && method.GetParameters().Length == 2)
                     .MakeGenericMethod(typeof(T), type)
                     .Invoke(null, new object[] { source, lambda });
-            return (IOrderedQueryable<T>)result;
+            return (IQueryable<T>)result;
         }
     }
 }

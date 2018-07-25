@@ -250,7 +250,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             StatusTempEvent(new StatusEventArgs("doing ... Contact Charles with TVItem"));
 
-            ContactService contactService = new ContactService(new GetParam(), dbTestDBWrite, 2);
+            ContactService contactService = new ContactService(new Query(), dbTestDBWrite, 2);
 
             // Contact Charles G. LeBlanc
             Contact contactCharles = dbCSSPWebToolsDBRead.Contacts.AsNoTracking().Where(c => c.ContactTVItemID == 2).FirstOrDefault();
@@ -921,7 +921,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             using (CSSPWebToolsDBContext db2 = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
             {
-                AddressService addressService = new AddressService(new GetParam(), db2, contactCharles.ContactID);
+                AddressService addressService = new AddressService(new Query(), db2, contactCharles.ContactID);
                 addressService.FillAddressTVText(address);
             }
 
@@ -1609,7 +1609,7 @@ namespace CSSPServicesGenerateCodeHelper
                 mapInfo.LastUpdateContactTVItemID = ContactTVItemID;
 
                 mapInfo.MapInfoID = 0;
-                MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDBWrite, 2);
+                MapInfoService mapInfoService = new MapInfoService(new Query(), dbTestDBWrite, 2);
                 mapInfoService.Add(mapInfo);
                 if (mapInfo.ValidationResults.Count() > 0)
                 {
@@ -1621,7 +1621,7 @@ namespace CSSPServicesGenerateCodeHelper
                                                        where c.MapInfoID == MapInfoID
                                                        select c).ToList();
 
-                MapInfoPointService mapInfoPointService = new MapInfoPointService(new GetParam(), dbTestDBWrite, 2);
+                MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query(), dbTestDBWrite, 2);
                 foreach (MapInfoPoint mapInfoPoint in mapInfoPointList)
                 {
                     mapInfoPoint.MapInfoPointID = 0;

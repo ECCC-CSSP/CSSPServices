@@ -32,23 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private LastUpdateAndTVText GetFilledRandomLastUpdateAndTVText(string OmitPropName)
-        {
-            LastUpdateAndTVText lastUpdateAndTVText = new LastUpdateAndTVText();
-
-            if (OmitPropName != "Error") lastUpdateAndTVText.Error = GetRandomString("", 20);
-            if (OmitPropName != "LastUpdateAndTVTextDate_UTC") lastUpdateAndTVText.LastUpdateAndTVTextDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateDate_Local") lastUpdateAndTVText.LastUpdateDate_Local = new DateTime(2005, 3, 6);
-            if (OmitPropName != "TVText") lastUpdateAndTVText.TVText = GetRandomString("", 6);
-
-            return lastUpdateAndTVText;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void LastUpdateAndTVText_CRUD_And_Properties_Test()
@@ -59,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(new GetParam(), dbTestDB, ContactID);
+                    LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -95,5 +78,33 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetLastUpdateAndTVTextList() Skip Take
         #endregion Tests Generated for GetLastUpdateAndTVTextList() Skip Take
 
+        #region Tests Generated for GetLastUpdateAndTVTextList() Skip Take Order
+        #endregion Tests Generated for GetLastUpdateAndTVTextList() Skip Take Order
+
+        #region Tests Generated for GetLastUpdateAndTVTextList() Skip Take 2Order
+        #endregion Tests Generated for GetLastUpdateAndTVTextList() Skip Take 2Order
+
+        #region Tests Generated for GetLastUpdateAndTVTextList() Skip Take Order Where
+        #endregion Tests Generated for GetLastUpdateAndTVTextList() Skip Take Order Where
+
+        #region Tests Generated for GetLastUpdateAndTVTextList() Skip Take Order 2Where
+        #endregion Tests Generated for GetLastUpdateAndTVTextList() Skip Take Order 2Where
+
+        #region Tests Generated for GetLastUpdateAndTVTextList() 2Where
+        #endregion Tests Generated for GetLastUpdateAndTVTextList() 2Where
+
+        #region Functions private
+        private LastUpdateAndTVText GetFilledRandomLastUpdateAndTVText(string OmitPropName)
+        {
+            LastUpdateAndTVText lastUpdateAndTVText = new LastUpdateAndTVText();
+
+            if (OmitPropName != "Error") lastUpdateAndTVText.Error = GetRandomString("", 20);
+            if (OmitPropName != "LastUpdateAndTVTextDate_UTC") lastUpdateAndTVText.LastUpdateAndTVTextDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateDate_Local") lastUpdateAndTVText.LastUpdateDate_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "TVText") lastUpdateAndTVText.TVText = GetRandomString("", 6);
+
+            return lastUpdateAndTVText;
+        }
+        #endregion Functions private
     }
 }

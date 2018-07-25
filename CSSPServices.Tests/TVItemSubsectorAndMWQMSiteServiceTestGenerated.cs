@@ -32,19 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVItemSubsectorAndMWQMSite GetFilledRandomTVItemSubsectorAndMWQMSite(string OmitPropName)
-        {
-            TVItemSubsectorAndMWQMSite tvItemSubsectorAndMWQMSite = new TVItemSubsectorAndMWQMSite();
-
-
-            return tvItemSubsectorAndMWQMSite;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVItemSubsectorAndMWQMSite_CRUD_And_Properties_Test()
@@ -55,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemSubsectorAndMWQMSiteService tvItemSubsectorAndMWQMSiteService = new TVItemSubsectorAndMWQMSiteService(new GetParam(), dbTestDB, ContactID);
+                    TVItemSubsectorAndMWQMSiteService tvItemSubsectorAndMWQMSiteService = new TVItemSubsectorAndMWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -91,5 +78,29 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take
         #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take
 
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take Order
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take Order
+
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take 2Order
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take 2Order
+
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take Order Where
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take Order Where
+
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVItemSubsectorAndMWQMSiteList() 2Where
+        #endregion Tests Generated for GetTVItemSubsectorAndMWQMSiteList() 2Where
+
+        #region Functions private
+        private TVItemSubsectorAndMWQMSite GetFilledRandomTVItemSubsectorAndMWQMSite(string OmitPropName)
+        {
+            TVItemSubsectorAndMWQMSite tvItemSubsectorAndMWQMSite = new TVItemSubsectorAndMWQMSite();
+
+
+            return tvItemSubsectorAndMWQMSite;
+        }
+        #endregion Functions private
     }
 }

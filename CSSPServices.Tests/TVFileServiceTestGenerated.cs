@@ -32,36 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVFile GetFilledRandomTVFile(string OmitPropName)
-        {
-            TVFile tvFile = new TVFile();
-
-            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 38;
-            if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 1;
-            if (OmitPropName != "Parameters") tvFile.Parameters = GetRandomString("", 20);
-            if (OmitPropName != "Year") tvFile.Year = GetRandomInt(1980, 2050);
-            if (OmitPropName != "Language") tvFile.Language = LanguageRequest;
-            if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
-            if (OmitPropName != "FileType") tvFile.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
-            if (OmitPropName != "FileSize_kb") tvFile.FileSize_kb = GetRandomInt(0, 100000000);
-            if (OmitPropName != "FileInfo") tvFile.FileInfo = GetRandomString("", 20);
-            if (OmitPropName != "FileCreatedDate_UTC") tvFile.FileCreatedDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "FromWater") tvFile.FromWater = true;
-            if (OmitPropName != "ClientFilePath") tvFile.ClientFilePath = GetRandomString("", 5);
-            if (OmitPropName != "ServerFileName") tvFile.ServerFileName = GetRandomString("", 5);
-            if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = 2;
-
-            return tvFile;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVFile_CRUD_And_Properties_Test()
@@ -72,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVFileService tvFileService = new TVFileService(new GetParam(), dbTestDB, ContactID);
+                    TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -447,14 +417,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVFileService tvFileService = new TVFileService(new GetParam(), dbTestDB, ContactID);
+                    TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     TVFile tvFile = (from c in tvFileService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvFile);
 
                     TVFile tvFileRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        tvFileService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        tvFileService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -478,114 +448,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // TVFile fields
-                        Assert.IsNotNull(tvFileRet.TVFileID);
-                        Assert.IsNotNull(tvFileRet.TVFileTVItemID);
-                        if (tvFileRet.TemplateTVType != null)
-                        {
-                            Assert.IsNotNull(tvFileRet.TemplateTVType);
-                        }
-                        if (tvFileRet.ReportTypeID != null)
-                        {
-                            Assert.IsNotNull(tvFileRet.ReportTypeID);
-                        }
-                        if (tvFileRet.Parameters != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.Parameters));
-                        }
-                        if (tvFileRet.Year != null)
-                        {
-                            Assert.IsNotNull(tvFileRet.Year);
-                        }
-                        Assert.IsNotNull(tvFileRet.Language);
-                        Assert.IsNotNull(tvFileRet.FilePurpose);
-                        Assert.IsNotNull(tvFileRet.FileType);
-                        Assert.IsNotNull(tvFileRet.FileSize_kb);
-                        if (tvFileRet.FileInfo != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FileInfo));
-                        }
-                        Assert.IsNotNull(tvFileRet.FileCreatedDate_UTC);
-                        if (tvFileRet.FromWater != null)
-                        {
-                            Assert.IsNotNull(tvFileRet.FromWater);
-                        }
-                        if (tvFileRet.ClientFilePath != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.ClientFilePath));
-                        }
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.ServerFileName));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.ServerFilePath));
-                        Assert.IsNotNull(tvFileRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(tvFileRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // TVFileWeb and TVFileReport fields should be null here
-                            Assert.IsNull(tvFileRet.TVFileWeb);
-                            Assert.IsNull(tvFileRet.TVFileReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // TVFileWeb fields should not be null and TVFileReport fields should be null here
-                            if (tvFileRet.TVFileWeb.TVFileTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.TVFileTVText));
-                            }
-                            if (tvFileRet.TVFileWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.LastUpdateContactTVText));
-                            }
-                            if (tvFileRet.TVFileWeb.TemplateTVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.TemplateTVTypeText));
-                            }
-                            if (tvFileRet.TVFileWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.LanguageText));
-                            }
-                            if (tvFileRet.TVFileWeb.FilePurposeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.FilePurposeText));
-                            }
-                            if (tvFileRet.TVFileWeb.FileTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.FileTypeText));
-                            }
-                            Assert.IsNull(tvFileRet.TVFileReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // TVFileWeb and TVFileReport fields should NOT be null here
-                            if (tvFileRet.TVFileWeb.TVFileTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.TVFileTVText));
-                            }
-                            if (tvFileRet.TVFileWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.LastUpdateContactTVText));
-                            }
-                            if (tvFileRet.TVFileWeb.TemplateTVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.TemplateTVTypeText));
-                            }
-                            if (tvFileRet.TVFileWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.LanguageText));
-                            }
-                            if (tvFileRet.TVFileWeb.FilePurposeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.FilePurposeText));
-                            }
-                            if (tvFileRet.TVFileWeb.FileTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileWeb.FileTypeText));
-                            }
-                            if (tvFileRet.TVFileReport.TVFileReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileReport.TVFileReportTest));
-                            }
-                        }
+                        CheckTVFileFields(new List<TVFile>() { tvFileRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -602,14 +465,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVFileService tvFileService = new TVFileService(new GetParam(), dbTestDB, ContactID);
+                    TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     TVFile tvFile = (from c in tvFileService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvFile);
 
                     List<TVFile> tvFileList = new List<TVFile>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        tvFileService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        tvFileService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -633,114 +496,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // TVFile fields
-                        Assert.IsNotNull(tvFileList[0].TVFileID);
-                        Assert.IsNotNull(tvFileList[0].TVFileTVItemID);
-                        if (tvFileList[0].TemplateTVType != null)
-                        {
-                            Assert.IsNotNull(tvFileList[0].TemplateTVType);
-                        }
-                        if (tvFileList[0].ReportTypeID != null)
-                        {
-                            Assert.IsNotNull(tvFileList[0].ReportTypeID);
-                        }
-                        if (tvFileList[0].Parameters != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].Parameters));
-                        }
-                        if (tvFileList[0].Year != null)
-                        {
-                            Assert.IsNotNull(tvFileList[0].Year);
-                        }
-                        Assert.IsNotNull(tvFileList[0].Language);
-                        Assert.IsNotNull(tvFileList[0].FilePurpose);
-                        Assert.IsNotNull(tvFileList[0].FileType);
-                        Assert.IsNotNull(tvFileList[0].FileSize_kb);
-                        if (tvFileList[0].FileInfo != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].FileInfo));
-                        }
-                        Assert.IsNotNull(tvFileList[0].FileCreatedDate_UTC);
-                        if (tvFileList[0].FromWater != null)
-                        {
-                            Assert.IsNotNull(tvFileList[0].FromWater);
-                        }
-                        if (tvFileList[0].ClientFilePath != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].ClientFilePath));
-                        }
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].ServerFileName));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].ServerFilePath));
-                        Assert.IsNotNull(tvFileList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(tvFileList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // TVFileWeb and TVFileReport fields should be null here
-                            Assert.IsNull(tvFileList[0].TVFileWeb);
-                            Assert.IsNull(tvFileList[0].TVFileReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // TVFileWeb fields should not be null and TVFileReport fields should be null here
-                            if (tvFileList[0].TVFileWeb.TVFileTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText));
-                            }
-                            if (tvFileList[0].TVFileWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText));
-                            }
-                            if (tvFileList[0].TVFileWeb.TemplateTVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText));
-                            }
-                            if (tvFileList[0].TVFileWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LanguageText));
-                            }
-                            if (tvFileList[0].TVFileWeb.FilePurposeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FilePurposeText));
-                            }
-                            if (tvFileList[0].TVFileWeb.FileTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FileTypeText));
-                            }
-                            Assert.IsNull(tvFileList[0].TVFileReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // TVFileWeb and TVFileReport fields should NOT be null here
-                            if (tvFileList[0].TVFileWeb.TVFileTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText));
-                            }
-                            if (tvFileList[0].TVFileWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText));
-                            }
-                            if (tvFileList[0].TVFileWeb.TemplateTVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText));
-                            }
-                            if (tvFileList[0].TVFileWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LanguageText));
-                            }
-                            if (tvFileList[0].TVFileWeb.FilePurposeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FilePurposeText));
-                            }
-                            if (tvFileList[0].TVFileWeb.FileTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FileTypeText));
-                            }
-                            if (tvFileList[0].TVFileReport.TVFileReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileReport.TVFileReportTest));
-                            }
-                        }
+                        CheckTVFileFields(tvFileList, entityQueryDetailType);
                     }
                 }
             }
@@ -758,12 +514,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<TVFile> tvFileList = new List<TVFile>();
+                    List<TVFile> tvFileDirectQueryList = new List<TVFile>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(TVFile), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        TVFileService tvFileService = new TVFileService(getParam, dbTestDB, ContactID);
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvFileDirectQueryList = tvFileService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -787,13 +545,406 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, tvFileList.Count);
+                        CheckTVFileFields(tvFileList, entityQueryDetailType);
+                        Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        Assert.AreEqual(1, tvFileList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetTVFileList() Skip Take
 
+        #region Tests Generated for GetTVFileList() Skip Take Order
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVFile> tvFileList = new List<TVFile>();
+                    List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1,  "TVFileID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvFileDirectQueryList = tvFileService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVFileID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            Assert.AreEqual(0, tvFileList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVFileFields(tvFileList, entityQueryDetailType);
+                        Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        Assert.AreEqual(1, tvFileList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take Order
+
+        #region Tests Generated for GetTVFileList() Skip Take 2Order
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVFile> tvFileList = new List<TVFile>();
+                    List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "TVFileID,TVFileTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvFileDirectQueryList = tvFileService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVFileID).ThenBy(c => c.TVFileTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            Assert.AreEqual(0, tvFileList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVFileFields(tvFileList, entityQueryDetailType);
+                        Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        Assert.AreEqual(1, tvFileList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take 2Order
+
+        #region Tests Generated for GetTVFileList() Skip Take Order Where
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVFile> tvFileList = new List<TVFile>();
+                    List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "TVFileID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvFileDirectQueryList = tvFileService.GetRead().Where(c => c.TVFileID == 4).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            Assert.AreEqual(0, tvFileList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVFileFields(tvFileList, entityQueryDetailType);
+                        Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        Assert.AreEqual(1, tvFileList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take Order Where
+
+        #region Tests Generated for GetTVFileList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetTVFileList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVFile> tvFileList = new List<TVFile>();
+                    List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "TVFileID,GT,2|TVFileID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvFileDirectQueryList = tvFileService.GetRead().Where(c => c.TVFileID > 2 && c.TVFileID < 5).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            Assert.AreEqual(0, tvFileList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVFileFields(tvFileList, entityQueryDetailType);
+                        Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        Assert.AreEqual(1, tvFileList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVFileList() 2Where
+        [TestMethod]
+        public void GetTVFileList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVFile> tvFileList = new List<TVFile>();
+                    List<TVFile> tvFileDirectQueryList = new List<TVFile>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVFileID,GT,2|TVFileID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvFileDirectQueryList = tvFileService.GetRead().Where(c => c.TVFileID > 2 && c.TVFileID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                            Assert.AreEqual(0, tvFileList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvFileList = tvFileService.GetTVFileList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVFileFields(tvFileList, entityQueryDetailType);
+                        Assert.AreEqual(tvFileDirectQueryList[0].TVFileID, tvFileList[0].TVFileID);
+                        Assert.AreEqual(2, tvFileList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVFileList() 2Where
+
+        #region Functions private
+        private void CheckTVFileFields(List<TVFile> tvFileList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // TVFile fields
+            Assert.IsNotNull(tvFileList[0].TVFileID);
+            Assert.IsNotNull(tvFileList[0].TVFileTVItemID);
+            if (tvFileList[0].TemplateTVType != null)
+            {
+                Assert.IsNotNull(tvFileList[0].TemplateTVType);
+            }
+            if (tvFileList[0].ReportTypeID != null)
+            {
+                Assert.IsNotNull(tvFileList[0].ReportTypeID);
+            }
+            if (!string.IsNullOrWhiteSpace(tvFileList[0].Parameters))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].Parameters));
+            }
+            if (tvFileList[0].Year != null)
+            {
+                Assert.IsNotNull(tvFileList[0].Year);
+            }
+            Assert.IsNotNull(tvFileList[0].Language);
+            Assert.IsNotNull(tvFileList[0].FilePurpose);
+            Assert.IsNotNull(tvFileList[0].FileType);
+            Assert.IsNotNull(tvFileList[0].FileSize_kb);
+            if (!string.IsNullOrWhiteSpace(tvFileList[0].FileInfo))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].FileInfo));
+            }
+            Assert.IsNotNull(tvFileList[0].FileCreatedDate_UTC);
+            if (tvFileList[0].FromWater != null)
+            {
+                Assert.IsNotNull(tvFileList[0].FromWater);
+            }
+            if (!string.IsNullOrWhiteSpace(tvFileList[0].ClientFilePath))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].ClientFilePath));
+            }
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].ServerFileName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].ServerFilePath));
+            Assert.IsNotNull(tvFileList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvFileList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // TVFileWeb and TVFileReport fields should be null here
+                Assert.IsNull(tvFileList[0].TVFileWeb);
+                Assert.IsNull(tvFileList[0].TVFileReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // TVFileWeb fields should not be null and TVFileReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LanguageText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LanguageText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FilePurposeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FilePurposeText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FileTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FileTypeText));
+                }
+                Assert.IsNull(tvFileList[0].TVFileReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // TVFileWeb and TVFileReport fields should NOT be null here
+                if (tvFileList[0].TVFileWeb.TVFileTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText));
+                }
+                if (tvFileList[0].TVFileWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText));
+                }
+                if (tvFileList[0].TVFileWeb.TemplateTVTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText));
+                }
+                if (tvFileList[0].TVFileWeb.LanguageText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LanguageText));
+                }
+                if (tvFileList[0].TVFileWeb.FilePurposeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FilePurposeText));
+                }
+                if (tvFileList[0].TVFileWeb.FileTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.FileTypeText));
+                }
+                if (tvFileList[0].TVFileReport.TVFileReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileReport.TVFileReportTest));
+                }
+            }
+        }
+        private TVFile GetFilledRandomTVFile(string OmitPropName)
+        {
+            TVFile tvFile = new TVFile();
+
+            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 38;
+            if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "ReportTypeID") tvFile.ReportTypeID = 1;
+            if (OmitPropName != "Parameters") tvFile.Parameters = GetRandomString("", 20);
+            if (OmitPropName != "Year") tvFile.Year = GetRandomInt(1980, 2050);
+            if (OmitPropName != "Language") tvFile.Language = LanguageRequest;
+            if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
+            if (OmitPropName != "FileType") tvFile.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
+            if (OmitPropName != "FileSize_kb") tvFile.FileSize_kb = GetRandomInt(0, 100000000);
+            if (OmitPropName != "FileInfo") tvFile.FileInfo = GetRandomString("", 20);
+            if (OmitPropName != "FileCreatedDate_UTC") tvFile.FileCreatedDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "FromWater") tvFile.FromWater = true;
+            if (OmitPropName != "ClientFilePath") tvFile.ClientFilePath = GetRandomString("", 5);
+            if (OmitPropName != "ServerFileName") tvFile.ServerFileName = GetRandomString("", 5);
+            if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = 2;
+
+            return tvFile;
+        }
+        #endregion Functions private
     }
 }

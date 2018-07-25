@@ -32,28 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private WhereInfo GetFilledRandomWhereInfo(string OmitPropName)
-        {
-            WhereInfo whereInfo = new WhereInfo();
-
-            if (OmitPropName != "PropertyName") whereInfo.PropertyName = GetRandomString("", 5);
-            if (OmitPropName != "PropertyType") whereInfo.PropertyType = (PropertyTypeEnum)GetRandomEnumType(typeof(PropertyTypeEnum));
-            if (OmitPropName != "WhereOperator") whereInfo.WhereOperator = (WhereOperatorEnum)GetRandomEnumType(typeof(WhereOperatorEnum));
-            if (OmitPropName != "Value") whereInfo.Value = GetRandomString("", 5);
-            if (OmitPropName != "ValueInt") whereInfo.ValueInt = GetRandomInt(-1, -1);
-            if (OmitPropName != "ValueDouble") whereInfo.ValueDouble = GetRandomDouble(-1.0D, -1.0D);
-            if (OmitPropName != "ValueBool") whereInfo.ValueBool = true;
-            if (OmitPropName != "ValueDateTime") whereInfo.ValueDateTime = new DateTime(2005, 3, 6);
-            if (OmitPropName != "ValueEnumText") whereInfo.ValueEnumText = GetRandomString("", 5);
-
-            return whereInfo;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void WhereInfo_CRUD_And_Properties_Test()
@@ -64,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    WhereInfoService whereInfoService = new WhereInfoService(new GetParam(), dbTestDB, ContactID);
+                    WhereInfoService whereInfoService = new WhereInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -100,5 +78,38 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetWhereInfoList() Skip Take
         #endregion Tests Generated for GetWhereInfoList() Skip Take
 
+        #region Tests Generated for GetWhereInfoList() Skip Take Order
+        #endregion Tests Generated for GetWhereInfoList() Skip Take Order
+
+        #region Tests Generated for GetWhereInfoList() Skip Take 2Order
+        #endregion Tests Generated for GetWhereInfoList() Skip Take 2Order
+
+        #region Tests Generated for GetWhereInfoList() Skip Take Order Where
+        #endregion Tests Generated for GetWhereInfoList() Skip Take Order Where
+
+        #region Tests Generated for GetWhereInfoList() Skip Take Order 2Where
+        #endregion Tests Generated for GetWhereInfoList() Skip Take Order 2Where
+
+        #region Tests Generated for GetWhereInfoList() 2Where
+        #endregion Tests Generated for GetWhereInfoList() 2Where
+
+        #region Functions private
+        private WhereInfo GetFilledRandomWhereInfo(string OmitPropName)
+        {
+            WhereInfo whereInfo = new WhereInfo();
+
+            if (OmitPropName != "PropertyName") whereInfo.PropertyName = GetRandomString("", 5);
+            if (OmitPropName != "PropertyType") whereInfo.PropertyType = (PropertyTypeEnum)GetRandomEnumType(typeof(PropertyTypeEnum));
+            if (OmitPropName != "WhereOperator") whereInfo.WhereOperator = (WhereOperatorEnum)GetRandomEnumType(typeof(WhereOperatorEnum));
+            if (OmitPropName != "Value") whereInfo.Value = GetRandomString("", 5);
+            if (OmitPropName != "ValueInt") whereInfo.ValueInt = GetRandomInt(-1, -1);
+            if (OmitPropName != "ValueDouble") whereInfo.ValueDouble = GetRandomDouble(-1.0D, -1.0D);
+            if (OmitPropName != "ValueBool") whereInfo.ValueBool = true;
+            if (OmitPropName != "ValueDateTime") whereInfo.ValueDateTime = new DateTime(2005, 3, 6);
+            if (OmitPropName != "ValueEnumText") whereInfo.ValueEnumText = GetRandomString("", 5);
+
+            return whereInfo;
+        }
+        #endregion Functions private
     }
 }

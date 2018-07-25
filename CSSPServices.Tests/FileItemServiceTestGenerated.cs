@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private FileItem GetFilledRandomFileItem(string OmitPropName)
-        {
-            FileItem fileItem = new FileItem();
-
-            if (OmitPropName != "Name") fileItem.Name = GetRandomString("", 5);
-            if (OmitPropName != "TVItemID") fileItem.TVItemID = GetRandomInt(1, 11);
-
-            return fileItem;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void FileItem_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    FileItemService fileItemService = new FileItemService(new GetParam(), dbTestDB, ContactID);
+                    FileItemService fileItemService = new FileItemService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetFileItemList() Skip Take
         #endregion Tests Generated for GetFileItemList() Skip Take
 
+        #region Tests Generated for GetFileItemList() Skip Take Order
+        #endregion Tests Generated for GetFileItemList() Skip Take Order
+
+        #region Tests Generated for GetFileItemList() Skip Take 2Order
+        #endregion Tests Generated for GetFileItemList() Skip Take 2Order
+
+        #region Tests Generated for GetFileItemList() Skip Take Order Where
+        #endregion Tests Generated for GetFileItemList() Skip Take Order Where
+
+        #region Tests Generated for GetFileItemList() Skip Take Order 2Where
+        #endregion Tests Generated for GetFileItemList() Skip Take Order 2Where
+
+        #region Tests Generated for GetFileItemList() 2Where
+        #endregion Tests Generated for GetFileItemList() 2Where
+
+        #region Functions private
+        private FileItem GetFilledRandomFileItem(string OmitPropName)
+        {
+            FileItem fileItem = new FileItem();
+
+            if (OmitPropName != "Name") fileItem.Name = GetRandomString("", 5);
+            if (OmitPropName != "TVItemID") fileItem.TVItemID = GetRandomInt(1, 11);
+
+            return fileItem;
+        }
+        #endregion Functions private
     }
 }

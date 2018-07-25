@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ResetPasswordService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public ResetPasswordService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -142,11 +142,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID)
         {
-            IQueryable<ResetPassword> resetPasswordQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<ResetPassword> resetPasswordQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.ResetPasswordID == ResetPasswordID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return resetPasswordQuery.FirstOrDefault();
@@ -160,9 +160,9 @@ namespace CSSPServices
         }
         public IQueryable<ResetPassword> GetResetPasswordList()
         {
-            IQueryable<ResetPassword> resetPasswordQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ResetPassword> resetPasswordQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

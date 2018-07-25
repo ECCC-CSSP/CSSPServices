@@ -32,24 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVItemStat GetFilledRandomTVItemStat(string OmitPropName)
-        {
-            TVItemStat tvItemStat = new TVItemStat();
-
-            if (OmitPropName != "TVItemID") tvItemStat.TVItemID = 1;
-            if (OmitPropName != "TVType") tvItemStat.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "ChildCount") tvItemStat.ChildCount = GetRandomInt(0, 10000000);
-            if (OmitPropName != "LastUpdateDate_UTC") tvItemStat.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") tvItemStat.LastUpdateContactTVItemID = 2;
-
-            return tvItemStat;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVItemStat_CRUD_And_Properties_Test()
@@ -60,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemStatService tvItemStatService = new TVItemStatService(new GetParam(), dbTestDB, ContactID);
+                    TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -274,14 +256,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemStatService tvItemStatService = new TVItemStatService(new GetParam(), dbTestDB, ContactID);
+                    TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     TVItemStat tvItemStat = (from c in tvItemStatService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemStat);
 
                     TVItemStat tvItemStatRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        tvItemStatService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        tvItemStatService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -305,57 +287,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // TVItemStat fields
-                        Assert.IsNotNull(tvItemStatRet.TVItemStatID);
-                        Assert.IsNotNull(tvItemStatRet.TVItemID);
-                        Assert.IsNotNull(tvItemStatRet.TVType);
-                        Assert.IsNotNull(tvItemStatRet.ChildCount);
-                        Assert.IsNotNull(tvItemStatRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(tvItemStatRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // TVItemStatWeb and TVItemStatReport fields should be null here
-                            Assert.IsNull(tvItemStatRet.TVItemStatWeb);
-                            Assert.IsNull(tvItemStatRet.TVItemStatReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // TVItemStatWeb fields should not be null and TVItemStatReport fields should be null here
-                            if (tvItemStatRet.TVItemStatWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVItemStatWeb.TVText));
-                            }
-                            if (tvItemStatRet.TVItemStatWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVItemStatWeb.LastUpdateContactTVText));
-                            }
-                            if (tvItemStatRet.TVItemStatWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVItemStatWeb.TVTypeText));
-                            }
-                            Assert.IsNull(tvItemStatRet.TVItemStatReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // TVItemStatWeb and TVItemStatReport fields should NOT be null here
-                            if (tvItemStatRet.TVItemStatWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVItemStatWeb.TVText));
-                            }
-                            if (tvItemStatRet.TVItemStatWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVItemStatWeb.LastUpdateContactTVText));
-                            }
-                            if (tvItemStatRet.TVItemStatWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVItemStatWeb.TVTypeText));
-                            }
-                            if (tvItemStatRet.TVItemStatReport.TVItemStatReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVItemStatReport.TVItemStatReportTest));
-                            }
-                        }
+                        CheckTVItemStatFields(new List<TVItemStat>() { tvItemStatRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -372,14 +304,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemStatService tvItemStatService = new TVItemStatService(new GetParam(), dbTestDB, ContactID);
+                    TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     TVItemStat tvItemStat = (from c in tvItemStatService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvItemStat);
 
                     List<TVItemStat> tvItemStatList = new List<TVItemStat>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        tvItemStatService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        tvItemStatService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -403,57 +335,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // TVItemStat fields
-                        Assert.IsNotNull(tvItemStatList[0].TVItemStatID);
-                        Assert.IsNotNull(tvItemStatList[0].TVItemID);
-                        Assert.IsNotNull(tvItemStatList[0].TVType);
-                        Assert.IsNotNull(tvItemStatList[0].ChildCount);
-                        Assert.IsNotNull(tvItemStatList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(tvItemStatList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // TVItemStatWeb and TVItemStatReport fields should be null here
-                            Assert.IsNull(tvItemStatList[0].TVItemStatWeb);
-                            Assert.IsNull(tvItemStatList[0].TVItemStatReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // TVItemStatWeb fields should not be null and TVItemStatReport fields should be null here
-                            if (tvItemStatList[0].TVItemStatWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVText));
-                            }
-                            if (tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText));
-                            }
-                            if (tvItemStatList[0].TVItemStatWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVTypeText));
-                            }
-                            Assert.IsNull(tvItemStatList[0].TVItemStatReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // TVItemStatWeb and TVItemStatReport fields should NOT be null here
-                            if (tvItemStatList[0].TVItemStatWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVText));
-                            }
-                            if (tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText));
-                            }
-                            if (tvItemStatList[0].TVItemStatWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVTypeText));
-                            }
-                            if (tvItemStatList[0].TVItemStatReport.TVItemStatReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatReport.TVItemStatReportTest));
-                            }
-                        }
+                        CheckTVItemStatFields(tvItemStatList, entityQueryDetailType);
                     }
                 }
             }
@@ -471,12 +353,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<TVItemStat> tvItemStatList = new List<TVItemStat>();
+                    List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(TVItemStat), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        TVItemStatService tvItemStatService = new TVItemStatService(getParam, dbTestDB, ContactID);
+                        tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvItemStatDirectQueryList = tvItemStatService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -500,13 +384,337 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, tvItemStatList.Count);
+                        CheckTVItemStatFields(tvItemStatList, entityQueryDetailType);
+                        Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
+                        Assert.AreEqual(1, tvItemStatList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetTVItemStatList() Skip Take
 
+        #region Tests Generated for GetTVItemStatList() Skip Take Order
+        [TestMethod]
+        public void GetTVItemStatList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVItemStat> tvItemStatList = new List<TVItemStat>();
+                    List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), culture.TwoLetterISOLanguageName, 1, 1,  "TVItemStatID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvItemStatDirectQueryList = tvItemStatService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVItemStatID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                            Assert.AreEqual(0, tvItemStatList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVItemStatFields(tvItemStatList, entityQueryDetailType);
+                        Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
+                        Assert.AreEqual(1, tvItemStatList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemStatList() Skip Take Order
+
+        #region Tests Generated for GetTVItemStatList() Skip Take 2Order
+        [TestMethod]
+        public void GetTVItemStatList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVItemStat> tvItemStatList = new List<TVItemStat>();
+                    List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), culture.TwoLetterISOLanguageName, 1, 1, "TVItemStatID,TVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvItemStatDirectQueryList = tvItemStatService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVItemStatID).ThenBy(c => c.TVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                            Assert.AreEqual(0, tvItemStatList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVItemStatFields(tvItemStatList, entityQueryDetailType);
+                        Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
+                        Assert.AreEqual(1, tvItemStatList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemStatList() Skip Take 2Order
+
+        #region Tests Generated for GetTVItemStatList() Skip Take Order Where
+        [TestMethod]
+        public void GetTVItemStatList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVItemStat> tvItemStatList = new List<TVItemStat>();
+                    List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), culture.TwoLetterISOLanguageName, 0, 1, "TVItemStatID", "TVItemStatID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvItemStatDirectQueryList = tvItemStatService.GetRead().Where(c => c.TVItemStatID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemStatID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                            Assert.AreEqual(0, tvItemStatList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVItemStatFields(tvItemStatList, entityQueryDetailType);
+                        Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
+                        Assert.AreEqual(1, tvItemStatList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemStatList() Skip Take Order Where
+
+        #region Tests Generated for GetTVItemStatList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetTVItemStatList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVItemStat> tvItemStatList = new List<TVItemStat>();
+                    List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), culture.TwoLetterISOLanguageName, 0, 1, "TVItemStatID", "TVItemStatID,GT,2|TVItemStatID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvItemStatDirectQueryList = tvItemStatService.GetRead().Where(c => c.TVItemStatID > 2 && c.TVItemStatID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemStatID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                            Assert.AreEqual(0, tvItemStatList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVItemStatFields(tvItemStatList, entityQueryDetailType);
+                        Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
+                        Assert.AreEqual(1, tvItemStatList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemStatList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVItemStatList() 2Where
+        [TestMethod]
+        public void GetTVItemStatList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVItemStat> tvItemStatList = new List<TVItemStat>();
+                    List<TVItemStat> tvItemStatDirectQueryList = new List<TVItemStat>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVItemStatService tvItemStatService = new TVItemStatService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvItemStatService.Query = tvItemStatService.FillQuery(typeof(TVItemStat), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVItemStatID,GT,2|TVItemStatID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvItemStatDirectQueryList = tvItemStatService.GetRead().Where(c => c.TVItemStatID > 2 && c.TVItemStatID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                            Assert.AreEqual(0, tvItemStatList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvItemStatList = tvItemStatService.GetTVItemStatList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVItemStatFields(tvItemStatList, entityQueryDetailType);
+                        Assert.AreEqual(tvItemStatDirectQueryList[0].TVItemStatID, tvItemStatList[0].TVItemStatID);
+                        Assert.AreEqual(2, tvItemStatList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVItemStatList() 2Where
+
+        #region Functions private
+        private void CheckTVItemStatFields(List<TVItemStat> tvItemStatList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // TVItemStat fields
+            Assert.IsNotNull(tvItemStatList[0].TVItemStatID);
+            Assert.IsNotNull(tvItemStatList[0].TVItemID);
+            Assert.IsNotNull(tvItemStatList[0].TVType);
+            Assert.IsNotNull(tvItemStatList[0].ChildCount);
+            Assert.IsNotNull(tvItemStatList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvItemStatList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // TVItemStatWeb and TVItemStatReport fields should be null here
+                Assert.IsNull(tvItemStatList[0].TVItemStatWeb);
+                Assert.IsNull(tvItemStatList[0].TVItemStatReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // TVItemStatWeb fields should not be null and TVItemStatReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVTypeText));
+                }
+                Assert.IsNull(tvItemStatList[0].TVItemStatReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // TVItemStatWeb and TVItemStatReport fields should NOT be null here
+                if (tvItemStatList[0].TVItemStatWeb.TVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVText));
+                }
+                if (tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.LastUpdateContactTVText));
+                }
+                if (tvItemStatList[0].TVItemStatWeb.TVTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatWeb.TVTypeText));
+                }
+                if (tvItemStatList[0].TVItemStatReport.TVItemStatReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatList[0].TVItemStatReport.TVItemStatReportTest));
+                }
+            }
+        }
+        private TVItemStat GetFilledRandomTVItemStat(string OmitPropName)
+        {
+            TVItemStat tvItemStat = new TVItemStat();
+
+            if (OmitPropName != "TVItemID") tvItemStat.TVItemID = 1;
+            if (OmitPropName != "TVType") tvItemStat.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "ChildCount") tvItemStat.ChildCount = GetRandomInt(0, 10000000);
+            if (OmitPropName != "LastUpdateDate_UTC") tvItemStat.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvItemStat.LastUpdateContactTVItemID = 2;
+
+            return tvItemStat;
+        }
+        #endregion Functions private
     }
 }

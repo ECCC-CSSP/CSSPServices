@@ -32,23 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private SubsectorMWQMSampleYear GetFilledRandomSubsectorMWQMSampleYear(string OmitPropName)
-        {
-            SubsectorMWQMSampleYear subsectorMWQMSampleYear = new SubsectorMWQMSampleYear();
-
-            if (OmitPropName != "SubsectorTVItemID") subsectorMWQMSampleYear.SubsectorTVItemID = GetRandomInt(1, 11);
-            // should implement a Range for the property Year and type SubsectorMWQMSampleYear
-            if (OmitPropName != "EarliestDate") subsectorMWQMSampleYear.EarliestDate = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LatestDate") subsectorMWQMSampleYear.LatestDate = new DateTime(2005, 3, 6);
-
-            return subsectorMWQMSampleYear;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void SubsectorMWQMSampleYear_CRUD_And_Properties_Test()
@@ -59,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SubsectorMWQMSampleYearService subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(new GetParam(), dbTestDB, ContactID);
+                    SubsectorMWQMSampleYearService subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -95,5 +78,33 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take
         #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take
 
+        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order
+
+        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take 2Order
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take 2Order
+
+        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order Where
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order Where
+
+        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order 2Where
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order 2Where
+
+        #region Tests Generated for GetSubsectorMWQMSampleYearList() 2Where
+        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() 2Where
+
+        #region Functions private
+        private SubsectorMWQMSampleYear GetFilledRandomSubsectorMWQMSampleYear(string OmitPropName)
+        {
+            SubsectorMWQMSampleYear subsectorMWQMSampleYear = new SubsectorMWQMSampleYear();
+
+            if (OmitPropName != "SubsectorTVItemID") subsectorMWQMSampleYear.SubsectorTVItemID = GetRandomInt(1, 11);
+            // should implement a Range for the property Year and type SubsectorMWQMSampleYear
+            if (OmitPropName != "EarliestDate") subsectorMWQMSampleYear.EarliestDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LatestDate") subsectorMWQMSampleYear.LatestDate = new DateTime(2005, 3, 6);
+
+            return subsectorMWQMSampleYear;
+        }
+        #endregion Functions private
     }
 }

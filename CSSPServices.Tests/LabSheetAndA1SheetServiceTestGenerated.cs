@@ -32,19 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private LabSheetAndA1Sheet GetFilledRandomLabSheetAndA1Sheet(string OmitPropName)
-        {
-            LabSheetAndA1Sheet labSheetAndA1Sheet = new LabSheetAndA1Sheet();
-
-
-            return labSheetAndA1Sheet;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void LabSheetAndA1Sheet_CRUD_And_Properties_Test()
@@ -55,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LabSheetAndA1SheetService labSheetAndA1SheetService = new LabSheetAndA1SheetService(new GetParam(), dbTestDB, ContactID);
+                    LabSheetAndA1SheetService labSheetAndA1SheetService = new LabSheetAndA1SheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -91,5 +78,29 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take
         #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take
 
+        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order
+        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order
+
+        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take 2Order
+        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take 2Order
+
+        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order Where
+        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order Where
+
+        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order 2Where
+        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order 2Where
+
+        #region Tests Generated for GetLabSheetAndA1SheetList() 2Where
+        #endregion Tests Generated for GetLabSheetAndA1SheetList() 2Where
+
+        #region Functions private
+        private LabSheetAndA1Sheet GetFilledRandomLabSheetAndA1Sheet(string OmitPropName)
+        {
+            LabSheetAndA1Sheet labSheetAndA1Sheet = new LabSheetAndA1Sheet();
+
+
+            return labSheetAndA1Sheet;
+        }
+        #endregion Functions private
     }
 }

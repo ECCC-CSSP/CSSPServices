@@ -32,23 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private CSSPWQInputParam GetFilledRandomCSSPWQInputParam(string OmitPropName)
-        {
-            CSSPWQInputParam cSSPWQInputParam = new CSSPWQInputParam();
-
-            if (OmitPropName != "CSSPWQInputType") cSSPWQInputParam.CSSPWQInputType = (CSSPWQInputTypeEnum)GetRandomEnumType(typeof(CSSPWQInputTypeEnum));
-            if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 6);
-            if (OmitPropName != "TVItemID") cSSPWQInputParam.TVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "CSSPWQInputTypeText") cSSPWQInputParam.CSSPWQInputTypeText = GetRandomString("", 5);
-
-            return cSSPWQInputParam;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void CSSPWQInputParam_CRUD_And_Properties_Test()
@@ -59,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    CSSPWQInputParamService cSSPWQInputParamService = new CSSPWQInputParamService(new GetParam(), dbTestDB, ContactID);
+                    CSSPWQInputParamService cSSPWQInputParamService = new CSSPWQInputParamService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -95,5 +78,33 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetCSSPWQInputParamList() Skip Take
         #endregion Tests Generated for GetCSSPWQInputParamList() Skip Take
 
+        #region Tests Generated for GetCSSPWQInputParamList() Skip Take Order
+        #endregion Tests Generated for GetCSSPWQInputParamList() Skip Take Order
+
+        #region Tests Generated for GetCSSPWQInputParamList() Skip Take 2Order
+        #endregion Tests Generated for GetCSSPWQInputParamList() Skip Take 2Order
+
+        #region Tests Generated for GetCSSPWQInputParamList() Skip Take Order Where
+        #endregion Tests Generated for GetCSSPWQInputParamList() Skip Take Order Where
+
+        #region Tests Generated for GetCSSPWQInputParamList() Skip Take Order 2Where
+        #endregion Tests Generated for GetCSSPWQInputParamList() Skip Take Order 2Where
+
+        #region Tests Generated for GetCSSPWQInputParamList() 2Where
+        #endregion Tests Generated for GetCSSPWQInputParamList() 2Where
+
+        #region Functions private
+        private CSSPWQInputParam GetFilledRandomCSSPWQInputParam(string OmitPropName)
+        {
+            CSSPWQInputParam cSSPWQInputParam = new CSSPWQInputParam();
+
+            if (OmitPropName != "CSSPWQInputType") cSSPWQInputParam.CSSPWQInputType = (CSSPWQInputTypeEnum)GetRandomEnumType(typeof(CSSPWQInputTypeEnum));
+            if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 6);
+            if (OmitPropName != "TVItemID") cSSPWQInputParam.TVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "CSSPWQInputTypeText") cSSPWQInputParam.CSSPWQInputTypeText = GetRandomString("", 5);
+
+            return cSSPWQInputParam;
+        }
+        #endregion Functions private
     }
 }

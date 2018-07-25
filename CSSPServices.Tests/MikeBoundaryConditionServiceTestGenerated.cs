@@ -32,31 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MikeBoundaryCondition GetFilledRandomMikeBoundaryCondition(string OmitPropName)
-        {
-            MikeBoundaryCondition mikeBoundaryCondition = new MikeBoundaryCondition();
-
-            if (OmitPropName != "MikeBoundaryConditionTVItemID") mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 48;
-            if (OmitPropName != "MikeBoundaryConditionCode") mikeBoundaryCondition.MikeBoundaryConditionCode = GetRandomString("", 5);
-            if (OmitPropName != "MikeBoundaryConditionName") mikeBoundaryCondition.MikeBoundaryConditionName = GetRandomString("", 5);
-            if (OmitPropName != "MikeBoundaryConditionLength_m") mikeBoundaryCondition.MikeBoundaryConditionLength_m = GetRandomDouble(1.0D, 100000.0D);
-            if (OmitPropName != "MikeBoundaryConditionFormat") mikeBoundaryCondition.MikeBoundaryConditionFormat = GetRandomString("", 5);
-            if (OmitPropName != "MikeBoundaryConditionLevelOrVelocity") mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity = (MikeBoundaryConditionLevelOrVelocityEnum)GetRandomEnumType(typeof(MikeBoundaryConditionLevelOrVelocityEnum));
-            if (OmitPropName != "WebTideDataSet") mikeBoundaryCondition.WebTideDataSet = (WebTideDataSetEnum)GetRandomEnumType(typeof(WebTideDataSetEnum));
-            if (OmitPropName != "NumberOfWebTideNodes") mikeBoundaryCondition.NumberOfWebTideNodes = GetRandomInt(0, 1000);
-            if (OmitPropName != "WebTideDataFromStartToEndDate") mikeBoundaryCondition.WebTideDataFromStartToEndDate = GetRandomString("", 20);
-            if (OmitPropName != "TVType") mikeBoundaryCondition.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") mikeBoundaryCondition.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") mikeBoundaryCondition.LastUpdateContactTVItemID = 2;
-
-            return mikeBoundaryCondition;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MikeBoundaryCondition_CRUD_And_Properties_Test()
@@ -67,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new GetParam(), dbTestDB, ContactID);
+                    MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -407,14 +382,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new GetParam(), dbTestDB, ContactID);
+                    MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MikeBoundaryCondition mikeBoundaryCondition = (from c in mikeBoundaryConditionService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeBoundaryCondition);
 
                     MikeBoundaryCondition mikeBoundaryConditionRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mikeBoundaryConditionService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mikeBoundaryConditionService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -438,80 +413,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MikeBoundaryCondition fields
-                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionID);
-                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionTVItemID);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionCode));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionName));
-                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLength_m);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionFormat));
-                        Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocity);
-                        Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataSet);
-                        Assert.IsNotNull(mikeBoundaryConditionRet.NumberOfWebTideNodes);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataFromStartToEndDate));
-                        Assert.IsNotNull(mikeBoundaryConditionRet.TVType);
-                        Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MikeBoundaryConditionWeb and MikeBoundaryConditionReport fields should be null here
-                            Assert.IsNull(mikeBoundaryConditionRet.MikeBoundaryConditionWeb);
-                            Assert.IsNull(mikeBoundaryConditionRet.MikeBoundaryConditionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MikeBoundaryConditionWeb fields should not be null and MikeBoundaryConditionReport fields should be null here
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.WebTideDataSetText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.WebTideDataSetText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.TVTypeText));
-                            }
-                            Assert.IsNull(mikeBoundaryConditionRet.MikeBoundaryConditionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MikeBoundaryConditionWeb and MikeBoundaryConditionReport fields should NOT be null here
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.WebTideDataSetText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.WebTideDataSetText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionWeb.TVTypeText));
-                            }
-                            if (mikeBoundaryConditionRet.MikeBoundaryConditionReport.MikeBoundaryConditionReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionReport.MikeBoundaryConditionReportTest));
-                            }
-                        }
+                        CheckMikeBoundaryConditionFields(new List<MikeBoundaryCondition>() { mikeBoundaryConditionRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -528,14 +430,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new GetParam(), dbTestDB, ContactID);
+                    MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MikeBoundaryCondition mikeBoundaryCondition = (from c in mikeBoundaryConditionService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeBoundaryCondition);
 
                     List<MikeBoundaryCondition> mikeBoundaryConditionList = new List<MikeBoundaryCondition>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mikeBoundaryConditionService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mikeBoundaryConditionService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -559,80 +461,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MikeBoundaryCondition fields
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionID);
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionTVItemID);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionCode));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionName));
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionLength_m);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionFormat));
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionLevelOrVelocity);
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].WebTideDataSet);
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].NumberOfWebTideNodes);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].WebTideDataFromStartToEndDate));
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].TVType);
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(mikeBoundaryConditionList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MikeBoundaryConditionWeb and MikeBoundaryConditionReport fields should be null here
-                            Assert.IsNull(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb);
-                            Assert.IsNull(mikeBoundaryConditionList[0].MikeBoundaryConditionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MikeBoundaryConditionWeb fields should not be null and MikeBoundaryConditionReport fields should be null here
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText));
-                            }
-                            Assert.IsNull(mikeBoundaryConditionList[0].MikeBoundaryConditionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MikeBoundaryConditionWeb and MikeBoundaryConditionReport fields should NOT be null here
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText));
-                            }
-                            if (mikeBoundaryConditionList[0].MikeBoundaryConditionReport.MikeBoundaryConditionReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionReport.MikeBoundaryConditionReportTest));
-                            }
-                        }
+                        CheckMikeBoundaryConditionFields(mikeBoundaryConditionList, entityQueryDetailType);
                     }
                 }
             }
@@ -650,12 +479,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<MikeBoundaryCondition> mikeBoundaryConditionList = new List<MikeBoundaryCondition>();
+                    List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(MikeBoundaryCondition), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(getParam, dbTestDB, ContactID);
+                        mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -679,13 +510,367 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, mikeBoundaryConditionList.Count);
+                        CheckMikeBoundaryConditionFields(mikeBoundaryConditionList, entityQueryDetailType);
+                        Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
+                        Assert.AreEqual(1, mikeBoundaryConditionList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetMikeBoundaryConditionList() Skip Take
 
+        #region Tests Generated for GetMikeBoundaryConditionList() Skip Take Order
+        [TestMethod]
+        public void GetMikeBoundaryConditionList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeBoundaryCondition> mikeBoundaryConditionList = new List<MikeBoundaryCondition>();
+                    List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 1, 1,  "MikeBoundaryConditionID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                            Assert.AreEqual(0, mikeBoundaryConditionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeBoundaryConditionFields(mikeBoundaryConditionList, entityQueryDetailType);
+                        Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
+                        Assert.AreEqual(1, mikeBoundaryConditionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeBoundaryConditionList() Skip Take Order
+
+        #region Tests Generated for GetMikeBoundaryConditionList() Skip Take 2Order
+        [TestMethod]
+        public void GetMikeBoundaryConditionList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeBoundaryCondition> mikeBoundaryConditionList = new List<MikeBoundaryCondition>();
+                    List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 1, 1, "MikeBoundaryConditionID,MikeBoundaryConditionTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ThenBy(c => c.MikeBoundaryConditionTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                            Assert.AreEqual(0, mikeBoundaryConditionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeBoundaryConditionFields(mikeBoundaryConditionList, entityQueryDetailType);
+                        Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
+                        Assert.AreEqual(1, mikeBoundaryConditionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeBoundaryConditionList() Skip Take 2Order
+
+        #region Tests Generated for GetMikeBoundaryConditionList() Skip Take Order Where
+        [TestMethod]
+        public void GetMikeBoundaryConditionList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeBoundaryCondition> mikeBoundaryConditionList = new List<MikeBoundaryCondition>();
+                    List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 0, 1, "MikeBoundaryConditionID", "MikeBoundaryConditionID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Where(c => c.MikeBoundaryConditionID == 4).Skip(0).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                            Assert.AreEqual(0, mikeBoundaryConditionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeBoundaryConditionFields(mikeBoundaryConditionList, entityQueryDetailType);
+                        Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
+                        Assert.AreEqual(1, mikeBoundaryConditionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeBoundaryConditionList() Skip Take Order Where
+
+        #region Tests Generated for GetMikeBoundaryConditionList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetMikeBoundaryConditionList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeBoundaryCondition> mikeBoundaryConditionList = new List<MikeBoundaryCondition>();
+                    List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 0, 1, "MikeBoundaryConditionID", "MikeBoundaryConditionID,GT,2|MikeBoundaryConditionID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Where(c => c.MikeBoundaryConditionID > 2 && c.MikeBoundaryConditionID < 5).Skip(0).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                            Assert.AreEqual(0, mikeBoundaryConditionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeBoundaryConditionFields(mikeBoundaryConditionList, entityQueryDetailType);
+                        Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
+                        Assert.AreEqual(1, mikeBoundaryConditionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeBoundaryConditionList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMikeBoundaryConditionList() 2Where
+        [TestMethod]
+        public void GetMikeBoundaryConditionList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeBoundaryCondition> mikeBoundaryConditionList = new List<MikeBoundaryCondition>();
+                    List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeBoundaryConditionID,GT,2|MikeBoundaryConditionID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Where(c => c.MikeBoundaryConditionID > 2 && c.MikeBoundaryConditionID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                            Assert.AreEqual(0, mikeBoundaryConditionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeBoundaryConditionList = mikeBoundaryConditionService.GetMikeBoundaryConditionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeBoundaryConditionFields(mikeBoundaryConditionList, entityQueryDetailType);
+                        Assert.AreEqual(mikeBoundaryConditionDirectQueryList[0].MikeBoundaryConditionID, mikeBoundaryConditionList[0].MikeBoundaryConditionID);
+                        Assert.AreEqual(2, mikeBoundaryConditionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeBoundaryConditionList() 2Where
+
+        #region Functions private
+        private void CheckMikeBoundaryConditionFields(List<MikeBoundaryCondition> mikeBoundaryConditionList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // MikeBoundaryCondition fields
+            Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionID);
+            Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionCode));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionName));
+            Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionLength_m);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionFormat));
+            Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionLevelOrVelocity);
+            Assert.IsNotNull(mikeBoundaryConditionList[0].WebTideDataSet);
+            Assert.IsNotNull(mikeBoundaryConditionList[0].NumberOfWebTideNodes);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].WebTideDataFromStartToEndDate));
+            Assert.IsNotNull(mikeBoundaryConditionList[0].TVType);
+            Assert.IsNotNull(mikeBoundaryConditionList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeBoundaryConditionList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // MikeBoundaryConditionWeb and MikeBoundaryConditionReport fields should be null here
+                Assert.IsNull(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb);
+                Assert.IsNull(mikeBoundaryConditionList[0].MikeBoundaryConditionReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // MikeBoundaryConditionWeb fields should not be null and MikeBoundaryConditionReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));
+                }
+                if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText));
+                }
+                if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText));
+                }
+                Assert.IsNull(mikeBoundaryConditionList[0].MikeBoundaryConditionReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // MikeBoundaryConditionWeb and MikeBoundaryConditionReport fields should NOT be null here
+                if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
+                }
+                if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText));
+                }
+                if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));
+                }
+                if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.WebTideDataSetText));
+                }
+                if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.TVTypeText));
+                }
+                if (mikeBoundaryConditionList[0].MikeBoundaryConditionReport.MikeBoundaryConditionReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionReport.MikeBoundaryConditionReportTest));
+                }
+            }
+        }
+        private MikeBoundaryCondition GetFilledRandomMikeBoundaryCondition(string OmitPropName)
+        {
+            MikeBoundaryCondition mikeBoundaryCondition = new MikeBoundaryCondition();
+
+            if (OmitPropName != "MikeBoundaryConditionTVItemID") mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 48;
+            if (OmitPropName != "MikeBoundaryConditionCode") mikeBoundaryCondition.MikeBoundaryConditionCode = GetRandomString("", 5);
+            if (OmitPropName != "MikeBoundaryConditionName") mikeBoundaryCondition.MikeBoundaryConditionName = GetRandomString("", 5);
+            if (OmitPropName != "MikeBoundaryConditionLength_m") mikeBoundaryCondition.MikeBoundaryConditionLength_m = GetRandomDouble(1.0D, 100000.0D);
+            if (OmitPropName != "MikeBoundaryConditionFormat") mikeBoundaryCondition.MikeBoundaryConditionFormat = GetRandomString("", 5);
+            if (OmitPropName != "MikeBoundaryConditionLevelOrVelocity") mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity = (MikeBoundaryConditionLevelOrVelocityEnum)GetRandomEnumType(typeof(MikeBoundaryConditionLevelOrVelocityEnum));
+            if (OmitPropName != "WebTideDataSet") mikeBoundaryCondition.WebTideDataSet = (WebTideDataSetEnum)GetRandomEnumType(typeof(WebTideDataSetEnum));
+            if (OmitPropName != "NumberOfWebTideNodes") mikeBoundaryCondition.NumberOfWebTideNodes = GetRandomInt(0, 1000);
+            if (OmitPropName != "WebTideDataFromStartToEndDate") mikeBoundaryCondition.WebTideDataFromStartToEndDate = GetRandomString("", 20);
+            if (OmitPropName != "TVType") mikeBoundaryCondition.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "LastUpdateDate_UTC") mikeBoundaryCondition.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") mikeBoundaryCondition.LastUpdateContactTVItemID = 2;
+
+            return mikeBoundaryCondition;
+        }
+        #endregion Functions private
     }
 }

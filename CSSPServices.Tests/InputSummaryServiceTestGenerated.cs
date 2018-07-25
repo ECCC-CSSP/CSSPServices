@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private InputSummary GetFilledRandomInputSummary(string OmitPropName)
-        {
-            InputSummary inputSummary = new InputSummary();
-
-            if (OmitPropName != "Error") inputSummary.Error = GetRandomString("", 20);
-            if (OmitPropName != "Summary") inputSummary.Summary = GetRandomString("", 20);
-
-            return inputSummary;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void InputSummary_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    InputSummaryService inputSummaryService = new InputSummaryService(new GetParam(), dbTestDB, ContactID);
+                    InputSummaryService inputSummaryService = new InputSummaryService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetInputSummaryList() Skip Take
         #endregion Tests Generated for GetInputSummaryList() Skip Take
 
+        #region Tests Generated for GetInputSummaryList() Skip Take Order
+        #endregion Tests Generated for GetInputSummaryList() Skip Take Order
+
+        #region Tests Generated for GetInputSummaryList() Skip Take 2Order
+        #endregion Tests Generated for GetInputSummaryList() Skip Take 2Order
+
+        #region Tests Generated for GetInputSummaryList() Skip Take Order Where
+        #endregion Tests Generated for GetInputSummaryList() Skip Take Order Where
+
+        #region Tests Generated for GetInputSummaryList() Skip Take Order 2Where
+        #endregion Tests Generated for GetInputSummaryList() Skip Take Order 2Where
+
+        #region Tests Generated for GetInputSummaryList() 2Where
+        #endregion Tests Generated for GetInputSummaryList() 2Where
+
+        #region Functions private
+        private InputSummary GetFilledRandomInputSummary(string OmitPropName)
+        {
+            InputSummary inputSummary = new InputSummary();
+
+            if (OmitPropName != "Error") inputSummary.Error = GetRandomString("", 20);
+            if (OmitPropName != "Summary") inputSummary.Summary = GetRandomString("", 20);
+
+            return inputSummary;
+        }
+        #endregion Functions private
     }
 }

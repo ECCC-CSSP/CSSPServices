@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Coord GetFilledRandomCoord(string OmitPropName)
-        {
-            Coord coord = new Coord();
-
-            if (OmitPropName != "Lat") coord.Lat = GetRandomDouble(-180.0D, 180.0D);
-            if (OmitPropName != "Lng") coord.Lng = GetRandomDouble(-90.0D, 90.0D);
-            if (OmitPropName != "Ordinal") coord.Ordinal = GetRandomInt(0, 10000);
-
-            return coord;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Coord_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    CoordService coordService = new CoordService(new GetParam(), dbTestDB, ContactID);
+                    CoordService coordService = new CoordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetCoordList() Skip Take
         #endregion Tests Generated for GetCoordList() Skip Take
 
+        #region Tests Generated for GetCoordList() Skip Take Order
+        #endregion Tests Generated for GetCoordList() Skip Take Order
+
+        #region Tests Generated for GetCoordList() Skip Take 2Order
+        #endregion Tests Generated for GetCoordList() Skip Take 2Order
+
+        #region Tests Generated for GetCoordList() Skip Take Order Where
+        #endregion Tests Generated for GetCoordList() Skip Take Order Where
+
+        #region Tests Generated for GetCoordList() Skip Take Order 2Where
+        #endregion Tests Generated for GetCoordList() Skip Take Order 2Where
+
+        #region Tests Generated for GetCoordList() 2Where
+        #endregion Tests Generated for GetCoordList() 2Where
+
+        #region Functions private
+        private Coord GetFilledRandomCoord(string OmitPropName)
+        {
+            Coord coord = new Coord();
+
+            if (OmitPropName != "Lat") coord.Lat = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "Lng") coord.Lng = GetRandomDouble(-90.0D, 90.0D);
+            if (OmitPropName != "Ordinal") coord.Ordinal = GetRandomInt(0, 10000);
+
+            return coord;
+        }
+        #endregion Functions private
     }
 }

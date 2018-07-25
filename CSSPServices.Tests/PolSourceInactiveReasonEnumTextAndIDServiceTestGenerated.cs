@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private PolSourceInactiveReasonEnumTextAndID GetFilledRandomPolSourceInactiveReasonEnumTextAndID(string OmitPropName)
-        {
-            PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = new PolSourceInactiveReasonEnumTextAndID();
-
-            if (OmitPropName != "Text") polSourceInactiveReasonEnumTextAndID.Text = GetRandomString("", 20);
-            if (OmitPropName != "ID") polSourceInactiveReasonEnumTextAndID.ID = GetRandomInt(1, 11);
-
-            return polSourceInactiveReasonEnumTextAndID;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void PolSourceInactiveReasonEnumTextAndID_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(new GetParam(), dbTestDB, ContactID);
+                    PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take
         #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take
 
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take Order
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take Order
+
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take 2Order
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take 2Order
+
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take Order Where
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take Order Where
+
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take Order 2Where
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() Skip Take Order 2Where
+
+        #region Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() 2Where
+        #endregion Tests Generated for GetPolSourceInactiveReasonEnumTextAndIDList() 2Where
+
+        #region Functions private
+        private PolSourceInactiveReasonEnumTextAndID GetFilledRandomPolSourceInactiveReasonEnumTextAndID(string OmitPropName)
+        {
+            PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = new PolSourceInactiveReasonEnumTextAndID();
+
+            if (OmitPropName != "Text") polSourceInactiveReasonEnumTextAndID.Text = GetRandomString("", 20);
+            if (OmitPropName != "ID") polSourceInactiveReasonEnumTextAndID.ID = GetRandomInt(1, 11);
+
+            return polSourceInactiveReasonEnumTextAndID;
+        }
+        #endregion Functions private
     }
 }

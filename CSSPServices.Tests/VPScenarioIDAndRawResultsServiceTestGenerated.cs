@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private VPScenarioIDAndRawResults GetFilledRandomVPScenarioIDAndRawResults(string OmitPropName)
-        {
-            VPScenarioIDAndRawResults vpScenarioIDAndRawResults = new VPScenarioIDAndRawResults();
-
-            if (OmitPropName != "VPScenarioID") vpScenarioIDAndRawResults.VPScenarioID = GetRandomInt(1, 11);
-            if (OmitPropName != "RawResults") vpScenarioIDAndRawResults.RawResults = GetRandomString("", 20);
-
-            return vpScenarioIDAndRawResults;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void VPScenarioIDAndRawResults_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(new GetParam(), dbTestDB, ContactID);
+                    VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take
         #endregion Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take
 
+        #region Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take Order
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take Order
+
+        #region Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take 2Order
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take 2Order
+
+        #region Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take Order Where
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take Order Where
+
+        #region Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take Order 2Where
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsList() Skip Take Order 2Where
+
+        #region Tests Generated for GetVPScenarioIDAndRawResultsList() 2Where
+        #endregion Tests Generated for GetVPScenarioIDAndRawResultsList() 2Where
+
+        #region Functions private
+        private VPScenarioIDAndRawResults GetFilledRandomVPScenarioIDAndRawResults(string OmitPropName)
+        {
+            VPScenarioIDAndRawResults vpScenarioIDAndRawResults = new VPScenarioIDAndRawResults();
+
+            if (OmitPropName != "VPScenarioID") vpScenarioIDAndRawResults.VPScenarioID = GetRandomInt(1, 11);
+            if (OmitPropName != "RawResults") vpScenarioIDAndRawResults.RawResults = GetRandomString("", 20);
+
+            return vpScenarioIDAndRawResults;
+        }
+        #endregion Functions private
     }
 }

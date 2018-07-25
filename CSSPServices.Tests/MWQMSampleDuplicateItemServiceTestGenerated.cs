@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MWQMSampleDuplicateItem GetFilledRandomMWQMSampleDuplicateItem(string OmitPropName)
-        {
-            MWQMSampleDuplicateItem mwqmSampleDuplicateItem = new MWQMSampleDuplicateItem();
-
-            if (OmitPropName != "ParentSite") mwqmSampleDuplicateItem.ParentSite = GetRandomString("", 6);
-            if (OmitPropName != "DuplicateSite") mwqmSampleDuplicateItem.DuplicateSite = GetRandomString("", 6);
-
-            return mwqmSampleDuplicateItem;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MWQMSampleDuplicateItem_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take
         #endregion Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take
 
+        #region Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take Order
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take Order
+
+        #region Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take 2Order
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take 2Order
+
+        #region Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take Order Where
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take Order Where
+
+        #region Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMWQMSampleDuplicateItemList() 2Where
+        #endregion Tests Generated for GetMWQMSampleDuplicateItemList() 2Where
+
+        #region Functions private
+        private MWQMSampleDuplicateItem GetFilledRandomMWQMSampleDuplicateItem(string OmitPropName)
+        {
+            MWQMSampleDuplicateItem mwqmSampleDuplicateItem = new MWQMSampleDuplicateItem();
+
+            if (OmitPropName != "ParentSite") mwqmSampleDuplicateItem.ParentSite = GetRandomString("", 6);
+            if (OmitPropName != "DuplicateSite") mwqmSampleDuplicateItem.DuplicateSite = GetRandomString("", 6);
+
+            return mwqmSampleDuplicateItem;
+        }
+        #endregion Functions private
     }
 }

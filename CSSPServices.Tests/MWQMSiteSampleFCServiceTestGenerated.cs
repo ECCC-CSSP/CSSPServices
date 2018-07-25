@@ -32,35 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MWQMSiteSampleFC GetFilledRandomMWQMSiteSampleFC(string OmitPropName)
-        {
-            MWQMSiteSampleFC mwqmSiteSampleFC = new MWQMSiteSampleFC();
-
-            if (OmitPropName != "Error") mwqmSiteSampleFC.Error = GetRandomString("", 20);
-            if (OmitPropName != "SampleDate") mwqmSiteSampleFC.SampleDate = new DateTime(2005, 3, 6);
-            if (OmitPropName != "FC") mwqmSiteSampleFC.FC = GetRandomInt(1, 100000000);
-            // should implement a Range for the property Sal and type MWQMSiteSampleFC
-            // should implement a Range for the property Temp and type MWQMSiteSampleFC
-            // should implement a Range for the property PH and type MWQMSiteSampleFC
-            // should implement a Range for the property DO and type MWQMSiteSampleFC
-            // should implement a Range for the property Depth and type MWQMSiteSampleFC
-            // should implement a Range for the property SampCount and type MWQMSiteSampleFC
-            // should implement a Range for the property MinFC and type MWQMSiteSampleFC
-            // should implement a Range for the property MaxFC and type MWQMSiteSampleFC
-            // should implement a Range for the property GeoMean and type MWQMSiteSampleFC
-            // should implement a Range for the property Median and type MWQMSiteSampleFC
-            // should implement a Range for the property P90 and type MWQMSiteSampleFC
-            // should implement a Range for the property PercOver43 and type MWQMSiteSampleFC
-            // should implement a Range for the property PercOver260 and type MWQMSiteSampleFC
-
-            return mwqmSiteSampleFC;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MWQMSiteSampleFC_CRUD_And_Properties_Test()
@@ -71,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSiteSampleFCService mwqmSiteSampleFCService = new MWQMSiteSampleFCService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSiteSampleFCService mwqmSiteSampleFCService = new MWQMSiteSampleFCService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -107,5 +78,45 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetMWQMSiteSampleFCList() Skip Take
         #endregion Tests Generated for GetMWQMSiteSampleFCList() Skip Take
 
+        #region Tests Generated for GetMWQMSiteSampleFCList() Skip Take Order
+        #endregion Tests Generated for GetMWQMSiteSampleFCList() Skip Take Order
+
+        #region Tests Generated for GetMWQMSiteSampleFCList() Skip Take 2Order
+        #endregion Tests Generated for GetMWQMSiteSampleFCList() Skip Take 2Order
+
+        #region Tests Generated for GetMWQMSiteSampleFCList() Skip Take Order Where
+        #endregion Tests Generated for GetMWQMSiteSampleFCList() Skip Take Order Where
+
+        #region Tests Generated for GetMWQMSiteSampleFCList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMWQMSiteSampleFCList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMWQMSiteSampleFCList() 2Where
+        #endregion Tests Generated for GetMWQMSiteSampleFCList() 2Where
+
+        #region Functions private
+        private MWQMSiteSampleFC GetFilledRandomMWQMSiteSampleFC(string OmitPropName)
+        {
+            MWQMSiteSampleFC mwqmSiteSampleFC = new MWQMSiteSampleFC();
+
+            if (OmitPropName != "Error") mwqmSiteSampleFC.Error = GetRandomString("", 20);
+            if (OmitPropName != "SampleDate") mwqmSiteSampleFC.SampleDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "FC") mwqmSiteSampleFC.FC = GetRandomInt(1, 100000000);
+            // should implement a Range for the property Sal and type MWQMSiteSampleFC
+            // should implement a Range for the property Temp and type MWQMSiteSampleFC
+            // should implement a Range for the property PH and type MWQMSiteSampleFC
+            // should implement a Range for the property DO and type MWQMSiteSampleFC
+            // should implement a Range for the property Depth and type MWQMSiteSampleFC
+            // should implement a Range for the property SampCount and type MWQMSiteSampleFC
+            // should implement a Range for the property MinFC and type MWQMSiteSampleFC
+            // should implement a Range for the property MaxFC and type MWQMSiteSampleFC
+            // should implement a Range for the property GeoMean and type MWQMSiteSampleFC
+            // should implement a Range for the property Median and type MWQMSiteSampleFC
+            // should implement a Range for the property P90 and type MWQMSiteSampleFC
+            // should implement a Range for the property PercOver43 and type MWQMSiteSampleFC
+            // should implement a Range for the property PercOver260 and type MWQMSiteSampleFC
+
+            return mwqmSiteSampleFC;
+        }
+        #endregion Functions private
     }
 }

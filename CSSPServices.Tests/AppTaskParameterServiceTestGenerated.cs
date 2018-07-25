@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private AppTaskParameter GetFilledRandomAppTaskParameter(string OmitPropName)
-        {
-            AppTaskParameter appTaskParameter = new AppTaskParameter();
-
-            if (OmitPropName != "Name") appTaskParameter.Name = GetRandomString("", 5);
-            if (OmitPropName != "Value") appTaskParameter.Value = GetRandomString("", 5);
-
-            return appTaskParameter;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void AppTaskParameter_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    AppTaskParameterService appTaskParameterService = new AppTaskParameterService(new GetParam(), dbTestDB, ContactID);
+                    AppTaskParameterService appTaskParameterService = new AppTaskParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetAppTaskParameterList() Skip Take
         #endregion Tests Generated for GetAppTaskParameterList() Skip Take
 
+        #region Tests Generated for GetAppTaskParameterList() Skip Take Order
+        #endregion Tests Generated for GetAppTaskParameterList() Skip Take Order
+
+        #region Tests Generated for GetAppTaskParameterList() Skip Take 2Order
+        #endregion Tests Generated for GetAppTaskParameterList() Skip Take 2Order
+
+        #region Tests Generated for GetAppTaskParameterList() Skip Take Order Where
+        #endregion Tests Generated for GetAppTaskParameterList() Skip Take Order Where
+
+        #region Tests Generated for GetAppTaskParameterList() Skip Take Order 2Where
+        #endregion Tests Generated for GetAppTaskParameterList() Skip Take Order 2Where
+
+        #region Tests Generated for GetAppTaskParameterList() 2Where
+        #endregion Tests Generated for GetAppTaskParameterList() 2Where
+
+        #region Functions private
+        private AppTaskParameter GetFilledRandomAppTaskParameter(string OmitPropName)
+        {
+            AppTaskParameter appTaskParameter = new AppTaskParameter();
+
+            if (OmitPropName != "Name") appTaskParameter.Name = GetRandomString("", 5);
+            if (OmitPropName != "Value") appTaskParameter.Value = GetRandomString("", 5);
+
+            return appTaskParameter;
+        }
+        #endregion Functions private
     }
 }

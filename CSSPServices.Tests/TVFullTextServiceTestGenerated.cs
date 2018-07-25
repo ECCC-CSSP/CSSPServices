@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVFullText GetFilledRandomTVFullText(string OmitPropName)
-        {
-            TVFullText tvFullText = new TVFullText();
-
-            if (OmitPropName != "TVPath") tvFullText.TVPath = GetRandomString("", 6);
-            if (OmitPropName != "FullText") tvFullText.FullText = GetRandomString("", 6);
-
-            return tvFullText;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVFullText_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVFullTextService tvFullTextService = new TVFullTextService(new GetParam(), dbTestDB, ContactID);
+                    TVFullTextService tvFullTextService = new TVFullTextService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetTVFullTextList() Skip Take
         #endregion Tests Generated for GetTVFullTextList() Skip Take
 
+        #region Tests Generated for GetTVFullTextList() Skip Take Order
+        #endregion Tests Generated for GetTVFullTextList() Skip Take Order
+
+        #region Tests Generated for GetTVFullTextList() Skip Take 2Order
+        #endregion Tests Generated for GetTVFullTextList() Skip Take 2Order
+
+        #region Tests Generated for GetTVFullTextList() Skip Take Order Where
+        #endregion Tests Generated for GetTVFullTextList() Skip Take Order Where
+
+        #region Tests Generated for GetTVFullTextList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVFullTextList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVFullTextList() 2Where
+        #endregion Tests Generated for GetTVFullTextList() 2Where
+
+        #region Functions private
+        private TVFullText GetFilledRandomTVFullText(string OmitPropName)
+        {
+            TVFullText tvFullText = new TVFullText();
+
+            if (OmitPropName != "TVPath") tvFullText.TVPath = GetRandomString("", 6);
+            if (OmitPropName != "FullText") tvFullText.FullText = GetRandomString("", 6);
+
+            return tvFullText;
+        }
+        #endregion Functions private
     }
 }

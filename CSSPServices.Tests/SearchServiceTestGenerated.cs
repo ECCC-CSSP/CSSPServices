@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Search GetFilledRandomSearch(string OmitPropName)
-        {
-            Search search = new Search();
-
-            if (OmitPropName != "value") search.value = GetRandomString("", 6);
-            if (OmitPropName != "id") search.id = GetRandomInt(1, 11);
-
-            return search;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Search_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SearchService searchService = new SearchService(new GetParam(), dbTestDB, ContactID);
+                    SearchService searchService = new SearchService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetSearchList() Skip Take
         #endregion Tests Generated for GetSearchList() Skip Take
 
+        #region Tests Generated for GetSearchList() Skip Take Order
+        #endregion Tests Generated for GetSearchList() Skip Take Order
+
+        #region Tests Generated for GetSearchList() Skip Take 2Order
+        #endregion Tests Generated for GetSearchList() Skip Take 2Order
+
+        #region Tests Generated for GetSearchList() Skip Take Order Where
+        #endregion Tests Generated for GetSearchList() Skip Take Order Where
+
+        #region Tests Generated for GetSearchList() Skip Take Order 2Where
+        #endregion Tests Generated for GetSearchList() Skip Take Order 2Where
+
+        #region Tests Generated for GetSearchList() 2Where
+        #endregion Tests Generated for GetSearchList() 2Where
+
+        #region Functions private
+        private Search GetFilledRandomSearch(string OmitPropName)
+        {
+            Search search = new Search();
+
+            if (OmitPropName != "value") search.value = GetRandomString("", 6);
+            if (OmitPropName != "id") search.id = GetRandomInt(1, 11);
+
+            return search;
+        }
+        #endregion Functions private
     }
 }

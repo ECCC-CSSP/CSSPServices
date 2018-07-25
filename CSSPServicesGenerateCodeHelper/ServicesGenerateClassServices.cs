@@ -752,18 +752,18 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"        {");
                     if (TypeName == "AspNetUser")
                     {
-                        sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
+                        sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
                         sb.AppendLine(@"                                                where c.Id == Id");
                         sb.AppendLine(@"                                                select c);");
                     }
                     else
                     {
-                        sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
+                        sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())");
                         sb.AppendLine(@"                                                where c." + TypeName + @"ID == " + TypeName + @"ID");
                         sb.AppendLine(@"                                                select c);");
                     }
                     sb.AppendLine(@"");
-                    sb.AppendLine(@"            switch (GetParam.EntityQueryDetailType)");
+                    sb.AppendLine(@"            switch (Query.EntityQueryDetailType)");
                     sb.AppendLine(@"            {");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
                     sb.AppendLine(@"                    return " + TypeNameLower + @"Query.FirstOrDefault();");
@@ -791,9 +791,9 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"        }");
                     sb.AppendLine(@"        public IQueryable<" + TypeName + @"> Get" + TypeName + @"List()");
                     sb.AppendLine(@"        {");
-                    sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();");
+                    sb.AppendLine(@"            IQueryable<" + TypeName + @"> " + TypeNameLower + @"Query = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();");
                     sb.AppendLine(@"");
-                    sb.AppendLine(@"            switch (GetParam.EntityQueryDetailType)");
+                    sb.AppendLine(@"            switch (Query.EntityQueryDetailType)");
                     sb.AppendLine(@"            {");
                     sb.AppendLine(@"                case EntityQueryDetailTypeEnum.EntityOnly:");
                     sb.AppendLine(@"                    {");
@@ -1432,8 +1432,8 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        #endregion Properties");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Constructors");
-                sb.AppendLine(@"        public " + TypeName + @"Service(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)");
-                sb.AppendLine(@"            : base(getParam, db, ContactID)");
+                sb.AppendLine(@"        public " + TypeName + @"Service(Query query, CSSPWebToolsDBContext db, int ContactID)");
+                sb.AppendLine(@"            : base(query, db, ContactID)");
                 sb.AppendLine(@"        {");
                 sb.AppendLine(@"        }");
                 sb.AppendLine(@"        #endregion Constructors");

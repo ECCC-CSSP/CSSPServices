@@ -32,26 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MikeSource GetFilledRandomMikeSource(string OmitPropName)
-        {
-            MikeSource mikeSource = new MikeSource();
-
-            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 49;
-            if (OmitPropName != "IsContinuous") mikeSource.IsContinuous = true;
-            if (OmitPropName != "Include") mikeSource.Include = true;
-            if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;
-            if (OmitPropName != "SourceNumberString") mikeSource.SourceNumberString = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") mikeSource.LastUpdateContactTVItemID = 2;
-
-            return mikeSource;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MikeSource_CRUD_And_Properties_Test()
@@ -62,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeSourceService mikeSourceService = new MikeSourceService(new GetParam(), dbTestDB, ContactID);
+                    MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -283,14 +263,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeSourceService mikeSourceService = new MikeSourceService(new GetParam(), dbTestDB, ContactID);
+                    MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSource);
 
                     MikeSource mikeSourceRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mikeSourceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mikeSourceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -314,51 +294,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MikeSource fields
-                        Assert.IsNotNull(mikeSourceRet.MikeSourceID);
-                        Assert.IsNotNull(mikeSourceRet.MikeSourceTVItemID);
-                        Assert.IsNotNull(mikeSourceRet.IsContinuous);
-                        Assert.IsNotNull(mikeSourceRet.Include);
-                        Assert.IsNotNull(mikeSourceRet.IsRiver);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.SourceNumberString));
-                        Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MikeSourceWeb and MikeSourceReport fields should be null here
-                            Assert.IsNull(mikeSourceRet.MikeSourceWeb);
-                            Assert.IsNull(mikeSourceRet.MikeSourceReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MikeSourceWeb fields should not be null and MikeSourceReport fields should be null here
-                            if (mikeSourceRet.MikeSourceWeb.MikeSourceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.MikeSourceTVText));
-                            }
-                            if (mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(mikeSourceRet.MikeSourceReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MikeSourceWeb and MikeSourceReport fields should NOT be null here
-                            if (mikeSourceRet.MikeSourceWeb.MikeSourceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.MikeSourceTVText));
-                            }
-                            if (mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeSourceRet.MikeSourceReport.MikeSourceReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceReport.MikeSourceReportTest));
-                            }
-                        }
+                        CheckMikeSourceFields(new List<MikeSource>() { mikeSourceRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -375,14 +311,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeSourceService mikeSourceService = new MikeSourceService(new GetParam(), dbTestDB, ContactID);
+                    MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSource);
 
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mikeSourceService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mikeSourceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -406,51 +342,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MikeSource fields
-                        Assert.IsNotNull(mikeSourceList[0].MikeSourceID);
-                        Assert.IsNotNull(mikeSourceList[0].MikeSourceTVItemID);
-                        Assert.IsNotNull(mikeSourceList[0].IsContinuous);
-                        Assert.IsNotNull(mikeSourceList[0].Include);
-                        Assert.IsNotNull(mikeSourceList[0].IsRiver);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].SourceNumberString));
-                        Assert.IsNotNull(mikeSourceList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(mikeSourceList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MikeSourceWeb and MikeSourceReport fields should be null here
-                            Assert.IsNull(mikeSourceList[0].MikeSourceWeb);
-                            Assert.IsNull(mikeSourceList[0].MikeSourceReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MikeSourceWeb fields should not be null and MikeSourceReport fields should be null here
-                            if (mikeSourceList[0].MikeSourceWeb.MikeSourceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
-                            }
-                            if (mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(mikeSourceList[0].MikeSourceReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MikeSourceWeb and MikeSourceReport fields should NOT be null here
-                            if (mikeSourceList[0].MikeSourceWeb.MikeSourceTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
-                            }
-                            if (mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeSourceList[0].MikeSourceReport.MikeSourceReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceReport.MikeSourceReportTest));
-                            }
-                        }
+                        CheckMikeSourceFields(mikeSourceList, entityQueryDetailType);
                     }
                 }
             }
@@ -468,12 +360,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(MikeSource), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        MikeSourceService mikeSourceService = new MikeSourceService(getParam, dbTestDB, ContactID);
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceDirectQueryList = mikeSourceService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -497,13 +391,333 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, mikeSourceList.Count);
+                        CheckMikeSourceFields(mikeSourceList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
+                        Assert.AreEqual(1, mikeSourceList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetMikeSourceList() Skip Take
 
+        #region Tests Generated for GetMikeSourceList() Skip Take Order
+        [TestMethod]
+        public void GetMikeSourceList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1,  "MikeSourceID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceDirectQueryList = mikeSourceService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                            Assert.AreEqual(0, mikeSourceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceFields(mikeSourceList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
+                        Assert.AreEqual(1, mikeSourceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceList() Skip Take Order
+
+        #region Tests Generated for GetMikeSourceList() Skip Take 2Order
+        [TestMethod]
+        public void GetMikeSourceList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 1, 1, "MikeSourceID,MikeSourceTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceDirectQueryList = mikeSourceService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ThenBy(c => c.MikeSourceTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                            Assert.AreEqual(0, mikeSourceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceFields(mikeSourceList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
+                        Assert.AreEqual(1, mikeSourceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceList() Skip Take 2Order
+
+        #region Tests Generated for GetMikeSourceList() Skip Take Order Where
+        [TestMethod]
+        public void GetMikeSourceList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceID", "MikeSourceID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceDirectQueryList = mikeSourceService.GetRead().Where(c => c.MikeSourceID == 4).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                            Assert.AreEqual(0, mikeSourceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceFields(mikeSourceList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
+                        Assert.AreEqual(1, mikeSourceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceList() Skip Take Order Where
+
+        #region Tests Generated for GetMikeSourceList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetMikeSourceList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceID", "MikeSourceID,GT,2|MikeSourceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceDirectQueryList = mikeSourceService.GetRead().Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                            Assert.AreEqual(0, mikeSourceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceFields(mikeSourceList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
+                        Assert.AreEqual(1, mikeSourceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMikeSourceList() 2Where
+        [TestMethod]
+        public void GetMikeSourceList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSource> mikeSourceList = new List<MikeSource>();
+                    List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceService.Query = mikeSourceService.FillQuery(typeof(MikeSource), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeSourceID,GT,2|MikeSourceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceDirectQueryList = mikeSourceService.GetRead().Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                            Assert.AreEqual(0, mikeSourceList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceFields(mikeSourceList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceDirectQueryList[0].MikeSourceID, mikeSourceList[0].MikeSourceID);
+                        Assert.AreEqual(2, mikeSourceList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceList() 2Where
+
+        #region Functions private
+        private void CheckMikeSourceFields(List<MikeSource> mikeSourceList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // MikeSource fields
+            Assert.IsNotNull(mikeSourceList[0].MikeSourceID);
+            Assert.IsNotNull(mikeSourceList[0].MikeSourceTVItemID);
+            Assert.IsNotNull(mikeSourceList[0].IsContinuous);
+            Assert.IsNotNull(mikeSourceList[0].Include);
+            Assert.IsNotNull(mikeSourceList[0].IsRiver);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].SourceNumberString));
+            Assert.IsNotNull(mikeSourceList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeSourceList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // MikeSourceWeb and MikeSourceReport fields should be null here
+                Assert.IsNull(mikeSourceList[0].MikeSourceWeb);
+                Assert.IsNull(mikeSourceList[0].MikeSourceReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // MikeSourceWeb fields should not be null and MikeSourceReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
+                }
+                Assert.IsNull(mikeSourceList[0].MikeSourceReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // MikeSourceWeb and MikeSourceReport fields should NOT be null here
+                if (mikeSourceList[0].MikeSourceWeb.MikeSourceTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
+                }
+                if (mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
+                }
+                if (mikeSourceList[0].MikeSourceReport.MikeSourceReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceReport.MikeSourceReportTest));
+                }
+            }
+        }
+        private MikeSource GetFilledRandomMikeSource(string OmitPropName)
+        {
+            MikeSource mikeSource = new MikeSource();
+
+            if (OmitPropName != "MikeSourceTVItemID") mikeSource.MikeSourceTVItemID = 49;
+            if (OmitPropName != "IsContinuous") mikeSource.IsContinuous = true;
+            if (OmitPropName != "Include") mikeSource.Include = true;
+            if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;
+            if (OmitPropName != "SourceNumberString") mikeSource.SourceNumberString = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") mikeSource.LastUpdateContactTVItemID = 2;
+
+            return mikeSource;
+        }
+        #endregion Functions private
     }
 }

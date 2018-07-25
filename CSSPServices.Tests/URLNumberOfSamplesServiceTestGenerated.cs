@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private URLNumberOfSamples GetFilledRandomURLNumberOfSamples(string OmitPropName)
-        {
-            URLNumberOfSamples uRLNumberOfSamples = new URLNumberOfSamples();
-
-            if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 6);
-            // should implement a Range for the property NumberOfSamples and type URLNumberOfSamples
-
-            return uRLNumberOfSamples;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void URLNumberOfSamples_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(new GetParam(), dbTestDB, ContactID);
+                    URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetURLNumberOfSamplesList() Skip Take
         #endregion Tests Generated for GetURLNumberOfSamplesList() Skip Take
 
+        #region Tests Generated for GetURLNumberOfSamplesList() Skip Take Order
+        #endregion Tests Generated for GetURLNumberOfSamplesList() Skip Take Order
+
+        #region Tests Generated for GetURLNumberOfSamplesList() Skip Take 2Order
+        #endregion Tests Generated for GetURLNumberOfSamplesList() Skip Take 2Order
+
+        #region Tests Generated for GetURLNumberOfSamplesList() Skip Take Order Where
+        #endregion Tests Generated for GetURLNumberOfSamplesList() Skip Take Order Where
+
+        #region Tests Generated for GetURLNumberOfSamplesList() Skip Take Order 2Where
+        #endregion Tests Generated for GetURLNumberOfSamplesList() Skip Take Order 2Where
+
+        #region Tests Generated for GetURLNumberOfSamplesList() 2Where
+        #endregion Tests Generated for GetURLNumberOfSamplesList() 2Where
+
+        #region Functions private
+        private URLNumberOfSamples GetFilledRandomURLNumberOfSamples(string OmitPropName)
+        {
+            URLNumberOfSamples uRLNumberOfSamples = new URLNumberOfSamples();
+
+            if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 6);
+            // should implement a Range for the property NumberOfSamples and type URLNumberOfSamples
+
+            return uRLNumberOfSamples;
+        }
+        #endregion Functions private
     }
 }

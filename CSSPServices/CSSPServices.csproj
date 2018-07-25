@@ -453,14 +453,14 @@
     <Compile Include="EmailDistributionListLanguageServiceGenerated.cs" />
     <Compile Include="EmailDistributionListServiceExtra.cs" />
     <Compile Include="EmailDistributionListServiceGenerated.cs" />
-    <Compile Include="GetParamServiceExtra.cs" />
+    <Compile Include="QueryServiceExtra.cs" />
     <Compile Include="EmailServiceExtra.cs" />
     <Compile Include="EmailServiceGenerated.cs" />
     <Compile Include="FileItemListServiceGenerated.cs" />
     <Compile Include="FileItemServiceGenerated.cs" />
     <Compile Include="FilePurposeAndTextServiceGenerated.cs" />
     <Compile Include="FillPolSourceObsInfoChildServiceGenerated.cs" />
-    <Compile Include="GetParamServiceGenerated.cs" />
+    <Compile Include="QueryServiceGenerated.cs" />
     <Compile Include="HydrometricDataValueServiceExtra.cs" />
     <Compile Include="HydrometricDataValueServiceGenerated.cs" />
     <Compile Include="HydrometricSiteServiceExtra.cs" />

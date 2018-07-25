@@ -32,26 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Element GetFilledRandomElement(string OmitPropName)
-        {
-            Element element = new Element();
-
-            if (OmitPropName != "ID") element.ID = GetRandomInt(1, 11);
-            if (OmitPropName != "Type") element.Type = GetRandomInt(1, 11);
-            if (OmitPropName != "NumbOfNodes") element.NumbOfNodes = GetRandomInt(1, 11);
-            // should implement a Range for the property Value and type Element
-            // should implement a Range for the property XNode0 and type Element
-            // should implement a Range for the property YNode0 and type Element
-            // should implement a Range for the property ZNode0 and type Element
-
-            return element;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Element_CRUD_And_Properties_Test()
@@ -62,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ElementService elementService = new ElementService(new GetParam(), dbTestDB, ContactID);
+                    ElementService elementService = new ElementService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -98,5 +78,36 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetElementList() Skip Take
         #endregion Tests Generated for GetElementList() Skip Take
 
+        #region Tests Generated for GetElementList() Skip Take Order
+        #endregion Tests Generated for GetElementList() Skip Take Order
+
+        #region Tests Generated for GetElementList() Skip Take 2Order
+        #endregion Tests Generated for GetElementList() Skip Take 2Order
+
+        #region Tests Generated for GetElementList() Skip Take Order Where
+        #endregion Tests Generated for GetElementList() Skip Take Order Where
+
+        #region Tests Generated for GetElementList() Skip Take Order 2Where
+        #endregion Tests Generated for GetElementList() Skip Take Order 2Where
+
+        #region Tests Generated for GetElementList() 2Where
+        #endregion Tests Generated for GetElementList() 2Where
+
+        #region Functions private
+        private Element GetFilledRandomElement(string OmitPropName)
+        {
+            Element element = new Element();
+
+            if (OmitPropName != "ID") element.ID = GetRandomInt(1, 11);
+            if (OmitPropName != "Type") element.Type = GetRandomInt(1, 11);
+            if (OmitPropName != "NumbOfNodes") element.NumbOfNodes = GetRandomInt(1, 11);
+            // should implement a Range for the property Value and type Element
+            // should implement a Range for the property XNode0 and type Element
+            // should implement a Range for the property YNode0 and type Element
+            // should implement a Range for the property ZNode0 and type Element
+
+            return element;
+        }
+        #endregion Functions private
     }
 }

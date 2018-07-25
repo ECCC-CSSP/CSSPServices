@@ -32,19 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private VPFull GetFilledRandomVPFull(string OmitPropName)
-        {
-            VPFull vpFull = new VPFull();
-
-
-            return vpFull;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void VPFull_CRUD_And_Properties_Test()
@@ -55,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPFullService vpFullService = new VPFullService(new GetParam(), dbTestDB, ContactID);
+                    VPFullService vpFullService = new VPFullService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -91,5 +78,29 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetVPFullList() Skip Take
         #endregion Tests Generated for GetVPFullList() Skip Take
 
+        #region Tests Generated for GetVPFullList() Skip Take Order
+        #endregion Tests Generated for GetVPFullList() Skip Take Order
+
+        #region Tests Generated for GetVPFullList() Skip Take 2Order
+        #endregion Tests Generated for GetVPFullList() Skip Take 2Order
+
+        #region Tests Generated for GetVPFullList() Skip Take Order Where
+        #endregion Tests Generated for GetVPFullList() Skip Take Order Where
+
+        #region Tests Generated for GetVPFullList() Skip Take Order 2Where
+        #endregion Tests Generated for GetVPFullList() Skip Take Order 2Where
+
+        #region Tests Generated for GetVPFullList() 2Where
+        #endregion Tests Generated for GetVPFullList() 2Where
+
+        #region Functions private
+        private VPFull GetFilledRandomVPFull(string OmitPropName)
+        {
+            VPFull vpFull = new VPFull();
+
+
+            return vpFull;
+        }
+        #endregion Functions private
     }
 }

@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private FileItemList GetFilledRandomFileItemList(string OmitPropName)
-        {
-            FileItemList fileItemList = new FileItemList();
-
-            if (OmitPropName != "Text") fileItemList.Text = GetRandomString("", 6);
-            if (OmitPropName != "FileName") fileItemList.FileName = GetRandomString("", 6);
-
-            return fileItemList;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void FileItemList_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    FileItemListService fileItemListService = new FileItemListService(new GetParam(), dbTestDB, ContactID);
+                    FileItemListService fileItemListService = new FileItemListService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetFileItemListList() Skip Take
         #endregion Tests Generated for GetFileItemListList() Skip Take
 
+        #region Tests Generated for GetFileItemListList() Skip Take Order
+        #endregion Tests Generated for GetFileItemListList() Skip Take Order
+
+        #region Tests Generated for GetFileItemListList() Skip Take 2Order
+        #endregion Tests Generated for GetFileItemListList() Skip Take 2Order
+
+        #region Tests Generated for GetFileItemListList() Skip Take Order Where
+        #endregion Tests Generated for GetFileItemListList() Skip Take Order Where
+
+        #region Tests Generated for GetFileItemListList() Skip Take Order 2Where
+        #endregion Tests Generated for GetFileItemListList() Skip Take Order 2Where
+
+        #region Tests Generated for GetFileItemListList() 2Where
+        #endregion Tests Generated for GetFileItemListList() 2Where
+
+        #region Functions private
+        private FileItemList GetFilledRandomFileItemList(string OmitPropName)
+        {
+            FileItemList fileItemList = new FileItemList();
+
+            if (OmitPropName != "Text") fileItemList.Text = GetRandomString("", 6);
+            if (OmitPropName != "FileName") fileItemList.FileName = GetRandomString("", 6);
+
+            return fileItemList;
+        }
+        #endregion Functions private
     }
 }

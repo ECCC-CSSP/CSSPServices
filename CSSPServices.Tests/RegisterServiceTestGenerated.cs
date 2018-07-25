@@ -32,26 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Register GetFilledRandomRegister(string OmitPropName)
-        {
-            Register register = new Register();
-
-            if (OmitPropName != "LoginEmail") register.LoginEmail = GetRandomString("", 11);
-            if (OmitPropName != "FirstName") register.FirstName = GetRandomString("", 6);
-            if (OmitPropName != "Initial") register.Initial = GetRandomString("", 5);
-            if (OmitPropName != "LastName") register.LastName = GetRandomString("", 6);
-            if (OmitPropName != "WebName") register.WebName = GetRandomString("", 6);
-            if (OmitPropName != "Password") register.Password = GetRandomString("", 11);
-            if (OmitPropName != "ConfirmPassword") register.ConfirmPassword = GetRandomString("", 11);
-
-            return register;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Register_CRUD_And_Properties_Test()
@@ -62,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    RegisterService registerService = new RegisterService(new GetParam(), dbTestDB, ContactID);
+                    RegisterService registerService = new RegisterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -98,5 +78,36 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetRegisterList() Skip Take
         #endregion Tests Generated for GetRegisterList() Skip Take
 
+        #region Tests Generated for GetRegisterList() Skip Take Order
+        #endregion Tests Generated for GetRegisterList() Skip Take Order
+
+        #region Tests Generated for GetRegisterList() Skip Take 2Order
+        #endregion Tests Generated for GetRegisterList() Skip Take 2Order
+
+        #region Tests Generated for GetRegisterList() Skip Take Order Where
+        #endregion Tests Generated for GetRegisterList() Skip Take Order Where
+
+        #region Tests Generated for GetRegisterList() Skip Take Order 2Where
+        #endregion Tests Generated for GetRegisterList() Skip Take Order 2Where
+
+        #region Tests Generated for GetRegisterList() 2Where
+        #endregion Tests Generated for GetRegisterList() 2Where
+
+        #region Functions private
+        private Register GetFilledRandomRegister(string OmitPropName)
+        {
+            Register register = new Register();
+
+            if (OmitPropName != "LoginEmail") register.LoginEmail = GetRandomString("", 11);
+            if (OmitPropName != "FirstName") register.FirstName = GetRandomString("", 6);
+            if (OmitPropName != "Initial") register.Initial = GetRandomString("", 5);
+            if (OmitPropName != "LastName") register.LastName = GetRandomString("", 6);
+            if (OmitPropName != "WebName") register.WebName = GetRandomString("", 6);
+            if (OmitPropName != "Password") register.Password = GetRandomString("", 11);
+            if (OmitPropName != "ConfirmPassword") register.ConfirmPassword = GetRandomString("", 11);
+
+            return register;
+        }
+        #endregion Functions private
     }
 }

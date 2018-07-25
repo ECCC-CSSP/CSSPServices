@@ -32,25 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private VPResValues GetFilledRandomVPResValues(string OmitPropName)
-        {
-            VPResValues vpResValues = new VPResValues();
-
-            if (OmitPropName != "Conc") vpResValues.Conc = GetRandomInt(0, 10);
-            // should implement a Range for the property Dilu and type VPResValues
-            // should implement a Range for the property FarfieldWidth and type VPResValues
-            // should implement a Range for the property Distance and type VPResValues
-            // should implement a Range for the property TheTime and type VPResValues
-            // should implement a Range for the property Decay and type VPResValues
-
-            return vpResValues;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void VPResValues_CRUD_And_Properties_Test()
@@ -61,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPResValuesService vpResValuesService = new VPResValuesService(new GetParam(), dbTestDB, ContactID);
+                    VPResValuesService vpResValuesService = new VPResValuesService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -97,5 +78,35 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetVPResValuesList() Skip Take
         #endregion Tests Generated for GetVPResValuesList() Skip Take
 
+        #region Tests Generated for GetVPResValuesList() Skip Take Order
+        #endregion Tests Generated for GetVPResValuesList() Skip Take Order
+
+        #region Tests Generated for GetVPResValuesList() Skip Take 2Order
+        #endregion Tests Generated for GetVPResValuesList() Skip Take 2Order
+
+        #region Tests Generated for GetVPResValuesList() Skip Take Order Where
+        #endregion Tests Generated for GetVPResValuesList() Skip Take Order Where
+
+        #region Tests Generated for GetVPResValuesList() Skip Take Order 2Where
+        #endregion Tests Generated for GetVPResValuesList() Skip Take Order 2Where
+
+        #region Tests Generated for GetVPResValuesList() 2Where
+        #endregion Tests Generated for GetVPResValuesList() 2Where
+
+        #region Functions private
+        private VPResValues GetFilledRandomVPResValues(string OmitPropName)
+        {
+            VPResValues vpResValues = new VPResValues();
+
+            if (OmitPropName != "Conc") vpResValues.Conc = GetRandomInt(0, 10);
+            // should implement a Range for the property Dilu and type VPResValues
+            // should implement a Range for the property FarfieldWidth and type VPResValues
+            // should implement a Range for the property Distance and type VPResValues
+            // should implement a Range for the property TheTime and type VPResValues
+            // should implement a Range for the property Decay and type VPResValues
+
+            return vpResValues;
+        }
+        #endregion Functions private
     }
 }

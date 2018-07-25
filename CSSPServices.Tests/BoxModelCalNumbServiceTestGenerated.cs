@@ -32,29 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private BoxModelCalNumb GetFilledRandomBoxModelCalNumb(string OmitPropName)
-        {
-            BoxModelCalNumb boxModelCalNumb = new BoxModelCalNumb();
-
-            if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 5);
-            if (OmitPropName != "BoxModelResultType") boxModelCalNumb.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
-            if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "CalSurface_m2") boxModelCalNumb.CalSurface_m2 = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "CalVolume_m3") boxModelCalNumb.CalVolume_m3 = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "CalWidth_m") boxModelCalNumb.CalWidth_m = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "FixLength") boxModelCalNumb.FixLength = true;
-            if (OmitPropName != "FixWidth") boxModelCalNumb.FixWidth = true;
-            if (OmitPropName != "BoxModelResultTypeText") boxModelCalNumb.BoxModelResultTypeText = GetRandomString("", 5);
-
-            return boxModelCalNumb;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void BoxModelCalNumb_CRUD_And_Properties_Test()
@@ -65,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(new GetParam(), dbTestDB, ContactID);
+                    BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -101,5 +78,39 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetBoxModelCalNumbList() Skip Take
         #endregion Tests Generated for GetBoxModelCalNumbList() Skip Take
 
+        #region Tests Generated for GetBoxModelCalNumbList() Skip Take Order
+        #endregion Tests Generated for GetBoxModelCalNumbList() Skip Take Order
+
+        #region Tests Generated for GetBoxModelCalNumbList() Skip Take 2Order
+        #endregion Tests Generated for GetBoxModelCalNumbList() Skip Take 2Order
+
+        #region Tests Generated for GetBoxModelCalNumbList() Skip Take Order Where
+        #endregion Tests Generated for GetBoxModelCalNumbList() Skip Take Order Where
+
+        #region Tests Generated for GetBoxModelCalNumbList() Skip Take Order 2Where
+        #endregion Tests Generated for GetBoxModelCalNumbList() Skip Take Order 2Where
+
+        #region Tests Generated for GetBoxModelCalNumbList() 2Where
+        #endregion Tests Generated for GetBoxModelCalNumbList() 2Where
+
+        #region Functions private
+        private BoxModelCalNumb GetFilledRandomBoxModelCalNumb(string OmitPropName)
+        {
+            BoxModelCalNumb boxModelCalNumb = new BoxModelCalNumb();
+
+            if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 5);
+            if (OmitPropName != "BoxModelResultType") boxModelCalNumb.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
+            if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalSurface_m2") boxModelCalNumb.CalSurface_m2 = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalVolume_m3") boxModelCalNumb.CalVolume_m3 = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalWidth_m") boxModelCalNumb.CalWidth_m = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "FixLength") boxModelCalNumb.FixLength = true;
+            if (OmitPropName != "FixWidth") boxModelCalNumb.FixWidth = true;
+            if (OmitPropName != "BoxModelResultTypeText") boxModelCalNumb.BoxModelResultTypeText = GetRandomString("", 5);
+
+            return boxModelCalNumb;
+        }
+        #endregion Functions private
     }
 }

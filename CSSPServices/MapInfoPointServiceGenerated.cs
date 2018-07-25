@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public MapInfoPointService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public MapInfoPointService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -130,11 +130,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID)
         {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.MapInfoPointID == MapInfoPointID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return mapInfoPointQuery.FirstOrDefault();
@@ -148,9 +148,9 @@ namespace CSSPServices
         }
         public IQueryable<MapInfoPoint> GetMapInfoPointList()
         {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MapInfoPoint> mapInfoPointQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

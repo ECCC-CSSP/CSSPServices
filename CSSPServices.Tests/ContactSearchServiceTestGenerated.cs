@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private ContactSearch GetFilledRandomContactSearch(string OmitPropName)
-        {
-            ContactSearch contactSearch = new ContactSearch();
-
-            if (OmitPropName != "ContactID") contactSearch.ContactID = GetRandomInt(1, 11);
-            if (OmitPropName != "ContactTVItemID") contactSearch.ContactTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "FullName") contactSearch.FullName = GetRandomString("", 5);
-
-            return contactSearch;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void ContactSearch_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContactSearchService contactSearchService = new ContactSearchService(new GetParam(), dbTestDB, ContactID);
+                    ContactSearchService contactSearchService = new ContactSearchService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetContactSearchList() Skip Take
         #endregion Tests Generated for GetContactSearchList() Skip Take
 
+        #region Tests Generated for GetContactSearchList() Skip Take Order
+        #endregion Tests Generated for GetContactSearchList() Skip Take Order
+
+        #region Tests Generated for GetContactSearchList() Skip Take 2Order
+        #endregion Tests Generated for GetContactSearchList() Skip Take 2Order
+
+        #region Tests Generated for GetContactSearchList() Skip Take Order Where
+        #endregion Tests Generated for GetContactSearchList() Skip Take Order Where
+
+        #region Tests Generated for GetContactSearchList() Skip Take Order 2Where
+        #endregion Tests Generated for GetContactSearchList() Skip Take Order 2Where
+
+        #region Tests Generated for GetContactSearchList() 2Where
+        #endregion Tests Generated for GetContactSearchList() 2Where
+
+        #region Functions private
+        private ContactSearch GetFilledRandomContactSearch(string OmitPropName)
+        {
+            ContactSearch contactSearch = new ContactSearch();
+
+            if (OmitPropName != "ContactID") contactSearch.ContactID = GetRandomInt(1, 11);
+            if (OmitPropName != "ContactTVItemID") contactSearch.ContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "FullName") contactSearch.FullName = GetRandomString("", 5);
+
+            return contactSearch;
+        }
+        #endregion Functions private
     }
 }

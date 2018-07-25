@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private LastUpdateAndContact GetFilledRandomLastUpdateAndContact(string OmitPropName)
-        {
-            LastUpdateAndContact lastUpdateAndContact = new LastUpdateAndContact();
-
-            if (OmitPropName != "Err") lastUpdateAndContact.Err = GetRandomString("", 20);
-            if (OmitPropName != "LastUpdateAndContactDate_UTC") lastUpdateAndContact.LastUpdateAndContactDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateAndContactTVItemID") lastUpdateAndContact.LastUpdateAndContactTVItemID = GetRandomInt(1, 11);
-
-            return lastUpdateAndContact;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void LastUpdateAndContact_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    LastUpdateAndContactService lastUpdateAndContactService = new LastUpdateAndContactService(new GetParam(), dbTestDB, ContactID);
+                    LastUpdateAndContactService lastUpdateAndContactService = new LastUpdateAndContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetLastUpdateAndContactList() Skip Take
         #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take
 
+        #region Tests Generated for GetLastUpdateAndContactList() Skip Take Order
+        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take Order
+
+        #region Tests Generated for GetLastUpdateAndContactList() Skip Take 2Order
+        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take 2Order
+
+        #region Tests Generated for GetLastUpdateAndContactList() Skip Take Order Where
+        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take Order Where
+
+        #region Tests Generated for GetLastUpdateAndContactList() Skip Take Order 2Where
+        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take Order 2Where
+
+        #region Tests Generated for GetLastUpdateAndContactList() 2Where
+        #endregion Tests Generated for GetLastUpdateAndContactList() 2Where
+
+        #region Functions private
+        private LastUpdateAndContact GetFilledRandomLastUpdateAndContact(string OmitPropName)
+        {
+            LastUpdateAndContact lastUpdateAndContact = new LastUpdateAndContact();
+
+            if (OmitPropName != "Err") lastUpdateAndContact.Err = GetRandomString("", 20);
+            if (OmitPropName != "LastUpdateAndContactDate_UTC") lastUpdateAndContact.LastUpdateAndContactDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateAndContactTVItemID") lastUpdateAndContact.LastUpdateAndContactTVItemID = GetRandomInt(1, 11);
+
+            return lastUpdateAndContact;
+        }
+        #endregion Functions private
     }
 }

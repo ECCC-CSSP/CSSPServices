@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVItemInfrastructureTypeTVItemLink GetFilledRandomTVItemInfrastructureTypeTVItemLink(string OmitPropName)
-        {
-            TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = new TVItemInfrastructureTypeTVItemLink();
-
-            if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
-            // should implement a Range for the property SeeOtherTVItemID and type TVItemInfrastructureTypeTVItemLink
-            if (OmitPropName != "InfrastructureTypeText") tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText = GetRandomString("", 5);
-
-            return tvItemInfrastructureTypeTVItemLink;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVItemInfrastructureTypeTVItemLink_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemInfrastructureTypeTVItemLinkService tvItemInfrastructureTypeTVItemLinkService = new TVItemInfrastructureTypeTVItemLinkService(new GetParam(), dbTestDB, ContactID);
+                    TVItemInfrastructureTypeTVItemLinkService tvItemInfrastructureTypeTVItemLinkService = new TVItemInfrastructureTypeTVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take
         #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take
 
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take Order
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take Order
+
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take 2Order
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take 2Order
+
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take Order Where
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take Order Where
+
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() 2Where
+        #endregion Tests Generated for GetTVItemInfrastructureTypeTVItemLinkList() 2Where
+
+        #region Functions private
+        private TVItemInfrastructureTypeTVItemLink GetFilledRandomTVItemInfrastructureTypeTVItemLink(string OmitPropName)
+        {
+            TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = new TVItemInfrastructureTypeTVItemLink();
+
+            if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
+            // should implement a Range for the property SeeOtherTVItemID and type TVItemInfrastructureTypeTVItemLink
+            if (OmitPropName != "InfrastructureTypeText") tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText = GetRandomString("", 5);
+
+            return tvItemInfrastructureTypeTVItemLink;
+        }
+        #endregion Functions private
     }
 }

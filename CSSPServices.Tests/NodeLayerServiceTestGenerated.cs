@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private NodeLayer GetFilledRandomNodeLayer(string OmitPropName)
-        {
-            NodeLayer nodeLayer = new NodeLayer();
-
-            if (OmitPropName != "Layer") nodeLayer.Layer = GetRandomInt(1, 100);
-            // should implement a Range for the property Z and type NodeLayer
-
-            return nodeLayer;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void NodeLayer_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    NodeLayerService nodeLayerService = new NodeLayerService(new GetParam(), dbTestDB, ContactID);
+                    NodeLayerService nodeLayerService = new NodeLayerService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetNodeLayerList() Skip Take
         #endregion Tests Generated for GetNodeLayerList() Skip Take
 
+        #region Tests Generated for GetNodeLayerList() Skip Take Order
+        #endregion Tests Generated for GetNodeLayerList() Skip Take Order
+
+        #region Tests Generated for GetNodeLayerList() Skip Take 2Order
+        #endregion Tests Generated for GetNodeLayerList() Skip Take 2Order
+
+        #region Tests Generated for GetNodeLayerList() Skip Take Order Where
+        #endregion Tests Generated for GetNodeLayerList() Skip Take Order Where
+
+        #region Tests Generated for GetNodeLayerList() Skip Take Order 2Where
+        #endregion Tests Generated for GetNodeLayerList() Skip Take Order 2Where
+
+        #region Tests Generated for GetNodeLayerList() 2Where
+        #endregion Tests Generated for GetNodeLayerList() 2Where
+
+        #region Functions private
+        private NodeLayer GetFilledRandomNodeLayer(string OmitPropName)
+        {
+            NodeLayer nodeLayer = new NodeLayer();
+
+            if (OmitPropName != "Layer") nodeLayer.Layer = GetRandomInt(1, 100);
+            // should implement a Range for the property Z and type NodeLayer
+
+            return nodeLayer;
+        }
+        #endregion Functions private
     }
 }

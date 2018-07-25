@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private SamplingPlanAndFilesLabSheetCount GetFilledRandomSamplingPlanAndFilesLabSheetCount(string OmitPropName)
-        {
-            SamplingPlanAndFilesLabSheetCount samplingPlanAndFilesLabSheetCount = new SamplingPlanAndFilesLabSheetCount();
-
-            if (OmitPropName != "LabSheetHistoryCount") samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount = GetRandomInt(0, 10);
-            if (OmitPropName != "LabSheetTransferredCount") samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount = GetRandomInt(0, 10);
-
-            return samplingPlanAndFilesLabSheetCount;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void SamplingPlanAndFilesLabSheetCount_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    SamplingPlanAndFilesLabSheetCountService samplingPlanAndFilesLabSheetCountService = new SamplingPlanAndFilesLabSheetCountService(new GetParam(), dbTestDB, ContactID);
+                    SamplingPlanAndFilesLabSheetCountService samplingPlanAndFilesLabSheetCountService = new SamplingPlanAndFilesLabSheetCountService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take
         #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take
 
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take Order
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take Order
+
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take 2Order
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take 2Order
+
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take Order Where
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take Order Where
+
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take Order 2Where
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() Skip Take Order 2Where
+
+        #region Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() 2Where
+        #endregion Tests Generated for GetSamplingPlanAndFilesLabSheetCountList() 2Where
+
+        #region Functions private
+        private SamplingPlanAndFilesLabSheetCount GetFilledRandomSamplingPlanAndFilesLabSheetCount(string OmitPropName)
+        {
+            SamplingPlanAndFilesLabSheetCount samplingPlanAndFilesLabSheetCount = new SamplingPlanAndFilesLabSheetCount();
+
+            if (OmitPropName != "LabSheetHistoryCount") samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount = GetRandomInt(0, 10);
+            if (OmitPropName != "LabSheetTransferredCount") samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount = GetRandomInt(0, 10);
+
+            return samplingPlanAndFilesLabSheetCount;
+        }
+        #endregion Functions private
     }
 }

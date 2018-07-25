@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public TVTypeUserAuthorizationService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public TVTypeUserAuthorizationService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -138,11 +138,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVTypeUserAuthorization GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
         {
-            IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return tvTypeUserAuthorizationQuery.FirstOrDefault();
@@ -156,9 +156,9 @@ namespace CSSPServices
         }
         public IQueryable<TVTypeUserAuthorization> GetTVTypeUserAuthorizationList()
         {
-            IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

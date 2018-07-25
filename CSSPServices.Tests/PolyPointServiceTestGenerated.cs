@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private PolyPoint GetFilledRandomPolyPoint(string OmitPropName)
-        {
-            PolyPoint polyPoint = new PolyPoint();
-
-            if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomDouble(-180.0D, 180.0D);
-            if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomDouble(-90.0D, 90.0D);
-            // should implement a Range for the property Z and type PolyPoint
-
-            return polyPoint;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void PolyPoint_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolyPointService polyPointService = new PolyPointService(new GetParam(), dbTestDB, ContactID);
+                    PolyPointService polyPointService = new PolyPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetPolyPointList() Skip Take
         #endregion Tests Generated for GetPolyPointList() Skip Take
 
+        #region Tests Generated for GetPolyPointList() Skip Take Order
+        #endregion Tests Generated for GetPolyPointList() Skip Take Order
+
+        #region Tests Generated for GetPolyPointList() Skip Take 2Order
+        #endregion Tests Generated for GetPolyPointList() Skip Take 2Order
+
+        #region Tests Generated for GetPolyPointList() Skip Take Order Where
+        #endregion Tests Generated for GetPolyPointList() Skip Take Order Where
+
+        #region Tests Generated for GetPolyPointList() Skip Take Order 2Where
+        #endregion Tests Generated for GetPolyPointList() Skip Take Order 2Where
+
+        #region Tests Generated for GetPolyPointList() 2Where
+        #endregion Tests Generated for GetPolyPointList() 2Where
+
+        #region Functions private
+        private PolyPoint GetFilledRandomPolyPoint(string OmitPropName)
+        {
+            PolyPoint polyPoint = new PolyPoint();
+
+            if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomDouble(-90.0D, 90.0D);
+            // should implement a Range for the property Z and type PolyPoint
+
+            return polyPoint;
+        }
+        #endregion Functions private
     }
 }

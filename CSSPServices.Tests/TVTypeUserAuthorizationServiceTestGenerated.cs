@@ -32,24 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVTypeUserAuthorization GetFilledRandomTVTypeUserAuthorization(string OmitPropName)
-        {
-            TVTypeUserAuthorization tvTypeUserAuthorization = new TVTypeUserAuthorization();
-
-            if (OmitPropName != "ContactTVItemID") tvTypeUserAuthorization.ContactTVItemID = 2;
-            if (OmitPropName != "TVType") tvTypeUserAuthorization.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "TVAuth") tvTypeUserAuthorization.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") tvTypeUserAuthorization.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") tvTypeUserAuthorization.LastUpdateContactTVItemID = 2;
-
-            return tvTypeUserAuthorization;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVTypeUserAuthorization_CRUD_And_Properties_Test()
@@ -60,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new GetParam(), dbTestDB, ContactID);
+                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -268,14 +250,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new GetParam(), dbTestDB, ContactID);
+                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
                     TVTypeUserAuthorization tvTypeUserAuthorizationRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        tvTypeUserAuthorizationService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        tvTypeUserAuthorizationService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -299,65 +281,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // TVTypeUserAuthorization fields
-                        Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
-                        Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVItemID);
-                        Assert.IsNotNull(tvTypeUserAuthorizationRet.TVType);
-                        Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuth);
-                        Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should be null here
-                            Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb);
-                            Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // TVTypeUserAuthorizationWeb fields should not be null and TVTypeUserAuthorizationReport fields should be null here
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText));
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText));
-                            }
-                            Assert.IsNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should NOT be null here
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.ContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVTypeText));
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationWeb.TVAuthText));
-                            }
-                            if (tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest));
-                            }
-                        }
+                        CheckTVTypeUserAuthorizationFields(new List<TVTypeUserAuthorization>() { tvTypeUserAuthorizationRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -374,14 +298,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new GetParam(), dbTestDB, ContactID);
+                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
                     List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        tvTypeUserAuthorizationService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        tvTypeUserAuthorizationService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -405,65 +329,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // TVTypeUserAuthorization fields
-                        Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
-                        Assert.IsNotNull(tvTypeUserAuthorizationList[0].ContactTVItemID);
-                        Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVType);
-                        Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVAuth);
-                        Assert.IsNotNull(tvTypeUserAuthorizationList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(tvTypeUserAuthorizationList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should be null here
-                            Assert.IsNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb);
-                            Assert.IsNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // TVTypeUserAuthorizationWeb fields should not be null and TVTypeUserAuthorizationReport fields should be null here
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText));
-                            }
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText));
-                            }
-                            Assert.IsNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should NOT be null here
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
-                            }
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText));
-                            }
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText));
-                            }
-                            if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest));
-                            }
-                        }
+                        CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList, entityQueryDetailType);
                     }
                 }
             }
@@ -481,12 +347,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(TVTypeUserAuthorization), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(getParam, dbTestDB, ContactID);
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -510,13 +378,345 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, tvTypeUserAuthorizationList.Count);
+                        CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList, entityQueryDetailType);
+                        Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        Assert.AreEqual(1, tvTypeUserAuthorizationList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take
 
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1,  "TVTypeUserAuthorizationID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            Assert.AreEqual(0, tvTypeUserAuthorizationList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList, entityQueryDetailType);
+                        Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        Assert.AreEqual(1, tvTypeUserAuthorizationList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2Order
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "TVTypeUserAuthorizationID,ContactTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ThenBy(c => c.ContactTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            Assert.AreEqual(0, tvTypeUserAuthorizationList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList, entityQueryDetailType);
+                        Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        Assert.AreEqual(1, tvTypeUserAuthorizationList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take 2Order
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order Where
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "TVTypeUserAuthorizationID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Where(c => c.TVTypeUserAuthorizationID == 4).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            Assert.AreEqual(0, tvTypeUserAuthorizationList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList, entityQueryDetailType);
+                        Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        Assert.AreEqual(1, tvTypeUserAuthorizationList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order Where
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            Assert.AreEqual(0, tvTypeUserAuthorizationList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList, entityQueryDetailType);
+                        Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        Assert.AreEqual(1, tvTypeUserAuthorizationList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVTypeUserAuthorizationList() 2Where
+        [TestMethod]
+        public void GetTVTypeUserAuthorizationList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationList = new List<TVTypeUserAuthorization>();
+                    List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                            Assert.AreEqual(0, tvTypeUserAuthorizationList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            tvTypeUserAuthorizationList = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckTVTypeUserAuthorizationFields(tvTypeUserAuthorizationList, entityQueryDetailType);
+                        Assert.AreEqual(tvTypeUserAuthorizationDirectQueryList[0].TVTypeUserAuthorizationID, tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+                        Assert.AreEqual(2, tvTypeUserAuthorizationList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetTVTypeUserAuthorizationList() 2Where
+
+        #region Functions private
+        private void CheckTVTypeUserAuthorizationFields(List<TVTypeUserAuthorization> tvTypeUserAuthorizationList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // TVTypeUserAuthorization fields
+            Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationID);
+            Assert.IsNotNull(tvTypeUserAuthorizationList[0].ContactTVItemID);
+            Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVType);
+            Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVAuth);
+            Assert.IsNotNull(tvTypeUserAuthorizationList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(tvTypeUserAuthorizationList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should be null here
+                Assert.IsNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb);
+                Assert.IsNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // TVTypeUserAuthorizationWeb fields should not be null and TVTypeUserAuthorizationReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText));
+                }
+                if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText));
+                }
+                Assert.IsNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should NOT be null here
+                if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText));
+                }
+                if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
+                }
+                if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText));
+                }
+                if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVAuthText));
+                }
+                if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationReport.TVTypeUserAuthorizationReportTest));
+                }
+            }
+        }
+        private TVTypeUserAuthorization GetFilledRandomTVTypeUserAuthorization(string OmitPropName)
+        {
+            TVTypeUserAuthorization tvTypeUserAuthorization = new TVTypeUserAuthorization();
+
+            if (OmitPropName != "ContactTVItemID") tvTypeUserAuthorization.ContactTVItemID = 2;
+            if (OmitPropName != "TVType") tvTypeUserAuthorization.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "TVAuth") tvTypeUserAuthorization.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
+            if (OmitPropName != "LastUpdateDate_UTC") tvTypeUserAuthorization.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvTypeUserAuthorization.LastUpdateContactTVItemID = 2;
+
+            return tvTypeUserAuthorization;
+        }
+        #endregion Functions private
     }
 }

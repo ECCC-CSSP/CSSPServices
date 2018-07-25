@@ -32,26 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVItemTVAuth GetFilledRandomTVItemTVAuth(string OmitPropName)
-        {
-            TVItemTVAuth tvItemTVAuth = new TVItemTVAuth();
-
-            if (OmitPropName != "Error") tvItemTVAuth.Error = GetRandomString("", 20);
-            if (OmitPropName != "TVItemUserAuthID") tvItemTVAuth.TVItemUserAuthID = GetRandomInt(1, 11);
-            if (OmitPropName != "TVText") tvItemTVAuth.TVText = GetRandomString("", 6);
-            if (OmitPropName != "TVItemID1") tvItemTVAuth.TVItemID1 = GetRandomInt(1, 11);
-            if (OmitPropName != "TVTypeStr") tvItemTVAuth.TVTypeStr = GetRandomString("", 6);
-            if (OmitPropName != "TVAuth") tvItemTVAuth.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
-            if (OmitPropName != "TVAuthText") tvItemTVAuth.TVAuthText = GetRandomString("", 5);
-
-            return tvItemTVAuth;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVItemTVAuth_CRUD_And_Properties_Test()
@@ -62,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(new GetParam(), dbTestDB, ContactID);
+                    TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -98,5 +78,36 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetTVItemTVAuthList() Skip Take
         #endregion Tests Generated for GetTVItemTVAuthList() Skip Take
 
+        #region Tests Generated for GetTVItemTVAuthList() Skip Take Order
+        #endregion Tests Generated for GetTVItemTVAuthList() Skip Take Order
+
+        #region Tests Generated for GetTVItemTVAuthList() Skip Take 2Order
+        #endregion Tests Generated for GetTVItemTVAuthList() Skip Take 2Order
+
+        #region Tests Generated for GetTVItemTVAuthList() Skip Take Order Where
+        #endregion Tests Generated for GetTVItemTVAuthList() Skip Take Order Where
+
+        #region Tests Generated for GetTVItemTVAuthList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVItemTVAuthList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVItemTVAuthList() 2Where
+        #endregion Tests Generated for GetTVItemTVAuthList() 2Where
+
+        #region Functions private
+        private TVItemTVAuth GetFilledRandomTVItemTVAuth(string OmitPropName)
+        {
+            TVItemTVAuth tvItemTVAuth = new TVItemTVAuth();
+
+            if (OmitPropName != "Error") tvItemTVAuth.Error = GetRandomString("", 20);
+            if (OmitPropName != "TVItemUserAuthID") tvItemTVAuth.TVItemUserAuthID = GetRandomInt(1, 11);
+            if (OmitPropName != "TVText") tvItemTVAuth.TVText = GetRandomString("", 6);
+            if (OmitPropName != "TVItemID1") tvItemTVAuth.TVItemID1 = GetRandomInt(1, 11);
+            if (OmitPropName != "TVTypeStr") tvItemTVAuth.TVTypeStr = GetRandomString("", 6);
+            if (OmitPropName != "TVAuth") tvItemTVAuth.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
+            if (OmitPropName != "TVAuthText") tvItemTVAuth.TVAuthText = GetRandomString("", 5);
+
+            return tvItemTVAuth;
+        }
+        #endregion Functions private
     }
 }

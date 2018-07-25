@@ -32,36 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MWQMSample GetFilledRandomMWQMSample(string OmitPropName)
-        {
-            MWQMSample mwqmSample = new MWQMSample();
-
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = 40;
-            if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = 46;
-            if (OmitPropName != "SampleDateTime_Local") mwqmSample.SampleDateTime_Local = new DateTime(2005, 3, 6);
-            if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "FecCol_MPN_100ml") mwqmSample.FecCol_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "Salinity_PPT") mwqmSample.Salinity_PPT = GetRandomDouble(0.0D, 40.0D);
-            if (OmitPropName != "WaterTemp_C") mwqmSample.WaterTemp_C = GetRandomDouble(-10.0D, 40.0D);
-            if (OmitPropName != "PH") mwqmSample.PH = GetRandomDouble(0.0D, 14.0D);
-            if (OmitPropName != "SampleTypesText") mwqmSample.SampleTypesText = GetRandomString("", 5);
-            if (OmitPropName != "SampleType_old") mwqmSample.SampleType_old = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
-            if (OmitPropName != "Tube_10") mwqmSample.Tube_10 = GetRandomInt(0, 5);
-            if (OmitPropName != "Tube_1_0") mwqmSample.Tube_1_0 = GetRandomInt(0, 5);
-            if (OmitPropName != "Tube_0_1") mwqmSample.Tube_0_1 = GetRandomInt(0, 5);
-            if (OmitPropName != "ProcessedBy") mwqmSample.ProcessedBy = GetRandomString("", 5);
-            if (OmitPropName != "UseForOpenData") mwqmSample.UseForOpenData = true;
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmSample.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSample.LastUpdateContactTVItemID = 2;
-
-            return mwqmSample;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MWQMSample_CRUD_And_Properties_Test()
@@ -72,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSampleService mwqmSampleService = new MWQMSampleService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -511,14 +481,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSampleService mwqmSampleService = new MWQMSampleService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MWQMSample mwqmSample = (from c in mwqmSampleService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSample);
 
                     MWQMSample mwqmSampleRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mwqmSampleService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSampleService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -542,104 +512,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MWQMSample fields
-                        Assert.IsNotNull(mwqmSampleRet.MWQMSampleID);
-                        Assert.IsNotNull(mwqmSampleRet.MWQMSiteTVItemID);
-                        Assert.IsNotNull(mwqmSampleRet.MWQMRunTVItemID);
-                        Assert.IsNotNull(mwqmSampleRet.SampleDateTime_Local);
-                        if (mwqmSampleRet.Depth_m != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.Depth_m);
-                        }
-                        Assert.IsNotNull(mwqmSampleRet.FecCol_MPN_100ml);
-                        if (mwqmSampleRet.Salinity_PPT != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.Salinity_PPT);
-                        }
-                        if (mwqmSampleRet.WaterTemp_C != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.WaterTemp_C);
-                        }
-                        if (mwqmSampleRet.PH != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.PH);
-                        }
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.SampleTypesText));
-                        if (mwqmSampleRet.SampleType_old != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.SampleType_old);
-                        }
-                        if (mwqmSampleRet.Tube_10 != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.Tube_10);
-                        }
-                        if (mwqmSampleRet.Tube_1_0 != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.Tube_1_0);
-                        }
-                        if (mwqmSampleRet.Tube_0_1 != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleRet.Tube_0_1);
-                        }
-                        if (mwqmSampleRet.ProcessedBy != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.ProcessedBy));
-                        }
-                        Assert.IsNotNull(mwqmSampleRet.UseForOpenData);
-                        Assert.IsNotNull(mwqmSampleRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(mwqmSampleRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MWQMSampleWeb and MWQMSampleReport fields should be null here
-                            Assert.IsNull(mwqmSampleRet.MWQMSampleWeb);
-                            Assert.IsNull(mwqmSampleRet.MWQMSampleReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MWQMSampleWeb fields should not be null and MWQMSampleReport fields should be null here
-                            if (mwqmSampleRet.MWQMSampleWeb.MWQMSiteTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.MWQMSiteTVText));
-                            }
-                            if (mwqmSampleRet.MWQMSampleWeb.MWQMRunTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.MWQMRunTVText));
-                            }
-                            if (mwqmSampleRet.MWQMSampleWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSampleRet.MWQMSampleWeb.SampleType_oldText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.SampleType_oldText));
-                            }
-                            Assert.IsNull(mwqmSampleRet.MWQMSampleReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MWQMSampleWeb and MWQMSampleReport fields should NOT be null here
-                            if (mwqmSampleRet.MWQMSampleWeb.MWQMSiteTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.MWQMSiteTVText));
-                            }
-                            if (mwqmSampleRet.MWQMSampleWeb.MWQMRunTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.MWQMRunTVText));
-                            }
-                            if (mwqmSampleRet.MWQMSampleWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSampleRet.MWQMSampleWeb.SampleType_oldText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleWeb.SampleType_oldText));
-                            }
-                            if (mwqmSampleRet.MWQMSampleReport.MWQMSampleReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSampleReport.MWQMSampleReportTest));
-                            }
-                        }
+                        CheckMWQMSampleFields(new List<MWQMSample>() { mwqmSampleRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -656,14 +529,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSampleService mwqmSampleService = new MWQMSampleService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MWQMSample mwqmSample = (from c in mwqmSampleService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSample);
 
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mwqmSampleService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSampleService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -687,104 +560,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MWQMSample fields
-                        Assert.IsNotNull(mwqmSampleList[0].MWQMSampleID);
-                        Assert.IsNotNull(mwqmSampleList[0].MWQMSiteTVItemID);
-                        Assert.IsNotNull(mwqmSampleList[0].MWQMRunTVItemID);
-                        Assert.IsNotNull(mwqmSampleList[0].SampleDateTime_Local);
-                        if (mwqmSampleList[0].Depth_m != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].Depth_m);
-                        }
-                        Assert.IsNotNull(mwqmSampleList[0].FecCol_MPN_100ml);
-                        if (mwqmSampleList[0].Salinity_PPT != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].Salinity_PPT);
-                        }
-                        if (mwqmSampleList[0].WaterTemp_C != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].WaterTemp_C);
-                        }
-                        if (mwqmSampleList[0].PH != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].PH);
-                        }
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].SampleTypesText));
-                        if (mwqmSampleList[0].SampleType_old != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].SampleType_old);
-                        }
-                        if (mwqmSampleList[0].Tube_10 != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].Tube_10);
-                        }
-                        if (mwqmSampleList[0].Tube_1_0 != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].Tube_1_0);
-                        }
-                        if (mwqmSampleList[0].Tube_0_1 != null)
-                        {
-                            Assert.IsNotNull(mwqmSampleList[0].Tube_0_1);
-                        }
-                        if (mwqmSampleList[0].ProcessedBy != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].ProcessedBy));
-                        }
-                        Assert.IsNotNull(mwqmSampleList[0].UseForOpenData);
-                        Assert.IsNotNull(mwqmSampleList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(mwqmSampleList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MWQMSampleWeb and MWQMSampleReport fields should be null here
-                            Assert.IsNull(mwqmSampleList[0].MWQMSampleWeb);
-                            Assert.IsNull(mwqmSampleList[0].MWQMSampleReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MWQMSampleWeb fields should not be null and MWQMSampleReport fields should be null here
-                            if (mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText));
-                            }
-                            if (mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText));
-                            }
-                            if (mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText));
-                            }
-                            Assert.IsNull(mwqmSampleList[0].MWQMSampleReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MWQMSampleWeb and MWQMSampleReport fields should NOT be null here
-                            if (mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText));
-                            }
-                            if (mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText));
-                            }
-                            if (mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText));
-                            }
-                            if (mwqmSampleList[0].MWQMSampleReport.MWQMSampleReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleReport.MWQMSampleReportTest));
-                            }
-                        }
+                        CheckMWQMSampleFields(mwqmSampleList, entityQueryDetailType);
                     }
                 }
             }
@@ -802,12 +578,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
+                    List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(MWQMSample), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        MWQMSampleService mwqmSampleService = new MWQMSampleService(getParam, dbTestDB, ContactID);
+                        mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -831,13 +609,396 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, mwqmSampleList.Count);
+                        CheckMWQMSampleFields(mwqmSampleList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
+                        Assert.AreEqual(1, mwqmSampleList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetMWQMSampleList() Skip Take
 
+        #region Tests Generated for GetMWQMSampleList() Skip Take Order
+        [TestMethod]
+        public void GetMWQMSampleList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
+                    List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSampleID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                            Assert.AreEqual(0, mwqmSampleList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSampleFields(mwqmSampleList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
+                        Assert.AreEqual(1, mwqmSampleList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSampleList() Skip Take Order
+
+        #region Tests Generated for GetMWQMSampleList() Skip Take 2Order
+        [TestMethod]
+        public void GetMWQMSampleList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
+                    List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSampleID,MWQMSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                            Assert.AreEqual(0, mwqmSampleList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSampleFields(mwqmSampleList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
+                        Assert.AreEqual(1, mwqmSampleList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSampleList() Skip Take 2Order
+
+        #region Tests Generated for GetMWQMSampleList() Skip Take Order Where
+        [TestMethod]
+        public void GetMWQMSampleList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
+                    List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleID", "MWQMSampleID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                            Assert.AreEqual(0, mwqmSampleList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSampleFields(mwqmSampleList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
+                        Assert.AreEqual(1, mwqmSampleList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSampleList() Skip Take Order Where
+
+        #region Tests Generated for GetMWQMSampleList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetMWQMSampleList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
+                    List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleID", "MWQMSampleID,GT,2|MWQMSampleID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                            Assert.AreEqual(0, mwqmSampleList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSampleFields(mwqmSampleList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
+                        Assert.AreEqual(1, mwqmSampleList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSampleList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMWQMSampleList() 2Where
+        [TestMethod]
+        public void GetMWQMSampleList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
+                    List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSampleID,GT,2|MWQMSampleID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                            Assert.AreEqual(0, mwqmSampleList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSampleFields(mwqmSampleList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSampleDirectQueryList[0].MWQMSampleID, mwqmSampleList[0].MWQMSampleID);
+                        Assert.AreEqual(2, mwqmSampleList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSampleList() 2Where
+
+        #region Functions private
+        private void CheckMWQMSampleFields(List<MWQMSample> mwqmSampleList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // MWQMSample fields
+            Assert.IsNotNull(mwqmSampleList[0].MWQMSampleID);
+            Assert.IsNotNull(mwqmSampleList[0].MWQMSiteTVItemID);
+            Assert.IsNotNull(mwqmSampleList[0].MWQMRunTVItemID);
+            Assert.IsNotNull(mwqmSampleList[0].SampleDateTime_Local);
+            if (mwqmSampleList[0].Depth_m != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].Depth_m);
+            }
+            Assert.IsNotNull(mwqmSampleList[0].FecCol_MPN_100ml);
+            if (mwqmSampleList[0].Salinity_PPT != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].Salinity_PPT);
+            }
+            if (mwqmSampleList[0].WaterTemp_C != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].WaterTemp_C);
+            }
+            if (mwqmSampleList[0].PH != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].PH);
+            }
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].SampleTypesText));
+            if (mwqmSampleList[0].SampleType_old != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].SampleType_old);
+            }
+            if (mwqmSampleList[0].Tube_10 != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].Tube_10);
+            }
+            if (mwqmSampleList[0].Tube_1_0 != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].Tube_1_0);
+            }
+            if (mwqmSampleList[0].Tube_0_1 != null)
+            {
+                Assert.IsNotNull(mwqmSampleList[0].Tube_0_1);
+            }
+            if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].ProcessedBy))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].ProcessedBy));
+            }
+            Assert.IsNotNull(mwqmSampleList[0].UseForOpenData);
+            Assert.IsNotNull(mwqmSampleList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSampleList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // MWQMSampleWeb and MWQMSampleReport fields should be null here
+                Assert.IsNull(mwqmSampleList[0].MWQMSampleWeb);
+                Assert.IsNull(mwqmSampleList[0].MWQMSampleReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // MWQMSampleWeb fields should not be null and MWQMSampleReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText));
+                }
+                Assert.IsNull(mwqmSampleList[0].MWQMSampleReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // MWQMSampleWeb and MWQMSampleReport fields should NOT be null here
+                if (mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText));
+                }
+                if (mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText));
+                }
+                if (mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText));
+                }
+                if (mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText));
+                }
+                if (mwqmSampleList[0].MWQMSampleReport.MWQMSampleReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleReport.MWQMSampleReportTest));
+                }
+            }
+        }
+        private MWQMSample GetFilledRandomMWQMSample(string OmitPropName)
+        {
+            MWQMSample mwqmSample = new MWQMSample();
+
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = 40;
+            if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = 46;
+            if (OmitPropName != "SampleDateTime_Local") mwqmSample.SampleDateTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomDouble(0.0D, 1000.0D);
+            if (OmitPropName != "FecCol_MPN_100ml") mwqmSample.FecCol_MPN_100ml = GetRandomInt(0, 10000000);
+            if (OmitPropName != "Salinity_PPT") mwqmSample.Salinity_PPT = GetRandomDouble(0.0D, 40.0D);
+            if (OmitPropName != "WaterTemp_C") mwqmSample.WaterTemp_C = GetRandomDouble(-10.0D, 40.0D);
+            if (OmitPropName != "PH") mwqmSample.PH = GetRandomDouble(0.0D, 14.0D);
+            if (OmitPropName != "SampleTypesText") mwqmSample.SampleTypesText = GetRandomString("", 5);
+            if (OmitPropName != "SampleType_old") mwqmSample.SampleType_old = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
+            if (OmitPropName != "Tube_10") mwqmSample.Tube_10 = GetRandomInt(0, 5);
+            if (OmitPropName != "Tube_1_0") mwqmSample.Tube_1_0 = GetRandomInt(0, 5);
+            if (OmitPropName != "Tube_0_1") mwqmSample.Tube_0_1 = GetRandomInt(0, 5);
+            if (OmitPropName != "ProcessedBy") mwqmSample.ProcessedBy = GetRandomString("", 5);
+            if (OmitPropName != "UseForOpenData") mwqmSample.UseForOpenData = true;
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmSample.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSample.LastUpdateContactTVItemID = 2;
+
+            return mwqmSample;
+        }
+        #endregion Functions private
     }
 }

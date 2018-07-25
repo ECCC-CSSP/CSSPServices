@@ -32,23 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private RTBStringPos GetFilledRandomRTBStringPos(string OmitPropName)
-        {
-            RTBStringPos rTBStringPos = new RTBStringPos();
-
-            if (OmitPropName != "StartPos") rTBStringPos.StartPos = GetRandomInt(0, 10);
-            if (OmitPropName != "EndPos") rTBStringPos.EndPos = GetRandomInt(0, 10);
-            if (OmitPropName != "Text") rTBStringPos.Text = GetRandomString("", 20);
-            if (OmitPropName != "TagText") rTBStringPos.TagText = GetRandomString("", 20);
-
-            return rTBStringPos;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void RTBStringPos_CRUD_And_Properties_Test()
@@ -59,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    RTBStringPosService rTBStringPosService = new RTBStringPosService(new GetParam(), dbTestDB, ContactID);
+                    RTBStringPosService rTBStringPosService = new RTBStringPosService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -95,5 +78,33 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetRTBStringPosList() Skip Take
         #endregion Tests Generated for GetRTBStringPosList() Skip Take
 
+        #region Tests Generated for GetRTBStringPosList() Skip Take Order
+        #endregion Tests Generated for GetRTBStringPosList() Skip Take Order
+
+        #region Tests Generated for GetRTBStringPosList() Skip Take 2Order
+        #endregion Tests Generated for GetRTBStringPosList() Skip Take 2Order
+
+        #region Tests Generated for GetRTBStringPosList() Skip Take Order Where
+        #endregion Tests Generated for GetRTBStringPosList() Skip Take Order Where
+
+        #region Tests Generated for GetRTBStringPosList() Skip Take Order 2Where
+        #endregion Tests Generated for GetRTBStringPosList() Skip Take Order 2Where
+
+        #region Tests Generated for GetRTBStringPosList() 2Where
+        #endregion Tests Generated for GetRTBStringPosList() 2Where
+
+        #region Functions private
+        private RTBStringPos GetFilledRandomRTBStringPos(string OmitPropName)
+        {
+            RTBStringPos rTBStringPos = new RTBStringPos();
+
+            if (OmitPropName != "StartPos") rTBStringPos.StartPos = GetRandomInt(0, 10);
+            if (OmitPropName != "EndPos") rTBStringPos.EndPos = GetRandomInt(0, 10);
+            if (OmitPropName != "Text") rTBStringPos.Text = GetRandomString("", 20);
+            if (OmitPropName != "TagText") rTBStringPos.TagText = GetRandomString("", 20);
+
+            return rTBStringPos;
+        }
+        #endregion Functions private
     }
 }

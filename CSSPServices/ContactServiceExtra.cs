@@ -335,7 +335,7 @@ namespace CSSPServices
                 return string.Format(CSSPServicesRes._EmailNotWellFormed, Email);
             }
 
-            ResetPasswordService resetPasswordService = new ResetPasswordService(new GetParam(), db, ContactID);
+            ResetPasswordService resetPasswordService = new ResetPasswordService(new Query(), db, ContactID);
 
             ResetPassword resetPassword = resetPasswordService.GetRead().Where(c => c.Email == Email && c.Code == Code).OrderByDescending(c => c.ResetPasswordID).FirstOrDefault<ResetPassword>();
 
@@ -565,7 +565,7 @@ namespace CSSPServices
         // Helper
         public string AddTVTypeUserAuthorization(TVTypeUserAuthorization tvTypeUserAuthorizationNew)
         {
-            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new GetParam(), db, ContactID);
+            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query(), db, ContactID);
             if (!tvTypeUserAuthorizationService.Add(tvTypeUserAuthorizationNew))
             {
                 return tvTypeUserAuthorizationNew.ValidationResults.FirstOrDefault().ErrorMessage;
@@ -593,17 +593,17 @@ namespace CSSPServices
             // PolSourceObservations ContactTVItemID
             // TVItemLinks FromTVItemID, ToTVItemID
 
-            MWQMRunService mwqmRunService = new MWQMRunService(new GetParam(), db, ContactID);
+            MWQMRunService mwqmRunService = new MWQMRunService(new Query(), db, ContactID);
             List<MWQMRun> mwqmRunModelList = mwqmRunService.GetRead().Where(c => c.LabSampleApprovalContactTVItemID == ContactTVItemID).ToList();
             if (mwqmRunModelList.Count > 0)
                 return true;
 
-            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new GetParam(), db, ContactID);
+            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(new Query(), db, ContactID);
             PolSourceObservation polSourceObservation = polSourceObservationService.GetRead().Where(c => c.ContactTVItemID == ContactTVItemID).FirstOrDefault();
             if (polSourceObservation != null)
                 return true;
 
-            TVItemLinkService tvItemLinkService = new TVItemLinkService(new GetParam(), db, ContactID);
+            TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query(), db, ContactID);
             int countTVItemLink = tvItemLinkService.GetRead().Where(c => c.FromTVItemID == ContactTVItemID).Count();
             if (countTVItemLink > 0)
                 return true;
@@ -1005,10 +1005,10 @@ namespace CSSPServices
             Contact LoggedInContact = null;
             TVItem tvItem = new TVItem();
 
-            TVItemService tvItemService = new TVItemService(new GetParam(), db, ContactID);
-            ContactService contactService = new ContactService(new GetParam(), db, ContactID);
-            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new GetParam(), db, ContactID);
-            TVItemLinkService tvItemLinkService = new TVItemLinkService(new GetParam(), db, ContactID);
+            TVItemService tvItemService = new TVItemService(new Query(), db, ContactID);
+            ContactService contactService = new ContactService(new Query(), db, ContactID);
+            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query(), db, ContactID);
+            TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query(), db, ContactID);
 
             if (addContactType != AddContactTypeEnum.First)
             {
@@ -1070,7 +1070,7 @@ namespace CSSPServices
                     contact.ContactTVItemID = tvItem.TVItemID;
                 }
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new GetParam(), db, ContactID);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query(), db, ContactID);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     string TVText = CreateTVText(contact);
@@ -1376,7 +1376,7 @@ namespace CSSPServices
             contact.LastUpdateDate_UTC = DateTime.UtcNow;
             contact.LastUpdateContactTVItemID = contact.ContactTVItemID;
 
-            ContactService contactService = new ContactService(new GetParam(), db, ContactID);
+            ContactService contactService = new ContactService(new Query(), db, ContactID);
             if (!contactService.Update(contact))
             {
                 return false;
@@ -1476,7 +1476,7 @@ namespace CSSPServices
                 }
 
                 // remove all old ResetPassword in the DB
-                ResetPasswordService resetPasswordService = new ResetPasswordService(new GetParam(), db, ContactID);
+                ResetPasswordService resetPasswordService = new ResetPasswordService(new Query(), db, ContactID);
 
                 List<ResetPassword> ResetPasswordList = GetResetPasswordWithExpireDate_LocalSmallerThanToday();
                 foreach (ResetPassword resetPasswordToDelete in ResetPasswordList)

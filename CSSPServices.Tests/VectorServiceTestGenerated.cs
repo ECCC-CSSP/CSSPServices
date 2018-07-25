@@ -32,19 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Vector GetFilledRandomVector(string OmitPropName)
-        {
-            Vector vector = new Vector();
-
-
-            return vector;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Vector_CRUD_And_Properties_Test()
@@ -55,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VectorService vectorService = new VectorService(new GetParam(), dbTestDB, ContactID);
+                    VectorService vectorService = new VectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -91,5 +78,29 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetVectorList() Skip Take
         #endregion Tests Generated for GetVectorList() Skip Take
 
+        #region Tests Generated for GetVectorList() Skip Take Order
+        #endregion Tests Generated for GetVectorList() Skip Take Order
+
+        #region Tests Generated for GetVectorList() Skip Take 2Order
+        #endregion Tests Generated for GetVectorList() Skip Take 2Order
+
+        #region Tests Generated for GetVectorList() Skip Take Order Where
+        #endregion Tests Generated for GetVectorList() Skip Take Order Where
+
+        #region Tests Generated for GetVectorList() Skip Take Order 2Where
+        #endregion Tests Generated for GetVectorList() Skip Take Order 2Where
+
+        #region Tests Generated for GetVectorList() 2Where
+        #endregion Tests Generated for GetVectorList() 2Where
+
+        #region Functions private
+        private Vector GetFilledRandomVector(string OmitPropName)
+        {
+            Vector vector = new Vector();
+
+
+            return vector;
+        }
+        #endregion Functions private
     }
 }

@@ -32,23 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private PolSourceObsInfoChild GetFilledRandomPolSourceObsInfoChild(string OmitPropName)
-        {
-            PolSourceObsInfoChild polSourceObsInfoChild = new PolSourceObsInfoChild();
-
-            if (OmitPropName != "PolSourceObsInfo") polSourceObsInfoChild.PolSourceObsInfo = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
-            if (OmitPropName != "PolSourceObsInfoChildStart") polSourceObsInfoChild.PolSourceObsInfoChildStart = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
-            if (OmitPropName != "PolSourceObsInfoText") polSourceObsInfoChild.PolSourceObsInfoText = GetRandomString("", 5);
-            if (OmitPropName != "PolSourceObsInfoChildStartText") polSourceObsInfoChild.PolSourceObsInfoChildStartText = GetRandomString("", 5);
-
-            return polSourceObsInfoChild;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void PolSourceObsInfoChild_CRUD_And_Properties_Test()
@@ -59,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(new GetParam(), dbTestDB, ContactID);
+                    PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -95,5 +78,33 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetPolSourceObsInfoChildList() Skip Take
         #endregion Tests Generated for GetPolSourceObsInfoChildList() Skip Take
 
+        #region Tests Generated for GetPolSourceObsInfoChildList() Skip Take Order
+        #endregion Tests Generated for GetPolSourceObsInfoChildList() Skip Take Order
+
+        #region Tests Generated for GetPolSourceObsInfoChildList() Skip Take 2Order
+        #endregion Tests Generated for GetPolSourceObsInfoChildList() Skip Take 2Order
+
+        #region Tests Generated for GetPolSourceObsInfoChildList() Skip Take Order Where
+        #endregion Tests Generated for GetPolSourceObsInfoChildList() Skip Take Order Where
+
+        #region Tests Generated for GetPolSourceObsInfoChildList() Skip Take Order 2Where
+        #endregion Tests Generated for GetPolSourceObsInfoChildList() Skip Take Order 2Where
+
+        #region Tests Generated for GetPolSourceObsInfoChildList() 2Where
+        #endregion Tests Generated for GetPolSourceObsInfoChildList() 2Where
+
+        #region Functions private
+        private PolSourceObsInfoChild GetFilledRandomPolSourceObsInfoChild(string OmitPropName)
+        {
+            PolSourceObsInfoChild polSourceObsInfoChild = new PolSourceObsInfoChild();
+
+            if (OmitPropName != "PolSourceObsInfo") polSourceObsInfoChild.PolSourceObsInfo = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
+            if (OmitPropName != "PolSourceObsInfoChildStart") polSourceObsInfoChild.PolSourceObsInfoChildStart = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
+            if (OmitPropName != "PolSourceObsInfoText") polSourceObsInfoChild.PolSourceObsInfoText = GetRandomString("", 5);
+            if (OmitPropName != "PolSourceObsInfoChildStartText") polSourceObsInfoChild.PolSourceObsInfoChildStartText = GetRandomString("", 5);
+
+            return polSourceObsInfoChild;
+        }
+        #endregion Functions private
     }
 }

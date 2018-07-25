@@ -32,25 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Node GetFilledRandomNode(string OmitPropName)
-        {
-            Node node = new Node();
-
-            if (OmitPropName != "ID") node.ID = GetRandomInt(1, 1000000);
-            // should implement a Range for the property X and type Node
-            // should implement a Range for the property Y and type Node
-            // should implement a Range for the property Z and type Node
-            // should implement a Range for the property Code and type Node
-            // should implement a Range for the property Value and type Node
-
-            return node;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Node_CRUD_And_Properties_Test()
@@ -61,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    NodeService nodeService = new NodeService(new GetParam(), dbTestDB, ContactID);
+                    NodeService nodeService = new NodeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -97,5 +78,35 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetNodeList() Skip Take
         #endregion Tests Generated for GetNodeList() Skip Take
 
+        #region Tests Generated for GetNodeList() Skip Take Order
+        #endregion Tests Generated for GetNodeList() Skip Take Order
+
+        #region Tests Generated for GetNodeList() Skip Take 2Order
+        #endregion Tests Generated for GetNodeList() Skip Take 2Order
+
+        #region Tests Generated for GetNodeList() Skip Take Order Where
+        #endregion Tests Generated for GetNodeList() Skip Take Order Where
+
+        #region Tests Generated for GetNodeList() Skip Take Order 2Where
+        #endregion Tests Generated for GetNodeList() Skip Take Order 2Where
+
+        #region Tests Generated for GetNodeList() 2Where
+        #endregion Tests Generated for GetNodeList() 2Where
+
+        #region Functions private
+        private Node GetFilledRandomNode(string OmitPropName)
+        {
+            Node node = new Node();
+
+            if (OmitPropName != "ID") node.ID = GetRandomInt(1, 1000000);
+            // should implement a Range for the property X and type Node
+            // should implement a Range for the property Y and type Node
+            // should implement a Range for the property Z and type Node
+            // should implement a Range for the property Code and type Node
+            // should implement a Range for the property Value and type Node
+
+            return node;
+        }
+        #endregion Functions private
     }
 }

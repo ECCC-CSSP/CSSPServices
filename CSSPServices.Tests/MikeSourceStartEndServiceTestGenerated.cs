@@ -32,32 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MikeSourceStartEnd GetFilledRandomMikeSourceStartEnd(string OmitPropName)
-        {
-            MikeSourceStartEnd mikeSourceStartEnd = new MikeSourceStartEnd();
-
-            if (OmitPropName != "MikeSourceID") mikeSourceStartEnd.MikeSourceID = 1;
-            if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = new DateTime(2005, 3, 6);
-            if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = new DateTime(2005, 3, 7);
-            if (OmitPropName != "SourceFlowStart_m3_day") mikeSourceStartEnd.SourceFlowStart_m3_day = GetRandomDouble(0.0D, 1000000.0D);
-            if (OmitPropName != "SourceFlowEnd_m3_day") mikeSourceStartEnd.SourceFlowEnd_m3_day = GetRandomDouble(0.0D, 1000000.0D);
-            if (OmitPropName != "SourcePollutionStart_MPN_100ml") mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "SourcePollutionEnd_MPN_100ml") mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "SourceTemperatureStart_C") mikeSourceStartEnd.SourceTemperatureStart_C = GetRandomDouble(-10.0D, 40.0D);
-            if (OmitPropName != "SourceTemperatureEnd_C") mikeSourceStartEnd.SourceTemperatureEnd_C = GetRandomDouble(-10.0D, 40.0D);
-            if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomDouble(0.0D, 40.0D);
-            if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(0.0D, 40.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
-
-            return mikeSourceStartEnd;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MikeSourceStartEnd_CRUD_And_Properties_Test()
@@ -68,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new GetParam(), dbTestDB, ContactID);
+                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -455,14 +429,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new GetParam(), dbTestDB, ContactID);
+                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MikeSourceStartEnd mikeSourceStartEnd = (from c in mikeSourceStartEndService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSourceStartEnd);
 
                     MikeSourceStartEnd mikeSourceStartEndRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mikeSourceStartEndService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mikeSourceStartEndService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -486,49 +460,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MikeSourceStartEnd fields
-                        Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndID);
-                        Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceID);
-                        Assert.IsNotNull(mikeSourceStartEndRet.StartDateAndTime_Local);
-                        Assert.IsNotNull(mikeSourceStartEndRet.EndDateAndTime_Local);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowStart_m3_day);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowEnd_m3_day);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureStart_C);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureEnd_C);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityStart_PSU);
-                        Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityEnd_PSU);
-                        Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should be null here
-                            Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndWeb);
-                            Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MikeSourceStartEndWeb fields should not be null and MikeSourceStartEndReport fields should be null here
-                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(mikeSourceStartEndRet.MikeSourceStartEndReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should NOT be null here
-                            if (mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.MikeSourceStartEndWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeSourceStartEndRet.MikeSourceStartEndReport.MikeSourceStartEndReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.MikeSourceStartEndReport.MikeSourceStartEndReportTest));
-                            }
-                        }
+                        CheckMikeSourceStartEndFields(new List<MikeSourceStartEnd>() { mikeSourceStartEndRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -545,14 +477,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new GetParam(), dbTestDB, ContactID);
+                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MikeSourceStartEnd mikeSourceStartEnd = (from c in mikeSourceStartEndService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mikeSourceStartEnd);
 
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mikeSourceStartEndService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mikeSourceStartEndService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -576,49 +508,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MikeSourceStartEnd fields
-                        Assert.IsNotNull(mikeSourceStartEndList[0].MikeSourceStartEndID);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].MikeSourceID);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].StartDateAndTime_Local);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].EndDateAndTime_Local);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourceFlowStart_m3_day);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourceFlowEnd_m3_day);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourcePollutionStart_MPN_100ml);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourcePollutionEnd_MPN_100ml);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourceTemperatureStart_C);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourceTemperatureEnd_C);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourceSalinityStart_PSU);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].SourceSalinityEnd_PSU);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(mikeSourceStartEndList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should be null here
-                            Assert.IsNull(mikeSourceStartEndList[0].MikeSourceStartEndWeb);
-                            Assert.IsNull(mikeSourceStartEndList[0].MikeSourceStartEndReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MikeSourceStartEndWeb fields should not be null and MikeSourceStartEndReport fields should be null here
-                            if (mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(mikeSourceStartEndList[0].MikeSourceStartEndReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should NOT be null here
-                            if (mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText));
-                            }
-                            if (mikeSourceStartEndList[0].MikeSourceStartEndReport.MikeSourceStartEndReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndReport.MikeSourceStartEndReportTest));
-                            }
-                        }
+                        CheckMikeSourceStartEndFields(mikeSourceStartEndList, entityQueryDetailType);
                     }
                 }
             }
@@ -636,12 +526,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
+                    List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(MikeSourceStartEnd), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(getParam, dbTestDB, ContactID);
+                        mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -665,13 +557,337 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, mikeSourceStartEndList.Count);
+                        CheckMikeSourceStartEndFields(mikeSourceStartEndList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
+                        Assert.AreEqual(1, mikeSourceStartEndList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetMikeSourceStartEndList() Skip Take
 
+        #region Tests Generated for GetMikeSourceStartEndList() Skip Take Order
+        [TestMethod]
+        public void GetMikeSourceStartEndList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
+                    List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), culture.TwoLetterISOLanguageName, 1, 1,  "MikeSourceStartEndID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                            Assert.AreEqual(0, mikeSourceStartEndList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceStartEndFields(mikeSourceStartEndList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
+                        Assert.AreEqual(1, mikeSourceStartEndList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceStartEndList() Skip Take Order
+
+        #region Tests Generated for GetMikeSourceStartEndList() Skip Take 2Order
+        [TestMethod]
+        public void GetMikeSourceStartEndList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
+                    List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), culture.TwoLetterISOLanguageName, 1, 1, "MikeSourceStartEndID,MikeSourceID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceStartEndID).ThenBy(c => c.MikeSourceID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                            Assert.AreEqual(0, mikeSourceStartEndList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceStartEndFields(mikeSourceStartEndList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
+                        Assert.AreEqual(1, mikeSourceStartEndList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceStartEndList() Skip Take 2Order
+
+        #region Tests Generated for GetMikeSourceStartEndList() Skip Take Order Where
+        [TestMethod]
+        public void GetMikeSourceStartEndList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
+                    List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceStartEndID", "MikeSourceStartEndID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Where(c => c.MikeSourceStartEndID == 4).Skip(0).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                            Assert.AreEqual(0, mikeSourceStartEndList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceStartEndFields(mikeSourceStartEndList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
+                        Assert.AreEqual(1, mikeSourceStartEndList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceStartEndList() Skip Take Order Where
+
+        #region Tests Generated for GetMikeSourceStartEndList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetMikeSourceStartEndList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
+                    List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), culture.TwoLetterISOLanguageName, 0, 1, "MikeSourceStartEndID", "MikeSourceStartEndID,GT,2|MikeSourceStartEndID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Where(c => c.MikeSourceStartEndID > 2 && c.MikeSourceStartEndID < 5).Skip(0).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                            Assert.AreEqual(0, mikeSourceStartEndList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceStartEndFields(mikeSourceStartEndList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
+                        Assert.AreEqual(1, mikeSourceStartEndList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceStartEndList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMikeSourceStartEndList() 2Where
+        [TestMethod]
+        public void GetMikeSourceStartEndList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
+                    List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mikeSourceStartEndService.Query = mikeSourceStartEndService.FillQuery(typeof(MikeSourceStartEnd), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeSourceStartEndID,GT,2|MikeSourceStartEndID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Where(c => c.MikeSourceStartEndID > 2 && c.MikeSourceStartEndID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                            Assert.AreEqual(0, mikeSourceStartEndList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMikeSourceStartEndFields(mikeSourceStartEndList, entityQueryDetailType);
+                        Assert.AreEqual(mikeSourceStartEndDirectQueryList[0].MikeSourceStartEndID, mikeSourceStartEndList[0].MikeSourceStartEndID);
+                        Assert.AreEqual(2, mikeSourceStartEndList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMikeSourceStartEndList() 2Where
+
+        #region Functions private
+        private void CheckMikeSourceStartEndFields(List<MikeSourceStartEnd> mikeSourceStartEndList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // MikeSourceStartEnd fields
+            Assert.IsNotNull(mikeSourceStartEndList[0].MikeSourceStartEndID);
+            Assert.IsNotNull(mikeSourceStartEndList[0].MikeSourceID);
+            Assert.IsNotNull(mikeSourceStartEndList[0].StartDateAndTime_Local);
+            Assert.IsNotNull(mikeSourceStartEndList[0].EndDateAndTime_Local);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourceFlowStart_m3_day);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourceFlowEnd_m3_day);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourcePollutionStart_MPN_100ml);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourcePollutionEnd_MPN_100ml);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourceTemperatureStart_C);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourceTemperatureEnd_C);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourceSalinityStart_PSU);
+            Assert.IsNotNull(mikeSourceStartEndList[0].SourceSalinityEnd_PSU);
+            Assert.IsNotNull(mikeSourceStartEndList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mikeSourceStartEndList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should be null here
+                Assert.IsNull(mikeSourceStartEndList[0].MikeSourceStartEndWeb);
+                Assert.IsNull(mikeSourceStartEndList[0].MikeSourceStartEndReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // MikeSourceStartEndWeb fields should not be null and MikeSourceStartEndReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText));
+                }
+                Assert.IsNull(mikeSourceStartEndList[0].MikeSourceStartEndReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should NOT be null here
+                if (mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText));
+                }
+                if (mikeSourceStartEndList[0].MikeSourceStartEndReport.MikeSourceStartEndReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndReport.MikeSourceStartEndReportTest));
+                }
+            }
+        }
+        private MikeSourceStartEnd GetFilledRandomMikeSourceStartEnd(string OmitPropName)
+        {
+            MikeSourceStartEnd mikeSourceStartEnd = new MikeSourceStartEnd();
+
+            if (OmitPropName != "MikeSourceID") mikeSourceStartEnd.MikeSourceID = 1;
+            if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = new DateTime(2005, 3, 7);
+            if (OmitPropName != "SourceFlowStart_m3_day") mikeSourceStartEnd.SourceFlowStart_m3_day = GetRandomDouble(0.0D, 1000000.0D);
+            if (OmitPropName != "SourceFlowEnd_m3_day") mikeSourceStartEnd.SourceFlowEnd_m3_day = GetRandomDouble(0.0D, 1000000.0D);
+            if (OmitPropName != "SourcePollutionStart_MPN_100ml") mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = GetRandomInt(0, 10000000);
+            if (OmitPropName != "SourcePollutionEnd_MPN_100ml") mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = GetRandomInt(0, 10000000);
+            if (OmitPropName != "SourceTemperatureStart_C") mikeSourceStartEnd.SourceTemperatureStart_C = GetRandomDouble(-10.0D, 40.0D);
+            if (OmitPropName != "SourceTemperatureEnd_C") mikeSourceStartEnd.SourceTemperatureEnd_C = GetRandomDouble(-10.0D, 40.0D);
+            if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomDouble(0.0D, 40.0D);
+            if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(0.0D, 40.0D);
+            if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
+
+            return mikeSourceStartEnd;
+        }
+        #endregion Functions private
     }
 }

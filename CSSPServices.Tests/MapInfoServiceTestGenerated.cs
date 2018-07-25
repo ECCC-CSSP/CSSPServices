@@ -32,28 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MapInfo GetFilledRandomMapInfo(string OmitPropName)
-        {
-            MapInfo mapInfo = new MapInfo();
-
-            if (OmitPropName != "TVItemID") mapInfo.TVItemID = 1;
-            if (OmitPropName != "TVType") mapInfo.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "LatMin") mapInfo.LatMin = GetRandomDouble(-90.0D, 90.0D);
-            if (OmitPropName != "LatMax") mapInfo.LatMax = GetRandomDouble(-90.0D, 90.0D);
-            if (OmitPropName != "LngMin") mapInfo.LngMin = GetRandomDouble(-180.0D, 180.0D);
-            if (OmitPropName != "LngMax") mapInfo.LngMax = GetRandomDouble(-180.0D, 180.0D);
-            if (OmitPropName != "MapInfoDrawType") mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") mapInfo.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") mapInfo.LastUpdateContactTVItemID = 2;
-
-            return mapInfo;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MapInfo_CRUD_And_Properties_Test()
@@ -64,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDB, ContactID);
+                    MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -364,14 +342,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDB, ContactID);
+                    MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
                     MapInfo mapInfoRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mapInfoService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mapInfoService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -395,69 +373,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MapInfo fields
-                        Assert.IsNotNull(mapInfoRet.MapInfoID);
-                        Assert.IsNotNull(mapInfoRet.TVItemID);
-                        Assert.IsNotNull(mapInfoRet.TVType);
-                        Assert.IsNotNull(mapInfoRet.LatMin);
-                        Assert.IsNotNull(mapInfoRet.LatMax);
-                        Assert.IsNotNull(mapInfoRet.LngMin);
-                        Assert.IsNotNull(mapInfoRet.LngMax);
-                        Assert.IsNotNull(mapInfoRet.MapInfoDrawType);
-                        Assert.IsNotNull(mapInfoRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(mapInfoRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MapInfoWeb and MapInfoReport fields should be null here
-                            Assert.IsNull(mapInfoRet.MapInfoWeb);
-                            Assert.IsNull(mapInfoRet.MapInfoReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MapInfoWeb fields should not be null and MapInfoReport fields should be null here
-                            if (mapInfoRet.MapInfoWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.TVText));
-                            }
-                            if (mapInfoRet.MapInfoWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.LastUpdateContactTVText));
-                            }
-                            if (mapInfoRet.MapInfoWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.TVTypeText));
-                            }
-                            if (mapInfoRet.MapInfoWeb.MapInfoDrawTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.MapInfoDrawTypeText));
-                            }
-                            Assert.IsNull(mapInfoRet.MapInfoReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MapInfoWeb and MapInfoReport fields should NOT be null here
-                            if (mapInfoRet.MapInfoWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.TVText));
-                            }
-                            if (mapInfoRet.MapInfoWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.LastUpdateContactTVText));
-                            }
-                            if (mapInfoRet.MapInfoWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.TVTypeText));
-                            }
-                            if (mapInfoRet.MapInfoWeb.MapInfoDrawTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoWeb.MapInfoDrawTypeText));
-                            }
-                            if (mapInfoRet.MapInfoReport.MapInfoReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoReport.MapInfoReportTest));
-                            }
-                        }
+                        CheckMapInfoFields(new List<MapInfo>() { mapInfoRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -474,14 +390,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MapInfoService mapInfoService = new MapInfoService(new GetParam(), dbTestDB, ContactID);
+                    MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
                     List<MapInfo> mapInfoList = new List<MapInfo>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mapInfoService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mapInfoService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -505,69 +421,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MapInfo fields
-                        Assert.IsNotNull(mapInfoList[0].MapInfoID);
-                        Assert.IsNotNull(mapInfoList[0].TVItemID);
-                        Assert.IsNotNull(mapInfoList[0].TVType);
-                        Assert.IsNotNull(mapInfoList[0].LatMin);
-                        Assert.IsNotNull(mapInfoList[0].LatMax);
-                        Assert.IsNotNull(mapInfoList[0].LngMin);
-                        Assert.IsNotNull(mapInfoList[0].LngMax);
-                        Assert.IsNotNull(mapInfoList[0].MapInfoDrawType);
-                        Assert.IsNotNull(mapInfoList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(mapInfoList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MapInfoWeb and MapInfoReport fields should be null here
-                            Assert.IsNull(mapInfoList[0].MapInfoWeb);
-                            Assert.IsNull(mapInfoList[0].MapInfoReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MapInfoWeb fields should not be null and MapInfoReport fields should be null here
-                            if (mapInfoList[0].MapInfoWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText));
-                            }
-                            if (mapInfoList[0].MapInfoWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText));
-                            }
-                            if (mapInfoList[0].MapInfoWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText));
-                            }
-                            if (mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText));
-                            }
-                            Assert.IsNull(mapInfoList[0].MapInfoReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MapInfoWeb and MapInfoReport fields should NOT be null here
-                            if (mapInfoList[0].MapInfoWeb.TVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText));
-                            }
-                            if (mapInfoList[0].MapInfoWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText));
-                            }
-                            if (mapInfoList[0].MapInfoWeb.TVTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText));
-                            }
-                            if (mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText));
-                            }
-                            if (mapInfoList[0].MapInfoReport.MapInfoReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoReport.MapInfoReportTest));
-                            }
-                        }
+                        CheckMapInfoFields(mapInfoList, entityQueryDetailType);
                     }
                 }
             }
@@ -585,12 +439,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<MapInfo> mapInfoList = new List<MapInfo>();
+                    List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(MapInfo), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        MapInfoService mapInfoService = new MapInfoService(getParam, dbTestDB, ContactID);
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -614,13 +470,353 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, mapInfoList.Count);
+                        CheckMapInfoFields(mapInfoList, entityQueryDetailType);
+                        Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
+                        Assert.AreEqual(1, mapInfoList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetMapInfoList() Skip Take
 
+        #region Tests Generated for GetMapInfoList() Skip Take Order
+        [TestMethod]
+        public void GetMapInfoList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MapInfo> mapInfoList = new List<MapInfo>();
+                    List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1,  "MapInfoID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                            Assert.AreEqual(0, mapInfoList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMapInfoFields(mapInfoList, entityQueryDetailType);
+                        Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
+                        Assert.AreEqual(1, mapInfoList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoList() Skip Take Order
+
+        #region Tests Generated for GetMapInfoList() Skip Take 2Order
+        [TestMethod]
+        public void GetMapInfoList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MapInfo> mapInfoList = new List<MapInfo>();
+                    List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "MapInfoID,TVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoID).ThenBy(c => c.TVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                            Assert.AreEqual(0, mapInfoList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMapInfoFields(mapInfoList, entityQueryDetailType);
+                        Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
+                        Assert.AreEqual(1, mapInfoList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoList() Skip Take 2Order
+
+        #region Tests Generated for GetMapInfoList() Skip Take Order Where
+        [TestMethod]
+        public void GetMapInfoList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MapInfo> mapInfoList = new List<MapInfo>();
+                    List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                            Assert.AreEqual(0, mapInfoList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMapInfoFields(mapInfoList, entityQueryDetailType);
+                        Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
+                        Assert.AreEqual(1, mapInfoList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoList() Skip Take Order Where
+
+        #region Tests Generated for GetMapInfoList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetMapInfoList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MapInfo> mapInfoList = new List<MapInfo>();
+                    List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,GT,2|MapInfoID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                            Assert.AreEqual(0, mapInfoList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMapInfoFields(mapInfoList, entityQueryDetailType);
+                        Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
+                        Assert.AreEqual(1, mapInfoList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMapInfoList() 2Where
+        [TestMethod]
+        public void GetMapInfoList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MapInfo> mapInfoList = new List<MapInfo>();
+                    List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 10000, "", "MapInfoID,GT,2|MapInfoID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                            Assert.AreEqual(0, mapInfoList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mapInfoList = mapInfoService.GetMapInfoList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMapInfoFields(mapInfoList, entityQueryDetailType);
+                        Assert.AreEqual(mapInfoDirectQueryList[0].MapInfoID, mapInfoList[0].MapInfoID);
+                        Assert.AreEqual(2, mapInfoList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMapInfoList() 2Where
+
+        #region Functions private
+        private void CheckMapInfoFields(List<MapInfo> mapInfoList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // MapInfo fields
+            Assert.IsNotNull(mapInfoList[0].MapInfoID);
+            Assert.IsNotNull(mapInfoList[0].TVItemID);
+            Assert.IsNotNull(mapInfoList[0].TVType);
+            Assert.IsNotNull(mapInfoList[0].LatMin);
+            Assert.IsNotNull(mapInfoList[0].LatMax);
+            Assert.IsNotNull(mapInfoList[0].LngMin);
+            Assert.IsNotNull(mapInfoList[0].LngMax);
+            Assert.IsNotNull(mapInfoList[0].MapInfoDrawType);
+            Assert.IsNotNull(mapInfoList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mapInfoList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // MapInfoWeb and MapInfoReport fields should be null here
+                Assert.IsNull(mapInfoList[0].MapInfoWeb);
+                Assert.IsNull(mapInfoList[0].MapInfoReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // MapInfoWeb fields should not be null and MapInfoReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText));
+                }
+                if (!string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText));
+                }
+                Assert.IsNull(mapInfoList[0].MapInfoReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // MapInfoWeb and MapInfoReport fields should NOT be null here
+                if (mapInfoList[0].MapInfoWeb.TVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText));
+                }
+                if (mapInfoList[0].MapInfoWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText));
+                }
+                if (mapInfoList[0].MapInfoWeb.TVTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText));
+                }
+                if (mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.MapInfoDrawTypeText));
+                }
+                if (mapInfoList[0].MapInfoReport.MapInfoReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoReport.MapInfoReportTest));
+                }
+            }
+        }
+        private MapInfo GetFilledRandomMapInfo(string OmitPropName)
+        {
+            MapInfo mapInfo = new MapInfo();
+
+            if (OmitPropName != "TVItemID") mapInfo.TVItemID = 1;
+            if (OmitPropName != "TVType") mapInfo.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "LatMin") mapInfo.LatMin = GetRandomDouble(-90.0D, 90.0D);
+            if (OmitPropName != "LatMax") mapInfo.LatMax = GetRandomDouble(-90.0D, 90.0D);
+            if (OmitPropName != "LngMin") mapInfo.LngMin = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "LngMax") mapInfo.LngMax = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "MapInfoDrawType") mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
+            if (OmitPropName != "LastUpdateDate_UTC") mapInfo.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") mapInfo.LastUpdateContactTVItemID = 2;
+
+            return mapInfo;
+        }
+        #endregion Functions private
     }
 }

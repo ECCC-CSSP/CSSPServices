@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public AspNetUserService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public AspNetUserService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -116,13 +116,13 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AspNetUser GetAspNetUserWithAspNetUserID(string Id, GetParam getParam)
+        public AspNetUser GetAspNetUserWithAspNetUserID(string Id, Query query)
         {
-            IQueryable<AspNetUser> aspNetUserQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<AspNetUser> aspNetUserQuery = (from c in (query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.Id == Id
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return aspNetUserQuery.FirstOrDefault();
@@ -134,20 +134,20 @@ namespace CSSPServices
                     return null;
             }
         }
-        public IQueryable<AspNetUser> GetAspNetUserList(GetParam getParam, string FilterAndOrderText = "")
+        public IQueryable<AspNetUser> GetAspNetUserList(Query query, string FilterAndOrderText = "")
         {
-            IQueryable<AspNetUser> aspNetUserQuery = (from c in (getParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<AspNetUser> aspNetUserQuery = (from c in (query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 select c);
 
-            switch (getParam.EntityQueryDetailType)
+            switch (query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
-                        if (!string.IsNullOrWhiteSpace(getParam.Order))
+                        if (!string.IsNullOrWhiteSpace(query.Order))
                         {
                             aspNetUserQuery  = aspNetUserQuery.OrderByDescending(c => c.Email);
                         }
-                        aspNetUserQuery = aspNetUserQuery.Skip(getParam.Skip).Take(getParam.Take);
+                        aspNetUserQuery = aspNetUserQuery.Skip(query.Skip).Take(query.Take);
                         return aspNetUserQuery;
                     }
                 case EntityQueryDetailTypeEnum.EntityWeb:

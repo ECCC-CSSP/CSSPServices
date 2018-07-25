@@ -32,32 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private BoxModel GetFilledRandomBoxModel(string OmitPropName)
-        {
-            BoxModel boxModel = new BoxModel();
-
-            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 37;
-            if (OmitPropName != "Flow_m3_day") boxModel.Flow_m3_day = GetRandomDouble(0.0D, 10000.0D);
-            if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomDouble(-15.0D, 40.0D);
-            if (OmitPropName != "Dilution") boxModel.Dilution = GetRandomInt(0, 10000000);
-            if (OmitPropName != "DecayRate_per_day") boxModel.DecayRate_per_day = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "FCUntreated_MPN_100ml") boxModel.FCUntreated_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "FCPreDisinfection_MPN_100ml") boxModel.FCPreDisinfection_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "Concentration_MPN_100ml") boxModel.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "T90_hour") boxModel.T90_hour = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomDouble(0.0D, 24.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = 2;
-
-            return boxModel;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void BoxModel_CRUD_And_Properties_Test()
@@ -68,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    BoxModelService boxModelService = new BoxModelService(new GetParam(), dbTestDB, ContactID);
+                    BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -458,14 +432,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    BoxModelService boxModelService = new BoxModelService(new GetParam(), dbTestDB, ContactID);
+                    BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     BoxModel boxModel = (from c in boxModelService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModel);
 
                     BoxModel boxModelRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        boxModelService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        boxModelService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -489,57 +463,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // BoxModel fields
-                        Assert.IsNotNull(boxModelRet.BoxModelID);
-                        Assert.IsNotNull(boxModelRet.InfrastructureTVItemID);
-                        Assert.IsNotNull(boxModelRet.Flow_m3_day);
-                        Assert.IsNotNull(boxModelRet.Depth_m);
-                        Assert.IsNotNull(boxModelRet.Temperature_C);
-                        Assert.IsNotNull(boxModelRet.Dilution);
-                        Assert.IsNotNull(boxModelRet.DecayRate_per_day);
-                        Assert.IsNotNull(boxModelRet.FCUntreated_MPN_100ml);
-                        Assert.IsNotNull(boxModelRet.FCPreDisinfection_MPN_100ml);
-                        Assert.IsNotNull(boxModelRet.Concentration_MPN_100ml);
-                        Assert.IsNotNull(boxModelRet.T90_hour);
-                        Assert.IsNotNull(boxModelRet.FlowDuration_hour);
-                        Assert.IsNotNull(boxModelRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(boxModelRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // BoxModelWeb and BoxModelReport fields should be null here
-                            Assert.IsNull(boxModelRet.BoxModelWeb);
-                            Assert.IsNull(boxModelRet.BoxModelReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // BoxModelWeb fields should not be null and BoxModelReport fields should be null here
-                            if (boxModelRet.BoxModelWeb.InfrastructureTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.BoxModelWeb.InfrastructureTVText));
-                            }
-                            if (boxModelRet.BoxModelWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.BoxModelWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(boxModelRet.BoxModelReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // BoxModelWeb and BoxModelReport fields should NOT be null here
-                            if (boxModelRet.BoxModelWeb.InfrastructureTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.BoxModelWeb.InfrastructureTVText));
-                            }
-                            if (boxModelRet.BoxModelWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.BoxModelWeb.LastUpdateContactTVText));
-                            }
-                            if (boxModelRet.BoxModelReport.BoxModelReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.BoxModelReport.BoxModelReportTest));
-                            }
-                        }
+                        CheckBoxModelFields(new List<BoxModel>() { boxModelRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -556,14 +480,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    BoxModelService boxModelService = new BoxModelService(new GetParam(), dbTestDB, ContactID);
+                    BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     BoxModel boxModel = (from c in boxModelService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModel);
 
                     List<BoxModel> boxModelList = new List<BoxModel>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        boxModelService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        boxModelService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -587,57 +511,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // BoxModel fields
-                        Assert.IsNotNull(boxModelList[0].BoxModelID);
-                        Assert.IsNotNull(boxModelList[0].InfrastructureTVItemID);
-                        Assert.IsNotNull(boxModelList[0].Flow_m3_day);
-                        Assert.IsNotNull(boxModelList[0].Depth_m);
-                        Assert.IsNotNull(boxModelList[0].Temperature_C);
-                        Assert.IsNotNull(boxModelList[0].Dilution);
-                        Assert.IsNotNull(boxModelList[0].DecayRate_per_day);
-                        Assert.IsNotNull(boxModelList[0].FCUntreated_MPN_100ml);
-                        Assert.IsNotNull(boxModelList[0].FCPreDisinfection_MPN_100ml);
-                        Assert.IsNotNull(boxModelList[0].Concentration_MPN_100ml);
-                        Assert.IsNotNull(boxModelList[0].T90_hour);
-                        Assert.IsNotNull(boxModelList[0].FlowDuration_hour);
-                        Assert.IsNotNull(boxModelList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(boxModelList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // BoxModelWeb and BoxModelReport fields should be null here
-                            Assert.IsNull(boxModelList[0].BoxModelWeb);
-                            Assert.IsNull(boxModelList[0].BoxModelReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // BoxModelWeb fields should not be null and BoxModelReport fields should be null here
-                            if (boxModelList[0].BoxModelWeb.InfrastructureTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText));
-                            }
-                            if (boxModelList[0].BoxModelWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(boxModelList[0].BoxModelReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // BoxModelWeb and BoxModelReport fields should NOT be null here
-                            if (boxModelList[0].BoxModelWeb.InfrastructureTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText));
-                            }
-                            if (boxModelList[0].BoxModelWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText));
-                            }
-                            if (boxModelList[0].BoxModelReport.BoxModelReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelReport.BoxModelReportTest));
-                            }
-                        }
+                        CheckBoxModelFields(boxModelList, entityQueryDetailType);
                     }
                 }
             }
@@ -655,12 +529,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<BoxModel> boxModelList = new List<BoxModel>();
+                    List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(BoxModel), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        BoxModelService boxModelService = new BoxModelService(getParam, dbTestDB, ContactID);
+                        boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        boxModelDirectQueryList = boxModelService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -684,13 +560,345 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, boxModelList.Count);
+                        CheckBoxModelFields(boxModelList, entityQueryDetailType);
+                        Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
+                        Assert.AreEqual(1, boxModelList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetBoxModelList() Skip Take
 
+        #region Tests Generated for GetBoxModelList() Skip Take Order
+        [TestMethod]
+        public void GetBoxModelList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<BoxModel> boxModelList = new List<BoxModel>();
+                    List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        boxModelDirectQueryList = boxModelService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                            Assert.AreEqual(0, boxModelList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckBoxModelFields(boxModelList, entityQueryDetailType);
+                        Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
+                        Assert.AreEqual(1, boxModelList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelList() Skip Take Order
+
+        #region Tests Generated for GetBoxModelList() Skip Take 2Order
+        [TestMethod]
+        public void GetBoxModelList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<BoxModel> boxModelList = new List<BoxModel>();
+                    List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelID,InfrastructureTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        boxModelDirectQueryList = boxModelService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelID).ThenBy(c => c.InfrastructureTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                            Assert.AreEqual(0, boxModelList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckBoxModelFields(boxModelList, entityQueryDetailType);
+                        Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
+                        Assert.AreEqual(1, boxModelList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelList() Skip Take 2Order
+
+        #region Tests Generated for GetBoxModelList() Skip Take Order Where
+        [TestMethod]
+        public void GetBoxModelList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<BoxModel> boxModelList = new List<BoxModel>();
+                    List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelID", "BoxModelID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        boxModelDirectQueryList = boxModelService.GetRead().Where(c => c.BoxModelID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                            Assert.AreEqual(0, boxModelList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckBoxModelFields(boxModelList, entityQueryDetailType);
+                        Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
+                        Assert.AreEqual(1, boxModelList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelList() Skip Take Order Where
+
+        #region Tests Generated for GetBoxModelList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetBoxModelList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<BoxModel> boxModelList = new List<BoxModel>();
+                    List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelID", "BoxModelID,GT,2|BoxModelID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        boxModelDirectQueryList = boxModelService.GetRead().Where(c => c.BoxModelID > 2 && c.BoxModelID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                            Assert.AreEqual(0, boxModelList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckBoxModelFields(boxModelList, entityQueryDetailType);
+                        Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
+                        Assert.AreEqual(1, boxModelList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelList() Skip Take Order 2Where
+
+        #region Tests Generated for GetBoxModelList() 2Where
+        [TestMethod]
+        public void GetBoxModelList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<BoxModel> boxModelList = new List<BoxModel>();
+                    List<BoxModel> boxModelDirectQueryList = new List<BoxModel>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        BoxModelService boxModelService = new BoxModelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        boxModelService.Query = boxModelService.FillQuery(typeof(BoxModel), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelID,GT,2|BoxModelID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        boxModelDirectQueryList = boxModelService.GetRead().Where(c => c.BoxModelID > 2 && c.BoxModelID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                            Assert.AreEqual(0, boxModelList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            boxModelList = boxModelService.GetBoxModelList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckBoxModelFields(boxModelList, entityQueryDetailType);
+                        Assert.AreEqual(boxModelDirectQueryList[0].BoxModelID, boxModelList[0].BoxModelID);
+                        Assert.AreEqual(2, boxModelList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetBoxModelList() 2Where
+
+        #region Functions private
+        private void CheckBoxModelFields(List<BoxModel> boxModelList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // BoxModel fields
+            Assert.IsNotNull(boxModelList[0].BoxModelID);
+            Assert.IsNotNull(boxModelList[0].InfrastructureTVItemID);
+            Assert.IsNotNull(boxModelList[0].Flow_m3_day);
+            Assert.IsNotNull(boxModelList[0].Depth_m);
+            Assert.IsNotNull(boxModelList[0].Temperature_C);
+            Assert.IsNotNull(boxModelList[0].Dilution);
+            Assert.IsNotNull(boxModelList[0].DecayRate_per_day);
+            Assert.IsNotNull(boxModelList[0].FCUntreated_MPN_100ml);
+            Assert.IsNotNull(boxModelList[0].FCPreDisinfection_MPN_100ml);
+            Assert.IsNotNull(boxModelList[0].Concentration_MPN_100ml);
+            Assert.IsNotNull(boxModelList[0].T90_hour);
+            Assert.IsNotNull(boxModelList[0].FlowDuration_hour);
+            Assert.IsNotNull(boxModelList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // BoxModelWeb and BoxModelReport fields should be null here
+                Assert.IsNull(boxModelList[0].BoxModelWeb);
+                Assert.IsNull(boxModelList[0].BoxModelReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // BoxModelWeb fields should not be null and BoxModelReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText));
+                }
+                Assert.IsNull(boxModelList[0].BoxModelReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // BoxModelWeb and BoxModelReport fields should NOT be null here
+                if (boxModelList[0].BoxModelWeb.InfrastructureTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText));
+                }
+                if (boxModelList[0].BoxModelWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText));
+                }
+                if (boxModelList[0].BoxModelReport.BoxModelReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelReport.BoxModelReportTest));
+                }
+            }
+        }
+        private BoxModel GetFilledRandomBoxModel(string OmitPropName)
+        {
+            BoxModel boxModel = new BoxModel();
+
+            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 37;
+            if (OmitPropName != "Flow_m3_day") boxModel.Flow_m3_day = GetRandomDouble(0.0D, 10000.0D);
+            if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomDouble(0.0D, 1000.0D);
+            if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomDouble(-15.0D, 40.0D);
+            if (OmitPropName != "Dilution") boxModel.Dilution = GetRandomInt(0, 10000000);
+            if (OmitPropName != "DecayRate_per_day") boxModel.DecayRate_per_day = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "FCUntreated_MPN_100ml") boxModel.FCUntreated_MPN_100ml = GetRandomInt(0, 10000000);
+            if (OmitPropName != "FCPreDisinfection_MPN_100ml") boxModel.FCPreDisinfection_MPN_100ml = GetRandomInt(0, 10000000);
+            if (OmitPropName != "Concentration_MPN_100ml") boxModel.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
+            if (OmitPropName != "T90_hour") boxModel.T90_hour = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomDouble(0.0D, 24.0D);
+            if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = 2;
+
+            return boxModel;
+        }
+        #endregion Functions private
     }
 }

@@ -32,26 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVLocation GetFilledRandomTVLocation(string OmitPropName)
-        {
-            TVLocation tvLocation = new TVLocation();
-
-            if (OmitPropName != "Error") tvLocation.Error = GetRandomString("", 20);
-            if (OmitPropName != "TVItemID") tvLocation.TVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "TVText") tvLocation.TVText = GetRandomString("", 6);
-            if (OmitPropName != "TVType") tvLocation.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "SubTVType") tvLocation.SubTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "TVTypeText") tvLocation.TVTypeText = GetRandomString("", 5);
-            if (OmitPropName != "SubTVTypeText") tvLocation.SubTVTypeText = GetRandomString("", 5);
-
-            return tvLocation;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVLocation_CRUD_And_Properties_Test()
@@ -62,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVLocationService tvLocationService = new TVLocationService(new GetParam(), dbTestDB, ContactID);
+                    TVLocationService tvLocationService = new TVLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -98,5 +78,36 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetTVLocationList() Skip Take
         #endregion Tests Generated for GetTVLocationList() Skip Take
 
+        #region Tests Generated for GetTVLocationList() Skip Take Order
+        #endregion Tests Generated for GetTVLocationList() Skip Take Order
+
+        #region Tests Generated for GetTVLocationList() Skip Take 2Order
+        #endregion Tests Generated for GetTVLocationList() Skip Take 2Order
+
+        #region Tests Generated for GetTVLocationList() Skip Take Order Where
+        #endregion Tests Generated for GetTVLocationList() Skip Take Order Where
+
+        #region Tests Generated for GetTVLocationList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVLocationList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVLocationList() 2Where
+        #endregion Tests Generated for GetTVLocationList() 2Where
+
+        #region Functions private
+        private TVLocation GetFilledRandomTVLocation(string OmitPropName)
+        {
+            TVLocation tvLocation = new TVLocation();
+
+            if (OmitPropName != "Error") tvLocation.Error = GetRandomString("", 20);
+            if (OmitPropName != "TVItemID") tvLocation.TVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "TVText") tvLocation.TVText = GetRandomString("", 6);
+            if (OmitPropName != "TVType") tvLocation.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "SubTVType") tvLocation.SubTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "TVTypeText") tvLocation.TVTypeText = GetRandomString("", 5);
+            if (OmitPropName != "SubTVTypeText") tvLocation.SubTVTypeText = GetRandomString("", 5);
+
+            return tvLocation;
+        }
+        #endregion Functions private
     }
 }

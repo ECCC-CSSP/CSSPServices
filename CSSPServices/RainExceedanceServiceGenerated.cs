@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public RainExceedanceService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public RainExceedanceService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -194,11 +194,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID)
         {
-            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<RainExceedance> rainExceedanceQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.RainExceedanceID == RainExceedanceID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return rainExceedanceQuery.FirstOrDefault();
@@ -212,9 +212,9 @@ namespace CSSPServices
         }
         public IQueryable<RainExceedance> GetRainExceedanceList()
         {
-            IQueryable<RainExceedance> rainExceedanceQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<RainExceedance> rainExceedanceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {

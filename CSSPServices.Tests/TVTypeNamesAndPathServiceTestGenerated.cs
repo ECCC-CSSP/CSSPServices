@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private TVTypeNamesAndPath GetFilledRandomTVTypeNamesAndPath(string OmitPropName)
-        {
-            TVTypeNamesAndPath tvTypeNamesAndPath = new TVTypeNamesAndPath();
-
-            if (OmitPropName != "TVTypeName") tvTypeNamesAndPath.TVTypeName = GetRandomString("", 6);
-            if (OmitPropName != "Index") tvTypeNamesAndPath.Index = GetRandomInt(1, 11);
-            if (OmitPropName != "TVPath") tvTypeNamesAndPath.TVPath = GetRandomString("", 6);
-
-            return tvTypeNamesAndPath;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void TVTypeNamesAndPath_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(new GetParam(), dbTestDB, ContactID);
+                    TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetTVTypeNamesAndPathList() Skip Take
         #endregion Tests Generated for GetTVTypeNamesAndPathList() Skip Take
 
+        #region Tests Generated for GetTVTypeNamesAndPathList() Skip Take Order
+        #endregion Tests Generated for GetTVTypeNamesAndPathList() Skip Take Order
+
+        #region Tests Generated for GetTVTypeNamesAndPathList() Skip Take 2Order
+        #endregion Tests Generated for GetTVTypeNamesAndPathList() Skip Take 2Order
+
+        #region Tests Generated for GetTVTypeNamesAndPathList() Skip Take Order Where
+        #endregion Tests Generated for GetTVTypeNamesAndPathList() Skip Take Order Where
+
+        #region Tests Generated for GetTVTypeNamesAndPathList() Skip Take Order 2Where
+        #endregion Tests Generated for GetTVTypeNamesAndPathList() Skip Take Order 2Where
+
+        #region Tests Generated for GetTVTypeNamesAndPathList() 2Where
+        #endregion Tests Generated for GetTVTypeNamesAndPathList() 2Where
+
+        #region Functions private
+        private TVTypeNamesAndPath GetFilledRandomTVTypeNamesAndPath(string OmitPropName)
+        {
+            TVTypeNamesAndPath tvTypeNamesAndPath = new TVTypeNamesAndPath();
+
+            if (OmitPropName != "TVTypeName") tvTypeNamesAndPath.TVTypeName = GetRandomString("", 6);
+            if (OmitPropName != "Index") tvTypeNamesAndPath.Index = GetRandomInt(1, 11);
+            if (OmitPropName != "TVPath") tvTypeNamesAndPath.TVPath = GetRandomString("", 6);
+
+            return tvTypeNamesAndPath;
+        }
+        #endregion Functions private
     }
 }

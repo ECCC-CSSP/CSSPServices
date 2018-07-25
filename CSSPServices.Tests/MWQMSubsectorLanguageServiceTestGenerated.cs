@@ -32,27 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MWQMSubsectorLanguage GetFilledRandomMWQMSubsectorLanguage(string OmitPropName)
-        {
-            MWQMSubsectorLanguage mwqmSubsectorLanguage = new MWQMSubsectorLanguage();
-
-            if (OmitPropName != "MWQMSubsectorID") mwqmSubsectorLanguage.MWQMSubsectorID = 1;
-            if (OmitPropName != "Language") mwqmSubsectorLanguage.Language = LanguageRequest;
-            if (OmitPropName != "SubsectorDesc") mwqmSubsectorLanguage.SubsectorDesc = GetRandomString("", 5);
-            if (OmitPropName != "TranslationStatusSubsectorDesc") mwqmSubsectorLanguage.TranslationStatusSubsectorDesc = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            if (OmitPropName != "LogBook") mwqmSubsectorLanguage.LogBook = GetRandomString("", 20);
-            if (OmitPropName != "TranslationStatusLogBook") mwqmSubsectorLanguage.TranslationStatusLogBook = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsectorLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsectorLanguage.LastUpdateContactTVItemID = 2;
-
-            return mwqmSubsectorLanguage;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MWQMSubsectorLanguage_CRUD_And_Properties_Test()
@@ -63,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -305,14 +284,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MWQMSubsectorLanguage mwqmSubsectorLanguage = (from c in mwqmSubsectorLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSubsectorLanguage);
 
                     MWQMSubsectorLanguage mwqmSubsectorLanguageRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mwqmSubsectorLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSubsectorLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -336,74 +315,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MWQMSubsectorLanguage fields
-                        Assert.IsNotNull(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageID);
-                        Assert.IsNotNull(mwqmSubsectorLanguageRet.MWQMSubsectorID);
-                        Assert.IsNotNull(mwqmSubsectorLanguageRet.Language);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.SubsectorDesc));
-                        Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDesc);
-                        if (mwqmSubsectorLanguageRet.LogBook != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LogBook));
-                        }
-                        if (mwqmSubsectorLanguageRet.TranslationStatusLogBook != null)
-                        {
-                            Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusLogBook);
-                        }
-                        Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MWQMSubsectorLanguageWeb and MWQMSubsectorLanguageReport fields should be null here
-                            Assert.IsNull(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb);
-                            Assert.IsNull(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MWQMSubsectorLanguageWeb fields should not be null and MWQMSubsectorLanguageReport fields should be null here
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LanguageText));
-                            }
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText));
-                            }
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusLogBookText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusLogBookText));
-                            }
-                            Assert.IsNull(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MWQMSubsectorLanguageWeb and MWQMSubsectorLanguageReport fields should NOT be null here
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.LanguageText));
-                            }
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText));
-                            }
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusLogBookText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageWeb.TranslationStatusLogBookText));
-                            }
-                            if (mwqmSubsectorLanguageRet.MWQMSubsectorLanguageReport.MWQMSubsectorLanguageReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.MWQMSubsectorLanguageReport.MWQMSubsectorLanguageReportTest));
-                            }
-                        }
+                        CheckMWQMSubsectorLanguageFields(new List<MWQMSubsectorLanguage>() { mwqmSubsectorLanguageRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -420,14 +332,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new GetParam(), dbTestDB, ContactID);
+                    MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MWQMSubsectorLanguage mwqmSubsectorLanguage = (from c in mwqmSubsectorLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSubsectorLanguage);
 
                     List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList = new List<MWQMSubsectorLanguage>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mwqmSubsectorLanguageService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmSubsectorLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -451,74 +363,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MWQMSubsectorLanguage fields
-                        Assert.IsNotNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
-                        Assert.IsNotNull(mwqmSubsectorLanguageList[0].MWQMSubsectorID);
-                        Assert.IsNotNull(mwqmSubsectorLanguageList[0].Language);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].SubsectorDesc));
-                        Assert.IsNotNull(mwqmSubsectorLanguageList[0].TranslationStatusSubsectorDesc);
-                        if (mwqmSubsectorLanguageList[0].LogBook != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].LogBook));
-                        }
-                        if (mwqmSubsectorLanguageList[0].TranslationStatusLogBook != null)
-                        {
-                            Assert.IsNotNull(mwqmSubsectorLanguageList[0].TranslationStatusLogBook);
-                        }
-                        Assert.IsNotNull(mwqmSubsectorLanguageList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(mwqmSubsectorLanguageList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MWQMSubsectorLanguageWeb and MWQMSubsectorLanguageReport fields should be null here
-                            Assert.IsNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb);
-                            Assert.IsNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MWQMSubsectorLanguageWeb fields should not be null and MWQMSubsectorLanguageReport fields should be null here
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText));
-                            }
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText));
-                            }
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText));
-                            }
-                            Assert.IsNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MWQMSubsectorLanguageWeb and MWQMSubsectorLanguageReport fields should NOT be null here
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText));
-                            }
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText));
-                            }
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText));
-                            }
-                            if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport.MWQMSubsectorLanguageReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport.MWQMSubsectorLanguageReportTest));
-                            }
-                        }
+                        CheckMWQMSubsectorLanguageFields(mwqmSubsectorLanguageList, entityQueryDetailType);
                     }
                 }
             }
@@ -536,12 +381,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList = new List<MWQMSubsectorLanguage>();
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageDirectQueryList = new List<MWQMSubsectorLanguage>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(MWQMSubsectorLanguage), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(getParam, dbTestDB, ContactID);
+                        mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSubsectorLanguageDirectQueryList = mwqmSubsectorLanguageService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -565,13 +412,357 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, mwqmSubsectorLanguageList.Count);
+                        CheckMWQMSubsectorLanguageFields(mwqmSubsectorLanguageList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSubsectorLanguageDirectQueryList[0].MWQMSubsectorLanguageID, mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
+                        Assert.AreEqual(1, mwqmSubsectorLanguageList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetMWQMSubsectorLanguageList() Skip Take
 
+        #region Tests Generated for GetMWQMSubsectorLanguageList() Skip Take Order
+        [TestMethod]
+        public void GetMWQMSubsectorLanguageList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList = new List<MWQMSubsectorLanguage>();
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageDirectQueryList = new List<MWQMSubsectorLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSubsectorLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSubsectorLanguageDirectQueryList = mwqmSubsectorLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSubsectorLanguageID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                            Assert.AreEqual(0, mwqmSubsectorLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSubsectorLanguageFields(mwqmSubsectorLanguageList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSubsectorLanguageDirectQueryList[0].MWQMSubsectorLanguageID, mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
+                        Assert.AreEqual(1, mwqmSubsectorLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorLanguageList() Skip Take Order
+
+        #region Tests Generated for GetMWQMSubsectorLanguageList() Skip Take 2Order
+        [TestMethod]
+        public void GetMWQMSubsectorLanguageList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList = new List<MWQMSubsectorLanguage>();
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageDirectQueryList = new List<MWQMSubsectorLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSubsectorLanguageID,MWQMSubsectorID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSubsectorLanguageDirectQueryList = mwqmSubsectorLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSubsectorLanguageID).ThenBy(c => c.MWQMSubsectorID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                            Assert.AreEqual(0, mwqmSubsectorLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSubsectorLanguageFields(mwqmSubsectorLanguageList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSubsectorLanguageDirectQueryList[0].MWQMSubsectorLanguageID, mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
+                        Assert.AreEqual(1, mwqmSubsectorLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorLanguageList() Skip Take 2Order
+
+        #region Tests Generated for GetMWQMSubsectorLanguageList() Skip Take Order Where
+        [TestMethod]
+        public void GetMWQMSubsectorLanguageList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList = new List<MWQMSubsectorLanguage>();
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageDirectQueryList = new List<MWQMSubsectorLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorLanguageID", "MWQMSubsectorLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSubsectorLanguageDirectQueryList = mwqmSubsectorLanguageService.GetRead().Where(c => c.MWQMSubsectorLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSubsectorLanguageID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                            Assert.AreEqual(0, mwqmSubsectorLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSubsectorLanguageFields(mwqmSubsectorLanguageList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSubsectorLanguageDirectQueryList[0].MWQMSubsectorLanguageID, mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
+                        Assert.AreEqual(1, mwqmSubsectorLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorLanguageList() Skip Take Order Where
+
+        #region Tests Generated for GetMWQMSubsectorLanguageList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetMWQMSubsectorLanguageList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList = new List<MWQMSubsectorLanguage>();
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageDirectQueryList = new List<MWQMSubsectorLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSubsectorLanguageID", "MWQMSubsectorLanguageID,GT,2|MWQMSubsectorLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSubsectorLanguageDirectQueryList = mwqmSubsectorLanguageService.GetRead().Where(c => c.MWQMSubsectorLanguageID > 2 && c.MWQMSubsectorLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSubsectorLanguageID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                            Assert.AreEqual(0, mwqmSubsectorLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSubsectorLanguageFields(mwqmSubsectorLanguageList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSubsectorLanguageDirectQueryList[0].MWQMSubsectorLanguageID, mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
+                        Assert.AreEqual(1, mwqmSubsectorLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorLanguageList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMWQMSubsectorLanguageList() 2Where
+        [TestMethod]
+        public void GetMWQMSubsectorLanguageList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList = new List<MWQMSubsectorLanguage>();
+                    List<MWQMSubsectorLanguage> mwqmSubsectorLanguageDirectQueryList = new List<MWQMSubsectorLanguage>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmSubsectorLanguageService.Query = mwqmSubsectorLanguageService.FillQuery(typeof(MWQMSubsectorLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSubsectorLanguageID,GT,2|MWQMSubsectorLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmSubsectorLanguageDirectQueryList = mwqmSubsectorLanguageService.GetRead().Where(c => c.MWQMSubsectorLanguageID > 2 && c.MWQMSubsectorLanguageID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                            Assert.AreEqual(0, mwqmSubsectorLanguageList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmSubsectorLanguageList = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMSubsectorLanguageFields(mwqmSubsectorLanguageList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmSubsectorLanguageDirectQueryList[0].MWQMSubsectorLanguageID, mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
+                        Assert.AreEqual(2, mwqmSubsectorLanguageList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMSubsectorLanguageList() 2Where
+
+        #region Functions private
+        private void CheckMWQMSubsectorLanguageFields(List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // MWQMSubsectorLanguage fields
+            Assert.IsNotNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageID);
+            Assert.IsNotNull(mwqmSubsectorLanguageList[0].MWQMSubsectorID);
+            Assert.IsNotNull(mwqmSubsectorLanguageList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].SubsectorDesc));
+            Assert.IsNotNull(mwqmSubsectorLanguageList[0].TranslationStatusSubsectorDesc);
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].LogBook))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].LogBook));
+            }
+            if (mwqmSubsectorLanguageList[0].TranslationStatusLogBook != null)
+            {
+                Assert.IsNotNull(mwqmSubsectorLanguageList[0].TranslationStatusLogBook);
+            }
+            Assert.IsNotNull(mwqmSubsectorLanguageList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSubsectorLanguageList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // MWQMSubsectorLanguageWeb and MWQMSubsectorLanguageReport fields should be null here
+                Assert.IsNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb);
+                Assert.IsNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // MWQMSubsectorLanguageWeb fields should not be null and MWQMSubsectorLanguageReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText));
+                }
+                if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText));
+                }
+                if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText));
+                }
+                Assert.IsNull(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // MWQMSubsectorLanguageWeb and MWQMSubsectorLanguageReport fields should NOT be null here
+                if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LastUpdateContactTVText));
+                }
+                if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.LanguageText));
+                }
+                if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusSubsectorDescText));
+                }
+                if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageWeb.TranslationStatusLogBookText));
+                }
+                if (mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport.MWQMSubsectorLanguageReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageList[0].MWQMSubsectorLanguageReport.MWQMSubsectorLanguageReportTest));
+                }
+            }
+        }
+        private MWQMSubsectorLanguage GetFilledRandomMWQMSubsectorLanguage(string OmitPropName)
+        {
+            MWQMSubsectorLanguage mwqmSubsectorLanguage = new MWQMSubsectorLanguage();
+
+            if (OmitPropName != "MWQMSubsectorID") mwqmSubsectorLanguage.MWQMSubsectorID = 1;
+            if (OmitPropName != "Language") mwqmSubsectorLanguage.Language = LanguageRequest;
+            if (OmitPropName != "SubsectorDesc") mwqmSubsectorLanguage.SubsectorDesc = GetRandomString("", 5);
+            if (OmitPropName != "TranslationStatusSubsectorDesc") mwqmSubsectorLanguage.TranslationStatusSubsectorDesc = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
+            if (OmitPropName != "LogBook") mwqmSubsectorLanguage.LogBook = GetRandomString("", 20);
+            if (OmitPropName != "TranslationStatusLogBook") mwqmSubsectorLanguage.TranslationStatusLogBook = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsectorLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsectorLanguage.LastUpdateContactTVItemID = 2;
+
+            return mwqmSubsectorLanguage;
+        }
+        #endregion Functions private
     }
 }

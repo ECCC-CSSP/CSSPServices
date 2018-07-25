@@ -32,21 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private FilePurposeAndText GetFilledRandomFilePurposeAndText(string OmitPropName)
-        {
-            FilePurposeAndText filePurposeAndText = new FilePurposeAndText();
-
-            if (OmitPropName != "FilePurpose") filePurposeAndText.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
-            if (OmitPropName != "FilePurposeText") filePurposeAndText.FilePurposeText = GetRandomString("", 5);
-
-            return filePurposeAndText;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void FilePurposeAndText_CRUD_And_Properties_Test()
@@ -57,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(new GetParam(), dbTestDB, ContactID);
+                    FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -93,5 +78,31 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetFilePurposeAndTextList() Skip Take
         #endregion Tests Generated for GetFilePurposeAndTextList() Skip Take
 
+        #region Tests Generated for GetFilePurposeAndTextList() Skip Take Order
+        #endregion Tests Generated for GetFilePurposeAndTextList() Skip Take Order
+
+        #region Tests Generated for GetFilePurposeAndTextList() Skip Take 2Order
+        #endregion Tests Generated for GetFilePurposeAndTextList() Skip Take 2Order
+
+        #region Tests Generated for GetFilePurposeAndTextList() Skip Take Order Where
+        #endregion Tests Generated for GetFilePurposeAndTextList() Skip Take Order Where
+
+        #region Tests Generated for GetFilePurposeAndTextList() Skip Take Order 2Where
+        #endregion Tests Generated for GetFilePurposeAndTextList() Skip Take Order 2Where
+
+        #region Tests Generated for GetFilePurposeAndTextList() 2Where
+        #endregion Tests Generated for GetFilePurposeAndTextList() 2Where
+
+        #region Functions private
+        private FilePurposeAndText GetFilledRandomFilePurposeAndText(string OmitPropName)
+        {
+            FilePurposeAndText filePurposeAndText = new FilePurposeAndText();
+
+            if (OmitPropName != "FilePurpose") filePurposeAndText.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
+            if (OmitPropName != "FilePurposeText") filePurposeAndText.FilePurposeText = GetRandomString("", 5);
+
+            return filePurposeAndText;
+        }
+        #endregion Functions private
     }
 }

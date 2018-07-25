@@ -32,25 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MWQMLookupMPN GetFilledRandomMWQMLookupMPN(string OmitPropName)
-        {
-            MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();
-
-            if (OmitPropName != "Tubes10") mwqmLookupMPN.Tubes10 = GetRandomInt(0, 5);
-            if (OmitPropName != "Tubes1") mwqmLookupMPN.Tubes1 = GetRandomInt(0, 5);
-            if (OmitPropName != "Tubes01") mwqmLookupMPN.Tubes01 = 0;
-            if (OmitPropName != "MPN_100ml") mwqmLookupMPN.MPN_100ml = 14;
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = 2;
-
-            return mwqmLookupMPN;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MWQMLookupMPN_CRUD_And_Properties_Test()
@@ -61,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new GetParam(), dbTestDB, ContactID);
+                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -300,14 +281,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new GetParam(), dbTestDB, ContactID);
+                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MWQMLookupMPN mwqmLookupMPN = (from c in mwqmLookupMPNService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmLookupMPN);
 
                     MWQMLookupMPN mwqmLookupMPNRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mwqmLookupMPNService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmLookupMPNService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -331,42 +312,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MWQMLookupMPN fields
-                        Assert.IsNotNull(mwqmLookupMPNRet.MWQMLookupMPNID);
-                        Assert.IsNotNull(mwqmLookupMPNRet.Tubes10);
-                        Assert.IsNotNull(mwqmLookupMPNRet.Tubes1);
-                        Assert.IsNotNull(mwqmLookupMPNRet.Tubes01);
-                        Assert.IsNotNull(mwqmLookupMPNRet.MPN_100ml);
-                        Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MWQMLookupMPNWeb and MWQMLookupMPNReport fields should be null here
-                            Assert.IsNull(mwqmLookupMPNRet.MWQMLookupMPNWeb);
-                            Assert.IsNull(mwqmLookupMPNRet.MWQMLookupMPNReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MWQMLookupMPNWeb fields should not be null and MWQMLookupMPNReport fields should be null here
-                            if (mwqmLookupMPNRet.MWQMLookupMPNWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.MWQMLookupMPNWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(mwqmLookupMPNRet.MWQMLookupMPNReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MWQMLookupMPNWeb and MWQMLookupMPNReport fields should NOT be null here
-                            if (mwqmLookupMPNRet.MWQMLookupMPNWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.MWQMLookupMPNWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmLookupMPNRet.MWQMLookupMPNReport.MWQMLookupMPNReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.MWQMLookupMPNReport.MWQMLookupMPNReportTest));
-                            }
-                        }
+                        CheckMWQMLookupMPNFields(new List<MWQMLookupMPN>() { mwqmLookupMPNRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -383,14 +329,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new GetParam(), dbTestDB, ContactID);
+                    MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     MWQMLookupMPN mwqmLookupMPN = (from c in mwqmLookupMPNService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmLookupMPN);
 
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        mwqmLookupMPNService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        mwqmLookupMPNService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -414,42 +360,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // MWQMLookupMPN fields
-                        Assert.IsNotNull(mwqmLookupMPNList[0].MWQMLookupMPNID);
-                        Assert.IsNotNull(mwqmLookupMPNList[0].Tubes10);
-                        Assert.IsNotNull(mwqmLookupMPNList[0].Tubes1);
-                        Assert.IsNotNull(mwqmLookupMPNList[0].Tubes01);
-                        Assert.IsNotNull(mwqmLookupMPNList[0].MPN_100ml);
-                        Assert.IsNotNull(mwqmLookupMPNList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(mwqmLookupMPNList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // MWQMLookupMPNWeb and MWQMLookupMPNReport fields should be null here
-                            Assert.IsNull(mwqmLookupMPNList[0].MWQMLookupMPNWeb);
-                            Assert.IsNull(mwqmLookupMPNList[0].MWQMLookupMPNReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // MWQMLookupMPNWeb fields should not be null and MWQMLookupMPNReport fields should be null here
-                            if (mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsNull(mwqmLookupMPNList[0].MWQMLookupMPNReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // MWQMLookupMPNWeb and MWQMLookupMPNReport fields should NOT be null here
-                            if (mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText));
-                            }
-                            if (mwqmLookupMPNList[0].MWQMLookupMPNReport.MWQMLookupMPNReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNReport.MWQMLookupMPNReportTest));
-                            }
-                        }
+                        CheckMWQMLookupMPNFields(mwqmLookupMPNList, entityQueryDetailType);
                     }
                 }
             }
@@ -467,12 +378,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                    List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(MWQMLookupMPN), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(getParam, dbTestDB, ContactID);
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -496,13 +409,323 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, mwqmLookupMPNList.Count);
+                        CheckMWQMLookupMPNFields(mwqmLookupMPNList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        Assert.AreEqual(1, mwqmLookupMPNList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take
 
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Order
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                    List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMLookupMPNID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            Assert.AreEqual(0, mwqmLookupMPNList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMLookupMPNFields(mwqmLookupMPNList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        Assert.AreEqual(1, mwqmLookupMPNList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Order
+
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take 2Order
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                    List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 1, 1, "MWQMLookupMPNID,Tubes10", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMLookupMPNID).ThenBy(c => c.Tubes10).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            Assert.AreEqual(0, mwqmLookupMPNList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMLookupMPNFields(mwqmLookupMPNList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        Assert.AreEqual(1, mwqmLookupMPNList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take 2Order
+
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Order Where
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                    List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "MWQMLookupMPNID", "MWQMLookupMPNID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Where(c => c.MWQMLookupMPNID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            Assert.AreEqual(0, mwqmLookupMPNList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMLookupMPNFields(mwqmLookupMPNList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        Assert.AreEqual(1, mwqmLookupMPNList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Order Where
+
+        #region Tests Generated for GetMWQMLookupMPNList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetMWQMLookupMPNList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                    List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 1, "MWQMLookupMPNID", "MWQMLookupMPNID,GT,2|MWQMLookupMPNID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Where(c => c.MWQMLookupMPNID > 2 && c.MWQMLookupMPNID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            Assert.AreEqual(0, mwqmLookupMPNList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMLookupMPNFields(mwqmLookupMPNList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        Assert.AreEqual(1, mwqmLookupMPNList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMWQMLookupMPNList() 2Where
+        [TestMethod]
+        public void GetMWQMLookupMPNList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
+                    List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        mwqmLookupMPNService.Query = mwqmLookupMPNService.FillQuery(typeof(MWQMLookupMPN), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMLookupMPNID,GT,2|MWQMLookupMPNID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Where(c => c.MWQMLookupMPNID > 2 && c.MWQMLookupMPNID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                            Assert.AreEqual(0, mwqmLookupMPNList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckMWQMLookupMPNFields(mwqmLookupMPNList, entityQueryDetailType);
+                        Assert.AreEqual(mwqmLookupMPNDirectQueryList[0].MWQMLookupMPNID, mwqmLookupMPNList[0].MWQMLookupMPNID);
+                        Assert.AreEqual(2, mwqmLookupMPNList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetMWQMLookupMPNList() 2Where
+
+        #region Functions private
+        private void CheckMWQMLookupMPNFields(List<MWQMLookupMPN> mwqmLookupMPNList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // MWQMLookupMPN fields
+            Assert.IsNotNull(mwqmLookupMPNList[0].MWQMLookupMPNID);
+            Assert.IsNotNull(mwqmLookupMPNList[0].Tubes10);
+            Assert.IsNotNull(mwqmLookupMPNList[0].Tubes1);
+            Assert.IsNotNull(mwqmLookupMPNList[0].Tubes01);
+            Assert.IsNotNull(mwqmLookupMPNList[0].MPN_100ml);
+            Assert.IsNotNull(mwqmLookupMPNList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmLookupMPNList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // MWQMLookupMPNWeb and MWQMLookupMPNReport fields should be null here
+                Assert.IsNull(mwqmLookupMPNList[0].MWQMLookupMPNWeb);
+                Assert.IsNull(mwqmLookupMPNList[0].MWQMLookupMPNReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // MWQMLookupMPNWeb fields should not be null and MWQMLookupMPNReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText));
+                }
+                Assert.IsNull(mwqmLookupMPNList[0].MWQMLookupMPNReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // MWQMLookupMPNWeb and MWQMLookupMPNReport fields should NOT be null here
+                if (mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText));
+                }
+                if (mwqmLookupMPNList[0].MWQMLookupMPNReport.MWQMLookupMPNReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNReport.MWQMLookupMPNReportTest));
+                }
+            }
+        }
+        private MWQMLookupMPN GetFilledRandomMWQMLookupMPN(string OmitPropName)
+        {
+            MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();
+
+            if (OmitPropName != "Tubes10") mwqmLookupMPN.Tubes10 = GetRandomInt(0, 5);
+            if (OmitPropName != "Tubes1") mwqmLookupMPN.Tubes1 = GetRandomInt(0, 5);
+            if (OmitPropName != "Tubes01") mwqmLookupMPN.Tubes01 = 0;
+            if (OmitPropName != "MPN_100ml") mwqmLookupMPN.MPN_100ml = 14;
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = 2;
+
+            return mwqmLookupMPN;
+        }
+        #endregion Functions private
     }
 }

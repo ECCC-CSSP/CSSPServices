@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private MapObj GetFilledRandomMapObj(string OmitPropName)
-        {
-            MapObj mapObj = new MapObj();
-
-            if (OmitPropName != "MapInfoID") mapObj.MapInfoID = GetRandomInt(1, 11);
-            if (OmitPropName != "MapInfoDrawType") mapObj.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
-            if (OmitPropName != "MapInfoDrawTypeText") mapObj.MapInfoDrawTypeText = GetRandomString("", 5);
-
-            return mapObj;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void MapObj_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    MapObjService mapObjService = new MapObjService(new GetParam(), dbTestDB, ContactID);
+                    MapObjService mapObjService = new MapObjService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetMapObjList() Skip Take
         #endregion Tests Generated for GetMapObjList() Skip Take
 
+        #region Tests Generated for GetMapObjList() Skip Take Order
+        #endregion Tests Generated for GetMapObjList() Skip Take Order
+
+        #region Tests Generated for GetMapObjList() Skip Take 2Order
+        #endregion Tests Generated for GetMapObjList() Skip Take 2Order
+
+        #region Tests Generated for GetMapObjList() Skip Take Order Where
+        #endregion Tests Generated for GetMapObjList() Skip Take Order Where
+
+        #region Tests Generated for GetMapObjList() Skip Take Order 2Where
+        #endregion Tests Generated for GetMapObjList() Skip Take Order 2Where
+
+        #region Tests Generated for GetMapObjList() 2Where
+        #endregion Tests Generated for GetMapObjList() 2Where
+
+        #region Functions private
+        private MapObj GetFilledRandomMapObj(string OmitPropName)
+        {
+            MapObj mapObj = new MapObj();
+
+            if (OmitPropName != "MapInfoID") mapObj.MapInfoID = GetRandomInt(1, 11);
+            if (OmitPropName != "MapInfoDrawType") mapObj.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
+            if (OmitPropName != "MapInfoDrawTypeText") mapObj.MapInfoDrawTypeText = GetRandomString("", 5);
+
+            return mapObj;
+        }
+        #endregion Functions private
     }
 }

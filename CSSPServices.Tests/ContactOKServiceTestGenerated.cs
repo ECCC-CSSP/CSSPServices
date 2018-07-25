@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private ContactOK GetFilledRandomContactOK(string OmitPropName)
-        {
-            ContactOK contactOK = new ContactOK();
-
-            if (OmitPropName != "Error") contactOK.Error = GetRandomString("", 5);
-            if (OmitPropName != "ContactID") contactOK.ContactID = GetRandomInt(1, 11);
-            if (OmitPropName != "ContactTVItemID") contactOK.ContactTVItemID = GetRandomInt(1, 11);
-
-            return contactOK;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void ContactOK_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContactOKService contactOKService = new ContactOKService(new GetParam(), dbTestDB, ContactID);
+                    ContactOKService contactOKService = new ContactOKService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetContactOKList() Skip Take
         #endregion Tests Generated for GetContactOKList() Skip Take
 
+        #region Tests Generated for GetContactOKList() Skip Take Order
+        #endregion Tests Generated for GetContactOKList() Skip Take Order
+
+        #region Tests Generated for GetContactOKList() Skip Take 2Order
+        #endregion Tests Generated for GetContactOKList() Skip Take 2Order
+
+        #region Tests Generated for GetContactOKList() Skip Take Order Where
+        #endregion Tests Generated for GetContactOKList() Skip Take Order Where
+
+        #region Tests Generated for GetContactOKList() Skip Take Order 2Where
+        #endregion Tests Generated for GetContactOKList() Skip Take Order 2Where
+
+        #region Tests Generated for GetContactOKList() 2Where
+        #endregion Tests Generated for GetContactOKList() 2Where
+
+        #region Functions private
+        private ContactOK GetFilledRandomContactOK(string OmitPropName)
+        {
+            ContactOK contactOK = new ContactOK();
+
+            if (OmitPropName != "Error") contactOK.Error = GetRandomString("", 5);
+            if (OmitPropName != "ContactID") contactOK.ContactID = GetRandomInt(1, 11);
+            if (OmitPropName != "ContactTVItemID") contactOK.ContactTVItemID = GetRandomInt(1, 11);
+
+            return contactOK;
+        }
+        #endregion Functions private
     }
 }

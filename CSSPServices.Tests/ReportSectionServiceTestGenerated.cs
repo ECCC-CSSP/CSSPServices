@@ -32,29 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private ReportSection GetFilledRandomReportSection(string OmitPropName)
-        {
-            ReportSection reportSection = new ReportSection();
-
-            if (OmitPropName != "ReportTypeID") reportSection.ReportTypeID = 1;
-            // Need to implement (no items found, would need to add at least one in the TestDB) [ReportSection TVItemID TVItem TVItemID]
-            if (OmitPropName != "Ordinal") reportSection.Ordinal = GetRandomInt(0, 1000);
-            if (OmitPropName != "IsStatic") reportSection.IsStatic = true;
-            if (OmitPropName != "ParentReportSectionID") reportSection.ParentReportSectionID = 1;
-            if (OmitPropName != "Year") reportSection.Year = GetRandomInt(1979, 2050);
-            if (OmitPropName != "Locked") reportSection.Locked = true;
-            if (OmitPropName != "TemplateReportSectionID") reportSection.TemplateReportSectionID = 1;
-            if (OmitPropName != "LastUpdateDate_UTC") reportSection.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") reportSection.LastUpdateContactTVItemID = 2;
-
-            return reportSection;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void ReportSection_CRUD_And_Properties_Test()
@@ -65,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ReportSectionService reportSectionService = new ReportSectionService(new GetParam(), dbTestDB, ContactID);
+                    ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -336,14 +313,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ReportSectionService reportSectionService = new ReportSectionService(new GetParam(), dbTestDB, ContactID);
+                    ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     ReportSection reportSection = (from c in reportSectionService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(reportSection);
 
                     ReportSection reportSectionRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        reportSectionService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        reportSectionService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -367,74 +344,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // ReportSection fields
-                        Assert.IsNotNull(reportSectionRet.ReportSectionID);
-                        Assert.IsNotNull(reportSectionRet.ReportTypeID);
-                        if (reportSectionRet.TVItemID != null)
-                        {
-                            Assert.IsNotNull(reportSectionRet.TVItemID);
-                        }
-                        Assert.IsNotNull(reportSectionRet.Ordinal);
-                        Assert.IsNotNull(reportSectionRet.IsStatic);
-                        if (reportSectionRet.ParentReportSectionID != null)
-                        {
-                            Assert.IsNotNull(reportSectionRet.ParentReportSectionID);
-                        }
-                        if (reportSectionRet.Year != null)
-                        {
-                            Assert.IsNotNull(reportSectionRet.Year);
-                        }
-                        Assert.IsNotNull(reportSectionRet.Locked);
-                        if (reportSectionRet.TemplateReportSectionID != null)
-                        {
-                            Assert.IsNotNull(reportSectionRet.TemplateReportSectionID);
-                        }
-                        Assert.IsNotNull(reportSectionRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(reportSectionRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // ReportSectionWeb and ReportSectionReport fields should be null here
-                            Assert.IsNull(reportSectionRet.ReportSectionWeb);
-                            Assert.IsNull(reportSectionRet.ReportSectionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // ReportSectionWeb fields should not be null and ReportSectionReport fields should be null here
-                            if (reportSectionRet.ReportSectionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionRet.ReportSectionWeb.LastUpdateContactTVText));
-                            }
-                            if (reportSectionRet.ReportSectionWeb.ReportSectionName != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionRet.ReportSectionWeb.ReportSectionName));
-                            }
-                            if (reportSectionRet.ReportSectionWeb.ReportSectionText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionRet.ReportSectionWeb.ReportSectionText));
-                            }
-                            Assert.IsNull(reportSectionRet.ReportSectionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // ReportSectionWeb and ReportSectionReport fields should NOT be null here
-                            if (reportSectionRet.ReportSectionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionRet.ReportSectionWeb.LastUpdateContactTVText));
-                            }
-                            if (reportSectionRet.ReportSectionWeb.ReportSectionName != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionRet.ReportSectionWeb.ReportSectionName));
-                            }
-                            if (reportSectionRet.ReportSectionWeb.ReportSectionText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionRet.ReportSectionWeb.ReportSectionText));
-                            }
-                            if (reportSectionRet.ReportSectionReport.ReportSectionReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionRet.ReportSectionReport.ReportSectionReportTest));
-                            }
-                        }
+                        CheckReportSectionFields(new List<ReportSection>() { reportSectionRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -451,14 +361,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ReportSectionService reportSectionService = new ReportSectionService(new GetParam(), dbTestDB, ContactID);
+                    ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     ReportSection reportSection = (from c in reportSectionService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(reportSection);
 
                     List<ReportSection> reportSectionList = new List<ReportSection>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        reportSectionService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        reportSectionService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -482,74 +392,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // ReportSection fields
-                        Assert.IsNotNull(reportSectionList[0].ReportSectionID);
-                        Assert.IsNotNull(reportSectionList[0].ReportTypeID);
-                        if (reportSectionList[0].TVItemID != null)
-                        {
-                            Assert.IsNotNull(reportSectionList[0].TVItemID);
-                        }
-                        Assert.IsNotNull(reportSectionList[0].Ordinal);
-                        Assert.IsNotNull(reportSectionList[0].IsStatic);
-                        if (reportSectionList[0].ParentReportSectionID != null)
-                        {
-                            Assert.IsNotNull(reportSectionList[0].ParentReportSectionID);
-                        }
-                        if (reportSectionList[0].Year != null)
-                        {
-                            Assert.IsNotNull(reportSectionList[0].Year);
-                        }
-                        Assert.IsNotNull(reportSectionList[0].Locked);
-                        if (reportSectionList[0].TemplateReportSectionID != null)
-                        {
-                            Assert.IsNotNull(reportSectionList[0].TemplateReportSectionID);
-                        }
-                        Assert.IsNotNull(reportSectionList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(reportSectionList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // ReportSectionWeb and ReportSectionReport fields should be null here
-                            Assert.IsNull(reportSectionList[0].ReportSectionWeb);
-                            Assert.IsNull(reportSectionList[0].ReportSectionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // ReportSectionWeb fields should not be null and ReportSectionReport fields should be null here
-                            if (reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText));
-                            }
-                            if (reportSectionList[0].ReportSectionWeb.ReportSectionName != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName));
-                            }
-                            if (reportSectionList[0].ReportSectionWeb.ReportSectionText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText));
-                            }
-                            Assert.IsNull(reportSectionList[0].ReportSectionReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // ReportSectionWeb and ReportSectionReport fields should NOT be null here
-                            if (reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText));
-                            }
-                            if (reportSectionList[0].ReportSectionWeb.ReportSectionName != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName));
-                            }
-                            if (reportSectionList[0].ReportSectionWeb.ReportSectionText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText));
-                            }
-                            if (reportSectionList[0].ReportSectionReport.ReportSectionReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionReport.ReportSectionReportTest));
-                            }
-                        }
+                        CheckReportSectionFields(reportSectionList, entityQueryDetailType);
                     }
                 }
             }
@@ -567,12 +410,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<ReportSection> reportSectionList = new List<ReportSection>();
+                    List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(ReportSection), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        ReportSectionService reportSectionService = new ReportSectionService(getParam, dbTestDB, ContactID);
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        reportSectionDirectQueryList = reportSectionService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -596,13 +441,359 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, reportSectionList.Count);
+                        CheckReportSectionFields(reportSectionList, entityQueryDetailType);
+                        Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        Assert.AreEqual(1, reportSectionList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetReportSectionList() Skip Take
 
+        #region Tests Generated for GetReportSectionList() Skip Take Order
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ReportSection> reportSectionList = new List<ReportSection>();
+                    List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1,  "ReportSectionID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        reportSectionDirectQueryList = reportSectionService.GetRead().Skip(1).Take(1).OrderBy(c => c.ReportSectionID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            Assert.AreEqual(0, reportSectionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckReportSectionFields(reportSectionList, entityQueryDetailType);
+                        Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        Assert.AreEqual(1, reportSectionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take Order
+
+        #region Tests Generated for GetReportSectionList() Skip Take 2Order
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ReportSection> reportSectionList = new List<ReportSection>();
+                    List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 1, 1, "ReportSectionID,ReportTypeID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        reportSectionDirectQueryList = reportSectionService.GetRead().Skip(1).Take(1).OrderBy(c => c.ReportSectionID).ThenBy(c => c.ReportTypeID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            Assert.AreEqual(0, reportSectionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckReportSectionFields(reportSectionList, entityQueryDetailType);
+                        Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        Assert.AreEqual(1, reportSectionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take 2Order
+
+        #region Tests Generated for GetReportSectionList() Skip Take Order Where
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ReportSection> reportSectionList = new List<ReportSection>();
+                    List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "ReportSectionID", "ReportSectionID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        reportSectionDirectQueryList = reportSectionService.GetRead().Where(c => c.ReportSectionID == 4).Skip(0).Take(1).OrderBy(c => c.ReportSectionID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            Assert.AreEqual(0, reportSectionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckReportSectionFields(reportSectionList, entityQueryDetailType);
+                        Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        Assert.AreEqual(1, reportSectionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take Order Where
+
+        #region Tests Generated for GetReportSectionList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetReportSectionList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ReportSection> reportSectionList = new List<ReportSection>();
+                    List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 1, "ReportSectionID", "ReportSectionID,GT,2|ReportSectionID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        reportSectionDirectQueryList = reportSectionService.GetRead().Where(c => c.ReportSectionID > 2 && c.ReportSectionID < 5).Skip(0).Take(1).OrderBy(c => c.ReportSectionID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            Assert.AreEqual(0, reportSectionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckReportSectionFields(reportSectionList, entityQueryDetailType);
+                        Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        Assert.AreEqual(1, reportSectionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() Skip Take Order 2Where
+
+        #region Tests Generated for GetReportSectionList() 2Where
+        [TestMethod]
+        public void GetReportSectionList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<ReportSection> reportSectionList = new List<ReportSection>();
+                    List<ReportSection> reportSectionDirectQueryList = new List<ReportSection>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ReportSectionService reportSectionService = new ReportSectionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        reportSectionService.Query = reportSectionService.FillQuery(typeof(ReportSection), culture.TwoLetterISOLanguageName, 0, 10000, "", "ReportSectionID,GT,2|ReportSectionID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        reportSectionDirectQueryList = reportSectionService.GetRead().Where(c => c.ReportSectionID > 2 && c.ReportSectionID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                            Assert.AreEqual(0, reportSectionList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            reportSectionList = reportSectionService.GetReportSectionList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckReportSectionFields(reportSectionList, entityQueryDetailType);
+                        Assert.AreEqual(reportSectionDirectQueryList[0].ReportSectionID, reportSectionList[0].ReportSectionID);
+                        Assert.AreEqual(2, reportSectionList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetReportSectionList() 2Where
+
+        #region Functions private
+        private void CheckReportSectionFields(List<ReportSection> reportSectionList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // ReportSection fields
+            Assert.IsNotNull(reportSectionList[0].ReportSectionID);
+            Assert.IsNotNull(reportSectionList[0].ReportTypeID);
+            if (reportSectionList[0].TVItemID != null)
+            {
+                Assert.IsNotNull(reportSectionList[0].TVItemID);
+            }
+            Assert.IsNotNull(reportSectionList[0].Ordinal);
+            Assert.IsNotNull(reportSectionList[0].IsStatic);
+            if (reportSectionList[0].ParentReportSectionID != null)
+            {
+                Assert.IsNotNull(reportSectionList[0].ParentReportSectionID);
+            }
+            if (reportSectionList[0].Year != null)
+            {
+                Assert.IsNotNull(reportSectionList[0].Year);
+            }
+            Assert.IsNotNull(reportSectionList[0].Locked);
+            if (reportSectionList[0].TemplateReportSectionID != null)
+            {
+                Assert.IsNotNull(reportSectionList[0].TemplateReportSectionID);
+            }
+            Assert.IsNotNull(reportSectionList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(reportSectionList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // ReportSectionWeb and ReportSectionReport fields should be null here
+                Assert.IsNull(reportSectionList[0].ReportSectionWeb);
+                Assert.IsNull(reportSectionList[0].ReportSectionReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // ReportSectionWeb fields should not be null and ReportSectionReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName));
+                }
+                if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText));
+                }
+                Assert.IsNull(reportSectionList[0].ReportSectionReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // ReportSectionWeb and ReportSectionReport fields should NOT be null here
+                if (reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText));
+                }
+                if (reportSectionList[0].ReportSectionWeb.ReportSectionName != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName));
+                }
+                if (reportSectionList[0].ReportSectionWeb.ReportSectionText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText));
+                }
+                if (reportSectionList[0].ReportSectionReport.ReportSectionReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionReport.ReportSectionReportTest));
+                }
+            }
+        }
+        private ReportSection GetFilledRandomReportSection(string OmitPropName)
+        {
+            ReportSection reportSection = new ReportSection();
+
+            if (OmitPropName != "ReportTypeID") reportSection.ReportTypeID = 1;
+            // Need to implement (no items found, would need to add at least one in the TestDB) [ReportSection TVItemID TVItem TVItemID]
+            if (OmitPropName != "Ordinal") reportSection.Ordinal = GetRandomInt(0, 1000);
+            if (OmitPropName != "IsStatic") reportSection.IsStatic = true;
+            if (OmitPropName != "ParentReportSectionID") reportSection.ParentReportSectionID = 1;
+            if (OmitPropName != "Year") reportSection.Year = GetRandomInt(1979, 2050);
+            if (OmitPropName != "Locked") reportSection.Locked = true;
+            if (OmitPropName != "TemplateReportSectionID") reportSection.TemplateReportSectionID = 1;
+            if (OmitPropName != "LastUpdateDate_UTC") reportSection.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") reportSection.LastUpdateContactTVItemID = 2;
+
+            return reportSection;
+        }
+        #endregion Functions private
     }
 }

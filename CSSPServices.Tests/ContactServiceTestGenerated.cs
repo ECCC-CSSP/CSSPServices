@@ -32,34 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private Contact GetFilledRandomContact(string OmitPropName)
-        {
-            Contact contact = new Contact();
-
-            if (OmitPropName != "Id") contact.Id = "023566a4-4a25-4484-88f5-584aa8e1da38";
-            if (OmitPropName != "ContactTVItemID") contact.ContactTVItemID = 2;
-            if (OmitPropName != "LoginEmail") contact.LoginEmail = GetRandomEmail();
-            if (OmitPropName != "FirstName") contact.FirstName = GetRandomString("", 5);
-            if (OmitPropName != "LastName") contact.LastName = GetRandomString("", 5);
-            if (OmitPropName != "Initial") contact.Initial = GetRandomString("", 5);
-            if (OmitPropName != "WebName") contact.WebName = GetRandomString("", 5);
-            if (OmitPropName != "ContactTitle") contact.ContactTitle = (ContactTitleEnum)GetRandomEnumType(typeof(ContactTitleEnum));
-            if (OmitPropName != "IsAdmin") contact.IsAdmin = true;
-            if (OmitPropName != "EmailValidated") contact.EmailValidated = true;
-            if (OmitPropName != "Disabled") contact.Disabled = true;
-            if (OmitPropName != "IsNew") contact.IsNew = true;
-            if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
-
-            return contact;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void Contact_CRUD_And_Properties_Test()
@@ -70,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContactService contactService = new ContactService(new GetParam(), dbTestDB, ContactID);
+                    ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -428,14 +400,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContactService contactService = new ContactService(new GetParam(), dbTestDB, ContactID);
+                    ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     Contact contact = (from c in contactService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(contact);
 
                     Contact contactRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        contactService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        contactService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -459,78 +431,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // Contact fields
-                        Assert.IsNotNull(contactRet.ContactID);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Id));
-                        Assert.IsNotNull(contactRet.ContactTVItemID);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LoginEmail));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.FirstName));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastName));
-                        if (contactRet.Initial != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Initial));
-                        }
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.WebName));
-                        if (contactRet.ContactTitle != null)
-                        {
-                            Assert.IsNotNull(contactRet.ContactTitle);
-                        }
-                        Assert.IsNotNull(contactRet.IsAdmin);
-                        Assert.IsNotNull(contactRet.EmailValidated);
-                        Assert.IsNotNull(contactRet.Disabled);
-                        Assert.IsNotNull(contactRet.IsNew);
-                        if (contactRet.SamplingPlanner_ProvincesTVItemID != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.SamplingPlanner_ProvincesTVItemID));
-                        }
-                        Assert.IsNotNull(contactRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(contactRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // ContactWeb and ContactReport fields should be null here
-                            Assert.IsNull(contactRet.ContactWeb);
-                            Assert.IsNull(contactRet.ContactReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // ContactWeb fields should not be null and ContactReport fields should be null here
-                            if (contactRet.ContactWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTVText));
-                            }
-                            if (contactRet.ContactWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsTrue(contactRet.ContactWeb.ParentTVItemID > 0);
-                            if (contactRet.ContactWeb.ContactTitleText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTitleText));
-                            }
-                            Assert.IsNull(contactRet.ContactReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // ContactWeb and ContactReport fields should NOT be null here
-                            if (contactRet.ContactWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTVText));
-                            }
-                            if (contactRet.ContactWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsTrue(contactRet.ContactWeb.ParentTVItemID > 0);
-                            if (contactRet.ContactWeb.ContactTitleText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactWeb.ContactTitleText));
-                            }
-                            if (contactRet.ContactReport.ContactReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactReport.ContactReportTest));
-                            }
-                        }
+                        CheckContactFields(new List<Contact>() { contactRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -547,14 +448,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContactService contactService = new ContactService(new GetParam(), dbTestDB, ContactID);
+                    ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     Contact contact = (from c in contactService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(contact);
 
                     List<Contact> contactList = new List<Contact>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        contactService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        contactService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -578,78 +479,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // Contact fields
-                        Assert.IsNotNull(contactList[0].ContactID);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].Id));
-                        Assert.IsNotNull(contactList[0].ContactTVItemID);
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].LoginEmail));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].FirstName));
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].LastName));
-                        if (contactList[0].Initial != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].Initial));
-                        }
-                        Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].WebName));
-                        if (contactList[0].ContactTitle != null)
-                        {
-                            Assert.IsNotNull(contactList[0].ContactTitle);
-                        }
-                        Assert.IsNotNull(contactList[0].IsAdmin);
-                        Assert.IsNotNull(contactList[0].EmailValidated);
-                        Assert.IsNotNull(contactList[0].Disabled);
-                        Assert.IsNotNull(contactList[0].IsNew);
-                        if (contactList[0].SamplingPlanner_ProvincesTVItemID != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].SamplingPlanner_ProvincesTVItemID));
-                        }
-                        Assert.IsNotNull(contactList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(contactList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // ContactWeb and ContactReport fields should be null here
-                            Assert.IsNull(contactList[0].ContactWeb);
-                            Assert.IsNull(contactList[0].ContactReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // ContactWeb fields should not be null and ContactReport fields should be null here
-                            if (contactList[0].ContactWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText));
-                            }
-                            if (contactList[0].ContactWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsTrue(contactList[0].ContactWeb.ParentTVItemID > 0);
-                            if (contactList[0].ContactWeb.ContactTitleText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTitleText));
-                            }
-                            Assert.IsNull(contactList[0].ContactReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // ContactWeb and ContactReport fields should NOT be null here
-                            if (contactList[0].ContactWeb.ContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText));
-                            }
-                            if (contactList[0].ContactWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText));
-                            }
-                            Assert.IsTrue(contactList[0].ContactWeb.ParentTVItemID > 0);
-                            if (contactList[0].ContactWeb.ContactTitleText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTitleText));
-                            }
-                            if (contactList[0].ContactReport.ContactReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactReport.ContactReportTest));
-                            }
-                        }
+                        CheckContactFields(contactList, entityQueryDetailType);
                     }
                 }
             }
@@ -667,12 +497,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<Contact> contactList = new List<Contact>();
+                    List<Contact> contactDirectQueryList = new List<Contact>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(Contact), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        ContactService contactService = new ContactService(getParam, dbTestDB, ContactID);
+                        contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -696,13 +528,368 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, contactList.Count);
+                        CheckContactFields(contactList, entityQueryDetailType);
+                        Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
+                        Assert.AreEqual(1, contactList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetContactList() Skip Take
 
+        #region Tests Generated for GetContactList() Skip Take Order
+        [TestMethod]
+        public void GetContactList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Contact> contactList = new List<Contact>();
+                    List<Contact> contactDirectQueryList = new List<Contact>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 1, 1,  "ContactID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                            Assert.AreEqual(0, contactList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckContactFields(contactList, entityQueryDetailType);
+                        Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
+                        Assert.AreEqual(1, contactList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactList() Skip Take Order
+
+        #region Tests Generated for GetContactList() Skip Take 2Order
+        [TestMethod]
+        public void GetContactList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Contact> contactList = new List<Contact>();
+                    List<Contact> contactDirectQueryList = new List<Contact>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 1, 1, "ContactID,Id", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactID).ThenBy(c => c.Id).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                            Assert.AreEqual(0, contactList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckContactFields(contactList, entityQueryDetailType);
+                        Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
+                        Assert.AreEqual(1, contactList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactList() Skip Take 2Order
+
+        #region Tests Generated for GetContactList() Skip Take Order Where
+        [TestMethod]
+        public void GetContactList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Contact> contactList = new List<Contact>();
+                    List<Contact> contactDirectQueryList = new List<Contact>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 0, 1, "ContactID", "ContactID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID == 4).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                            Assert.AreEqual(0, contactList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckContactFields(contactList, entityQueryDetailType);
+                        Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
+                        Assert.AreEqual(1, contactList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactList() Skip Take Order Where
+
+        #region Tests Generated for GetContactList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetContactList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Contact> contactList = new List<Contact>();
+                    List<Contact> contactDirectQueryList = new List<Contact>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 0, 1, "ContactID", "ContactID,GT,2|ContactID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID > 2 && c.ContactID < 5).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                            Assert.AreEqual(0, contactList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckContactFields(contactList, entityQueryDetailType);
+                        Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
+                        Assert.AreEqual(1, contactList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactList() Skip Take Order 2Where
+
+        #region Tests Generated for GetContactList() 2Where
+        [TestMethod]
+        public void GetContactList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<Contact> contactList = new List<Contact>();
+                    List<Contact> contactDirectQueryList = new List<Contact>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 0, 10000, "", "ContactID,GT,2|ContactID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID > 2 && c.ContactID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                            Assert.AreEqual(0, contactList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            contactList = contactService.GetContactList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckContactFields(contactList, entityQueryDetailType);
+                        Assert.AreEqual(contactDirectQueryList[0].ContactID, contactList[0].ContactID);
+                        Assert.AreEqual(2, contactList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetContactList() 2Where
+
+        #region Functions private
+        private void CheckContactFields(List<Contact> contactList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // Contact fields
+            Assert.IsNotNull(contactList[0].ContactID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].Id));
+            Assert.IsNotNull(contactList[0].ContactTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].LoginEmail));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].FirstName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].LastName));
+            if (!string.IsNullOrWhiteSpace(contactList[0].Initial))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].Initial));
+            }
+            Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].WebName));
+            if (contactList[0].ContactTitle != null)
+            {
+                Assert.IsNotNull(contactList[0].ContactTitle);
+            }
+            Assert.IsNotNull(contactList[0].IsAdmin);
+            Assert.IsNotNull(contactList[0].EmailValidated);
+            Assert.IsNotNull(contactList[0].Disabled);
+            Assert.IsNotNull(contactList[0].IsNew);
+            if (!string.IsNullOrWhiteSpace(contactList[0].SamplingPlanner_ProvincesTVItemID))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].SamplingPlanner_ProvincesTVItemID));
+            }
+            Assert.IsNotNull(contactList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(contactList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // ContactWeb and ContactReport fields should be null here
+                Assert.IsNull(contactList[0].ContactWeb);
+                Assert.IsNull(contactList[0].ContactReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // ContactWeb fields should not be null and ContactReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText));
+                }
+                Assert.IsTrue(contactList[0].ContactWeb.ParentTVItemID > 0);
+                if (!string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTitleText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTitleText));
+                }
+                Assert.IsNull(contactList[0].ContactReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // ContactWeb and ContactReport fields should NOT be null here
+                if (contactList[0].ContactWeb.ContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText));
+                }
+                if (contactList[0].ContactWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText));
+                }
+                Assert.IsTrue(contactList[0].ContactWeb.ParentTVItemID > 0);
+                if (contactList[0].ContactWeb.ContactTitleText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTitleText));
+                }
+                if (contactList[0].ContactReport.ContactReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactReport.ContactReportTest));
+                }
+            }
+        }
+        private Contact GetFilledRandomContact(string OmitPropName)
+        {
+            Contact contact = new Contact();
+
+            if (OmitPropName != "Id") contact.Id = "023566a4-4a25-4484-88f5-584aa8e1da38";
+            if (OmitPropName != "ContactTVItemID") contact.ContactTVItemID = 2;
+            if (OmitPropName != "LoginEmail") contact.LoginEmail = GetRandomEmail();
+            if (OmitPropName != "FirstName") contact.FirstName = GetRandomString("", 5);
+            if (OmitPropName != "LastName") contact.LastName = GetRandomString("", 5);
+            if (OmitPropName != "Initial") contact.Initial = GetRandomString("", 5);
+            if (OmitPropName != "WebName") contact.WebName = GetRandomString("", 5);
+            if (OmitPropName != "ContactTitle") contact.ContactTitle = (ContactTitleEnum)GetRandomEnumType(typeof(ContactTitleEnum));
+            if (OmitPropName != "IsAdmin") contact.IsAdmin = true;
+            if (OmitPropName != "EmailValidated") contact.EmailValidated = true;
+            if (OmitPropName != "Disabled") contact.Disabled = true;
+            if (OmitPropName != "IsNew") contact.IsNew = true;
+            if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
+
+            return contact;
+        }
+        #endregion Functions private
     }
 }

@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private DataPathOfTide GetFilledRandomDataPathOfTide(string OmitPropName)
-        {
-            DataPathOfTide dataPathOfTide = new DataPathOfTide();
-
-            if (OmitPropName != "Text") dataPathOfTide.Text = GetRandomString("", 6);
-            if (OmitPropName != "WebTideDataSet") dataPathOfTide.WebTideDataSet = (WebTideDataSetEnum)GetRandomEnumType(typeof(WebTideDataSetEnum));
-            if (OmitPropName != "WebTideDataSetText") dataPathOfTide.WebTideDataSetText = GetRandomString("", 5);
-
-            return dataPathOfTide;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void DataPathOfTide_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    DataPathOfTideService dataPathOfTideService = new DataPathOfTideService(new GetParam(), dbTestDB, ContactID);
+                    DataPathOfTideService dataPathOfTideService = new DataPathOfTideService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetDataPathOfTideList() Skip Take
         #endregion Tests Generated for GetDataPathOfTideList() Skip Take
 
+        #region Tests Generated for GetDataPathOfTideList() Skip Take Order
+        #endregion Tests Generated for GetDataPathOfTideList() Skip Take Order
+
+        #region Tests Generated for GetDataPathOfTideList() Skip Take 2Order
+        #endregion Tests Generated for GetDataPathOfTideList() Skip Take 2Order
+
+        #region Tests Generated for GetDataPathOfTideList() Skip Take Order Where
+        #endregion Tests Generated for GetDataPathOfTideList() Skip Take Order Where
+
+        #region Tests Generated for GetDataPathOfTideList() Skip Take Order 2Where
+        #endregion Tests Generated for GetDataPathOfTideList() Skip Take Order 2Where
+
+        #region Tests Generated for GetDataPathOfTideList() 2Where
+        #endregion Tests Generated for GetDataPathOfTideList() 2Where
+
+        #region Functions private
+        private DataPathOfTide GetFilledRandomDataPathOfTide(string OmitPropName)
+        {
+            DataPathOfTide dataPathOfTide = new DataPathOfTide();
+
+            if (OmitPropName != "Text") dataPathOfTide.Text = GetRandomString("", 6);
+            if (OmitPropName != "WebTideDataSet") dataPathOfTide.WebTideDataSet = (WebTideDataSetEnum)GetRandomEnumType(typeof(WebTideDataSetEnum));
+            if (OmitPropName != "WebTideDataSetText") dataPathOfTide.WebTideDataSetText = GetRandomString("", 5);
+
+            return dataPathOfTide;
+        }
+        #endregion Functions private
     }
 }

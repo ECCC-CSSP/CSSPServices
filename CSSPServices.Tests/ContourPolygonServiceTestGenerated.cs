@@ -32,22 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private ContourPolygon GetFilledRandomContourPolygon(string OmitPropName)
-        {
-            ContourPolygon contourPolygon = new ContourPolygon();
-
-            if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "Layer") contourPolygon.Layer = GetRandomInt(1, 100);
-            if (OmitPropName != "Depth") contourPolygon.Depth = GetRandomDouble(1.0D, 10000.0D);
-
-            return contourPolygon;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void ContourPolygon_CRUD_And_Properties_Test()
@@ -58,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    ContourPolygonService contourPolygonService = new ContourPolygonService(new GetParam(), dbTestDB, ContactID);
+                    ContourPolygonService contourPolygonService = new ContourPolygonService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -94,5 +78,32 @@ namespace CSSPServices.Tests
         #region Tests Generated for GetContourPolygonList() Skip Take
         #endregion Tests Generated for GetContourPolygonList() Skip Take
 
+        #region Tests Generated for GetContourPolygonList() Skip Take Order
+        #endregion Tests Generated for GetContourPolygonList() Skip Take Order
+
+        #region Tests Generated for GetContourPolygonList() Skip Take 2Order
+        #endregion Tests Generated for GetContourPolygonList() Skip Take 2Order
+
+        #region Tests Generated for GetContourPolygonList() Skip Take Order Where
+        #endregion Tests Generated for GetContourPolygonList() Skip Take Order Where
+
+        #region Tests Generated for GetContourPolygonList() Skip Take Order 2Where
+        #endregion Tests Generated for GetContourPolygonList() Skip Take Order 2Where
+
+        #region Tests Generated for GetContourPolygonList() 2Where
+        #endregion Tests Generated for GetContourPolygonList() 2Where
+
+        #region Functions private
+        private ContourPolygon GetFilledRandomContourPolygon(string OmitPropName)
+        {
+            ContourPolygon contourPolygon = new ContourPolygon();
+
+            if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "Layer") contourPolygon.Layer = GetRandomInt(1, 100);
+            if (OmitPropName != "Depth") contourPolygon.Depth = GetRandomDouble(1.0D, 10000.0D);
+
+            return contourPolygon;
+        }
+        #endregion Functions private
     }
 }

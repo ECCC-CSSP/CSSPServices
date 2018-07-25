@@ -28,8 +28,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public AddressService(GetParam getParam, CSSPWebToolsDBContext db, int ContactID)
-            : base(getParam, db, ContactID)
+        public AddressService(Query query, CSSPWebToolsDBContext db, int ContactID)
+            : base(query, db, ContactID)
         {
         }
         #endregion Constructors
@@ -225,11 +225,11 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Address GetAddressWithAddressID(int AddressID)
         {
-            IQueryable<Address> addressQuery = (from c in (GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            IQueryable<Address> addressQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
                                                 where c.AddressID == AddressID
                                                 select c);
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     return addressQuery.FirstOrDefault();
@@ -243,9 +243,9 @@ namespace CSSPServices
         }
         public IQueryable<Address> GetAddressList()
         {
-            IQueryable<Address> addressQuery = GetParam.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Address> addressQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (GetParam.EntityQueryDetailType)
+            switch (Query.EntityQueryDetailType)
             {
                 case EntityQueryDetailTypeEnum.EntityOnly:
                     {
@@ -328,7 +328,7 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AddressFillWeb
-        private IQueryable<Address> FillAddressWeb(IQueryable<Address> addressQuery)
+        public IQueryable<Address> FillAddressWeb(IQueryable<Address> addressQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 

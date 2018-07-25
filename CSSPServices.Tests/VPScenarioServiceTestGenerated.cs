@@ -32,40 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private VPScenario GetFilledRandomVPScenario(string OmitPropName)
-        {
-            VPScenario vpScenario = new VPScenario();
-
-            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = 37;
-            if (OmitPropName != "VPScenarioStatus") vpScenario.VPScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
-            if (OmitPropName != "UseAsBestEstimate") vpScenario.UseAsBestEstimate = true;
-            if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "EffluentConcentration_MPN_100ml") vpScenario.EffluentConcentration_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "FroudeNumber") vpScenario.FroudeNumber = GetRandomDouble(0.0D, 10000.0D);
-            if (OmitPropName != "PortDiameter_m") vpScenario.PortDiameter_m = GetRandomDouble(0.0D, 10.0D);
-            if (OmitPropName != "PortDepth_m") vpScenario.PortDepth_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "PortElevation_m") vpScenario.PortElevation_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "VerticalAngle_deg") vpScenario.VerticalAngle_deg = GetRandomDouble(-90.0D, 90.0D);
-            if (OmitPropName != "HorizontalAngle_deg") vpScenario.HorizontalAngle_deg = GetRandomDouble(-180.0D, 180.0D);
-            if (OmitPropName != "NumberOfPorts") vpScenario.NumberOfPorts = GetRandomInt(1, 100);
-            if (OmitPropName != "PortSpacing_m") vpScenario.PortSpacing_m = GetRandomDouble(0.0D, 1000.0D);
-            if (OmitPropName != "AcuteMixZone_m") vpScenario.AcuteMixZone_m = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "ChronicMixZone_m") vpScenario.ChronicMixZone_m = GetRandomDouble(0.0D, 40000.0D);
-            if (OmitPropName != "EffluentSalinity_PSU") vpScenario.EffluentSalinity_PSU = GetRandomDouble(0.0D, 40.0D);
-            if (OmitPropName != "EffluentTemperature_C") vpScenario.EffluentTemperature_C = GetRandomDouble(-10.0D, 40.0D);
-            if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
-            if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
-            if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = 2;
-
-            return vpScenario;
-        }
-        #endregion Functions private
-
         #region Tests Generated CRUD and Properties
         [TestMethod]
         public void VPScenario_CRUD_And_Properties_Test()
@@ -76,7 +42,7 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPScenarioService vpScenarioService = new VPScenarioService(new GetParam(), dbTestDB, ContactID);
+                    VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                     int count = 0;
                     if (count == 1)
@@ -620,14 +586,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPScenarioService vpScenarioService = new VPScenarioService(new GetParam(), dbTestDB, ContactID);
+                    VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
                     VPScenario vpScenarioRet = null;
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        vpScenarioService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        vpScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -651,121 +617,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // VPScenario fields
-                        Assert.IsNotNull(vpScenarioRet.VPScenarioID);
-                        Assert.IsNotNull(vpScenarioRet.InfrastructureTVItemID);
-                        Assert.IsNotNull(vpScenarioRet.VPScenarioStatus);
-                        Assert.IsNotNull(vpScenarioRet.UseAsBestEstimate);
-                        if (vpScenarioRet.EffluentFlow_m3_s != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.EffluentFlow_m3_s);
-                        }
-                        if (vpScenarioRet.EffluentConcentration_MPN_100ml != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.EffluentConcentration_MPN_100ml);
-                        }
-                        if (vpScenarioRet.FroudeNumber != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.FroudeNumber);
-                        }
-                        if (vpScenarioRet.PortDiameter_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.PortDiameter_m);
-                        }
-                        if (vpScenarioRet.PortDepth_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.PortDepth_m);
-                        }
-                        if (vpScenarioRet.PortElevation_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.PortElevation_m);
-                        }
-                        if (vpScenarioRet.VerticalAngle_deg != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.VerticalAngle_deg);
-                        }
-                        if (vpScenarioRet.HorizontalAngle_deg != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.HorizontalAngle_deg);
-                        }
-                        if (vpScenarioRet.NumberOfPorts != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.NumberOfPorts);
-                        }
-                        if (vpScenarioRet.PortSpacing_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.PortSpacing_m);
-                        }
-                        if (vpScenarioRet.AcuteMixZone_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.AcuteMixZone_m);
-                        }
-                        if (vpScenarioRet.ChronicMixZone_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.ChronicMixZone_m);
-                        }
-                        if (vpScenarioRet.EffluentSalinity_PSU != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.EffluentSalinity_PSU);
-                        }
-                        if (vpScenarioRet.EffluentTemperature_C != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.EffluentTemperature_C);
-                        }
-                        if (vpScenarioRet.EffluentVelocity_m_s != null)
-                        {
-                            Assert.IsNotNull(vpScenarioRet.EffluentVelocity_m_s);
-                        }
-                        if (vpScenarioRet.RawResults != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.RawResults));
-                        }
-                        Assert.IsNotNull(vpScenarioRet.LastUpdateDate_UTC);
-                        Assert.IsNotNull(vpScenarioRet.LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // VPScenarioWeb and VPScenarioReport fields should be null here
-                            Assert.IsNull(vpScenarioRet.VPScenarioWeb);
-                            Assert.IsNull(vpScenarioRet.VPScenarioReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // VPScenarioWeb fields should not be null and VPScenarioReport fields should be null here
-                            if (vpScenarioRet.VPScenarioWeb.SubsectorTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.SubsectorTVText));
-                            }
-                            if (vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText));
-                            }
-                            if (vpScenarioRet.VPScenarioWeb.VPScenarioStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.VPScenarioStatusText));
-                            }
-                            Assert.IsNull(vpScenarioRet.VPScenarioReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // VPScenarioWeb and VPScenarioReport fields should NOT be null here
-                            if (vpScenarioRet.VPScenarioWeb.SubsectorTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.SubsectorTVText));
-                            }
-                            if (vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.LastUpdateContactTVText));
-                            }
-                            if (vpScenarioRet.VPScenarioWeb.VPScenarioStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioWeb.VPScenarioStatusText));
-                            }
-                            if (vpScenarioRet.VPScenarioReport.VPScenarioReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioReport.VPScenarioReportTest));
-                            }
-                        }
+                        CheckVPScenarioFields(new List<VPScenario>() { vpScenarioRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -782,14 +634,14 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    VPScenarioService vpScenarioService = new VPScenarioService(new GetParam(), dbTestDB, ContactID);
+                    VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
                     VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        vpScenarioService.GetParam.EntityQueryDetailType = entityQueryDetailType;
+                        vpScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -813,121 +665,7 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-                        // VPScenario fields
-                        Assert.IsNotNull(vpScenarioList[0].VPScenarioID);
-                        Assert.IsNotNull(vpScenarioList[0].InfrastructureTVItemID);
-                        Assert.IsNotNull(vpScenarioList[0].VPScenarioStatus);
-                        Assert.IsNotNull(vpScenarioList[0].UseAsBestEstimate);
-                        if (vpScenarioList[0].EffluentFlow_m3_s != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].EffluentFlow_m3_s);
-                        }
-                        if (vpScenarioList[0].EffluentConcentration_MPN_100ml != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].EffluentConcentration_MPN_100ml);
-                        }
-                        if (vpScenarioList[0].FroudeNumber != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].FroudeNumber);
-                        }
-                        if (vpScenarioList[0].PortDiameter_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].PortDiameter_m);
-                        }
-                        if (vpScenarioList[0].PortDepth_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].PortDepth_m);
-                        }
-                        if (vpScenarioList[0].PortElevation_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].PortElevation_m);
-                        }
-                        if (vpScenarioList[0].VerticalAngle_deg != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].VerticalAngle_deg);
-                        }
-                        if (vpScenarioList[0].HorizontalAngle_deg != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].HorizontalAngle_deg);
-                        }
-                        if (vpScenarioList[0].NumberOfPorts != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].NumberOfPorts);
-                        }
-                        if (vpScenarioList[0].PortSpacing_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].PortSpacing_m);
-                        }
-                        if (vpScenarioList[0].AcuteMixZone_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].AcuteMixZone_m);
-                        }
-                        if (vpScenarioList[0].ChronicMixZone_m != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].ChronicMixZone_m);
-                        }
-                        if (vpScenarioList[0].EffluentSalinity_PSU != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].EffluentSalinity_PSU);
-                        }
-                        if (vpScenarioList[0].EffluentTemperature_C != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].EffluentTemperature_C);
-                        }
-                        if (vpScenarioList[0].EffluentVelocity_m_s != null)
-                        {
-                            Assert.IsNotNull(vpScenarioList[0].EffluentVelocity_m_s);
-                        }
-                        if (vpScenarioList[0].RawResults != null)
-                        {
-                            Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].RawResults));
-                        }
-                        Assert.IsNotNull(vpScenarioList[0].LastUpdateDate_UTC);
-                        Assert.IsNotNull(vpScenarioList[0].LastUpdateContactTVItemID);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            // VPScenarioWeb and VPScenarioReport fields should be null here
-                            Assert.IsNull(vpScenarioList[0].VPScenarioWeb);
-                            Assert.IsNull(vpScenarioList[0].VPScenarioReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            // VPScenarioWeb fields should not be null and VPScenarioReport fields should be null here
-                            if (vpScenarioList[0].VPScenarioWeb.SubsectorTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText));
-                            }
-                            if (vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText));
-                            }
-                            if (vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));
-                            }
-                            Assert.IsNull(vpScenarioList[0].VPScenarioReport);
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            // VPScenarioWeb and VPScenarioReport fields should NOT be null here
-                            if (vpScenarioList[0].VPScenarioWeb.SubsectorTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText));
-                            }
-                            if (vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText));
-                            }
-                            if (vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));
-                            }
-                            if (vpScenarioList[0].VPScenarioReport.VPScenarioReportTest != null)
-                            {
-                                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioReport.VPScenarioReportTest));
-                            }
-                        }
+                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
                     }
                 }
             }
@@ -945,12 +683,14 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
+                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
-                        GetParamService getParamService = new GetParamService(new GetParam(), dbTestDB, ContactID);
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
-                        GetParam getParam = getParamService.FillProp(typeof(VPScenario), "en", 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-                        VPScenarioService vpScenarioService = new VPScenarioService(getParam, dbTestDB, ContactID);
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
                         {
@@ -974,13 +714,417 @@ namespace CSSPServices.Tests
                         {
                             // nothing for now
                         }
-
-                        Assert.AreEqual(getParam.Take, vpScenarioList.Count);
+                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
+                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        Assert.AreEqual(1, vpScenarioList.Count);
                     }
                 }
             }
         }
         #endregion Tests Generated for GetVPScenarioList() Skip Take
 
+        #region Tests Generated for GetVPScenarioList() Skip Take Order
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<VPScenario> vpScenarioList = new List<VPScenario>();
+                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            Assert.AreEqual(0, vpScenarioList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
+                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        Assert.AreEqual(1, vpScenarioList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Order
+
+        #region Tests Generated for GetVPScenarioList() Skip Take 2Order
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_2Order_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<VPScenario> vpScenarioList = new List<VPScenario>();
+                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioID,InfrastructureTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ThenBy(c => c.InfrastructureTVItemID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            Assert.AreEqual(0, vpScenarioList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
+                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        Assert.AreEqual(1, vpScenarioList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take 2Order
+
+        #region Tests Generated for GetVPScenarioList() Skip Take Order Where
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_Order_Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<VPScenario> vpScenarioList = new List<VPScenario>();
+                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            Assert.AreEqual(0, vpScenarioList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
+                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        Assert.AreEqual(1, vpScenarioList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Order Where
+
+        #region Tests Generated for GetVPScenarioList() Skip Take Order 2Where
+        [TestMethod]
+        public void GetVPScenarioList_Skip_Take_Order_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<VPScenario> vpScenarioList = new List<VPScenario>();
+                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,GT,2|VPScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            Assert.AreEqual(0, vpScenarioList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
+                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        Assert.AreEqual(1, vpScenarioList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() Skip Take Order 2Where
+
+        #region Tests Generated for GetVPScenarioList() 2Where
+        [TestMethod]
+        public void GetVPScenarioList_2Where_Test()
+        {
+            foreach (CultureInfo culture in AllowableCulture)
+            {
+                ChangeCulture(culture);
+
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    List<VPScenario> vpScenarioList = new List<VPScenario>();
+                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    {
+                        VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
+
+                        vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPScenarioID,GT,2|VPScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
+
+                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).ToList();
+
+                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            Assert.AreEqual(0, vpScenarioList.Count);
+                            continue;
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+                        {
+                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                        }
+                        else
+                        {
+                            // nothing for now
+                        }
+                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
+                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                        Assert.AreEqual(2, vpScenarioList.Count);
+                    }
+                }
+            }
+        }
+        #endregion Tests Generated for GetVPScenarioList() 2Where
+
+        #region Functions private
+        private void CheckVPScenarioFields(List<VPScenario> vpScenarioList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        {
+            // VPScenario fields
+            Assert.IsNotNull(vpScenarioList[0].VPScenarioID);
+            Assert.IsNotNull(vpScenarioList[0].InfrastructureTVItemID);
+            Assert.IsNotNull(vpScenarioList[0].VPScenarioStatus);
+            Assert.IsNotNull(vpScenarioList[0].UseAsBestEstimate);
+            if (vpScenarioList[0].EffluentFlow_m3_s != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].EffluentFlow_m3_s);
+            }
+            if (vpScenarioList[0].EffluentConcentration_MPN_100ml != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].EffluentConcentration_MPN_100ml);
+            }
+            if (vpScenarioList[0].FroudeNumber != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].FroudeNumber);
+            }
+            if (vpScenarioList[0].PortDiameter_m != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].PortDiameter_m);
+            }
+            if (vpScenarioList[0].PortDepth_m != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].PortDepth_m);
+            }
+            if (vpScenarioList[0].PortElevation_m != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].PortElevation_m);
+            }
+            if (vpScenarioList[0].VerticalAngle_deg != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].VerticalAngle_deg);
+            }
+            if (vpScenarioList[0].HorizontalAngle_deg != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].HorizontalAngle_deg);
+            }
+            if (vpScenarioList[0].NumberOfPorts != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].NumberOfPorts);
+            }
+            if (vpScenarioList[0].PortSpacing_m != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].PortSpacing_m);
+            }
+            if (vpScenarioList[0].AcuteMixZone_m != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].AcuteMixZone_m);
+            }
+            if (vpScenarioList[0].ChronicMixZone_m != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].ChronicMixZone_m);
+            }
+            if (vpScenarioList[0].EffluentSalinity_PSU != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].EffluentSalinity_PSU);
+            }
+            if (vpScenarioList[0].EffluentTemperature_C != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].EffluentTemperature_C);
+            }
+            if (vpScenarioList[0].EffluentVelocity_m_s != null)
+            {
+                Assert.IsNotNull(vpScenarioList[0].EffluentVelocity_m_s);
+            }
+            if (!string.IsNullOrWhiteSpace(vpScenarioList[0].RawResults))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].RawResults));
+            }
+            Assert.IsNotNull(vpScenarioList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpScenarioList[0].LastUpdateContactTVItemID);
+
+            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            {
+                // VPScenarioWeb and VPScenarioReport fields should be null here
+                Assert.IsNull(vpScenarioList[0].VPScenarioWeb);
+                Assert.IsNull(vpScenarioList[0].VPScenarioReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            {
+                // VPScenarioWeb fields should not be null and VPScenarioReport fields should be null here
+                if (!string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText));
+                }
+                if (!string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText))
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));
+                }
+                Assert.IsNull(vpScenarioList[0].VPScenarioReport);
+            }
+            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            {
+                // VPScenarioWeb and VPScenarioReport fields should NOT be null here
+                if (vpScenarioList[0].VPScenarioWeb.SubsectorTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText));
+                }
+                if (vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText));
+                }
+                if (vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));
+                }
+                if (vpScenarioList[0].VPScenarioReport.VPScenarioReportTest != null)
+                {
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioReport.VPScenarioReportTest));
+                }
+            }
+        }
+        private VPScenario GetFilledRandomVPScenario(string OmitPropName)
+        {
+            VPScenario vpScenario = new VPScenario();
+
+            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = 37;
+            if (OmitPropName != "VPScenarioStatus") vpScenario.VPScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
+            if (OmitPropName != "UseAsBestEstimate") vpScenario.UseAsBestEstimate = true;
+            if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomDouble(0.0D, 1000.0D);
+            if (OmitPropName != "EffluentConcentration_MPN_100ml") vpScenario.EffluentConcentration_MPN_100ml = GetRandomInt(0, 10000000);
+            if (OmitPropName != "FroudeNumber") vpScenario.FroudeNumber = GetRandomDouble(0.0D, 10000.0D);
+            if (OmitPropName != "PortDiameter_m") vpScenario.PortDiameter_m = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "PortDepth_m") vpScenario.PortDepth_m = GetRandomDouble(0.0D, 1000.0D);
+            if (OmitPropName != "PortElevation_m") vpScenario.PortElevation_m = GetRandomDouble(0.0D, 1000.0D);
+            if (OmitPropName != "VerticalAngle_deg") vpScenario.VerticalAngle_deg = GetRandomDouble(-90.0D, 90.0D);
+            if (OmitPropName != "HorizontalAngle_deg") vpScenario.HorizontalAngle_deg = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "NumberOfPorts") vpScenario.NumberOfPorts = GetRandomInt(1, 100);
+            if (OmitPropName != "PortSpacing_m") vpScenario.PortSpacing_m = GetRandomDouble(0.0D, 1000.0D);
+            if (OmitPropName != "AcuteMixZone_m") vpScenario.AcuteMixZone_m = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "ChronicMixZone_m") vpScenario.ChronicMixZone_m = GetRandomDouble(0.0D, 40000.0D);
+            if (OmitPropName != "EffluentSalinity_PSU") vpScenario.EffluentSalinity_PSU = GetRandomDouble(0.0D, 40.0D);
+            if (OmitPropName != "EffluentTemperature_C") vpScenario.EffluentTemperature_C = GetRandomDouble(-10.0D, 40.0D);
+            if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
+            if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = 2;
+
+            return vpScenario;
+        }
+        #endregion Functions private
     }
 }
