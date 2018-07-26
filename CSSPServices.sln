@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServices", "CSSPService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServices.Tests", "CSSPServices.Tests\CSSPServices.Tests.csproj", "{9B95FB1D-50A7-41B3-B2D6-3BEB4B03B3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServicesGenerateCode", "CSSPServicesGenerateCode\CSSPServicesGenerateCode.csproj", "{21E0F335-CEFD-4E57-B38D-135526C22655}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServicesGenerateCodeHelper", "CSSPServicesGenerateCodeHelper\CSSPServicesGenerateCodeHelper.csproj", "{6EFF2150-3B14-471C-9014-9AE541E6CCB0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,16 +21,11 @@ Global
 		{9B95FB1D-50A7-41B3-B2D6-3BEB4B03B3C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B95FB1D-50A7-41B3-B2D6-3BEB4B03B3C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B95FB1D-50A7-41B3-B2D6-3BEB4B03B3C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21E0F335-CEFD-4E57-B38D-135526C22655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21E0F335-CEFD-4E57-B38D-135526C22655}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21E0F335-CEFD-4E57-B38D-135526C22655}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21E0F335-CEFD-4E57-B38D-135526C22655}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EFF2150-3B14-471C-9014-9AE541E6CCB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EFF2150-3B14-471C-9014-9AE541E6CCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EFF2150-3B14-471C-9014-9AE541E6CCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EFF2150-3B14-471C-9014-9AE541E6CCB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9980B7F3-14A8-4ECD-ACC9-827BDFBF9495}
 	EndGlobalSection
 EndGlobal

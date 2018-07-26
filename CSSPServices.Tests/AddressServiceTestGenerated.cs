@@ -763,48 +763,6 @@ namespace CSSPServices.Tests
         }
         #endregion Tests Generated for GetAddressList() 2Where
 
-        #region Tests Generated for GetAddressList() 2Where
-        [TestMethod]
-        public void GetAddressList_Order_AddressWeb_AddressTVText_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    List<Address> addressList = new List<Address>();
-                    List<Address> addressDirectQueryList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
-                    {
-                        AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                        addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 2, "AddressWeb.AddressTVText", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
-
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-                        {
-                            addressList = addressService.GetAddressList().ToList();
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-                        {
-                            addressList = addressService.GetAddressList().ToList();
-                        }
-                        else
-                        {
-                            // nothing for now
-                        }
-
-                        addressDirectQueryList = addressList.OrderBy(c => c.AddressWeb.AddressTVText).ToList();
-
-                        CheckAddressFields(addressList, entityQueryDetailType);
-                        Assert.AreEqual(addressDirectQueryList[0].AddressID, addressList[0].AddressID);
-                        Assert.AreEqual(2, addressList.Count);
-                    }
-                }
-            }
-        }
-        #endregion Tests Generated for GetAddressList() 2Where
-
         #region Functions private
         private void CheckAddressFields(List<Address> addressList, EntityQueryDetailTypeEnum entityQueryDetailType)
         {

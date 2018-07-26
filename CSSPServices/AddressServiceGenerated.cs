@@ -328,7 +328,7 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AddressFillWeb
-        public IQueryable<Address> FillAddressWeb(IQueryable<Address> addressQuery)
+        private IQueryable<Address> FillAddressWeb(IQueryable<Address> addressQuery)
         {
             Enums enums = new Enums(LanguageRequest);
 
