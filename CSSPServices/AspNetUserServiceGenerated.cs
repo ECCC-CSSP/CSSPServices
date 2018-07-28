@@ -1,4 +1,4 @@
-using CSSPEnums;
+﻿using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -119,8 +119,8 @@ namespace CSSPServices
         public AspNetUser GetAspNetUserWithAspNetUserID(string Id, Query query)
         {
             IQueryable<AspNetUser> aspNetUserQuery = (from c in (query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.Id == Id
-                                                select c);
+                                                      where c.Id == Id
+                                                      select c);
 
             switch (query.EntityQueryDetailType)
             {
@@ -137,7 +137,7 @@ namespace CSSPServices
         public IQueryable<AspNetUser> GetAspNetUserList(Query query, string FilterAndOrderText = "")
         {
             IQueryable<AspNetUser> aspNetUserQuery = (from c in (query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                select c);
+                                                      select c);
 
             switch (query.EntityQueryDetailType)
             {
@@ -145,7 +145,7 @@ namespace CSSPServices
                     {
                         if (!string.IsNullOrWhiteSpace(query.Order))
                         {
-                            aspNetUserQuery  = aspNetUserQuery.OrderByDescending(c => c.Email);
+                            aspNetUserQuery = aspNetUserQuery.OrderByDescending(c => c.Email);
                         }
                         aspNetUserQuery = aspNetUserQuery.Skip(query.Skip).Take(query.Take);
                         return aspNetUserQuery;
