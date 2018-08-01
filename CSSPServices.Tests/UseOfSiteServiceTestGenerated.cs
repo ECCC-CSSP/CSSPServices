@@ -445,11 +445,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(useOfSite);
 
                     UseOfSite useOfSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         useOfSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                             Assert.IsNull(useOfSiteRet);
@@ -493,11 +493,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(useOfSite);
 
                     List<UseOfSite> useOfSiteList = new List<UseOfSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         useOfSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             Assert.AreEqual(0, useOfSiteList.Count);
@@ -538,7 +538,7 @@ namespace CSSPServices.Tests
                 {
                     List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -546,7 +546,7 @@ namespace CSSPServices.Tests
 
                         useOfSiteDirectQueryList = useOfSiteService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             Assert.AreEqual(0, useOfSiteList.Count);
@@ -589,7 +589,7 @@ namespace CSSPServices.Tests
                 {
                     List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -597,7 +597,7 @@ namespace CSSPServices.Tests
 
                         useOfSiteDirectQueryList = useOfSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             Assert.AreEqual(0, useOfSiteList.Count);
@@ -640,7 +640,7 @@ namespace CSSPServices.Tests
                 {
                     List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -648,7 +648,7 @@ namespace CSSPServices.Tests
 
                         useOfSiteDirectQueryList = useOfSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ThenBy(c => c.SiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             Assert.AreEqual(0, useOfSiteList.Count);
@@ -691,7 +691,7 @@ namespace CSSPServices.Tests
                 {
                     List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -699,7 +699,7 @@ namespace CSSPServices.Tests
 
                         useOfSiteDirectQueryList = useOfSiteService.GetRead().Where(c => c.UseOfSiteID == 4).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             Assert.AreEqual(0, useOfSiteList.Count);
@@ -742,7 +742,7 @@ namespace CSSPServices.Tests
                 {
                     List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -750,7 +750,7 @@ namespace CSSPServices.Tests
 
                         useOfSiteDirectQueryList = useOfSiteService.GetRead().Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             Assert.AreEqual(0, useOfSiteList.Count);
@@ -793,7 +793,7 @@ namespace CSSPServices.Tests
                 {
                     List<UseOfSite> useOfSiteList = new List<UseOfSite>();
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -801,7 +801,7 @@ namespace CSSPServices.Tests
 
                         useOfSiteDirectQueryList = useOfSiteService.GetRead().Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             useOfSiteList = useOfSiteService.GetUseOfSiteList().ToList();
                             Assert.AreEqual(0, useOfSiteList.Count);
@@ -833,7 +833,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetUseOfSiteList() 2Where
 
         #region Functions private
-        private void CheckUseOfSiteFields(List<UseOfSite> useOfSiteList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckUseOfSiteFields(List<UseOfSite> useOfSiteList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // UseOfSite fields
             Assert.IsNotNull(useOfSiteList[0].UseOfSiteID);

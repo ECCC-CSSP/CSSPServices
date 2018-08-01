@@ -158,7 +158,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheetTubeMPNDetail.SampleType);
-            if (labSheetTubeMPNDetail.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheetTubeMPNDetail.SampleType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheetTubeMPNDetail.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetTubeMPNDetailSampleType), new[] { "SampleType" });

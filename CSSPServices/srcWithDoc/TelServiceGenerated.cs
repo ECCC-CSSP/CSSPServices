@@ -90,7 +90,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TelTypeEnum), (int?)tel.TelType);
-            if (tel.TelType == TelTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tel.TelType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelType), new[] { "TelType" });

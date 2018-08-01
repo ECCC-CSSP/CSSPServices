@@ -78,7 +78,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(AddressTypeEnum), (int?)address.AddressType);
-            if (address.AddressType == AddressTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (address.AddressType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 address.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressAddressType), new[] { "AddressType" });
@@ -159,7 +159,7 @@ namespace CSSPServices
             if (address.StreetType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(StreetTypeEnum), (int?)address.StreetType);
-                if (address.StreetType == StreetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (address.StreetType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     address.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressStreetType), new[] { "StreetType" });

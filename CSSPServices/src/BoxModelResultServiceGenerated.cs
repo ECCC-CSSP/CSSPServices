@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(BoxModelResultTypeEnum), (int?)boxModelResult.BoxModelResultType);
-            if (boxModelResult.BoxModelResultType == BoxModelResultTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (boxModelResult.BoxModelResultType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 boxModelResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultBoxModelResultType), new[] { "BoxModelResultType" });

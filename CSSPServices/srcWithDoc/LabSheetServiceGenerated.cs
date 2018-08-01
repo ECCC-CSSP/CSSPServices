@@ -151,28 +151,28 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(SamplingPlanTypeEnum), (int?)labSheet.SamplingPlanType);
-            if (labSheet.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheet.SamplingPlanType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheet.SampleType);
-            if (labSheet.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheet.SampleType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetSampleType), new[] { "SampleType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LabSheetTypeEnum), (int?)labSheet.LabSheetType);
-            if (labSheet.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheet.LabSheetType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetLabSheetType), new[] { "LabSheetType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LabSheetStatusEnum), (int?)labSheet.LabSheetStatus);
-            if (labSheet.LabSheetStatus == LabSheetStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheet.LabSheetStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetLabSheetStatus), new[] { "LabSheetStatus" });

@@ -527,11 +527,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(samplingPlan);
 
                     SamplingPlan samplingPlanRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         samplingPlanService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID);
                             Assert.IsNull(samplingPlanRet);
@@ -575,11 +575,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(samplingPlan);
 
                     List<SamplingPlan> samplingPlanList = new List<SamplingPlan>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         samplingPlanService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanList = samplingPlanService.GetSamplingPlanList().ToList();
                             Assert.AreEqual(0, samplingPlanList.Count);
@@ -620,7 +620,7 @@ namespace CSSPServices.Tests
                 {
                     List<SamplingPlan> samplingPlanList = new List<SamplingPlan>();
                     List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -628,7 +628,7 @@ namespace CSSPServices.Tests
 
                         samplingPlanDirectQueryList = samplingPlanService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanList = samplingPlanService.GetSamplingPlanList().ToList();
                             Assert.AreEqual(0, samplingPlanList.Count);
@@ -671,7 +671,7 @@ namespace CSSPServices.Tests
                 {
                     List<SamplingPlan> samplingPlanList = new List<SamplingPlan>();
                     List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -679,7 +679,7 @@ namespace CSSPServices.Tests
 
                         samplingPlanDirectQueryList = samplingPlanService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanList = samplingPlanService.GetSamplingPlanList().ToList();
                             Assert.AreEqual(0, samplingPlanList.Count);
@@ -722,7 +722,7 @@ namespace CSSPServices.Tests
                 {
                     List<SamplingPlan> samplingPlanList = new List<SamplingPlan>();
                     List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -730,7 +730,7 @@ namespace CSSPServices.Tests
 
                         samplingPlanDirectQueryList = samplingPlanService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanID).ThenBy(c => c.IsActive).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanList = samplingPlanService.GetSamplingPlanList().ToList();
                             Assert.AreEqual(0, samplingPlanList.Count);
@@ -773,7 +773,7 @@ namespace CSSPServices.Tests
                 {
                     List<SamplingPlan> samplingPlanList = new List<SamplingPlan>();
                     List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -781,7 +781,7 @@ namespace CSSPServices.Tests
 
                         samplingPlanDirectQueryList = samplingPlanService.GetRead().Where(c => c.SamplingPlanID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanList = samplingPlanService.GetSamplingPlanList().ToList();
                             Assert.AreEqual(0, samplingPlanList.Count);
@@ -824,7 +824,7 @@ namespace CSSPServices.Tests
                 {
                     List<SamplingPlan> samplingPlanList = new List<SamplingPlan>();
                     List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -832,7 +832,7 @@ namespace CSSPServices.Tests
 
                         samplingPlanDirectQueryList = samplingPlanService.GetRead().Where(c => c.SamplingPlanID > 2 && c.SamplingPlanID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanList = samplingPlanService.GetSamplingPlanList().ToList();
                             Assert.AreEqual(0, samplingPlanList.Count);
@@ -875,7 +875,7 @@ namespace CSSPServices.Tests
                 {
                     List<SamplingPlan> samplingPlanList = new List<SamplingPlan>();
                     List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -883,7 +883,7 @@ namespace CSSPServices.Tests
 
                         samplingPlanDirectQueryList = samplingPlanService.GetRead().Where(c => c.SamplingPlanID > 2 && c.SamplingPlanID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             samplingPlanList = samplingPlanService.GetSamplingPlanList().ToList();
                             Assert.AreEqual(0, samplingPlanList.Count);
@@ -915,7 +915,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetSamplingPlanList() 2Where
 
         #region Functions private
-        private void CheckSamplingPlanFields(List<SamplingPlan> samplingPlanList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckSamplingPlanFields(List<SamplingPlan> samplingPlanList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // SamplingPlan fields
             Assert.IsNotNull(samplingPlanList[0].SamplingPlanID);

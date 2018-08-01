@@ -45,13 +45,13 @@ namespace CSSPServices
         #region Constructors
         public BaseService(Query query, CSSPWebToolsDBContext db, int ContactID)
         {
-            if (!LanguageListAllowable.Contains(query.Language))
+            if (!LanguageListAllowable.Contains((LanguageEnum)query.Language))
             {
                 this.LanguageRequest = LanguageEnum.en;
             }
             else
             {
-                this.LanguageRequest = query.Language;
+                this.LanguageRequest = (LanguageEnum)query.Language;
             }
 
             if (LanguageRequest == LanguageEnum.fr)
@@ -526,8 +526,8 @@ namespace CSSPServices
             return query;
         }
         public Query FillQuery(Type modelType, string lang = "en", int skip = 0, int take = 100, string order = "", string where = "",
-                EntityQueryDetailTypeEnum EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
-                EntityQueryTypeEnum EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
+                EntityQueryDetailTypeEnum? EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
+                EntityQueryTypeEnum? EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {
             Query query = new Query();
 

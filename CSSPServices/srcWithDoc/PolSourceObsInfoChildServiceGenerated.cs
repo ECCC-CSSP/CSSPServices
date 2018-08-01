@@ -43,14 +43,14 @@ namespace CSSPServices
             polSourceObsInfoChild.HasErrors = false;
 
             retStr = enums.EnumTypeOK(typeof(PolSourceObsInfoEnum), (int?)polSourceObsInfoChild.PolSourceObsInfo);
-            if (polSourceObsInfoChild.PolSourceObsInfo == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (polSourceObsInfoChild.PolSourceObsInfo == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObsInfoChildPolSourceObsInfo), new[] { "PolSourceObsInfo" });
             }
 
             retStr = enums.EnumTypeOK(typeof(PolSourceObsInfoEnum), (int?)polSourceObsInfoChild.PolSourceObsInfoChildStart);
-            if (polSourceObsInfoChild.PolSourceObsInfoChildStart == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (polSourceObsInfoChild.PolSourceObsInfoChildStart == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStart), new[] { "PolSourceObsInfoChildStart" });

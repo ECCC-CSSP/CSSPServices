@@ -55,14 +55,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(PropertyTypeEnum), (int?)whereInfo.PropertyType);
-            if (whereInfo.PropertyType == PropertyTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (whereInfo.PropertyType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 whereInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.WhereInfoPropertyType), new[] { "PropertyType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(WhereOperatorEnum), (int?)whereInfo.WhereOperator);
-            if (whereInfo.WhereOperator == WhereOperatorEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (whereInfo.WhereOperator == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 whereInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.WhereInfoWhereOperator), new[] { "WhereOperator" });

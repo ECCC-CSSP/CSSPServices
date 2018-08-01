@@ -396,11 +396,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(rainExceedance);
 
                     RainExceedance rainExceedanceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         rainExceedanceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
                             Assert.IsNull(rainExceedanceRet);
@@ -444,11 +444,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(rainExceedance);
 
                     List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         rainExceedanceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             Assert.AreEqual(0, rainExceedanceList.Count);
@@ -489,7 +489,7 @@ namespace CSSPServices.Tests
                 {
                     List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -497,7 +497,7 @@ namespace CSSPServices.Tests
 
                         rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             Assert.AreEqual(0, rainExceedanceList.Count);
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
                 {
                     List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -548,7 +548,7 @@ namespace CSSPServices.Tests
 
                         rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             Assert.AreEqual(0, rainExceedanceList.Count);
@@ -591,7 +591,7 @@ namespace CSSPServices.Tests
                 {
                     List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -599,7 +599,7 @@ namespace CSSPServices.Tests
 
                         rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ThenBy(c => c.YearRound).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             Assert.AreEqual(0, rainExceedanceList.Count);
@@ -642,7 +642,7 @@ namespace CSSPServices.Tests
                 {
                     List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -650,7 +650,7 @@ namespace CSSPServices.Tests
 
                         rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Where(c => c.RainExceedanceID == 4).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             Assert.AreEqual(0, rainExceedanceList.Count);
@@ -693,7 +693,7 @@ namespace CSSPServices.Tests
                 {
                     List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -701,7 +701,7 @@ namespace CSSPServices.Tests
 
                         rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             Assert.AreEqual(0, rainExceedanceList.Count);
@@ -744,7 +744,7 @@ namespace CSSPServices.Tests
                 {
                     List<RainExceedance> rainExceedanceList = new List<RainExceedance>();
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -752,7 +752,7 @@ namespace CSSPServices.Tests
 
                         rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             rainExceedanceList = rainExceedanceService.GetRainExceedanceList().ToList();
                             Assert.AreEqual(0, rainExceedanceList.Count);
@@ -784,7 +784,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetRainExceedanceList() 2Where
 
         #region Functions private
-        private void CheckRainExceedanceFields(List<RainExceedance> rainExceedanceList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckRainExceedanceFields(List<RainExceedance> rainExceedanceList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // RainExceedance fields
             Assert.IsNotNull(rainExceedanceList[0].RainExceedanceID);

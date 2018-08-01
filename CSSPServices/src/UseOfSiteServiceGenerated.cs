@@ -100,7 +100,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(SiteTypeEnum), (int?)useOfSite.SiteType);
-            if (useOfSite.SiteType == SiteTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (useOfSite.SiteType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 useOfSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.UseOfSiteSiteType), new[] { "SiteType" });

@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)mwqmSampleLanguage.Language);
-            if (mwqmSampleLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmSampleLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleLanguageLanguage), new[] { "Language" });
@@ -81,7 +81,7 @@ namespace CSSPServices
             //MWQMSampleNote has no StringLength Attribute
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmSampleLanguage.TranslationStatus);
-            if (mwqmSampleLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmSampleLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleLanguageTranslationStatus), new[] { "TranslationStatus" });

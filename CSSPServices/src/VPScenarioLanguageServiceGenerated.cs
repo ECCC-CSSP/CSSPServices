@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)vpScenarioLanguage.Language);
-            if (vpScenarioLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (vpScenarioLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenarioLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLanguageLanguage), new[] { "Language" });
@@ -85,7 +85,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)vpScenarioLanguage.TranslationStatus);
-            if (vpScenarioLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (vpScenarioLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenarioLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLanguageTranslationStatus), new[] { "TranslationStatus" });

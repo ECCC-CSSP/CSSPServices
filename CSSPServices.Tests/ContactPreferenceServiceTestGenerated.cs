@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = )]
                     // contactPreference.ContactID   (Int32)
                     // -----------------------------------
 
@@ -255,11 +255,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactPreference);
 
                     ContactPreference contactPreferenceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         contactPreferenceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
                             Assert.IsNull(contactPreferenceRet);
@@ -303,11 +303,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactPreference);
 
                     List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         contactPreferenceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             Assert.AreEqual(0, contactPreferenceList.Count);
@@ -348,7 +348,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -356,7 +356,7 @@ namespace CSSPServices.Tests
 
                         contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             Assert.AreEqual(0, contactPreferenceList.Count);
@@ -399,7 +399,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -407,7 +407,7 @@ namespace CSSPServices.Tests
 
                         contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             Assert.AreEqual(0, contactPreferenceList.Count);
@@ -450,7 +450,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -458,7 +458,7 @@ namespace CSSPServices.Tests
 
                         contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ThenBy(c => c.ContactID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             Assert.AreEqual(0, contactPreferenceList.Count);
@@ -501,7 +501,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -509,7 +509,7 @@ namespace CSSPServices.Tests
 
                         contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Where(c => c.ContactPreferenceID == 4).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             Assert.AreEqual(0, contactPreferenceList.Count);
@@ -552,7 +552,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -560,7 +560,7 @@ namespace CSSPServices.Tests
 
                         contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             Assert.AreEqual(0, contactPreferenceList.Count);
@@ -603,7 +603,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactPreference> contactPreferenceList = new List<ContactPreference>();
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -611,7 +611,7 @@ namespace CSSPServices.Tests
 
                         contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactPreferenceList = contactPreferenceService.GetContactPreferenceList().ToList();
                             Assert.AreEqual(0, contactPreferenceList.Count);
@@ -643,7 +643,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetContactPreferenceList() 2Where
 
         #region Functions private
-        private void CheckContactPreferenceFields(List<ContactPreference> contactPreferenceList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckContactPreferenceFields(List<ContactPreference> contactPreferenceList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // ContactPreference fields
             Assert.IsNotNull(contactPreferenceList[0].ContactPreferenceID);

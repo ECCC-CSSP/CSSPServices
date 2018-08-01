@@ -107,7 +107,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)mapInfo.TVType);
-            if (mapInfo.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mapInfo.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoTVType), new[] { "TVType" });
@@ -138,7 +138,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(MapInfoDrawTypeEnum), (int?)mapInfo.MapInfoDrawType);
-            if (mapInfo.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mapInfo.MapInfoDrawType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoMapInfoDrawType), new[] { "MapInfoDrawType" });

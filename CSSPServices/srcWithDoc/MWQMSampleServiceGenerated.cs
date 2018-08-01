@@ -168,7 +168,7 @@ namespace CSSPServices
             if (mwqmSample.SampleType_old != null)
             {
                 retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)mwqmSample.SampleType_old);
-                if (mwqmSample.SampleType_old == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmSample.SampleType_old == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleSampleType_old), new[] { "SampleType_old" });

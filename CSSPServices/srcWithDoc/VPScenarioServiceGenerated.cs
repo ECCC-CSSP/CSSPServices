@@ -78,7 +78,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(ScenarioStatusEnum), (int?)vpScenario.VPScenarioStatus);
-            if (vpScenario.VPScenarioStatus == ScenarioStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (vpScenario.VPScenarioStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioStatus), new[] { "VPScenarioStatus" });

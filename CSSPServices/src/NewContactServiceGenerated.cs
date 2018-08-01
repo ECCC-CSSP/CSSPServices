@@ -87,7 +87,7 @@ namespace CSSPServices
             if (newContact.ContactTitle != null)
             {
                 retStr = enums.EnumTypeOK(typeof(ContactTitleEnum), (int?)newContact.ContactTitle);
-                if (newContact.ContactTitle == ContactTitleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (newContact.ContactTitle == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     newContact.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.NewContactContactTitle), new[] { "ContactTitle" });

@@ -100,7 +100,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(EmailTypeEnum), (int?)email.EmailType);
-            if (email.EmailType == EmailTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (email.EmailType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 email.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailType), new[] { "EmailType" });

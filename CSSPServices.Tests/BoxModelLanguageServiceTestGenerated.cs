@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "BoxModel", ExistPlurial = "s", ExistFieldID = "BoxModelID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "BoxModel", ExistPlurial = "s", ExistFieldID = "BoxModelID", AllowableTVtypeList = )]
                     // boxModelLanguage.BoxModelID   (Int32)
                     // -----------------------------------
 
@@ -270,11 +270,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(boxModelLanguage);
 
                     BoxModelLanguage boxModelLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         boxModelLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                             Assert.IsNull(boxModelLanguageRet);
@@ -318,11 +318,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(boxModelLanguage);
 
                     List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         boxModelLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             Assert.AreEqual(0, boxModelLanguageList.Count);
@@ -363,7 +363,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -371,7 +371,7 @@ namespace CSSPServices.Tests
 
                         boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             Assert.AreEqual(0, boxModelLanguageList.Count);
@@ -414,7 +414,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -422,7 +422,7 @@ namespace CSSPServices.Tests
 
                         boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             Assert.AreEqual(0, boxModelLanguageList.Count);
@@ -465,7 +465,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -473,7 +473,7 @@ namespace CSSPServices.Tests
 
                         boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ThenBy(c => c.BoxModelID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             Assert.AreEqual(0, boxModelLanguageList.Count);
@@ -516,7 +516,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -524,7 +524,7 @@ namespace CSSPServices.Tests
 
                         boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Where(c => c.BoxModelLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             Assert.AreEqual(0, boxModelLanguageList.Count);
@@ -567,7 +567,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -575,7 +575,7 @@ namespace CSSPServices.Tests
 
                         boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             Assert.AreEqual(0, boxModelLanguageList.Count);
@@ -618,7 +618,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelLanguage> boxModelLanguageList = new List<BoxModelLanguage>();
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -626,7 +626,7 @@ namespace CSSPServices.Tests
 
                         boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelLanguageList = boxModelLanguageService.GetBoxModelLanguageList().ToList();
                             Assert.AreEqual(0, boxModelLanguageList.Count);
@@ -658,7 +658,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetBoxModelLanguageList() 2Where
 
         #region Functions private
-        private void CheckBoxModelLanguageFields(List<BoxModelLanguage> boxModelLanguageList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckBoxModelLanguageFields(List<BoxModelLanguage> boxModelLanguageList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // BoxModelLanguage fields
             Assert.IsNotNull(boxModelLanguageList[0].BoxModelLanguageID);

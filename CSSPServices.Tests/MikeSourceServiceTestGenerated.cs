@@ -268,11 +268,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSource);
 
                     MikeSource mikeSourceRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mikeSourceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                             Assert.IsNull(mikeSourceRet);
@@ -316,11 +316,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSource);
 
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mikeSourceService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             Assert.AreEqual(0, mikeSourceList.Count);
@@ -361,7 +361,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -369,7 +369,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceDirectQueryList = mikeSourceService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             Assert.AreEqual(0, mikeSourceList.Count);
@@ -412,7 +412,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -420,7 +420,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceDirectQueryList = mikeSourceService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             Assert.AreEqual(0, mikeSourceList.Count);
@@ -463,7 +463,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -471,7 +471,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceDirectQueryList = mikeSourceService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceID).ThenBy(c => c.MikeSourceTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             Assert.AreEqual(0, mikeSourceList.Count);
@@ -514,7 +514,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -522,7 +522,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceDirectQueryList = mikeSourceService.GetRead().Where(c => c.MikeSourceID == 4).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             Assert.AreEqual(0, mikeSourceList.Count);
@@ -565,7 +565,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -573,7 +573,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceDirectQueryList = mikeSourceService.GetRead().Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).Skip(0).Take(1).OrderBy(c => c.MikeSourceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             Assert.AreEqual(0, mikeSourceList.Count);
@@ -616,7 +616,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSource> mikeSourceList = new List<MikeSource>();
                     List<MikeSource> mikeSourceDirectQueryList = new List<MikeSource>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceService mikeSourceService = new MikeSourceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -624,7 +624,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceDirectQueryList = mikeSourceService.GetRead().Where(c => c.MikeSourceID > 2 && c.MikeSourceID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceList = mikeSourceService.GetMikeSourceList().ToList();
                             Assert.AreEqual(0, mikeSourceList.Count);
@@ -656,7 +656,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMikeSourceList() 2Where
 
         #region Functions private
-        private void CheckMikeSourceFields(List<MikeSource> mikeSourceList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckMikeSourceFields(List<MikeSource> mikeSourceList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // MikeSource fields
             Assert.IsNotNull(mikeSourceList[0].MikeSourceID);

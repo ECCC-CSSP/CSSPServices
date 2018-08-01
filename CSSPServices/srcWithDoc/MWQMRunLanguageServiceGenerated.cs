@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)mwqmRunLanguage.Language);
-            if (mwqmRunLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmRunLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLanguageLanguage), new[] { "Language" });
@@ -81,7 +81,7 @@ namespace CSSPServices
             //RunComment has no StringLength Attribute
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunComment);
-            if (mwqmRunLanguage.TranslationStatusRunComment == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmRunLanguage.TranslationStatusRunComment == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLanguageTranslationStatusRunComment), new[] { "TranslationStatusRunComment" });
@@ -96,7 +96,7 @@ namespace CSSPServices
             //RunWeatherComment has no StringLength Attribute
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunWeatherComment);
-            if (mwqmRunLanguage.TranslationStatusRunWeatherComment == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmRunLanguage.TranslationStatusRunWeatherComment == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLanguageTranslationStatusRunWeatherComment), new[] { "TranslationStatusRunWeatherComment" });

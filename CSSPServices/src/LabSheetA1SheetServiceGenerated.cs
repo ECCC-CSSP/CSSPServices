@@ -57,21 +57,21 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(SamplingPlanTypeEnum), (int?)labSheetA1Sheet.SamplingPlanType);
-            if (labSheetA1Sheet.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheetA1Sheet.SamplingPlanType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1SheetSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheetA1Sheet.SampleType);
-            if (labSheetA1Sheet.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheetA1Sheet.SampleType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1SheetSampleType), new[] { "SampleType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LabSheetTypeEnum), (int?)labSheetA1Sheet.LabSheetType);
-            if (labSheetA1Sheet.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (labSheetA1Sheet.LabSheetType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1SheetLabSheetType), new[] { "LabSheetType" });

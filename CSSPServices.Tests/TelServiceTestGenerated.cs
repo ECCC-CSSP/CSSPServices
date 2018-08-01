@@ -263,11 +263,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tel);
 
                     Tel telRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         telService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telRet = telService.GetTelWithTelID(tel.TelID);
                             Assert.IsNull(telRet);
@@ -311,11 +311,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tel);
 
                     List<Tel> telList = new List<Tel>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         telService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telList = telService.GetTelList().ToList();
                             Assert.AreEqual(0, telList.Count);
@@ -356,7 +356,7 @@ namespace CSSPServices.Tests
                 {
                     List<Tel> telList = new List<Tel>();
                     List<Tel> telDirectQueryList = new List<Tel>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -364,7 +364,7 @@ namespace CSSPServices.Tests
 
                         telDirectQueryList = telService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telList = telService.GetTelList().ToList();
                             Assert.AreEqual(0, telList.Count);
@@ -407,7 +407,7 @@ namespace CSSPServices.Tests
                 {
                     List<Tel> telList = new List<Tel>();
                     List<Tel> telDirectQueryList = new List<Tel>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -415,7 +415,7 @@ namespace CSSPServices.Tests
 
                         telDirectQueryList = telService.GetRead().Skip(1).Take(1).OrderBy(c => c.TelID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telList = telService.GetTelList().ToList();
                             Assert.AreEqual(0, telList.Count);
@@ -458,7 +458,7 @@ namespace CSSPServices.Tests
                 {
                     List<Tel> telList = new List<Tel>();
                     List<Tel> telDirectQueryList = new List<Tel>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -466,7 +466,7 @@ namespace CSSPServices.Tests
 
                         telDirectQueryList = telService.GetRead().Skip(1).Take(1).OrderBy(c => c.TelID).ThenBy(c => c.TelTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telList = telService.GetTelList().ToList();
                             Assert.AreEqual(0, telList.Count);
@@ -509,7 +509,7 @@ namespace CSSPServices.Tests
                 {
                     List<Tel> telList = new List<Tel>();
                     List<Tel> telDirectQueryList = new List<Tel>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -517,7 +517,7 @@ namespace CSSPServices.Tests
 
                         telDirectQueryList = telService.GetRead().Where(c => c.TelID == 4).Skip(0).Take(1).OrderBy(c => c.TelID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telList = telService.GetTelList().ToList();
                             Assert.AreEqual(0, telList.Count);
@@ -560,7 +560,7 @@ namespace CSSPServices.Tests
                 {
                     List<Tel> telList = new List<Tel>();
                     List<Tel> telDirectQueryList = new List<Tel>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -568,7 +568,7 @@ namespace CSSPServices.Tests
 
                         telDirectQueryList = telService.GetRead().Where(c => c.TelID > 2 && c.TelID < 5).Skip(0).Take(1).OrderBy(c => c.TelID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telList = telService.GetTelList().ToList();
                             Assert.AreEqual(0, telList.Count);
@@ -611,7 +611,7 @@ namespace CSSPServices.Tests
                 {
                     List<Tel> telList = new List<Tel>();
                     List<Tel> telDirectQueryList = new List<Tel>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TelService telService = new TelService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -619,7 +619,7 @@ namespace CSSPServices.Tests
 
                         telDirectQueryList = telService.GetRead().Where(c => c.TelID > 2 && c.TelID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             telList = telService.GetTelList().ToList();
                             Assert.AreEqual(0, telList.Count);
@@ -651,7 +651,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetTelList() 2Where
 
         #region Functions private
-        private void CheckTelFields(List<Tel> telList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckTelFields(List<Tel> telList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Tel fields
             Assert.IsNotNull(telList[0].TelID);

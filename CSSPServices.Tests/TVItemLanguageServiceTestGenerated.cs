@@ -276,11 +276,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvItemLanguage);
 
                     TVItemLanguage tvItemLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         tvItemLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageRet = tvItemLanguageService.GetTVItemLanguageWithTVItemLanguageID(tvItemLanguage.TVItemLanguageID);
                             Assert.IsNull(tvItemLanguageRet);
@@ -324,11 +324,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvItemLanguage);
 
                     List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         tvItemLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             Assert.AreEqual(0, tvItemLanguageList.Count);
@@ -369,7 +369,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
                     List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -377,7 +377,7 @@ namespace CSSPServices.Tests
 
                         tvItemLanguageDirectQueryList = tvItemLanguageService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             Assert.AreEqual(0, tvItemLanguageList.Count);
@@ -420,7 +420,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
                     List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -428,7 +428,7 @@ namespace CSSPServices.Tests
 
                         tvItemLanguageDirectQueryList = tvItemLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVItemLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             Assert.AreEqual(0, tvItemLanguageList.Count);
@@ -471,7 +471,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
                     List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -479,7 +479,7 @@ namespace CSSPServices.Tests
 
                         tvItemLanguageDirectQueryList = tvItemLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVItemLanguageID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             Assert.AreEqual(0, tvItemLanguageList.Count);
@@ -522,7 +522,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
                     List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -530,7 +530,7 @@ namespace CSSPServices.Tests
 
                         tvItemLanguageDirectQueryList = tvItemLanguageService.GetRead().Where(c => c.TVItemLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             Assert.AreEqual(0, tvItemLanguageList.Count);
@@ -573,7 +573,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
                     List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -581,7 +581,7 @@ namespace CSSPServices.Tests
 
                         tvItemLanguageDirectQueryList = tvItemLanguageService.GetRead().Where(c => c.TVItemLanguageID > 2 && c.TVItemLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             Assert.AreEqual(0, tvItemLanguageList.Count);
@@ -624,7 +624,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLanguage> tvItemLanguageList = new List<TVItemLanguage>();
                     List<TVItemLanguage> tvItemLanguageDirectQueryList = new List<TVItemLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -632,7 +632,7 @@ namespace CSSPServices.Tests
 
                         tvItemLanguageDirectQueryList = tvItemLanguageService.GetRead().Where(c => c.TVItemLanguageID > 2 && c.TVItemLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLanguageList = tvItemLanguageService.GetTVItemLanguageList().ToList();
                             Assert.AreEqual(0, tvItemLanguageList.Count);
@@ -664,7 +664,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetTVItemLanguageList() 2Where
 
         #region Functions private
-        private void CheckTVItemLanguageFields(List<TVItemLanguage> tvItemLanguageList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckTVItemLanguageFields(List<TVItemLanguage> tvItemLanguageList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // TVItemLanguage fields
             Assert.IsNotNull(tvItemLanguageList[0].TVItemLanguageID);

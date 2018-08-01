@@ -99,7 +99,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvItemLanguage.Language);
-            if (tvItemLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvItemLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageLanguage), new[] { "Language" });
@@ -118,7 +118,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)tvItemLanguage.TranslationStatus);
-            if (tvItemLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvItemLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageTranslationStatus), new[] { "TranslationStatus" });

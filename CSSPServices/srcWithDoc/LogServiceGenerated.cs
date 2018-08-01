@@ -76,7 +76,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LogCommandEnum), (int?)log.LogCommand);
-            if (log.LogCommand == LogCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (log.LogCommand == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 log.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogLogCommand), new[] { "LogCommand" });

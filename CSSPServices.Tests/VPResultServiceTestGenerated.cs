@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = )]
                     // vpResult.VPScenarioID   (Int32)
                     // -----------------------------------
 
@@ -353,11 +353,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpResult);
 
                     VPResult vpResultRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpResultService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                             Assert.IsNull(vpResultRet);
@@ -401,11 +401,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpResult);
 
                     List<VPResult> vpResultList = new List<VPResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpResultService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             Assert.AreEqual(0, vpResultList.Count);
@@ -446,7 +446,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPResult> vpResultList = new List<VPResult>();
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -454,7 +454,7 @@ namespace CSSPServices.Tests
 
                         vpResultDirectQueryList = vpResultService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             Assert.AreEqual(0, vpResultList.Count);
@@ -497,7 +497,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPResult> vpResultList = new List<VPResult>();
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -505,7 +505,7 @@ namespace CSSPServices.Tests
 
                         vpResultDirectQueryList = vpResultService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             Assert.AreEqual(0, vpResultList.Count);
@@ -548,7 +548,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPResult> vpResultList = new List<VPResult>();
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -556,7 +556,7 @@ namespace CSSPServices.Tests
 
                         vpResultDirectQueryList = vpResultService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPResultID).ThenBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             Assert.AreEqual(0, vpResultList.Count);
@@ -599,7 +599,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPResult> vpResultList = new List<VPResult>();
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -607,7 +607,7 @@ namespace CSSPServices.Tests
 
                         vpResultDirectQueryList = vpResultService.GetRead().Where(c => c.VPResultID == 4).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             Assert.AreEqual(0, vpResultList.Count);
@@ -650,7 +650,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPResult> vpResultList = new List<VPResult>();
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -658,7 +658,7 @@ namespace CSSPServices.Tests
 
                         vpResultDirectQueryList = vpResultService.GetRead().Where(c => c.VPResultID > 2 && c.VPResultID < 5).Skip(0).Take(1).OrderBy(c => c.VPResultID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             Assert.AreEqual(0, vpResultList.Count);
@@ -701,7 +701,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPResult> vpResultList = new List<VPResult>();
                     List<VPResult> vpResultDirectQueryList = new List<VPResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPResultService vpResultService = new VPResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -709,7 +709,7 @@ namespace CSSPServices.Tests
 
                         vpResultDirectQueryList = vpResultService.GetRead().Where(c => c.VPResultID > 2 && c.VPResultID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpResultList = vpResultService.GetVPResultList().ToList();
                             Assert.AreEqual(0, vpResultList.Count);
@@ -741,7 +741,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetVPResultList() 2Where
 
         #region Functions private
-        private void CheckVPResultFields(List<VPResult> vpResultList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckVPResultFields(List<VPResult> vpResultList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // VPResult fields
             Assert.IsNotNull(vpResultList[0].VPResultID);

@@ -257,11 +257,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(reportType);
 
                     ReportType reportTypeRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         reportTypeService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeRet = reportTypeService.GetReportTypeWithReportTypeID(reportType.ReportTypeID);
                             Assert.IsNull(reportTypeRet);
@@ -305,11 +305,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(reportType);
 
                     List<ReportType> reportTypeList = new List<ReportType>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         reportTypeService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             Assert.AreEqual(0, reportTypeList.Count);
@@ -350,7 +350,7 @@ namespace CSSPServices.Tests
                 {
                     List<ReportType> reportTypeList = new List<ReportType>();
                     List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -358,7 +358,7 @@ namespace CSSPServices.Tests
 
                         reportTypeDirectQueryList = reportTypeService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             Assert.AreEqual(0, reportTypeList.Count);
@@ -401,7 +401,7 @@ namespace CSSPServices.Tests
                 {
                     List<ReportType> reportTypeList = new List<ReportType>();
                     List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -409,7 +409,7 @@ namespace CSSPServices.Tests
 
                         reportTypeDirectQueryList = reportTypeService.GetRead().Skip(1).Take(1).OrderBy(c => c.ReportTypeID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             Assert.AreEqual(0, reportTypeList.Count);
@@ -452,7 +452,7 @@ namespace CSSPServices.Tests
                 {
                     List<ReportType> reportTypeList = new List<ReportType>();
                     List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -460,7 +460,7 @@ namespace CSSPServices.Tests
 
                         reportTypeDirectQueryList = reportTypeService.GetRead().Skip(1).Take(1).OrderBy(c => c.ReportTypeID).ThenBy(c => c.TVType).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             Assert.AreEqual(0, reportTypeList.Count);
@@ -503,7 +503,7 @@ namespace CSSPServices.Tests
                 {
                     List<ReportType> reportTypeList = new List<ReportType>();
                     List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -511,7 +511,7 @@ namespace CSSPServices.Tests
 
                         reportTypeDirectQueryList = reportTypeService.GetRead().Where(c => c.ReportTypeID == 4).Skip(0).Take(1).OrderBy(c => c.ReportTypeID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             Assert.AreEqual(0, reportTypeList.Count);
@@ -554,7 +554,7 @@ namespace CSSPServices.Tests
                 {
                     List<ReportType> reportTypeList = new List<ReportType>();
                     List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -562,7 +562,7 @@ namespace CSSPServices.Tests
 
                         reportTypeDirectQueryList = reportTypeService.GetRead().Where(c => c.ReportTypeID > 2 && c.ReportTypeID < 5).Skip(0).Take(1).OrderBy(c => c.ReportTypeID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             Assert.AreEqual(0, reportTypeList.Count);
@@ -605,7 +605,7 @@ namespace CSSPServices.Tests
                 {
                     List<ReportType> reportTypeList = new List<ReportType>();
                     List<ReportType> reportTypeDirectQueryList = new List<ReportType>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ReportTypeService reportTypeService = new ReportTypeService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -613,7 +613,7 @@ namespace CSSPServices.Tests
 
                         reportTypeDirectQueryList = reportTypeService.GetRead().Where(c => c.ReportTypeID > 2 && c.ReportTypeID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             reportTypeList = reportTypeService.GetReportTypeList().ToList();
                             Assert.AreEqual(0, reportTypeList.Count);
@@ -645,7 +645,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetReportTypeList() 2Where
 
         #region Functions private
-        private void CheckReportTypeFields(List<ReportType> reportTypeList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckReportTypeFields(List<ReportType> reportTypeList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // ReportType fields
             Assert.IsNotNull(reportTypeList[0].ReportTypeID);

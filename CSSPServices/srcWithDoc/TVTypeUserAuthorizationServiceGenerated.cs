@@ -78,14 +78,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvTypeUserAuthorization.TVType);
-            if (tvTypeUserAuthorization.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvTypeUserAuthorization.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvTypeUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTypeUserAuthorizationTVType), new[] { "TVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVAuthEnum), (int?)tvTypeUserAuthorization.TVAuth);
-            if (tvTypeUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvTypeUserAuthorization.TVAuth == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvTypeUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTypeUserAuthorizationTVAuth), new[] { "TVAuth" });

@@ -301,11 +301,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(spill);
 
                     Spill spillRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         spillService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillRet = spillService.GetSpillWithSpillID(spill.SpillID);
                             Assert.IsNull(spillRet);
@@ -349,11 +349,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(spill);
 
                     List<Spill> spillList = new List<Spill>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         spillService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillList = spillService.GetSpillList().ToList();
                             Assert.AreEqual(0, spillList.Count);
@@ -394,7 +394,7 @@ namespace CSSPServices.Tests
                 {
                     List<Spill> spillList = new List<Spill>();
                     List<Spill> spillDirectQueryList = new List<Spill>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -402,7 +402,7 @@ namespace CSSPServices.Tests
 
                         spillDirectQueryList = spillService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillList = spillService.GetSpillList().ToList();
                             Assert.AreEqual(0, spillList.Count);
@@ -445,7 +445,7 @@ namespace CSSPServices.Tests
                 {
                     List<Spill> spillList = new List<Spill>();
                     List<Spill> spillDirectQueryList = new List<Spill>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -453,7 +453,7 @@ namespace CSSPServices.Tests
 
                         spillDirectQueryList = spillService.GetRead().Skip(1).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillList = spillService.GetSpillList().ToList();
                             Assert.AreEqual(0, spillList.Count);
@@ -496,7 +496,7 @@ namespace CSSPServices.Tests
                 {
                     List<Spill> spillList = new List<Spill>();
                     List<Spill> spillDirectQueryList = new List<Spill>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -504,7 +504,7 @@ namespace CSSPServices.Tests
 
                         spillDirectQueryList = spillService.GetRead().Skip(1).Take(1).OrderBy(c => c.SpillID).ThenBy(c => c.MunicipalityTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillList = spillService.GetSpillList().ToList();
                             Assert.AreEqual(0, spillList.Count);
@@ -547,7 +547,7 @@ namespace CSSPServices.Tests
                 {
                     List<Spill> spillList = new List<Spill>();
                     List<Spill> spillDirectQueryList = new List<Spill>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -555,7 +555,7 @@ namespace CSSPServices.Tests
 
                         spillDirectQueryList = spillService.GetRead().Where(c => c.SpillID == 4).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillList = spillService.GetSpillList().ToList();
                             Assert.AreEqual(0, spillList.Count);
@@ -598,7 +598,7 @@ namespace CSSPServices.Tests
                 {
                     List<Spill> spillList = new List<Spill>();
                     List<Spill> spillDirectQueryList = new List<Spill>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -606,7 +606,7 @@ namespace CSSPServices.Tests
 
                         spillDirectQueryList = spillService.GetRead().Where(c => c.SpillID > 2 && c.SpillID < 5).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillList = spillService.GetSpillList().ToList();
                             Assert.AreEqual(0, spillList.Count);
@@ -649,7 +649,7 @@ namespace CSSPServices.Tests
                 {
                     List<Spill> spillList = new List<Spill>();
                     List<Spill> spillDirectQueryList = new List<Spill>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -657,7 +657,7 @@ namespace CSSPServices.Tests
 
                         spillDirectQueryList = spillService.GetRead().Where(c => c.SpillID > 2 && c.SpillID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             spillList = spillService.GetSpillList().ToList();
                             Assert.AreEqual(0, spillList.Count);
@@ -689,7 +689,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetSpillList() 2Where
 
         #region Functions private
-        private void CheckSpillFields(List<Spill> spillList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckSpillFields(List<Spill> spillList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Spill fields
             Assert.IsNotNull(spillList[0].SpillID);

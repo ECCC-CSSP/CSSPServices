@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportSectionLanguage.Language);
-            if (reportSectionLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (reportSectionLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageLanguage), new[] { "Language" });
@@ -85,7 +85,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportSectionLanguage.TranslationStatusReportSectionName);
-            if (reportSectionLanguage.TranslationStatusReportSectionName == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (reportSectionLanguage.TranslationStatusReportSectionName == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageTranslationStatusReportSectionName), new[] { "TranslationStatusReportSectionName" });
@@ -104,7 +104,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportSectionLanguage.TranslationStatusReportSectionText);
-            if (reportSectionLanguage.TranslationStatusReportSectionText == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (reportSectionLanguage.TranslationStatusReportSectionText == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageTranslationStatusReportSectionText), new[] { "TranslationStatusReportSectionText" });

@@ -121,14 +121,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(MikeBoundaryConditionLevelOrVelocityEnum), (int?)mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
-            if (mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity == MikeBoundaryConditionLevelOrVelocityEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity), new[] { "MikeBoundaryConditionLevelOrVelocity" });
             }
 
             retStr = enums.EnumTypeOK(typeof(WebTideDataSetEnum), (int?)mikeBoundaryCondition.WebTideDataSet);
-            if (mikeBoundaryCondition.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mikeBoundaryCondition.WebTideDataSet == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeBoundaryConditionWebTideDataSet), new[] { "WebTideDataSet" });
@@ -149,7 +149,7 @@ namespace CSSPServices
             //WebTideDataFromStartToEndDate has no StringLength Attribute
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)mikeBoundaryCondition.TVType);
-            if (mikeBoundaryCondition.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mikeBoundaryCondition.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeBoundaryConditionTVType), new[] { "TVType" });

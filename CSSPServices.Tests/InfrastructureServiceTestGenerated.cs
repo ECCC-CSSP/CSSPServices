@@ -1024,11 +1024,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(infrastructure);
 
                     Infrastructure infrastructureRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         infrastructureService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
                             Assert.IsNull(infrastructureRet);
@@ -1072,11 +1072,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(infrastructure);
 
                     List<Infrastructure> infrastructureList = new List<Infrastructure>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         infrastructureService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             Assert.AreEqual(0, infrastructureList.Count);
@@ -1117,7 +1117,7 @@ namespace CSSPServices.Tests
                 {
                     List<Infrastructure> infrastructureList = new List<Infrastructure>();
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1125,7 +1125,7 @@ namespace CSSPServices.Tests
 
                         infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             Assert.AreEqual(0, infrastructureList.Count);
@@ -1168,7 +1168,7 @@ namespace CSSPServices.Tests
                 {
                     List<Infrastructure> infrastructureList = new List<Infrastructure>();
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1176,7 +1176,7 @@ namespace CSSPServices.Tests
 
                         infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             Assert.AreEqual(0, infrastructureList.Count);
@@ -1219,7 +1219,7 @@ namespace CSSPServices.Tests
                 {
                     List<Infrastructure> infrastructureList = new List<Infrastructure>();
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1227,7 +1227,7 @@ namespace CSSPServices.Tests
 
                         infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             Assert.AreEqual(0, infrastructureList.Count);
@@ -1270,7 +1270,7 @@ namespace CSSPServices.Tests
                 {
                     List<Infrastructure> infrastructureList = new List<Infrastructure>();
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1278,7 +1278,7 @@ namespace CSSPServices.Tests
 
                         infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             Assert.AreEqual(0, infrastructureList.Count);
@@ -1321,7 +1321,7 @@ namespace CSSPServices.Tests
                 {
                     List<Infrastructure> infrastructureList = new List<Infrastructure>();
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1329,7 +1329,7 @@ namespace CSSPServices.Tests
 
                         infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             Assert.AreEqual(0, infrastructureList.Count);
@@ -1372,7 +1372,7 @@ namespace CSSPServices.Tests
                 {
                     List<Infrastructure> infrastructureList = new List<Infrastructure>();
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1380,7 +1380,7 @@ namespace CSSPServices.Tests
 
                         infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
                             Assert.AreEqual(0, infrastructureList.Count);
@@ -1412,7 +1412,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetInfrastructureList() 2Where
 
         #region Functions private
-        private void CheckInfrastructureFields(List<Infrastructure> infrastructureList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckInfrastructureFields(List<Infrastructure> infrastructureList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Infrastructure fields
             Assert.IsNotNull(infrastructureList[0].InfrastructureID);

@@ -164,14 +164,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItemLink.FromTVType);
-            if (tvItemLink.FromTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvItemLink.FromTVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLink.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLinkFromTVType), new[] { "FromTVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItemLink.ToTVType);
-            if (tvItemLink.ToTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvItemLink.ToTVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLink.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLinkToTVType), new[] { "ToTVType" });

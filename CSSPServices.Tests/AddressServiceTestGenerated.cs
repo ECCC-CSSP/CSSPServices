@@ -376,11 +376,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(address);
 
                     Address addressRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         addressService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressRet = addressService.GetAddressWithAddressID(address.AddressID);
                             Assert.IsNull(addressRet);
@@ -424,11 +424,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(address);
 
                     List<Address> addressList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         addressService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressList = addressService.GetAddressList().ToList();
                             Assert.AreEqual(0, addressList.Count);
@@ -469,7 +469,7 @@ namespace CSSPServices.Tests
                 {
                     List<Address> addressList = new List<Address>();
                     List<Address> addressDirectQueryList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -477,7 +477,7 @@ namespace CSSPServices.Tests
 
                         addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressList = addressService.GetAddressList().ToList();
                             Assert.AreEqual(0, addressList.Count);
@@ -520,7 +520,7 @@ namespace CSSPServices.Tests
                 {
                     List<Address> addressList = new List<Address>();
                     List<Address> addressDirectQueryList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -528,7 +528,7 @@ namespace CSSPServices.Tests
 
                         addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).OrderBy(c => c.AddressID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressList = addressService.GetAddressList().ToList();
                             Assert.AreEqual(0, addressList.Count);
@@ -571,7 +571,7 @@ namespace CSSPServices.Tests
                 {
                     List<Address> addressList = new List<Address>();
                     List<Address> addressDirectQueryList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -579,7 +579,7 @@ namespace CSSPServices.Tests
 
                         addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).OrderBy(c => c.AddressID).ThenBy(c => c.AddressTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressList = addressService.GetAddressList().ToList();
                             Assert.AreEqual(0, addressList.Count);
@@ -622,7 +622,7 @@ namespace CSSPServices.Tests
                 {
                     List<Address> addressList = new List<Address>();
                     List<Address> addressDirectQueryList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -630,7 +630,7 @@ namespace CSSPServices.Tests
 
                         addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID == 4).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressList = addressService.GetAddressList().ToList();
                             Assert.AreEqual(0, addressList.Count);
@@ -673,7 +673,7 @@ namespace CSSPServices.Tests
                 {
                     List<Address> addressList = new List<Address>();
                     List<Address> addressDirectQueryList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -681,7 +681,7 @@ namespace CSSPServices.Tests
 
                         addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID > 2 && c.AddressID < 5).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressList = addressService.GetAddressList().ToList();
                             Assert.AreEqual(0, addressList.Count);
@@ -724,7 +724,7 @@ namespace CSSPServices.Tests
                 {
                     List<Address> addressList = new List<Address>();
                     List<Address> addressDirectQueryList = new List<Address>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -732,7 +732,7 @@ namespace CSSPServices.Tests
 
                         addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID > 2 && c.AddressID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             addressList = addressService.GetAddressList().ToList();
                             Assert.AreEqual(0, addressList.Count);
@@ -764,7 +764,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetAddressList() 2Where
 
         #region Functions private
-        private void CheckAddressFields(List<Address> addressList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckAddressFields(List<Address> addressList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Address fields
             Assert.IsNotNull(addressList[0].AddressID);

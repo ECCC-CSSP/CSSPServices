@@ -591,11 +591,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpScenario);
 
                     VPScenario vpScenarioRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
                             Assert.IsNull(vpScenarioRet);
@@ -639,11 +639,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpScenario);
 
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             Assert.AreEqual(0, vpScenarioList.Count);
@@ -684,7 +684,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -692,7 +692,7 @@ namespace CSSPServices.Tests
 
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             Assert.AreEqual(0, vpScenarioList.Count);
@@ -735,7 +735,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -743,7 +743,7 @@ namespace CSSPServices.Tests
 
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             Assert.AreEqual(0, vpScenarioList.Count);
@@ -786,7 +786,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -794,7 +794,7 @@ namespace CSSPServices.Tests
 
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             Assert.AreEqual(0, vpScenarioList.Count);
@@ -837,7 +837,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -845,7 +845,7 @@ namespace CSSPServices.Tests
 
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             Assert.AreEqual(0, vpScenarioList.Count);
@@ -888,7 +888,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -896,7 +896,7 @@ namespace CSSPServices.Tests
 
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             Assert.AreEqual(0, vpScenarioList.Count);
@@ -939,7 +939,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPScenario> vpScenarioList = new List<VPScenario>();
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -947,7 +947,7 @@ namespace CSSPServices.Tests
 
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
                             Assert.AreEqual(0, vpScenarioList.Count);
@@ -979,7 +979,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetVPScenarioList() 2Where
 
         #region Functions private
-        private void CheckVPScenarioFields(List<VPScenario> vpScenarioList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckVPScenarioFields(List<VPScenario> vpScenarioList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // VPScenario fields
             Assert.IsNotNull(vpScenarioList[0].VPScenarioID);

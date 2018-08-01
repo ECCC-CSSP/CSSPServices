@@ -58,14 +58,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)docTemplate.Language);
-            if (docTemplate.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (docTemplate.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateLanguage), new[] { "Language" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)docTemplate.TVType);
-            if (docTemplate.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (docTemplate.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateTVType), new[] { "TVType" });

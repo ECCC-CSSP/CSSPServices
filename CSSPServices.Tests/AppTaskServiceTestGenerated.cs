@@ -388,11 +388,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appTask);
 
                     AppTask appTaskRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         appTaskService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
                             Assert.IsNull(appTaskRet);
@@ -436,11 +436,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appTask);
 
                     List<AppTask> appTaskList = new List<AppTask>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         appTaskService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             Assert.AreEqual(0, appTaskList.Count);
@@ -481,7 +481,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppTask> appTaskList = new List<AppTask>();
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -489,7 +489,7 @@ namespace CSSPServices.Tests
 
                         appTaskDirectQueryList = appTaskService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             Assert.AreEqual(0, appTaskList.Count);
@@ -532,7 +532,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppTask> appTaskList = new List<AppTask>();
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
 
                         appTaskDirectQueryList = appTaskService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             Assert.AreEqual(0, appTaskList.Count);
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppTask> appTaskList = new List<AppTask>();
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -591,7 +591,7 @@ namespace CSSPServices.Tests
 
                         appTaskDirectQueryList = appTaskService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppTaskID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             Assert.AreEqual(0, appTaskList.Count);
@@ -634,7 +634,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppTask> appTaskList = new List<AppTask>();
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -642,7 +642,7 @@ namespace CSSPServices.Tests
 
                         appTaskDirectQueryList = appTaskService.GetRead().Where(c => c.AppTaskID == 4).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             Assert.AreEqual(0, appTaskList.Count);
@@ -685,7 +685,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppTask> appTaskList = new List<AppTask>();
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -693,7 +693,7 @@ namespace CSSPServices.Tests
 
                         appTaskDirectQueryList = appTaskService.GetRead().Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             Assert.AreEqual(0, appTaskList.Count);
@@ -736,7 +736,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppTask> appTaskList = new List<AppTask>();
                     List<AppTask> appTaskDirectQueryList = new List<AppTask>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -744,7 +744,7 @@ namespace CSSPServices.Tests
 
                         appTaskDirectQueryList = appTaskService.GetRead().Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appTaskList = appTaskService.GetAppTaskList().ToList();
                             Assert.AreEqual(0, appTaskList.Count);
@@ -776,7 +776,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetAppTaskList() 2Where
 
         #region Functions private
-        private void CheckAppTaskFields(List<AppTask> appTaskList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckAppTaskFields(List<AppTask> appTaskList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // AppTask fields
             Assert.IsNotNull(appTaskList[0].AppTaskID);

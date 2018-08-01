@@ -43,7 +43,7 @@ namespace CSSPServices
             searchTagAndTerms.HasErrors = false;
 
             retStr = enums.EnumTypeOK(typeof(SearchTagEnum), (int?)searchTagAndTerms.SearchTag);
-            if (searchTagAndTerms.SearchTag == SearchTagEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (searchTagAndTerms.SearchTag == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 searchTagAndTerms.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SearchTagAndTermsSearchTag), new[] { "SearchTag" });

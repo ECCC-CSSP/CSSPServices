@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = )]
                     // hydrometricDataValue.HydrometricSiteID   (Int32)
                     // -----------------------------------
 
@@ -288,11 +288,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(hydrometricDataValue);
 
                     HydrometricDataValue hydrometricDataValueRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         hydrometricDataValueService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                             Assert.IsNull(hydrometricDataValueRet);
@@ -336,11 +336,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(hydrometricDataValue);
 
                     List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         hydrometricDataValueService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             Assert.AreEqual(0, hydrometricDataValueList.Count);
@@ -381,7 +381,7 @@ namespace CSSPServices.Tests
                 {
                     List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
                     List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -389,7 +389,7 @@ namespace CSSPServices.Tests
 
                         hydrometricDataValueDirectQueryList = hydrometricDataValueService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             Assert.AreEqual(0, hydrometricDataValueList.Count);
@@ -432,7 +432,7 @@ namespace CSSPServices.Tests
                 {
                     List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
                     List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -440,7 +440,7 @@ namespace CSSPServices.Tests
 
                         hydrometricDataValueDirectQueryList = hydrometricDataValueService.GetRead().Skip(1).Take(1).OrderBy(c => c.HydrometricDataValueID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             Assert.AreEqual(0, hydrometricDataValueList.Count);
@@ -483,7 +483,7 @@ namespace CSSPServices.Tests
                 {
                     List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
                     List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -491,7 +491,7 @@ namespace CSSPServices.Tests
 
                         hydrometricDataValueDirectQueryList = hydrometricDataValueService.GetRead().Skip(1).Take(1).OrderBy(c => c.HydrometricDataValueID).ThenBy(c => c.HydrometricSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             Assert.AreEqual(0, hydrometricDataValueList.Count);
@@ -534,7 +534,7 @@ namespace CSSPServices.Tests
                 {
                     List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
                     List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -542,7 +542,7 @@ namespace CSSPServices.Tests
 
                         hydrometricDataValueDirectQueryList = hydrometricDataValueService.GetRead().Where(c => c.HydrometricDataValueID == 4).Skip(0).Take(1).OrderBy(c => c.HydrometricDataValueID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             Assert.AreEqual(0, hydrometricDataValueList.Count);
@@ -585,7 +585,7 @@ namespace CSSPServices.Tests
                 {
                     List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
                     List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -593,7 +593,7 @@ namespace CSSPServices.Tests
 
                         hydrometricDataValueDirectQueryList = hydrometricDataValueService.GetRead().Where(c => c.HydrometricDataValueID > 2 && c.HydrometricDataValueID < 5).Skip(0).Take(1).OrderBy(c => c.HydrometricDataValueID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             Assert.AreEqual(0, hydrometricDataValueList.Count);
@@ -636,7 +636,7 @@ namespace CSSPServices.Tests
                 {
                     List<HydrometricDataValue> hydrometricDataValueList = new List<HydrometricDataValue>();
                     List<HydrometricDataValue> hydrometricDataValueDirectQueryList = new List<HydrometricDataValue>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -644,7 +644,7 @@ namespace CSSPServices.Tests
 
                         hydrometricDataValueDirectQueryList = hydrometricDataValueService.GetRead().Where(c => c.HydrometricDataValueID > 2 && c.HydrometricDataValueID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             hydrometricDataValueList = hydrometricDataValueService.GetHydrometricDataValueList().ToList();
                             Assert.AreEqual(0, hydrometricDataValueList.Count);
@@ -676,7 +676,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetHydrometricDataValueList() 2Where
 
         #region Functions private
-        private void CheckHydrometricDataValueFields(List<HydrometricDataValue> hydrometricDataValueList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckHydrometricDataValueFields(List<HydrometricDataValue> hydrometricDataValueList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // HydrometricDataValue fields
             Assert.IsNotNull(hydrometricDataValueList[0].HydrometricDataValueID);

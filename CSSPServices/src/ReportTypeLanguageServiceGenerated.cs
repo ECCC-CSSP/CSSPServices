@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportTypeLanguage.Language);
-            if (reportTypeLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (reportTypeLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageLanguage), new[] { "Language" });
@@ -85,7 +85,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportTypeLanguage.TranslationStatusName);
-            if (reportTypeLanguage.TranslationStatusName == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (reportTypeLanguage.TranslationStatusName == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageTranslationStatusName), new[] { "TranslationStatusName" });
@@ -104,7 +104,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportTypeLanguage.TranslationStatusDescription);
-            if (reportTypeLanguage.TranslationStatusDescription == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (reportTypeLanguage.TranslationStatusDescription == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageTranslationStatusDescription), new[] { "TranslationStatusDescription" });
@@ -123,7 +123,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportTypeLanguage.TranslationStatusStartOfFileName);
-            if (reportTypeLanguage.TranslationStatusStartOfFileName == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (reportTypeLanguage.TranslationStatusStartOfFileName == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageTranslationStatusStartOfFileName), new[] { "TranslationStatusStartOfFileName" });

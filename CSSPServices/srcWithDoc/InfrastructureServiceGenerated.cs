@@ -131,7 +131,7 @@ namespace CSSPServices
             if (infrastructure.InfrastructureType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(InfrastructureTypeEnum), (int?)infrastructure.InfrastructureType);
-                if (infrastructure.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.InfrastructureType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureInfrastructureType), new[] { "InfrastructureType" });
@@ -141,7 +141,7 @@ namespace CSSPServices
             if (infrastructure.FacilityType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(FacilityTypeEnum), (int?)infrastructure.FacilityType);
-                if (infrastructure.FacilityType == FacilityTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.FacilityType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureFacilityType), new[] { "FacilityType" });
@@ -169,7 +169,7 @@ namespace CSSPServices
             if (infrastructure.AerationType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(AerationTypeEnum), (int?)infrastructure.AerationType);
-                if (infrastructure.AerationType == AerationTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.AerationType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureAerationType), new[] { "AerationType" });
@@ -179,7 +179,7 @@ namespace CSSPServices
             if (infrastructure.PreliminaryTreatmentType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(PreliminaryTreatmentTypeEnum), (int?)infrastructure.PreliminaryTreatmentType);
-                if (infrastructure.PreliminaryTreatmentType == PreliminaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.PreliminaryTreatmentType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructurePreliminaryTreatmentType), new[] { "PreliminaryTreatmentType" });
@@ -189,7 +189,7 @@ namespace CSSPServices
             if (infrastructure.PrimaryTreatmentType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(PrimaryTreatmentTypeEnum), (int?)infrastructure.PrimaryTreatmentType);
-                if (infrastructure.PrimaryTreatmentType == PrimaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.PrimaryTreatmentType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructurePrimaryTreatmentType), new[] { "PrimaryTreatmentType" });
@@ -199,7 +199,7 @@ namespace CSSPServices
             if (infrastructure.SecondaryTreatmentType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(SecondaryTreatmentTypeEnum), (int?)infrastructure.SecondaryTreatmentType);
-                if (infrastructure.SecondaryTreatmentType == SecondaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.SecondaryTreatmentType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureSecondaryTreatmentType), new[] { "SecondaryTreatmentType" });
@@ -209,7 +209,7 @@ namespace CSSPServices
             if (infrastructure.TertiaryTreatmentType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(TertiaryTreatmentTypeEnum), (int?)infrastructure.TertiaryTreatmentType);
-                if (infrastructure.TertiaryTreatmentType == TertiaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.TertiaryTreatmentType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureTertiaryTreatmentType), new[] { "TertiaryTreatmentType" });
@@ -219,7 +219,7 @@ namespace CSSPServices
             if (infrastructure.TreatmentType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(TreatmentTypeEnum), (int?)infrastructure.TreatmentType);
-                if (infrastructure.TreatmentType == TreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.TreatmentType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureTreatmentType), new[] { "TreatmentType" });
@@ -229,7 +229,7 @@ namespace CSSPServices
             if (infrastructure.DisinfectionType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(DisinfectionTypeEnum), (int?)infrastructure.DisinfectionType);
-                if (infrastructure.DisinfectionType == DisinfectionTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.DisinfectionType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureDisinfectionType), new[] { "DisinfectionType" });
@@ -239,7 +239,7 @@ namespace CSSPServices
             if (infrastructure.CollectionSystemType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(CollectionSystemTypeEnum), (int?)infrastructure.CollectionSystemType);
-                if (infrastructure.CollectionSystemType == CollectionSystemTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.CollectionSystemType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureCollectionSystemType), new[] { "CollectionSystemType" });
@@ -249,7 +249,7 @@ namespace CSSPServices
             if (infrastructure.AlarmSystemType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(AlarmSystemTypeEnum), (int?)infrastructure.AlarmSystemType);
-                if (infrastructure.AlarmSystemType == AlarmSystemTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (infrastructure.AlarmSystemType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureAlarmSystemType), new[] { "AlarmSystemType" });

@@ -674,11 +674,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeScenario);
 
                     MikeScenario mikeScenarioRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mikeScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
                             Assert.IsNull(mikeScenarioRet);
@@ -722,11 +722,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeScenario);
 
                     List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mikeScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             Assert.AreEqual(0, mikeScenarioList.Count);
@@ -767,7 +767,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -775,7 +775,7 @@ namespace CSSPServices.Tests
 
                         mikeScenarioDirectQueryList = mikeScenarioService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             Assert.AreEqual(0, mikeScenarioList.Count);
@@ -818,7 +818,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -826,7 +826,7 @@ namespace CSSPServices.Tests
 
                         mikeScenarioDirectQueryList = mikeScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             Assert.AreEqual(0, mikeScenarioList.Count);
@@ -869,7 +869,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -877,7 +877,7 @@ namespace CSSPServices.Tests
 
                         mikeScenarioDirectQueryList = mikeScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeScenarioID).ThenBy(c => c.MikeScenarioTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             Assert.AreEqual(0, mikeScenarioList.Count);
@@ -920,7 +920,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -928,7 +928,7 @@ namespace CSSPServices.Tests
 
                         mikeScenarioDirectQueryList = mikeScenarioService.GetRead().Where(c => c.MikeScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.MikeScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             Assert.AreEqual(0, mikeScenarioList.Count);
@@ -971,7 +971,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -979,7 +979,7 @@ namespace CSSPServices.Tests
 
                         mikeScenarioDirectQueryList = mikeScenarioService.GetRead().Where(c => c.MikeScenarioID > 2 && c.MikeScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.MikeScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             Assert.AreEqual(0, mikeScenarioList.Count);
@@ -1022,7 +1022,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeScenario> mikeScenarioList = new List<MikeScenario>();
                     List<MikeScenario> mikeScenarioDirectQueryList = new List<MikeScenario>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeScenarioService mikeScenarioService = new MikeScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1030,7 +1030,7 @@ namespace CSSPServices.Tests
 
                         mikeScenarioDirectQueryList = mikeScenarioService.GetRead().Where(c => c.MikeScenarioID > 2 && c.MikeScenarioID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeScenarioList = mikeScenarioService.GetMikeScenarioList().ToList();
                             Assert.AreEqual(0, mikeScenarioList.Count);
@@ -1062,7 +1062,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMikeScenarioList() 2Where
 
         #region Functions private
-        private void CheckMikeScenarioFields(List<MikeScenario> mikeScenarioList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckMikeScenarioFields(List<MikeScenario> mikeScenarioList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // MikeScenario fields
             Assert.IsNotNull(mikeScenarioList[0].MikeScenarioID);

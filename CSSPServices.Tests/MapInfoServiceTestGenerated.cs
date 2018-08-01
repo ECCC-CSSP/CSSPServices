@@ -347,11 +347,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mapInfo);
 
                     MapInfo mapInfoRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mapInfoService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
                             Assert.IsNull(mapInfoRet);
@@ -395,11 +395,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mapInfo);
 
                     List<MapInfo> mapInfoList = new List<MapInfo>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mapInfoService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             Assert.AreEqual(0, mapInfoList.Count);
@@ -440,7 +440,7 @@ namespace CSSPServices.Tests
                 {
                     List<MapInfo> mapInfoList = new List<MapInfo>();
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -448,7 +448,7 @@ namespace CSSPServices.Tests
 
                         mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             Assert.AreEqual(0, mapInfoList.Count);
@@ -491,7 +491,7 @@ namespace CSSPServices.Tests
                 {
                     List<MapInfo> mapInfoList = new List<MapInfo>();
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -499,7 +499,7 @@ namespace CSSPServices.Tests
 
                         mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             Assert.AreEqual(0, mapInfoList.Count);
@@ -542,7 +542,7 @@ namespace CSSPServices.Tests
                 {
                     List<MapInfo> mapInfoList = new List<MapInfo>();
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -550,7 +550,7 @@ namespace CSSPServices.Tests
 
                         mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             Assert.AreEqual(0, mapInfoList.Count);
@@ -593,7 +593,7 @@ namespace CSSPServices.Tests
                 {
                     List<MapInfo> mapInfoList = new List<MapInfo>();
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -601,7 +601,7 @@ namespace CSSPServices.Tests
 
                         mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             Assert.AreEqual(0, mapInfoList.Count);
@@ -644,7 +644,7 @@ namespace CSSPServices.Tests
                 {
                     List<MapInfo> mapInfoList = new List<MapInfo>();
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -652,7 +652,7 @@ namespace CSSPServices.Tests
 
                         mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             Assert.AreEqual(0, mapInfoList.Count);
@@ -695,7 +695,7 @@ namespace CSSPServices.Tests
                 {
                     List<MapInfo> mapInfoList = new List<MapInfo>();
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -703,7 +703,7 @@ namespace CSSPServices.Tests
 
                         mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mapInfoList = mapInfoService.GetMapInfoList().ToList();
                             Assert.AreEqual(0, mapInfoList.Count);
@@ -735,7 +735,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMapInfoList() 2Where
 
         #region Functions private
-        private void CheckMapInfoFields(List<MapInfo> mapInfoList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckMapInfoFields(List<MapInfo> mapInfoList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // MapInfo fields
             Assert.IsNotNull(mapInfoList[0].MapInfoID);

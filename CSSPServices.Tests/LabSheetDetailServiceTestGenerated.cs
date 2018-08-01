@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "LabSheet", ExistPlurial = "s", ExistFieldID = "LabSheetID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "LabSheet", ExistPlurial = "s", ExistFieldID = "LabSheetID", AllowableTVtypeList = )]
                     // labSheetDetail.LabSheetID   (Int32)
                     // -----------------------------------
 
@@ -122,7 +122,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "SamplingPlan", ExistPlurial = "s", ExistFieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "SamplingPlan", ExistPlurial = "s", ExistFieldID = "SamplingPlanID", AllowableTVtypeList = )]
                     // labSheetDetail.SamplingPlanID   (Int32)
                     // -----------------------------------
 
@@ -1168,11 +1168,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(labSheetDetail);
 
                     LabSheetDetail labSheetDetailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         labSheetDetailService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
                             Assert.IsNull(labSheetDetailRet);
@@ -1216,11 +1216,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(labSheetDetail);
 
                     List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         labSheetDetailService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             Assert.AreEqual(0, labSheetDetailList.Count);
@@ -1261,7 +1261,7 @@ namespace CSSPServices.Tests
                 {
                     List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                     List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1269,7 +1269,7 @@ namespace CSSPServices.Tests
 
                         labSheetDetailDirectQueryList = labSheetDetailService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             Assert.AreEqual(0, labSheetDetailList.Count);
@@ -1312,7 +1312,7 @@ namespace CSSPServices.Tests
                 {
                     List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                     List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1320,7 +1320,7 @@ namespace CSSPServices.Tests
 
                         labSheetDetailDirectQueryList = labSheetDetailService.GetRead().Skip(1).Take(1).OrderBy(c => c.LabSheetDetailID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             Assert.AreEqual(0, labSheetDetailList.Count);
@@ -1363,7 +1363,7 @@ namespace CSSPServices.Tests
                 {
                     List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                     List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1371,7 +1371,7 @@ namespace CSSPServices.Tests
 
                         labSheetDetailDirectQueryList = labSheetDetailService.GetRead().Skip(1).Take(1).OrderBy(c => c.LabSheetDetailID).ThenBy(c => c.LabSheetID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             Assert.AreEqual(0, labSheetDetailList.Count);
@@ -1414,7 +1414,7 @@ namespace CSSPServices.Tests
                 {
                     List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                     List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1422,7 +1422,7 @@ namespace CSSPServices.Tests
 
                         labSheetDetailDirectQueryList = labSheetDetailService.GetRead().Where(c => c.LabSheetDetailID == 4).Skip(0).Take(1).OrderBy(c => c.LabSheetDetailID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             Assert.AreEqual(0, labSheetDetailList.Count);
@@ -1465,7 +1465,7 @@ namespace CSSPServices.Tests
                 {
                     List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                     List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1473,7 +1473,7 @@ namespace CSSPServices.Tests
 
                         labSheetDetailDirectQueryList = labSheetDetailService.GetRead().Where(c => c.LabSheetDetailID > 2 && c.LabSheetDetailID < 5).Skip(0).Take(1).OrderBy(c => c.LabSheetDetailID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             Assert.AreEqual(0, labSheetDetailList.Count);
@@ -1516,7 +1516,7 @@ namespace CSSPServices.Tests
                 {
                     List<LabSheetDetail> labSheetDetailList = new List<LabSheetDetail>();
                     List<LabSheetDetail> labSheetDetailDirectQueryList = new List<LabSheetDetail>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LabSheetDetailService labSheetDetailService = new LabSheetDetailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -1524,7 +1524,7 @@ namespace CSSPServices.Tests
 
                         labSheetDetailDirectQueryList = labSheetDetailService.GetRead().Where(c => c.LabSheetDetailID > 2 && c.LabSheetDetailID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             labSheetDetailList = labSheetDetailService.GetLabSheetDetailList().ToList();
                             Assert.AreEqual(0, labSheetDetailList.Count);
@@ -1556,7 +1556,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetLabSheetDetailList() 2Where
 
         #region Functions private
-        private void CheckLabSheetDetailFields(List<LabSheetDetail> labSheetDetailList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckLabSheetDetailFields(List<LabSheetDetail> labSheetDetailList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // LabSheetDetail fields
             Assert.IsNotNull(labSheetDetailList[0].LabSheetDetailID);

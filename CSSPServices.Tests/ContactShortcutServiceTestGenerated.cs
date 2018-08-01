@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = )]
                     // contactShortcut.ContactID   (Int32)
                     // -----------------------------------
 
@@ -265,11 +265,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactShortcut);
 
                     ContactShortcut contactShortcutRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         contactShortcutService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutRet = contactShortcutService.GetContactShortcutWithContactShortcutID(contactShortcut.ContactShortcutID);
                             Assert.IsNull(contactShortcutRet);
@@ -313,11 +313,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contactShortcut);
 
                     List<ContactShortcut> contactShortcutList = new List<ContactShortcut>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         contactShortcutService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             Assert.AreEqual(0, contactShortcutList.Count);
@@ -358,7 +358,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactShortcut> contactShortcutList = new List<ContactShortcut>();
                     List<ContactShortcut> contactShortcutDirectQueryList = new List<ContactShortcut>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -366,7 +366,7 @@ namespace CSSPServices.Tests
 
                         contactShortcutDirectQueryList = contactShortcutService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             Assert.AreEqual(0, contactShortcutList.Count);
@@ -409,7 +409,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactShortcut> contactShortcutList = new List<ContactShortcut>();
                     List<ContactShortcut> contactShortcutDirectQueryList = new List<ContactShortcut>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -417,7 +417,7 @@ namespace CSSPServices.Tests
 
                         contactShortcutDirectQueryList = contactShortcutService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactShortcutID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             Assert.AreEqual(0, contactShortcutList.Count);
@@ -460,7 +460,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactShortcut> contactShortcutList = new List<ContactShortcut>();
                     List<ContactShortcut> contactShortcutDirectQueryList = new List<ContactShortcut>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -468,7 +468,7 @@ namespace CSSPServices.Tests
 
                         contactShortcutDirectQueryList = contactShortcutService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactShortcutID).ThenBy(c => c.ContactID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             Assert.AreEqual(0, contactShortcutList.Count);
@@ -511,7 +511,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactShortcut> contactShortcutList = new List<ContactShortcut>();
                     List<ContactShortcut> contactShortcutDirectQueryList = new List<ContactShortcut>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -519,7 +519,7 @@ namespace CSSPServices.Tests
 
                         contactShortcutDirectQueryList = contactShortcutService.GetRead().Where(c => c.ContactShortcutID == 4).Skip(0).Take(1).OrderBy(c => c.ContactShortcutID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             Assert.AreEqual(0, contactShortcutList.Count);
@@ -562,7 +562,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactShortcut> contactShortcutList = new List<ContactShortcut>();
                     List<ContactShortcut> contactShortcutDirectQueryList = new List<ContactShortcut>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -570,7 +570,7 @@ namespace CSSPServices.Tests
 
                         contactShortcutDirectQueryList = contactShortcutService.GetRead().Where(c => c.ContactShortcutID > 2 && c.ContactShortcutID < 5).Skip(0).Take(1).OrderBy(c => c.ContactShortcutID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             Assert.AreEqual(0, contactShortcutList.Count);
@@ -613,7 +613,7 @@ namespace CSSPServices.Tests
                 {
                     List<ContactShortcut> contactShortcutList = new List<ContactShortcut>();
                     List<ContactShortcut> contactShortcutDirectQueryList = new List<ContactShortcut>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactShortcutService contactShortcutService = new ContactShortcutService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -621,7 +621,7 @@ namespace CSSPServices.Tests
 
                         contactShortcutDirectQueryList = contactShortcutService.GetRead().Where(c => c.ContactShortcutID > 2 && c.ContactShortcutID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactShortcutList = contactShortcutService.GetContactShortcutList().ToList();
                             Assert.AreEqual(0, contactShortcutList.Count);
@@ -653,7 +653,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetContactShortcutList() 2Where
 
         #region Functions private
-        private void CheckContactShortcutFields(List<ContactShortcut> contactShortcutList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckContactShortcutFields(List<ContactShortcut> contactShortcutList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // ContactShortcut fields
             Assert.IsNotNull(contactShortcutList[0].ContactShortcutID);

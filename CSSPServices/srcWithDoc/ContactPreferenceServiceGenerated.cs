@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)contactPreference.TVType);
-            if (contactPreference.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (contactPreference.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 contactPreference.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactPreferenceTVType), new[] { "TVType" });

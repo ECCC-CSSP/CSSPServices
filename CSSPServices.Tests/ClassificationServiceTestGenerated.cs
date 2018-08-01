@@ -261,11 +261,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(classification);
 
                     Classification classificationRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         classificationService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationRet = classificationService.GetClassificationWithClassificationID(classification.ClassificationID);
                             Assert.IsNull(classificationRet);
@@ -309,11 +309,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(classification);
 
                     List<Classification> classificationList = new List<Classification>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         classificationService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationList = classificationService.GetClassificationList().ToList();
                             Assert.AreEqual(0, classificationList.Count);
@@ -354,7 +354,7 @@ namespace CSSPServices.Tests
                 {
                     List<Classification> classificationList = new List<Classification>();
                     List<Classification> classificationDirectQueryList = new List<Classification>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -362,7 +362,7 @@ namespace CSSPServices.Tests
 
                         classificationDirectQueryList = classificationService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationList = classificationService.GetClassificationList().ToList();
                             Assert.AreEqual(0, classificationList.Count);
@@ -405,7 +405,7 @@ namespace CSSPServices.Tests
                 {
                     List<Classification> classificationList = new List<Classification>();
                     List<Classification> classificationDirectQueryList = new List<Classification>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -413,7 +413,7 @@ namespace CSSPServices.Tests
 
                         classificationDirectQueryList = classificationService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClassificationID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationList = classificationService.GetClassificationList().ToList();
                             Assert.AreEqual(0, classificationList.Count);
@@ -456,7 +456,7 @@ namespace CSSPServices.Tests
                 {
                     List<Classification> classificationList = new List<Classification>();
                     List<Classification> classificationDirectQueryList = new List<Classification>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -464,7 +464,7 @@ namespace CSSPServices.Tests
 
                         classificationDirectQueryList = classificationService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClassificationID).ThenBy(c => c.ClassificationTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationList = classificationService.GetClassificationList().ToList();
                             Assert.AreEqual(0, classificationList.Count);
@@ -507,7 +507,7 @@ namespace CSSPServices.Tests
                 {
                     List<Classification> classificationList = new List<Classification>();
                     List<Classification> classificationDirectQueryList = new List<Classification>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -515,7 +515,7 @@ namespace CSSPServices.Tests
 
                         classificationDirectQueryList = classificationService.GetRead().Where(c => c.ClassificationID == 4).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationList = classificationService.GetClassificationList().ToList();
                             Assert.AreEqual(0, classificationList.Count);
@@ -558,7 +558,7 @@ namespace CSSPServices.Tests
                 {
                     List<Classification> classificationList = new List<Classification>();
                     List<Classification> classificationDirectQueryList = new List<Classification>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -566,7 +566,7 @@ namespace CSSPServices.Tests
 
                         classificationDirectQueryList = classificationService.GetRead().Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationList = classificationService.GetClassificationList().ToList();
                             Assert.AreEqual(0, classificationList.Count);
@@ -609,7 +609,7 @@ namespace CSSPServices.Tests
                 {
                     List<Classification> classificationList = new List<Classification>();
                     List<Classification> classificationDirectQueryList = new List<Classification>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -617,7 +617,7 @@ namespace CSSPServices.Tests
 
                         classificationDirectQueryList = classificationService.GetRead().Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             classificationList = classificationService.GetClassificationList().ToList();
                             Assert.AreEqual(0, classificationList.Count);
@@ -649,7 +649,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetClassificationList() 2Where
 
         #region Functions private
-        private void CheckClassificationFields(List<Classification> classificationList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckClassificationFields(List<Classification> classificationList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Classification fields
             Assert.IsNotNull(classificationList[0].ClassificationID);

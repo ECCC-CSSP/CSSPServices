@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "BoxModel", ExistPlurial = "s", ExistFieldID = "BoxModelID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "BoxModel", ExistPlurial = "s", ExistFieldID = "BoxModelID", AllowableTVtypeList = )]
                     // boxModelResult.BoxModelID   (Int32)
                     // -----------------------------------
 
@@ -489,11 +489,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(boxModelResult);
 
                     BoxModelResult boxModelResultRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         boxModelResultService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
                             Assert.IsNull(boxModelResultRet);
@@ -537,11 +537,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(boxModelResult);
 
                     List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         boxModelResultService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             Assert.AreEqual(0, boxModelResultList.Count);
@@ -582,7 +582,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -590,7 +590,7 @@ namespace CSSPServices.Tests
 
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             Assert.AreEqual(0, boxModelResultList.Count);
@@ -633,7 +633,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -641,7 +641,7 @@ namespace CSSPServices.Tests
 
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             Assert.AreEqual(0, boxModelResultList.Count);
@@ -684,7 +684,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -692,7 +692,7 @@ namespace CSSPServices.Tests
 
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ThenBy(c => c.BoxModelID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             Assert.AreEqual(0, boxModelResultList.Count);
@@ -735,7 +735,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -743,7 +743,7 @@ namespace CSSPServices.Tests
 
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Where(c => c.BoxModelResultID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             Assert.AreEqual(0, boxModelResultList.Count);
@@ -786,7 +786,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -794,7 +794,7 @@ namespace CSSPServices.Tests
 
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             Assert.AreEqual(0, boxModelResultList.Count);
@@ -837,7 +837,7 @@ namespace CSSPServices.Tests
                 {
                     List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                     List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -845,7 +845,7 @@ namespace CSSPServices.Tests
 
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
                             Assert.AreEqual(0, boxModelResultList.Count);
@@ -877,7 +877,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetBoxModelResultList() 2Where
 
         #region Functions private
-        private void CheckBoxModelResultFields(List<BoxModelResult> boxModelResultList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckBoxModelResultFields(List<BoxModelResult> boxModelResultList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // BoxModelResult fields
             Assert.IsNotNull(boxModelResultList[0].BoxModelResultID);

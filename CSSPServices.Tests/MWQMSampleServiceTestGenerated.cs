@@ -486,11 +486,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSample);
 
                     MWQMSample mwqmSampleRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmSampleService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleRet = mwqmSampleService.GetMWQMSampleWithMWQMSampleID(mwqmSample.MWQMSampleID);
                             Assert.IsNull(mwqmSampleRet);
@@ -534,11 +534,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSample);
 
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmSampleService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             Assert.AreEqual(0, mwqmSampleList.Count);
@@ -579,7 +579,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -587,7 +587,7 @@ namespace CSSPServices.Tests
 
                         mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             Assert.AreEqual(0, mwqmSampleList.Count);
@@ -630,7 +630,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -638,7 +638,7 @@ namespace CSSPServices.Tests
 
                         mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             Assert.AreEqual(0, mwqmSampleList.Count);
@@ -681,7 +681,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -689,7 +689,7 @@ namespace CSSPServices.Tests
 
                         mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             Assert.AreEqual(0, mwqmSampleList.Count);
@@ -732,7 +732,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -740,7 +740,7 @@ namespace CSSPServices.Tests
 
                         mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             Assert.AreEqual(0, mwqmSampleList.Count);
@@ -783,7 +783,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -791,7 +791,7 @@ namespace CSSPServices.Tests
 
                         mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             Assert.AreEqual(0, mwqmSampleList.Count);
@@ -834,7 +834,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMSample> mwqmSampleList = new List<MWQMSample>();
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -842,7 +842,7 @@ namespace CSSPServices.Tests
 
                         mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmSampleList = mwqmSampleService.GetMWQMSampleList().ToList();
                             Assert.AreEqual(0, mwqmSampleList.Count);
@@ -874,7 +874,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMWQMSampleList() 2Where
 
         #region Functions private
-        private void CheckMWQMSampleFields(List<MWQMSample> mwqmSampleList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckMWQMSampleFields(List<MWQMSample> mwqmSampleList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // MWQMSample fields
             Assert.IsNotNull(mwqmSampleList[0].MWQMSampleID);

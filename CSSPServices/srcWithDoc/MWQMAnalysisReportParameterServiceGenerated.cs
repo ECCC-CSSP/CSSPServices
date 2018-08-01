@@ -133,7 +133,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(AnalysisCalculationTypeEnum), (int?)mwqmAnalysisReportParameter.AnalysisCalculationType);
-            if (mwqmAnalysisReportParameter.AnalysisCalculationType == AnalysisCalculationTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmAnalysisReportParameter.AnalysisCalculationType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisCalculationType), new[] { "AnalysisCalculationType" });
@@ -253,7 +253,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(AnalysisReportExportCommandEnum), (int?)mwqmAnalysisReportParameter.Command);
-            if (mwqmAnalysisReportParameter.Command == AnalysisReportExportCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmAnalysisReportParameter.Command == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterCommand), new[] { "Command" });

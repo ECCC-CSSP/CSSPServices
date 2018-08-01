@@ -49,7 +49,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(MapInfoDrawTypeEnum), (int?)mapObj.MapInfoDrawType);
-            if (mapObj.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mapObj.MapInfoDrawType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapObj.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapObjMapInfoDrawType), new[] { "MapInfoDrawType" });

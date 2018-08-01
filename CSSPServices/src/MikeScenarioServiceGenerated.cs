@@ -101,7 +101,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(ScenarioStatusEnum), (int?)mikeScenario.ScenarioStatus);
-            if (mikeScenario.ScenarioStatus == ScenarioStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mikeScenario.ScenarioStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeScenario.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioScenarioStatus), new[] { "ScenarioStatus" });

@@ -627,11 +627,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmAnalysisReportParameter);
 
                     MWQMAnalysisReportParameter mwqmAnalysisReportParameterRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmAnalysisReportParameterService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
                             Assert.IsNull(mwqmAnalysisReportParameterRet);
@@ -675,11 +675,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmAnalysisReportParameter);
 
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmAnalysisReportParameterService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             Assert.AreEqual(0, mwqmAnalysisReportParameterList.Count);
@@ -720,7 +720,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -728,7 +728,7 @@ namespace CSSPServices.Tests
 
                         mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             Assert.AreEqual(0, mwqmAnalysisReportParameterList.Count);
@@ -771,7 +771,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -779,7 +779,7 @@ namespace CSSPServices.Tests
 
                         mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             Assert.AreEqual(0, mwqmAnalysisReportParameterList.Count);
@@ -822,7 +822,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -830,7 +830,7 @@ namespace CSSPServices.Tests
 
                         mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ThenBy(c => c.SubsectorTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             Assert.AreEqual(0, mwqmAnalysisReportParameterList.Count);
@@ -873,7 +873,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -881,7 +881,7 @@ namespace CSSPServices.Tests
 
                         mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Where(c => c.MWQMAnalysisReportParameterID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             Assert.AreEqual(0, mwqmAnalysisReportParameterList.Count);
@@ -924,7 +924,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -932,7 +932,7 @@ namespace CSSPServices.Tests
 
                         mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             Assert.AreEqual(0, mwqmAnalysisReportParameterList.Count);
@@ -975,7 +975,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList = new List<MWQMAnalysisReportParameter>();
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -983,7 +983,7 @@ namespace CSSPServices.Tests
 
                         mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmAnalysisReportParameterList = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().ToList();
                             Assert.AreEqual(0, mwqmAnalysisReportParameterList.Count);
@@ -1015,7 +1015,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMWQMAnalysisReportParameterList() 2Where
 
         #region Functions private
-        private void CheckMWQMAnalysisReportParameterFields(List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckMWQMAnalysisReportParameterFields(List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // MWQMAnalysisReportParameter fields
             Assert.IsNotNull(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterID);

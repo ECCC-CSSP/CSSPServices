@@ -337,11 +337,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(polSourceSite);
 
                     PolSourceSite polSourceSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         polSourceSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
                             Assert.IsNull(polSourceSiteRet);
@@ -385,11 +385,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(polSourceSite);
 
                     List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         polSourceSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             Assert.AreEqual(0, polSourceSiteList.Count);
@@ -430,7 +430,7 @@ namespace CSSPServices.Tests
                 {
                     List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -438,7 +438,7 @@ namespace CSSPServices.Tests
 
                         polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             Assert.AreEqual(0, polSourceSiteList.Count);
@@ -481,7 +481,7 @@ namespace CSSPServices.Tests
                 {
                     List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -489,7 +489,7 @@ namespace CSSPServices.Tests
 
                         polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             Assert.AreEqual(0, polSourceSiteList.Count);
@@ -532,7 +532,7 @@ namespace CSSPServices.Tests
                 {
                     List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
 
                         polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ThenBy(c => c.PolSourceSiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             Assert.AreEqual(0, polSourceSiteList.Count);
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
                 {
                     List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -591,7 +591,7 @@ namespace CSSPServices.Tests
 
                         polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Where(c => c.PolSourceSiteID == 4).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             Assert.AreEqual(0, polSourceSiteList.Count);
@@ -634,7 +634,7 @@ namespace CSSPServices.Tests
                 {
                     List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -642,7 +642,7 @@ namespace CSSPServices.Tests
 
                         polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             Assert.AreEqual(0, polSourceSiteList.Count);
@@ -685,7 +685,7 @@ namespace CSSPServices.Tests
                 {
                     List<PolSourceSite> polSourceSiteList = new List<PolSourceSite>();
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -693,7 +693,7 @@ namespace CSSPServices.Tests
 
                         polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             polSourceSiteList = polSourceSiteService.GetPolSourceSiteList().ToList();
                             Assert.AreEqual(0, polSourceSiteList.Count);
@@ -725,7 +725,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetPolSourceSiteList() 2Where
 
         #region Functions private
-        private void CheckPolSourceSiteFields(List<PolSourceSite> polSourceSiteList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckPolSourceSiteFields(List<PolSourceSite> polSourceSiteList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // PolSourceSite fields
             Assert.IsNotNull(polSourceSiteList[0].PolSourceSiteID);

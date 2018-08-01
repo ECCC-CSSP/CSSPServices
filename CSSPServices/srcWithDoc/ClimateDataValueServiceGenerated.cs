@@ -80,7 +80,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)climateDataValue.StorageDataType);
-            if (climateDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (climateDataValue.StorageDataType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 climateDataValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateDataValueStorageDataType), new[] { "StorageDataType" });

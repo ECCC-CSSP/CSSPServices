@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = )]
                     // vpAmbient.VPScenarioID   (Int32)
                     // -----------------------------------
 
@@ -468,11 +468,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpAmbient);
 
                     VPAmbient vpAmbientRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpAmbientService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
                             Assert.IsNull(vpAmbientRet);
@@ -516,11 +516,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(vpAmbient);
 
                     List<VPAmbient> vpAmbientList = new List<VPAmbient>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpAmbientService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             Assert.AreEqual(0, vpAmbientList.Count);
@@ -561,7 +561,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                     List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -569,7 +569,7 @@ namespace CSSPServices.Tests
 
                         vpAmbientDirectQueryList = vpAmbientService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             Assert.AreEqual(0, vpAmbientList.Count);
@@ -612,7 +612,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                     List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -620,7 +620,7 @@ namespace CSSPServices.Tests
 
                         vpAmbientDirectQueryList = vpAmbientService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPAmbientID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             Assert.AreEqual(0, vpAmbientList.Count);
@@ -663,7 +663,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                     List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -671,7 +671,7 @@ namespace CSSPServices.Tests
 
                         vpAmbientDirectQueryList = vpAmbientService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPAmbientID).ThenBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             Assert.AreEqual(0, vpAmbientList.Count);
@@ -714,7 +714,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                     List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -722,7 +722,7 @@ namespace CSSPServices.Tests
 
                         vpAmbientDirectQueryList = vpAmbientService.GetRead().Where(c => c.VPAmbientID == 4).Skip(0).Take(1).OrderBy(c => c.VPAmbientID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             Assert.AreEqual(0, vpAmbientList.Count);
@@ -765,7 +765,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                     List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -773,7 +773,7 @@ namespace CSSPServices.Tests
 
                         vpAmbientDirectQueryList = vpAmbientService.GetRead().Where(c => c.VPAmbientID > 2 && c.VPAmbientID < 5).Skip(0).Take(1).OrderBy(c => c.VPAmbientID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             Assert.AreEqual(0, vpAmbientList.Count);
@@ -816,7 +816,7 @@ namespace CSSPServices.Tests
                 {
                     List<VPAmbient> vpAmbientList = new List<VPAmbient>();
                     List<VPAmbient> vpAmbientDirectQueryList = new List<VPAmbient>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPAmbientService vpAmbientService = new VPAmbientService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -824,7 +824,7 @@ namespace CSSPServices.Tests
 
                         vpAmbientDirectQueryList = vpAmbientService.GetRead().Where(c => c.VPAmbientID > 2 && c.VPAmbientID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             vpAmbientList = vpAmbientService.GetVPAmbientList().ToList();
                             Assert.AreEqual(0, vpAmbientList.Count);
@@ -856,7 +856,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetVPAmbientList() 2Where
 
         #region Functions private
-        private void CheckVPAmbientFields(List<VPAmbient> vpAmbientList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckVPAmbientFields(List<VPAmbient> vpAmbientList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // VPAmbient fields
             Assert.IsNotNull(vpAmbientList[0].VPAmbientID);

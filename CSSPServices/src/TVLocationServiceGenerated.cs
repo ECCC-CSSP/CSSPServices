@@ -69,14 +69,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.TVType);
-            if (tvLocation.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvLocation.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationTVType), new[] { "TVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.SubTVType);
-            if (tvLocation.SubTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvLocation.SubTVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationSubTVType), new[] { "SubTVType" });

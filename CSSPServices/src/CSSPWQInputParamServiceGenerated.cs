@@ -43,7 +43,7 @@ namespace CSSPServices
             cSSPWQInputParam.HasErrors = false;
 
             retStr = enums.EnumTypeOK(typeof(CSSPWQInputTypeEnum), (int?)cSSPWQInputParam.CSSPWQInputType);
-            if (cSSPWQInputParam.CSSPWQInputType == CSSPWQInputTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (cSSPWQInputParam.CSSPWQInputType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.CSSPWQInputParamCSSPWQInputType), new[] { "CSSPWQInputType" });

@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = )]
                     // ratingCurve.HydrometricSiteID   (Int32)
                     // -----------------------------------
 
@@ -244,11 +244,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(ratingCurve);
 
                     RatingCurve ratingCurveRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ratingCurveService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveRet = ratingCurveService.GetRatingCurveWithRatingCurveID(ratingCurve.RatingCurveID);
                             Assert.IsNull(ratingCurveRet);
@@ -292,11 +292,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(ratingCurve);
 
                     List<RatingCurve> ratingCurveList = new List<RatingCurve>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ratingCurveService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             Assert.AreEqual(0, ratingCurveList.Count);
@@ -337,7 +337,7 @@ namespace CSSPServices.Tests
                 {
                     List<RatingCurve> ratingCurveList = new List<RatingCurve>();
                     List<RatingCurve> ratingCurveDirectQueryList = new List<RatingCurve>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -345,7 +345,7 @@ namespace CSSPServices.Tests
 
                         ratingCurveDirectQueryList = ratingCurveService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             Assert.AreEqual(0, ratingCurveList.Count);
@@ -388,7 +388,7 @@ namespace CSSPServices.Tests
                 {
                     List<RatingCurve> ratingCurveList = new List<RatingCurve>();
                     List<RatingCurve> ratingCurveDirectQueryList = new List<RatingCurve>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -396,7 +396,7 @@ namespace CSSPServices.Tests
 
                         ratingCurveDirectQueryList = ratingCurveService.GetRead().Skip(1).Take(1).OrderBy(c => c.RatingCurveID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             Assert.AreEqual(0, ratingCurveList.Count);
@@ -439,7 +439,7 @@ namespace CSSPServices.Tests
                 {
                     List<RatingCurve> ratingCurveList = new List<RatingCurve>();
                     List<RatingCurve> ratingCurveDirectQueryList = new List<RatingCurve>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -447,7 +447,7 @@ namespace CSSPServices.Tests
 
                         ratingCurveDirectQueryList = ratingCurveService.GetRead().Skip(1).Take(1).OrderBy(c => c.RatingCurveID).ThenBy(c => c.HydrometricSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             Assert.AreEqual(0, ratingCurveList.Count);
@@ -490,7 +490,7 @@ namespace CSSPServices.Tests
                 {
                     List<RatingCurve> ratingCurveList = new List<RatingCurve>();
                     List<RatingCurve> ratingCurveDirectQueryList = new List<RatingCurve>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -498,7 +498,7 @@ namespace CSSPServices.Tests
 
                         ratingCurveDirectQueryList = ratingCurveService.GetRead().Where(c => c.RatingCurveID == 4).Skip(0).Take(1).OrderBy(c => c.RatingCurveID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             Assert.AreEqual(0, ratingCurveList.Count);
@@ -541,7 +541,7 @@ namespace CSSPServices.Tests
                 {
                     List<RatingCurve> ratingCurveList = new List<RatingCurve>();
                     List<RatingCurve> ratingCurveDirectQueryList = new List<RatingCurve>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -549,7 +549,7 @@ namespace CSSPServices.Tests
 
                         ratingCurveDirectQueryList = ratingCurveService.GetRead().Where(c => c.RatingCurveID > 2 && c.RatingCurveID < 5).Skip(0).Take(1).OrderBy(c => c.RatingCurveID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             Assert.AreEqual(0, ratingCurveList.Count);
@@ -592,7 +592,7 @@ namespace CSSPServices.Tests
                 {
                     List<RatingCurve> ratingCurveList = new List<RatingCurve>();
                     List<RatingCurve> ratingCurveDirectQueryList = new List<RatingCurve>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveService ratingCurveService = new RatingCurveService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -600,7 +600,7 @@ namespace CSSPServices.Tests
 
                         ratingCurveDirectQueryList = ratingCurveService.GetRead().Where(c => c.RatingCurveID > 2 && c.RatingCurveID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             ratingCurveList = ratingCurveService.GetRatingCurveList().ToList();
                             Assert.AreEqual(0, ratingCurveList.Count);
@@ -632,7 +632,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetRatingCurveList() 2Where
 
         #region Functions private
-        private void CheckRatingCurveFields(List<RatingCurve> ratingCurveList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckRatingCurveFields(List<RatingCurve> ratingCurveList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // RatingCurve fields
             Assert.IsNotNull(ratingCurveList[0].RatingCurveID);

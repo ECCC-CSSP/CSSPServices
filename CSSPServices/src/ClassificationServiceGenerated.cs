@@ -78,7 +78,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(ClassificationTypeEnum), (int?)classification.ClassificationType);
-            if (classification.ClassificationType == ClassificationTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (classification.ClassificationType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 classification.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClassificationClassificationType), new[] { "ClassificationType" });

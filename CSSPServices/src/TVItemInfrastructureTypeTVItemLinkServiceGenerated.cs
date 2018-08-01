@@ -43,7 +43,7 @@ namespace CSSPServices
             tvItemInfrastructureTypeTVItemLink.HasErrors = false;
 
             retStr = enums.EnumTypeOK(typeof(InfrastructureTypeEnum), (int?)tvItemInfrastructureTypeTVItemLink.InfrastructureType);
-            if (tvItemInfrastructureTypeTVItemLink.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvItemInfrastructureTypeTVItemLink.InfrastructureType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemInfrastructureTypeTVItemLink.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType), new[] { "InfrastructureType" });

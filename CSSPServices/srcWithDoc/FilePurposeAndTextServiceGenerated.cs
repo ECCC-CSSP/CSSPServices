@@ -43,7 +43,7 @@ namespace CSSPServices
             filePurposeAndText.HasErrors = false;
 
             retStr = enums.EnumTypeOK(typeof(FilePurposeEnum), (int?)filePurposeAndText.FilePurpose);
-            if (filePurposeAndText.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (filePurposeAndText.FilePurpose == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 filePurposeAndText.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FilePurposeAndTextFilePurpose), new[] { "FilePurpose" });

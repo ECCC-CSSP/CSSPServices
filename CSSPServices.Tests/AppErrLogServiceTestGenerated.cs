@@ -289,11 +289,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appErrLog);
 
                     AppErrLog appErrLogRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         appErrLogService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
                             Assert.IsNull(appErrLogRet);
@@ -337,11 +337,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(appErrLog);
 
                     List<AppErrLog> appErrLogList = new List<AppErrLog>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         appErrLogService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             Assert.AreEqual(0, appErrLogList.Count);
@@ -382,7 +382,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppErrLog> appErrLogList = new List<AppErrLog>();
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -390,7 +390,7 @@ namespace CSSPServices.Tests
 
                         appErrLogDirectQueryList = appErrLogService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             Assert.AreEqual(0, appErrLogList.Count);
@@ -433,7 +433,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppErrLog> appErrLogList = new List<AppErrLog>();
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -441,7 +441,7 @@ namespace CSSPServices.Tests
 
                         appErrLogDirectQueryList = appErrLogService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             Assert.AreEqual(0, appErrLogList.Count);
@@ -484,7 +484,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppErrLog> appErrLogList = new List<AppErrLog>();
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -492,7 +492,7 @@ namespace CSSPServices.Tests
 
                         appErrLogDirectQueryList = appErrLogService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ThenBy(c => c.Tag).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             Assert.AreEqual(0, appErrLogList.Count);
@@ -535,7 +535,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppErrLog> appErrLogList = new List<AppErrLog>();
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -543,7 +543,7 @@ namespace CSSPServices.Tests
 
                         appErrLogDirectQueryList = appErrLogService.GetRead().Where(c => c.AppErrLogID == 4).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             Assert.AreEqual(0, appErrLogList.Count);
@@ -586,7 +586,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppErrLog> appErrLogList = new List<AppErrLog>();
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -594,7 +594,7 @@ namespace CSSPServices.Tests
 
                         appErrLogDirectQueryList = appErrLogService.GetRead().Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             Assert.AreEqual(0, appErrLogList.Count);
@@ -637,7 +637,7 @@ namespace CSSPServices.Tests
                 {
                     List<AppErrLog> appErrLogList = new List<AppErrLog>();
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -645,7 +645,7 @@ namespace CSSPServices.Tests
 
                         appErrLogDirectQueryList = appErrLogService.GetRead().Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             appErrLogList = appErrLogService.GetAppErrLogList().ToList();
                             Assert.AreEqual(0, appErrLogList.Count);
@@ -677,7 +677,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetAppErrLogList() 2Where
 
         #region Functions private
-        private void CheckAppErrLogFields(List<AppErrLog> appErrLogList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckAppErrLogFields(List<AppErrLog> appErrLogList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // AppErrLog fields
             Assert.IsNotNull(appErrLogList[0].AppErrLogID);

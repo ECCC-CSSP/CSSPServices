@@ -80,7 +80,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)hydrometricDataValue.StorageDataType);
-            if (hydrometricDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (hydrometricDataValue.StorageDataType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 hydrometricDataValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueStorageDataType), new[] { "StorageDataType" });

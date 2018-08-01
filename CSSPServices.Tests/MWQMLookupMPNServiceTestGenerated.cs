@@ -286,11 +286,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmLookupMPN);
 
                     MWQMLookupMPN mwqmLookupMPNRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmLookupMPNService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
                             Assert.IsNull(mwqmLookupMPNRet);
@@ -334,11 +334,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmLookupMPN);
 
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmLookupMPNService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             Assert.AreEqual(0, mwqmLookupMPNList.Count);
@@ -379,7 +379,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
                     List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -387,7 +387,7 @@ namespace CSSPServices.Tests
 
                         mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             Assert.AreEqual(0, mwqmLookupMPNList.Count);
@@ -430,7 +430,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
                     List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -438,7 +438,7 @@ namespace CSSPServices.Tests
 
                         mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             Assert.AreEqual(0, mwqmLookupMPNList.Count);
@@ -481,7 +481,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
                     List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -489,7 +489,7 @@ namespace CSSPServices.Tests
 
                         mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMLookupMPNID).ThenBy(c => c.Tubes10).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             Assert.AreEqual(0, mwqmLookupMPNList.Count);
@@ -532,7 +532,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
                     List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
 
                         mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Where(c => c.MWQMLookupMPNID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             Assert.AreEqual(0, mwqmLookupMPNList.Count);
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
                     List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -591,7 +591,7 @@ namespace CSSPServices.Tests
 
                         mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Where(c => c.MWQMLookupMPNID > 2 && c.MWQMLookupMPNID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMLookupMPNID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             Assert.AreEqual(0, mwqmLookupMPNList.Count);
@@ -634,7 +634,7 @@ namespace CSSPServices.Tests
                 {
                     List<MWQMLookupMPN> mwqmLookupMPNList = new List<MWQMLookupMPN>();
                     List<MWQMLookupMPN> mwqmLookupMPNDirectQueryList = new List<MWQMLookupMPN>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -642,7 +642,7 @@ namespace CSSPServices.Tests
 
                         mwqmLookupMPNDirectQueryList = mwqmLookupMPNService.GetRead().Where(c => c.MWQMLookupMPNID > 2 && c.MWQMLookupMPNID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mwqmLookupMPNList = mwqmLookupMPNService.GetMWQMLookupMPNList().ToList();
                             Assert.AreEqual(0, mwqmLookupMPNList.Count);
@@ -674,7 +674,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMWQMLookupMPNList() 2Where
 
         #region Functions private
-        private void CheckMWQMLookupMPNFields(List<MWQMLookupMPN> mwqmLookupMPNList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckMWQMLookupMPNFields(List<MWQMLookupMPN> mwqmLookupMPNList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // MWQMLookupMPN fields
             Assert.IsNotNull(mwqmLookupMPNList[0].MWQMLookupMPNID);

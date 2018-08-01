@@ -54,11 +54,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.DataPathOfTideText, "1", "200"), new[] { "Text" });
             }
 
-            retStr = enums.EnumTypeOK(typeof(WebTideDataSetEnum), (int?)dataPathOfTide.WebTideDataSet);
-            if (dataPathOfTide.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (dataPathOfTide.WebTideDataSet != null)
             {
-                dataPathOfTide.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DataPathOfTideWebTideDataSet), new[] { "WebTideDataSet" });
+                retStr = enums.EnumTypeOK(typeof(WebTideDataSetEnum), (int?)dataPathOfTide.WebTideDataSet);
+                if (dataPathOfTide.WebTideDataSet == null || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    dataPathOfTide.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DataPathOfTideWebTideDataSet), new[] { "WebTideDataSet" });
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(dataPathOfTide.WebTideDataSetText) && dataPathOfTide.WebTideDataSetText.Length > 100)

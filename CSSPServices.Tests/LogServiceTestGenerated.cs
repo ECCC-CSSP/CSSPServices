@@ -271,11 +271,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(log);
 
                     Log logRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         logService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logRet = logService.GetLogWithLogID(log.LogID);
                             Assert.IsNull(logRet);
@@ -319,11 +319,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(log);
 
                     List<Log> logList = new List<Log>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         logService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logList = logService.GetLogList().ToList();
                             Assert.AreEqual(0, logList.Count);
@@ -364,7 +364,7 @@ namespace CSSPServices.Tests
                 {
                     List<Log> logList = new List<Log>();
                     List<Log> logDirectQueryList = new List<Log>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -372,7 +372,7 @@ namespace CSSPServices.Tests
 
                         logDirectQueryList = logService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logList = logService.GetLogList().ToList();
                             Assert.AreEqual(0, logList.Count);
@@ -415,7 +415,7 @@ namespace CSSPServices.Tests
                 {
                     List<Log> logList = new List<Log>();
                     List<Log> logDirectQueryList = new List<Log>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -423,7 +423,7 @@ namespace CSSPServices.Tests
 
                         logDirectQueryList = logService.GetRead().Skip(1).Take(1).OrderBy(c => c.LogID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logList = logService.GetLogList().ToList();
                             Assert.AreEqual(0, logList.Count);
@@ -466,7 +466,7 @@ namespace CSSPServices.Tests
                 {
                     List<Log> logList = new List<Log>();
                     List<Log> logDirectQueryList = new List<Log>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -474,7 +474,7 @@ namespace CSSPServices.Tests
 
                         logDirectQueryList = logService.GetRead().Skip(1).Take(1).OrderBy(c => c.LogID).ThenBy(c => c.TableName).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logList = logService.GetLogList().ToList();
                             Assert.AreEqual(0, logList.Count);
@@ -517,7 +517,7 @@ namespace CSSPServices.Tests
                 {
                     List<Log> logList = new List<Log>();
                     List<Log> logDirectQueryList = new List<Log>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -525,7 +525,7 @@ namespace CSSPServices.Tests
 
                         logDirectQueryList = logService.GetRead().Where(c => c.LogID == 4).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logList = logService.GetLogList().ToList();
                             Assert.AreEqual(0, logList.Count);
@@ -568,7 +568,7 @@ namespace CSSPServices.Tests
                 {
                     List<Log> logList = new List<Log>();
                     List<Log> logDirectQueryList = new List<Log>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -576,7 +576,7 @@ namespace CSSPServices.Tests
 
                         logDirectQueryList = logService.GetRead().Where(c => c.LogID > 2 && c.LogID < 5).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logList = logService.GetLogList().ToList();
                             Assert.AreEqual(0, logList.Count);
@@ -619,7 +619,7 @@ namespace CSSPServices.Tests
                 {
                     List<Log> logList = new List<Log>();
                     List<Log> logDirectQueryList = new List<Log>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -627,7 +627,7 @@ namespace CSSPServices.Tests
 
                         logDirectQueryList = logService.GetRead().Where(c => c.LogID > 2 && c.LogID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             logList = logService.GetLogList().ToList();
                             Assert.AreEqual(0, logList.Count);
@@ -659,7 +659,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetLogList() 2Where
 
         #region Functions private
-        private void CheckLogFields(List<Log> logList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckLogFields(List<Log> logList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Log fields
             Assert.IsNotNull(logList[0].LogID);

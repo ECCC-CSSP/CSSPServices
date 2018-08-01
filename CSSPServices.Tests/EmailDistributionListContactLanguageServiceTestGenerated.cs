@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "EmailDistributionListContact", ExistPlurial = "s", ExistFieldID = "EmailDistributionListContactID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "EmailDistributionListContact", ExistPlurial = "s", ExistFieldID = "EmailDistributionListContactID", AllowableTVtypeList = )]
                     // emailDistributionListContactLanguage.EmailDistributionListContactID   (Int32)
                     // -----------------------------------
 
@@ -272,11 +272,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(emailDistributionListContactLanguage);
 
                     EmailDistributionListContactLanguage emailDistributionListContactLanguageRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         emailDistributionListContactLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
                             Assert.IsNull(emailDistributionListContactLanguageRet);
@@ -320,11 +320,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(emailDistributionListContactLanguage);
 
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         emailDistributionListContactLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
@@ -365,7 +365,7 @@ namespace CSSPServices.Tests
                 {
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -373,7 +373,7 @@ namespace CSSPServices.Tests
 
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
@@ -416,7 +416,7 @@ namespace CSSPServices.Tests
                 {
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -424,7 +424,7 @@ namespace CSSPServices.Tests
 
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
@@ -467,7 +467,7 @@ namespace CSSPServices.Tests
                 {
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -475,7 +475,7 @@ namespace CSSPServices.Tests
 
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ThenBy(c => c.EmailDistributionListContactID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
@@ -518,7 +518,7 @@ namespace CSSPServices.Tests
                 {
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -526,7 +526,7 @@ namespace CSSPServices.Tests
 
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Where(c => c.EmailDistributionListContactLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
@@ -569,7 +569,7 @@ namespace CSSPServices.Tests
                 {
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -577,7 +577,7 @@ namespace CSSPServices.Tests
 
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Where(c => c.EmailDistributionListContactLanguageID > 2 && c.EmailDistributionListContactLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
@@ -620,7 +620,7 @@ namespace CSSPServices.Tests
                 {
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                     List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -628,7 +628,7 @@ namespace CSSPServices.Tests
 
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Where(c => c.EmailDistributionListContactLanguageID > 2 && c.EmailDistributionListContactLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
                             Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
@@ -660,7 +660,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetEmailDistributionListContactLanguageList() 2Where
 
         #region Functions private
-        private void CheckEmailDistributionListContactLanguageFields(List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckEmailDistributionListContactLanguageFields(List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // EmailDistributionListContactLanguage fields
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);

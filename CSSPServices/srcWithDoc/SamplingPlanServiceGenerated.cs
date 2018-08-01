@@ -82,21 +82,21 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)samplingPlan.SampleType);
-            if (samplingPlan.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (samplingPlan.SampleType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSampleType), new[] { "SampleType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(SamplingPlanTypeEnum), (int?)samplingPlan.SamplingPlanType);
-            if (samplingPlan.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (samplingPlan.SamplingPlanType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LabSheetTypeEnum), (int?)samplingPlan.LabSheetType);
-            if (samplingPlan.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (samplingPlan.LabSheetType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLabSheetType), new[] { "LabSheetType" });
@@ -210,7 +210,7 @@ namespace CSSPServices
             if (samplingPlan.AnalyzeMethodDefault != null)
             {
                 retStr = enums.EnumTypeOK(typeof(AnalyzeMethodEnum), (int?)samplingPlan.AnalyzeMethodDefault);
-                if (samplingPlan.AnalyzeMethodDefault == AnalyzeMethodEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (samplingPlan.AnalyzeMethodDefault == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     samplingPlan.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanAnalyzeMethodDefault), new[] { "AnalyzeMethodDefault" });
@@ -220,7 +220,7 @@ namespace CSSPServices
             if (samplingPlan.SampleMatrixDefault != null)
             {
                 retStr = enums.EnumTypeOK(typeof(SampleMatrixEnum), (int?)samplingPlan.SampleMatrixDefault);
-                if (samplingPlan.SampleMatrixDefault == SampleMatrixEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (samplingPlan.SampleMatrixDefault == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     samplingPlan.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSampleMatrixDefault), new[] { "SampleMatrixDefault" });
@@ -230,7 +230,7 @@ namespace CSSPServices
             if (samplingPlan.LaboratoryDefault != null)
             {
                 retStr = enums.EnumTypeOK(typeof(LaboratoryEnum), (int?)samplingPlan.LaboratoryDefault);
-                if (samplingPlan.LaboratoryDefault == LaboratoryEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (samplingPlan.LaboratoryDefault == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     samplingPlan.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLaboratoryDefault), new[] { "LaboratoryDefault" });

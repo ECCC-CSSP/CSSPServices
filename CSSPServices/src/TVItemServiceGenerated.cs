@@ -85,7 +85,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItem.TVType);
-            if (tvItem.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvItem.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItem.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVType), new[] { "TVType" });

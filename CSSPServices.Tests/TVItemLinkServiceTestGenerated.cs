@@ -257,7 +257,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
-                    // [CSSPExist(ExistTypeName = "TVItemLink", ExistPlurial = "s", ExistFieldID = "TVItemLinkID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "TVItemLink", ExistPlurial = "s", ExistFieldID = "TVItemLinkID", AllowableTVtypeList = )]
                     // tvItemLink.ParentTVItemLinkID   (Int32)
                     // -----------------------------------
 
@@ -371,11 +371,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvItemLink);
 
                     TVItemLink tvItemLinkRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         tvItemLinkService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkRet = tvItemLinkService.GetTVItemLinkWithTVItemLinkID(tvItemLink.TVItemLinkID);
                             Assert.IsNull(tvItemLinkRet);
@@ -419,11 +419,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tvItemLink);
 
                     List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         tvItemLinkService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             Assert.AreEqual(0, tvItemLinkList.Count);
@@ -464,7 +464,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -472,7 +472,7 @@ namespace CSSPServices.Tests
 
                         tvItemLinkDirectQueryList = tvItemLinkService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             Assert.AreEqual(0, tvItemLinkList.Count);
@@ -515,7 +515,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -523,7 +523,7 @@ namespace CSSPServices.Tests
 
                         tvItemLinkDirectQueryList = tvItemLinkService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             Assert.AreEqual(0, tvItemLinkList.Count);
@@ -566,7 +566,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -574,7 +574,7 @@ namespace CSSPServices.Tests
 
                         tvItemLinkDirectQueryList = tvItemLinkService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVItemLinkID).ThenBy(c => c.FromTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             Assert.AreEqual(0, tvItemLinkList.Count);
@@ -617,7 +617,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -625,7 +625,7 @@ namespace CSSPServices.Tests
 
                         tvItemLinkDirectQueryList = tvItemLinkService.GetRead().Where(c => c.TVItemLinkID == 4).Skip(0).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             Assert.AreEqual(0, tvItemLinkList.Count);
@@ -668,7 +668,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -676,7 +676,7 @@ namespace CSSPServices.Tests
 
                         tvItemLinkDirectQueryList = tvItemLinkService.GetRead().Where(c => c.TVItemLinkID > 2 && c.TVItemLinkID < 5).Skip(0).Take(1).OrderBy(c => c.TVItemLinkID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             Assert.AreEqual(0, tvItemLinkList.Count);
@@ -719,7 +719,7 @@ namespace CSSPServices.Tests
                 {
                     List<TVItemLink> tvItemLinkList = new List<TVItemLink>();
                     List<TVItemLink> tvItemLinkDirectQueryList = new List<TVItemLink>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TVItemLinkService tvItemLinkService = new TVItemLinkService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -727,7 +727,7 @@ namespace CSSPServices.Tests
 
                         tvItemLinkDirectQueryList = tvItemLinkService.GetRead().Where(c => c.TVItemLinkID > 2 && c.TVItemLinkID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tvItemLinkList = tvItemLinkService.GetTVItemLinkList().ToList();
                             Assert.AreEqual(0, tvItemLinkList.Count);
@@ -759,7 +759,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetTVItemLinkList() 2Where
 
         #region Functions private
-        private void CheckTVItemLinkFields(List<TVItemLink> tvItemLinkList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckTVItemLinkFields(List<TVItemLink> tvItemLinkList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // TVItemLink fields
             Assert.IsNotNull(tvItemLinkList[0].TVItemLinkID);

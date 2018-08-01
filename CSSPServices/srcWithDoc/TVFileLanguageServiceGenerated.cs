@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFileLanguage.Language);
-            if (tvFileLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvFileLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFileLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguageLanguage), new[] { "Language" });
@@ -75,7 +75,7 @@ namespace CSSPServices
             //FileDescription has no StringLength Attribute
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)tvFileLanguage.TranslationStatus);
-            if (tvFileLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvFileLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFileLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguageTranslationStatus), new[] { "TranslationStatus" });

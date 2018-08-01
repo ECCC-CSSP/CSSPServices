@@ -66,7 +66,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)spillLanguage.Language);
-            if (spillLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (spillLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLanguageLanguage), new[] { "Language" });
@@ -81,7 +81,7 @@ namespace CSSPServices
             //SpillComment has no StringLength Attribute
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)spillLanguage.TranslationStatus);
-            if (spillLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (spillLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLanguageTranslationStatus), new[] { "TranslationStatus" });

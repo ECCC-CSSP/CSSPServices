@@ -98,7 +98,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)mwqmRun.RunSampleType);
-            if (mwqmRun.RunSampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (mwqmRun.RunSampleType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRun.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunRunSampleType), new[] { "RunSampleType" });
@@ -169,7 +169,7 @@ namespace CSSPServices
             if (mwqmRun.SeaStateAtStart_BeaufortScale != null)
             {
                 retStr = enums.EnumTypeOK(typeof(BeaufortScaleEnum), (int?)mwqmRun.SeaStateAtStart_BeaufortScale);
-                if (mwqmRun.SeaStateAtStart_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.SeaStateAtStart_BeaufortScale == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSeaStateAtStart_BeaufortScale), new[] { "SeaStateAtStart_BeaufortScale" });
@@ -179,7 +179,7 @@ namespace CSSPServices
             if (mwqmRun.SeaStateAtEnd_BeaufortScale != null)
             {
                 retStr = enums.EnumTypeOK(typeof(BeaufortScaleEnum), (int?)mwqmRun.SeaStateAtEnd_BeaufortScale);
-                if (mwqmRun.SeaStateAtEnd_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.SeaStateAtEnd_BeaufortScale == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSeaStateAtEnd_BeaufortScale), new[] { "SeaStateAtEnd_BeaufortScale" });
@@ -222,7 +222,7 @@ namespace CSSPServices
             if (mwqmRun.AnalyzeMethod != null)
             {
                 retStr = enums.EnumTypeOK(typeof(AnalyzeMethodEnum), (int?)mwqmRun.AnalyzeMethod);
-                if (mwqmRun.AnalyzeMethod == AnalyzeMethodEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.AnalyzeMethod == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunAnalyzeMethod), new[] { "AnalyzeMethod" });
@@ -232,7 +232,7 @@ namespace CSSPServices
             if (mwqmRun.SampleMatrix != null)
             {
                 retStr = enums.EnumTypeOK(typeof(SampleMatrixEnum), (int?)mwqmRun.SampleMatrix);
-                if (mwqmRun.SampleMatrix == SampleMatrixEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.SampleMatrix == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSampleMatrix), new[] { "SampleMatrix" });
@@ -242,7 +242,7 @@ namespace CSSPServices
             if (mwqmRun.Laboratory != null)
             {
                 retStr = enums.EnumTypeOK(typeof(LaboratoryEnum), (int?)mwqmRun.Laboratory);
-                if (mwqmRun.Laboratory == LaboratoryEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.Laboratory == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLaboratory), new[] { "Laboratory" });
@@ -252,7 +252,7 @@ namespace CSSPServices
             if (mwqmRun.SampleStatus != null)
             {
                 retStr = enums.EnumTypeOK(typeof(SampleStatusEnum), (int?)mwqmRun.SampleStatus);
-                if (mwqmRun.SampleStatus == SampleStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.SampleStatus == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSampleStatus), new[] { "SampleStatus" });
@@ -309,7 +309,7 @@ namespace CSSPServices
             if (mwqmRun.Tide_Start != null)
             {
                 retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)mwqmRun.Tide_Start);
-                if (mwqmRun.Tide_Start == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.Tide_Start == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunTide_Start), new[] { "Tide_Start" });
@@ -319,7 +319,7 @@ namespace CSSPServices
             if (mwqmRun.Tide_End != null)
             {
                 retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)mwqmRun.Tide_End);
-                if (mwqmRun.Tide_End == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (mwqmRun.Tide_End == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunTide_End), new[] { "Tide_End" });

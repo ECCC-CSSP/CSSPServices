@@ -113,7 +113,7 @@ namespace CSSPServices
             if (polSourceSite.InactiveReason != null)
             {
                 retStr = enums.EnumTypeOK(typeof(PolSourceInactiveReasonEnum), (int?)polSourceSite.InactiveReason);
-                if (polSourceSite.InactiveReason == PolSourceInactiveReasonEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (polSourceSite.InactiveReason == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceSiteInactiveReason), new[] { "InactiveReason" });

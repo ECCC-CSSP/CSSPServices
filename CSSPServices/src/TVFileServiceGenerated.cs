@@ -80,7 +80,7 @@ namespace CSSPServices
             if (tvFile.TemplateTVType != null)
             {
                 retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvFile.TemplateTVType);
-                if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (tvFile.TemplateTVType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tvFile.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
@@ -110,21 +110,21 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFile.Language);
-            if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvFile.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguage), new[] { "Language" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FilePurposeEnum), (int?)tvFile.FilePurpose);
-            if (tvFile.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvFile.FilePurpose == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFilePurpose), new[] { "FilePurpose" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FileTypeEnum), (int?)tvFile.FileType);
-            if (tvFile.FileType == FileTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvFile.FileType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileType), new[] { "FileType" });

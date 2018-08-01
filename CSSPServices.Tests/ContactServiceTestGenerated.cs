@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "AspNetUser", ExistPlurial = "s", ExistFieldID = "Id", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "AspNetUser", ExistPlurial = "s", ExistFieldID = "Id", AllowableTVtypeList = )]
                     // [StringLength(128))]
                     // contact.Id   (String)
                     // -----------------------------------
@@ -405,11 +405,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contact);
 
                     Contact contactRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         contactService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactRet = contactService.GetContactWithContactID(contact.ContactID);
                             Assert.IsNull(contactRet);
@@ -453,11 +453,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(contact);
 
                     List<Contact> contactList = new List<Contact>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         contactService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactList = contactService.GetContactList().ToList();
                             Assert.AreEqual(0, contactList.Count);
@@ -498,7 +498,7 @@ namespace CSSPServices.Tests
                 {
                     List<Contact> contactList = new List<Contact>();
                     List<Contact> contactDirectQueryList = new List<Contact>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -506,7 +506,7 @@ namespace CSSPServices.Tests
 
                         contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactList = contactService.GetContactList().ToList();
                             Assert.AreEqual(0, contactList.Count);
@@ -549,7 +549,7 @@ namespace CSSPServices.Tests
                 {
                     List<Contact> contactList = new List<Contact>();
                     List<Contact> contactDirectQueryList = new List<Contact>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -557,7 +557,7 @@ namespace CSSPServices.Tests
 
                         contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactList = contactService.GetContactList().ToList();
                             Assert.AreEqual(0, contactList.Count);
@@ -600,7 +600,7 @@ namespace CSSPServices.Tests
                 {
                     List<Contact> contactList = new List<Contact>();
                     List<Contact> contactDirectQueryList = new List<Contact>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -608,7 +608,7 @@ namespace CSSPServices.Tests
 
                         contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactID).ThenBy(c => c.Id).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactList = contactService.GetContactList().ToList();
                             Assert.AreEqual(0, contactList.Count);
@@ -651,7 +651,7 @@ namespace CSSPServices.Tests
                 {
                     List<Contact> contactList = new List<Contact>();
                     List<Contact> contactDirectQueryList = new List<Contact>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -659,7 +659,7 @@ namespace CSSPServices.Tests
 
                         contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID == 4).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactList = contactService.GetContactList().ToList();
                             Assert.AreEqual(0, contactList.Count);
@@ -702,7 +702,7 @@ namespace CSSPServices.Tests
                 {
                     List<Contact> contactList = new List<Contact>();
                     List<Contact> contactDirectQueryList = new List<Contact>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -710,7 +710,7 @@ namespace CSSPServices.Tests
 
                         contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID > 2 && c.ContactID < 5).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactList = contactService.GetContactList().ToList();
                             Assert.AreEqual(0, contactList.Count);
@@ -753,7 +753,7 @@ namespace CSSPServices.Tests
                 {
                     List<Contact> contactList = new List<Contact>();
                     List<Contact> contactDirectQueryList = new List<Contact>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -761,7 +761,7 @@ namespace CSSPServices.Tests
 
                         contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID > 2 && c.ContactID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             contactList = contactService.GetContactList().ToList();
                             Assert.AreEqual(0, contactList.Count);
@@ -793,7 +793,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetContactList() 2Where
 
         #region Functions private
-        private void CheckContactFields(List<Contact> contactList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckContactFields(List<Contact> contactList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Contact fields
             Assert.IsNotNull(contactList[0].ContactID);

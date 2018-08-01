@@ -92,14 +92,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TideDataTypeEnum), (int?)tideDataValue.TideDataType);
-            if (tideDataValue.TideDataType == TideDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tideDataValue.TideDataType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideDataType), new[] { "TideDataType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)tideDataValue.StorageDataType);
-            if (tideDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tideDataValue.StorageDataType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueStorageDataType), new[] { "StorageDataType" });
@@ -126,7 +126,7 @@ namespace CSSPServices
             if (tideDataValue.TideStart != null)
             {
                 retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)tideDataValue.TideStart);
-                if (tideDataValue.TideStart == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (tideDataValue.TideStart == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideStart), new[] { "TideStart" });
@@ -136,7 +136,7 @@ namespace CSSPServices
             if (tideDataValue.TideEnd != null)
             {
                 retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)tideDataValue.TideEnd);
-                if (tideDataValue.TideEnd == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                if (tideDataValue.TideEnd == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideEnd), new[] { "TideEnd" });

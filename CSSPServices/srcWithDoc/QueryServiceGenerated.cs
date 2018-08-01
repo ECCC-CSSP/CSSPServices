@@ -45,11 +45,14 @@ namespace CSSPServices
                 //Error: Type not implemented [ModelType] of type [Type]
 
                 //Error: Type not implemented [ModelType] of type [Type]
-            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)query.Language);
-            if (query.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (query.Language != null)
             {
-                query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.QueryLanguage), new[] { "Language" });
+                retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)query.Language);
+                if (query.Language == null || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    query.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.QueryLanguage), new[] { "Language" });
+                }
             }
 
             if (string.IsNullOrWhiteSpace(query.Lang))
@@ -100,18 +103,24 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.QueryWhere, "200"), new[] { "Where" });
             }
 
-            retStr = enums.EnumTypeOK(typeof(EntityQueryDetailTypeEnum), (int?)query.EntityQueryDetailType);
-            if (query.EntityQueryDetailType == EntityQueryDetailTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (query.EntityQueryDetailType != null)
             {
-                query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.QueryEntityQueryDetailType), new[] { "EntityQueryDetailType" });
+                retStr = enums.EnumTypeOK(typeof(EntityQueryDetailTypeEnum), (int?)query.EntityQueryDetailType);
+                if (query.EntityQueryDetailType == null || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    query.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.QueryEntityQueryDetailType), new[] { "EntityQueryDetailType" });
+                }
             }
 
-            retStr = enums.EnumTypeOK(typeof(EntityQueryTypeEnum), (int?)query.EntityQueryType);
-            if (query.EntityQueryType == EntityQueryTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (query.EntityQueryType != null)
             {
-                query.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.QueryEntityQueryType), new[] { "EntityQueryType" });
+                retStr = enums.EnumTypeOK(typeof(EntityQueryTypeEnum), (int?)query.EntityQueryType);
+                if (query.EntityQueryType == null || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    query.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.QueryEntityQueryType), new[] { "EntityQueryType" });
+                }
             }
 
             retStr = ""; // added to stop compiling error

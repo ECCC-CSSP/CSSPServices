@@ -87,7 +87,7 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(TVAuthEnum), (int?)tvItemTVAuth.TVAuth);
-            if (tvItemTVAuth.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (tvItemTVAuth.TVAuth == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemTVAuth.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVAuthTVAuth), new[] { "TVAuth" });

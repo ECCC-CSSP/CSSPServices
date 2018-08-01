@@ -503,11 +503,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(climateSite);
 
                     ClimateSite climateSiteRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         climateSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
                             Assert.IsNull(climateSiteRet);
@@ -551,11 +551,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(climateSite);
 
                     List<ClimateSite> climateSiteList = new List<ClimateSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         climateSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             Assert.AreEqual(0, climateSiteList.Count);
@@ -596,7 +596,7 @@ namespace CSSPServices.Tests
                 {
                     List<ClimateSite> climateSiteList = new List<ClimateSite>();
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -604,7 +604,7 @@ namespace CSSPServices.Tests
 
                         climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             Assert.AreEqual(0, climateSiteList.Count);
@@ -647,7 +647,7 @@ namespace CSSPServices.Tests
                 {
                     List<ClimateSite> climateSiteList = new List<ClimateSite>();
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -655,7 +655,7 @@ namespace CSSPServices.Tests
 
                         climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             Assert.AreEqual(0, climateSiteList.Count);
@@ -698,7 +698,7 @@ namespace CSSPServices.Tests
                 {
                     List<ClimateSite> climateSiteList = new List<ClimateSite>();
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -706,7 +706,7 @@ namespace CSSPServices.Tests
 
                         climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ThenBy(c => c.ClimateSiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             Assert.AreEqual(0, climateSiteList.Count);
@@ -749,7 +749,7 @@ namespace CSSPServices.Tests
                 {
                     List<ClimateSite> climateSiteList = new List<ClimateSite>();
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -757,7 +757,7 @@ namespace CSSPServices.Tests
 
                         climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID == 4).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             Assert.AreEqual(0, climateSiteList.Count);
@@ -800,7 +800,7 @@ namespace CSSPServices.Tests
                 {
                     List<ClimateSite> climateSiteList = new List<ClimateSite>();
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -808,7 +808,7 @@ namespace CSSPServices.Tests
 
                         climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             Assert.AreEqual(0, climateSiteList.Count);
@@ -851,7 +851,7 @@ namespace CSSPServices.Tests
                 {
                     List<ClimateSite> climateSiteList = new List<ClimateSite>();
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -859,7 +859,7 @@ namespace CSSPServices.Tests
 
                         climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
                             Assert.AreEqual(0, climateSiteList.Count);
@@ -891,7 +891,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetClimateSiteList() 2Where
 
         #region Functions private
-        private void CheckClimateSiteFields(List<ClimateSite> climateSiteList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckClimateSiteFields(List<ClimateSite> climateSiteList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // ClimateSite fields
             Assert.IsNotNull(climateSiteList[0].ClimateSiteID);

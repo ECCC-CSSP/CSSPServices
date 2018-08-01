@@ -78,12 +78,11 @@ namespace CSSPServices
                 {
                     List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                     {
-                        TVTypeEnum.Error,
                     };
                     if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                     {
                         reportSection.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ReportSectionTVItemID, "Error"), new[] { "TVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ReportSectionTVItemID, ""), new[] { "TVItemID" });
                     }
                 }
             }

@@ -109,7 +109,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
-                    // [CSSPExist(ExistTypeName = "MikeSource", ExistPlurial = "s", ExistFieldID = "MikeSourceID", AllowableTVtypeList = Error)]
+                    // [CSSPExist(ExistTypeName = "MikeSource", ExistPlurial = "s", ExistFieldID = "MikeSourceID", AllowableTVtypeList = )]
                     // mikeSourceStartEnd.MikeSourceID   (Int32)
                     // -----------------------------------
 
@@ -434,11 +434,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSourceStartEnd);
 
                     MikeSourceStartEnd mikeSourceStartEndRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mikeSourceStartEndService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
                             Assert.IsNull(mikeSourceStartEndRet);
@@ -482,11 +482,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mikeSourceStartEnd);
 
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mikeSourceStartEndService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             Assert.AreEqual(0, mikeSourceStartEndList.Count);
@@ -527,7 +527,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                     List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -535,7 +535,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             Assert.AreEqual(0, mikeSourceStartEndList.Count);
@@ -578,7 +578,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                     List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -586,7 +586,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             Assert.AreEqual(0, mikeSourceStartEndList.Count);
@@ -629,7 +629,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                     List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -637,7 +637,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeSourceStartEndID).ThenBy(c => c.MikeSourceID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             Assert.AreEqual(0, mikeSourceStartEndList.Count);
@@ -680,7 +680,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                     List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -688,7 +688,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Where(c => c.MikeSourceStartEndID == 4).Skip(0).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             Assert.AreEqual(0, mikeSourceStartEndList.Count);
@@ -731,7 +731,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                     List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -739,7 +739,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Where(c => c.MikeSourceStartEndID > 2 && c.MikeSourceStartEndID < 5).Skip(0).Take(1).OrderBy(c => c.MikeSourceStartEndID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             Assert.AreEqual(0, mikeSourceStartEndList.Count);
@@ -782,7 +782,7 @@ namespace CSSPServices.Tests
                 {
                     List<MikeSourceStartEnd> mikeSourceStartEndList = new List<MikeSourceStartEnd>();
                     List<MikeSourceStartEnd> mikeSourceStartEndDirectQueryList = new List<MikeSourceStartEnd>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -790,7 +790,7 @@ namespace CSSPServices.Tests
 
                         mikeSourceStartEndDirectQueryList = mikeSourceStartEndService.GetRead().Where(c => c.MikeSourceStartEndID > 2 && c.MikeSourceStartEndID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             mikeSourceStartEndList = mikeSourceStartEndService.GetMikeSourceStartEndList().ToList();
                             Assert.AreEqual(0, mikeSourceStartEndList.Count);
@@ -822,7 +822,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMikeSourceStartEndList() 2Where
 
         #region Functions private
-        private void CheckMikeSourceStartEndFields(List<MikeSourceStartEnd> mikeSourceStartEndList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckMikeSourceStartEndFields(List<MikeSourceStartEnd> mikeSourceStartEndList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // MikeSourceStartEnd fields
             Assert.IsNotNull(mikeSourceStartEndList[0].MikeSourceStartEndID);

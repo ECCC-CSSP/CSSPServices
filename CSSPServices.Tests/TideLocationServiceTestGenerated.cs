@@ -336,11 +336,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tideLocation);
 
                     TideLocation tideLocationRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         tideLocationService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID);
                             Assert.IsNull(tideLocationRet);
@@ -384,11 +384,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(tideLocation);
 
                     List<TideLocation> tideLocationList = new List<TideLocation>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         tideLocationService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             Assert.AreEqual(0, tideLocationList.Count);
@@ -429,7 +429,7 @@ namespace CSSPServices.Tests
                 {
                     List<TideLocation> tideLocationList = new List<TideLocation>();
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -437,7 +437,7 @@ namespace CSSPServices.Tests
 
                         tideLocationDirectQueryList = tideLocationService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             Assert.AreEqual(0, tideLocationList.Count);
@@ -480,7 +480,7 @@ namespace CSSPServices.Tests
                 {
                     List<TideLocation> tideLocationList = new List<TideLocation>();
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -488,7 +488,7 @@ namespace CSSPServices.Tests
 
                         tideLocationDirectQueryList = tideLocationService.GetRead().Skip(1).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             Assert.AreEqual(0, tideLocationList.Count);
@@ -531,7 +531,7 @@ namespace CSSPServices.Tests
                 {
                     List<TideLocation> tideLocationList = new List<TideLocation>();
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -539,7 +539,7 @@ namespace CSSPServices.Tests
 
                         tideLocationDirectQueryList = tideLocationService.GetRead().Skip(1).Take(1).OrderBy(c => c.TideLocationID).ThenBy(c => c.Zone).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             Assert.AreEqual(0, tideLocationList.Count);
@@ -582,7 +582,7 @@ namespace CSSPServices.Tests
                 {
                     List<TideLocation> tideLocationList = new List<TideLocation>();
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -590,7 +590,7 @@ namespace CSSPServices.Tests
 
                         tideLocationDirectQueryList = tideLocationService.GetRead().Where(c => c.TideLocationID == 4).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             Assert.AreEqual(0, tideLocationList.Count);
@@ -633,7 +633,7 @@ namespace CSSPServices.Tests
                 {
                     List<TideLocation> tideLocationList = new List<TideLocation>();
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -641,7 +641,7 @@ namespace CSSPServices.Tests
 
                         tideLocationDirectQueryList = tideLocationService.GetRead().Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).Skip(0).Take(1).OrderBy(c => c.TideLocationID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             Assert.AreEqual(0, tideLocationList.Count);
@@ -684,7 +684,7 @@ namespace CSSPServices.Tests
                 {
                     List<TideLocation> tideLocationList = new List<TideLocation>();
                     List<TideLocation> tideLocationDirectQueryList = new List<TideLocation>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         TideLocationService tideLocationService = new TideLocationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -692,7 +692,7 @@ namespace CSSPServices.Tests
 
                         tideLocationDirectQueryList = tideLocationService.GetRead().Where(c => c.TideLocationID > 2 && c.TideLocationID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             tideLocationList = tideLocationService.GetTideLocationList().ToList();
                             Assert.AreEqual(0, tideLocationList.Count);
@@ -724,7 +724,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetTideLocationList() 2Where
 
         #region Functions private
-        private void CheckTideLocationFields(List<TideLocation> tideLocationList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckTideLocationFields(List<TideLocation> tideLocationList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // TideLocation fields
             Assert.IsNotNull(tideLocationList[0].TideLocationID);

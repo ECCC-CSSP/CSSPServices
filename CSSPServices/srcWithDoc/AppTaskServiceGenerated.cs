@@ -144,14 +144,14 @@ namespace CSSPServices
             }
 
             retStr = enums.EnumTypeOK(typeof(AppTaskCommandEnum), (int?)appTask.AppTaskCommand);
-            if (appTask.AppTaskCommand == AppTaskCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (appTask.AppTaskCommand == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskCommand), new[] { "AppTaskCommand" });
             }
 
             retStr = enums.EnumTypeOK(typeof(AppTaskStatusEnum), (int?)appTask.AppTaskStatus);
-            if (appTask.AppTaskStatus == AppTaskStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (appTask.AppTaskStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskStatus), new[] { "AppTaskStatus" });
@@ -172,7 +172,7 @@ namespace CSSPServices
             //Parameters has no StringLength Attribute
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)appTask.Language);
-            if (appTask.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (appTask.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
                 yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguage), new[] { "Language" });

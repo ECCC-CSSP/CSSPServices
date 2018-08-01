@@ -264,11 +264,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(email);
 
                     Email emailRet = null;
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         emailService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                             Assert.IsNull(emailRet);
@@ -312,11 +312,11 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(email);
 
                     List<Email> emailList = new List<Email>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         emailService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailList = emailService.GetEmailList().ToList();
                             Assert.AreEqual(0, emailList.Count);
@@ -357,7 +357,7 @@ namespace CSSPServices.Tests
                 {
                     List<Email> emailList = new List<Email>();
                     List<Email> emailDirectQueryList = new List<Email>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -365,7 +365,7 @@ namespace CSSPServices.Tests
 
                         emailDirectQueryList = emailService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailList = emailService.GetEmailList().ToList();
                             Assert.AreEqual(0, emailList.Count);
@@ -408,7 +408,7 @@ namespace CSSPServices.Tests
                 {
                     List<Email> emailList = new List<Email>();
                     List<Email> emailDirectQueryList = new List<Email>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -416,7 +416,7 @@ namespace CSSPServices.Tests
 
                         emailDirectQueryList = emailService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailList = emailService.GetEmailList().ToList();
                             Assert.AreEqual(0, emailList.Count);
@@ -459,7 +459,7 @@ namespace CSSPServices.Tests
                 {
                     List<Email> emailList = new List<Email>();
                     List<Email> emailDirectQueryList = new List<Email>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -467,7 +467,7 @@ namespace CSSPServices.Tests
 
                         emailDirectQueryList = emailService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailID).ThenBy(c => c.EmailTVItemID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailList = emailService.GetEmailList().ToList();
                             Assert.AreEqual(0, emailList.Count);
@@ -510,7 +510,7 @@ namespace CSSPServices.Tests
                 {
                     List<Email> emailList = new List<Email>();
                     List<Email> emailDirectQueryList = new List<Email>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -518,7 +518,7 @@ namespace CSSPServices.Tests
 
                         emailDirectQueryList = emailService.GetRead().Where(c => c.EmailID == 4).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailList = emailService.GetEmailList().ToList();
                             Assert.AreEqual(0, emailList.Count);
@@ -561,7 +561,7 @@ namespace CSSPServices.Tests
                 {
                     List<Email> emailList = new List<Email>();
                     List<Email> emailDirectQueryList = new List<Email>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -569,7 +569,7 @@ namespace CSSPServices.Tests
 
                         emailDirectQueryList = emailService.GetRead().Where(c => c.EmailID > 2 && c.EmailID < 5).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailList = emailService.GetEmailList().ToList();
                             Assert.AreEqual(0, emailList.Count);
@@ -612,7 +612,7 @@ namespace CSSPServices.Tests
                 {
                     List<Email> emailList = new List<Email>();
                     List<Email> emailDirectQueryList = new List<Email>();
-                    foreach (EntityQueryDetailTypeEnum entityQueryDetailType in new List<EntityQueryDetailTypeEnum>() { EntityQueryDetailTypeEnum.Error, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
+                    foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
@@ -620,7 +620,7 @@ namespace CSSPServices.Tests
 
                         emailDirectQueryList = emailService.GetRead().Where(c => c.EmailID > 2 && c.EmailID < 5).ToList();
 
-                        if (entityQueryDetailType == EntityQueryDetailTypeEnum.Error)
+                        if (entityQueryDetailType == null)
                         {
                             emailList = emailService.GetEmailList().ToList();
                             Assert.AreEqual(0, emailList.Count);
@@ -652,7 +652,7 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetEmailList() 2Where
 
         #region Functions private
-        private void CheckEmailFields(List<Email> emailList, EntityQueryDetailTypeEnum entityQueryDetailType)
+        private void CheckEmailFields(List<Email> emailList, EntityQueryDetailTypeEnum? entityQueryDetailType)
         {
             // Email fields
             Assert.IsNotNull(emailList[0].EmailID);
