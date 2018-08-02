@@ -862,14 +862,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TVFileWeb fields should not be null and TVFileReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvFileList[0].TVFileWeb.TVFileTVItemLanguage);
+                Assert.IsNotNull(tvFileList[0].TVFileWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText));
@@ -891,14 +885,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TVFileWeb and TVFileReport fields should NOT be null here
-                if (tvFileList[0].TVFileWeb.TVFileTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TVFileTVText));
-                }
-                if (tvFileList[0].TVFileWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvFileList[0].TVFileWeb.TVFileTVItemLanguage);
+                Assert.IsNotNull(tvFileList[0].TVFileWeb.LastUpdateContactTVItemLanguage);
                 if (tvFileList[0].TVFileWeb.TemplateTVTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileList[0].TVFileWeb.TemplateTVTypeText));

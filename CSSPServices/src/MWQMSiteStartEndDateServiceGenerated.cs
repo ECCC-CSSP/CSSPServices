@@ -256,14 +256,14 @@ namespace CSSPServices
         private IQueryable<MWQMSiteStartEndDate> FillMWQMSiteStartEndDateWeb(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery)
         {
             mwqmSiteStartEndDateQuery = (from c in mwqmSiteStartEndDateQuery
-                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MWQMSiteStartEndDate
                     {
                         MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
@@ -274,8 +274,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MWQMSiteStartEndDateWeb = new MWQMSiteStartEndDateWeb
                         {
-                            MWQMSiteTVText = MWQMSiteTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         MWQMSiteStartEndDateReport = null,
                         HasErrors = false,

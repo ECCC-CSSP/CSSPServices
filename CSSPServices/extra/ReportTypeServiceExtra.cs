@@ -38,10 +38,10 @@ namespace CSSPServices
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
             ReportTypeQuery = (from c in ReportTypeQuery
-                               let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                               let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                               where cl.TVItemID == c.LastUpdateContactTVItemID
                                                               && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
+                                                              select cl).FirstOrDefault()
                                select new ReportType
                                {
                                    ReportTypeID = c.ReportTypeID,
@@ -52,7 +52,7 @@ namespace CSSPServices
                                    LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                    ReportTypeWeb = new ReportTypeWeb
                                    {
-                                       LastUpdateContactTVText = LastUpdateContactTVText,
+                                       LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                    },
                                    ReportTypeReport = new ReportTypeReport
                                    {

@@ -38,18 +38,18 @@ namespace CSSPServices
             List<EnumIDAndText> SiteTypeEnumList = enums.GetEnumTextOrderedList(typeof(SiteTypeEnum));
 
             useOfSiteQuery = (from c in useOfSiteQuery
-                              let SiteTVText = (from cl in db.TVItemLanguages
-                                                where cl.TVItemID == c.SiteTVItemID
-                                                && cl.Language == LanguageRequest
-                                                select cl.TVText).FirstOrDefault()
-                              let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                     where cl.TVItemID == c.SubsectorTVItemID
-                                                     && cl.Language == LanguageRequest
-                                                     select cl.TVText).FirstOrDefault()
-                              let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                             where cl.TVItemID == c.LastUpdateContactTVItemID
+                              let SiteTVItemLanguage = (from cl in db.TVItemLanguages
+                                                        where cl.TVItemID == c.SiteTVItemID
+                                                        && cl.Language == LanguageRequest
+                                                        select cl).FirstOrDefault()
+                              let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                                                             where cl.TVItemID == c.SubsectorTVItemID
                                                              && cl.Language == LanguageRequest
-                                                             select cl.TVText).FirstOrDefault()
+                                                             select cl).FirstOrDefault()
+                              let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                     where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                     && cl.Language == LanguageRequest
+                                                                     select cl).FirstOrDefault()
                               select new UseOfSite
                               {
                                   UseOfSiteID = c.UseOfSiteID,
@@ -70,9 +70,9 @@ namespace CSSPServices
                                   LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                   UseOfSiteWeb = new UseOfSiteWeb
                                   {
-                                      SiteTVText = SiteTVText,
-                                      SubsectorTVText = SubsectorTVText,
-                                      LastUpdateContactTVText = LastUpdateContactTVText,
+                                      SiteTVItemLanguage = SiteTVItemLanguage,
+                                      SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                                      LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                       SiteTypeText = (from e in SiteTypeEnumList
                                                       where e.EnumID == (int?)c.SiteType
                                                       select e.EnumText).FirstOrDefault(),

@@ -57,6 +57,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
             }
 
+                //Error: Type not implemented [TVItem] of type [TVItem]
+
+                //Error: Type not implemented [TVItem] of type [TVItem]
+                //Error: Type not implemented [TVItemLinkList] of type [List`1]
+
+                //Error: Type not implemented [TVItemLinkList] of type [TVItemLink]
+                //Error: Type not implemented [FlowTo] of type [TVItemInfrastructureTypeTVItemLink]
+
+                //Error: Type not implemented [FlowTo] of type [TVItemInfrastructureTypeTVItemLink]
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

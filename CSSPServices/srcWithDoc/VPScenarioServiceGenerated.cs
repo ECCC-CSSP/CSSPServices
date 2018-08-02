@@ -378,14 +378,14 @@ namespace CSSPServices
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
             vpScenarioQuery = (from c in vpScenarioQuery
-                let SubsectorTVText = (from cl in db.TVItemLanguages
+                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new VPScenario
                     {
                         VPScenarioID = c.VPScenarioID,
@@ -412,8 +412,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         VPScenarioWeb = new VPScenarioWeb
                         {
-                            SubsectorTVText = SubsectorTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             VPScenarioStatusText = (from e in ScenarioStatusEnumList
                                 where e.EnumID == (int?)c.VPScenarioStatus
                                 select e.EnumText).FirstOrDefault(),

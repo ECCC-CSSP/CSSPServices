@@ -50,10 +50,10 @@ namespace CSSPServices
             List<EnumIDAndText> LogCommandEnumList = enums.GetEnumTextOrderedList(typeof(LogCommandEnum));
 
             logQuery = (from c in logQuery
-                        let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                        let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                        where cl.TVItemID == c.LastUpdateContactTVItemID
                                                        && cl.Language == LanguageRequest
-                                                       select cl.TVText).FirstOrDefault()
+                                                       select cl).FirstOrDefault()
                         select new Log
                         {
                             LogID = c.LogID,
@@ -65,7 +65,7 @@ namespace CSSPServices
                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                             LogWeb = new LogWeb
                             {
-                                LastUpdateContactTVText = LastUpdateContactTVText,
+                                LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                 LogCommandText = (from e in LogCommandEnumList
                                                   where e.EnumID == (int?)c.LogCommand
                                                   select e.EnumText).FirstOrDefault(),

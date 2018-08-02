@@ -247,10 +247,10 @@ namespace CSSPServices
             List<EnumIDAndText> ClassificationTypeEnumList = enums.GetEnumTextOrderedList(typeof(ClassificationTypeEnum));
 
             classificationQuery = (from c in classificationQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new Classification
                     {
                         ClassificationID = c.ClassificationID,
@@ -261,7 +261,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         ClassificationWeb = new ClassificationWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             ClassificationTVText = (from e in ClassificationTypeEnumList
                                 where e.EnumID == (int?)c.ClassificationType
                                 select e.EnumText).FirstOrDefault(),

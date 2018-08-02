@@ -30,24 +30,24 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions private
-        public void FillAddressTVText(Address address)
+        public string FillAddressTVText(Address address)
         {
             if (address.CountryTVItemID == 0)
             {
                 address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressCountryTVItemID)) };
-                return;
+                return "";
             }
 
             if (address.ProvinceTVItemID == 0)
             {
                 address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressProvinceTVItemID)) };
-                return;
+                return "";
             }
 
             if (address.MunicipalityTVItemID == 0)
             {
                 address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressMunicipalityTVItemID)) };
-                return;
+                return "";
             }
 
             string CountryTVText = (from cl in db.TVItemLanguages.AsNoTracking()
@@ -69,11 +69,11 @@ namespace CSSPServices
             address.AddressWeb = new AddressWeb();
             if (LanguageRequest == LanguageEnum.fr)
             {
-                address.AddressWeb.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
+                return address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
             else
             {
-                address.AddressWeb.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
+                return address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + ", " + ProvinceTVText + ", " + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
         }
         private IQueryable<Address> FillAddressReport(IQueryable<Address> addressQuery)
@@ -84,29 +84,26 @@ namespace CSSPServices
             List<EnumIDAndText> StreetTypeEnumList = enums.GetEnumTextOrderedList(typeof(StreetTypeEnum));
 
             addressQuery = (from c in addressQuery
-                            let ParentTVItemID = (from cl in db.TVItems
-                                                  where cl.TVItemID == c.AddressTVItemID
-                                                  select cl.ParentID).FirstOrDefault()
-                            let AddressTVText = (from cl in db.TVItemLanguages
-                                                 where cl.TVItemID == c.AddressTVItemID
-                                                 && cl.Language == LanguageRequest
-                                                 select cl.TVText).FirstOrDefault()
-                            let CountryTVText = (from cl in db.TVItemLanguages
-                                                 where cl.TVItemID == c.CountryTVItemID
-                                                 && cl.Language == LanguageRequest
-                                                 select cl.TVText).FirstOrDefault()
-                            let ProvinceTVText = (from cl in db.TVItemLanguages
-                                                  where cl.TVItemID == c.ProvinceTVItemID
-                                                  && cl.Language == LanguageRequest
-                                                  select cl.TVText).FirstOrDefault()
-                            let MunicipalityTVText = (from cl in db.TVItemLanguages
-                                                      where cl.TVItemID == c.MunicipalityTVItemID
-                                                      && cl.Language == LanguageRequest
-                                                      select cl.TVText).FirstOrDefault()
-                            let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                           where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                           && cl.Language == LanguageRequest
-                                                           select cl.TVText).FirstOrDefault()
+                            let AddressTVItemLanguage = (from cl in db.TVItemLanguages
+                                                         where cl.TVItemID == c.AddressTVItemID
+                                                         && cl.Language == LanguageRequest
+                                                         select cl).FirstOrDefault()
+                            let CountryTVItemLanguage = (from cl in db.TVItemLanguages
+                                                         where cl.TVItemID == c.CountryTVItemID
+                                                         && cl.Language == LanguageRequest
+                                                         select cl).FirstOrDefault()
+                            let ProvinceTVItemLanguage = (from cl in db.TVItemLanguages
+                                                          where cl.TVItemID == c.ProvinceTVItemID
+                                                          && cl.Language == LanguageRequest
+                                                          select cl).FirstOrDefault()
+                            let MunicipalityTVItemLanguage = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MunicipalityTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl).FirstOrDefault()
+                            let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                   where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                   && cl.Language == LanguageRequest
+                                                                   select cl).FirstOrDefault()
                             select new Address
                             {
                                 AddressID = c.AddressID,
@@ -124,12 +121,11 @@ namespace CSSPServices
                                 LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                 AddressWeb = new AddressWeb
                                 {
-                                    ParentTVItemID = ParentTVItemID,
-                                    AddressTVText = AddressTVText,
-                                    CountryTVText = CountryTVText,
-                                    ProvinceTVText = ProvinceTVText,
-                                    MunicipalityTVText = MunicipalityTVText,
-                                    LastUpdateContactTVText = LastUpdateContactTVText,
+                                    AddressTVItemLanguage = AddressTVItemLanguage,
+                                    CountryTVItemLanguage = CountryTVItemLanguage,
+                                    ProvinceTVItemLanguage = ProvinceTVItemLanguage,
+                                    MunicipalityTVItemLanguage = MunicipalityTVItemLanguage,
+                                    LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                     AddressTypeText = (from e in AddressTypeEnumList
                                                        where e.EnumID == (int?)c.AddressType
                                                        select e.EnumText).FirstOrDefault(),

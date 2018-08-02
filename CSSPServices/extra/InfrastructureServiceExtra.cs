@@ -48,22 +48,22 @@ namespace CSSPServices
             List<EnumIDAndText> AlarmSystemTypeEnumList = enums.GetEnumTextOrderedList(typeof(AlarmSystemTypeEnum));
 
             infrastructureQuery = (from c in infrastructureQuery
-                                   let InfrastructureTVText = (from cl in db.TVItemLanguages
-                                                               where cl.TVItemID == c.InfrastructureTVItemID
-                                                               && cl.Language == LanguageRequest
-                                                               select cl.TVText).FirstOrDefault()
-                                   let SeeOtherTVText = (from cl in db.TVItemLanguages
-                                                         where cl.TVItemID == c.SeeOtherTVItemID
-                                                         && cl.Language == LanguageRequest
-                                                         select cl.TVText).FirstOrDefault()
-                                   let CivicAddressTVText = (from cl in db.TVItemLanguages
-                                                             where cl.TVItemID == c.CivicAddressTVItemID
-                                                             && cl.Language == LanguageRequest
-                                                             select cl.TVText).FirstOrDefault()
-                                   let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                  where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                  && cl.Language == LanguageRequest
-                                                                  select cl.TVText).FirstOrDefault()
+                                   let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                       where cl.TVItemID == c.InfrastructureTVItemID
+                                                                       && cl.Language == LanguageRequest
+                                                                       select cl).FirstOrDefault()
+                                   let SeeOtherTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                 where cl.TVItemID == c.SeeOtherTVItemID
+                                                                 && cl.Language == LanguageRequest
+                                                                 select cl).FirstOrDefault()
+                                   let CivicAddressTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                     where cl.TVItemID == c.CivicAddressTVItemID
+                                                                     && cl.Language == LanguageRequest
+                                                                     select cl).FirstOrDefault()
+                                   let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                          where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                          && cl.Language == LanguageRequest
+                                                                          select cl).FirstOrDefault()
                                    select new Infrastructure
                                    {
                                        InfrastructureID = c.InfrastructureID,
@@ -116,10 +116,10 @@ namespace CSSPServices
                                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                        InfrastructureWeb = new InfrastructureWeb
                                        {
-                                           InfrastructureTVText = InfrastructureTVText,
-                                           SeeOtherTVText = SeeOtherTVText,
-                                           CivicAddressTVText = CivicAddressTVText,
-                                           LastUpdateContactTVText = LastUpdateContactTVText,
+                                           InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
+                                           SeeOtherTVItemLanguage = SeeOtherTVItemLanguage,
+                                           CivicAddressTVItemLanguage = CivicAddressTVItemLanguage,
+                                           LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                            InfrastructureTypeText = (from e in InfrastructureTypeEnumList
                                                                      where e.EnumID == (int?)c.InfrastructureType
                                                                      select e.EnumText).FirstOrDefault(),

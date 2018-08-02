@@ -684,10 +684,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // DocTemplateWeb fields should not be null and DocTemplateReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(docTemplateList[0].DocTemplateWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LanguageText));
@@ -701,10 +698,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // DocTemplateWeb and DocTemplateReport fields should NOT be null here
-                if (docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(docTemplateList[0].DocTemplateWeb.LastUpdateContactTVItemLanguage);
                 if (docTemplateList[0].DocTemplateWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateList[0].DocTemplateWeb.LanguageText));

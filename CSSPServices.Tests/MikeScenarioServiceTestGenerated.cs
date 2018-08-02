@@ -1139,14 +1139,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MikeScenarioWeb fields should not be null and MikeScenarioReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVItemLanguage);
+                Assert.IsNotNull(mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText));
@@ -1156,14 +1150,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MikeScenarioWeb and MikeScenarioReport fields should NOT be null here
-                if (mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVText));
-                }
-                if (mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeScenarioList[0].MikeScenarioWeb.MikeScenarioTVItemLanguage);
+                Assert.IsNotNull(mikeScenarioList[0].MikeScenarioWeb.LastUpdateContactTVItemLanguage);
                 if (mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioList[0].MikeScenarioWeb.ScenarioStatusText));

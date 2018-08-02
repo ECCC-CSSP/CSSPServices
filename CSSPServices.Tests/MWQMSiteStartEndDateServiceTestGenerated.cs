@@ -669,27 +669,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MWQMSiteStartEndDateWeb fields should not be null and MWQMSiteStartEndDateReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MWQMSiteStartEndDateWeb and MWQMSiteStartEndDateReport fields should NOT be null here
-                if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVText));
-                }
-                if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateWeb.LastUpdateContactTVItemLanguage);
                 if (mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateReport.MWQMSiteStartEndDateReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateList[0].MWQMSiteStartEndDateReport.MWQMSiteStartEndDateReportTest));

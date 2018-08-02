@@ -672,19 +672,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ContactShortcutWeb fields should not be null and ContactShortcutReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(contactShortcutList[0].ContactShortcutWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutList[0].ContactShortcutWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(contactShortcutList[0].ContactShortcutWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(contactShortcutList[0].ContactShortcutReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ContactShortcutWeb and ContactShortcutReport fields should NOT be null here
-                if (contactShortcutList[0].ContactShortcutWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutList[0].ContactShortcutWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(contactShortcutList[0].ContactShortcutWeb.LastUpdateContactTVItemLanguage);
                 if (contactShortcutList[0].ContactShortcutReport.ContactShortcutReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutList[0].ContactShortcutReport.ContactShortcutReportTest));

@@ -40,22 +40,22 @@ namespace CSSPServices
             List<EnumIDAndText> LabSheetTypeEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetTypeEnum));
 
             samplingPlanQuery = (from c in samplingPlanQuery
-                                 let ProvinceTVText = (from cl in db.TVItemLanguages
-                                                       where cl.TVItemID == c.ProvinceTVItemID
-                                                       && cl.Language == LanguageRequest
-                                                       select cl.TVText).FirstOrDefault()
-                                 let CreatorTVText = (from cl in db.TVItemLanguages
-                                                      where cl.TVItemID == c.CreatorTVItemID
-                                                      && cl.Language == LanguageRequest
-                                                      select cl.TVText).FirstOrDefault()
-                                 let SamplingPlanFileTVText = (from cl in db.TVItemLanguages
-                                                               where cl.TVItemID == c.SamplingPlanFileTVItemID
+                                 let ProvinceTVItemLanguage = (from cl in db.TVItemLanguages
+                                                               where cl.TVItemID == c.ProvinceTVItemID
                                                                && cl.Language == LanguageRequest
-                                                               select cl.TVText).FirstOrDefault()
-                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                && cl.Language == LanguageRequest
-                                                                select cl.TVText).FirstOrDefault()
+                                                               select cl).FirstOrDefault()
+                                 let CreatorTVItemLanguage = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.CreatorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl).FirstOrDefault()
+                                 let SamplingPlanFileTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                       where cl.TVItemID == c.SamplingPlanFileTVItemID
+                                                                       && cl.Language == LanguageRequest
+                                                                       select cl).FirstOrDefault()
+                                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                        where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                        && cl.Language == LanguageRequest
+                                                                        select cl).FirstOrDefault()
                                  select new SamplingPlan
                                  {
                                      SamplingPlanID = c.SamplingPlanID,
@@ -81,10 +81,10 @@ namespace CSSPServices
                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                      SamplingPlanWeb = new SamplingPlanWeb
                                      {
-                                         ProvinceTVText = ProvinceTVText,
-                                         CreatorTVText = CreatorTVText,
-                                         SamplingPlanFileTVText = SamplingPlanFileTVText,
-                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                         ProvinceTVItemLanguage = ProvinceTVItemLanguage,
+                                         CreatorTVItemLanguage = CreatorTVItemLanguage,
+                                         SamplingPlanFileTVItemLanguage = SamplingPlanFileTVItemLanguage,
+                                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                          SampleTypeText = (from e in SampleTypeEnumList
                                                            where e.EnumID == (int?)c.SampleType
                                                            select e.EnumText).FirstOrDefault(),

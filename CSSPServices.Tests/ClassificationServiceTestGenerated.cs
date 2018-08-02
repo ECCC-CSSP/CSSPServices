@@ -668,10 +668,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ClassificationWeb fields should not be null and ClassificationReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(classificationList[0].ClassificationWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.ClassificationTVText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.ClassificationTVText));
@@ -681,10 +678,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ClassificationWeb and ClassificationReport fields should NOT be null here
-                if (classificationList[0].ClassificationWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(classificationList[0].ClassificationWeb.LastUpdateContactTVItemLanguage);
                 if (classificationList[0].ClassificationWeb.ClassificationTVText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(classificationList[0].ClassificationWeb.ClassificationTVText));

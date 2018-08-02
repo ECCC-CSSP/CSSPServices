@@ -697,14 +697,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TVItemWeb fields should not be null and TVItemReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.TVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.TVText));
-                }
-                if (!string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvItemList[0].TVItemWeb.TVItemLanguage);
+                Assert.IsNotNull(tvItemList[0].TVItemWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.TVTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.TVTypeText));
@@ -714,14 +708,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TVItemWeb and TVItemReport fields should NOT be null here
-                if (tvItemList[0].TVItemWeb.TVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.TVText));
-                }
-                if (tvItemList[0].TVItemWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvItemList[0].TVItemWeb.TVItemLanguage);
+                Assert.IsNotNull(tvItemList[0].TVItemWeb.LastUpdateContactTVItemLanguage);
                 if (tvItemList[0].TVItemWeb.TVTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemList[0].TVItemWeb.TVTypeText));

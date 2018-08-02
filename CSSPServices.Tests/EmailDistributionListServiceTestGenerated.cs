@@ -654,27 +654,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // EmailDistributionListWeb fields should not be null and EmailDistributionListReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListList[0].EmailDistributionListWeb.CountryTVItemLanguage);
+                Assert.IsNotNull(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(emailDistributionListList[0].EmailDistributionListReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // EmailDistributionListWeb and EmailDistributionListReport fields should NOT be null here
-                if (emailDistributionListList[0].EmailDistributionListWeb.CountryTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.CountryTVText));
-                }
-                if (emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListList[0].EmailDistributionListWeb.CountryTVItemLanguage);
+                Assert.IsNotNull(emailDistributionListList[0].EmailDistributionListWeb.LastUpdateContactTVItemLanguage);
                 if (emailDistributionListList[0].EmailDistributionListReport.EmailDistributionReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListList[0].EmailDistributionListReport.EmailDistributionReportTest));

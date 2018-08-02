@@ -38,14 +38,14 @@ namespace CSSPServices
             List<EnumIDAndText> PolSourceInactiveReasonEnumList = enums.GetEnumTextOrderedList(typeof(PolSourceInactiveReasonEnum));
 
             polSourceSiteQuery = (from c in polSourceSiteQuery
-                                  let PolSourceSiteTVText = (from cl in db.TVItemLanguages
-                                                             where cl.TVItemID == c.PolSourceSiteTVItemID
-                                                             && cl.Language == LanguageRequest
-                                                             select cl.TVText).FirstOrDefault()
-                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                 && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
+                                  let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                     where cl.TVItemID == c.PolSourceSiteTVItemID
+                                                                     && cl.Language == LanguageRequest
+                                                                     select cl).FirstOrDefault()
+                                  let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                         where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                         && cl.Language == LanguageRequest
+                                                                         select cl).FirstOrDefault()
                                   select new PolSourceSite
                                   {
                                       PolSourceSiteID = c.PolSourceSiteID,
@@ -61,8 +61,8 @@ namespace CSSPServices
                                       LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                       PolSourceSiteWeb = new PolSourceSiteWeb
                                       {
-                                          PolSourceSiteTVText = PolSourceSiteTVText,
-                                          LastUpdateContactTVText = LastUpdateContactTVText,
+                                          PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
+                                          LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                           InactiveReasonText = (from e in PolSourceInactiveReasonEnumList
                                                                 where e.EnumID == (int?)c.InactiveReason
                                                                 select e.EnumText).FirstOrDefault(),

@@ -41,22 +41,22 @@ namespace CSSPServices
             List<EnumIDAndText> LabSheetStatusEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetStatusEnum));
 
             labSheetQuery = (from c in labSheetQuery
-                             let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                    where cl.TVItemID == c.SubsectorTVItemID
-                                                    && cl.Language == LanguageRequest
-                                                    select cl.TVText).FirstOrDefault()
-                             let MWQMRunTVText = (from cl in db.TVItemLanguages
-                                                  where cl.TVItemID == c.MWQMRunTVItemID
-                                                  && cl.Language == LanguageRequest
-                                                  select cl.TVText).FirstOrDefault()
-                             let AcceptedOrRejectedByContactTVText = (from cl in db.TVItemLanguages
-                                                                      where cl.TVItemID == c.AcceptedOrRejectedByContactTVItemID
-                                                                      && cl.Language == LanguageRequest
-                                                                      select cl.TVText).FirstOrDefault()
-                             let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                            where cl.TVItemID == c.LastUpdateContactTVItemID
+                             let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                                                            where cl.TVItemID == c.SubsectorTVItemID
                                                             && cl.Language == LanguageRequest
-                                                            select cl.TVText).FirstOrDefault()
+                                                            select cl).FirstOrDefault()
+                             let MWQMRunTVItemLanguage = (from cl in db.TVItemLanguages
+                                                          where cl.TVItemID == c.MWQMRunTVItemID
+                                                          && cl.Language == LanguageRequest
+                                                          select cl).FirstOrDefault()
+                             let AcceptedOrRejectedByContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                              where cl.TVItemID == c.AcceptedOrRejectedByContactTVItemID
+                                                                              && cl.Language == LanguageRequest
+                                                                              select cl).FirstOrDefault()
+                             let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                    && cl.Language == LanguageRequest
+                                                                    select cl).FirstOrDefault()
                              select new LabSheet
                              {
                                  LabSheetID = c.LabSheetID,
@@ -83,10 +83,10 @@ namespace CSSPServices
                                  LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                  LabSheetWeb = new LabSheetWeb
                                  {
-                                     SubsectorTVText = SubsectorTVText,
-                                     MWQMRunTVText = MWQMRunTVText,
-                                     AcceptedOrRejectedByContactTVText = AcceptedOrRejectedByContactTVText,
-                                     LastUpdateContactTVText = LastUpdateContactTVText,
+                                     SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                                     MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
+                                     AcceptedOrRejectedByContactTVItemLanguage = AcceptedOrRejectedByContactTVItemLanguage,
+                                     LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                      SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
                                                              where e.EnumID == (int?)c.SamplingPlanType
                                                              select e.EnumText).FirstOrDefault(),

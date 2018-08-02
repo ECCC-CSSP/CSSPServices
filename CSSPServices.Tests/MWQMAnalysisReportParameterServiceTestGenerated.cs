@@ -1063,35 +1063,29 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MWQMAnalysisReportParameterWeb fields should not be null and MWQMAnalysisReportParameterReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVText))
+                if (mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVItemLanguage != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVText));
+                    Assert.IsNotNull(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVItemLanguage);
                 }
                 if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.CommandText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.CommandText));
                 }
-                if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MWQMAnalysisReportParameterWeb and MWQMAnalysisReportParameterReport fields should NOT be null here
-                if (mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVText != null)
+                if (mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVItemLanguage != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVText));
+                    Assert.IsNotNull(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.ExcelTVFileTVItemLanguage);
                 }
                 if (mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.CommandText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.CommandText));
                 }
-                if (mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterWeb.LastUpdateContactTVItemLanguage);
                 if (mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterReport.MWQMAnalysisReportParameterReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterList[0].MWQMAnalysisReportParameterReport.MWQMAnalysisReportParameterReportTest));

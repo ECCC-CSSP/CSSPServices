@@ -671,10 +671,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MWQMSampleLanguageWeb fields should not be null and MWQMSampleLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LanguageText));
@@ -688,10 +685,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MWQMSampleLanguageWeb and MWQMSampleLanguageReport fields should NOT be null here
-                if (mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageList[0].MWQMSampleLanguageWeb.LanguageText));

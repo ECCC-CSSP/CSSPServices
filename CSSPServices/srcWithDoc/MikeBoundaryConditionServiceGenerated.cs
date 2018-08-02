@@ -314,14 +314,14 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
             mikeBoundaryConditionQuery = (from c in mikeBoundaryConditionQuery
-                let MikeBoundaryConditionTVText = (from cl in db.TVItemLanguages
+                let MikeBoundaryConditionTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeBoundaryConditionTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MikeBoundaryCondition
                     {
                         MikeBoundaryConditionID = c.MikeBoundaryConditionID,
@@ -339,8 +339,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MikeBoundaryConditionWeb = new MikeBoundaryConditionWeb
                         {
-                            MikeBoundaryConditionTVText = MikeBoundaryConditionTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MikeBoundaryConditionTVItemLanguage = MikeBoundaryConditionTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             MikeBoundaryConditionLevelOrVelocityText = (from e in MikeBoundaryConditionLevelOrVelocityEnumList
                                 where e.EnumID == (int?)c.MikeBoundaryConditionLevelOrVelocity
                                 select e.EnumText).FirstOrDefault(),

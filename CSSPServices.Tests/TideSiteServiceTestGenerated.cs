@@ -680,27 +680,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TideSiteWeb fields should not be null and TideSiteReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteWeb.TideSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteWeb.TideSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tideSiteList[0].TideSiteWeb.TideSiteTVItemLanguage);
+                Assert.IsNotNull(tideSiteList[0].TideSiteWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(tideSiteList[0].TideSiteReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TideSiteWeb and TideSiteReport fields should NOT be null here
-                if (tideSiteList[0].TideSiteWeb.TideSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteWeb.TideSiteTVText));
-                }
-                if (tideSiteList[0].TideSiteWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tideSiteList[0].TideSiteWeb.TideSiteTVItemLanguage);
+                Assert.IsNotNull(tideSiteList[0].TideSiteWeb.LastUpdateContactTVItemLanguage);
                 if (tideSiteList[0].TideSiteReport.TideSiteReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteList[0].TideSiteReport.TideSiteReportTest));

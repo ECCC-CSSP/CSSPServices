@@ -34,10 +34,10 @@ namespace CSSPServices
         private IQueryable<VPResult> FillVPResultReport(IQueryable<VPResult> vpResultQuery)
         {
             vpResultQuery = (from c in vpResultQuery
-                             let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                             let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                             where cl.TVItemID == c.LastUpdateContactTVItemID
                                                             && cl.Language == LanguageRequest
-                                                            select cl.TVText).FirstOrDefault()
+                                                            select cl).FirstOrDefault()
                              select new VPResult
                              {
                                  VPResultID = c.VPResultID,
@@ -52,7 +52,7 @@ namespace CSSPServices
                                  LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                  VPResultWeb = new VPResultWeb
                                  {
-                                     LastUpdateContactTVText = LastUpdateContactTVText,
+                                     LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                  },
                                  VPResultReport = new VPResultReport
                                  {

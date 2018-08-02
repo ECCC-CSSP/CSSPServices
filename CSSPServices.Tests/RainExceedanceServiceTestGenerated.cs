@@ -823,19 +823,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // RainExceedanceWeb fields should not be null and RainExceedanceReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(rainExceedanceList[0].RainExceedanceReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // RainExceedanceWeb and RainExceedanceReport fields should NOT be null here
-                if (rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(rainExceedanceList[0].RainExceedanceWeb.LastUpdateContactTVItemLanguage);
                 if (rainExceedanceList[0].RainExceedanceReport.RainExceedanceReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceList[0].RainExceedanceReport.RainExceedanceReportTest));

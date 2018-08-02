@@ -664,19 +664,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ReportTypeWeb fields should not be null and ReportTypeReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(reportTypeList[0].ReportTypeWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(reportTypeList[0].ReportTypeReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ReportTypeWeb and ReportTypeReport fields should NOT be null here
-                if (reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].ReportTypeWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(reportTypeList[0].ReportTypeWeb.LastUpdateContactTVItemLanguage);
                 if (reportTypeList[0].ReportTypeReport.ReportTypeReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeList[0].ReportTypeReport.ReportTypeReportTest));

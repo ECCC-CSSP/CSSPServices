@@ -249,10 +249,10 @@ namespace CSSPServices
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
             boxModelLanguageQuery = (from c in boxModelLanguageQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new BoxModelLanguage
                     {
                         BoxModelLanguageID = c.BoxModelLanguageID,
@@ -264,7 +264,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         BoxModelLanguageWeb = new BoxModelLanguageWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
                                 select e.EnumText).FirstOrDefault(),

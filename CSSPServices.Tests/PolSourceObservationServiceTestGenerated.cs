@@ -681,35 +681,17 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // PolSourceObservationWeb fields should not be null and PolSourceObservationReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.PolSourceSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.PolSourceSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.ContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.ContactTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(polSourceObservationList[0].PolSourceObservationWeb.PolSourceSiteTVItemLanguage);
+                Assert.IsNotNull(polSourceObservationList[0].PolSourceObservationWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(polSourceObservationList[0].PolSourceObservationWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(polSourceObservationList[0].PolSourceObservationReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // PolSourceObservationWeb and PolSourceObservationReport fields should NOT be null here
-                if (polSourceObservationList[0].PolSourceObservationWeb.PolSourceSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.PolSourceSiteTVText));
-                }
-                if (polSourceObservationList[0].PolSourceObservationWeb.ContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.ContactTVText));
-                }
-                if (polSourceObservationList[0].PolSourceObservationWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(polSourceObservationList[0].PolSourceObservationWeb.PolSourceSiteTVItemLanguage);
+                Assert.IsNotNull(polSourceObservationList[0].PolSourceObservationWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(polSourceObservationList[0].PolSourceObservationWeb.LastUpdateContactTVItemLanguage);
                 if (polSourceObservationList[0].PolSourceObservationReport.PolSourceObservationReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationList[0].PolSourceObservationReport.PolSourceObservationReportTest));

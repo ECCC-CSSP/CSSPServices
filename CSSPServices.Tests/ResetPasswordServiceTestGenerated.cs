@@ -676,19 +676,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ResetPasswordWeb fields should not be null and ResetPasswordReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(resetPasswordList[0].ResetPasswordReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ResetPasswordWeb and ResetPasswordReport fields should NOT be null here
-                if (resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVItemLanguage);
                 if (resetPasswordList[0].ResetPasswordReport.ResetPasswordReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordList[0].ResetPasswordReport.ResetPasswordReportTest));

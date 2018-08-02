@@ -638,14 +638,14 @@ namespace CSSPServices
         private IQueryable<LabSheetDetail> FillLabSheetDetailWeb(IQueryable<LabSheetDetail> labSheetDetailQuery)
         {
             labSheetDetailQuery = (from c in labSheetDetailQuery
-                let SubsectorTVText = (from cl in db.TVItemLanguages
+                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new LabSheetDetail
                     {
                         LabSheetDetailID = c.LabSheetDetailID,
@@ -715,8 +715,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         LabSheetDetailWeb = new LabSheetDetailWeb
                         {
-                            SubsectorTVText = SubsectorTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         LabSheetDetailReport = null,
                         HasErrors = false,

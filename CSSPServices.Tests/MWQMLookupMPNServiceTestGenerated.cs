@@ -694,19 +694,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MWQMLookupMPNWeb fields should not be null and MWQMLookupMPNReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(mwqmLookupMPNList[0].MWQMLookupMPNReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MWQMLookupMPNWeb and MWQMLookupMPNReport fields should NOT be null here
-                if (mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmLookupMPNList[0].MWQMLookupMPNWeb.LastUpdateContactTVItemLanguage);
                 if (mwqmLookupMPNList[0].MWQMLookupMPNReport.MWQMLookupMPNReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNList[0].MWQMLookupMPNReport.MWQMLookupMPNReportTest));

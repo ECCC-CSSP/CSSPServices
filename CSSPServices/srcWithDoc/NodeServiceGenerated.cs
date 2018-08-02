@@ -58,6 +58,12 @@ namespace CSSPServices
 
             //Value has no Range Attribute
 
+                //Error: Type not implemented [ElementList] of type [List`1]
+
+                //Error: Type not implemented [ElementList] of type [Element]
+                //Error: Type not implemented [ConnectNodeList] of type [List`1]
+
+                //Error: Type not implemented [ConnectNodeList] of type [Node]
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

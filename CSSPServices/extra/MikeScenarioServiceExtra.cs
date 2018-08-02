@@ -38,14 +38,14 @@ namespace CSSPServices
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
             mikeScenarioQuery = (from c in mikeScenarioQuery
-                                 let MikeScenarioTVText = (from cl in db.TVItemLanguages
+                                 let MikeScenarioTVItemLanguage = (from cl in db.TVItemLanguages
                                                            where cl.TVItemID == c.MikeScenarioTVItemID
                                                            && cl.Language == LanguageRequest
-                                                           select cl.TVText).FirstOrDefault()
-                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                           select cl).FirstOrDefault()
+                                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                 && cl.Language == LanguageRequest
-                                                                select cl.TVText).FirstOrDefault()
+                                                                select cl).FirstOrDefault()
                                  select new MikeScenario
                                  {
                                      MikeScenarioID = c.MikeScenarioID,
@@ -78,8 +78,8 @@ namespace CSSPServices
                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                      MikeScenarioWeb = new MikeScenarioWeb
                                      {
-                                         MikeScenarioTVText = MikeScenarioTVText,
-                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                         MikeScenarioTVItemLanguage = MikeScenarioTVItemLanguage,
+                                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                          ScenarioStatusText = (from e in ScenarioStatusEnumList
                                                                where e.EnumID == (int?)c.ScenarioStatus
                                                                select e.EnumText).FirstOrDefault(),

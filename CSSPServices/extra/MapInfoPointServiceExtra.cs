@@ -34,10 +34,10 @@ namespace CSSPServices
         private IQueryable<MapInfoPoint> FillMapInfoPointReport(IQueryable<MapInfoPoint> mapInfoPointQuery)
         {
             mapInfoPointQuery = (from c in mapInfoPointQuery
-                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                 && cl.Language == LanguageRequest
-                                                                select cl.TVText).FirstOrDefault()
+                                                                select cl).FirstOrDefault()
                                  select new MapInfoPoint
                                  {
                                      MapInfoPointID = c.MapInfoPointID,
@@ -49,7 +49,7 @@ namespace CSSPServices
                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                      MapInfoPointWeb = new MapInfoPointWeb
                                      {
-                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                      },
                                      MapInfoPointReport = new MapInfoPointReport
                                      {

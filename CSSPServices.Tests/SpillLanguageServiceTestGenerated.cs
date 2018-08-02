@@ -671,10 +671,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // SpillLanguageWeb fields should not be null and SpillLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LanguageText));
@@ -688,10 +685,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // SpillLanguageWeb and SpillLanguageReport fields should NOT be null here
-                if (spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(spillLanguageList[0].SpillLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (spillLanguageList[0].SpillLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageList[0].SpillLanguageWeb.LanguageText));

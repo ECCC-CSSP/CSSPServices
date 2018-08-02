@@ -238,14 +238,14 @@ namespace CSSPServices
         private IQueryable<SamplingPlanSubsectorSite> FillSamplingPlanSubsectorSiteWeb(IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery)
         {
             samplingPlanSubsectorSiteQuery = (from c in samplingPlanSubsectorSiteQuery
-                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new SamplingPlanSubsectorSite
                     {
                         SamplingPlanSubsectorSiteID = c.SamplingPlanSubsectorSiteID,
@@ -256,8 +256,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         SamplingPlanSubsectorSiteWeb = new SamplingPlanSubsectorSiteWeb
                         {
-                            MWQMSiteTVText = MWQMSiteTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         SamplingPlanSubsectorSiteReport = null,
                         HasErrors = false,

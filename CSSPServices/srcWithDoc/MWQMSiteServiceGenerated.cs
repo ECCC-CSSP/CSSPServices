@@ -271,14 +271,14 @@ namespace CSSPServices
             List<EnumIDAndText> MWQMSiteLatestClassificationEnumList = enums.GetEnumTextOrderedList(typeof(MWQMSiteLatestClassificationEnum));
 
             mwqmSiteQuery = (from c in mwqmSiteQuery
-                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MWQMSite
                     {
                         MWQMSiteID = c.MWQMSiteID,
@@ -291,8 +291,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MWQMSiteWeb = new MWQMSiteWeb
                         {
-                            MWQMSiteTVText = MWQMSiteTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
                                 where e.EnumID == (int?)c.MWQMSiteLatestClassification
                                 select e.EnumText).FirstOrDefault(),

@@ -123,6 +123,13 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [OrderList] of type [List`1]
+
+            //OrderList has no StringLength Attribute
+
+                //Error: Type not implemented [WhereInfoList] of type [List`1]
+
+                //Error: Type not implemented [WhereInfoList] of type [WhereInfo]
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

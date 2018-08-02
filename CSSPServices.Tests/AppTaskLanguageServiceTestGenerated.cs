@@ -690,10 +690,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // AppTaskLanguageWeb fields should not be null and AppTaskLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(appTaskLanguageList[0].AppTaskLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageList[0].AppTaskLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(appTaskLanguageList[0].AppTaskLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(appTaskLanguageList[0].AppTaskLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageList[0].AppTaskLanguageWeb.LanguageText));
@@ -707,10 +704,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // AppTaskLanguageWeb and AppTaskLanguageReport fields should NOT be null here
-                if (appTaskLanguageList[0].AppTaskLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageList[0].AppTaskLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(appTaskLanguageList[0].AppTaskLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (appTaskLanguageList[0].AppTaskLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageList[0].AppTaskLanguageWeb.LanguageText));

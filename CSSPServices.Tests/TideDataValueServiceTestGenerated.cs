@@ -793,14 +793,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TideDataValueWeb fields should not be null and TideDataValueReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tideDataValueList[0].TideDataValueWeb.TideSiteTVItemLanguage);
+                Assert.IsNotNull(tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideDataTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideDataTypeText));
@@ -822,14 +816,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TideDataValueWeb and TideDataValueReport fields should NOT be null here
-                if (tideDataValueList[0].TideDataValueWeb.TideSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideSiteTVText));
-                }
-                if (tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tideDataValueList[0].TideDataValueWeb.TideSiteTVItemLanguage);
+                Assert.IsNotNull(tideDataValueList[0].TideDataValueWeb.LastUpdateContactTVItemLanguage);
                 if (tideDataValueList[0].TideDataValueWeb.TideDataTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueList[0].TideDataValueWeb.TideDataTypeText));

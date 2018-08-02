@@ -680,10 +680,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // EmailDistributionListLanguageWeb fields should not be null and EmailDistributionListLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LanguageText));
@@ -697,10 +694,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // EmailDistributionListLanguageWeb and EmailDistributionListLanguageReport fields should NOT be null here
-                if (emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListLanguageList[0].EmailDistributionListLanguageWeb.LanguageText));

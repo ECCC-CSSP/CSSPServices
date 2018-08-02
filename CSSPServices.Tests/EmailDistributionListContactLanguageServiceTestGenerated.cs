@@ -680,10 +680,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // EmailDistributionListContactLanguageWeb fields should not be null and EmailDistributionListContactLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText));
@@ -697,10 +694,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // EmailDistributionListContactLanguageWeb and EmailDistributionListContactLanguageReport fields should NOT be null here
-                if (emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText));

@@ -805,27 +805,11 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // AddressWeb fields should not be null and AddressReport fields should be null here
-                Assert.IsTrue(addressList[0].AddressWeb.ParentTVItemID > 0);
-                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(addressList[0].AddressWeb.AddressTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.CountryTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.ProvinceTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.MunicipalityTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText));
@@ -839,27 +823,11 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // AddressWeb and AddressReport fields should NOT be null here
-                Assert.IsTrue(addressList[0].AddressWeb.ParentTVItemID > 0);
-                if (addressList[0].AddressWeb.AddressTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTVText));
-                }
-                if (addressList[0].AddressWeb.CountryTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.CountryTVText));
-                }
-                if (addressList[0].AddressWeb.ProvinceTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.ProvinceTVText));
-                }
-                if (addressList[0].AddressWeb.MunicipalityTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.MunicipalityTVText));
-                }
-                if (addressList[0].AddressWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(addressList[0].AddressWeb.AddressTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.CountryTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.ProvinceTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.MunicipalityTVItemLanguage);
+                Assert.IsNotNull(addressList[0].AddressWeb.LastUpdateContactTVItemLanguage);
                 if (addressList[0].AddressWeb.AddressTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(addressList[0].AddressWeb.AddressTypeText));

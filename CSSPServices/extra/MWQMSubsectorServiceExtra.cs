@@ -34,14 +34,14 @@ namespace CSSPServices
         private IQueryable<MWQMSubsector> FillMWQMSubsectorReport(IQueryable<MWQMSubsector> mwqmSubsectorQuery)
         {
             mwqmSubsectorQuery = (from c in mwqmSubsectorQuery
-                                  let SubsectorTVText = (from cl in db.TVItemLanguages
+                                  let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                                                          where cl.TVItemID == c.MWQMSubsectorTVItemID
                                                          && cl.Language == LanguageRequest
-                                                         select cl.TVText).FirstOrDefault()
-                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                         select cl).FirstOrDefault()
+                                  let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                  where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                  && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
+                                                                 select cl).FirstOrDefault()
                                   select new MWQMSubsector
                                   {
                                       MWQMSubsectorID = c.MWQMSubsectorID,
@@ -52,8 +52,8 @@ namespace CSSPServices
                                       LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                       MWQMSubsectorWeb = new MWQMSubsectorWeb
                                       {
-                                          SubsectorTVText = SubsectorTVText,
-                                          LastUpdateContactTVText = LastUpdateContactTVText,
+                                          SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                                          LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                       },
                                       MWQMSubsectorReport = new MWQMSubsectorReport
                                       {

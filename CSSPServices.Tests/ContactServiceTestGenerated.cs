@@ -831,14 +831,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ContactWeb fields should not be null and ContactReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(contactList[0].ContactWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(contactList[0].ContactWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsTrue(contactList[0].ContactWeb.ParentTVItemID > 0);
                 if (!string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTitleText))
                 {
@@ -849,14 +843,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ContactWeb and ContactReport fields should NOT be null here
-                if (contactList[0].ContactWeb.ContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.ContactTVText));
-                }
-                if (contactList[0].ContactWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactList[0].ContactWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(contactList[0].ContactWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(contactList[0].ContactWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsTrue(contactList[0].ContactWeb.ParentTVItemID > 0);
                 if (contactList[0].ContactWeb.ContactTitleText != null)
                 {

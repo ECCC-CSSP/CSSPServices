@@ -34,14 +34,14 @@ namespace CSSPServices
         private IQueryable<ClimateSite> FillClimateSiteReport(IQueryable<ClimateSite> climateSiteQuery)
         {
             climateSiteQuery = (from c in climateSiteQuery
-                                let ClimateSiteTVText = (from cl in db.TVItemLanguages
+                                let ClimateSiteTVItemLanguage = (from cl in db.TVItemLanguages
                                                          where cl.TVItemID == c.ClimateSiteTVItemID
                                                          && cl.Language == LanguageRequest
-                                                         select cl.TVText).FirstOrDefault()
-                                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                         select cl).FirstOrDefault()
+                                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                && cl.Language == LanguageRequest
-                                                               select cl.TVText).FirstOrDefault()
+                                                               select cl).FirstOrDefault()
                                 select new ClimateSite
                                 {
                                     ClimateSiteID = c.ClimateSiteID,
@@ -70,8 +70,8 @@ namespace CSSPServices
                                     LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                     ClimateSiteWeb = new ClimateSiteWeb
                                     {
-                                        ClimateSiteTVText = ClimateSiteTVText,
-                                        LastUpdateContactTVText = LastUpdateContactTVText,
+                                        ClimateSiteTVItemLanguage = ClimateSiteTVItemLanguage,
+                                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                     },
                                     ClimateSiteReport = new ClimateSiteReport
                                     {

@@ -801,14 +801,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MikeBoundaryConditionWeb fields should not be null and MikeBoundaryConditionReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVItemLanguage);
+                Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));
@@ -826,14 +820,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MikeBoundaryConditionWeb and MikeBoundaryConditionReport fields should NOT be null here
-                if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVText));
-                }
-                if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionTVItemLanguage);
+                Assert.IsNotNull(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.LastUpdateContactTVItemLanguage);
                 if (mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionList[0].MikeBoundaryConditionWeb.MikeBoundaryConditionLevelOrVelocityText));

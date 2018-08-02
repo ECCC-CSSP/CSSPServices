@@ -334,14 +334,14 @@ namespace CSSPServices
             List<EnumIDAndText> ContactTitleEnumList = enums.GetEnumTextOrderedList(typeof(ContactTitleEnum));
 
             contactQuery = (from c in contactQuery
-                let ContactTVText = (from cl in db.TVItemLanguages
+                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                 let ParentTVItemID = (from cl in db.TVItems
                     where cl.TVItemID == c.ContactTVItemID
                     select cl.ParentID).FirstOrDefault()
@@ -365,8 +365,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         ContactWeb = new ContactWeb
                         {
-                            ContactTVText = ContactTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            ContactTVItemLanguage = ContactTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             ParentTVItemID = ParentTVItemID,
                             ContactTitleText = (from e in ContactTitleEnumList
                                 where e.EnumID == (int?)c.ContactTitle

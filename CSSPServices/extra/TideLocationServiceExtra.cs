@@ -34,10 +34,10 @@ namespace CSSPServices
         private IQueryable<TideLocation> FillTideLocationReport(IQueryable<TideLocation> tideLocationQuery)
         {
             tideLocationQuery = (from c in tideLocationQuery
-                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                 && cl.Language == LanguageRequest
-                                                                select cl.TVText).FirstOrDefault()
+                                                                select cl).FirstOrDefault()
                                  select new TideLocation
                                  {
                                      TideLocationID = c.TideLocationID,
@@ -51,7 +51,7 @@ namespace CSSPServices
                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                      TideLocationWeb = new TideLocationWeb
                                      {
-                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                      },
                                      TideLocationReport = new TideLocationReport
                                      {

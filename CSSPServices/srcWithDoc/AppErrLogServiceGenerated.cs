@@ -258,10 +258,10 @@ namespace CSSPServices
         private IQueryable<AppErrLog> FillAppErrLogWeb(IQueryable<AppErrLog> appErrLogQuery)
         {
             appErrLogQuery = (from c in appErrLogQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new AppErrLog
                     {
                         AppErrLogID = c.AppErrLogID,
@@ -274,7 +274,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         AppErrLogWeb = new AppErrLogWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         AppErrLogReport = null,
                         HasErrors = false,

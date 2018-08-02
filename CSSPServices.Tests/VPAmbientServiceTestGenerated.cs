@@ -914,19 +914,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // VPAmbientWeb fields should not be null and VPAmbientReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(vpAmbientList[0].VPAmbientReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // VPAmbientWeb and VPAmbientReport fields should NOT be null here
-                if (vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpAmbientList[0].VPAmbientWeb.LastUpdateContactTVItemLanguage);
                 if (vpAmbientList[0].VPAmbientReport.VPAmbientReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientList[0].VPAmbientReport.VPAmbientReportTest));

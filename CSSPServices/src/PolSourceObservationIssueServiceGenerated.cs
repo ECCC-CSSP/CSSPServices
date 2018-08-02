@@ -238,10 +238,10 @@ namespace CSSPServices
         private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssueWeb(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery)
         {
             polSourceObservationIssueQuery = (from c in polSourceObservationIssueQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new PolSourceObservationIssue
                     {
                         PolSourceObservationIssueID = c.PolSourceObservationIssueID,
@@ -253,7 +253,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         PolSourceObservationIssueWeb = new PolSourceObservationIssueWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         PolSourceObservationIssueReport = null,
                         HasErrors = false,

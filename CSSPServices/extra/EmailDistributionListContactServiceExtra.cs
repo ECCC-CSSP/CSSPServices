@@ -34,10 +34,10 @@ namespace CSSPServices
         private IQueryable<EmailDistributionListContact> FillEmailDistributionListContactReport(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery)
         {
             emailDistributionListContactQuery = (from c in emailDistributionListContactQuery
-                                                 let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                                 && cl.Language == LanguageRequest
-                                                                                select cl.TVText).FirstOrDefault()
+                                                                                select cl).FirstOrDefault()
                                                  let EmailDistributionListContactReportTest = (from cl in db.TVItemLanguages
                                                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                                                && cl.Language == LanguageRequest
@@ -58,7 +58,7 @@ namespace CSSPServices
                                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                                      EmailDistributionListContactWeb = new EmailDistributionListContactWeb
                                                      {
-                                                         LastUpdateContactTVText = LastUpdateContactTVText,
+                                                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                                      },
                                                      EmailDistributionListContactReport = new EmailDistributionListContactReport
                                                      {

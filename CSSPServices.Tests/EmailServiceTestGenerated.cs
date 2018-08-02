@@ -671,14 +671,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // EmailWeb fields should not be null and EmailReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(emailList[0].EmailWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailList[0].EmailWeb.EmailTVItemLanguage);
+                Assert.IsNotNull(emailList[0].EmailWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTypeText));
@@ -688,14 +682,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // EmailWeb and EmailReport fields should NOT be null here
-                if (emailList[0].EmailWeb.EmailTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTVText));
-                }
-                if (emailList[0].EmailWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailList[0].EmailWeb.EmailTVItemLanguage);
+                Assert.IsNotNull(emailList[0].EmailWeb.LastUpdateContactTVItemLanguage);
                 if (emailList[0].EmailWeb.EmailTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailList[0].EmailWeb.EmailTypeText));

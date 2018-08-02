@@ -313,10 +313,10 @@ namespace CSSPServices
             List<EnumIDAndText> BoxModelResultTypeEnumList = enums.GetEnumTextOrderedList(typeof(BoxModelResultTypeEnum));
 
             boxModelResultQuery = (from c in boxModelResultQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new BoxModelResult
                     {
                         BoxModelResultID = c.BoxModelResultID,
@@ -339,7 +339,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         BoxModelResultWeb = new BoxModelResultWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
                                 where e.EnumID == (int?)c.BoxModelResultType
                                 select e.EnumText).FirstOrDefault(),

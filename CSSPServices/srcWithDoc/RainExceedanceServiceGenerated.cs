@@ -300,10 +300,10 @@ namespace CSSPServices
         private IQueryable<RainExceedance> FillRainExceedanceWeb(IQueryable<RainExceedance> rainExceedanceQuery)
         {
             rainExceedanceQuery = (from c in rainExceedanceQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new RainExceedance
                     {
                         RainExceedanceID = c.RainExceedanceID,
@@ -322,7 +322,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         RainExceedanceWeb = new RainExceedanceWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         RainExceedanceReport = null,
                         HasErrors = false,

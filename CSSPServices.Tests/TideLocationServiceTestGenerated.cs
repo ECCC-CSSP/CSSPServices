@@ -746,19 +746,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TideLocationWeb fields should not be null and TideLocationReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tideLocationList[0].TideLocationWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationList[0].TideLocationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tideLocationList[0].TideLocationWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(tideLocationList[0].TideLocationReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TideLocationWeb and TideLocationReport fields should NOT be null here
-                if (tideLocationList[0].TideLocationWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationList[0].TideLocationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tideLocationList[0].TideLocationWeb.LastUpdateContactTVItemLanguage);
                 if (tideLocationList[0].TideLocationReport.TideLocationReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationList[0].TideLocationReport.TideLocationReportTest));

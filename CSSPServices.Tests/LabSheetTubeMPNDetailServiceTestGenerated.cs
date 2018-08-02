@@ -878,14 +878,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // LabSheetTubeMPNDetailWeb fields should not be null and LabSheetTubeMPNDetailReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.MWQMSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.MWQMSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.SampleTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.SampleTypeText));
@@ -895,14 +889,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // LabSheetTubeMPNDetailWeb and LabSheetTubeMPNDetailReport fields should NOT be null here
-                if (labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.MWQMSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.MWQMSiteTVText));
-                }
-                if (labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.LastUpdateContactTVItemLanguage);
                 if (labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.SampleTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailList[0].LabSheetTubeMPNDetailWeb.SampleTypeText));

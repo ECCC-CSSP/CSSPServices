@@ -285,18 +285,18 @@ namespace CSSPServices
         private IQueryable<Spill> FillSpillWeb(IQueryable<Spill> spillQuery)
         {
             spillQuery = (from c in spillQuery
-                let MunicipalityTVText = (from cl in db.TVItemLanguages
+                let MunicipalityTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MunicipalityTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let InfrastructureTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new Spill
                     {
                         SpillID = c.SpillID,
@@ -309,9 +309,9 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         SpillWeb = new SpillWeb
                         {
-                            MunicipalityTVText = MunicipalityTVText,
-                            InfrastructureTVText = InfrastructureTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MunicipalityTVItemLanguage = MunicipalityTVItemLanguage,
+                            InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         SpillReport = null,
                         HasErrors = false,

@@ -39,10 +39,10 @@ namespace CSSPServices
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
             emailDistributionListContactLanguageQuery = (from c in emailDistributionListContactLanguageQuery
-                                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                         let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                                         where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                                         && cl.Language == LanguageRequest
-                                                                                        select cl.TVText).FirstOrDefault()
+                                                                                        select cl).FirstOrDefault()
                                                          select new EmailDistributionListContactLanguage
                                                          {
                                                              EmailDistributionListContactLanguageID = c.EmailDistributionListContactLanguageID,
@@ -54,7 +54,7 @@ namespace CSSPServices
                                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                                              EmailDistributionListContactLanguageWeb = new EmailDistributionListContactLanguageWeb
                                                              {
-                                                                 LastUpdateContactTVText = LastUpdateContactTVText,
+                                                                 LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                                                  LanguageText = (from e in LanguageEnumList
                                                                                  where e.EnumID == (int?)c.Language
                                                                                  select e.EnumText).FirstOrDefault(),

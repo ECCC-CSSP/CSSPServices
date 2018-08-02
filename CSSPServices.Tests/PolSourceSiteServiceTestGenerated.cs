@@ -767,14 +767,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // PolSourceSiteWeb fields should not be null and PolSourceSiteReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVItemLanguage);
+                Assert.IsNotNull(polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText));
@@ -784,14 +778,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // PolSourceSiteWeb and PolSourceSiteReport fields should NOT be null here
-                if (polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVText));
-                }
-                if (polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(polSourceSiteList[0].PolSourceSiteWeb.PolSourceSiteTVItemLanguage);
+                Assert.IsNotNull(polSourceSiteList[0].PolSourceSiteWeb.LastUpdateContactTVItemLanguage);
                 if (polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteList[0].PolSourceSiteWeb.InactiveReasonText));

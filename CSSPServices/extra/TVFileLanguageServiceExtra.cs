@@ -39,10 +39,10 @@ namespace CSSPServices
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
             tvFileLanguageQuery = (from c in tvFileLanguageQuery
-                                   let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                   let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                   where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                   && cl.Language == LanguageRequest
-                                                                  select cl.TVText).FirstOrDefault()
+                                                                  select cl).FirstOrDefault()
                                    select new TVFileLanguage
                                    {
                                        TVFileLanguageID = c.TVFileLanguageID,
@@ -54,7 +54,7 @@ namespace CSSPServices
                                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                        TVFileLanguageWeb = new TVFileLanguageWeb
                                        {
-                                           LastUpdateContactTVText = LastUpdateContactTVText,
+                                           LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                            LanguageText = (from e in LanguageEnumList
                                                            where e.EnumID == (int?)c.Language
                                                            select e.EnumText).FirstOrDefault(),

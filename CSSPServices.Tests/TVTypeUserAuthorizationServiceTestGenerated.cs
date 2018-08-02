@@ -662,14 +662,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TVTypeUserAuthorizationWeb fields should not be null and TVTypeUserAuthorizationReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText));
@@ -683,14 +677,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TVTypeUserAuthorizationWeb and TVTypeUserAuthorizationReport fields should NOT be null here
-                if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVText));
-                }
-                if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.LastUpdateContactTVItemLanguage);
                 if (tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationList[0].TVTypeUserAuthorizationWeb.TVTypeText));

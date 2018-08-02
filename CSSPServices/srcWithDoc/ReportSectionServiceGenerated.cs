@@ -277,18 +277,18 @@ namespace CSSPServices
         private IQueryable<ReportSection> FillReportSectionWeb(IQueryable<ReportSection> reportSectionQuery)
         {
             reportSectionQuery = (from c in reportSectionQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                 let ReportSectionName = (from cl in db.ReportSectionLanguages
                     where cl.ReportSectionID == c.ReportSectionID
                     && cl.Language == LanguageRequest
-                    select cl.ReportSectionName).FirstOrDefault()
+                    select cl).FirstOrDefault()
                 let ReportSectionText = (from cl in db.ReportSectionLanguages
                     where cl.ReportSectionID == c.ReportSectionID
                     && cl.Language == LanguageRequest
-                    select cl.ReportSectionText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new ReportSection
                     {
                         ReportSectionID = c.ReportSectionID,
@@ -304,7 +304,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         ReportSectionWeb = new ReportSectionWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             ReportSectionName = ReportSectionName,
                             ReportSectionText = ReportSectionText,
                         },

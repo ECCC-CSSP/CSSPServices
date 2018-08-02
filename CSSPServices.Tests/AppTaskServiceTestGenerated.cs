@@ -812,18 +812,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // AppTaskWeb fields should not be null and AppTaskReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItemTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItemTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItem2TVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItem2TVText));
-                }
-                if (!string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItemTVItemLanguage);
+                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItem2TVItemLanguage);
+                Assert.IsNotNull(appTaskList[0].AppTaskWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText));
@@ -841,18 +832,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // AppTaskWeb and AppTaskReport fields should NOT be null here
-                if (appTaskList[0].AppTaskWeb.TVItemTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItemTVText));
-                }
-                if (appTaskList[0].AppTaskWeb.TVItem2TVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.TVItem2TVText));
-                }
-                if (appTaskList[0].AppTaskWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItemTVItemLanguage);
+                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItem2TVItemLanguage);
+                Assert.IsNotNull(appTaskList[0].AppTaskWeb.LastUpdateContactTVItemLanguage);
                 if (appTaskList[0].AppTaskWeb.AppTaskCommandText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText));

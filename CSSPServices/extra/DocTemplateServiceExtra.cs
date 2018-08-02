@@ -39,10 +39,10 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
             docTemplateQuery = (from c in docTemplateQuery
-                                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                && cl.Language == LanguageRequest
-                                                               select cl.TVText).FirstOrDefault()
+                                                               select cl).FirstOrDefault()
                                 select new DocTemplate
                                 {
                                     DocTemplateID = c.DocTemplateID,
@@ -54,7 +54,7 @@ namespace CSSPServices
                                     LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                     DocTemplateWeb = new DocTemplateWeb
                                     {
-                                        LastUpdateContactTVText = LastUpdateContactTVText,
+                                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                         LanguageText = (from e in LanguageEnumList
                                                         where e.EnumID == (int?)c.Language
                                                         select e.EnumText).FirstOrDefault(),

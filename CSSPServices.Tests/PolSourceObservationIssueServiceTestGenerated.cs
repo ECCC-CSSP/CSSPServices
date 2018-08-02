@@ -680,19 +680,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // PolSourceObservationIssueWeb fields should not be null and PolSourceObservationIssueReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(polSourceObservationIssueList[0].PolSourceObservationIssueWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueList[0].PolSourceObservationIssueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(polSourceObservationIssueList[0].PolSourceObservationIssueWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(polSourceObservationIssueList[0].PolSourceObservationIssueReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // PolSourceObservationIssueWeb and PolSourceObservationIssueReport fields should NOT be null here
-                if (polSourceObservationIssueList[0].PolSourceObservationIssueWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueList[0].PolSourceObservationIssueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(polSourceObservationIssueList[0].PolSourceObservationIssueWeb.LastUpdateContactTVItemLanguage);
                 if (polSourceObservationIssueList[0].PolSourceObservationIssueReport.PolSourceObservationIssueReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueList[0].PolSourceObservationIssueReport.PolSourceObservationIssueReportTest));

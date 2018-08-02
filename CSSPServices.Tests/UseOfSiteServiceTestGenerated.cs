@@ -886,18 +886,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // UseOfSiteWeb fields should not be null and UseOfSiteReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SubsectorTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SubsectorTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(useOfSiteList[0].UseOfSiteWeb.SiteTVItemLanguage);
+                Assert.IsNotNull(useOfSiteList[0].UseOfSiteWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTypeText));
@@ -907,18 +898,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // UseOfSiteWeb and UseOfSiteReport fields should NOT be null here
-                if (useOfSiteList[0].UseOfSiteWeb.SiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTVText));
-                }
-                if (useOfSiteList[0].UseOfSiteWeb.SubsectorTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SubsectorTVText));
-                }
-                if (useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(useOfSiteList[0].UseOfSiteWeb.SiteTVItemLanguage);
+                Assert.IsNotNull(useOfSiteList[0].UseOfSiteWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(useOfSiteList[0].UseOfSiteWeb.LastUpdateContactTVItemLanguage);
                 if (useOfSiteList[0].UseOfSiteWeb.SiteTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteList[0].UseOfSiteWeb.SiteTypeText));

@@ -60,6 +60,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContourPolygonDepth, "1", "10000"), new[] { "Depth" });
             }
 
+                //Error: Type not implemented [ContourNodeList] of type [List`1]
+
+                //Error: Type not implemented [ContourNodeList] of type [Node]
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

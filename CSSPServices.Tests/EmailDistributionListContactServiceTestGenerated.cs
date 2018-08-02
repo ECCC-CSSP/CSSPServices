@@ -715,19 +715,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // EmailDistributionListContactWeb fields should not be null and EmailDistributionListContactReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(emailDistributionListContactList[0].EmailDistributionListContactReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // EmailDistributionListContactWeb and EmailDistributionListContactReport fields should NOT be null here
-                if (emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(emailDistributionListContactList[0].EmailDistributionListContactWeb.LastUpdateContactTVItemLanguage);
                 if (emailDistributionListContactList[0].EmailDistributionListContactReport.EmailDistributionListContactReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactList[0].EmailDistributionListContactReport.EmailDistributionListContactReportTest));

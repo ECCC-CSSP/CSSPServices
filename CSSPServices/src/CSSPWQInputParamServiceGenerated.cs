@@ -73,6 +73,34 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.CSSPWQInputParamCSSPWQInputTypeText, "100"), new[] { "CSSPWQInputTypeText" });
             }
 
+                //Error: Type not implemented [sidList] of type [List`1]
+
+            //sidList has no StringLength Attribute
+
+                //Error: Type not implemented [MWQMSiteList] of type [List`1]
+
+            //MWQMSiteList has no StringLength Attribute
+
+                //Error: Type not implemented [MWQMSiteTVItemIDList] of type [List`1]
+
+            //MWQMSiteTVItemIDList has no Range Attribute
+
+                //Error: Type not implemented [DailyDuplicateMWQMSiteList] of type [List`1]
+
+            //DailyDuplicateMWQMSiteList has no StringLength Attribute
+
+                //Error: Type not implemented [DailyDuplicateMWQMSiteTVItemIDList] of type [List`1]
+
+            //DailyDuplicateMWQMSiteTVItemIDList has no Range Attribute
+
+                //Error: Type not implemented [InfrastructureList] of type [List`1]
+
+            //InfrastructureList has no StringLength Attribute
+
+                //Error: Type not implemented [InfrastructureTVItemIDList] of type [List`1]
+
+            //InfrastructureTVItemIDList has no Range Attribute
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

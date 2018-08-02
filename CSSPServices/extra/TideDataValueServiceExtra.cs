@@ -40,14 +40,14 @@ namespace CSSPServices
             List<EnumIDAndText> TideTextEnumList = enums.GetEnumTextOrderedList(typeof(TideTextEnum));
 
             tideDataValueQuery = (from c in tideDataValueQuery
-                                  let TideSiteTVText = (from cl in db.TVItemLanguages
-                                                        where cl.TVItemID == c.TideSiteTVItemID
-                                                        && cl.Language == LanguageRequest
-                                                        select cl.TVText).FirstOrDefault()
-                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                 && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
+                                  let TideSiteTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                where cl.TVItemID == c.TideSiteTVItemID
+                                                                && cl.Language == LanguageRequest
+                                                                select cl).FirstOrDefault()
+                                  let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                         where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                         && cl.Language == LanguageRequest
+                                                                         select cl).FirstOrDefault()
                                   select new TideDataValue
                                   {
                                       TideDataValueID = c.TideDataValueID,
@@ -65,8 +65,8 @@ namespace CSSPServices
                                       LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                       TideDataValueWeb = new TideDataValueWeb
                                       {
-                                          TideSiteTVText = TideSiteTVText,
-                                          LastUpdateContactTVText = LastUpdateContactTVText,
+                                          TideSiteTVItemLanguage = TideSiteTVItemLanguage,
+                                          LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                           TideDataTypeText = (from e in TideDataTypeEnumList
                                                               where e.EnumID == (int?)c.TideDataType
                                                               select e.EnumText).FirstOrDefault(),

@@ -230,10 +230,10 @@ namespace CSSPServices
         private IQueryable<RatingCurveValue> FillRatingCurveValueWeb(IQueryable<RatingCurveValue> ratingCurveValueQuery)
         {
             ratingCurveValueQuery = (from c in ratingCurveValueQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new RatingCurveValue
                     {
                         RatingCurveValueID = c.RatingCurveValueID,
@@ -244,7 +244,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         RatingCurveValueWeb = new RatingCurveValueWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         RatingCurveValueReport = null,
                         HasErrors = false,

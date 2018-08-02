@@ -764,19 +764,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // VPResultWeb fields should not be null and VPResultReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(vpResultList[0].VPResultWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultList[0].VPResultWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpResultList[0].VPResultWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(vpResultList[0].VPResultReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // VPResultWeb and VPResultReport fields should NOT be null here
-                if (vpResultList[0].VPResultWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultList[0].VPResultWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpResultList[0].VPResultWeb.LastUpdateContactTVItemLanguage);
                 if (vpResultList[0].VPResultReport.VPResultReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultList[0].VPResultReport.VPResultReportTest));

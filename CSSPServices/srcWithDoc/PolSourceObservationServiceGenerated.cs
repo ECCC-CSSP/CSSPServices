@@ -260,18 +260,18 @@ namespace CSSPServices
         private IQueryable<PolSourceObservation> FillPolSourceObservationWeb(IQueryable<PolSourceObservation> polSourceObservationQuery)
         {
             polSourceObservationQuery = (from c in polSourceObservationQuery
-                let PolSourceSiteTVText = (from cl in db.TVItemLanguages
+                let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.PolSourceSiteID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let ContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let ContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new PolSourceObservation
                     {
                         PolSourceObservationID = c.PolSourceObservationID,
@@ -283,9 +283,9 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         PolSourceObservationWeb = new PolSourceObservationWeb
                         {
-                            PolSourceSiteTVText = PolSourceSiteTVText,
-                            ContactTVText = ContactTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
+                            ContactTVItemLanguage = ContactTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         PolSourceObservationReport = null,
                         HasErrors = false,

@@ -300,10 +300,10 @@ namespace CSSPServices
         private IQueryable<MikeSourceStartEnd> FillMikeSourceStartEndWeb(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery)
         {
             mikeSourceStartEndQuery = (from c in mikeSourceStartEndQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MikeSourceStartEnd
                     {
                         MikeSourceStartEndID = c.MikeSourceStartEndID,
@@ -322,7 +322,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MikeSourceStartEndWeb = new MikeSourceStartEndWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         MikeSourceStartEndReport = null,
                         HasErrors = false,

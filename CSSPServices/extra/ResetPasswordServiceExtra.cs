@@ -105,10 +105,10 @@ namespace CSSPServices
         private IQueryable<ResetPassword> FillResetPasswordReport(IQueryable<ResetPassword> resetPasswordQuery)
         {
             resetPasswordQuery = (from c in resetPasswordQuery
-                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                  let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                  where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                  && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
+                                                                 select cl).FirstOrDefault()
                                   select new ResetPassword
                                   {
                                       ResetPasswordID = c.ResetPasswordID,
@@ -119,7 +119,7 @@ namespace CSSPServices
                                       LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                       ResetPasswordWeb = new ResetPasswordWeb
                                       {
-                                          LastUpdateContactTVText = LastUpdateContactTVText,
+                                          LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                           //Password = Password,
                                           //ConfirmPassword = ConfirmPassword,
                                       },

@@ -101,6 +101,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Layer") elementLayer.Layer = GetRandomInt(1, 1000);
             // should implement a Range for the property ZMin and type ElementLayer
             // should implement a Range for the property ZMax and type ElementLayer
+            //Error: property [Element] and type [ElementLayer] is  not implemented
 
             return elementLayer;
         }

@@ -932,18 +932,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MWQMSampleWeb fields should not be null and MWQMSampleReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVItemLanguage);
+                Assert.IsNotNull(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText));
@@ -953,18 +944,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MWQMSampleWeb and MWQMSampleReport fields should NOT be null here
-                if (mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVText));
-                }
-                if (mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVText));
-                }
-                if (mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSampleList[0].MWQMSampleWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(mwqmSampleList[0].MWQMSampleWeb.MWQMRunTVItemLanguage);
+                Assert.IsNotNull(mwqmSampleList[0].MWQMSampleWeb.LastUpdateContactTVItemLanguage);
                 if (mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleList[0].MWQMSampleWeb.SampleType_oldText));

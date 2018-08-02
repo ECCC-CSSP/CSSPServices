@@ -98,6 +98,8 @@ namespace CSSPServices.Tests
         {
             LabSheetAndA1Sheet labSheetAndA1Sheet = new LabSheetAndA1Sheet();
 
+            //Error: property [LabSheet] and type [LabSheetAndA1Sheet] is  not implemented
+            //Error: property [LabSheetA1Sheet] and type [LabSheetAndA1Sheet] is  not implemented
 
             return labSheetAndA1Sheet;
         }

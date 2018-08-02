@@ -34,14 +34,14 @@ namespace CSSPServices
         private IQueryable<SamplingPlanSubsector> FillSamplingPlanSubsectorReport(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery)
         {
             samplingPlanSubsectorQuery = (from c in samplingPlanSubsectorQuery
-                                          let SubsectorTVText = (from cl in db.TVItemLanguages
-                                                                 where cl.TVItemID == c.SubsectorTVItemID
-                                                                 && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
-                                          let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                         where cl.TVItemID == c.LastUpdateContactTVItemID
+                                          let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                         where cl.TVItemID == c.SubsectorTVItemID
                                                                          && cl.Language == LanguageRequest
-                                                                         select cl.TVText).FirstOrDefault()
+                                                                         select cl).FirstOrDefault()
+                                          let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                                 && cl.Language == LanguageRequest
+                                                                                 select cl).FirstOrDefault()
                                           select new SamplingPlanSubsector
                                           {
                                               SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
@@ -51,8 +51,8 @@ namespace CSSPServices
                                               LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                               SamplingPlanSubsectorWeb = new SamplingPlanSubsectorWeb
                                               {
-                                                  SubsectorTVText = SubsectorTVText,
-                                                  LastUpdateContactTVText = LastUpdateContactTVText,
+                                                  SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                                                  LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                               },
                                               SamplingPlanSubsectorReport = new SamplingPlanSubsectorReport
                                               {

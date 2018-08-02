@@ -1062,14 +1062,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // VPScenarioWeb fields should not be null and VPScenarioReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));
@@ -1079,14 +1073,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // VPScenarioWeb and VPScenarioReport fields should NOT be null here
-                if (vpScenarioList[0].VPScenarioWeb.SubsectorTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.SubsectorTVText));
-                }
-                if (vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVItemLanguage);
                 if (vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));

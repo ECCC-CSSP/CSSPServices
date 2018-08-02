@@ -38,18 +38,18 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
             tvItemLinkQuery = (from c in tvItemLinkQuery
-                               let FromTVText = (from cl in db.TVItemLanguages
-                                                 where cl.TVItemID == c.FromTVItemID
-                                                 && cl.Language == LanguageRequest
-                                                 select cl.TVText).FirstOrDefault()
-                               let ToTVText = (from cl in db.TVItemLanguages
-                                               where cl.TVItemID == c.ToTVItemID
-                                               && cl.Language == LanguageRequest
-                                               select cl.TVText).FirstOrDefault()
-                               let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl.TVText).FirstOrDefault()
+                               let FromTVItemLanguage = (from cl in db.TVItemLanguages
+                                                         where cl.TVItemID == c.FromTVItemID
+                                                         && cl.Language == LanguageRequest
+                                                         select cl).FirstOrDefault()
+                               let ToTVItemLanguage = (from cl in db.TVItemLanguages
+                                                       where cl.TVItemID == c.ToTVItemID
+                                                       && cl.Language == LanguageRequest
+                                                       select cl).FirstOrDefault()
+                               let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                      where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                      && cl.Language == LanguageRequest
+                                                                      select cl).FirstOrDefault()
                                select new TVItemLink
                                {
                                    TVItemLinkID = c.TVItemLinkID,
@@ -67,9 +67,9 @@ namespace CSSPServices
                                    LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                    TVItemLinkWeb = new TVItemLinkWeb
                                    {
-                                       FromTVText = FromTVText,
-                                       ToTVText = ToTVText,
-                                       LastUpdateContactTVText = LastUpdateContactTVText,
+                                       FromTVItemLanguage = FromTVItemLanguage,
+                                       ToTVItemLanguage = ToTVItemLanguage,
+                                       LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                        FromTVTypeText = (from e in TVTypeEnumList
                                                          where e.EnumID == (int?)c.FromTVType
                                                          select e.EnumText).FirstOrDefault(),

@@ -101,6 +101,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
             // should implement a Range for the property SeeOtherTVItemID and type TVItemInfrastructureTypeTVItemLink
             if (OmitPropName != "InfrastructureTypeText") tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText = GetRandomString("", 5);
+            //Error: property [TVItem] and type [TVItemInfrastructureTypeTVItemLink] is  not implemented
+            //Error: property [TVItemLinkList] and type [TVItemInfrastructureTypeTVItemLink] is  not implemented
+            //Error: property [FlowTo] and type [TVItemInfrastructureTypeTVItemLink] is  not implemented
 
             return tvItemInfrastructureTypeTVItemLink;
         }

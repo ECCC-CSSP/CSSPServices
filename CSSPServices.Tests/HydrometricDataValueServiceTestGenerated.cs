@@ -701,10 +701,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // HydrometricDataValueWeb fields should not be null and HydrometricDataValueReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText));
@@ -714,10 +711,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // HydrometricDataValueWeb and HydrometricDataValueReport fields should NOT be null here
-                if (hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(hydrometricDataValueList[0].HydrometricDataValueWeb.LastUpdateContactTVItemLanguage);
                 if (hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueList[0].HydrometricDataValueWeb.StorageDataTypeText));

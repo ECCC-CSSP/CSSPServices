@@ -94,6 +94,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVLocationSubTVTypeText, "100"), new[] { "SubTVTypeText" });
             }
 
+                //Error: Type not implemented [MapObjList] of type [List`1]
+
+                //Error: Type not implemented [MapObjList] of type [MapObj]
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

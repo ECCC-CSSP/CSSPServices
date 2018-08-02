@@ -234,10 +234,10 @@ namespace CSSPServices
         private IQueryable<MWQMLookupMPN> FillMWQMLookupMPNWeb(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery)
         {
             mwqmLookupMPNQuery = (from c in mwqmLookupMPNQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MWQMLookupMPN
                     {
                         MWQMLookupMPNID = c.MWQMLookupMPNID,
@@ -249,7 +249,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MWQMLookupMPNWeb = new MWQMLookupMPNWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         MWQMLookupMPNReport = null,
                         HasErrors = false,

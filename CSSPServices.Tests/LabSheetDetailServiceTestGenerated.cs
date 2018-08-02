@@ -1802,27 +1802,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // LabSheetDetailWeb fields should not be null and LabSheetDetailReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(labSheetDetailList[0].LabSheetDetailWeb.SubsectorTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailList[0].LabSheetDetailWeb.SubsectorTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(labSheetDetailList[0].LabSheetDetailWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailList[0].LabSheetDetailWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(labSheetDetailList[0].LabSheetDetailWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(labSheetDetailList[0].LabSheetDetailWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(labSheetDetailList[0].LabSheetDetailReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // LabSheetDetailWeb and LabSheetDetailReport fields should NOT be null here
-                if (labSheetDetailList[0].LabSheetDetailWeb.SubsectorTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailList[0].LabSheetDetailWeb.SubsectorTVText));
-                }
-                if (labSheetDetailList[0].LabSheetDetailWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailList[0].LabSheetDetailWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(labSheetDetailList[0].LabSheetDetailWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(labSheetDetailList[0].LabSheetDetailWeb.LastUpdateContactTVItemLanguage);
                 if (labSheetDetailList[0].LabSheetDetailReport.LabSheetDetailReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailList[0].LabSheetDetailReport.LabSheetDetailReportTest));

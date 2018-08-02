@@ -39,14 +39,14 @@ namespace CSSPServices
             List<EnumIDAndText> TVAuthEnumList = enums.GetEnumTextOrderedList(typeof(TVAuthEnum));
 
             tvTypeUserAuthorizationQuery = (from c in tvTypeUserAuthorizationQuery
-                                            let ContactTVText = (from cl in db.TVItemLanguages
+                                            let ContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                  where cl.TVItemID == c.ContactTVItemID
                                                                  && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
-                                            let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                                 select cl).FirstOrDefault()
+                                            let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                            where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                            && cl.Language == LanguageRequest
-                                                                           select cl.TVText).FirstOrDefault()
+                                                                           select cl).FirstOrDefault()
                                             select new TVTypeUserAuthorization
                                             {
                                                 TVTypeUserAuthorizationID = c.TVTypeUserAuthorizationID,
@@ -57,8 +57,8 @@ namespace CSSPServices
                                                 LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                                 TVTypeUserAuthorizationWeb = new TVTypeUserAuthorizationWeb
                                                 {
-                                                    ContactTVText = ContactTVText,
-                                                    LastUpdateContactTVText = LastUpdateContactTVText,
+                                                    ContactTVItemLanguage = ContactTVItemLanguage,
+                                                    LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                                     TVTypeText = (from e in TVTypeEnumList
                                                                   where e.EnumID == (int?)c.TVType
                                                                   select e.EnumText).FirstOrDefault(),

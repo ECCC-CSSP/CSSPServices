@@ -105,6 +105,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubTVType") tvLocation.SubTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "TVTypeText") tvLocation.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "SubTVTypeText") tvLocation.SubTVTypeText = GetRandomString("", 5);
+            //Error: property [MapObjList] and type [TVLocation] is  not implemented
 
             return tvLocation;
         }

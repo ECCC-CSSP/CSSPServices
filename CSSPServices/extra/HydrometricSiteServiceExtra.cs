@@ -34,14 +34,14 @@ namespace CSSPServices
         private IQueryable<HydrometricSite> FillHydrometricSiteReport(IQueryable<HydrometricSite> hydrometricSiteQuery)
         {
             hydrometricSiteQuery = (from c in hydrometricSiteQuery
-                                    let HydrometricTVText = (from cl in db.TVItemLanguages
+                                    let HydrometricTVItemLanguage = (from cl in db.TVItemLanguages
                                                              where cl.TVItemID == c.HydrometricSiteTVItemID
                                                              && cl.Language == LanguageRequest
-                                                             select cl.TVText).FirstOrDefault()
-                                    let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                             select cl).FirstOrDefault()
+                                    let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                    where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                    && cl.Language == LanguageRequest
-                                                                   select cl.TVText).FirstOrDefault()
+                                                                   select cl).FirstOrDefault()
                                     select new HydrometricSite
                                     {
                                         HydrometricSiteID = c.HydrometricSiteID,
@@ -66,8 +66,8 @@ namespace CSSPServices
                                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                         HydrometricSiteWeb = new HydrometricSiteWeb
                                         {
-                                            HydrometricTVText = HydrometricTVText,
-                                            LastUpdateContactTVText = LastUpdateContactTVText,
+                                            HydrometricTVItemLanguage = HydrometricTVItemLanguage,
+                                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                         },
                                         HydrometricSiteReport = new HydrometricSiteReport
                                         {

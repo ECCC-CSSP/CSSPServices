@@ -34,10 +34,10 @@ namespace CSSPServices
         private IQueryable<ContactShortcut> FillContactShortcutReport(IQueryable<ContactShortcut> contactShortcutQuery)
         {
             contactShortcutQuery = (from c in contactShortcutQuery
-                                    let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                    let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                    where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                    && cl.Language == LanguageRequest
-                                                                   select cl.TVText).FirstOrDefault()
+                                                                   select cl).FirstOrDefault()
                                     select new ContactShortcut
                                     {
                                         ContactShortcutID = c.ContactShortcutID,
@@ -48,7 +48,7 @@ namespace CSSPServices
                                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                         ContactShortcutWeb = new ContactShortcutWeb
                                         {
-                                            LastUpdateContactTVText = LastUpdateContactTVText,
+                                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                         },
                                         ContactShortcutReport = new ContactShortcutReport
                                         {

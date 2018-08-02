@@ -962,22 +962,10 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // SamplingPlanWeb fields should not be null and SamplingPlanReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.ProvinceTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.ProvinceTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.CreatorTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.CreatorTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.SamplingPlanFileTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.SamplingPlanFileTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.ProvinceTVItemLanguage);
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.CreatorTVItemLanguage);
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.SamplingPlanFileTVItemLanguage);
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.SampleTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.SampleTypeText));
@@ -995,22 +983,10 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // SamplingPlanWeb and SamplingPlanReport fields should NOT be null here
-                if (samplingPlanList[0].SamplingPlanWeb.ProvinceTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.ProvinceTVText));
-                }
-                if (samplingPlanList[0].SamplingPlanWeb.CreatorTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.CreatorTVText));
-                }
-                if (samplingPlanList[0].SamplingPlanWeb.SamplingPlanFileTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.SamplingPlanFileTVText));
-                }
-                if (samplingPlanList[0].SamplingPlanWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.ProvinceTVItemLanguage);
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.CreatorTVItemLanguage);
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.SamplingPlanFileTVItemLanguage);
+                Assert.IsNotNull(samplingPlanList[0].SamplingPlanWeb.LastUpdateContactTVItemLanguage);
                 if (samplingPlanList[0].SamplingPlanWeb.SampleTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanList[0].SamplingPlanWeb.SampleTypeText));

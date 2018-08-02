@@ -242,14 +242,14 @@ namespace CSSPServices
         private IQueryable<MikeSource> FillMikeSourceWeb(IQueryable<MikeSource> mikeSourceQuery)
         {
             mikeSourceQuery = (from c in mikeSourceQuery
-                let MikeSourceTVText = (from cl in db.TVItemLanguages
+                let MikeSourceTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeSourceTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MikeSource
                     {
                         MikeSourceID = c.MikeSourceID,
@@ -262,8 +262,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MikeSourceWeb = new MikeSourceWeb
                         {
-                            MikeSourceTVText = MikeSourceTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MikeSourceTVItemLanguage = MikeSourceTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         MikeSourceReport = null,
                         HasErrors = false,

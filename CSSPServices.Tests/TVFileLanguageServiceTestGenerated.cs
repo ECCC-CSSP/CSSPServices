@@ -666,10 +666,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TVFileLanguageWeb fields should not be null and TVFileLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tvFileLanguageList[0].TVFileLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageList[0].TVFileLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvFileLanguageList[0].TVFileLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(tvFileLanguageList[0].TVFileLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageList[0].TVFileLanguageWeb.LanguageText));
@@ -683,10 +680,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TVFileLanguageWeb and TVFileLanguageReport fields should NOT be null here
-                if (tvFileLanguageList[0].TVFileLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageList[0].TVFileLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvFileLanguageList[0].TVFileLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (tvFileLanguageList[0].TVFileLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageList[0].TVFileLanguageWeb.LanguageText));

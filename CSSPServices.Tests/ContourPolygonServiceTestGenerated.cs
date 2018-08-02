@@ -101,6 +101,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "Layer") contourPolygon.Layer = GetRandomInt(1, 100);
             if (OmitPropName != "Depth") contourPolygon.Depth = GetRandomDouble(1.0D, 10000.0D);
+            //Error: property [ContourNodeList] and type [ContourPolygon] is  not implemented
 
             return contourPolygon;
         }

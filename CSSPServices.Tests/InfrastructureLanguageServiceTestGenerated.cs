@@ -671,10 +671,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // InfrastructureLanguageWeb fields should not be null and InfrastructureLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText));
@@ -688,10 +685,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // InfrastructureLanguageWeb and InfrastructureLanguageReport fields should NOT be null here
-                if (infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(infrastructureLanguageList[0].InfrastructureLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageList[0].InfrastructureLanguageWeb.LanguageText));

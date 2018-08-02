@@ -102,6 +102,13 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 6);
             if (OmitPropName != "TVItemID") cSSPWQInputParam.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "CSSPWQInputTypeText") cSSPWQInputParam.CSSPWQInputTypeText = GetRandomString("", 5);
+            if (OmitPropName != "sidList") cSSPWQInputParam.sidList = new List<string>() { GetRandomString("", 20), GetRandomString("", 20) };
+            if (OmitPropName != "MWQMSiteList") cSSPWQInputParam.MWQMSiteList = new List<string>() { GetRandomString("", 20), GetRandomString("", 20) };
+            // should implement a Range for the property MWQMSiteTVItemIDList and type CSSPWQInputParam
+            if (OmitPropName != "DailyDuplicateMWQMSiteList") cSSPWQInputParam.DailyDuplicateMWQMSiteList = new List<string>() { GetRandomString("", 20), GetRandomString("", 20) };
+            // should implement a Range for the property DailyDuplicateMWQMSiteTVItemIDList and type CSSPWQInputParam
+            if (OmitPropName != "InfrastructureList") cSSPWQInputParam.InfrastructureList = new List<string>() { GetRandomString("", 20), GetRandomString("", 20) };
+            // should implement a Range for the property InfrastructureTVItemIDList and type CSSPWQInputParam
 
             return cSSPWQInputParam;
         }

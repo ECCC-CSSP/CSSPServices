@@ -648,27 +648,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // SamplingPlanSubsectorWeb fields should not be null and SamplingPlanSubsectorReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // SamplingPlanSubsectorWeb and SamplingPlanSubsectorReport fields should NOT be null here
-                if (samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVText));
-                }
-                if (samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(samplingPlanSubsectorList[0].SamplingPlanSubsectorWeb.LastUpdateContactTVItemLanguage);
                 if (samplingPlanSubsectorList[0].SamplingPlanSubsectorReport.SamplingPlanSubsectorReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorList[0].SamplingPlanSubsectorReport.SamplingPlanSubsectorReportTest));

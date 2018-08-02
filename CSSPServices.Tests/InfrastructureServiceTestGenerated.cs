@@ -1605,22 +1605,16 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // InfrastructureWeb fields should not be null and InfrastructureReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTVText))
+                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.InfrastructureTVItemLanguage);
+                if (infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTVText));
+                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage);
                 }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SeeOtherTVText))
+                if (infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SeeOtherTVText));
+                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage);
                 }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CivicAddressTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CivicAddressTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText));
@@ -1670,22 +1664,16 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // InfrastructureWeb and InfrastructureReport fields should NOT be null here
-                if (infrastructureList[0].InfrastructureWeb.InfrastructureTVText != null)
+                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.InfrastructureTVItemLanguage);
+                if (infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTVText));
+                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage);
                 }
-                if (infrastructureList[0].InfrastructureWeb.SeeOtherTVText != null)
+                if (infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SeeOtherTVText));
+                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage);
                 }
-                if (infrastructureList[0].InfrastructureWeb.CivicAddressTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CivicAddressTVText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVItemLanguage);
                 if (infrastructureList[0].InfrastructureWeb.InfrastructureTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText));

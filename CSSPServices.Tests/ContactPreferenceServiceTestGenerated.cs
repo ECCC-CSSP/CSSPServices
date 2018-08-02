@@ -662,10 +662,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ContactPreferenceWeb fields should not be null and ContactPreferenceReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.TVTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.TVTypeText));
@@ -675,10 +672,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ContactPreferenceWeb and ContactPreferenceReport fields should NOT be null here
-                if (contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(contactPreferenceList[0].ContactPreferenceWeb.LastUpdateContactTVItemLanguage);
                 if (contactPreferenceList[0].ContactPreferenceWeb.TVTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceList[0].ContactPreferenceWeb.TVTypeText));

@@ -263,14 +263,14 @@ namespace CSSPServices
             List<EnumIDAndText> EmailTypeEnumList = enums.GetEnumTextOrderedList(typeof(EmailTypeEnum));
 
             emailQuery = (from c in emailQuery
-                let EmailTVText = (from cl in db.TVItemLanguages
+                let EmailTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.EmailTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new Email
                     {
                         EmailID = c.EmailID,
@@ -281,8 +281,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         EmailWeb = new EmailWeb
                         {
-                            EmailTVText = EmailTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            EmailTVItemLanguage = EmailTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             EmailTypeText = (from e in EmailTypeEnumList
                                 where e.EnumID == (int?)c.EmailType
                                 select e.EnumText).FirstOrDefault(),

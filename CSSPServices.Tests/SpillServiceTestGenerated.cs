@@ -716,35 +716,17 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // SpillWeb fields should not be null and SpillReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(spillList[0].SpillWeb.MunicipalityTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillList[0].SpillWeb.MunicipalityTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(spillList[0].SpillWeb.InfrastructureTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillList[0].SpillWeb.InfrastructureTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(spillList[0].SpillWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillList[0].SpillWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(spillList[0].SpillWeb.MunicipalityTVItemLanguage);
+                Assert.IsNotNull(spillList[0].SpillWeb.InfrastructureTVItemLanguage);
+                Assert.IsNotNull(spillList[0].SpillWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(spillList[0].SpillReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // SpillWeb and SpillReport fields should NOT be null here
-                if (spillList[0].SpillWeb.MunicipalityTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillList[0].SpillWeb.MunicipalityTVText));
-                }
-                if (spillList[0].SpillWeb.InfrastructureTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillList[0].SpillWeb.InfrastructureTVText));
-                }
-                if (spillList[0].SpillWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(spillList[0].SpillWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(spillList[0].SpillWeb.MunicipalityTVItemLanguage);
+                Assert.IsNotNull(spillList[0].SpillWeb.InfrastructureTVItemLanguage);
+                Assert.IsNotNull(spillList[0].SpillWeb.LastUpdateContactTVItemLanguage);
                 if (spillList[0].SpillReport.SpillReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(spillList[0].SpillReport.SpillReportTest));

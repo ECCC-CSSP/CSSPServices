@@ -685,6 +685,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetA1SheetLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
             }
 
+                //Error: Type not implemented [LabSheetA1MeasurementList] of type [List`1]
+
+                //Error: Type not implemented [LabSheetA1MeasurementList] of type [LabSheetA1Measurement]
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

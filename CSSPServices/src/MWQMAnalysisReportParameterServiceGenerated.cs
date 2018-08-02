@@ -416,14 +416,14 @@ namespace CSSPServices
             List<EnumIDAndText> AnalysisReportExportCommandEnumList = enums.GetEnumTextOrderedList(typeof(AnalysisReportExportCommandEnum));
 
             mwqmAnalysisReportParameterQuery = (from c in mwqmAnalysisReportParameterQuery
-                let ExcelTVFileTVText = (from cl in db.TVItemLanguages
+                let ExcelTVFileTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ExcelTVFileTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MWQMAnalysisReportParameter
                     {
                         MWQMAnalysisReportParameterID = c.MWQMAnalysisReportParameterID,
@@ -454,11 +454,11 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MWQMAnalysisReportParameterWeb = new MWQMAnalysisReportParameterWeb
                         {
-                            ExcelTVFileTVText = ExcelTVFileTVText,
+                            ExcelTVFileTVItemLanguage = ExcelTVFileTVItemLanguage,
                             CommandText = (from e in AnalysisReportExportCommandEnumList
                                 where e.EnumID == (int?)c.Command
                                 select e.EnumText).FirstOrDefault(),
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         MWQMAnalysisReportParameterReport = null,
                         HasErrors = false,

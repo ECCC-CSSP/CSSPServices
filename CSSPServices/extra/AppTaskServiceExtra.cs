@@ -40,18 +40,18 @@ namespace CSSPServices
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
 
             appTaskQuery = (from c in appTaskQuery
-                            let TVItemTVText = (from cl in db.TVItemLanguages
-                                                where cl.TVItemID == c.TVItemID
-                                                && cl.Language == LanguageRequest
-                                                select cl.TVText).FirstOrDefault()
-                            let TVItem2TVText = (from cl in db.TVItemLanguages
-                                                 where cl.TVItemID == c.TVItemID2
-                                                 && cl.Language == LanguageRequest
-                                                 select cl.TVText).FirstOrDefault()
-                            let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                           where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                           && cl.Language == LanguageRequest
-                                                           select cl.TVText).FirstOrDefault()
+                            let TVItemTVItemLanguage = (from cl in db.TVItemLanguages
+                                                        where cl.TVItemID == c.TVItemID
+                                                        && cl.Language == LanguageRequest
+                                                        select cl).FirstOrDefault()
+                            let TVItem2TVItemLanguage = (from cl in db.TVItemLanguages
+                                                         where cl.TVItemID == c.TVItemID2
+                                                         && cl.Language == LanguageRequest
+                                                         select cl).FirstOrDefault()
+                            let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                   where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                   && cl.Language == LanguageRequest
+                                                                   select cl).FirstOrDefault()
                             select new AppTask
                             {
                                 AppTaskID = c.AppTaskID,
@@ -70,9 +70,9 @@ namespace CSSPServices
                                 LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                 AppTaskWeb = new AppTaskWeb
                                 {
-                                    TVItemTVText = TVItemTVText,
-                                    TVItem2TVText = TVItem2TVText,
-                                    LastUpdateContactTVText = LastUpdateContactTVText,
+                                    TVItemTVItemLanguage = TVItemTVItemLanguage,
+                                    TVItem2TVItemLanguage = TVItem2TVItemLanguage,
+                                    LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                     AppTaskCommandText = (from e in AppTaskCommandEnumList
                                                           where e.EnumID == (int?)c.AppTaskCommand
                                                           select e.EnumText).FirstOrDefault(),

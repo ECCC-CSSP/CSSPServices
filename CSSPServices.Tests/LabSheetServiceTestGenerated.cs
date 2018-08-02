@@ -952,22 +952,10 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // LabSheetWeb fields should not be null and LabSheetReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SubsectorTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SubsectorTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.MWQMRunTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.MWQMRunTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.MWQMRunTVItemLanguage);
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVItemLanguage);
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SamplingPlanTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SamplingPlanTypeText));
@@ -989,22 +977,10 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // LabSheetWeb and LabSheetReport fields should NOT be null here
-                if (labSheetList[0].LabSheetWeb.SubsectorTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SubsectorTVText));
-                }
-                if (labSheetList[0].LabSheetWeb.MWQMRunTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.MWQMRunTVText));
-                }
-                if (labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVText));
-                }
-                if (labSheetList[0].LabSheetWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.MWQMRunTVItemLanguage);
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.AcceptedOrRejectedByContactTVItemLanguage);
+                Assert.IsNotNull(labSheetList[0].LabSheetWeb.LastUpdateContactTVItemLanguage);
                 if (labSheetList[0].LabSheetWeb.SamplingPlanTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetList[0].LabSheetWeb.SamplingPlanTypeText));

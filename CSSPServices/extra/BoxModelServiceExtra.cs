@@ -34,14 +34,14 @@ namespace CSSPServices
         private IQueryable<BoxModel> FillBoxModelReport(IQueryable<BoxModel> boxModelQuery)
         {
             boxModelQuery = (from c in boxModelQuery
-                             let InfrastructureTVText = (from cl in db.TVItemLanguages
-                                                         where cl.TVItemID == c.InfrastructureTVItemID
-                                                         && cl.Language == LanguageRequest
-                                                         select cl.TVText).FirstOrDefault()
-                             let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                            where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                            && cl.Language == LanguageRequest
-                                                            select cl.TVText).FirstOrDefault()
+                             let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                 where cl.TVItemID == c.InfrastructureTVItemID
+                                                                 && cl.Language == LanguageRequest
+                                                                 select cl).FirstOrDefault()
+                             let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                    && cl.Language == LanguageRequest
+                                                                    select cl).FirstOrDefault()
                              select new BoxModel
                              {
                                  BoxModelID = c.BoxModelID,
@@ -60,8 +60,8 @@ namespace CSSPServices
                                  LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                  BoxModelWeb = new BoxModelWeb
                                  {
-                                     InfrastructureTVText = InfrastructureTVText,
-                                     LastUpdateContactTVText = LastUpdateContactTVText,
+                                     InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
+                                     LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                  },
                                  BoxModelReport = new BoxModelReport
                                  {

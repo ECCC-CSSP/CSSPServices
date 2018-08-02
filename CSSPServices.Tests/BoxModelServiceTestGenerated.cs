@@ -852,27 +852,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // BoxModelWeb fields should not be null and BoxModelReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(boxModelList[0].BoxModelWeb.InfrastructureTVItemLanguage);
+                Assert.IsNotNull(boxModelList[0].BoxModelWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(boxModelList[0].BoxModelReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // BoxModelWeb and BoxModelReport fields should NOT be null here
-                if (boxModelList[0].BoxModelWeb.InfrastructureTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.InfrastructureTVText));
-                }
-                if (boxModelList[0].BoxModelWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(boxModelList[0].BoxModelWeb.InfrastructureTVItemLanguage);
+                Assert.IsNotNull(boxModelList[0].BoxModelWeb.LastUpdateContactTVItemLanguage);
                 if (boxModelList[0].BoxModelReport.BoxModelReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelList[0].BoxModelReport.BoxModelReportTest));

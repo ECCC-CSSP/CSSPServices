@@ -38,30 +38,30 @@ namespace CSSPServices
             List<EnumIDAndText> TVAuthEnumList = enums.GetEnumTextOrderedList(typeof(TVAuthEnum));
 
             tvItemUserAuthorizationQuery = (from c in tvItemUserAuthorizationQuery
-                                            let ContactTVText = (from cl in db.TVItemLanguages
-                                                                 where cl.TVItemID == c.ContactTVItemID
-                                                                 && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
-                                            let TVText1 = (from cl in db.TVItemLanguages
-                                                           where cl.TVItemID == c.TVItemID1
-                                                           && cl.Language == LanguageRequest
-                                                           select cl.TVText).FirstOrDefault()
-                                            let TVText2 = (from cl in db.TVItemLanguages
-                                                           where cl.TVItemID == c.TVItemID2
-                                                           && cl.Language == LanguageRequest
-                                                           select cl.TVText).FirstOrDefault()
-                                            let TVText3 = (from cl in db.TVItemLanguages
-                                                           where cl.TVItemID == c.TVItemID3
-                                                           && cl.Language == LanguageRequest
-                                                           select cl.TVText).FirstOrDefault()
-                                            let TVText4 = (from cl in db.TVItemLanguages
-                                                           where cl.TVItemID == c.TVItemID4
-                                                           && cl.Language == LanguageRequest
-                                                           select cl.TVText).FirstOrDefault()
-                                            let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                           where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                           && cl.Language == LanguageRequest
-                                                                           select cl.TVText).FirstOrDefault()
+                                            let ContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                         where cl.TVItemID == c.ContactTVItemID
+                                                                         && cl.Language == LanguageRequest
+                                                                         select cl).FirstOrDefault()
+                                            let TVItemLanguage1 = (from cl in db.TVItemLanguages
+                                                                   where cl.TVItemID == c.TVItemID1
+                                                                   && cl.Language == LanguageRequest
+                                                                   select cl).FirstOrDefault()
+                                            let TVItemLanguage2 = (from cl in db.TVItemLanguages
+                                                                   where cl.TVItemID == c.TVItemID2
+                                                                   && cl.Language == LanguageRequest
+                                                                   select cl).FirstOrDefault()
+                                            let TVItemLanguage3 = (from cl in db.TVItemLanguages
+                                                                   where cl.TVItemID == c.TVItemID3
+                                                                   && cl.Language == LanguageRequest
+                                                                   select cl).FirstOrDefault()
+                                            let TVItemLanguage4 = (from cl in db.TVItemLanguages
+                                                                   where cl.TVItemID == c.TVItemID4
+                                                                   && cl.Language == LanguageRequest
+                                                                   select cl).FirstOrDefault()
+                                            let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                                   where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                                   && cl.Language == LanguageRequest
+                                                                                   select cl).FirstOrDefault()
                                             select new TVItemUserAuthorization
                                             {
                                                 TVItemUserAuthorizationID = c.TVItemUserAuthorizationID,
@@ -75,12 +75,12 @@ namespace CSSPServices
                                                 LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                                 TVItemUserAuthorizationWeb = new TVItemUserAuthorizationWeb
                                                 {
-                                                    ContactTVText = ContactTVText,
-                                                    TVText1 = TVText1,
-                                                    TVText2 = TVText2,
-                                                    TVText3 = TVText3,
-                                                    TVText4 = TVText4,
-                                                    LastUpdateContactTVText = LastUpdateContactTVText,
+                                                    ContactTVItemLanguage = ContactTVItemLanguage,
+                                                    TVItemLanguage1 = TVItemLanguage1,
+                                                    TVItemLanguage2 = TVItemLanguage2,
+                                                    TVItemLanguage3 = TVItemLanguage3,
+                                                    TVItemLanguage4 = TVItemLanguage4,
+                                                    LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                                     TVAuthText = (from e in TVAuthEnumList
                                                                   where e.EnumID == (int?)c.TVAuth
                                                                   select e.EnumText).FirstOrDefault(),

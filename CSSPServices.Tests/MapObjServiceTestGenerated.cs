@@ -101,6 +101,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MapInfoID") mapObj.MapInfoID = GetRandomInt(1, 11);
             if (OmitPropName != "MapInfoDrawType") mapObj.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
             if (OmitPropName != "MapInfoDrawTypeText") mapObj.MapInfoDrawTypeText = GetRandomString("", 5);
+            //Error: property [CoordList] and type [MapObj] is  not implemented
 
             return mapObj;
         }

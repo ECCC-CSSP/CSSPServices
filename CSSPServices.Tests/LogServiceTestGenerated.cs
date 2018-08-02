@@ -679,10 +679,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // LogWeb fields should not be null and LogReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(logList[0].LogWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(logList[0].LogWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(logList[0].LogWeb.LogCommandText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LogCommandText));
@@ -692,10 +689,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // LogWeb and LogReport fields should NOT be null here
-                if (logList[0].LogWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(logList[0].LogWeb.LastUpdateContactTVItemLanguage);
                 if (logList[0].LogWeb.LogCommandText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(logList[0].LogWeb.LogCommandText));

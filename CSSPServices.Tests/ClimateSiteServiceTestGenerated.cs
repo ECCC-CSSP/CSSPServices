@@ -979,27 +979,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ClimateSiteWeb fields should not be null and ClimateSiteReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteWeb.ClimateSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteWeb.ClimateSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.ClimateSiteTVItemLanguage);
+                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(climateSiteList[0].ClimateSiteReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ClimateSiteWeb and ClimateSiteReport fields should NOT be null here
-                if (climateSiteList[0].ClimateSiteWeb.ClimateSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteWeb.ClimateSiteTVText));
-                }
-                if (climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.ClimateSiteTVItemLanguage);
+                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVItemLanguage);
                 if (climateSiteList[0].ClimateSiteReport.ClimateSiteReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteReport.ClimateSiteReportTest));

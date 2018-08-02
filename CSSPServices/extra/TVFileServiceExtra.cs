@@ -41,14 +41,14 @@ namespace CSSPServices
             List<EnumIDAndText> FileTypeEnumList = enums.GetEnumTextOrderedList(typeof(FileTypeEnum));
 
             tvFileQuery = (from c in tvFileQuery
-                           let TVFileTVText = (from cl in db.TVItemLanguages
-                                               where cl.TVItemID == c.TVFileTVItemID
-                                               && cl.Language == LanguageRequest
-                                               select cl.TVText).FirstOrDefault()
-                           let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                          where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                          && cl.Language == LanguageRequest
-                                                          select cl.TVText).FirstOrDefault()
+                           let TVFileTVItemLanguage = (from cl in db.TVItemLanguages
+                                                       where cl.TVItemID == c.TVFileTVItemID
+                                                       && cl.Language == LanguageRequest
+                                                       select cl).FirstOrDefault()
+                           let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                  where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                  && cl.Language == LanguageRequest
+                                                                  select cl).FirstOrDefault()
                            select new TVFile
                            {
                                TVFileID = c.TVFileID,
@@ -68,8 +68,8 @@ namespace CSSPServices
                                LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                TVFileWeb = new TVFileWeb
                                {
-                                   TVFileTVText = TVFileTVText,
-                                   LastUpdateContactTVText = LastUpdateContactTVText,
+                                   TVFileTVItemLanguage = TVFileTVItemLanguage,
+                                   LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                    TemplateTVTypeText = (from e in TVTypeEnumList
                                                          where e.EnumID == (int?)c.TemplateTVType
                                                          select e.EnumText).FirstOrDefault(),

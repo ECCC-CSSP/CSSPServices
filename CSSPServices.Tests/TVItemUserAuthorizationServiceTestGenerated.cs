@@ -737,30 +737,21 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TVItemUserAuthorizationWeb fields should not be null and TVItemUserAuthorizationReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.ContactTVText))
+                Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage1);
+                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage2 != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.ContactTVText));
+                    Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage2);
                 }
-                if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText1))
+                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage3 != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText1));
+                    Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage3);
                 }
-                if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText2))
+                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage4 != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText2));
+                    Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage4);
                 }
-                if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText3))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText3));
-                }
-                if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText4))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText4));
-                }
-                if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVAuthText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVAuthText));
@@ -770,30 +761,21 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TVItemUserAuthorizationWeb and TVItemUserAuthorizationReport fields should NOT be null here
-                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.ContactTVText != null)
+                Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.ContactTVItemLanguage);
+                Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage1);
+                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage2 != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.ContactTVText));
+                    Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage2);
                 }
-                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText1 != null)
+                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage3 != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText1));
+                    Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage3);
                 }
-                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText2 != null)
+                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage4 != null)
                 {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText2));
+                    Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVItemLanguage4);
                 }
-                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText3 != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText3));
-                }
-                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText4 != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVText4));
-                }
-                if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.LastUpdateContactTVItemLanguage);
                 if (tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVAuthText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationList[0].TVItemUserAuthorizationWeb.TVAuthText));

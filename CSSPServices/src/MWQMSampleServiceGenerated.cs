@@ -365,18 +365,18 @@ namespace CSSPServices
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
             mwqmSampleQuery = (from c in mwqmSampleQuery
-                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let MWQMRunTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let MWQMRunTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMRunTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new MWQMSample
                     {
                         MWQMSampleID = c.MWQMSampleID,
@@ -399,9 +399,9 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         MWQMSampleWeb = new MWQMSampleWeb
                         {
-                            MWQMSiteTVText = MWQMSiteTVText,
-                            MWQMRunTVText = MWQMRunTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                            MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             SampleType_oldText = (from e in SampleTypeEnumList
                                 where e.EnumID == (int?)c.SampleType_old
                                 select e.EnumText).FirstOrDefault(),

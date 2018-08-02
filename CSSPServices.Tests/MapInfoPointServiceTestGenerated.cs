@@ -690,19 +690,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MapInfoPointWeb fields should not be null and MapInfoPointReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(mapInfoPointList[0].MapInfoPointReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MapInfoPointWeb and MapInfoPointReport fields should NOT be null here
-                if (mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mapInfoPointList[0].MapInfoPointWeb.LastUpdateContactTVItemLanguage);
                 if (mapInfoPointList[0].MapInfoPointReport.MapInfoPointReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointList[0].MapInfoPointReport.MapInfoPointReportTest));

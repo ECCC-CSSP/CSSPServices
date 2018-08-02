@@ -678,10 +678,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // BoxModelLanguageWeb fields should not be null and BoxModelLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText));
@@ -695,10 +692,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // BoxModelLanguageWeb and BoxModelLanguageReport fields should NOT be null here
-                if (boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(boxModelLanguageList[0].BoxModelLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageList[0].BoxModelLanguageWeb.LanguageText));

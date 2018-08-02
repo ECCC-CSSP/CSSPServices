@@ -676,19 +676,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // RatingCurveValueWeb fields should not be null and RatingCurveValueReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(ratingCurveValueList[0].RatingCurveValueReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // RatingCurveValueWeb and RatingCurveValueReport fields should NOT be null here
-                if (ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVItemLanguage);
                 if (ratingCurveValueList[0].RatingCurveValueReport.RatingCurveValueReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueReport.RatingCurveValueReportTest));

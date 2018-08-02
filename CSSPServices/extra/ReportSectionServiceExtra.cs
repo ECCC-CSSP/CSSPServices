@@ -38,18 +38,18 @@ namespace CSSPServices
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
             ReportSectionQuery = (from c in ReportSectionQuery
-                                  let LastUpdateContactTVText = (from cl in db.TVItemLanguages
-                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                 && cl.Language == LanguageRequest
-                                                                 select cl.TVText).FirstOrDefault()
+                                  let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                                                                         where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                                         && cl.Language == LanguageRequest
+                                                                         select cl).FirstOrDefault()
                                   let ReportSectionName = (from cl in db.ReportSectionLanguages
                                                            where cl.ReportSectionID == c.ReportSectionID
                                                            && cl.Language == LanguageRequest
-                                                           select cl.ReportSectionName).FirstOrDefault()
+                                                           select cl).FirstOrDefault()
                                   let ReportSectionText = (from cl in db.ReportSectionLanguages
                                                            where cl.ReportSectionID == c.ReportSectionID
                                                            && cl.Language == LanguageRequest
-                                                           select cl.ReportSectionText).FirstOrDefault()
+                                                           select cl).FirstOrDefault()
                                   select new ReportSection
                                {
                                    ReportSectionID = c.ReportSectionID,
@@ -65,7 +65,7 @@ namespace CSSPServices
                                    LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                    ReportSectionWeb = new ReportSectionWeb
                                    {
-                                       LastUpdateContactTVText = LastUpdateContactTVText,
+                                       LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                        ReportSectionName = ReportSectionName,
                                        ReportSectionText = ReportSectionText,
                                    },

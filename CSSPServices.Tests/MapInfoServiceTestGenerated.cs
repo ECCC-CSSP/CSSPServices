@@ -758,14 +758,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MapInfoWeb fields should not be null and MapInfoReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mapInfoList[0].MapInfoWeb.TVItemLanguage);
+                Assert.IsNotNull(mapInfoList[0].MapInfoWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText));
@@ -779,14 +773,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MapInfoWeb and MapInfoReport fields should NOT be null here
-                if (mapInfoList[0].MapInfoWeb.TVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVText));
-                }
-                if (mapInfoList[0].MapInfoWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mapInfoList[0].MapInfoWeb.TVItemLanguage);
+                Assert.IsNotNull(mapInfoList[0].MapInfoWeb.LastUpdateContactTVItemLanguage);
                 if (mapInfoList[0].MapInfoWeb.TVTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoList[0].MapInfoWeb.TVTypeText));

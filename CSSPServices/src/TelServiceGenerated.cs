@@ -253,14 +253,14 @@ namespace CSSPServices
             List<EnumIDAndText> TelTypeEnumList = enums.GetEnumTextOrderedList(typeof(TelTypeEnum));
 
             telQuery = (from c in telQuery
-                let TelTVText = (from cl in db.TVItemLanguages
+                let TelTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TelTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new Tel
                     {
                         TelID = c.TelID,
@@ -271,8 +271,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         TelWeb = new TelWeb
                         {
-                            TelTVText = TelTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            TelTVItemLanguage = TelTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             TelTypeText = (from e in TelTypeEnumList
                                 where e.EnumID == (int?)c.TelType
                                 select e.EnumText).FirstOrDefault(),

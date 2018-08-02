@@ -698,19 +698,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // AppErrLogWeb fields should not be null and AppErrLogReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(appErrLogList[0].AppErrLogWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(appErrLogList[0].AppErrLogReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // AppErrLogWeb and AppErrLogReport fields should NOT be null here
-                if (appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].AppErrLogWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(appErrLogList[0].AppErrLogWeb.LastUpdateContactTVItemLanguage);
                 if (appErrLogList[0].AppErrLogReport.AppErrLogTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogList[0].AppErrLogReport.AppErrLogTest));

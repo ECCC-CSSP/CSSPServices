@@ -712,14 +712,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MWQMSiteWeb fields should not be null and MWQMSiteReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText));
@@ -729,14 +723,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MWQMSiteWeb and MWQMSiteReport fields should NOT be null here
-                if (mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVText));
-                }
-                if (mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVItemLanguage);
+                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVItemLanguage);
                 if (mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText));

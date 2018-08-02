@@ -678,10 +678,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // VPScenarioLanguageWeb fields should not be null and VPScenarioLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LanguageText));
@@ -695,10 +692,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // VPScenarioLanguageWeb and VPScenarioLanguageReport fields should NOT be null here
-                if (vpScenarioLanguageList[0].VPScenarioLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (vpScenarioLanguageList[0].VPScenarioLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageList[0].VPScenarioLanguageWeb.LanguageText));

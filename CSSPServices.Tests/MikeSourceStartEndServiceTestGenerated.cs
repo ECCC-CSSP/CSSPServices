@@ -849,19 +849,13 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MikeSourceStartEndWeb fields should not be null and MikeSourceStartEndReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(mikeSourceStartEndList[0].MikeSourceStartEndReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MikeSourceStartEndWeb and MikeSourceStartEndReport fields should NOT be null here
-                if (mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeSourceStartEndList[0].MikeSourceStartEndWeb.LastUpdateContactTVItemLanguage);
                 if (mikeSourceStartEndList[0].MikeSourceStartEndReport.MikeSourceStartEndReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndList[0].MikeSourceStartEndReport.MikeSourceStartEndReportTest));

@@ -981,10 +981,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ClimateDataValueWeb fields should not be null and ClimateDataValueReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(climateDataValueList[0].ClimateDataValueWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueList[0].ClimateDataValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(climateDataValueList[0].ClimateDataValueWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(climateDataValueList[0].ClimateDataValueWeb.StorageDataTypeEnumText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueList[0].ClimateDataValueWeb.StorageDataTypeEnumText));
@@ -994,10 +991,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ClimateDataValueWeb and ClimateDataValueReport fields should NOT be null here
-                if (climateDataValueList[0].ClimateDataValueWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueList[0].ClimateDataValueWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(climateDataValueList[0].ClimateDataValueWeb.LastUpdateContactTVItemLanguage);
                 if (climateDataValueList[0].ClimateDataValueWeb.StorageDataTypeEnumText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueList[0].ClimateDataValueWeb.StorageDataTypeEnumText));

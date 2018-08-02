@@ -314,10 +314,10 @@ namespace CSSPServices
         private IQueryable<VPAmbient> FillVPAmbientWeb(IQueryable<VPAmbient> vpAmbientQuery)
         {
             vpAmbientQuery = (from c in vpAmbientQuery
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new VPAmbient
                     {
                         VPAmbientID = c.VPAmbientID,
@@ -337,7 +337,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         VPAmbientWeb = new VPAmbientWeb
                         {
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         },
                         VPAmbientReport = null,
                         HasErrors = false,

@@ -742,35 +742,17 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ReportSectionWeb fields should not be null and ReportSectionReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName));
-                }
-                if (!string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText));
-                }
+                Assert.IsNotNull(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVItemLanguage);
+                Assert.IsNotNull(reportSectionList[0].ReportSectionWeb.ReportSectionName);
+                Assert.IsNotNull(reportSectionList[0].ReportSectionWeb.ReportSectionText);
                 Assert.IsNull(reportSectionList[0].ReportSectionReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ReportSectionWeb and ReportSectionReport fields should NOT be null here
-                if (reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVText));
-                }
-                if (reportSectionList[0].ReportSectionWeb.ReportSectionName != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionName));
-                }
-                if (reportSectionList[0].ReportSectionWeb.ReportSectionText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionWeb.ReportSectionText));
-                }
+                Assert.IsNotNull(reportSectionList[0].ReportSectionWeb.LastUpdateContactTVItemLanguage);
+                Assert.IsNotNull(reportSectionList[0].ReportSectionWeb.ReportSectionName);
+                Assert.IsNotNull(reportSectionList[0].ReportSectionWeb.ReportSectionText);
                 if (reportSectionList[0].ReportSectionReport.ReportSectionReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(reportSectionList[0].ReportSectionReport.ReportSectionReportTest));

@@ -677,27 +677,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MikeSourceWeb fields should not be null and MikeSourceReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeSourceList[0].MikeSourceWeb.MikeSourceTVItemLanguage);
+                Assert.IsNotNull(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(mikeSourceList[0].MikeSourceReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MikeSourceWeb and MikeSourceReport fields should NOT be null here
-                if (mikeSourceList[0].MikeSourceWeb.MikeSourceTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.MikeSourceTVText));
-                }
-                if (mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mikeSourceList[0].MikeSourceWeb.MikeSourceTVItemLanguage);
+                Assert.IsNotNull(mikeSourceList[0].MikeSourceWeb.LastUpdateContactTVItemLanguage);
                 if (mikeSourceList[0].MikeSourceReport.MikeSourceReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceList[0].MikeSourceReport.MikeSourceReportTest));

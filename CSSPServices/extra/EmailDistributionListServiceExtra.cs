@@ -34,14 +34,14 @@ namespace CSSPServices
         private IQueryable<EmailDistributionList> FillEmailDistributionListReport(IQueryable<EmailDistributionList> emailDistributionListQuery)
         {
             emailDistributionListQuery = (from c in emailDistributionListQuery
-                                          let CountryTVText = (from cl in db.TVItemLanguages
+                                          let CountryTVItemLanguage = (from cl in db.TVItemLanguages
                                                                where cl.TVItemID == c.CountryTVItemID
                                                                && cl.Language == LanguageRequest
-                                                               select cl.TVText).FirstOrDefault()
-                                          let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                               select cl).FirstOrDefault()
+                                          let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                                                                          where cl.TVItemID == c.LastUpdateContactTVItemID
                                                                          && cl.Language == LanguageRequest
-                                                                         select cl.TVText).FirstOrDefault()
+                                                                         select cl).FirstOrDefault()
                                           select new EmailDistributionList
                                           {
                                               EmailDistributionListID = c.EmailDistributionListID,
@@ -51,8 +51,8 @@ namespace CSSPServices
                                               LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                               EmailDistributionListWeb = new EmailDistributionListWeb
                                               {
-                                                  CountryTVText = CountryTVText,
-                                                  LastUpdateContactTVText = LastUpdateContactTVText,
+                                                  CountryTVItemLanguage = CountryTVItemLanguage,
+                                                  LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                                               },
                                               EmailDistributionListReport = new EmailDistributionListReport
                                               {

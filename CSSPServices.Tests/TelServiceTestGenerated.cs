@@ -670,14 +670,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TelWeb fields should not be null and TelReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(telList[0].TelWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(telList[0].TelWeb.TelTVItemLanguage);
+                Assert.IsNotNull(telList[0].TelWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTypeText));
@@ -687,14 +681,8 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TelWeb and TelReport fields should NOT be null here
-                if (telList[0].TelWeb.TelTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTVText));
-                }
-                if (telList[0].TelWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(telList[0].TelWeb.TelTVItemLanguage);
+                Assert.IsNotNull(telList[0].TelWeb.LastUpdateContactTVItemLanguage);
                 if (telList[0].TelWeb.TelTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(telList[0].TelWeb.TelTypeText));

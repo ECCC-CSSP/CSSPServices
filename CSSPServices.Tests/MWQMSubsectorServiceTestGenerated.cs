@@ -673,27 +673,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // MWQMSubsectorWeb fields should not be null and MWQMSubsectorReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(mwqmSubsectorList[0].MWQMSubsectorWeb.SubsectorTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorList[0].MWQMSubsectorWeb.SubsectorTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(mwqmSubsectorList[0].MWQMSubsectorWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorList[0].MWQMSubsectorWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSubsectorList[0].MWQMSubsectorWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(mwqmSubsectorList[0].MWQMSubsectorWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(mwqmSubsectorList[0].MWQMSubsectorReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // MWQMSubsectorWeb and MWQMSubsectorReport fields should NOT be null here
-                if (mwqmSubsectorList[0].MWQMSubsectorWeb.SubsectorTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorList[0].MWQMSubsectorWeb.SubsectorTVText));
-                }
-                if (mwqmSubsectorList[0].MWQMSubsectorWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorList[0].MWQMSubsectorWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(mwqmSubsectorList[0].MWQMSubsectorWeb.SubsectorTVItemLanguage);
+                Assert.IsNotNull(mwqmSubsectorList[0].MWQMSubsectorWeb.LastUpdateContactTVItemLanguage);
                 if (mwqmSubsectorList[0].MWQMSubsectorReport.MWQMSubsectorReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorList[0].MWQMSubsectorReport.MWQMSubsectorReportTest));

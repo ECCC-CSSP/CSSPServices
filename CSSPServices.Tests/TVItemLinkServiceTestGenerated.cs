@@ -794,18 +794,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // TVItemLinkWeb fields should not be null and TVItemLinkReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.FromTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.FromTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.ToTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.ToTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvItemLinkList[0].TVItemLinkWeb.FromTVItemLanguage);
+                Assert.IsNotNull(tvItemLinkList[0].TVItemLinkWeb.ToTVItemLanguage);
+                Assert.IsNotNull(tvItemLinkList[0].TVItemLinkWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.FromTVTypeText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.FromTVTypeText));
@@ -819,18 +810,9 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // TVItemLinkWeb and TVItemLinkReport fields should NOT be null here
-                if (tvItemLinkList[0].TVItemLinkWeb.FromTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.FromTVText));
-                }
-                if (tvItemLinkList[0].TVItemLinkWeb.ToTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.ToTVText));
-                }
-                if (tvItemLinkList[0].TVItemLinkWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(tvItemLinkList[0].TVItemLinkWeb.FromTVItemLanguage);
+                Assert.IsNotNull(tvItemLinkList[0].TVItemLinkWeb.ToTVItemLanguage);
+                Assert.IsNotNull(tvItemLinkList[0].TVItemLinkWeb.LastUpdateContactTVItemLanguage);
                 if (tvItemLinkList[0].TVItemLinkWeb.FromTVTypeText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkList[0].TVItemLinkWeb.FromTVTypeText));

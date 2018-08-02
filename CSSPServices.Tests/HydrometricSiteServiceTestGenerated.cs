@@ -903,27 +903,15 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // HydrometricSiteWeb fields should not be null and HydrometricSiteReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText));
-                }
-                if (!string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVItemLanguage);
+                Assert.IsNotNull(hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVItemLanguage);
                 Assert.IsNull(hydrometricSiteList[0].HydrometricSiteReport);
             }
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // HydrometricSiteWeb and HydrometricSiteReport fields should NOT be null here
-                if (hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVText));
-                }
-                if (hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(hydrometricSiteList[0].HydrometricSiteWeb.HydrometricTVItemLanguage);
+                Assert.IsNotNull(hydrometricSiteList[0].HydrometricSiteWeb.LastUpdateContactTVItemLanguage);
                 if (hydrometricSiteList[0].HydrometricSiteReport.HydrometricSiteReportTest != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteList[0].HydrometricSiteReport.HydrometricSiteReportTest));

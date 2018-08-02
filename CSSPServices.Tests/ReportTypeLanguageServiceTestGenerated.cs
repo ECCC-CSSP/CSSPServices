@@ -750,10 +750,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
             {
                 // ReportTypeLanguageWeb fields should not be null and ReportTypeLanguageReport fields should be null here
-                if (!string.IsNullOrWhiteSpace(reportTypeLanguageList[0].ReportTypeLanguageWeb.LastUpdateContactTVText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageList[0].ReportTypeLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(reportTypeLanguageList[0].ReportTypeLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (!string.IsNullOrWhiteSpace(reportTypeLanguageList[0].ReportTypeLanguageWeb.LanguageText))
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageList[0].ReportTypeLanguageWeb.LanguageText));
@@ -775,10 +772,7 @@ namespace CSSPServices.Tests
             else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
             {
                 // ReportTypeLanguageWeb and ReportTypeLanguageReport fields should NOT be null here
-                if (reportTypeLanguageList[0].ReportTypeLanguageWeb.LastUpdateContactTVText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageList[0].ReportTypeLanguageWeb.LastUpdateContactTVText));
-                }
+                Assert.IsNotNull(reportTypeLanguageList[0].ReportTypeLanguageWeb.LastUpdateContactTVItemLanguage);
                 if (reportTypeLanguageList[0].ReportTypeLanguageWeb.LanguageText != null)
                 {
                     Assert.IsFalse(string.IsNullOrWhiteSpace(reportTypeLanguageList[0].ReportTypeLanguageWeb.LanguageText));

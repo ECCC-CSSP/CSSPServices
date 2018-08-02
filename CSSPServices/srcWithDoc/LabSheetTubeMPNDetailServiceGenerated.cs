@@ -327,14 +327,14 @@ namespace CSSPServices
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
             labSheetTubeMPNDetailQuery = (from c in labSheetTubeMPNDetailQuery
-                let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
-                let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
-                    select cl.TVText).FirstOrDefault()
+                    select cl).FirstOrDefault()
                     select new LabSheetTubeMPNDetail
                     {
                         LabSheetTubeMPNDetailID = c.LabSheetTubeMPNDetailID,
@@ -355,8 +355,8 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         LabSheetTubeMPNDetailWeb = new LabSheetTubeMPNDetailWeb
                         {
-                            MWQMSiteTVText = MWQMSiteTVText,
-                            LastUpdateContactTVText = LastUpdateContactTVText,
+                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                             SampleTypeText = (from e in SampleTypeEnumList
                                 where e.EnumID == (int?)c.SampleType
                                 select e.EnumText).FirstOrDefault(),
