@@ -46,13 +46,13 @@ namespace CSSPServices
             if (searchTagAndTerms.SearchTag == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 searchTagAndTerms.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SearchTagAndTermsSearchTag), new[] { "SearchTag" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SearchTagAndTermsSearchTag"), new[] { "SearchTag" });
             }
 
             if (!string.IsNullOrWhiteSpace(searchTagAndTerms.SearchTagText) && searchTagAndTerms.SearchTagText.Length > 100)
             {
                 searchTagAndTerms.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SearchTagAndTermsSearchTagText, "100"), new[] { "SearchTagText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "SearchTagAndTermsSearchTagText", "100"), new[] { "SearchTagText" });
             }
 
                 //Error: Type not implemented [SearchTermList] of type [List`1]

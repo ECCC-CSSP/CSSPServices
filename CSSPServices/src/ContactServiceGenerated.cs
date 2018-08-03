@@ -47,26 +47,26 @@ namespace CSSPServices
                 if (contact.ContactID == 0)
                 {
                     contact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactContactID), new[] { "ContactID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactContactID"), new[] { "ContactID" });
                 }
 
                 if (!GetRead().Where(c => c.ContactID == contact.ContactID).Any())
                 {
                     contact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactContactID, contact.ContactID.ToString()), new[] { "ContactID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactContactID", contact.ContactID.ToString()), new[] { "ContactID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(contact.Id))
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactId), new[] { "Id" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactId"), new[] { "Id" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.Id) && contact.Id.Length > 128)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactId, "128"), new[] { "Id" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactId", "128"), new[] { "Id" });
             }
 
             AspNetUser AspNetUserId = (from c in db.AspNetUsers where c.Id == contact.Id select c).FirstOrDefault();
@@ -74,7 +74,7 @@ namespace CSSPServices
             if (AspNetUserId == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AspNetUser, CSSPModelsRes.ContactId, (contact.Id == null ? "" : contact.Id.ToString())), new[] { "Id" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AspNetUser", "ContactId", (contact.Id == null ? "" : contact.Id.ToString())), new[] { "Id" });
             }
 
             TVItem TVItemContactTVItemID = (from c in db.TVItems where c.TVItemID == contact.ContactTVItemID select c).FirstOrDefault();
@@ -82,7 +82,7 @@ namespace CSSPServices
             if (TVItemContactTVItemID == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ContactContactTVItemID", contact.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
             }
             else
             {
@@ -93,20 +93,20 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
                     contact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ContactContactTVItemID", "Contact"), new[] { "ContactTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(contact.LoginEmail))
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactLoginEmail"), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.LoginEmail) && (contact.LoginEmail.Length < 6 || contact.LoginEmail.Length > 255))
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginEmail, "6", "255"), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "ContactLoginEmail", "6", "255"), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.LoginEmail))
@@ -115,50 +115,50 @@ namespace CSSPServices
                 if (!regex.IsMatch(contact.LoginEmail))
                 {
                     contact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, CSSPModelsRes.ContactLoginEmail), new[] { "LoginEmail" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "ContactLoginEmail"), new[] { "LoginEmail" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(contact.FirstName))
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactFirstName), new[] { "FirstName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactFirstName"), new[] { "FirstName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.FirstName) && contact.FirstName.Length > 100)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactFirstName, "100"), new[] { "FirstName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactFirstName", "100"), new[] { "FirstName" });
             }
 
             if (string.IsNullOrWhiteSpace(contact.LastName))
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLastName), new[] { "LastName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactLastName"), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.LastName) && contact.LastName.Length > 100)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLastName, "100"), new[] { "LastName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactLastName", "100"), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.Initial) && contact.Initial.Length > 50)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactInitial, "50"), new[] { "Initial" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactInitial", "50"), new[] { "Initial" });
             }
 
             if (string.IsNullOrWhiteSpace(contact.WebName))
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactWebName), new[] { "WebName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactWebName"), new[] { "WebName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.WebName) && contact.WebName.Length > 100)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactWebName, "100"), new[] { "WebName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactWebName", "100"), new[] { "WebName" });
             }
 
             if (contact.ContactTitle != null)
@@ -167,27 +167,27 @@ namespace CSSPServices
                 if (contact.ContactTitle == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     contact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactContactTitle), new[] { "ContactTitle" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactContactTitle"), new[] { "ContactTitle" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(contact.SamplingPlanner_ProvincesTVItemID) && contact.SamplingPlanner_ProvincesTVItemID.Length > 200)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactSamplingPlanner_ProvincesTVItemID", "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
             }
 
             if (contact.LastUpdateDate_UTC.Year == 1)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contact.LastUpdateDate_UTC.Year < 1980)
                 {
                 contact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ContactLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -196,7 +196,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactLastUpdateContactTVItemID, contact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ContactLastUpdateContactTVItemID", contact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -207,7 +207,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     contact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ContactLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -224,57 +224,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Contact GetContactWithContactID(int ContactID)
         {
-            IQueryable<Contact> contactQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ContactID == ContactID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ContactID == ContactID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return contactQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactWeb(contactQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactReport(contactQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<Contact> GetContactList()
         {
-            IQueryable<Contact> contactQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Contact> ContactQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        contactQuery = EnhanceQueryStatements<Contact>(contactQuery) as IQueryable<Contact>;
+            ContactQuery = EnhanceQueryStatements<Contact>(ContactQuery) as IQueryable<Contact>;
 
-                        return contactQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        contactQuery = FillContactWeb(contactQuery);
+            return ContactQuery;
+        }
+        public ContactWeb GetContactWebWithContactID(int ContactID)
+        {
+            return FillContactWeb().FirstOrDefault();
 
-                        contactQuery = EnhanceQueryStatements<Contact>(contactQuery) as IQueryable<Contact>;
+        }
+        public IQueryable<ContactWeb> GetContactWebList()
+        {
+            IQueryable<ContactWeb> ContactWebQuery = FillContactWeb();
 
-                        return contactQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        contactQuery = FillContactReport(contactQuery);
+            ContactWebQuery = EnhanceQueryStatements<ContactWeb>(ContactWebQuery) as IQueryable<ContactWeb>;
 
-                        contactQuery = EnhanceQueryStatements<Contact>(contactQuery) as IQueryable<Contact>;
+            return ContactWebQuery;
+        }
+        public ContactReport GetContactReportWithContactID(int ContactID)
+        {
+            return FillContactReport().FirstOrDefault();
 
-                        return contactQuery;
-                    }
-                default:
-                    {
-                        contactQuery = contactQuery.Where(c => c.ContactID == 0);
+        }
+        public IQueryable<ContactReport> GetContactReportList()
+        {
+            IQueryable<ContactReport> ContactReportQuery = FillContactReport();
 
-                        return contactQuery;
-                    }
-            }
+            ContactReportQuery = EnhanceQueryStatements<ContactReport>(ContactReportQuery) as IQueryable<ContactReport>;
+
+            return ContactReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -327,13 +314,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ContactFillWeb
-        private IQueryable<Contact> FillContactWeb(IQueryable<Contact> contactQuery)
+        private IQueryable<ContactWeb> FillContactWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> ContactTitleEnumList = enums.GetEnumTextOrderedList(typeof(ContactTitleEnum));
 
-            contactQuery = (from c in contactQuery
+             IQueryable<ContactWeb>  ContactWebQuery = (from c in db.Contacts
                 let ContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest
@@ -345,8 +332,14 @@ namespace CSSPServices
                 let ParentTVItemID = (from cl in db.TVItems
                     where cl.TVItemID == c.ContactTVItemID
                     select cl.ParentID).FirstOrDefault()
-                    select new Contact
+                    select new ContactWeb
                     {
+                        ContactTVItemLanguage = ContactTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        ParentTVItemID = ParentTVItemID,
+                        ContactTitleText = (from e in ContactTitleEnumList
+                                where e.EnumID == (int?)c.ContactTitle
+                                select e.EnumText).FirstOrDefault(),
                         ContactID = c.ContactID,
                         Id = c.Id,
                         ContactTVItemID = c.ContactTVItemID,
@@ -363,21 +356,11 @@ namespace CSSPServices
                         SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ContactWeb = new ContactWeb
-                        {
-                            ContactTVItemLanguage = ContactTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            ParentTVItemID = ParentTVItemID,
-                            ContactTitleText = (from e in ContactTitleEnumList
-                                where e.EnumID == (int?)c.ContactTitle
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        ContactReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return contactQuery;
+            return ContactWebQuery;
         }
         #endregion Functions private Generated ContactFillWeb
 

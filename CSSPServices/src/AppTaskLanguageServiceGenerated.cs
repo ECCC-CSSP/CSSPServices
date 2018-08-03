@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (appTaskLanguage.AppTaskLanguageID == 0)
                 {
                     appTaskLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguageAppTaskLanguageID), new[] { "AppTaskLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskLanguageAppTaskLanguageID"), new[] { "AppTaskLanguageID" });
                 }
 
                 if (!GetRead().Where(c => c.AppTaskLanguageID == appTaskLanguage.AppTaskLanguageID).Any())
                 {
                     appTaskLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppTaskLanguage, CSSPModelsRes.AppTaskLanguageAppTaskLanguageID, appTaskLanguage.AppTaskLanguageID.ToString()), new[] { "AppTaskLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppTaskLanguage", "AppTaskLanguageAppTaskLanguageID", appTaskLanguage.AppTaskLanguageID.ToString()), new[] { "AppTaskLanguageID" });
                 }
             }
 
@@ -62,46 +62,46 @@ namespace CSSPServices
             if (AppTaskAppTaskID == null)
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppTask, CSSPModelsRes.AppTaskLanguageAppTaskID, appTaskLanguage.AppTaskID.ToString()), new[] { "AppTaskID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppTask", "AppTaskLanguageAppTaskID", appTaskLanguage.AppTaskID.ToString()), new[] { "AppTaskID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)appTaskLanguage.Language);
             if (appTaskLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguageLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskLanguageLanguage"), new[] { "Language" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskLanguage.StatusText) && appTaskLanguage.StatusText.Length > 250)
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLanguageStatusText, "250"), new[] { "StatusText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "AppTaskLanguageStatusText", "250"), new[] { "StatusText" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskLanguage.ErrorText) && appTaskLanguage.ErrorText.Length > 250)
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLanguageErrorText, "250"), new[] { "ErrorText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "AppTaskLanguageErrorText", "250"), new[] { "ErrorText" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)appTaskLanguage.TranslationStatus);
             if (appTaskLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguageTranslationStatus), new[] { "TranslationStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskLanguageTranslationStatus"), new[] { "TranslationStatus" });
             }
 
             if (appTaskLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (appTaskLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 appTaskLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppTaskLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -110,7 +110,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 appTaskLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskLanguageLastUpdateContactTVItemID, appTaskLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppTaskLanguageLastUpdateContactTVItemID", appTaskLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -121,7 +121,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     appTaskLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "AppTaskLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -138,57 +138,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public AppTaskLanguage GetAppTaskLanguageWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            IQueryable<AppTaskLanguage> appTaskLanguageQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.AppTaskLanguageID == AppTaskLanguageID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.AppTaskLanguageID == AppTaskLanguageID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return appTaskLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAppTaskLanguageWeb(appTaskLanguageQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppTaskLanguageReport(appTaskLanguageQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<AppTaskLanguage> GetAppTaskLanguageList()
         {
-            IQueryable<AppTaskLanguage> appTaskLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<AppTaskLanguage> AppTaskLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        appTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(appTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
+            AppTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(AppTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
 
-                        return appTaskLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        appTaskLanguageQuery = FillAppTaskLanguageWeb(appTaskLanguageQuery);
+            return AppTaskLanguageQuery;
+        }
+        public AppTaskLanguageWeb GetAppTaskLanguageWebWithAppTaskLanguageID(int AppTaskLanguageID)
+        {
+            return FillAppTaskLanguageWeb().FirstOrDefault();
 
-                        appTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(appTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
+        }
+        public IQueryable<AppTaskLanguageWeb> GetAppTaskLanguageWebList()
+        {
+            IQueryable<AppTaskLanguageWeb> AppTaskLanguageWebQuery = FillAppTaskLanguageWeb();
 
-                        return appTaskLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        appTaskLanguageQuery = FillAppTaskLanguageReport(appTaskLanguageQuery);
+            AppTaskLanguageWebQuery = EnhanceQueryStatements<AppTaskLanguageWeb>(AppTaskLanguageWebQuery) as IQueryable<AppTaskLanguageWeb>;
 
-                        appTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(appTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
+            return AppTaskLanguageWebQuery;
+        }
+        public AppTaskLanguageReport GetAppTaskLanguageReportWithAppTaskLanguageID(int AppTaskLanguageID)
+        {
+            return FillAppTaskLanguageReport().FirstOrDefault();
 
-                        return appTaskLanguageQuery;
-                    }
-                default:
-                    {
-                        appTaskLanguageQuery = appTaskLanguageQuery.Where(c => c.AppTaskLanguageID == 0);
+        }
+        public IQueryable<AppTaskLanguageReport> GetAppTaskLanguageReportList()
+        {
+            IQueryable<AppTaskLanguageReport> AppTaskLanguageReportQuery = FillAppTaskLanguageReport();
 
-                        return appTaskLanguageQuery;
-                    }
-            }
+            AppTaskLanguageReportQuery = EnhanceQueryStatements<AppTaskLanguageReport>(AppTaskLanguageReportQuery) as IQueryable<AppTaskLanguageReport>;
+
+            return AppTaskLanguageReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -241,20 +228,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AppTaskLanguageFillWeb
-        private IQueryable<AppTaskLanguage> FillAppTaskLanguageWeb(IQueryable<AppTaskLanguage> appTaskLanguageQuery)
+        private IQueryable<AppTaskLanguageWeb> FillAppTaskLanguageWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            appTaskLanguageQuery = (from c in appTaskLanguageQuery
+             IQueryable<AppTaskLanguageWeb>  AppTaskLanguageWebQuery = (from c in db.AppTaskLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new AppTaskLanguage
+                    select new AppTaskLanguageWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatus
+                                select e.EnumText).FirstOrDefault(),
                         AppTaskLanguageID = c.AppTaskLanguageID,
                         AppTaskID = c.AppTaskID,
                         Language = c.Language,
@@ -263,22 +257,11 @@ namespace CSSPServices
                         TranslationStatus = c.TranslationStatus,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        AppTaskLanguageWeb = new AppTaskLanguageWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        AppTaskLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return appTaskLanguageQuery;
+            return AppTaskLanguageWebQuery;
         }
         #endregion Functions private Generated AppTaskLanguageFillWeb
 

@@ -45,19 +45,19 @@ namespace CSSPServices
             if (contourPolygon.ContourValue < 0)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContourPolygonContourValue, "0"), new[] { "ContourValue" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContourPolygonContourValue", "0"), new[] { "ContourValue" });
             }
 
             if (contourPolygon.Layer < 1 || contourPolygon.Layer > 100)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContourPolygonLayer, "1", "100"), new[] { "Layer" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContourPolygonLayer", "1", "100"), new[] { "Layer" });
             }
 
             if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContourPolygonDepth, "1", "10000"), new[] { "Depth" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContourPolygonDepth", "1", "10000"), new[] { "Depth" });
             }
 
                 //Error: Type not implemented [ContourNodeList] of type [List`1]

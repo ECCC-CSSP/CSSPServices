@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.RatingCurveValueID = 0;
                     ratingCurveValueService.Update(ratingCurveValue);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveValueRatingCurveValueID), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "RatingCurveValueRatingCurveValueID"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     ratingCurveValue = null;
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.RatingCurveValueID = 10000000;
                     ratingCurveValueService.Update(ratingCurveValue);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.RatingCurveValue, CSSPModelsRes.RatingCurveValueRatingCurveValueID, ratingCurveValue.RatingCurveValueID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "RatingCurveValue", "RatingCurveValueRatingCurveValueID", ratingCurveValue.RatingCurveValueID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,7 +117,7 @@ namespace CSSPServices.Tests
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.RatingCurveID = 0;
                     ratingCurveValueService.Add(ratingCurveValue);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.RatingCurve, CSSPModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "RatingCurve", "RatingCurveValueRatingCurveID", ratingCurveValue.RatingCurveID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -134,13 +134,13 @@ namespace CSSPServices.Tests
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.StageValue_m = -1.0D;
                     Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueStageValue_m, "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RatingCurveValueStageValue_m", "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
                     ratingCurveValue = null;
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.StageValue_m = 1001.0D;
                     Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueStageValue_m, "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RatingCurveValueStageValue_m", "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -157,46 +157,14 @@ namespace CSSPServices.Tests
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.DischargeValue_m3_s = -1.0D;
                     Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RatingCurveValueDischargeValue_m3_s", "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
                     ratingCurveValue = null;
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.DischargeValue_m3_s = 1000001.0D;
                     Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RatingCurveValueDischargeValue_m3_s", "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // ratingCurveValue.RatingCurveValueWeb   (RatingCurveValueWeb)
-                    // -----------------------------------
-
-                    ratingCurveValue = null;
-                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                    ratingCurveValue.RatingCurveValueWeb = null;
-                    Assert.IsNull(ratingCurveValue.RatingCurveValueWeb);
-
-                    ratingCurveValue = null;
-                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                    ratingCurveValue.RatingCurveValueWeb = new RatingCurveValueWeb();
-                    Assert.IsNotNull(ratingCurveValue.RatingCurveValueWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // ratingCurveValue.RatingCurveValueReport   (RatingCurveValueReport)
-                    // -----------------------------------
-
-                    ratingCurveValue = null;
-                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                    ratingCurveValue.RatingCurveValueReport = null;
-                    Assert.IsNull(ratingCurveValue.RatingCurveValueReport);
-
-                    ratingCurveValue = null;
-                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                    ratingCurveValue.RatingCurveValueReport = new RatingCurveValueReport();
-                    Assert.IsNotNull(ratingCurveValue.RatingCurveValueReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -208,12 +176,12 @@ namespace CSSPServices.Tests
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.LastUpdateDate_UTC = new DateTime();
                     ratingCurveValueService.Add(ratingCurveValue);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveValueLastUpdateDate_UTC), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "RatingCurveValueLastUpdateDate_UTC"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     ratingCurveValue = null;
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     ratingCurveValueService.Add(ratingCurveValue);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "RatingCurveValueLastUpdateDate_UTC", "1980"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -225,13 +193,13 @@ namespace CSSPServices.Tests
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.LastUpdateContactTVItemID = 0;
                     ratingCurveValueService.Add(ratingCurveValue);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RatingCurveValueLastUpdateContactTVItemID, ratingCurveValue.LastUpdateContactTVItemID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "RatingCurveValueLastUpdateContactTVItemID", ratingCurveValue.LastUpdateContactTVItemID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     ratingCurveValue = null;
                     ratingCurveValue = GetFilledRandomRatingCurveValue("");
                     ratingCurveValue.LastUpdateContactTVItemID = 1;
                     ratingCurveValueService.Add(ratingCurveValue);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "RatingCurveValueLastUpdateContactTVItemID", "Contact"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -268,34 +236,32 @@ namespace CSSPServices.Tests
                     RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(ratingCurveValue);
 
-                    RatingCurveValue ratingCurveValueRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ratingCurveValueService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
-                            Assert.IsNull(ratingCurveValueRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
+                            RatingCurveValue ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
+                            CheckRatingCurveValueFields(new List<RatingCurveValue>() { ratingCurveValueRet });
+                            Assert.AreEqual(ratingCurveValue.RatingCurveValueID, ratingCurveValueRet.RatingCurveValueID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
+                            RatingCurveValueWeb ratingCurveValueWebRet = ratingCurveValueService.GetRatingCurveValueWebWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
+                            CheckRatingCurveValueWebFields(new List<RatingCurveValueWeb>() { ratingCurveValueWebRet });
+                            Assert.AreEqual(ratingCurveValue.RatingCurveValueID, ratingCurveValueWebRet.RatingCurveValueID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
+                            RatingCurveValueReport ratingCurveValueReportRet = ratingCurveValueService.GetRatingCurveValueReportWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
+                            CheckRatingCurveValueReportFields(new List<RatingCurveValueReport>() { ratingCurveValueReportRet });
+                            Assert.AreEqual(ratingCurveValue.RatingCurveValueID, ratingCurveValueReportRet.RatingCurveValueID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(new List<RatingCurveValue>() { ratingCurveValueRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -316,34 +282,38 @@ namespace CSSPServices.Tests
                     RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(ratingCurveValue);
 
-                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
+                    List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
+                    ratingCurveValueDirectQueryList = ratingCurveValueService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ratingCurveValueService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
                             ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
-                            Assert.AreEqual(0, ratingCurveValueList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            CheckRatingCurveValueFields(ratingCurveValueList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueWeb> ratingCurveValueWebList = new List<RatingCurveValueWeb>();
+                            ratingCurveValueWebList = ratingCurveValueService.GetRatingCurveValueWebList().ToList();
+                            CheckRatingCurveValueWebFields(ratingCurveValueWebList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueReport> ratingCurveValueReportList = new List<RatingCurveValueReport>();
+                            ratingCurveValueReportList = ratingCurveValueService.GetRatingCurveValueReportList().ToList();
+                            CheckRatingCurveValueReportFields(ratingCurveValueReportList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(ratingCurveValueList, entityQueryDetailType);
                     }
                 }
             }
@@ -360,41 +330,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
-                    List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                         ratingCurveValueDirectQueryList = ratingCurveValueService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
                             ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
-                            Assert.AreEqual(0, ratingCurveValueList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            CheckRatingCurveValueFields(ratingCurveValueList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueWeb> ratingCurveValueWebList = new List<RatingCurveValueWeb>();
+                            ratingCurveValueWebList = ratingCurveValueService.GetRatingCurveValueWebList().ToList();
+                            CheckRatingCurveValueWebFields(ratingCurveValueWebList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueWebList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueReport> ratingCurveValueReportList = new List<RatingCurveValueReport>();
+                            ratingCurveValueReportList = ratingCurveValueService.GetRatingCurveValueReportList().ToList();
+                            CheckRatingCurveValueReportFields(ratingCurveValueReportList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueReportList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(ratingCurveValueList, entityQueryDetailType);
-                        Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
-                        Assert.AreEqual(1, ratingCurveValueList.Count);
                     }
                 }
             }
@@ -411,41 +383,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
-                    List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), culture.TwoLetterISOLanguageName, 1, 1,  "RatingCurveValueID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                         ratingCurveValueDirectQueryList = ratingCurveValueService.GetRead().Skip(1).Take(1).OrderBy(c => c.RatingCurveValueID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
                             ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
-                            Assert.AreEqual(0, ratingCurveValueList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            CheckRatingCurveValueFields(ratingCurveValueList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueWeb> ratingCurveValueWebList = new List<RatingCurveValueWeb>();
+                            ratingCurveValueWebList = ratingCurveValueService.GetRatingCurveValueWebList().ToList();
+                            CheckRatingCurveValueWebFields(ratingCurveValueWebList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueWebList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueReport> ratingCurveValueReportList = new List<RatingCurveValueReport>();
+                            ratingCurveValueReportList = ratingCurveValueService.GetRatingCurveValueReportList().ToList();
+                            CheckRatingCurveValueReportFields(ratingCurveValueReportList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueReportList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(ratingCurveValueList, entityQueryDetailType);
-                        Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
-                        Assert.AreEqual(1, ratingCurveValueList.Count);
                     }
                 }
             }
@@ -462,41 +436,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
-                    List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), culture.TwoLetterISOLanguageName, 1, 1, "RatingCurveValueID,RatingCurveID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                         ratingCurveValueDirectQueryList = ratingCurveValueService.GetRead().Skip(1).Take(1).OrderBy(c => c.RatingCurveValueID).ThenBy(c => c.RatingCurveID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
                             ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
-                            Assert.AreEqual(0, ratingCurveValueList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            CheckRatingCurveValueFields(ratingCurveValueList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueWeb> ratingCurveValueWebList = new List<RatingCurveValueWeb>();
+                            ratingCurveValueWebList = ratingCurveValueService.GetRatingCurveValueWebList().ToList();
+                            CheckRatingCurveValueWebFields(ratingCurveValueWebList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueWebList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueReport> ratingCurveValueReportList = new List<RatingCurveValueReport>();
+                            ratingCurveValueReportList = ratingCurveValueService.GetRatingCurveValueReportList().ToList();
+                            CheckRatingCurveValueReportFields(ratingCurveValueReportList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueReportList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(ratingCurveValueList, entityQueryDetailType);
-                        Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
-                        Assert.AreEqual(1, ratingCurveValueList.Count);
                     }
                 }
             }
@@ -513,41 +489,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
-                    List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), culture.TwoLetterISOLanguageName, 0, 1, "RatingCurveValueID", "RatingCurveValueID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                         ratingCurveValueDirectQueryList = ratingCurveValueService.GetRead().Where(c => c.RatingCurveValueID == 4).Skip(0).Take(1).OrderBy(c => c.RatingCurveValueID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
                             ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
-                            Assert.AreEqual(0, ratingCurveValueList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            CheckRatingCurveValueFields(ratingCurveValueList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueWeb> ratingCurveValueWebList = new List<RatingCurveValueWeb>();
+                            ratingCurveValueWebList = ratingCurveValueService.GetRatingCurveValueWebList().ToList();
+                            CheckRatingCurveValueWebFields(ratingCurveValueWebList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueWebList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueReport> ratingCurveValueReportList = new List<RatingCurveValueReport>();
+                            ratingCurveValueReportList = ratingCurveValueService.GetRatingCurveValueReportList().ToList();
+                            CheckRatingCurveValueReportFields(ratingCurveValueReportList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueReportList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(ratingCurveValueList, entityQueryDetailType);
-                        Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
-                        Assert.AreEqual(1, ratingCurveValueList.Count);
                     }
                 }
             }
@@ -564,41 +542,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
-                    List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), culture.TwoLetterISOLanguageName, 0, 1, "RatingCurveValueID", "RatingCurveValueID,GT,2|RatingCurveValueID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                         ratingCurveValueDirectQueryList = ratingCurveValueService.GetRead().Where(c => c.RatingCurveValueID > 2 && c.RatingCurveValueID < 5).Skip(0).Take(1).OrderBy(c => c.RatingCurveValueID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
                             ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
-                            Assert.AreEqual(0, ratingCurveValueList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            CheckRatingCurveValueFields(ratingCurveValueList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueWeb> ratingCurveValueWebList = new List<RatingCurveValueWeb>();
+                            ratingCurveValueWebList = ratingCurveValueService.GetRatingCurveValueWebList().ToList();
+                            CheckRatingCurveValueWebFields(ratingCurveValueWebList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueWebList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueReport> ratingCurveValueReportList = new List<RatingCurveValueReport>();
+                            ratingCurveValueReportList = ratingCurveValueService.GetRatingCurveValueReportList().ToList();
+                            CheckRatingCurveValueReportFields(ratingCurveValueReportList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueReportList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(ratingCurveValueList, entityQueryDetailType);
-                        Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
-                        Assert.AreEqual(1, ratingCurveValueList.Count);
                     }
                 }
             }
@@ -615,41 +595,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
-                    List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         ratingCurveValueService.Query = ratingCurveValueService.FillQuery(typeof(RatingCurveValue), culture.TwoLetterISOLanguageName, 0, 10000, "", "RatingCurveValueID,GT,2|RatingCurveValueID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<RatingCurveValue> ratingCurveValueDirectQueryList = new List<RatingCurveValue>();
                         ratingCurveValueDirectQueryList = ratingCurveValueService.GetRead().Where(c => c.RatingCurveValueID > 2 && c.RatingCurveValueID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<RatingCurveValue> ratingCurveValueList = new List<RatingCurveValue>();
                             ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
-                            Assert.AreEqual(0, ratingCurveValueList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            CheckRatingCurveValueFields(ratingCurveValueList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueWeb> ratingCurveValueWebList = new List<RatingCurveValueWeb>();
+                            ratingCurveValueWebList = ratingCurveValueService.GetRatingCurveValueWebList().ToList();
+                            CheckRatingCurveValueWebFields(ratingCurveValueWebList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueWebList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            ratingCurveValueList = ratingCurveValueService.GetRatingCurveValueList().ToList();
+                            List<RatingCurveValueReport> ratingCurveValueReportList = new List<RatingCurveValueReport>();
+                            ratingCurveValueReportList = ratingCurveValueService.GetRatingCurveValueReportList().ToList();
+                            CheckRatingCurveValueReportFields(ratingCurveValueReportList);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueReportList[0].RatingCurveValueID);
+                            Assert.AreEqual(ratingCurveValueDirectQueryList.Count, ratingCurveValueReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckRatingCurveValueFields(ratingCurveValueList, entityQueryDetailType);
-                        Assert.AreEqual(ratingCurveValueDirectQueryList[0].RatingCurveValueID, ratingCurveValueList[0].RatingCurveValueID);
-                        Assert.AreEqual(2, ratingCurveValueList.Count);
                     }
                 }
             }
@@ -657,37 +639,41 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetRatingCurveValueList() 2Where
 
         #region Functions private
-        private void CheckRatingCurveValueFields(List<RatingCurveValue> ratingCurveValueList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckRatingCurveValueFields(List<RatingCurveValue> ratingCurveValueList)
         {
-            // RatingCurveValue fields
             Assert.IsNotNull(ratingCurveValueList[0].RatingCurveValueID);
             Assert.IsNotNull(ratingCurveValueList[0].RatingCurveID);
             Assert.IsNotNull(ratingCurveValueList[0].StageValue_m);
             Assert.IsNotNull(ratingCurveValueList[0].DischargeValue_m3_s);
             Assert.IsNotNull(ratingCurveValueList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(ratingCurveValueList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(ratingCurveValueList[0].HasErrors);
+        }
+        private void CheckRatingCurveValueWebFields(List<RatingCurveValueWeb> ratingCurveValueWebList)
+        {
+            Assert.IsNotNull(ratingCurveValueWebList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(ratingCurveValueWebList[0].RatingCurveValueID);
+            Assert.IsNotNull(ratingCurveValueWebList[0].RatingCurveID);
+            Assert.IsNotNull(ratingCurveValueWebList[0].StageValue_m);
+            Assert.IsNotNull(ratingCurveValueWebList[0].DischargeValue_m3_s);
+            Assert.IsNotNull(ratingCurveValueWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(ratingCurveValueWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(ratingCurveValueWebList[0].HasErrors);
+        }
+        private void CheckRatingCurveValueReportFields(List<RatingCurveValueReport> ratingCurveValueReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(ratingCurveValueReportList[0].RatingCurveValueReportTest))
             {
-                // RatingCurveValueWeb and RatingCurveValueReport fields should be null here
-                Assert.IsNull(ratingCurveValueList[0].RatingCurveValueWeb);
-                Assert.IsNull(ratingCurveValueList[0].RatingCurveValueReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueReportList[0].RatingCurveValueReportTest));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-            {
-                // RatingCurveValueWeb fields should not be null and RatingCurveValueReport fields should be null here
-                Assert.IsNotNull(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVItemLanguage);
-                Assert.IsNull(ratingCurveValueList[0].RatingCurveValueReport);
-            }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-            {
-                // RatingCurveValueWeb and RatingCurveValueReport fields should NOT be null here
-                Assert.IsNotNull(ratingCurveValueList[0].RatingCurveValueWeb.LastUpdateContactTVItemLanguage);
-                if (ratingCurveValueList[0].RatingCurveValueReport.RatingCurveValueReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueList[0].RatingCurveValueReport.RatingCurveValueReportTest));
-                }
-            }
+            Assert.IsNotNull(ratingCurveValueReportList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(ratingCurveValueReportList[0].RatingCurveValueID);
+            Assert.IsNotNull(ratingCurveValueReportList[0].RatingCurveID);
+            Assert.IsNotNull(ratingCurveValueReportList[0].StageValue_m);
+            Assert.IsNotNull(ratingCurveValueReportList[0].DischargeValue_m3_s);
+            Assert.IsNotNull(ratingCurveValueReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(ratingCurveValueReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(ratingCurveValueReportList[0].HasErrors);
         }
         private RatingCurveValue GetFilledRandomRatingCurveValue(string OmitPropName)
         {

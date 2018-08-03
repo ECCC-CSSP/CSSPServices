@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureID = 0;
                     infrastructureService.Update(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureInfrastructureID), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureInfrastructureID"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureID = 10000000;
                     infrastructureService.Update(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Infrastructure, CSSPModelsRes.InfrastructureInfrastructureID, infrastructure.InfrastructureID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Infrastructure", "InfrastructureInfrastructureID", infrastructure.InfrastructureID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,13 +117,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "InfrastructureInfrastructureTVItemID", infrastructure.InfrastructureTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureInfrastructureTVItemID, "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "InfrastructureInfrastructureTVItemID", "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -136,13 +136,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrismID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePrismID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePrismID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrismID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePrismID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePrismID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -155,13 +155,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TPID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTPID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTPID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TPID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTPID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTPID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -174,13 +174,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LSID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureLSID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureLSID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LSID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureLSID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureLSID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -193,13 +193,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SiteID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSiteID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSiteID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SiteID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSiteID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSiteID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -212,13 +212,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.Site = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSite, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSite", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.Site = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSite, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSite", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -233,7 +233,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureCategory = GetRandomString("", 2);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.InfrastructureInfrastructureCategory, "1", "1"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "InfrastructureInfrastructureCategory", "1", "1"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -246,7 +246,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureType = (InfrastructureTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureInfrastructureType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureInfrastructureType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -259,7 +259,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FacilityType = (FacilityTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureFacilityType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureFacilityType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -278,13 +278,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfCells = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfCells = 11;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -297,13 +297,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfAeratedCells = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfAeratedCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfAeratedCells = 11;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfAeratedCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -316,7 +316,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AerationType = (AerationTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureAerationType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureAerationType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -329,7 +329,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PreliminaryTreatmentType = (PreliminaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructurePreliminaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructurePreliminaryTreatmentType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -342,7 +342,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrimaryTreatmentType = (PrimaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructurePrimaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructurePrimaryTreatmentType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -355,7 +355,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SecondaryTreatmentType = (SecondaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureSecondaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureSecondaryTreatmentType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -368,7 +368,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TertiaryTreatmentType = (TertiaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureTertiaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureTertiaryTreatmentType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -381,7 +381,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TreatmentType = (TreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureTreatmentType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -394,7 +394,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DisinfectionType = (DisinfectionTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureDisinfectionType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureDisinfectionType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -407,7 +407,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CollectionSystemType = (CollectionSystemTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureCollectionSystemType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureCollectionSystemType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -420,7 +420,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AlarmSystemType = (AlarmSystemTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureAlarmSystemType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureAlarmSystemType"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -437,13 +437,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DesignFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDesignFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DesignFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDesignFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -460,13 +460,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -483,13 +483,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PeakFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePeakFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PeakFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePeakFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -502,13 +502,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PopServed = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePopServed, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePopServed", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PopServed = 1000001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePopServed, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePopServed", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -531,13 +531,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PercFlowOfTotal = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePercFlowOfTotal", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PercFlowOfTotal = 101.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePercFlowOfTotal", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -554,13 +554,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TimeOffset_hour = -11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTimeOffset_hour", "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TimeOffset_hour = 1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTimeOffset_hour", "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -583,13 +583,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageDepth_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageDepth_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageDepth_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageDepth_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageDepth_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageDepth_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -602,13 +602,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfPorts = 0;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfPorts, "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfPorts", "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfPorts = 1001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfPorts, "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfPorts", "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -625,13 +625,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortDiameter_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortDiameter_m, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortDiameter_m", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortDiameter_m = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortDiameter_m, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortDiameter_m", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -648,13 +648,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortSpacing_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortSpacing_m, "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortSpacing_m", "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortSpacing_m = 10001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortSpacing_m, "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortSpacing_m", "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -671,13 +671,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortElevation_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortElevation_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortElevation_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortElevation_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortElevation_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortElevation_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -694,13 +694,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.VerticalAngle_deg = -91.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureVerticalAngle_deg", "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.VerticalAngle_deg = 91.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureVerticalAngle_deg", "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -717,13 +717,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.HorizontalAngle_deg = -181.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureHorizontalAngle_deg", "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.HorizontalAngle_deg = 181.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureHorizontalAngle_deg", "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -740,13 +740,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DecayRate_per_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDecayRate_per_day, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDecayRate_per_day", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DecayRate_per_day = 101.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDecayRate_per_day, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDecayRate_per_day", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -763,13 +763,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NearFieldVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNearFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NearFieldVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNearFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -786,13 +786,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FarFieldVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureFarFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FarFieldVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureFarFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -809,13 +809,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterSalinity_PSU = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterSalinity_PSU", "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterSalinity_PSU = 41.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterSalinity_PSU", "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -832,13 +832,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterTemperature_C = -11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterTemperature_C", "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterTemperature_C = 41.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterTemperature_C", "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -851,13 +851,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWater_MPN_per_100ml = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWater_MPN_per_100ml", "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWater_MPN_per_100ml = 10000001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWater_MPN_per_100ml", "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -874,13 +874,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DistanceFromShore_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDistanceFromShore_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DistanceFromShore_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDistanceFromShore_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -893,13 +893,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SeeOtherTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureSeeOtherTVItemID, infrastructure.SeeOtherTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "InfrastructureSeeOtherTVItemID", infrastructure.SeeOtherTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SeeOtherTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureSeeOtherTVItemID, "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "InfrastructureSeeOtherTVItemID", "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -912,46 +912,14 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CivicAddressTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureCivicAddressTVItemID, infrastructure.CivicAddressTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "InfrastructureCivicAddressTVItemID", infrastructure.CivicAddressTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CivicAddressTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureCivicAddressTVItemID, "Address"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "InfrastructureCivicAddressTVItemID", "Address"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // infrastructure.InfrastructureWeb   (InfrastructureWeb)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.InfrastructureWeb = null;
-                    Assert.IsNull(infrastructure.InfrastructureWeb);
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.InfrastructureWeb = new InfrastructureWeb();
-                    Assert.IsNotNull(infrastructure.InfrastructureWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // infrastructure.InfrastructureReport   (InfrastructureReport)
-                    // -----------------------------------
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.InfrastructureReport = null;
-                    Assert.IsNull(infrastructure.InfrastructureReport);
-
-                    infrastructure = null;
-                    infrastructure = GetFilledRandomInfrastructure("");
-                    infrastructure.InfrastructureReport = new InfrastructureReport();
-                    Assert.IsNotNull(infrastructure.InfrastructureReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -963,12 +931,12 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LastUpdateDate_UTC = new DateTime();
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLastUpdateDate_UTC), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "InfrastructureLastUpdateDate_UTC"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.InfrastructureLastUpdateDate_UTC, "1980"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "InfrastructureLastUpdateDate_UTC", "1980"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -980,13 +948,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LastUpdateContactTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, infrastructure.LastUpdateContactTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "InfrastructureLastUpdateContactTVItemID", infrastructure.LastUpdateContactTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LastUpdateContactTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "InfrastructureLastUpdateContactTVItemID", "Contact"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -1023,34 +991,32 @@ namespace CSSPServices.Tests
                     Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
-                    Infrastructure infrastructureRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         infrastructureService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
-                            Assert.IsNull(infrastructureRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
+                            Infrastructure infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
+                            CheckInfrastructureFields(new List<Infrastructure>() { infrastructureRet });
+                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructureRet.InfrastructureID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
+                            InfrastructureWeb infrastructureWebRet = infrastructureService.GetInfrastructureWebWithInfrastructureID(infrastructure.InfrastructureID);
+                            CheckInfrastructureWebFields(new List<InfrastructureWeb>() { infrastructureWebRet });
+                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructureWebRet.InfrastructureID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
+                            InfrastructureReport infrastructureReportRet = infrastructureService.GetInfrastructureReportWithInfrastructureID(infrastructure.InfrastructureID);
+                            CheckInfrastructureReportFields(new List<InfrastructureReport>() { infrastructureReportRet });
+                            Assert.AreEqual(infrastructure.InfrastructureID, infrastructureReportRet.InfrastructureID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(new List<Infrastructure>() { infrastructureRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -1071,34 +1037,38 @@ namespace CSSPServices.Tests
                     Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
-                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
+                    List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
+                    infrastructureDirectQueryList = infrastructureService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         infrastructureService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
-                            Assert.AreEqual(0, infrastructureList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureWeb> infrastructureWebList = new List<InfrastructureWeb>();
+                            infrastructureWebList = infrastructureService.GetInfrastructureWebList().ToList();
+                            CheckInfrastructureWebFields(infrastructureWebList);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureReport> infrastructureReportList = new List<InfrastructureReport>();
+                            infrastructureReportList = infrastructureService.GetInfrastructureReportList().ToList();
+                            CheckInfrastructureReportFields(infrastructureReportList);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(infrastructureList, entityQueryDetailType);
                     }
                 }
             }
@@ -1115,41 +1085,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
-                    List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
-                            Assert.AreEqual(0, infrastructureList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureWeb> infrastructureWebList = new List<InfrastructureWeb>();
+                            infrastructureWebList = infrastructureService.GetInfrastructureWebList().ToList();
+                            CheckInfrastructureWebFields(infrastructureWebList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureWebList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureReport> infrastructureReportList = new List<InfrastructureReport>();
+                            infrastructureReportList = infrastructureService.GetInfrastructureReportList().ToList();
+                            CheckInfrastructureReportFields(infrastructureReportList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureReportList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(infrastructureList, entityQueryDetailType);
-                        Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        Assert.AreEqual(1, infrastructureList.Count);
                     }
                 }
             }
@@ -1166,41 +1138,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
-                    List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
-                            Assert.AreEqual(0, infrastructureList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureWeb> infrastructureWebList = new List<InfrastructureWeb>();
+                            infrastructureWebList = infrastructureService.GetInfrastructureWebList().ToList();
+                            CheckInfrastructureWebFields(infrastructureWebList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureWebList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureReport> infrastructureReportList = new List<InfrastructureReport>();
+                            infrastructureReportList = infrastructureService.GetInfrastructureReportList().ToList();
+                            CheckInfrastructureReportFields(infrastructureReportList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureReportList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(infrastructureList, entityQueryDetailType);
-                        Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        Assert.AreEqual(1, infrastructureList.Count);
                     }
                 }
             }
@@ -1217,41 +1191,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
-                    List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureID,InfrastructureTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
-                            Assert.AreEqual(0, infrastructureList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureWeb> infrastructureWebList = new List<InfrastructureWeb>();
+                            infrastructureWebList = infrastructureService.GetInfrastructureWebList().ToList();
+                            CheckInfrastructureWebFields(infrastructureWebList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureWebList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureReport> infrastructureReportList = new List<InfrastructureReport>();
+                            infrastructureReportList = infrastructureService.GetInfrastructureReportList().ToList();
+                            CheckInfrastructureReportFields(infrastructureReportList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureReportList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(infrastructureList, entityQueryDetailType);
-                        Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        Assert.AreEqual(1, infrastructureList.Count);
                     }
                 }
             }
@@ -1268,41 +1244,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
-                    List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "InfrastructureID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
-                            Assert.AreEqual(0, infrastructureList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureWeb> infrastructureWebList = new List<InfrastructureWeb>();
+                            infrastructureWebList = infrastructureService.GetInfrastructureWebList().ToList();
+                            CheckInfrastructureWebFields(infrastructureWebList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureWebList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureReport> infrastructureReportList = new List<InfrastructureReport>();
+                            infrastructureReportList = infrastructureService.GetInfrastructureReportList().ToList();
+                            CheckInfrastructureReportFields(infrastructureReportList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureReportList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(infrastructureList, entityQueryDetailType);
-                        Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        Assert.AreEqual(1, infrastructureList.Count);
                     }
                 }
             }
@@ -1319,41 +1297,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
-                    List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "InfrastructureID,GT,2|InfrastructureID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
-                            Assert.AreEqual(0, infrastructureList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureWeb> infrastructureWebList = new List<InfrastructureWeb>();
+                            infrastructureWebList = infrastructureService.GetInfrastructureWebList().ToList();
+                            CheckInfrastructureWebFields(infrastructureWebList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureWebList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureReport> infrastructureReportList = new List<InfrastructureReport>();
+                            infrastructureReportList = infrastructureService.GetInfrastructureReportList().ToList();
+                            CheckInfrastructureReportFields(infrastructureReportList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureReportList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(infrastructureList, entityQueryDetailType);
-                        Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        Assert.AreEqual(1, infrastructureList.Count);
                     }
                 }
             }
@@ -1370,41 +1350,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<Infrastructure> infrastructureList = new List<Infrastructure>();
-                    List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 10000, "", "InfrastructureID,GT,2|InfrastructureID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
                         infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<Infrastructure> infrastructureList = new List<Infrastructure>();
                             infrastructureList = infrastructureService.GetInfrastructureList().ToList();
-                            Assert.AreEqual(0, infrastructureList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            CheckInfrastructureFields(infrastructureList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureWeb> infrastructureWebList = new List<InfrastructureWeb>();
+                            infrastructureWebList = infrastructureService.GetInfrastructureWebList().ToList();
+                            CheckInfrastructureWebFields(infrastructureWebList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureWebList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            infrastructureList = infrastructureService.GetInfrastructureList().ToList();
+                            List<InfrastructureReport> infrastructureReportList = new List<InfrastructureReport>();
+                            infrastructureReportList = infrastructureService.GetInfrastructureReportList().ToList();
+                            CheckInfrastructureReportFields(infrastructureReportList);
+                            Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureReportList[0].InfrastructureID);
+                            Assert.AreEqual(infrastructureDirectQueryList.Count, infrastructureReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckInfrastructureFields(infrastructureList, entityQueryDetailType);
-                        Assert.AreEqual(infrastructureDirectQueryList[0].InfrastructureID, infrastructureList[0].InfrastructureID);
-                        Assert.AreEqual(2, infrastructureList.Count);
                     }
                 }
             }
@@ -1412,9 +1394,8 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetInfrastructureList() 2Where
 
         #region Functions private
-        private void CheckInfrastructureFields(List<Infrastructure> infrastructureList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckInfrastructureFields(List<Infrastructure> infrastructureList)
         {
-            // Infrastructure fields
             Assert.IsNotNull(infrastructureList[0].InfrastructureID);
             Assert.IsNotNull(infrastructureList[0].InfrastructureTVItemID);
             if (infrastructureList[0].PrismID != null)
@@ -1595,134 +1576,487 @@ namespace CSSPServices.Tests
             }
             Assert.IsNotNull(infrastructureList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(infrastructureList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(infrastructureList[0].HasErrors);
+        }
+        private void CheckInfrastructureWebFields(List<InfrastructureWeb> infrastructureWebList)
+        {
+            Assert.IsNotNull(infrastructureWebList[0].InfrastructureTVItemLanguage);
+            if (infrastructureWebList[0].SeeOtherTVItemLanguage != null)
             {
-                // InfrastructureWeb and InfrastructureReport fields should be null here
-                Assert.IsNull(infrastructureList[0].InfrastructureWeb);
-                Assert.IsNull(infrastructureList[0].InfrastructureReport);
+                Assert.IsNotNull(infrastructureWebList[0].SeeOtherTVItemLanguage);
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            if (infrastructureWebList[0].CivicAddressTVItemLanguage != null)
             {
-                // InfrastructureWeb fields should not be null and InfrastructureReport fields should be null here
-                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.InfrastructureTVItemLanguage);
-                if (infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage != null)
-                {
-                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage);
-                }
-                if (infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage != null)
-                {
-                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage);
-                }
-                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVItemLanguage);
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.FacilityTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.FacilityTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AerationTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AerationTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TreatmentTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TreatmentTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.DisinfectionTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.DisinfectionTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText));
-                }
-                if (!string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText));
-                }
-                Assert.IsNull(infrastructureList[0].InfrastructureReport);
+                Assert.IsNotNull(infrastructureWebList[0].CivicAddressTVItemLanguage);
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            Assert.IsNotNull(infrastructureWebList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].InfrastructureTypeText))
             {
-                // InfrastructureWeb and InfrastructureReport fields should NOT be null here
-                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.InfrastructureTVItemLanguage);
-                if (infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage != null)
-                {
-                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.SeeOtherTVItemLanguage);
-                }
-                if (infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage != null)
-                {
-                    Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.CivicAddressTVItemLanguage);
-                }
-                Assert.IsNotNull(infrastructureList[0].InfrastructureWeb.LastUpdateContactTVItemLanguage);
-                if (infrastructureList[0].InfrastructureWeb.InfrastructureTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.InfrastructureTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.FacilityTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.FacilityTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.AerationTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AerationTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PreliminaryTreatmentTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.PrimaryTreatmentTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.SecondaryTreatmentTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TertiaryTreatmentTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.TreatmentTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.TreatmentTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.DisinfectionTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.DisinfectionTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.CollectionSystemTypeText));
-                }
-                if (infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureWeb.AlarmSystemTypeText));
-                }
-                if (infrastructureList[0].InfrastructureReport.InfrastructureReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureList[0].InfrastructureReport.InfrastructureReportTest));
-                }
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].InfrastructureTypeText));
             }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].FacilityTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].FacilityTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].AerationTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].AerationTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].PreliminaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].PreliminaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].PrimaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].PrimaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].SecondaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].SecondaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].TertiaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].TertiaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].TreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].TreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].DisinfectionTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].DisinfectionTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].CollectionSystemTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].CollectionSystemTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].AlarmSystemTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].AlarmSystemTypeText));
+            }
+            Assert.IsNotNull(infrastructureWebList[0].InfrastructureID);
+            Assert.IsNotNull(infrastructureWebList[0].InfrastructureTVItemID);
+            if (infrastructureWebList[0].PrismID != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PrismID);
+            }
+            if (infrastructureWebList[0].TPID != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].TPID);
+            }
+            if (infrastructureWebList[0].LSID != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].LSID);
+            }
+            if (infrastructureWebList[0].SiteID != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].SiteID);
+            }
+            if (infrastructureWebList[0].Site != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].Site);
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].InfrastructureCategory))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].InfrastructureCategory));
+            }
+            if (infrastructureWebList[0].InfrastructureType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].InfrastructureType);
+            }
+            if (infrastructureWebList[0].FacilityType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].FacilityType);
+            }
+            if (infrastructureWebList[0].IsMechanicallyAerated != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].IsMechanicallyAerated);
+            }
+            if (infrastructureWebList[0].NumberOfCells != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].NumberOfCells);
+            }
+            if (infrastructureWebList[0].NumberOfAeratedCells != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].NumberOfAeratedCells);
+            }
+            if (infrastructureWebList[0].AerationType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].AerationType);
+            }
+            if (infrastructureWebList[0].PreliminaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PreliminaryTreatmentType);
+            }
+            if (infrastructureWebList[0].PrimaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PrimaryTreatmentType);
+            }
+            if (infrastructureWebList[0].SecondaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].SecondaryTreatmentType);
+            }
+            if (infrastructureWebList[0].TertiaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].TertiaryTreatmentType);
+            }
+            if (infrastructureWebList[0].TreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].TreatmentType);
+            }
+            if (infrastructureWebList[0].DisinfectionType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].DisinfectionType);
+            }
+            if (infrastructureWebList[0].CollectionSystemType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].CollectionSystemType);
+            }
+            if (infrastructureWebList[0].AlarmSystemType != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].AlarmSystemType);
+            }
+            if (infrastructureWebList[0].DesignFlow_m3_day != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].DesignFlow_m3_day);
+            }
+            if (infrastructureWebList[0].AverageFlow_m3_day != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].AverageFlow_m3_day);
+            }
+            if (infrastructureWebList[0].PeakFlow_m3_day != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PeakFlow_m3_day);
+            }
+            if (infrastructureWebList[0].PopServed != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PopServed);
+            }
+            if (infrastructureWebList[0].CanOverflow != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].CanOverflow);
+            }
+            if (infrastructureWebList[0].PercFlowOfTotal != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PercFlowOfTotal);
+            }
+            if (infrastructureWebList[0].TimeOffset_hour != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].TimeOffset_hour);
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureWebList[0].TempCatchAllRemoveLater))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureWebList[0].TempCatchAllRemoveLater));
+            }
+            if (infrastructureWebList[0].AverageDepth_m != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].AverageDepth_m);
+            }
+            if (infrastructureWebList[0].NumberOfPorts != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].NumberOfPorts);
+            }
+            if (infrastructureWebList[0].PortDiameter_m != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PortDiameter_m);
+            }
+            if (infrastructureWebList[0].PortSpacing_m != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PortSpacing_m);
+            }
+            if (infrastructureWebList[0].PortElevation_m != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].PortElevation_m);
+            }
+            if (infrastructureWebList[0].VerticalAngle_deg != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].VerticalAngle_deg);
+            }
+            if (infrastructureWebList[0].HorizontalAngle_deg != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].HorizontalAngle_deg);
+            }
+            if (infrastructureWebList[0].DecayRate_per_day != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].DecayRate_per_day);
+            }
+            if (infrastructureWebList[0].NearFieldVelocity_m_s != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].NearFieldVelocity_m_s);
+            }
+            if (infrastructureWebList[0].FarFieldVelocity_m_s != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].FarFieldVelocity_m_s);
+            }
+            if (infrastructureWebList[0].ReceivingWaterSalinity_PSU != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].ReceivingWaterSalinity_PSU);
+            }
+            if (infrastructureWebList[0].ReceivingWaterTemperature_C != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].ReceivingWaterTemperature_C);
+            }
+            if (infrastructureWebList[0].ReceivingWater_MPN_per_100ml != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].ReceivingWater_MPN_per_100ml);
+            }
+            if (infrastructureWebList[0].DistanceFromShore_m != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].DistanceFromShore_m);
+            }
+            if (infrastructureWebList[0].SeeOtherTVItemID != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].SeeOtherTVItemID);
+            }
+            if (infrastructureWebList[0].CivicAddressTVItemID != null)
+            {
+                Assert.IsNotNull(infrastructureWebList[0].CivicAddressTVItemID);
+            }
+            Assert.IsNotNull(infrastructureWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(infrastructureWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(infrastructureWebList[0].HasErrors);
+        }
+        private void CheckInfrastructureReportFields(List<InfrastructureReport> infrastructureReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].InfrastructureReportTest))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].InfrastructureReportTest));
+            }
+            Assert.IsNotNull(infrastructureReportList[0].InfrastructureTVItemLanguage);
+            if (infrastructureReportList[0].SeeOtherTVItemLanguage != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].SeeOtherTVItemLanguage);
+            }
+            if (infrastructureReportList[0].CivicAddressTVItemLanguage != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].CivicAddressTVItemLanguage);
+            }
+            Assert.IsNotNull(infrastructureReportList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].InfrastructureTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].InfrastructureTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].FacilityTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].FacilityTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].AerationTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].AerationTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].PreliminaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].PreliminaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].PrimaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].PrimaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].SecondaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].SecondaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].TertiaryTreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].TertiaryTreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].TreatmentTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].TreatmentTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].DisinfectionTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].DisinfectionTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].CollectionSystemTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].CollectionSystemTypeText));
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].AlarmSystemTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].AlarmSystemTypeText));
+            }
+            Assert.IsNotNull(infrastructureReportList[0].InfrastructureID);
+            Assert.IsNotNull(infrastructureReportList[0].InfrastructureTVItemID);
+            if (infrastructureReportList[0].PrismID != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PrismID);
+            }
+            if (infrastructureReportList[0].TPID != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].TPID);
+            }
+            if (infrastructureReportList[0].LSID != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].LSID);
+            }
+            if (infrastructureReportList[0].SiteID != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].SiteID);
+            }
+            if (infrastructureReportList[0].Site != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].Site);
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].InfrastructureCategory))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].InfrastructureCategory));
+            }
+            if (infrastructureReportList[0].InfrastructureType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].InfrastructureType);
+            }
+            if (infrastructureReportList[0].FacilityType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].FacilityType);
+            }
+            if (infrastructureReportList[0].IsMechanicallyAerated != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].IsMechanicallyAerated);
+            }
+            if (infrastructureReportList[0].NumberOfCells != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].NumberOfCells);
+            }
+            if (infrastructureReportList[0].NumberOfAeratedCells != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].NumberOfAeratedCells);
+            }
+            if (infrastructureReportList[0].AerationType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].AerationType);
+            }
+            if (infrastructureReportList[0].PreliminaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PreliminaryTreatmentType);
+            }
+            if (infrastructureReportList[0].PrimaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PrimaryTreatmentType);
+            }
+            if (infrastructureReportList[0].SecondaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].SecondaryTreatmentType);
+            }
+            if (infrastructureReportList[0].TertiaryTreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].TertiaryTreatmentType);
+            }
+            if (infrastructureReportList[0].TreatmentType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].TreatmentType);
+            }
+            if (infrastructureReportList[0].DisinfectionType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].DisinfectionType);
+            }
+            if (infrastructureReportList[0].CollectionSystemType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].CollectionSystemType);
+            }
+            if (infrastructureReportList[0].AlarmSystemType != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].AlarmSystemType);
+            }
+            if (infrastructureReportList[0].DesignFlow_m3_day != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].DesignFlow_m3_day);
+            }
+            if (infrastructureReportList[0].AverageFlow_m3_day != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].AverageFlow_m3_day);
+            }
+            if (infrastructureReportList[0].PeakFlow_m3_day != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PeakFlow_m3_day);
+            }
+            if (infrastructureReportList[0].PopServed != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PopServed);
+            }
+            if (infrastructureReportList[0].CanOverflow != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].CanOverflow);
+            }
+            if (infrastructureReportList[0].PercFlowOfTotal != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PercFlowOfTotal);
+            }
+            if (infrastructureReportList[0].TimeOffset_hour != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].TimeOffset_hour);
+            }
+            if (!string.IsNullOrWhiteSpace(infrastructureReportList[0].TempCatchAllRemoveLater))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureReportList[0].TempCatchAllRemoveLater));
+            }
+            if (infrastructureReportList[0].AverageDepth_m != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].AverageDepth_m);
+            }
+            if (infrastructureReportList[0].NumberOfPorts != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].NumberOfPorts);
+            }
+            if (infrastructureReportList[0].PortDiameter_m != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PortDiameter_m);
+            }
+            if (infrastructureReportList[0].PortSpacing_m != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PortSpacing_m);
+            }
+            if (infrastructureReportList[0].PortElevation_m != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].PortElevation_m);
+            }
+            if (infrastructureReportList[0].VerticalAngle_deg != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].VerticalAngle_deg);
+            }
+            if (infrastructureReportList[0].HorizontalAngle_deg != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].HorizontalAngle_deg);
+            }
+            if (infrastructureReportList[0].DecayRate_per_day != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].DecayRate_per_day);
+            }
+            if (infrastructureReportList[0].NearFieldVelocity_m_s != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].NearFieldVelocity_m_s);
+            }
+            if (infrastructureReportList[0].FarFieldVelocity_m_s != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].FarFieldVelocity_m_s);
+            }
+            if (infrastructureReportList[0].ReceivingWaterSalinity_PSU != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].ReceivingWaterSalinity_PSU);
+            }
+            if (infrastructureReportList[0].ReceivingWaterTemperature_C != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].ReceivingWaterTemperature_C);
+            }
+            if (infrastructureReportList[0].ReceivingWater_MPN_per_100ml != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].ReceivingWater_MPN_per_100ml);
+            }
+            if (infrastructureReportList[0].DistanceFromShore_m != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].DistanceFromShore_m);
+            }
+            if (infrastructureReportList[0].SeeOtherTVItemID != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].SeeOtherTVItemID);
+            }
+            if (infrastructureReportList[0].CivicAddressTVItemID != null)
+            {
+                Assert.IsNotNull(infrastructureReportList[0].CivicAddressTVItemID);
+            }
+            Assert.IsNotNull(infrastructureReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(infrastructureReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(infrastructureReportList[0].HasErrors);
         }
         private Infrastructure GetFilledRandomInfrastructure(string OmitPropName)
         {

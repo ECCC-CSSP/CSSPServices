@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (docTemplate.DocTemplateID == 0)
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateDocTemplateID), new[] { "DocTemplateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateDocTemplateID"), new[] { "DocTemplateID" });
                 }
 
                 if (!GetRead().Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.DocTemplate, CSSPModelsRes.DocTemplateDocTemplateID, docTemplate.DocTemplateID.ToString()), new[] { "DocTemplateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateDocTemplateID", docTemplate.DocTemplateID.ToString()), new[] { "DocTemplateID" });
                 }
             }
 
@@ -61,14 +61,14 @@ namespace CSSPServices
             if (docTemplate.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateLanguage"), new[] { "Language" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)docTemplate.TVType);
             if (docTemplate.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateTVType"), new[] { "TVType" });
             }
 
             TVItem TVItemTVFileTVItemID = (from c in db.TVItems where c.TVItemID == docTemplate.TVFileTVItemID select c).FirstOrDefault();
@@ -76,7 +76,7 @@ namespace CSSPServices
             if (TVItemTVFileTVItemID == null)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "DocTemplateTVFileTVItemID", docTemplate.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
             {
@@ -87,33 +87,33 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.DocTemplateTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "DocTemplateTVFileTVItemID", "File"), new[] { "TVFileTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(docTemplate.FileName))
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateFileName), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateFileName"), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(docTemplate.FileName) && docTemplate.FileName.Length > 150)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateFileName, "150"), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "DocTemplateFileName", "150"), new[] { "FileName" });
             }
 
             if (docTemplate.LastUpdateDate_UTC.Year == 1)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (docTemplate.LastUpdateDate_UTC.Year < 1980)
                 {
                 docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.DocTemplateLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "DocTemplateLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -122,7 +122,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 docTemplate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "DocTemplateLastUpdateContactTVItemID", docTemplate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -133,7 +133,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     docTemplate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "DocTemplateLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -150,57 +150,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID)
         {
-            IQueryable<DocTemplate> docTemplateQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.DocTemplateID == DocTemplateID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.DocTemplateID == DocTemplateID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return docTemplateQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillDocTemplateWeb(docTemplateQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillDocTemplateReport(docTemplateQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<DocTemplate> GetDocTemplateList()
         {
-            IQueryable<DocTemplate> docTemplateQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<DocTemplate> DocTemplateQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        docTemplateQuery = EnhanceQueryStatements<DocTemplate>(docTemplateQuery) as IQueryable<DocTemplate>;
+            DocTemplateQuery = EnhanceQueryStatements<DocTemplate>(DocTemplateQuery) as IQueryable<DocTemplate>;
 
-                        return docTemplateQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        docTemplateQuery = FillDocTemplateWeb(docTemplateQuery);
+            return DocTemplateQuery;
+        }
+        public DocTemplateWeb GetDocTemplateWebWithDocTemplateID(int DocTemplateID)
+        {
+            return FillDocTemplateWeb().FirstOrDefault();
 
-                        docTemplateQuery = EnhanceQueryStatements<DocTemplate>(docTemplateQuery) as IQueryable<DocTemplate>;
+        }
+        public IQueryable<DocTemplateWeb> GetDocTemplateWebList()
+        {
+            IQueryable<DocTemplateWeb> DocTemplateWebQuery = FillDocTemplateWeb();
 
-                        return docTemplateQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        docTemplateQuery = FillDocTemplateReport(docTemplateQuery);
+            DocTemplateWebQuery = EnhanceQueryStatements<DocTemplateWeb>(DocTemplateWebQuery) as IQueryable<DocTemplateWeb>;
 
-                        docTemplateQuery = EnhanceQueryStatements<DocTemplate>(docTemplateQuery) as IQueryable<DocTemplate>;
+            return DocTemplateWebQuery;
+        }
+        public DocTemplateReport GetDocTemplateReportWithDocTemplateID(int DocTemplateID)
+        {
+            return FillDocTemplateReport().FirstOrDefault();
 
-                        return docTemplateQuery;
-                    }
-                default:
-                    {
-                        docTemplateQuery = docTemplateQuery.Where(c => c.DocTemplateID == 0);
+        }
+        public IQueryable<DocTemplateReport> GetDocTemplateReportList()
+        {
+            IQueryable<DocTemplateReport> DocTemplateReportQuery = FillDocTemplateReport();
 
-                        return docTemplateQuery;
-                    }
-            }
+            DocTemplateReportQuery = EnhanceQueryStatements<DocTemplateReport>(DocTemplateReportQuery) as IQueryable<DocTemplateReport>;
+
+            return DocTemplateReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -253,20 +240,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated DocTemplateFillWeb
-        private IQueryable<DocTemplate> FillDocTemplateWeb(IQueryable<DocTemplate> docTemplateQuery)
+        private IQueryable<DocTemplateWeb> FillDocTemplateWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-            docTemplateQuery = (from c in docTemplateQuery
+             IQueryable<DocTemplateWeb>  DocTemplateWebQuery = (from c in db.DocTemplates
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new DocTemplate
+                    select new DocTemplateWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
                         DocTemplateID = c.DocTemplateID,
                         Language = c.Language,
                         TVType = c.TVType,
@@ -274,22 +268,11 @@ namespace CSSPServices
                         FileName = c.FileName,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        DocTemplateWeb = new DocTemplateWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                            TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        DocTemplateReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return docTemplateQuery;
+            return DocTemplateWebQuery;
         }
         #endregion Functions private Generated DocTemplateFillWeb
 

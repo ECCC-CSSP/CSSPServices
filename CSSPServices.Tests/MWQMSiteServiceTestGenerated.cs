@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteID = 0;
                     mwqmSiteService.Update(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteID), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteID"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteID = 10000000;
                     mwqmSiteService.Update(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSite, CSSPModelsRes.MWQMSiteMWQMSiteID, mwqmSite.MWQMSiteID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSite", "MWQMSiteMWQMSiteID", mwqmSite.MWQMSiteID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,13 +117,13 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteTVItemID = 0;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteMWQMSiteTVItemID", mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteTVItemID = 1;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteMWQMSiteTVItemID", "MWQMSite"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -136,7 +136,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("MWQMSiteNumber");
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
-                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteNumber)).Any());
+                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteNumber")).Any());
                     Assert.AreEqual(null, mwqmSite.MWQMSiteNumber);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
@@ -144,7 +144,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteNumber = GetRandomString("", 9);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteNumber, "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteNumber", "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("MWQMSiteDescription");
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
-                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteDescription)).Any());
+                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteDescription")).Any());
                     Assert.AreEqual(null, mwqmSite.MWQMSiteDescription);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteDescription = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteDescription, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteDescription", "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -178,7 +178,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)1000000;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteLatestClassification), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteLatestClassification"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -191,46 +191,14 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.Ordinal = -1;
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSiteOrdinal", "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.Ordinal = 1001;
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSiteOrdinal", "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // mwqmSite.MWQMSiteWeb   (MWQMSiteWeb)
-                    // -----------------------------------
-
-                    mwqmSite = null;
-                    mwqmSite = GetFilledRandomMWQMSite("");
-                    mwqmSite.MWQMSiteWeb = null;
-                    Assert.IsNull(mwqmSite.MWQMSiteWeb);
-
-                    mwqmSite = null;
-                    mwqmSite = GetFilledRandomMWQMSite("");
-                    mwqmSite.MWQMSiteWeb = new MWQMSiteWeb();
-                    Assert.IsNotNull(mwqmSite.MWQMSiteWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // mwqmSite.MWQMSiteReport   (MWQMSiteReport)
-                    // -----------------------------------
-
-                    mwqmSite = null;
-                    mwqmSite = GetFilledRandomMWQMSite("");
-                    mwqmSite.MWQMSiteReport = null;
-                    Assert.IsNull(mwqmSite.MWQMSiteReport);
-
-                    mwqmSite = null;
-                    mwqmSite = GetFilledRandomMWQMSite("");
-                    mwqmSite.MWQMSiteReport = new MWQMSiteReport();
-                    Assert.IsNotNull(mwqmSite.MWQMSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -242,12 +210,12 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.LastUpdateDate_UTC = new DateTime();
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteLastUpdateDate_UTC), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteLastUpdateDate_UTC"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteLastUpdateDate_UTC, "1980"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteLastUpdateDate_UTC", "1980"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -259,13 +227,13 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.LastUpdateContactTVItemID = 0;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteLastUpdateContactTVItemID", mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.LastUpdateContactTVItemID = 1;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteLastUpdateContactTVItemID", "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -302,34 +270,32 @@ namespace CSSPServices.Tests
                     MWQMSite mwqmSite = (from c in mwqmSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSite);
 
-                    MWQMSite mwqmSiteRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
-                            Assert.IsNull(mwqmSiteRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                            MWQMSite mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                            CheckMWQMSiteFields(new List<MWQMSite>() { mwqmSiteRet });
+                            Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteRet.MWQMSiteID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                            MWQMSiteWeb mwqmSiteWebRet = mwqmSiteService.GetMWQMSiteWebWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                            CheckMWQMSiteWebFields(new List<MWQMSiteWeb>() { mwqmSiteWebRet });
+                            Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteWebRet.MWQMSiteID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                            MWQMSiteReport mwqmSiteReportRet = mwqmSiteService.GetMWQMSiteReportWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                            CheckMWQMSiteReportFields(new List<MWQMSiteReport>() { mwqmSiteReportRet });
+                            Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteReportRet.MWQMSiteID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(new List<MWQMSite>() { mwqmSiteRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -350,34 +316,38 @@ namespace CSSPServices.Tests
                     MWQMSite mwqmSite = (from c in mwqmSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSite);
 
-                    List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
+                    List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
+                    mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         mwqmSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
-                            Assert.AreEqual(0, mwqmSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteWeb> mwqmSiteWebList = new List<MWQMSiteWeb>();
+                            mwqmSiteWebList = mwqmSiteService.GetMWQMSiteWebList().ToList();
+                            CheckMWQMSiteWebFields(mwqmSiteWebList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteReport> mwqmSiteReportList = new List<MWQMSiteReport>();
+                            mwqmSiteReportList = mwqmSiteService.GetMWQMSiteReportList().ToList();
+                            CheckMWQMSiteReportFields(mwqmSiteReportList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(mwqmSiteList, entityQueryDetailType);
                     }
                 }
             }
@@ -394,41 +364,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
-                    List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
-                            Assert.AreEqual(0, mwqmSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteWeb> mwqmSiteWebList = new List<MWQMSiteWeb>();
+                            mwqmSiteWebList = mwqmSiteService.GetMWQMSiteWebList().ToList();
+                            CheckMWQMSiteWebFields(mwqmSiteWebList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteWebList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteReport> mwqmSiteReportList = new List<MWQMSiteReport>();
+                            mwqmSiteReportList = mwqmSiteService.GetMWQMSiteReportList().ToList();
+                            CheckMWQMSiteReportFields(mwqmSiteReportList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteReportList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(mwqmSiteList, entityQueryDetailType);
-                        Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
-                        Assert.AreEqual(1, mwqmSiteList.Count);
                     }
                 }
             }
@@ -445,41 +417,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
-                    List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
-                            Assert.AreEqual(0, mwqmSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteWeb> mwqmSiteWebList = new List<MWQMSiteWeb>();
+                            mwqmSiteWebList = mwqmSiteService.GetMWQMSiteWebList().ToList();
+                            CheckMWQMSiteWebFields(mwqmSiteWebList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteWebList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteReport> mwqmSiteReportList = new List<MWQMSiteReport>();
+                            mwqmSiteReportList = mwqmSiteService.GetMWQMSiteReportList().ToList();
+                            CheckMWQMSiteReportFields(mwqmSiteReportList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteReportList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(mwqmSiteList, entityQueryDetailType);
-                        Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
-                        Assert.AreEqual(1, mwqmSiteList.Count);
                     }
                 }
             }
@@ -496,41 +470,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
-                    List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSiteID,MWQMSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
-                            Assert.AreEqual(0, mwqmSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteWeb> mwqmSiteWebList = new List<MWQMSiteWeb>();
+                            mwqmSiteWebList = mwqmSiteService.GetMWQMSiteWebList().ToList();
+                            CheckMWQMSiteWebFields(mwqmSiteWebList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteWebList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteReport> mwqmSiteReportList = new List<MWQMSiteReport>();
+                            mwqmSiteReportList = mwqmSiteService.GetMWQMSiteReportList().ToList();
+                            CheckMWQMSiteReportFields(mwqmSiteReportList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteReportList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(mwqmSiteList, entityQueryDetailType);
-                        Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
-                        Assert.AreEqual(1, mwqmSiteList.Count);
                     }
                 }
             }
@@ -547,41 +523,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
-                    List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "MWQMSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Where(c => c.MWQMSiteID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
-                            Assert.AreEqual(0, mwqmSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteWeb> mwqmSiteWebList = new List<MWQMSiteWeb>();
+                            mwqmSiteWebList = mwqmSiteService.GetMWQMSiteWebList().ToList();
+                            CheckMWQMSiteWebFields(mwqmSiteWebList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteWebList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteReport> mwqmSiteReportList = new List<MWQMSiteReport>();
+                            mwqmSiteReportList = mwqmSiteService.GetMWQMSiteReportList().ToList();
+                            CheckMWQMSiteReportFields(mwqmSiteReportList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteReportList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(mwqmSiteList, entityQueryDetailType);
-                        Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
-                        Assert.AreEqual(1, mwqmSiteList.Count);
                     }
                 }
             }
@@ -598,41 +576,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
-                    List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
-                            Assert.AreEqual(0, mwqmSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteWeb> mwqmSiteWebList = new List<MWQMSiteWeb>();
+                            mwqmSiteWebList = mwqmSiteService.GetMWQMSiteWebList().ToList();
+                            CheckMWQMSiteWebFields(mwqmSiteWebList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteWebList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteReport> mwqmSiteReportList = new List<MWQMSiteReport>();
+                            mwqmSiteReportList = mwqmSiteService.GetMWQMSiteReportList().ToList();
+                            CheckMWQMSiteReportFields(mwqmSiteReportList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteReportList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(mwqmSiteList, entityQueryDetailType);
-                        Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
-                        Assert.AreEqual(1, mwqmSiteList.Count);
                     }
                 }
             }
@@ -649,41 +629,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
-                    List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
                         mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<MWQMSite> mwqmSiteList = new List<MWQMSite>();
                             mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
-                            Assert.AreEqual(0, mwqmSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            CheckMWQMSiteFields(mwqmSiteList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteWeb> mwqmSiteWebList = new List<MWQMSiteWeb>();
+                            mwqmSiteWebList = mwqmSiteService.GetMWQMSiteWebList().ToList();
+                            CheckMWQMSiteWebFields(mwqmSiteWebList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteWebList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            mwqmSiteList = mwqmSiteService.GetMWQMSiteList().ToList();
+                            List<MWQMSiteReport> mwqmSiteReportList = new List<MWQMSiteReport>();
+                            mwqmSiteReportList = mwqmSiteService.GetMWQMSiteReportList().ToList();
+                            CheckMWQMSiteReportFields(mwqmSiteReportList);
+                            Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteReportList[0].MWQMSiteID);
+                            Assert.AreEqual(mwqmSiteDirectQueryList.Count, mwqmSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckMWQMSiteFields(mwqmSiteList, entityQueryDetailType);
-                        Assert.AreEqual(mwqmSiteDirectQueryList[0].MWQMSiteID, mwqmSiteList[0].MWQMSiteID);
-                        Assert.AreEqual(2, mwqmSiteList.Count);
                     }
                 }
             }
@@ -691,9 +673,8 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetMWQMSiteList() 2Where
 
         #region Functions private
-        private void CheckMWQMSiteFields(List<MWQMSite> mwqmSiteList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckMWQMSiteFields(List<MWQMSite> mwqmSiteList)
         {
-            // MWQMSite fields
             Assert.IsNotNull(mwqmSiteList[0].MWQMSiteID);
             Assert.IsNotNull(mwqmSiteList[0].MWQMSiteTVItemID);
             Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteNumber));
@@ -702,38 +683,47 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(mwqmSiteList[0].Ordinal);
             Assert.IsNotNull(mwqmSiteList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(mwqmSiteList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(mwqmSiteList[0].HasErrors);
+        }
+        private void CheckMWQMSiteWebFields(List<MWQMSiteWeb> mwqmSiteWebList)
+        {
+            Assert.IsNotNull(mwqmSiteWebList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(mwqmSiteWebList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmSiteWebList[0].MWQMSiteLatestClassificationText))
             {
-                // MWQMSiteWeb and MWQMSiteReport fields should be null here
-                Assert.IsNull(mwqmSiteList[0].MWQMSiteWeb);
-                Assert.IsNull(mwqmSiteList[0].MWQMSiteReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteWebList[0].MWQMSiteLatestClassificationText));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            Assert.IsNotNull(mwqmSiteWebList[0].MWQMSiteID);
+            Assert.IsNotNull(mwqmSiteWebList[0].MWQMSiteTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteWebList[0].MWQMSiteNumber));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteWebList[0].MWQMSiteDescription));
+            Assert.IsNotNull(mwqmSiteWebList[0].MWQMSiteLatestClassification);
+            Assert.IsNotNull(mwqmSiteWebList[0].Ordinal);
+            Assert.IsNotNull(mwqmSiteWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSiteWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSiteWebList[0].HasErrors);
+        }
+        private void CheckMWQMSiteReportFields(List<MWQMSiteReport> mwqmSiteReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(mwqmSiteReportList[0].MWQMSiteReportTest))
             {
-                // MWQMSiteWeb fields should not be null and MWQMSiteReport fields should be null here
-                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVItemLanguage);
-                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVItemLanguage);
-                if (!string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText));
-                }
-                Assert.IsNull(mwqmSiteList[0].MWQMSiteReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteReportList[0].MWQMSiteReportTest));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            Assert.IsNotNull(mwqmSiteReportList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(mwqmSiteReportList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(mwqmSiteReportList[0].MWQMSiteLatestClassificationText))
             {
-                // MWQMSiteWeb and MWQMSiteReport fields should NOT be null here
-                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteTVItemLanguage);
-                Assert.IsNotNull(mwqmSiteList[0].MWQMSiteWeb.LastUpdateContactTVItemLanguage);
-                if (mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteWeb.MWQMSiteLatestClassificationText));
-                }
-                if (mwqmSiteList[0].MWQMSiteReport.MWQMSiteReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteList[0].MWQMSiteReport.MWQMSiteReportTest));
-                }
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteReportList[0].MWQMSiteLatestClassificationText));
             }
+            Assert.IsNotNull(mwqmSiteReportList[0].MWQMSiteID);
+            Assert.IsNotNull(mwqmSiteReportList[0].MWQMSiteTVItemID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteReportList[0].MWQMSiteNumber));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteReportList[0].MWQMSiteDescription));
+            Assert.IsNotNull(mwqmSiteReportList[0].MWQMSiteLatestClassification);
+            Assert.IsNotNull(mwqmSiteReportList[0].Ordinal);
+            Assert.IsNotNull(mwqmSiteReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(mwqmSiteReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(mwqmSiteReportList[0].HasErrors);
         }
         private MWQMSite GetFilledRandomMWQMSite(string OmitPropName)
         {

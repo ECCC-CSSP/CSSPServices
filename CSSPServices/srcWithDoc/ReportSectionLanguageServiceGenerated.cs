@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (reportSectionLanguage.ReportSectionLanguageID == 0)
                 {
                     reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageReportSectionLanguageID), new[] { "ReportSectionLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageReportSectionLanguageID"), new[] { "ReportSectionLanguageID" });
                 }
 
                 if (!GetRead().Where(c => c.ReportSectionLanguageID == reportSectionLanguage.ReportSectionLanguageID).Any())
                 {
                     reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportSectionLanguage, CSSPModelsRes.ReportSectionLanguageReportSectionLanguageID, reportSectionLanguage.ReportSectionLanguageID.ToString()), new[] { "ReportSectionLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSectionLanguage", "ReportSectionLanguageReportSectionLanguageID", reportSectionLanguage.ReportSectionLanguageID.ToString()), new[] { "ReportSectionLanguageID" });
                 }
             }
 
@@ -62,65 +62,65 @@ namespace CSSPServices
             if (ReportSectionReportSectionID == null)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportSection, CSSPModelsRes.ReportSectionLanguageReportSectionID, reportSectionLanguage.ReportSectionID.ToString()), new[] { "ReportSectionID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionLanguageReportSectionID", reportSectionLanguage.ReportSectionID.ToString()), new[] { "ReportSectionID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportSectionLanguage.Language);
             if (reportSectionLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageLanguage"), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionName))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageReportSectionName), new[] { "ReportSectionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageReportSectionName"), new[] { "ReportSectionName" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionName) && reportSectionLanguage.ReportSectionName.Length > 100)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ReportSectionLanguageReportSectionName, "100"), new[] { "ReportSectionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionLanguageReportSectionName", "100"), new[] { "ReportSectionName" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportSectionLanguage.TranslationStatusReportSectionName);
             if (reportSectionLanguage.TranslationStatusReportSectionName == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageTranslationStatusReportSectionName), new[] { "TranslationStatusReportSectionName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageTranslationStatusReportSectionName"), new[] { "TranslationStatusReportSectionName" });
             }
 
             if (string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionText))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageReportSectionText), new[] { "ReportSectionText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageReportSectionText"), new[] { "ReportSectionText" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportSectionLanguage.ReportSectionText) && reportSectionLanguage.ReportSectionText.Length > 10000)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ReportSectionLanguageReportSectionText, "10000"), new[] { "ReportSectionText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportSectionLanguageReportSectionText", "10000"), new[] { "ReportSectionText" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportSectionLanguage.TranslationStatusReportSectionText);
             if (reportSectionLanguage.TranslationStatusReportSectionText == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageTranslationStatusReportSectionText), new[] { "TranslationStatusReportSectionText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageTranslationStatusReportSectionText"), new[] { "TranslationStatusReportSectionText" });
             }
 
             if (reportSectionLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (reportSectionLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ReportSectionLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ReportSectionLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -129,7 +129,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportSectionLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportSectionLanguageLastUpdateContactTVItemID, reportSectionLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportSectionLanguageLastUpdateContactTVItemID", reportSectionLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -140,7 +140,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     reportSectionLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ReportSectionLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportSectionLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -157,57 +157,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ReportSectionLanguage GetReportSectionLanguageWithReportSectionLanguageID(int ReportSectionLanguageID)
         {
-            IQueryable<ReportSectionLanguage> reportSectionLanguageQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ReportSectionLanguageID == ReportSectionLanguageID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ReportSectionLanguageID == ReportSectionLanguageID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return reportSectionLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportSectionLanguageWeb(reportSectionLanguageQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportSectionLanguageReport(reportSectionLanguageQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ReportSectionLanguage> GetReportSectionLanguageList()
         {
-            IQueryable<ReportSectionLanguage> reportSectionLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ReportSectionLanguage> ReportSectionLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        reportSectionLanguageQuery = EnhanceQueryStatements<ReportSectionLanguage>(reportSectionLanguageQuery) as IQueryable<ReportSectionLanguage>;
+            ReportSectionLanguageQuery = EnhanceQueryStatements<ReportSectionLanguage>(ReportSectionLanguageQuery) as IQueryable<ReportSectionLanguage>;
 
-                        return reportSectionLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        reportSectionLanguageQuery = FillReportSectionLanguageWeb(reportSectionLanguageQuery);
+            return ReportSectionLanguageQuery;
+        }
+        public ReportSectionLanguageWeb GetReportSectionLanguageWebWithReportSectionLanguageID(int ReportSectionLanguageID)
+        {
+            return FillReportSectionLanguageWeb().FirstOrDefault();
 
-                        reportSectionLanguageQuery = EnhanceQueryStatements<ReportSectionLanguage>(reportSectionLanguageQuery) as IQueryable<ReportSectionLanguage>;
+        }
+        public IQueryable<ReportSectionLanguageWeb> GetReportSectionLanguageWebList()
+        {
+            IQueryable<ReportSectionLanguageWeb> ReportSectionLanguageWebQuery = FillReportSectionLanguageWeb();
 
-                        return reportSectionLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        reportSectionLanguageQuery = FillReportSectionLanguageReport(reportSectionLanguageQuery);
+            ReportSectionLanguageWebQuery = EnhanceQueryStatements<ReportSectionLanguageWeb>(ReportSectionLanguageWebQuery) as IQueryable<ReportSectionLanguageWeb>;
 
-                        reportSectionLanguageQuery = EnhanceQueryStatements<ReportSectionLanguage>(reportSectionLanguageQuery) as IQueryable<ReportSectionLanguage>;
+            return ReportSectionLanguageWebQuery;
+        }
+        public ReportSectionLanguageReport GetReportSectionLanguageReportWithReportSectionLanguageID(int ReportSectionLanguageID)
+        {
+            return FillReportSectionLanguageReport().FirstOrDefault();
 
-                        return reportSectionLanguageQuery;
-                    }
-                default:
-                    {
-                        reportSectionLanguageQuery = reportSectionLanguageQuery.Where(c => c.ReportSectionLanguageID == 0);
+        }
+        public IQueryable<ReportSectionLanguageReport> GetReportSectionLanguageReportList()
+        {
+            IQueryable<ReportSectionLanguageReport> ReportSectionLanguageReportQuery = FillReportSectionLanguageReport();
 
-                        return reportSectionLanguageQuery;
-                    }
-            }
+            ReportSectionLanguageReportQuery = EnhanceQueryStatements<ReportSectionLanguageReport>(ReportSectionLanguageReportQuery) as IQueryable<ReportSectionLanguageReport>;
+
+            return ReportSectionLanguageReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -260,20 +247,30 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportSectionLanguageFillWeb
-        private IQueryable<ReportSectionLanguage> FillReportSectionLanguageWeb(IQueryable<ReportSectionLanguage> reportSectionLanguageQuery)
+        private IQueryable<ReportSectionLanguageWeb> FillReportSectionLanguageWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            reportSectionLanguageQuery = (from c in reportSectionLanguageQuery
+             IQueryable<ReportSectionLanguageWeb>  ReportSectionLanguageWebQuery = (from c in db.ReportSectionLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ReportSectionLanguage
+                    select new ReportSectionLanguageWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusReportSectionNameText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusReportSectionName
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusReportSectionNameTextText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusReportSectionText
+                                select e.EnumText).FirstOrDefault(),
                         ReportSectionLanguageID = c.ReportSectionLanguageID,
                         ReportSectionID = c.ReportSectionID,
                         Language = c.Language,
@@ -283,25 +280,11 @@ namespace CSSPServices
                         TranslationStatusReportSectionText = c.TranslationStatusReportSectionText,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ReportSectionLanguageWeb = new ReportSectionLanguageWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusReportSectionNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusReportSectionName
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusReportSectionNameTextText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusReportSectionText
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        ReportSectionLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return reportSectionLanguageQuery;
+            return ReportSectionLanguageWebQuery;
         }
         #endregion Functions private Generated ReportSectionLanguageFillWeb
 

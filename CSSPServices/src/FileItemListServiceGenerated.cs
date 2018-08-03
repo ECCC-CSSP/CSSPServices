@@ -45,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(fileItemList.Text))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FileItemListText), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FileItemListText"), new[] { "Text" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItemList.Text) && (fileItemList.Text.Length < 1 || fileItemList.Text.Length > 255))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.FileItemListText, "1", "255"), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "FileItemListText", "1", "255"), new[] { "Text" });
             }
 
             if (string.IsNullOrWhiteSpace(fileItemList.FileName))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FileItemListFileName), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FileItemListFileName"), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItemList.FileName) && (fileItemList.FileName.Length < 1 || fileItemList.FileName.Length > 255))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.FileItemListFileName, "1", "255"), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "FileItemListFileName", "1", "255"), new[] { "FileName" });
             }
 
             retStr = ""; // added to stop compiling error

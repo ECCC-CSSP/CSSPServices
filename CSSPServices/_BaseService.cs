@@ -511,7 +511,19 @@ namespace CSSPServices
             }
             else
             {
-                string PropertyName = typeof(T).Name + "ID";
+                string PropertyName = "";
+                if (typeof(T).Name.EndsWith("Web"))
+                {
+                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 3) + "ID";
+                }
+                else if (typeof(T).Name.EndsWith("Report"))
+                {
+                    PropertyName = typeof(T).Name.Substring(0, typeof(T).Name.Length - 6) + "ID";
+                }
+                else
+                {
+                    PropertyName = typeof(T).Name + "ID";
+                }
 
                 query = OrderExpression.OrderByProp(query, PropertyName);
             }

@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (reportType.ReportTypeID == 0)
                 {
                     reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeReportTypeID), new[] { "ReportTypeID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeReportTypeID"), new[] { "ReportTypeID" });
                 }
 
                 if (!GetRead().Where(c => c.ReportTypeID == reportType.ReportTypeID).Any())
                 {
                     reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.ReportTypeReportTypeID, reportType.ReportTypeID.ToString()), new[] { "ReportTypeID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportTypeReportTypeID", reportType.ReportTypeID.ToString()), new[] { "ReportTypeID" });
                 }
             }
 
@@ -61,39 +61,39 @@ namespace CSSPServices
             if (reportType.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeTVType"), new[] { "TVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FileTypeEnum), (int?)reportType.FileType);
             if (reportType.FileType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeFileType), new[] { "FileType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeFileType"), new[] { "FileType" });
             }
 
             if (string.IsNullOrWhiteSpace(reportType.UniqueCode))
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeUniqueCode), new[] { "UniqueCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeUniqueCode"), new[] { "UniqueCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportType.UniqueCode) && reportType.UniqueCode.Length > 100)
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ReportTypeUniqueCode, "100"), new[] { "UniqueCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeUniqueCode", "100"), new[] { "UniqueCode" });
             }
 
             if (reportType.LastUpdateDate_UTC.Year == 1)
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (reportType.LastUpdateDate_UTC.Year < 1980)
                 {
                 reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ReportTypeLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ReportTypeLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -102,7 +102,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportType.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportTypeLastUpdateContactTVItemID, reportType.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportTypeLastUpdateContactTVItemID", reportType.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -113,7 +113,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     reportType.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ReportTypeLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportTypeLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -130,57 +130,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ReportType GetReportTypeWithReportTypeID(int ReportTypeID)
         {
-            IQueryable<ReportType> reportTypeQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ReportTypeID == ReportTypeID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ReportTypeID == ReportTypeID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return reportTypeQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportTypeWeb(reportTypeQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportTypeReport(reportTypeQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ReportType> GetReportTypeList()
         {
-            IQueryable<ReportType> reportTypeQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ReportType> ReportTypeQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        reportTypeQuery = EnhanceQueryStatements<ReportType>(reportTypeQuery) as IQueryable<ReportType>;
+            ReportTypeQuery = EnhanceQueryStatements<ReportType>(ReportTypeQuery) as IQueryable<ReportType>;
 
-                        return reportTypeQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        reportTypeQuery = FillReportTypeWeb(reportTypeQuery);
+            return ReportTypeQuery;
+        }
+        public ReportTypeWeb GetReportTypeWebWithReportTypeID(int ReportTypeID)
+        {
+            return FillReportTypeWeb().FirstOrDefault();
 
-                        reportTypeQuery = EnhanceQueryStatements<ReportType>(reportTypeQuery) as IQueryable<ReportType>;
+        }
+        public IQueryable<ReportTypeWeb> GetReportTypeWebList()
+        {
+            IQueryable<ReportTypeWeb> ReportTypeWebQuery = FillReportTypeWeb();
 
-                        return reportTypeQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        reportTypeQuery = FillReportTypeReport(reportTypeQuery);
+            ReportTypeWebQuery = EnhanceQueryStatements<ReportTypeWeb>(ReportTypeWebQuery) as IQueryable<ReportTypeWeb>;
 
-                        reportTypeQuery = EnhanceQueryStatements<ReportType>(reportTypeQuery) as IQueryable<ReportType>;
+            return ReportTypeWebQuery;
+        }
+        public ReportTypeReport GetReportTypeReportWithReportTypeID(int ReportTypeID)
+        {
+            return FillReportTypeReport().FirstOrDefault();
 
-                        return reportTypeQuery;
-                    }
-                default:
-                    {
-                        reportTypeQuery = reportTypeQuery.Where(c => c.ReportTypeID == 0);
+        }
+        public IQueryable<ReportTypeReport> GetReportTypeReportList()
+        {
+            IQueryable<ReportTypeReport> ReportTypeReportQuery = FillReportTypeReport();
 
-                        return reportTypeQuery;
-                    }
-            }
+            ReportTypeReportQuery = EnhanceQueryStatements<ReportTypeReport>(ReportTypeReportQuery) as IQueryable<ReportTypeReport>;
+
+            return ReportTypeReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -233,34 +220,30 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportTypeFillWeb
-        private IQueryable<ReportType> FillReportTypeWeb(IQueryable<ReportType> reportTypeQuery)
+        private IQueryable<ReportTypeWeb> FillReportTypeWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
 
-            reportTypeQuery = (from c in reportTypeQuery
+             IQueryable<ReportTypeWeb>  ReportTypeWebQuery = (from c in db.ReportTypes
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ReportType
+                    select new ReportTypeWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         ReportTypeID = c.ReportTypeID,
                         TVType = c.TVType,
                         FileType = c.FileType,
                         UniqueCode = c.UniqueCode,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ReportTypeWeb = new ReportTypeWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        ReportTypeReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return reportTypeQuery;
+            return ReportTypeWebQuery;
         }
         #endregion Functions private Generated ReportTypeFillWeb
 

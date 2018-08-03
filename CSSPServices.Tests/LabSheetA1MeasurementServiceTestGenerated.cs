@@ -32,67 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void LabSheetA1Measurement_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    LabSheetA1Measurement labSheetA1Measurement = GetFilledRandomLabSheetA1Measurement("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetLabSheetA1MeasurementWithLabSheetA1MeasurementID(labSheetA1Measurement.LabSheetA1MeasurementID)
-        #endregion Tests Generated for GetLabSheetA1MeasurementWithLabSheetA1MeasurementID(labSheetA1Measurement.LabSheetA1MeasurementID)
-
-        #region Tests Generated for GetLabSheetA1MeasurementList()
-        #endregion Tests Generated for GetLabSheetA1MeasurementList()
-
-        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take
-        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take
-
-        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order
-        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order
-
-        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take 2Order
-        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take 2Order
-
-        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order Where
-        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order Where
-
-        #region Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order 2Where
-        #endregion Tests Generated for GetLabSheetA1MeasurementList() Skip Take Order 2Where
-
-        #region Tests Generated for GetLabSheetA1MeasurementList() 2Where
-        #endregion Tests Generated for GetLabSheetA1MeasurementList() 2Where
-
         #region Functions private
         private LabSheetA1Measurement GetFilledRandomLabSheetA1Measurement(string OmitPropName)
         {

@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (emailDistributionListContactLanguage.EmailDistributionListContactLanguageID == 0)
                 {
                     emailDistributionListContactLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageEmailDistributionListContactLanguageID), new[] { "EmailDistributionListContactLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageEmailDistributionListContactLanguageID"), new[] { "EmailDistributionListContactLanguageID" });
                 }
 
                 if (!GetRead().Where(c => c.EmailDistributionListContactLanguageID == emailDistributionListContactLanguage.EmailDistributionListContactLanguageID).Any())
                 {
                     emailDistributionListContactLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListContactLanguage, CSSPModelsRes.EmailDistributionListContactLanguageEmailDistributionListContactLanguageID, emailDistributionListContactLanguage.EmailDistributionListContactLanguageID.ToString()), new[] { "EmailDistributionListContactLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContactLanguage", "EmailDistributionListContactLanguageEmailDistributionListContactLanguageID", emailDistributionListContactLanguage.EmailDistributionListContactLanguageID.ToString()), new[] { "EmailDistributionListContactLanguageID" });
                 }
             }
 
@@ -62,46 +62,46 @@ namespace CSSPServices
             if (EmailDistributionListContactEmailDistributionListContactID == null)
             {
                 emailDistributionListContactLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListContact, CSSPModelsRes.EmailDistributionListContactLanguageEmailDistributionListContactID, emailDistributionListContactLanguage.EmailDistributionListContactID.ToString()), new[] { "EmailDistributionListContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContact", "EmailDistributionListContactLanguageEmailDistributionListContactID", emailDistributionListContactLanguage.EmailDistributionListContactID.ToString()), new[] { "EmailDistributionListContactID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)emailDistributionListContactLanguage.Language);
             if (emailDistributionListContactLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 emailDistributionListContactLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageLanguage"), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(emailDistributionListContactLanguage.Agency))
             {
                 emailDistributionListContactLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageAgency), new[] { "Agency" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageAgency"), new[] { "Agency" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguage.Agency) && (emailDistributionListContactLanguage.Agency.Length < 1 || emailDistributionListContactLanguage.Agency.Length > 100))
             {
                 emailDistributionListContactLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.EmailDistributionListContactLanguageAgency, "1", "100"), new[] { "Agency" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "EmailDistributionListContactLanguageAgency", "1", "100"), new[] { "Agency" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)emailDistributionListContactLanguage.TranslationStatus);
             if (emailDistributionListContactLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 emailDistributionListContactLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageTranslationStatus), new[] { "TranslationStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageTranslationStatus"), new[] { "TranslationStatus" });
             }
 
             if (emailDistributionListContactLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionListContactLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (emailDistributionListContactLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 emailDistributionListContactLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "EmailDistributionListContactLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -110,7 +110,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 emailDistributionListContactLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateContactTVItemID, emailDistributionListContactLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "EmailDistributionListContactLanguageLastUpdateContactTVItemID", emailDistributionListContactLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -121,7 +121,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     emailDistributionListContactLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "EmailDistributionListContactLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -138,57 +138,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public EmailDistributionListContactLanguage GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
         {
-            IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.EmailDistributionListContactLanguageID == EmailDistributionListContactLanguageID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return emailDistributionListContactLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillEmailDistributionListContactLanguageWeb(emailDistributionListContactLanguageQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionListContactLanguageReport(emailDistributionListContactLanguageQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<EmailDistributionListContactLanguage> GetEmailDistributionListContactLanguageList()
         {
-            IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<EmailDistributionListContactLanguage> EmailDistributionListContactLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        emailDistributionListContactLanguageQuery = EnhanceQueryStatements<EmailDistributionListContactLanguage>(emailDistributionListContactLanguageQuery) as IQueryable<EmailDistributionListContactLanguage>;
+            EmailDistributionListContactLanguageQuery = EnhanceQueryStatements<EmailDistributionListContactLanguage>(EmailDistributionListContactLanguageQuery) as IQueryable<EmailDistributionListContactLanguage>;
 
-                        return emailDistributionListContactLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        emailDistributionListContactLanguageQuery = FillEmailDistributionListContactLanguageWeb(emailDistributionListContactLanguageQuery);
+            return EmailDistributionListContactLanguageQuery;
+        }
+        public EmailDistributionListContactLanguageWeb GetEmailDistributionListContactLanguageWebWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
+        {
+            return FillEmailDistributionListContactLanguageWeb().FirstOrDefault();
 
-                        emailDistributionListContactLanguageQuery = EnhanceQueryStatements<EmailDistributionListContactLanguage>(emailDistributionListContactLanguageQuery) as IQueryable<EmailDistributionListContactLanguage>;
+        }
+        public IQueryable<EmailDistributionListContactLanguageWeb> GetEmailDistributionListContactLanguageWebList()
+        {
+            IQueryable<EmailDistributionListContactLanguageWeb> EmailDistributionListContactLanguageWebQuery = FillEmailDistributionListContactLanguageWeb();
 
-                        return emailDistributionListContactLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        emailDistributionListContactLanguageQuery = FillEmailDistributionListContactLanguageReport(emailDistributionListContactLanguageQuery);
+            EmailDistributionListContactLanguageWebQuery = EnhanceQueryStatements<EmailDistributionListContactLanguageWeb>(EmailDistributionListContactLanguageWebQuery) as IQueryable<EmailDistributionListContactLanguageWeb>;
 
-                        emailDistributionListContactLanguageQuery = EnhanceQueryStatements<EmailDistributionListContactLanguage>(emailDistributionListContactLanguageQuery) as IQueryable<EmailDistributionListContactLanguage>;
+            return EmailDistributionListContactLanguageWebQuery;
+        }
+        public EmailDistributionListContactLanguageReport GetEmailDistributionListContactLanguageReportWithEmailDistributionListContactLanguageID(int EmailDistributionListContactLanguageID)
+        {
+            return FillEmailDistributionListContactLanguageReport().FirstOrDefault();
 
-                        return emailDistributionListContactLanguageQuery;
-                    }
-                default:
-                    {
-                        emailDistributionListContactLanguageQuery = emailDistributionListContactLanguageQuery.Where(c => c.EmailDistributionListContactLanguageID == 0);
+        }
+        public IQueryable<EmailDistributionListContactLanguageReport> GetEmailDistributionListContactLanguageReportList()
+        {
+            IQueryable<EmailDistributionListContactLanguageReport> EmailDistributionListContactLanguageReportQuery = FillEmailDistributionListContactLanguageReport();
 
-                        return emailDistributionListContactLanguageQuery;
-                    }
-            }
+            EmailDistributionListContactLanguageReportQuery = EnhanceQueryStatements<EmailDistributionListContactLanguageReport>(EmailDistributionListContactLanguageReportQuery) as IQueryable<EmailDistributionListContactLanguageReport>;
+
+            return EmailDistributionListContactLanguageReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -241,20 +228,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailDistributionListContactLanguageFillWeb
-        private IQueryable<EmailDistributionListContactLanguage> FillEmailDistributionListContactLanguageWeb(IQueryable<EmailDistributionListContactLanguage> emailDistributionListContactLanguageQuery)
+        private IQueryable<EmailDistributionListContactLanguageWeb> FillEmailDistributionListContactLanguageWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            emailDistributionListContactLanguageQuery = (from c in emailDistributionListContactLanguageQuery
+             IQueryable<EmailDistributionListContactLanguageWeb>  EmailDistributionListContactLanguageWebQuery = (from c in db.EmailDistributionListContactLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new EmailDistributionListContactLanguage
+                    select new EmailDistributionListContactLanguageWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatus
+                                select e.EnumText).FirstOrDefault(),
                         EmailDistributionListContactLanguageID = c.EmailDistributionListContactLanguageID,
                         EmailDistributionListContactID = c.EmailDistributionListContactID,
                         Language = c.Language,
@@ -262,22 +256,11 @@ namespace CSSPServices
                         TranslationStatus = c.TranslationStatus,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        EmailDistributionListContactLanguageWeb = new EmailDistributionListContactLanguageWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        EmailDistributionListContactLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return emailDistributionListContactLanguageQuery;
+            return EmailDistributionListContactLanguageWebQuery;
         }
         #endregion Functions private Generated EmailDistributionListContactLanguageFillWeb
 

@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (tel.TelID == 0)
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelID), new[] { "TelID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TelTelID"), new[] { "TelID" });
                 }
 
                 if (!GetRead().Where(c => c.TelID == tel.TelID).Any())
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Tel, CSSPModelsRes.TelTelID, tel.TelID.ToString()), new[] { "TelID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Tel", "TelTelID", tel.TelID.ToString()), new[] { "TelID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTelTVItemID == null)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), new[] { "TelTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TelTelTVItemID", tel.TelTVItemID.ToString()), new[] { "TelTVItemID" });
             }
             else
             {
@@ -73,40 +73,40 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTelTVItemID.TVType))
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelTelTVItemID, "Tel"), new[] { "TelTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TelTelTVItemID", "Tel"), new[] { "TelTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(tel.TelNumber))
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelNumber), new[] { "TelNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TelTelNumber"), new[] { "TelNumber" });
             }
 
             if (!string.IsNullOrWhiteSpace(tel.TelNumber) && tel.TelNumber.Length > 50)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelNumber, "50"), new[] { "TelNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TelTelNumber", "50"), new[] { "TelNumber" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TelTypeEnum), (int?)tel.TelType);
             if (tel.TelType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelType), new[] { "TelType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TelTelType"), new[] { "TelType" });
             }
 
             if (tel.LastUpdateDate_UTC.Year == 1)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TelLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tel.LastUpdateDate_UTC.Year < 1980)
                 {
                 tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TelLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TelLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -115,7 +115,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TelLastUpdateContactTVItemID", tel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -126,7 +126,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TelLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -143,57 +143,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Tel GetTelWithTelID(int TelID)
         {
-            IQueryable<Tel> telQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.TelID == TelID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.TelID == TelID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return telQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTelWeb(telQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTelReport(telQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<Tel> GetTelList()
         {
-            IQueryable<Tel> telQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Tel> TelQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        telQuery = EnhanceQueryStatements<Tel>(telQuery) as IQueryable<Tel>;
+            TelQuery = EnhanceQueryStatements<Tel>(TelQuery) as IQueryable<Tel>;
 
-                        return telQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        telQuery = FillTelWeb(telQuery);
+            return TelQuery;
+        }
+        public TelWeb GetTelWebWithTelID(int TelID)
+        {
+            return FillTelWeb().FirstOrDefault();
 
-                        telQuery = EnhanceQueryStatements<Tel>(telQuery) as IQueryable<Tel>;
+        }
+        public IQueryable<TelWeb> GetTelWebList()
+        {
+            IQueryable<TelWeb> TelWebQuery = FillTelWeb();
 
-                        return telQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        telQuery = FillTelReport(telQuery);
+            TelWebQuery = EnhanceQueryStatements<TelWeb>(TelWebQuery) as IQueryable<TelWeb>;
 
-                        telQuery = EnhanceQueryStatements<Tel>(telQuery) as IQueryable<Tel>;
+            return TelWebQuery;
+        }
+        public TelReport GetTelReportWithTelID(int TelID)
+        {
+            return FillTelReport().FirstOrDefault();
 
-                        return telQuery;
-                    }
-                default:
-                    {
-                        telQuery = telQuery.Where(c => c.TelID == 0);
+        }
+        public IQueryable<TelReport> GetTelReportList()
+        {
+            IQueryable<TelReport> TelReportQuery = FillTelReport();
 
-                        return telQuery;
-                    }
-            }
+            TelReportQuery = EnhanceQueryStatements<TelReport>(TelReportQuery) as IQueryable<TelReport>;
+
+            return TelReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -246,13 +233,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TelFillWeb
-        private IQueryable<Tel> FillTelWeb(IQueryable<Tel> telQuery)
+        private IQueryable<TelWeb> FillTelWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> TelTypeEnumList = enums.GetEnumTextOrderedList(typeof(TelTypeEnum));
 
-            telQuery = (from c in telQuery
+             IQueryable<TelWeb>  TelWebQuery = (from c in db.Tels
                 let TelTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TelTVItemID
                     && cl.Language == LanguageRequest
@@ -261,28 +248,24 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new Tel
+                    select new TelWeb
                     {
+                        TelTVItemLanguage = TelTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TelTypeText = (from e in TelTypeEnumList
+                                where e.EnumID == (int?)c.TelType
+                                select e.EnumText).FirstOrDefault(),
                         TelID = c.TelID,
                         TelTVItemID = c.TelTVItemID,
                         TelNumber = c.TelNumber,
                         TelType = c.TelType,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TelWeb = new TelWeb
-                        {
-                            TelTVItemLanguage = TelTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            TelTypeText = (from e in TelTypeEnumList
-                                where e.EnumID == (int?)c.TelType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        TelReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return telQuery;
+            return TelWebQuery;
         }
         #endregion Functions private Generated TelFillWeb
 

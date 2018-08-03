@@ -47,75 +47,75 @@ namespace CSSPServices
                 if (tideLocation.TideLocationID == 0)
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationTideLocationID), new[] { "TideLocationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationTideLocationID"), new[] { "TideLocationID" });
                 }
 
                 if (!GetRead().Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TideLocation, CSSPModelsRes.TideLocationTideLocationID, tideLocation.TideLocationID.ToString()), new[] { "TideLocationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TideLocation", "TideLocationTideLocationID", tideLocation.TideLocationID.ToString()), new[] { "TideLocationID" });
                 }
             }
 
             if (tideLocation.Zone < 0 || tideLocation.Zone > 10000)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationZone, "0", "10000"), new[] { "Zone" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationZone", "0", "10000"), new[] { "Zone" });
             }
 
             if (string.IsNullOrWhiteSpace(tideLocation.Name))
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationName"), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideLocation.Name) && tideLocation.Name.Length > 100)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideLocationName, "100"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TideLocationName", "100"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(tideLocation.Prov))
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationProv), new[] { "Prov" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationProv"), new[] { "Prov" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideLocation.Prov) && tideLocation.Prov.Length > 100)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideLocationProv, "100"), new[] { "Prov" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TideLocationProv", "100"), new[] { "Prov" });
             }
 
             if (tideLocation.sid < 0 || tideLocation.sid > 100000)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationsid, "0", "100000"), new[] { "sid" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationsid", "0", "100000"), new[] { "sid" });
             }
 
             if (tideLocation.Lat < -90 || tideLocation.Lat > 90)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLat, "-90", "90"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationLat", "-90", "90"), new[] { "Lat" });
             }
 
             if (tideLocation.Lng < -180 || tideLocation.Lng > 180)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLng, "-180", "180"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideLocationLng", "-180", "180"), new[] { "Lng" });
             }
 
             if (tideLocation.LastUpdateDate_UTC.Year == 1)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tideLocation.LastUpdateDate_UTC.Year < 1980)
                 {
                 tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideLocationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TideLocationLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -124,7 +124,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, tideLocation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TideLocationLastUpdateContactTVItemID", tideLocation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -135,7 +135,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideLocationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TideLocationLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -152,57 +152,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TideLocation GetTideLocationWithTideLocationID(int TideLocationID)
         {
-            IQueryable<TideLocation> tideLocationQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.TideLocationID == TideLocationID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.TideLocationID == TideLocationID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tideLocationQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideLocationWeb(tideLocationQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideLocationReport(tideLocationQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<TideLocation> GetTideLocationList()
         {
-            IQueryable<TideLocation> tideLocationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TideLocation> TideLocationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        tideLocationQuery = EnhanceQueryStatements<TideLocation>(tideLocationQuery) as IQueryable<TideLocation>;
+            TideLocationQuery = EnhanceQueryStatements<TideLocation>(TideLocationQuery) as IQueryable<TideLocation>;
 
-                        return tideLocationQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        tideLocationQuery = FillTideLocationWeb(tideLocationQuery);
+            return TideLocationQuery;
+        }
+        public TideLocationWeb GetTideLocationWebWithTideLocationID(int TideLocationID)
+        {
+            return FillTideLocationWeb().FirstOrDefault();
 
-                        tideLocationQuery = EnhanceQueryStatements<TideLocation>(tideLocationQuery) as IQueryable<TideLocation>;
+        }
+        public IQueryable<TideLocationWeb> GetTideLocationWebList()
+        {
+            IQueryable<TideLocationWeb> TideLocationWebQuery = FillTideLocationWeb();
 
-                        return tideLocationQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        tideLocationQuery = FillTideLocationReport(tideLocationQuery);
+            TideLocationWebQuery = EnhanceQueryStatements<TideLocationWeb>(TideLocationWebQuery) as IQueryable<TideLocationWeb>;
 
-                        tideLocationQuery = EnhanceQueryStatements<TideLocation>(tideLocationQuery) as IQueryable<TideLocation>;
+            return TideLocationWebQuery;
+        }
+        public TideLocationReport GetTideLocationReportWithTideLocationID(int TideLocationID)
+        {
+            return FillTideLocationReport().FirstOrDefault();
 
-                        return tideLocationQuery;
-                    }
-                default:
-                    {
-                        tideLocationQuery = tideLocationQuery.Where(c => c.TideLocationID == 0);
+        }
+        public IQueryable<TideLocationReport> GetTideLocationReportList()
+        {
+            IQueryable<TideLocationReport> TideLocationReportQuery = FillTideLocationReport();
 
-                        return tideLocationQuery;
-                    }
-            }
+            TideLocationReportQuery = EnhanceQueryStatements<TideLocationReport>(TideLocationReportQuery) as IQueryable<TideLocationReport>;
+
+            return TideLocationReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -255,15 +242,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TideLocationFillWeb
-        private IQueryable<TideLocation> FillTideLocationWeb(IQueryable<TideLocation> tideLocationQuery)
+        private IQueryable<TideLocationWeb> FillTideLocationWeb()
         {
-            tideLocationQuery = (from c in tideLocationQuery
+             IQueryable<TideLocationWeb>  TideLocationWebQuery = (from c in db.TideLocations
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new TideLocation
+                    select new TideLocationWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         TideLocationID = c.TideLocationID,
                         Zone = c.Zone,
                         Name = c.Name,
@@ -273,16 +261,11 @@ namespace CSSPServices
                         Lng = c.Lng,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TideLocationWeb = new TideLocationWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        TideLocationReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return tideLocationQuery;
+            return TideLocationWebQuery;
         }
         #endregion Functions private Generated TideLocationFillWeb
 

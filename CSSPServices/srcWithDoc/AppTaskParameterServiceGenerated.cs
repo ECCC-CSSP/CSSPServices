@@ -45,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(appTaskParameter.Name))
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskParameterName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskParameterName"), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskParameter.Name) && appTaskParameter.Name.Length > 255)
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskParameterName, "255"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "AppTaskParameterName", "255"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(appTaskParameter.Value))
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskParameterValue), new[] { "Value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskParameterValue"), new[] { "Value" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskParameter.Value) && appTaskParameter.Value.Length > 255)
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskParameterValue, "255"), new[] { "Value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "AppTaskParameterValue", "255"), new[] { "Value" });
             }
 
             retStr = ""; // added to stop compiling error

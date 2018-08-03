@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,79 +7,62 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class MapInfoService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<MapInfo> FillMapInfoReport(IQueryable<MapInfo> mapInfoQuery)
+        #region Functions private Generated MapInfoFillReport
+        private IQueryable<MapInfoReport> FillMapInfoReport()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
             List<EnumIDAndText> MapInfoDrawTypeEnumList = enums.GetEnumTextOrderedList(typeof(MapInfoDrawTypeEnum));
 
-            mapInfoQuery = (from c in mapInfoQuery
-                            let TVItemLanguage = (from cl in db.TVItemLanguages
-                                          where cl.TVItemID == c.TVItemID
-                                          && cl.Language == LanguageRequest
-                                          select cl).FirstOrDefault()
-                            let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                           where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                           && cl.Language == LanguageRequest
-                                                           select cl).FirstOrDefault()
-                            select new MapInfo
-                            {
-                                MapInfoID = c.MapInfoID,
-                                TVItemID = c.TVItemID,
-                                TVType = c.TVType,
-                                LatMin = c.LatMin,
-                                LatMax = c.LatMax,
-                                LngMin = c.LngMin,
-                                LngMax = c.LngMax,
-                                MapInfoDrawType = c.MapInfoDrawType,
-                                LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                MapInfoWeb = new MapInfoWeb
-                                {
-                                    TVItemLanguage = TVItemLanguage,
-                                    LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                    TVTypeText = (from e in TVTypeEnumList
-                                                  where e.EnumID == (int?)c.TVType
-                                                  select e.EnumText).FirstOrDefault(),
-                                    MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
-                                                           where e.EnumID == (int?)c.MapInfoDrawType
-                                                           select e.EnumText).FirstOrDefault(),
-                                },
-                                MapInfoReport = new MapInfoReport
-                                {
-                                    MapInfoReportTest = "MapInfoReportTest",
-                                },
-                                HasErrors = false,
-                                ValidationResults = null,
-                            });
+             IQueryable<MapInfoReport>  MapInfoReportQuery = (from c in db.MapInfos
+                let TVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.TVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new MapInfoReport
+                    {
+                        MapInfoReportTest = "Testing Report",
+                        TVItemLanguage = TVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
+                        MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
+                                where e.EnumID == (int?)c.MapInfoDrawType
+                                select e.EnumText).FirstOrDefault(),
+                        MapInfoID = c.MapInfoID,
+                        TVItemID = c.TVItemID,
+                        TVType = c.TVType,
+                        LatMin = c.LatMin,
+                        LatMax = c.LatMax,
+                        LngMin = c.LngMin,
+                        LngMax = c.LngMax,
+                        MapInfoDrawType = c.MapInfoDrawType,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return mapInfoQuery;
+            return MapInfoReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated MapInfoFillReport
+
     }
 }

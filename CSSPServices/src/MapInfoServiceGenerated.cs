@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mapInfo.MapInfoID == 0)
                 {
                     mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoMapInfoID), new[] { "MapInfoID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoMapInfoID"), new[] { "MapInfoID" });
                 }
 
                 if (!GetRead().Where(c => c.MapInfoID == mapInfo.MapInfoID).Any())
                 {
                     mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfo, CSSPModelsRes.MapInfoMapInfoID, mapInfo.MapInfoID.ToString()), new[] { "MapInfoID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoMapInfoID", mapInfo.MapInfoID.ToString()), new[] { "MapInfoID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTVItemID == null)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MapInfoTVItemID", mapInfo.TVItemID.ToString()), new[] { "TVItemID" });
             }
             else
             {
@@ -102,7 +102,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoTVItemID, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow,Classification,Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MapInfoTVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow,Classification,Approved,Restricted,Prohibited,ConditionallyApproved,ConditionallyRestricted"), new[] { "TVItemID" });
                 }
             }
 
@@ -110,51 +110,51 @@ namespace CSSPServices
             if (mapInfo.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoTVType"), new[] { "TVType" });
             }
 
             if (mapInfo.LatMin < -90 || mapInfo.LatMin > 90)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoLatMin, "-90", "90"), new[] { "LatMin" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLatMin", "-90", "90"), new[] { "LatMin" });
             }
 
             if (mapInfo.LatMax < -90 || mapInfo.LatMax > 90)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoLatMax, "-90", "90"), new[] { "LatMax" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLatMax", "-90", "90"), new[] { "LatMax" });
             }
 
             if (mapInfo.LngMin < -180 || mapInfo.LngMin > 180)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoLngMin, "-180", "180"), new[] { "LngMin" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLngMin", "-180", "180"), new[] { "LngMin" });
             }
 
             if (mapInfo.LngMax < -180 || mapInfo.LngMax > 180)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoLngMax, "-180", "180"), new[] { "LngMax" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLngMax", "-180", "180"), new[] { "LngMax" });
             }
 
             retStr = enums.EnumTypeOK(typeof(MapInfoDrawTypeEnum), (int?)mapInfo.MapInfoDrawType);
             if (mapInfo.MapInfoDrawType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoMapInfoDrawType), new[] { "MapInfoDrawType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoMapInfoDrawType"), new[] { "MapInfoDrawType" });
             }
 
             if (mapInfo.LastUpdateDate_UTC.Year == 1)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mapInfo.LastUpdateDate_UTC.Year < 1980)
                 {
                 mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MapInfoLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MapInfoLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -163,7 +163,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mapInfo.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MapInfoLastUpdateContactTVItemID", mapInfo.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -174,7 +174,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mapInfo.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MapInfoLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -191,57 +191,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MapInfo GetMapInfoWithMapInfoID(int MapInfoID)
         {
-            IQueryable<MapInfo> mapInfoQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MapInfoID == MapInfoID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MapInfoID == MapInfoID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mapInfoQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMapInfoWeb(mapInfoQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfoReport(mapInfoQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MapInfo> GetMapInfoList()
         {
-            IQueryable<MapInfo> mapInfoQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MapInfo> MapInfoQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mapInfoQuery = EnhanceQueryStatements<MapInfo>(mapInfoQuery) as IQueryable<MapInfo>;
+            MapInfoQuery = EnhanceQueryStatements<MapInfo>(MapInfoQuery) as IQueryable<MapInfo>;
 
-                        return mapInfoQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mapInfoQuery = FillMapInfoWeb(mapInfoQuery);
+            return MapInfoQuery;
+        }
+        public MapInfoWeb GetMapInfoWebWithMapInfoID(int MapInfoID)
+        {
+            return FillMapInfoWeb().FirstOrDefault();
 
-                        mapInfoQuery = EnhanceQueryStatements<MapInfo>(mapInfoQuery) as IQueryable<MapInfo>;
+        }
+        public IQueryable<MapInfoWeb> GetMapInfoWebList()
+        {
+            IQueryable<MapInfoWeb> MapInfoWebQuery = FillMapInfoWeb();
 
-                        return mapInfoQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mapInfoQuery = FillMapInfoReport(mapInfoQuery);
+            MapInfoWebQuery = EnhanceQueryStatements<MapInfoWeb>(MapInfoWebQuery) as IQueryable<MapInfoWeb>;
 
-                        mapInfoQuery = EnhanceQueryStatements<MapInfo>(mapInfoQuery) as IQueryable<MapInfo>;
+            return MapInfoWebQuery;
+        }
+        public MapInfoReport GetMapInfoReportWithMapInfoID(int MapInfoID)
+        {
+            return FillMapInfoReport().FirstOrDefault();
 
-                        return mapInfoQuery;
-                    }
-                default:
-                    {
-                        mapInfoQuery = mapInfoQuery.Where(c => c.MapInfoID == 0);
+        }
+        public IQueryable<MapInfoReport> GetMapInfoReportList()
+        {
+            IQueryable<MapInfoReport> MapInfoReportQuery = FillMapInfoReport();
 
-                        return mapInfoQuery;
-                    }
-            }
+            MapInfoReportQuery = EnhanceQueryStatements<MapInfoReport>(MapInfoReportQuery) as IQueryable<MapInfoReport>;
+
+            return MapInfoReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -294,14 +281,14 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MapInfoFillWeb
-        private IQueryable<MapInfo> FillMapInfoWeb(IQueryable<MapInfo> mapInfoQuery)
+        private IQueryable<MapInfoWeb> FillMapInfoWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
             List<EnumIDAndText> MapInfoDrawTypeEnumList = enums.GetEnumTextOrderedList(typeof(MapInfoDrawTypeEnum));
 
-            mapInfoQuery = (from c in mapInfoQuery
+             IQueryable<MapInfoWeb>  MapInfoWebQuery = (from c in db.MapInfos
                 let TVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID
                     && cl.Language == LanguageRequest
@@ -310,8 +297,16 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MapInfo
+                    select new MapInfoWeb
                     {
+                        TVItemLanguage = TVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
+                        MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
+                                where e.EnumID == (int?)c.MapInfoDrawType
+                                select e.EnumText).FirstOrDefault(),
                         MapInfoID = c.MapInfoID,
                         TVItemID = c.TVItemID,
                         TVType = c.TVType,
@@ -322,23 +317,11 @@ namespace CSSPServices
                         MapInfoDrawType = c.MapInfoDrawType,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MapInfoWeb = new MapInfoWeb
-                        {
-                            TVItemLanguage = TVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                            MapInfoDrawTypeText = (from e in MapInfoDrawTypeEnumList
-                                where e.EnumID == (int?)c.MapInfoDrawType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        MapInfoReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mapInfoQuery;
+            return MapInfoWebQuery;
         }
         #endregion Functions private Generated MapInfoFillWeb
 

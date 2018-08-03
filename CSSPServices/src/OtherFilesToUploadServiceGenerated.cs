@@ -45,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(otherFilesToUpload.Error))
             {
                 otherFilesToUpload.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.OtherFilesToUploadError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "OtherFilesToUploadError"), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -53,7 +53,7 @@ namespace CSSPServices
             if (otherFilesToUpload.MikeScenarioID < 1)
             {
                 otherFilesToUpload.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.OtherFilesToUploadMikeScenarioID, "1"), new[] { "MikeScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "OtherFilesToUploadMikeScenarioID", "1"), new[] { "MikeScenarioID" });
             }
 
                 //Error: Type not implemented [TVFileList] of type [List`1]

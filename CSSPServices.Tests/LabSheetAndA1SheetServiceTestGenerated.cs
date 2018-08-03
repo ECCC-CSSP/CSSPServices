@@ -32,67 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void LabSheetAndA1Sheet_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    LabSheetAndA1SheetService labSheetAndA1SheetService = new LabSheetAndA1SheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    LabSheetAndA1Sheet labSheetAndA1Sheet = GetFilledRandomLabSheetAndA1Sheet("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetLabSheetAndA1SheetWithLabSheetAndA1SheetID(labSheetAndA1Sheet.LabSheetAndA1SheetID)
-        #endregion Tests Generated for GetLabSheetAndA1SheetWithLabSheetAndA1SheetID(labSheetAndA1Sheet.LabSheetAndA1SheetID)
-
-        #region Tests Generated for GetLabSheetAndA1SheetList()
-        #endregion Tests Generated for GetLabSheetAndA1SheetList()
-
-        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take
-        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take
-
-        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order
-        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order
-
-        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take 2Order
-        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take 2Order
-
-        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order Where
-        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order Where
-
-        #region Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order 2Where
-        #endregion Tests Generated for GetLabSheetAndA1SheetList() Skip Take Order 2Where
-
-        #region Tests Generated for GetLabSheetAndA1SheetList() 2Where
-        #endregion Tests Generated for GetLabSheetAndA1SheetList() 2Where
-
         #region Functions private
         private LabSheetAndA1Sheet GetFilledRandomLabSheetAndA1Sheet(string OmitPropName)
         {

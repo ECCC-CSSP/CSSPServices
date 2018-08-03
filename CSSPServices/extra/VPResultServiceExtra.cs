@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,63 +7,46 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class VPResultService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<VPResult> FillVPResultReport(IQueryable<VPResult> vpResultQuery)
+        #region Functions private Generated VPResultFillReport
+        private IQueryable<VPResultReport> FillVPResultReport()
         {
-            vpResultQuery = (from c in vpResultQuery
-                             let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                            where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                            && cl.Language == LanguageRequest
-                                                            select cl).FirstOrDefault()
-                             select new VPResult
-                             {
-                                 VPResultID = c.VPResultID,
-                                 VPScenarioID = c.VPScenarioID,
-                                 Ordinal = c.Ordinal,
-                                 Concentration_MPN_100ml = c.Concentration_MPN_100ml,
-                                 Dilution = c.Dilution,
-                                 FarFieldWidth_m = c.FarFieldWidth_m,
-                                 DispersionDistance_m = c.DispersionDistance_m,
-                                 TravelTime_hour = c.TravelTime_hour,
-                                 LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                 LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                 VPResultWeb = new VPResultWeb
-                                 {
-                                     LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                 },
-                                 VPResultReport = new VPResultReport
-                                 {
-                                     VPResultReportTest = "VPResultReportTest",
-                                 },
-                                 HasErrors = false,
-                                 ValidationResults = null,
-                             });
+             IQueryable<VPResultReport>  VPResultReportQuery = (from c in db.VPResults
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new VPResultReport
+                    {
+                        VPResultReportTest = "Testing Report",
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        VPResultID = c.VPResultID,
+                        VPScenarioID = c.VPScenarioID,
+                        Ordinal = c.Ordinal,
+                        Concentration_MPN_100ml = c.Concentration_MPN_100ml,
+                        Dilution = c.Dilution,
+                        FarFieldWidth_m = c.FarFieldWidth_m,
+                        DispersionDistance_m = c.DispersionDistance_m,
+                        TravelTime_hour = c.TravelTime_hour,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return vpResultQuery;
+            return VPResultReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated VPResultFillReport
+
     }
 }

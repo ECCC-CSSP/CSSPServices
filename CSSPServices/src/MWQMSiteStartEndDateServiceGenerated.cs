@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mwqmSiteStartEndDate.MWQMSiteStartEndDateID == 0)
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID), new[] { "MWQMSiteStartEndDateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateMWQMSiteStartEndDateID"), new[] { "MWQMSiteStartEndDateID" });
                 }
 
                 if (!GetRead().Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSiteStartEndDate, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID, mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), new[] { "MWQMSiteStartEndDateID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateMWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), new[] { "MWQMSiteStartEndDateID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteStartEndDateMWQMSiteTVItemID", mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -73,47 +73,47 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteStartEndDateMWQMSiteTVItemID", "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
             }
 
             if (mwqmSiteStartEndDate.StartDate.Year == 1)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteStartEndDateStartDate), new[] { "StartDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateStartDate"), new[] { "StartDate" });
             }
             else
             {
                 if (mwqmSiteStartEndDate.StartDate.Year < 1980)
                 {
                 mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateStartDate, "1980"), new[] { "StartDate" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteStartEndDateStartDate", "1980"), new[] { "StartDate" });
                 }
             }
 
             if (mwqmSiteStartEndDate.EndDate != null && ((DateTime)mwqmSiteStartEndDate.EndDate).Year < 1980)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateEndDate, "1980"), new[] { CSSPModelsRes.MWQMSiteStartEndDateEndDate });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteStartEndDateEndDate", "1980"), new[] { "MWQMSiteStartEndDateEndDate" });
             }
 
             if (mwqmSiteStartEndDate.StartDate > mwqmSiteStartEndDate.EndDate)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateEndDate, CSSPModelsRes.MWQMSiteStartEndDateStartDate), new[] { CSSPModelsRes.MWQMSiteStartEndDateEndDate });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "MWQMSiteStartEndDateEndDate", "MWQMSiteStartEndDateStartDate"), new[] { "MWQMSiteStartEndDateEndDate" });
             }
 
             if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteStartEndDateLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -122,7 +122,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSiteStartEndDate.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteStartEndDateLastUpdateContactTVItemID", mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -133,7 +133,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteStartEndDateLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -150,57 +150,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSiteStartEndDateQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSiteStartEndDateWeb(mwqmSiteStartEndDateQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSiteStartEndDateReport(mwqmSiteStartEndDateQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MWQMSiteStartEndDate> GetMWQMSiteStartEndDateList()
         {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSiteStartEndDate> MWQMSiteStartEndDateQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mwqmSiteStartEndDateQuery = EnhanceQueryStatements<MWQMSiteStartEndDate>(mwqmSiteStartEndDateQuery) as IQueryable<MWQMSiteStartEndDate>;
+            MWQMSiteStartEndDateQuery = EnhanceQueryStatements<MWQMSiteStartEndDate>(MWQMSiteStartEndDateQuery) as IQueryable<MWQMSiteStartEndDate>;
 
-                        return mwqmSiteStartEndDateQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mwqmSiteStartEndDateQuery = FillMWQMSiteStartEndDateWeb(mwqmSiteStartEndDateQuery);
+            return MWQMSiteStartEndDateQuery;
+        }
+        public MWQMSiteStartEndDateWeb GetMWQMSiteStartEndDateWebWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        {
+            return FillMWQMSiteStartEndDateWeb().FirstOrDefault();
 
-                        mwqmSiteStartEndDateQuery = EnhanceQueryStatements<MWQMSiteStartEndDate>(mwqmSiteStartEndDateQuery) as IQueryable<MWQMSiteStartEndDate>;
+        }
+        public IQueryable<MWQMSiteStartEndDateWeb> GetMWQMSiteStartEndDateWebList()
+        {
+            IQueryable<MWQMSiteStartEndDateWeb> MWQMSiteStartEndDateWebQuery = FillMWQMSiteStartEndDateWeb();
 
-                        return mwqmSiteStartEndDateQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mwqmSiteStartEndDateQuery = FillMWQMSiteStartEndDateReport(mwqmSiteStartEndDateQuery);
+            MWQMSiteStartEndDateWebQuery = EnhanceQueryStatements<MWQMSiteStartEndDateWeb>(MWQMSiteStartEndDateWebQuery) as IQueryable<MWQMSiteStartEndDateWeb>;
 
-                        mwqmSiteStartEndDateQuery = EnhanceQueryStatements<MWQMSiteStartEndDate>(mwqmSiteStartEndDateQuery) as IQueryable<MWQMSiteStartEndDate>;
+            return MWQMSiteStartEndDateWebQuery;
+        }
+        public MWQMSiteStartEndDateReport GetMWQMSiteStartEndDateReportWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        {
+            return FillMWQMSiteStartEndDateReport().FirstOrDefault();
 
-                        return mwqmSiteStartEndDateQuery;
-                    }
-                default:
-                    {
-                        mwqmSiteStartEndDateQuery = mwqmSiteStartEndDateQuery.Where(c => c.MWQMSiteStartEndDateID == 0);
+        }
+        public IQueryable<MWQMSiteStartEndDateReport> GetMWQMSiteStartEndDateReportList()
+        {
+            IQueryable<MWQMSiteStartEndDateReport> MWQMSiteStartEndDateReportQuery = FillMWQMSiteStartEndDateReport();
 
-                        return mwqmSiteStartEndDateQuery;
-                    }
-            }
+            MWQMSiteStartEndDateReportQuery = EnhanceQueryStatements<MWQMSiteStartEndDateReport>(MWQMSiteStartEndDateReportQuery) as IQueryable<MWQMSiteStartEndDateReport>;
+
+            return MWQMSiteStartEndDateReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -253,9 +240,9 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSiteStartEndDateFillWeb
-        private IQueryable<MWQMSiteStartEndDate> FillMWQMSiteStartEndDateWeb(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery)
+        private IQueryable<MWQMSiteStartEndDateWeb> FillMWQMSiteStartEndDateWeb()
         {
-            mwqmSiteStartEndDateQuery = (from c in mwqmSiteStartEndDateQuery
+             IQueryable<MWQMSiteStartEndDateWeb>  MWQMSiteStartEndDateWebQuery = (from c in db.MWQMSiteStartEndDates
                 let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
@@ -264,25 +251,21 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MWQMSiteStartEndDate
+                    select new MWQMSiteStartEndDateWeb
                     {
+                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
                         MWQMSiteTVItemID = c.MWQMSiteTVItemID,
                         StartDate = c.StartDate,
                         EndDate = c.EndDate,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSiteStartEndDateWeb = new MWQMSiteStartEndDateWeb
-                        {
-                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        MWQMSiteStartEndDateReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mwqmSiteStartEndDateQuery;
+            return MWQMSiteStartEndDateWebQuery;
         }
         #endregion Functions private Generated MWQMSiteStartEndDateFillWeb
 

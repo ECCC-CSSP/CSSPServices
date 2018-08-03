@@ -45,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(inputSummary.Error))
             {
                 inputSummary.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InputSummaryError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "InputSummaryError"), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -53,7 +53,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(inputSummary.Summary))
             {
                 inputSummary.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InputSummarySummary), new[] { "Summary" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "InputSummarySummary"), new[] { "Summary" });
             }
 
             //Summary has no StringLength Attribute

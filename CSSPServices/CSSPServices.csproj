@@ -405,9 +405,8 @@
     <Compile Include="AspNetUserServiceGenerated.cs" />
     <Compile Include="extra\AddressServiceExtra.cs" />
     <Compile Include="extra\AppErrLogServiceExtra.cs" />
-    <Compile Include="extra\AppTaskLanguagesServiceExtra.cs" />
+    <Compile Include="extra\AppTaskLanguageServiceExtra.cs" />
     <Compile Include="extra\AppTaskServiceExtra.cs" />
-    <Compile Include="extra\AspNetUserServiceExtra.cs" />
     <Compile Include="extra\BoxModelLanguageServiceExtra.cs" />
     <Compile Include="extra\BoxModelResultServiceExtra.cs" />
     <Compile Include="extra\BoxModelServiceExtra.cs" />
@@ -450,7 +449,6 @@
     <Compile Include="extra\PolSourceObservationIssueServiceExtra.cs" />
     <Compile Include="extra\PolSourceObservationServiceExtra.cs" />
     <Compile Include="extra\PolSourceSiteServiceExtra.cs" />
-    <Compile Include="extra\QueryServiceExtra.cs" />
     <Compile Include="extra\RainExceedanceServiceExtra.cs" />
     <Compile Include="extra\RatingCurveServiceExtra.cs" />
     <Compile Include="extra\RatingCurveValueServiceExtra.cs" />
@@ -481,7 +479,6 @@
     <Compile Include="extra\VPResultServiceExtra.cs" />
     <Compile Include="extra\VPScenarioLanguageServiceExtra.cs" />
     <Compile Include="extra\VPScenarioServiceExtra.cs" />
-    <Compile Include="extra\WhereInfoServiceExtra.cs" />
     <Compile Include="FillPolSourceObsInfoChildServiceGenerated.cs" />
     <Compile Include="Resources\CSSPServicesRes.Designer.cs">
       <AutoGen>True</AutoGen>

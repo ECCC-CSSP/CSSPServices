@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (reportSection.ReportSectionID == 0)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionReportSectionID), new[] { "ReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionReportSectionID"), new[] { "ReportSectionID" });
                 }
 
                 if (!GetRead().Where(c => c.ReportSectionID == reportSection.ReportSectionID).Any())
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportSection, CSSPModelsRes.ReportSectionReportSectionID, reportSection.ReportSectionID.ToString()), new[] { "ReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionReportSectionID", reportSection.ReportSectionID.ToString()), new[] { "ReportSectionID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (ReportTypeReportTypeID == null)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.ReportSectionReportTypeID, reportSection.ReportTypeID.ToString()), new[] { "ReportTypeID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportSectionReportTypeID", reportSection.ReportTypeID.ToString()), new[] { "ReportTypeID" });
             }
 
             if (reportSection.TVItemID != null)
@@ -72,7 +72,7 @@ namespace CSSPServices
                 if (TVItemTVItemID == null)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportSectionTVItemID, (reportSection.TVItemID == null ? "" : reportSection.TVItemID.ToString())), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportSectionTVItemID", (reportSection.TVItemID == null ? "" : reportSection.TVItemID.ToString())), new[] { "TVItemID" });
                 }
                 else
                 {
@@ -82,7 +82,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                     {
                         reportSection.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ReportSectionTVItemID, ""), new[] { "TVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportSectionTVItemID", ""), new[] { "TVItemID" });
                     }
                 }
             }
@@ -90,7 +90,7 @@ namespace CSSPServices
             if (reportSection.Ordinal < 0 || reportSection.Ordinal > 1000)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ReportSectionOrdinal, "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ReportSectionOrdinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             if (reportSection.ParentReportSectionID != null)
@@ -100,7 +100,7 @@ namespace CSSPServices
                 if (ReportSectionParentReportSectionID == null)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportSection, CSSPModelsRes.ReportSectionParentReportSectionID, (reportSection.ParentReportSectionID == null ? "" : reportSection.ParentReportSectionID.ToString())), new[] { "ParentReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionParentReportSectionID", (reportSection.ParentReportSectionID == null ? "" : reportSection.ParentReportSectionID.ToString())), new[] { "ParentReportSectionID" });
                 }
             }
 
@@ -109,7 +109,7 @@ namespace CSSPServices
                 if (reportSection.Year < 1979 || reportSection.Year > 2050)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ReportSectionYear, "1979", "2050"), new[] { "Year" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ReportSectionYear", "1979", "2050"), new[] { "Year" });
                 }
             }
 
@@ -120,21 +120,21 @@ namespace CSSPServices
                 if (ReportSectionTemplateReportSectionID == null)
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportSection, CSSPModelsRes.ReportSectionTemplateReportSectionID, (reportSection.TemplateReportSectionID == null ? "" : reportSection.TemplateReportSectionID.ToString())), new[] { "TemplateReportSectionID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionTemplateReportSectionID", (reportSection.TemplateReportSectionID == null ? "" : reportSection.TemplateReportSectionID.ToString())), new[] { "TemplateReportSectionID" });
                 }
             }
 
             if (reportSection.LastUpdateDate_UTC.Year == 1)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportSectionLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (reportSection.LastUpdateDate_UTC.Year < 1980)
                 {
                 reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ReportSectionLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ReportSectionLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -143,7 +143,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportSection.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportSectionLastUpdateContactTVItemID, reportSection.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportSectionLastUpdateContactTVItemID", reportSection.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -154,7 +154,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     reportSection.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ReportSectionLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportSectionLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -171,57 +171,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ReportSection GetReportSectionWithReportSectionID(int ReportSectionID)
         {
-            IQueryable<ReportSection> reportSectionQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ReportSectionID == ReportSectionID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ReportSectionID == ReportSectionID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return reportSectionQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportSectionWeb(reportSectionQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportSectionReport(reportSectionQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ReportSection> GetReportSectionList()
         {
-            IQueryable<ReportSection> reportSectionQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ReportSection> ReportSectionQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        reportSectionQuery = EnhanceQueryStatements<ReportSection>(reportSectionQuery) as IQueryable<ReportSection>;
+            ReportSectionQuery = EnhanceQueryStatements<ReportSection>(ReportSectionQuery) as IQueryable<ReportSection>;
 
-                        return reportSectionQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        reportSectionQuery = FillReportSectionWeb(reportSectionQuery);
+            return ReportSectionQuery;
+        }
+        public ReportSectionWeb GetReportSectionWebWithReportSectionID(int ReportSectionID)
+        {
+            return FillReportSectionWeb().FirstOrDefault();
 
-                        reportSectionQuery = EnhanceQueryStatements<ReportSection>(reportSectionQuery) as IQueryable<ReportSection>;
+        }
+        public IQueryable<ReportSectionWeb> GetReportSectionWebList()
+        {
+            IQueryable<ReportSectionWeb> ReportSectionWebQuery = FillReportSectionWeb();
 
-                        return reportSectionQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        reportSectionQuery = FillReportSectionReport(reportSectionQuery);
+            ReportSectionWebQuery = EnhanceQueryStatements<ReportSectionWeb>(ReportSectionWebQuery) as IQueryable<ReportSectionWeb>;
 
-                        reportSectionQuery = EnhanceQueryStatements<ReportSection>(reportSectionQuery) as IQueryable<ReportSection>;
+            return ReportSectionWebQuery;
+        }
+        public ReportSectionReport GetReportSectionReportWithReportSectionID(int ReportSectionID)
+        {
+            return FillReportSectionReport().FirstOrDefault();
 
-                        return reportSectionQuery;
-                    }
-                default:
-                    {
-                        reportSectionQuery = reportSectionQuery.Where(c => c.ReportSectionID == 0);
+        }
+        public IQueryable<ReportSectionReport> GetReportSectionReportList()
+        {
+            IQueryable<ReportSectionReport> ReportSectionReportQuery = FillReportSectionReport();
 
-                        return reportSectionQuery;
-                    }
-            }
+            ReportSectionReportQuery = EnhanceQueryStatements<ReportSectionReport>(ReportSectionReportQuery) as IQueryable<ReportSectionReport>;
+
+            return ReportSectionReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -274,9 +261,9 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportSectionFillWeb
-        private IQueryable<ReportSection> FillReportSectionWeb(IQueryable<ReportSection> reportSectionQuery)
+        private IQueryable<ReportSectionWeb> FillReportSectionWeb()
         {
-            reportSectionQuery = (from c in reportSectionQuery
+             IQueryable<ReportSectionWeb>  ReportSectionWebQuery = (from c in db.ReportSections
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
@@ -289,8 +276,11 @@ namespace CSSPServices
                     where cl.ReportSectionID == c.ReportSectionID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ReportSection
+                    select new ReportSectionWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        ReportSectionName = ReportSectionName,
+                        ReportSectionText = ReportSectionText,
                         ReportSectionID = c.ReportSectionID,
                         ReportTypeID = c.ReportTypeID,
                         TVItemID = c.TVItemID,
@@ -302,18 +292,11 @@ namespace CSSPServices
                         TemplateReportSectionID = c.TemplateReportSectionID,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ReportSectionWeb = new ReportSectionWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            ReportSectionName = ReportSectionName,
-                            ReportSectionText = ReportSectionText,
-                        },
-                        ReportSectionReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return reportSectionQuery;
+            return ReportSectionWebQuery;
         }
         #endregion Functions private Generated ReportSectionFillWeb
 

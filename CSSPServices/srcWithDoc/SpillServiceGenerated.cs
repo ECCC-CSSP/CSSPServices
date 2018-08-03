@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (spill.SpillID == 0)
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillSpillID), new[] { "SpillID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillSpillID"), new[] { "SpillID" });
                 }
 
                 if (!GetRead().Where(c => c.SpillID == spill.SpillID).Any())
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Spill, CSSPModelsRes.SpillSpillID, spill.SpillID.ToString()), new[] { "SpillID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Spill", "SpillSpillID", spill.SpillID.ToString()), new[] { "SpillID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMunicipalityTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SpillMunicipalityTVItemID", spill.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
             }
             else
             {
@@ -73,7 +73,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMunicipalityTVItemID.TVType))
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillMunicipalityTVItemID, "Municipality"), new[] { "MunicipalityTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SpillMunicipalityTVItemID", "Municipality"), new[] { "MunicipalityTVItemID" });
                 }
             }
 
@@ -84,7 +84,7 @@ namespace CSSPServices
                 if (TVItemInfrastructureTVItemID == null)
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillInfrastructureTVItemID, (spill.InfrastructureTVItemID == null ? "" : spill.InfrastructureTVItemID.ToString())), new[] { "InfrastructureTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SpillInfrastructureTVItemID", (spill.InfrastructureTVItemID == null ? "" : spill.InfrastructureTVItemID.ToString())), new[] { "InfrastructureTVItemID" });
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                     {
                         spill.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SpillInfrastructureTVItemID", "Infrastructure"), new[] { "InfrastructureTVItemID" });
                     }
                 }
             }
@@ -103,46 +103,46 @@ namespace CSSPServices
             if (spill.StartDateTime_Local.Year == 1)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillStartDateTime_Local), new[] { "StartDateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillStartDateTime_Local"), new[] { "StartDateTime_Local" });
             }
             else
             {
                 if (spill.StartDateTime_Local.Year < 1980)
                 {
                 spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SpillStartDateTime_Local, "1980"), new[] { "StartDateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SpillStartDateTime_Local", "1980"), new[] { "StartDateTime_Local" });
                 }
             }
 
             if (spill.EndDateTime_Local != null && ((DateTime)spill.EndDateTime_Local).Year < 1980)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SpillEndDateTime_Local, "1980"), new[] { CSSPModelsRes.SpillEndDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SpillEndDateTime_Local", "1980"), new[] { "SpillEndDateTime_Local" });
             }
 
             if (spill.StartDateTime_Local > spill.EndDateTime_Local)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.SpillEndDateTime_Local, CSSPModelsRes.SpillStartDateTime_Local), new[] { CSSPModelsRes.SpillEndDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "SpillEndDateTime_Local", "SpillStartDateTime_Local"), new[] { "SpillEndDateTime_Local" });
             }
 
             if (spill.AverageFlow_m3_day < 0 || spill.AverageFlow_m3_day > 1000000)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), new[] { "AverageFlow_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SpillAverageFlow_m3_day", "0", "1000000"), new[] { "AverageFlow_m3_day" });
             }
 
             if (spill.LastUpdateDate_UTC.Year == 1)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (spill.LastUpdateDate_UTC.Year < 1980)
                 {
                 spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SpillLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SpillLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -151,7 +151,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SpillLastUpdateContactTVItemID", spill.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -162,7 +162,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "SpillLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -179,57 +179,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Spill GetSpillWithSpillID(int SpillID)
         {
-            IQueryable<Spill> spillQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.SpillID == SpillID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.SpillID == SpillID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return spillQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillSpillWeb(spillQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillSpillReport(spillQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<Spill> GetSpillList()
         {
-            IQueryable<Spill> spillQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Spill> SpillQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        spillQuery = EnhanceQueryStatements<Spill>(spillQuery) as IQueryable<Spill>;
+            SpillQuery = EnhanceQueryStatements<Spill>(SpillQuery) as IQueryable<Spill>;
 
-                        return spillQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        spillQuery = FillSpillWeb(spillQuery);
+            return SpillQuery;
+        }
+        public SpillWeb GetSpillWebWithSpillID(int SpillID)
+        {
+            return FillSpillWeb().FirstOrDefault();
 
-                        spillQuery = EnhanceQueryStatements<Spill>(spillQuery) as IQueryable<Spill>;
+        }
+        public IQueryable<SpillWeb> GetSpillWebList()
+        {
+            IQueryable<SpillWeb> SpillWebQuery = FillSpillWeb();
 
-                        return spillQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        spillQuery = FillSpillReport(spillQuery);
+            SpillWebQuery = EnhanceQueryStatements<SpillWeb>(SpillWebQuery) as IQueryable<SpillWeb>;
 
-                        spillQuery = EnhanceQueryStatements<Spill>(spillQuery) as IQueryable<Spill>;
+            return SpillWebQuery;
+        }
+        public SpillReport GetSpillReportWithSpillID(int SpillID)
+        {
+            return FillSpillReport().FirstOrDefault();
 
-                        return spillQuery;
-                    }
-                default:
-                    {
-                        spillQuery = spillQuery.Where(c => c.SpillID == 0);
+        }
+        public IQueryable<SpillReport> GetSpillReportList()
+        {
+            IQueryable<SpillReport> SpillReportQuery = FillSpillReport();
 
-                        return spillQuery;
-                    }
-            }
+            SpillReportQuery = EnhanceQueryStatements<SpillReport>(SpillReportQuery) as IQueryable<SpillReport>;
+
+            return SpillReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -282,9 +269,9 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SpillFillWeb
-        private IQueryable<Spill> FillSpillWeb(IQueryable<Spill> spillQuery)
+        private IQueryable<SpillWeb> FillSpillWeb()
         {
-            spillQuery = (from c in spillQuery
+             IQueryable<SpillWeb>  SpillWebQuery = (from c in db.Spills
                 let MunicipalityTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MunicipalityTVItemID
                     && cl.Language == LanguageRequest
@@ -297,8 +284,11 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new Spill
+                    select new SpillWeb
                     {
+                        MunicipalityTVItemLanguage = MunicipalityTVItemLanguage,
+                        InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         SpillID = c.SpillID,
                         MunicipalityTVItemID = c.MunicipalityTVItemID,
                         InfrastructureTVItemID = c.InfrastructureTVItemID,
@@ -307,18 +297,11 @@ namespace CSSPServices
                         AverageFlow_m3_day = c.AverageFlow_m3_day,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        SpillWeb = new SpillWeb
-                        {
-                            MunicipalityTVItemLanguage = MunicipalityTVItemLanguage,
-                            InfrastructureTVItemLanguage = InfrastructureTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        SpillReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return spillQuery;
+            return SpillWebQuery;
         }
         #endregion Functions private Generated SpillFillWeb
 

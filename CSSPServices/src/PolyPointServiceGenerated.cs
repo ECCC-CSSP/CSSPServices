@@ -45,13 +45,13 @@ namespace CSSPServices
             if (polyPoint.XCoord < -180 || polyPoint.XCoord > 180)
             {
                 polyPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.PolyPointXCoord, "-180", "180"), new[] { "XCoord" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolyPointXCoord", "-180", "180"), new[] { "XCoord" });
             }
 
             if (polyPoint.YCoord < -90 || polyPoint.YCoord > 90)
             {
                 polyPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.PolyPointYCoord, "-90", "90"), new[] { "YCoord" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolyPointYCoord", "-90", "90"), new[] { "YCoord" });
             }
 
             //Z has no Range Attribute

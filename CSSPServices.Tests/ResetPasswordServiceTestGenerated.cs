@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ResetPasswordID = 0;
                     resetPasswordService.Update(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordResetPasswordID), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordResetPasswordID"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ResetPasswordID = 10000000;
                     resetPasswordService.Update(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ResetPassword, CSSPModelsRes.ResetPasswordResetPasswordID, resetPassword.ResetPasswordID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordResetPasswordID", resetPassword.ResetPasswordID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,7 +117,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("Email");
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordEmail)).Any());
+                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ResetPasswordEmail")).Any());
                     Assert.AreEqual(null, resetPassword.Email);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
@@ -125,7 +125,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Email = GetRandomString("", 257);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordEmail, "256"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordEmail", "256"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------
@@ -138,12 +138,12 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ExpireDate_Local = new DateTime();
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordExpireDate_Local), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordExpireDate_Local"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ExpireDate_Local = new DateTime(1979, 1, 1);
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ResetPasswordExpireDate_Local, "1980"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ResetPasswordExpireDate_Local", "1980"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -155,7 +155,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("Code");
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordCode)).Any());
+                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ResetPasswordCode")).Any());
                     Assert.AreEqual(null, resetPassword.Code);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
@@ -163,40 +163,8 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Code = GetRandomString("", 9);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordCode, "8"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordCode", "8"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // resetPassword.ResetPasswordWeb   (ResetPasswordWeb)
-                    // -----------------------------------
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.ResetPasswordWeb = null;
-                    Assert.IsNull(resetPassword.ResetPasswordWeb);
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.ResetPasswordWeb = new ResetPasswordWeb();
-                    Assert.IsNotNull(resetPassword.ResetPasswordWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // resetPassword.ResetPasswordReport   (ResetPasswordReport)
-                    // -----------------------------------
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.ResetPasswordReport = null;
-                    Assert.IsNull(resetPassword.ResetPasswordReport);
-
-                    resetPassword = null;
-                    resetPassword = GetFilledRandomResetPassword("");
-                    resetPassword.ResetPasswordReport = new ResetPasswordReport();
-                    Assert.IsNotNull(resetPassword.ResetPasswordReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -208,12 +176,12 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.LastUpdateDate_UTC = new DateTime();
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordLastUpdateDate_UTC), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordLastUpdateDate_UTC"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ResetPasswordLastUpdateDate_UTC, "1980"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ResetPasswordLastUpdateDate_UTC", "1980"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -225,13 +193,13 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.LastUpdateContactTVItemID = 0;
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ResetPasswordLastUpdateContactTVItemID, resetPassword.LastUpdateContactTVItemID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ResetPasswordLastUpdateContactTVItemID", resetPassword.LastUpdateContactTVItemID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.LastUpdateContactTVItemID = 1;
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "ResetPasswordLastUpdateContactTVItemID", "Contact"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -268,34 +236,32 @@ namespace CSSPServices.Tests
                     ResetPassword resetPassword = (from c in resetPasswordService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(resetPassword);
 
-                    ResetPassword resetPasswordRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         resetPasswordService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
-                            Assert.IsNull(resetPasswordRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
+                            ResetPassword resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
+                            CheckResetPasswordFields(new List<ResetPassword>() { resetPasswordRet });
+                            Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordRet.ResetPasswordID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
+                            ResetPasswordWeb resetPasswordWebRet = resetPasswordService.GetResetPasswordWebWithResetPasswordID(resetPassword.ResetPasswordID);
+                            CheckResetPasswordWebFields(new List<ResetPasswordWeb>() { resetPasswordWebRet });
+                            Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordWebRet.ResetPasswordID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
+                            ResetPasswordReport resetPasswordReportRet = resetPasswordService.GetResetPasswordReportWithResetPasswordID(resetPassword.ResetPasswordID);
+                            CheckResetPasswordReportFields(new List<ResetPasswordReport>() { resetPasswordReportRet });
+                            Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordReportRet.ResetPasswordID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(new List<ResetPassword>() { resetPasswordRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -316,34 +282,38 @@ namespace CSSPServices.Tests
                     ResetPassword resetPassword = (from c in resetPasswordService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(resetPassword);
 
-                    List<ResetPassword> resetPasswordList = new List<ResetPassword>();
+                    List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
+                    resetPasswordDirectQueryList = resetPasswordService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         resetPasswordService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
-                            Assert.AreEqual(0, resetPasswordList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordWeb> resetPasswordWebList = new List<ResetPasswordWeb>();
+                            resetPasswordWebList = resetPasswordService.GetResetPasswordWebList().ToList();
+                            CheckResetPasswordWebFields(resetPasswordWebList);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordReport> resetPasswordReportList = new List<ResetPasswordReport>();
+                            resetPasswordReportList = resetPasswordService.GetResetPasswordReportList().ToList();
+                            CheckResetPasswordReportFields(resetPasswordReportList);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(resetPasswordList, entityQueryDetailType);
                     }
                 }
             }
@@ -360,41 +330,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ResetPassword> resetPasswordList = new List<ResetPassword>();
-                    List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = resetPasswordService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
-                            Assert.AreEqual(0, resetPasswordList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordWeb> resetPasswordWebList = new List<ResetPasswordWeb>();
+                            resetPasswordWebList = resetPasswordService.GetResetPasswordWebList().ToList();
+                            CheckResetPasswordWebFields(resetPasswordWebList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordWebList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordReport> resetPasswordReportList = new List<ResetPasswordReport>();
+                            resetPasswordReportList = resetPasswordService.GetResetPasswordReportList().ToList();
+                            CheckResetPasswordReportFields(resetPasswordReportList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordReportList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(resetPasswordList, entityQueryDetailType);
-                        Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        Assert.AreEqual(1, resetPasswordList.Count);
                     }
                 }
             }
@@ -411,41 +383,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ResetPassword> resetPasswordList = new List<ResetPassword>();
-                    List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1,  "ResetPasswordID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = resetPasswordService.GetRead().Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
-                            Assert.AreEqual(0, resetPasswordList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordWeb> resetPasswordWebList = new List<ResetPasswordWeb>();
+                            resetPasswordWebList = resetPasswordService.GetResetPasswordWebList().ToList();
+                            CheckResetPasswordWebFields(resetPasswordWebList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordWebList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordReport> resetPasswordReportList = new List<ResetPasswordReport>();
+                            resetPasswordReportList = resetPasswordService.GetResetPasswordReportList().ToList();
+                            CheckResetPasswordReportFields(resetPasswordReportList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordReportList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(resetPasswordList, entityQueryDetailType);
-                        Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        Assert.AreEqual(1, resetPasswordList.Count);
                     }
                 }
             }
@@ -462,41 +436,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ResetPassword> resetPasswordList = new List<ResetPassword>();
-                    List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "ResetPasswordID,Email", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = resetPasswordService.GetRead().Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ThenBy(c => c.Email).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
-                            Assert.AreEqual(0, resetPasswordList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordWeb> resetPasswordWebList = new List<ResetPasswordWeb>();
+                            resetPasswordWebList = resetPasswordService.GetResetPasswordWebList().ToList();
+                            CheckResetPasswordWebFields(resetPasswordWebList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordWebList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordReport> resetPasswordReportList = new List<ResetPasswordReport>();
+                            resetPasswordReportList = resetPasswordService.GetResetPasswordReportList().ToList();
+                            CheckResetPasswordReportFields(resetPasswordReportList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordReportList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(resetPasswordList, entityQueryDetailType);
-                        Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        Assert.AreEqual(1, resetPasswordList.Count);
                     }
                 }
             }
@@ -513,41 +489,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ResetPassword> resetPasswordList = new List<ResetPassword>();
-                    List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "ResetPasswordID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = resetPasswordService.GetRead().Where(c => c.ResetPasswordID == 4).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
-                            Assert.AreEqual(0, resetPasswordList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordWeb> resetPasswordWebList = new List<ResetPasswordWeb>();
+                            resetPasswordWebList = resetPasswordService.GetResetPasswordWebList().ToList();
+                            CheckResetPasswordWebFields(resetPasswordWebList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordWebList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordReport> resetPasswordReportList = new List<ResetPasswordReport>();
+                            resetPasswordReportList = resetPasswordService.GetResetPasswordReportList().ToList();
+                            CheckResetPasswordReportFields(resetPasswordReportList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordReportList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(resetPasswordList, entityQueryDetailType);
-                        Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        Assert.AreEqual(1, resetPasswordList.Count);
                     }
                 }
             }
@@ -564,41 +542,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ResetPassword> resetPasswordList = new List<ResetPassword>();
-                    List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = resetPasswordService.GetRead().Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
-                            Assert.AreEqual(0, resetPasswordList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordWeb> resetPasswordWebList = new List<ResetPasswordWeb>();
+                            resetPasswordWebList = resetPasswordService.GetResetPasswordWebList().ToList();
+                            CheckResetPasswordWebFields(resetPasswordWebList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordWebList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordReport> resetPasswordReportList = new List<ResetPasswordReport>();
+                            resetPasswordReportList = resetPasswordService.GetResetPasswordReportList().ToList();
+                            CheckResetPasswordReportFields(resetPasswordReportList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordReportList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(resetPasswordList, entityQueryDetailType);
-                        Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        Assert.AreEqual(1, resetPasswordList.Count);
                     }
                 }
             }
@@ -615,41 +595,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ResetPassword> resetPasswordList = new List<ResetPassword>();
-                    List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 10000, "", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
                         resetPasswordDirectQueryList = resetPasswordService.GetRead().Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ResetPassword> resetPasswordList = new List<ResetPassword>();
                             resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
-                            Assert.AreEqual(0, resetPasswordList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            CheckResetPasswordFields(resetPasswordList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordWeb> resetPasswordWebList = new List<ResetPasswordWeb>();
+                            resetPasswordWebList = resetPasswordService.GetResetPasswordWebList().ToList();
+                            CheckResetPasswordWebFields(resetPasswordWebList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordWebList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            resetPasswordList = resetPasswordService.GetResetPasswordList().ToList();
+                            List<ResetPasswordReport> resetPasswordReportList = new List<ResetPasswordReport>();
+                            resetPasswordReportList = resetPasswordService.GetResetPasswordReportList().ToList();
+                            CheckResetPasswordReportFields(resetPasswordReportList);
+                            Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordReportList[0].ResetPasswordID);
+                            Assert.AreEqual(resetPasswordDirectQueryList.Count, resetPasswordReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckResetPasswordFields(resetPasswordList, entityQueryDetailType);
-                        Assert.AreEqual(resetPasswordDirectQueryList[0].ResetPasswordID, resetPasswordList[0].ResetPasswordID);
-                        Assert.AreEqual(2, resetPasswordList.Count);
                     }
                 }
             }
@@ -657,37 +639,41 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetResetPasswordList() 2Where
 
         #region Functions private
-        private void CheckResetPasswordFields(List<ResetPassword> resetPasswordList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckResetPasswordFields(List<ResetPassword> resetPasswordList)
         {
-            // ResetPassword fields
             Assert.IsNotNull(resetPasswordList[0].ResetPasswordID);
             Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordList[0].Email));
             Assert.IsNotNull(resetPasswordList[0].ExpireDate_Local);
             Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordList[0].Code));
             Assert.IsNotNull(resetPasswordList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(resetPasswordList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(resetPasswordList[0].HasErrors);
+        }
+        private void CheckResetPasswordWebFields(List<ResetPasswordWeb> resetPasswordWebList)
+        {
+            Assert.IsNotNull(resetPasswordWebList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(resetPasswordWebList[0].ResetPasswordID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordWebList[0].Email));
+            Assert.IsNotNull(resetPasswordWebList[0].ExpireDate_Local);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordWebList[0].Code));
+            Assert.IsNotNull(resetPasswordWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(resetPasswordWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(resetPasswordWebList[0].HasErrors);
+        }
+        private void CheckResetPasswordReportFields(List<ResetPasswordReport> resetPasswordReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(resetPasswordReportList[0].ResetPasswordReportTest))
             {
-                // ResetPasswordWeb and ResetPasswordReport fields should be null here
-                Assert.IsNull(resetPasswordList[0].ResetPasswordWeb);
-                Assert.IsNull(resetPasswordList[0].ResetPasswordReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordReportList[0].ResetPasswordReportTest));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-            {
-                // ResetPasswordWeb fields should not be null and ResetPasswordReport fields should be null here
-                Assert.IsNotNull(resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVItemLanguage);
-                Assert.IsNull(resetPasswordList[0].ResetPasswordReport);
-            }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-            {
-                // ResetPasswordWeb and ResetPasswordReport fields should NOT be null here
-                Assert.IsNotNull(resetPasswordList[0].ResetPasswordWeb.LastUpdateContactTVItemLanguage);
-                if (resetPasswordList[0].ResetPasswordReport.ResetPasswordReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordList[0].ResetPasswordReport.ResetPasswordReportTest));
-                }
-            }
+            Assert.IsNotNull(resetPasswordReportList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(resetPasswordReportList[0].ResetPasswordID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordReportList[0].Email));
+            Assert.IsNotNull(resetPasswordReportList[0].ExpireDate_Local);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordReportList[0].Code));
+            Assert.IsNotNull(resetPasswordReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(resetPasswordReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(resetPasswordReportList[0].HasErrors);
         }
         private ResetPassword GetFilledRandomResetPassword(string OmitPropName)
         {

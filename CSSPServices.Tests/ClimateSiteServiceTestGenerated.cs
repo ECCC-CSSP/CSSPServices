@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ClimateSiteID = 0;
                     climateSiteService.Update(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteClimateSiteID), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "ClimateSiteClimateSiteID"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ClimateSiteID = 10000000;
                     climateSiteService.Update(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateSite, CSSPModelsRes.ClimateSiteClimateSiteID, climateSite.ClimateSiteID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ClimateSite", "ClimateSiteClimateSiteID", climateSite.ClimateSiteID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,13 +117,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ClimateSiteTVItemID = 0;
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteClimateSiteTVItemID, climateSite.ClimateSiteTVItemID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ClimateSiteClimateSiteTVItemID", climateSite.ClimateSiteTVItemID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ClimateSiteTVItemID = 1;
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateSiteClimateSiteTVItemID, "ClimateSite"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "ClimateSiteClimateSiteTVItemID", "ClimateSite"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -136,13 +136,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ECDBID = 0;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteECDBID, "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteECDBID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ECDBID = 100001;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteECDBID, "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteECDBID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -155,7 +155,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("ClimateSiteName");
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(1, climateSite.ValidationResults.Count());
-                    Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteClimateSiteName)).Any());
+                    Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ClimateSiteClimateSiteName")).Any());
                     Assert.AreEqual(null, climateSite.ClimateSiteName);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
@@ -163,7 +163,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ClimateSiteName = GetRandomString("", 101);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteClimateSiteName, "100"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteClimateSiteName", "100"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -176,7 +176,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("Province");
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(1, climateSite.ValidationResults.Count());
-                    Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteProvince)).Any());
+                    Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ClimateSiteProvince")).Any());
                     Assert.AreEqual(null, climateSite.Province);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
@@ -184,7 +184,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.Province = GetRandomString("", 5);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteProvince, "4"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteProvince", "4"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -201,13 +201,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.Elevation_m = -1.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteElevation_m, "0", "10000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteElevation_m", "0", "10000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.Elevation_m = 10001.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteElevation_m, "0", "10000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteElevation_m", "0", "10000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -220,7 +220,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ClimateID = GetRandomString("", 11);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteClimateID, "10"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteClimateID", "10"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -233,13 +233,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.WMOID = 0;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteWMOID, "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteWMOID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.WMOID = 100001;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteWMOID, "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteWMOID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -252,7 +252,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.TCID = GetRandomString("", 4);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteTCID, "3"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteTCID", "3"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -271,7 +271,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ProvSiteID = GetRandomString("", 51);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteProvSiteID, "50"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteProvSiteID", "50"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -288,13 +288,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.TimeOffset_hour = -11.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteTimeOffset_hour, "-10", "0"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteTimeOffset_hour", "-10", "0"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.TimeOffset_hour = 1.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteTimeOffset_hour, "-10", "0"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteTimeOffset_hour", "-10", "0"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -307,7 +307,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.File_desc = GetRandomString("", 51);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteFile_desc, "50"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteFile_desc", "50"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -320,7 +320,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.HourlyStartDate_Local = new DateTime(1979, 1, 1);
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteHourlyStartDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteHourlyStartDate_Local", "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -332,7 +332,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.HourlyEndDate_Local = new DateTime(1979, 1, 1);
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteHourlyEndDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteHourlyEndDate_Local", "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -350,7 +350,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.DailyStartDate_Local = new DateTime(1979, 1, 1);
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteDailyStartDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteDailyStartDate_Local", "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -362,7 +362,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.DailyEndDate_Local = new DateTime(1979, 1, 1);
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteDailyEndDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteDailyEndDate_Local", "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -380,7 +380,7 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.MonthlyStartDate_Local = new DateTime(1979, 1, 1);
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyStartDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteMonthlyStartDate_Local", "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -392,45 +392,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.MonthlyEndDate_Local = new DateTime(1979, 1, 1);
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyEndDate_Local, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteMonthlyEndDate_Local", "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
                     // climateSite.MonthlyNow   (Boolean)
                     // -----------------------------------
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // climateSite.ClimateSiteWeb   (ClimateSiteWeb)
-                    // -----------------------------------
-
-                    climateSite = null;
-                    climateSite = GetFilledRandomClimateSite("");
-                    climateSite.ClimateSiteWeb = null;
-                    Assert.IsNull(climateSite.ClimateSiteWeb);
-
-                    climateSite = null;
-                    climateSite = GetFilledRandomClimateSite("");
-                    climateSite.ClimateSiteWeb = new ClimateSiteWeb();
-                    Assert.IsNotNull(climateSite.ClimateSiteWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // climateSite.ClimateSiteReport   (ClimateSiteReport)
-                    // -----------------------------------
-
-                    climateSite = null;
-                    climateSite = GetFilledRandomClimateSite("");
-                    climateSite.ClimateSiteReport = null;
-                    Assert.IsNull(climateSite.ClimateSiteReport);
-
-                    climateSite = null;
-                    climateSite = GetFilledRandomClimateSite("");
-                    climateSite.ClimateSiteReport = new ClimateSiteReport();
-                    Assert.IsNotNull(climateSite.ClimateSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -442,12 +410,12 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.LastUpdateDate_UTC = new DateTime();
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteLastUpdateDate_UTC), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "ClimateSiteLastUpdateDate_UTC"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteLastUpdateDate_UTC, "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteLastUpdateDate_UTC", "1980"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -459,13 +427,13 @@ namespace CSSPServices.Tests
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.LastUpdateContactTVItemID = 0;
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, climateSite.LastUpdateContactTVItemID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ClimateSiteLastUpdateContactTVItemID", climateSite.LastUpdateContactTVItemID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.LastUpdateContactTVItemID = 1;
                     climateSiteService.Add(climateSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, "Contact"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "ClimateSiteLastUpdateContactTVItemID", "Contact"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -502,34 +470,32 @@ namespace CSSPServices.Tests
                     ClimateSite climateSite = (from c in climateSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(climateSite);
 
-                    ClimateSite climateSiteRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         climateSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
-                            Assert.IsNull(climateSiteRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
+                            ClimateSite climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
+                            CheckClimateSiteFields(new List<ClimateSite>() { climateSiteRet });
+                            Assert.AreEqual(climateSite.ClimateSiteID, climateSiteRet.ClimateSiteID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
+                            ClimateSiteWeb climateSiteWebRet = climateSiteService.GetClimateSiteWebWithClimateSiteID(climateSite.ClimateSiteID);
+                            CheckClimateSiteWebFields(new List<ClimateSiteWeb>() { climateSiteWebRet });
+                            Assert.AreEqual(climateSite.ClimateSiteID, climateSiteWebRet.ClimateSiteID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
+                            ClimateSiteReport climateSiteReportRet = climateSiteService.GetClimateSiteReportWithClimateSiteID(climateSite.ClimateSiteID);
+                            CheckClimateSiteReportFields(new List<ClimateSiteReport>() { climateSiteReportRet });
+                            Assert.AreEqual(climateSite.ClimateSiteID, climateSiteReportRet.ClimateSiteID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(new List<ClimateSite>() { climateSiteRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -550,34 +516,38 @@ namespace CSSPServices.Tests
                     ClimateSite climateSite = (from c in climateSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(climateSite);
 
-                    List<ClimateSite> climateSiteList = new List<ClimateSite>();
+                    List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
+                    climateSiteDirectQueryList = climateSiteService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         climateSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
-                            Assert.AreEqual(0, climateSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            CheckClimateSiteFields(climateSiteList);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteWeb> climateSiteWebList = new List<ClimateSiteWeb>();
+                            climateSiteWebList = climateSiteService.GetClimateSiteWebList().ToList();
+                            CheckClimateSiteWebFields(climateSiteWebList);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteReport> climateSiteReportList = new List<ClimateSiteReport>();
+                            climateSiteReportList = climateSiteService.GetClimateSiteReportList().ToList();
+                            CheckClimateSiteReportFields(climateSiteReportList);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(climateSiteList, entityQueryDetailType);
                     }
                 }
             }
@@ -594,41 +564,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ClimateSite> climateSiteList = new List<ClimateSite>();
-                    List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
-                            Assert.AreEqual(0, climateSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            CheckClimateSiteFields(climateSiteList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteWeb> climateSiteWebList = new List<ClimateSiteWeb>();
+                            climateSiteWebList = climateSiteService.GetClimateSiteWebList().ToList();
+                            CheckClimateSiteWebFields(climateSiteWebList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteWebList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteReport> climateSiteReportList = new List<ClimateSiteReport>();
+                            climateSiteReportList = climateSiteService.GetClimateSiteReportList().ToList();
+                            CheckClimateSiteReportFields(climateSiteReportList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteReportList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(climateSiteList, entityQueryDetailType);
-                        Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        Assert.AreEqual(1, climateSiteList.Count);
                     }
                 }
             }
@@ -645,41 +617,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ClimateSite> climateSiteList = new List<ClimateSite>();
-                    List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 1, 1,  "ClimateSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
-                            Assert.AreEqual(0, climateSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            CheckClimateSiteFields(climateSiteList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteWeb> climateSiteWebList = new List<ClimateSiteWeb>();
+                            climateSiteWebList = climateSiteService.GetClimateSiteWebList().ToList();
+                            CheckClimateSiteWebFields(climateSiteWebList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteWebList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteReport> climateSiteReportList = new List<ClimateSiteReport>();
+                            climateSiteReportList = climateSiteService.GetClimateSiteReportList().ToList();
+                            CheckClimateSiteReportFields(climateSiteReportList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteReportList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(climateSiteList, entityQueryDetailType);
-                        Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        Assert.AreEqual(1, climateSiteList.Count);
                     }
                 }
             }
@@ -696,41 +670,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ClimateSite> climateSiteList = new List<ClimateSite>();
-                    List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 1, 1, "ClimateSiteID,ClimateSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ThenBy(c => c.ClimateSiteTVItemID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
-                            Assert.AreEqual(0, climateSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            CheckClimateSiteFields(climateSiteList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteWeb> climateSiteWebList = new List<ClimateSiteWeb>();
+                            climateSiteWebList = climateSiteService.GetClimateSiteWebList().ToList();
+                            CheckClimateSiteWebFields(climateSiteWebList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteWebList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteReport> climateSiteReportList = new List<ClimateSiteReport>();
+                            climateSiteReportList = climateSiteService.GetClimateSiteReportList().ToList();
+                            CheckClimateSiteReportFields(climateSiteReportList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteReportList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(climateSiteList, entityQueryDetailType);
-                        Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        Assert.AreEqual(1, climateSiteList.Count);
                     }
                 }
             }
@@ -747,41 +723,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ClimateSite> climateSiteList = new List<ClimateSite>();
-                    List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 0, 1, "ClimateSiteID", "ClimateSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID == 4).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
-                            Assert.AreEqual(0, climateSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            CheckClimateSiteFields(climateSiteList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteWeb> climateSiteWebList = new List<ClimateSiteWeb>();
+                            climateSiteWebList = climateSiteService.GetClimateSiteWebList().ToList();
+                            CheckClimateSiteWebFields(climateSiteWebList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteWebList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteReport> climateSiteReportList = new List<ClimateSiteReport>();
+                            climateSiteReportList = climateSiteService.GetClimateSiteReportList().ToList();
+                            CheckClimateSiteReportFields(climateSiteReportList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteReportList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(climateSiteList, entityQueryDetailType);
-                        Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        Assert.AreEqual(1, climateSiteList.Count);
                     }
                 }
             }
@@ -798,41 +776,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ClimateSite> climateSiteList = new List<ClimateSite>();
-                    List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 0, 1, "ClimateSiteID", "ClimateSiteID,GT,2|ClimateSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
-                            Assert.AreEqual(0, climateSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            CheckClimateSiteFields(climateSiteList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteWeb> climateSiteWebList = new List<ClimateSiteWeb>();
+                            climateSiteWebList = climateSiteService.GetClimateSiteWebList().ToList();
+                            CheckClimateSiteWebFields(climateSiteWebList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteWebList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteReport> climateSiteReportList = new List<ClimateSiteReport>();
+                            climateSiteReportList = climateSiteService.GetClimateSiteReportList().ToList();
+                            CheckClimateSiteReportFields(climateSiteReportList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteReportList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(climateSiteList, entityQueryDetailType);
-                        Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        Assert.AreEqual(1, climateSiteList.Count);
                     }
                 }
             }
@@ -849,41 +829,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<ClimateSite> climateSiteList = new List<ClimateSite>();
-                    List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "ClimateSiteID,GT,2|ClimateSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
                         climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<ClimateSite> climateSiteList = new List<ClimateSite>();
                             climateSiteList = climateSiteService.GetClimateSiteList().ToList();
-                            Assert.AreEqual(0, climateSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            CheckClimateSiteFields(climateSiteList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteWeb> climateSiteWebList = new List<ClimateSiteWeb>();
+                            climateSiteWebList = climateSiteService.GetClimateSiteWebList().ToList();
+                            CheckClimateSiteWebFields(climateSiteWebList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteWebList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            climateSiteList = climateSiteService.GetClimateSiteList().ToList();
+                            List<ClimateSiteReport> climateSiteReportList = new List<ClimateSiteReport>();
+                            climateSiteReportList = climateSiteService.GetClimateSiteReportList().ToList();
+                            CheckClimateSiteReportFields(climateSiteReportList);
+                            Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteReportList[0].ClimateSiteID);
+                            Assert.AreEqual(climateSiteDirectQueryList.Count, climateSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckClimateSiteFields(climateSiteList, entityQueryDetailType);
-                        Assert.AreEqual(climateSiteDirectQueryList[0].ClimateSiteID, climateSiteList[0].ClimateSiteID);
-                        Assert.AreEqual(2, climateSiteList.Count);
                     }
                 }
             }
@@ -891,9 +873,8 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetClimateSiteList() 2Where
 
         #region Functions private
-        private void CheckClimateSiteFields(List<ClimateSite> climateSiteList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckClimateSiteFields(List<ClimateSite> climateSiteList)
         {
-            // ClimateSite fields
             Assert.IsNotNull(climateSiteList[0].ClimateSiteID);
             Assert.IsNotNull(climateSiteList[0].ClimateSiteTVItemID);
             Assert.IsNotNull(climateSiteList[0].ECDBID);
@@ -969,30 +950,173 @@ namespace CSSPServices.Tests
             }
             Assert.IsNotNull(climateSiteList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(climateSiteList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(climateSiteList[0].HasErrors);
+        }
+        private void CheckClimateSiteWebFields(List<ClimateSiteWeb> climateSiteWebList)
+        {
+            Assert.IsNotNull(climateSiteWebList[0].ClimateSiteTVItemLanguage);
+            Assert.IsNotNull(climateSiteWebList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(climateSiteWebList[0].ClimateSiteID);
+            Assert.IsNotNull(climateSiteWebList[0].ClimateSiteTVItemID);
+            Assert.IsNotNull(climateSiteWebList[0].ECDBID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteWebList[0].ClimateSiteName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteWebList[0].Province));
+            if (climateSiteWebList[0].Elevation_m != null)
             {
-                // ClimateSiteWeb and ClimateSiteReport fields should be null here
-                Assert.IsNull(climateSiteList[0].ClimateSiteWeb);
-                Assert.IsNull(climateSiteList[0].ClimateSiteReport);
+                Assert.IsNotNull(climateSiteWebList[0].Elevation_m);
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            if (!string.IsNullOrWhiteSpace(climateSiteWebList[0].ClimateID))
             {
-                // ClimateSiteWeb fields should not be null and ClimateSiteReport fields should be null here
-                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.ClimateSiteTVItemLanguage);
-                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVItemLanguage);
-                Assert.IsNull(climateSiteList[0].ClimateSiteReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteWebList[0].ClimateID));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            if (climateSiteWebList[0].WMOID != null)
             {
-                // ClimateSiteWeb and ClimateSiteReport fields should NOT be null here
-                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.ClimateSiteTVItemLanguage);
-                Assert.IsNotNull(climateSiteList[0].ClimateSiteWeb.LastUpdateContactTVItemLanguage);
-                if (climateSiteList[0].ClimateSiteReport.ClimateSiteReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteList[0].ClimateSiteReport.ClimateSiteReportTest));
-                }
+                Assert.IsNotNull(climateSiteWebList[0].WMOID);
             }
+            if (!string.IsNullOrWhiteSpace(climateSiteWebList[0].TCID))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteWebList[0].TCID));
+            }
+            if (climateSiteWebList[0].IsProvincial != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].IsProvincial);
+            }
+            if (!string.IsNullOrWhiteSpace(climateSiteWebList[0].ProvSiteID))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteWebList[0].ProvSiteID));
+            }
+            if (climateSiteWebList[0].TimeOffset_hour != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].TimeOffset_hour);
+            }
+            if (!string.IsNullOrWhiteSpace(climateSiteWebList[0].File_desc))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteWebList[0].File_desc));
+            }
+            if (climateSiteWebList[0].HourlyStartDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].HourlyStartDate_Local);
+            }
+            if (climateSiteWebList[0].HourlyEndDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].HourlyEndDate_Local);
+            }
+            if (climateSiteWebList[0].HourlyNow != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].HourlyNow);
+            }
+            if (climateSiteWebList[0].DailyStartDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].DailyStartDate_Local);
+            }
+            if (climateSiteWebList[0].DailyEndDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].DailyEndDate_Local);
+            }
+            if (climateSiteWebList[0].DailyNow != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].DailyNow);
+            }
+            if (climateSiteWebList[0].MonthlyStartDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].MonthlyStartDate_Local);
+            }
+            if (climateSiteWebList[0].MonthlyEndDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].MonthlyEndDate_Local);
+            }
+            if (climateSiteWebList[0].MonthlyNow != null)
+            {
+                Assert.IsNotNull(climateSiteWebList[0].MonthlyNow);
+            }
+            Assert.IsNotNull(climateSiteWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(climateSiteWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(climateSiteWebList[0].HasErrors);
+        }
+        private void CheckClimateSiteReportFields(List<ClimateSiteReport> climateSiteReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(climateSiteReportList[0].ClimateSiteReportTest))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteReportList[0].ClimateSiteReportTest));
+            }
+            Assert.IsNotNull(climateSiteReportList[0].ClimateSiteTVItemLanguage);
+            Assert.IsNotNull(climateSiteReportList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(climateSiteReportList[0].ClimateSiteID);
+            Assert.IsNotNull(climateSiteReportList[0].ClimateSiteTVItemID);
+            Assert.IsNotNull(climateSiteReportList[0].ECDBID);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteReportList[0].ClimateSiteName));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteReportList[0].Province));
+            if (climateSiteReportList[0].Elevation_m != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].Elevation_m);
+            }
+            if (!string.IsNullOrWhiteSpace(climateSiteReportList[0].ClimateID))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteReportList[0].ClimateID));
+            }
+            if (climateSiteReportList[0].WMOID != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].WMOID);
+            }
+            if (!string.IsNullOrWhiteSpace(climateSiteReportList[0].TCID))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteReportList[0].TCID));
+            }
+            if (climateSiteReportList[0].IsProvincial != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].IsProvincial);
+            }
+            if (!string.IsNullOrWhiteSpace(climateSiteReportList[0].ProvSiteID))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteReportList[0].ProvSiteID));
+            }
+            if (climateSiteReportList[0].TimeOffset_hour != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].TimeOffset_hour);
+            }
+            if (!string.IsNullOrWhiteSpace(climateSiteReportList[0].File_desc))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteReportList[0].File_desc));
+            }
+            if (climateSiteReportList[0].HourlyStartDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].HourlyStartDate_Local);
+            }
+            if (climateSiteReportList[0].HourlyEndDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].HourlyEndDate_Local);
+            }
+            if (climateSiteReportList[0].HourlyNow != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].HourlyNow);
+            }
+            if (climateSiteReportList[0].DailyStartDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].DailyStartDate_Local);
+            }
+            if (climateSiteReportList[0].DailyEndDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].DailyEndDate_Local);
+            }
+            if (climateSiteReportList[0].DailyNow != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].DailyNow);
+            }
+            if (climateSiteReportList[0].MonthlyStartDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].MonthlyStartDate_Local);
+            }
+            if (climateSiteReportList[0].MonthlyEndDate_Local != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].MonthlyEndDate_Local);
+            }
+            if (climateSiteReportList[0].MonthlyNow != null)
+            {
+                Assert.IsNotNull(climateSiteReportList[0].MonthlyNow);
+            }
+            Assert.IsNotNull(climateSiteReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(climateSiteReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(climateSiteReportList[0].HasErrors);
         }
         private ClimateSite GetFilledRandomClimateSite(string OmitPropName)
         {

@@ -45,19 +45,19 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(search.value))
             {
                 search.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.Searchvalue), new[] { "value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "Searchvalue"), new[] { "value" });
             }
 
             if (!string.IsNullOrWhiteSpace(search.value) && (search.value.Length < 1 || search.value.Length > 255))
             {
                 search.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.Searchvalue, "1", "255"), new[] { "value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "Searchvalue", "1", "255"), new[] { "value" });
             }
 
             if (search.id < 1)
             {
                 search.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.Searchid, "1"), new[] { "id" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "Searchid", "1"), new[] { "id" });
             }
 
             retStr = ""; // added to stop compiling error

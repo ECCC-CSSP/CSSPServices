@@ -32,67 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void Query_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    QueryService queryService = new QueryService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    Query query = GetFilledRandomQuery("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetQueryWithQueryID(query.QueryID)
-        #endregion Tests Generated for GetQueryWithQueryID(query.QueryID)
-
-        #region Tests Generated for GetQueryList()
-        #endregion Tests Generated for GetQueryList()
-
-        #region Tests Generated for GetQueryList() Skip Take
-        #endregion Tests Generated for GetQueryList() Skip Take
-
-        #region Tests Generated for GetQueryList() Skip Take Order
-        #endregion Tests Generated for GetQueryList() Skip Take Order
-
-        #region Tests Generated for GetQueryList() Skip Take 2Order
-        #endregion Tests Generated for GetQueryList() Skip Take 2Order
-
-        #region Tests Generated for GetQueryList() Skip Take Order Where
-        #endregion Tests Generated for GetQueryList() Skip Take Order Where
-
-        #region Tests Generated for GetQueryList() Skip Take Order 2Where
-        #endregion Tests Generated for GetQueryList() Skip Take Order 2Where
-
-        #region Tests Generated for GetQueryList() 2Where
-        #endregion Tests Generated for GetQueryList() 2Where
-
         #region Functions private
         private Query GetFilledRandomQuery(string OmitPropName)
         {

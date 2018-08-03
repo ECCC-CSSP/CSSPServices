@@ -45,20 +45,20 @@ namespace CSSPServices
             if (mapObj.MapInfoID < 1)
             {
                 mapObj.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.MapObjMapInfoID, "1"), new[] { "MapInfoID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "MapObjMapInfoID", "1"), new[] { "MapInfoID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(MapInfoDrawTypeEnum), (int?)mapObj.MapInfoDrawType);
             if (mapObj.MapInfoDrawType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapObj.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapObjMapInfoDrawType), new[] { "MapInfoDrawType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapObjMapInfoDrawType"), new[] { "MapInfoDrawType" });
             }
 
             if (!string.IsNullOrWhiteSpace(mapObj.MapInfoDrawTypeText) && mapObj.MapInfoDrawTypeText.Length > 100)
             {
                 mapObj.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapObjMapInfoDrawTypeText, "100"), new[] { "MapInfoDrawTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MapObjMapInfoDrawTypeText", "100"), new[] { "MapInfoDrawTypeText" });
             }
 
                 //Error: Type not implemented [CoordList] of type [List`1]

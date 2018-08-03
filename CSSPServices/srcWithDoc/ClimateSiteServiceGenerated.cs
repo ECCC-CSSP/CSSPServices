@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (climateSite.ClimateSiteID == 0)
                 {
                     climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteClimateSiteID), new[] { "ClimateSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClimateSiteClimateSiteID"), new[] { "ClimateSiteID" });
                 }
 
                 if (!GetRead().Where(c => c.ClimateSiteID == climateSite.ClimateSiteID).Any())
                 {
                     climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateSite, CSSPModelsRes.ClimateSiteClimateSiteID, climateSite.ClimateSiteID.ToString()), new[] { "ClimateSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ClimateSite", "ClimateSiteClimateSiteID", climateSite.ClimateSiteID.ToString()), new[] { "ClimateSiteID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemClimateSiteTVItemID == null)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteClimateSiteTVItemID, climateSite.ClimateSiteTVItemID.ToString()), new[] { "ClimateSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ClimateSiteClimateSiteTVItemID", climateSite.ClimateSiteTVItemID.ToString()), new[] { "ClimateSiteTVItemID" });
             }
             else
             {
@@ -73,38 +73,38 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemClimateSiteTVItemID.TVType))
                 {
                     climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateSiteClimateSiteTVItemID, "ClimateSite"), new[] { "ClimateSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ClimateSiteClimateSiteTVItemID", "ClimateSite"), new[] { "ClimateSiteTVItemID" });
                 }
             }
 
             if (climateSite.ECDBID < 1 || climateSite.ECDBID > 100000)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteECDBID, "1", "100000"), new[] { "ECDBID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteECDBID", "1", "100000"), new[] { "ECDBID" });
             }
 
             if (string.IsNullOrWhiteSpace(climateSite.ClimateSiteName))
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteClimateSiteName), new[] { "ClimateSiteName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClimateSiteClimateSiteName"), new[] { "ClimateSiteName" });
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.ClimateSiteName) && climateSite.ClimateSiteName.Length > 100)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteClimateSiteName, "100"), new[] { "ClimateSiteName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteClimateSiteName", "100"), new[] { "ClimateSiteName" });
             }
 
             if (string.IsNullOrWhiteSpace(climateSite.Province))
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteProvince), new[] { "Province" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClimateSiteProvince"), new[] { "Province" });
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.Province) && climateSite.Province.Length > 4)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteProvince, "4"), new[] { "Province" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteProvince", "4"), new[] { "Province" });
             }
 
             if (climateSite.Elevation_m != null)
@@ -112,14 +112,14 @@ namespace CSSPServices
                 if (climateSite.Elevation_m < 0 || climateSite.Elevation_m > 10000)
                 {
                     climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteElevation_m, "0", "10000"), new[] { "Elevation_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteElevation_m", "0", "10000"), new[] { "Elevation_m" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.ClimateID) && climateSite.ClimateID.Length > 10)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteClimateID, "10"), new[] { "ClimateID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteClimateID", "10"), new[] { "ClimateID" });
             }
 
             if (climateSite.WMOID != null)
@@ -127,20 +127,20 @@ namespace CSSPServices
                 if (climateSite.WMOID < 1 || climateSite.WMOID > 100000)
                 {
                     climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteWMOID, "1", "100000"), new[] { "WMOID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteWMOID", "1", "100000"), new[] { "WMOID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.TCID) && climateSite.TCID.Length > 3)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteTCID, "3"), new[] { "TCID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteTCID", "3"), new[] { "TCID" });
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.ProvSiteID) && climateSite.ProvSiteID.Length > 50)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteProvSiteID, "50"), new[] { "ProvSiteID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteProvSiteID", "50"), new[] { "ProvSiteID" });
             }
 
             if (climateSite.TimeOffset_hour != null)
@@ -148,63 +148,63 @@ namespace CSSPServices
                 if (climateSite.TimeOffset_hour < -10 || climateSite.TimeOffset_hour > 0)
                 {
                     climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateSiteTimeOffset_hour, "-10", "0"), new[] { "TimeOffset_hour" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteTimeOffset_hour", "-10", "0"), new[] { "TimeOffset_hour" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.File_desc) && climateSite.File_desc.Length > 50)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateSiteFile_desc, "50"), new[] { "File_desc" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteFile_desc", "50"), new[] { "File_desc" });
             }
 
             if (climateSite.HourlyStartDate_Local != null && ((DateTime)climateSite.HourlyStartDate_Local).Year < 1980)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteHourlyStartDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteHourlyStartDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteHourlyStartDate_Local", "1980"), new[] { "ClimateSiteHourlyStartDate_Local" });
             }
 
             if (climateSite.HourlyEndDate_Local != null && ((DateTime)climateSite.HourlyEndDate_Local).Year < 1980)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteHourlyEndDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteHourlyEndDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteHourlyEndDate_Local", "1980"), new[] { "ClimateSiteHourlyEndDate_Local" });
             }
 
             if (climateSite.DailyStartDate_Local != null && ((DateTime)climateSite.DailyStartDate_Local).Year < 1980)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteDailyStartDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteDailyStartDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteDailyStartDate_Local", "1980"), new[] { "ClimateSiteDailyStartDate_Local" });
             }
 
             if (climateSite.DailyEndDate_Local != null && ((DateTime)climateSite.DailyEndDate_Local).Year < 1980)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteDailyEndDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteDailyEndDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteDailyEndDate_Local", "1980"), new[] { "ClimateSiteDailyEndDate_Local" });
             }
 
             if (climateSite.MonthlyStartDate_Local != null && ((DateTime)climateSite.MonthlyStartDate_Local).Year < 1980)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyStartDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteMonthlyStartDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteMonthlyStartDate_Local", "1980"), new[] { "ClimateSiteMonthlyStartDate_Local" });
             }
 
             if (climateSite.MonthlyEndDate_Local != null && ((DateTime)climateSite.MonthlyEndDate_Local).Year < 1980)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteMonthlyEndDate_Local, "1980"), new[] { CSSPModelsRes.ClimateSiteMonthlyEndDate_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteMonthlyEndDate_Local", "1980"), new[] { "ClimateSiteMonthlyEndDate_Local" });
             }
 
             if (climateSite.LastUpdateDate_UTC.Year == 1)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateSiteLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClimateSiteLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (climateSite.LastUpdateDate_UTC.Year < 1980)
                 {
                 climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ClimateSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ClimateSiteLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -213,7 +213,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 climateSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, climateSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ClimateSiteLastUpdateContactTVItemID", climateSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -224,7 +224,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     climateSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ClimateSiteLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -241,57 +241,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ClimateSite GetClimateSiteWithClimateSiteID(int ClimateSiteID)
         {
-            IQueryable<ClimateSite> climateSiteQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ClimateSiteID == ClimateSiteID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ClimateSiteID == ClimateSiteID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return climateSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillClimateSiteWeb(climateSiteQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillClimateSiteReport(climateSiteQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ClimateSite> GetClimateSiteList()
         {
-            IQueryable<ClimateSite> climateSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ClimateSite> ClimateSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        climateSiteQuery = EnhanceQueryStatements<ClimateSite>(climateSiteQuery) as IQueryable<ClimateSite>;
+            ClimateSiteQuery = EnhanceQueryStatements<ClimateSite>(ClimateSiteQuery) as IQueryable<ClimateSite>;
 
-                        return climateSiteQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        climateSiteQuery = FillClimateSiteWeb(climateSiteQuery);
+            return ClimateSiteQuery;
+        }
+        public ClimateSiteWeb GetClimateSiteWebWithClimateSiteID(int ClimateSiteID)
+        {
+            return FillClimateSiteWeb().FirstOrDefault();
 
-                        climateSiteQuery = EnhanceQueryStatements<ClimateSite>(climateSiteQuery) as IQueryable<ClimateSite>;
+        }
+        public IQueryable<ClimateSiteWeb> GetClimateSiteWebList()
+        {
+            IQueryable<ClimateSiteWeb> ClimateSiteWebQuery = FillClimateSiteWeb();
 
-                        return climateSiteQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        climateSiteQuery = FillClimateSiteReport(climateSiteQuery);
+            ClimateSiteWebQuery = EnhanceQueryStatements<ClimateSiteWeb>(ClimateSiteWebQuery) as IQueryable<ClimateSiteWeb>;
 
-                        climateSiteQuery = EnhanceQueryStatements<ClimateSite>(climateSiteQuery) as IQueryable<ClimateSite>;
+            return ClimateSiteWebQuery;
+        }
+        public ClimateSiteReport GetClimateSiteReportWithClimateSiteID(int ClimateSiteID)
+        {
+            return FillClimateSiteReport().FirstOrDefault();
 
-                        return climateSiteQuery;
-                    }
-                default:
-                    {
-                        climateSiteQuery = climateSiteQuery.Where(c => c.ClimateSiteID == 0);
+        }
+        public IQueryable<ClimateSiteReport> GetClimateSiteReportList()
+        {
+            IQueryable<ClimateSiteReport> ClimateSiteReportQuery = FillClimateSiteReport();
 
-                        return climateSiteQuery;
-                    }
-            }
+            ClimateSiteReportQuery = EnhanceQueryStatements<ClimateSiteReport>(ClimateSiteReportQuery) as IQueryable<ClimateSiteReport>;
+
+            return ClimateSiteReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -344,9 +331,9 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ClimateSiteFillWeb
-        private IQueryable<ClimateSite> FillClimateSiteWeb(IQueryable<ClimateSite> climateSiteQuery)
+        private IQueryable<ClimateSiteWeb> FillClimateSiteWeb()
         {
-            climateSiteQuery = (from c in climateSiteQuery
+             IQueryable<ClimateSiteWeb>  ClimateSiteWebQuery = (from c in db.ClimateSites
                 let ClimateSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ClimateSiteTVItemID
                     && cl.Language == LanguageRequest
@@ -355,8 +342,10 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ClimateSite
+                    select new ClimateSiteWeb
                     {
+                        ClimateSiteTVItemLanguage = ClimateSiteTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         ClimateSiteID = c.ClimateSiteID,
                         ClimateSiteTVItemID = c.ClimateSiteTVItemID,
                         ECDBID = c.ECDBID,
@@ -381,17 +370,11 @@ namespace CSSPServices
                         MonthlyNow = c.MonthlyNow,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ClimateSiteWeb = new ClimateSiteWeb
-                        {
-                            ClimateSiteTVItemLanguage = ClimateSiteTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        ClimateSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return climateSiteQuery;
+            return ClimateSiteWebQuery;
         }
         #endregion Functions private Generated ClimateSiteFillWeb
 

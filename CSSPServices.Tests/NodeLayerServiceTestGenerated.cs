@@ -32,67 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void NodeLayer_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    NodeLayerService nodeLayerService = new NodeLayerService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    NodeLayer nodeLayer = GetFilledRandomNodeLayer("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetNodeLayerWithNodeLayerID(nodeLayer.NodeLayerID)
-        #endregion Tests Generated for GetNodeLayerWithNodeLayerID(nodeLayer.NodeLayerID)
-
-        #region Tests Generated for GetNodeLayerList()
-        #endregion Tests Generated for GetNodeLayerList()
-
-        #region Tests Generated for GetNodeLayerList() Skip Take
-        #endregion Tests Generated for GetNodeLayerList() Skip Take
-
-        #region Tests Generated for GetNodeLayerList() Skip Take Order
-        #endregion Tests Generated for GetNodeLayerList() Skip Take Order
-
-        #region Tests Generated for GetNodeLayerList() Skip Take 2Order
-        #endregion Tests Generated for GetNodeLayerList() Skip Take 2Order
-
-        #region Tests Generated for GetNodeLayerList() Skip Take Order Where
-        #endregion Tests Generated for GetNodeLayerList() Skip Take Order Where
-
-        #region Tests Generated for GetNodeLayerList() Skip Take Order 2Where
-        #endregion Tests Generated for GetNodeLayerList() Skip Take Order 2Where
-
-        #region Tests Generated for GetNodeLayerList() 2Where
-        #endregion Tests Generated for GetNodeLayerList() 2Where
-
         #region Functions private
         private NodeLayer GetFilledRandomNodeLayer(string OmitPropName)
         {

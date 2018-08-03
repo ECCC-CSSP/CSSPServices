@@ -45,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(mwqmSiteSampleFC.Error))
             {
                 mwqmSiteSampleFC.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteSampleFCError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteSampleFCError"), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -53,14 +53,14 @@ namespace CSSPServices
             if (mwqmSiteSampleFC.SampleDate.Year == 1)
             {
                 mwqmSiteSampleFC.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteSampleFCSampleDate), new[] { "SampleDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteSampleFCSampleDate"), new[] { "SampleDate" });
             }
             else
             {
                 if (mwqmSiteSampleFC.SampleDate.Year < 1980)
                 {
                 mwqmSiteSampleFC.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteSampleFCSampleDate, "1980"), new[] { "SampleDate" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteSampleFCSampleDate", "1980"), new[] { "SampleDate" });
                 }
             }
 
@@ -69,7 +69,7 @@ namespace CSSPServices
                 if (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000)
                 {
                     mwqmSiteSampleFC.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { "FC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSiteSampleFCFC", "1", "100000000"), new[] { "FC" });
                 }
             }
 

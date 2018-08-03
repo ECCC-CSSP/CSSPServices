@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,76 +7,59 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class MWQMRunLanguageService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<MWQMRunLanguage> FillMWQMRunLanguageReport(IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery)
+        #region Functions private Generated MWQMRunLanguageFillReport
+        private IQueryable<MWQMRunLanguageReport> FillMWQMRunLanguageReport()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            mwqmRunLanguageQuery = (from c in mwqmRunLanguageQuery
-                                    let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                                   where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                   && cl.Language == LanguageRequest
-                                                                   select cl).FirstOrDefault()
-                                    select new MWQMRunLanguage
-                                    {
-                                        MWQMRunLanguageID = c.MWQMRunLanguageID,
-                                        MWQMRunID = c.MWQMRunID,
-                                        Language = c.Language,
-                                        RunComment = c.RunComment,
-                                        TranslationStatusRunComment = c.TranslationStatusRunComment,
-                                        RunWeatherComment = c.RunWeatherComment,
-                                        TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
-                                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                        MWQMRunLanguageWeb = new MWQMRunLanguageWeb
-                                        {
-                                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                            LanguageText = (from e in LanguageEnumList
-                                                            where e.EnumID == (int?)c.Language
-                                                            select e.EnumText).FirstOrDefault(),
-                                            TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
-                                                                               where e.EnumID == (int?)c.TranslationStatusRunComment
-                                                                               select e.EnumText).FirstOrDefault(),
-                                            TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
-                                                                                      where e.EnumID == (int?)c.TranslationStatusRunWeatherComment
-                                                                                      select e.EnumText).FirstOrDefault(),
-                                        },
-                                        MWQMRunLanguageReport = new MWQMRunLanguageReport
-                                        {
-                                            MWQMRunLanguageReportTest = "MWQMRunLanguageReportTest",
-                                        },
-                                        HasErrors = false,
-                                        ValidationResults = null,
-                                    });
+             IQueryable<MWQMRunLanguageReport>  MWQMRunLanguageReportQuery = (from c in db.MWQMRunLanguages
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new MWQMRunLanguageReport
+                    {
+                        MWQMRunLanguageReportTest = "Testing Report",
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusRunCommentText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusRunComment
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusRunWeatherCommentText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusRunWeatherComment
+                                select e.EnumText).FirstOrDefault(),
+                        MWQMRunLanguageID = c.MWQMRunLanguageID,
+                        MWQMRunID = c.MWQMRunID,
+                        Language = c.Language,
+                        RunComment = c.RunComment,
+                        TranslationStatusRunComment = c.TranslationStatusRunComment,
+                        RunWeatherComment = c.RunWeatherComment,
+                        TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return mwqmRunLanguageQuery;
+            return MWQMRunLanguageReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated MWQMRunLanguageFillReport
+
     }
 }

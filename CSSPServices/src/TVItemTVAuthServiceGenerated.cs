@@ -45,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvItemTVAuth.Error))
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVAuthError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVAuthError"), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -53,50 +53,50 @@ namespace CSSPServices
             if (tvItemTVAuth.TVItemUserAuthID < 1)
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.TVItemTVAuthTVItemUserAuthID, "1"), new[] { "TVItemUserAuthID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVItemTVAuthTVItemUserAuthID", "1"), new[] { "TVItemUserAuthID" });
             }
 
             if (string.IsNullOrWhiteSpace(tvItemTVAuth.TVText))
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVAuthTVText), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVAuthTVText"), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemTVAuth.TVText) && (tvItemTVAuth.TVText.Length < 1 || tvItemTVAuth.TVText.Length > 255))
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVItemTVAuthTVText, "1", "255"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVItemTVAuthTVText", "1", "255"), new[] { "TVText" });
             }
 
             if (tvItemTVAuth.TVItemID1 < 1)
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.TVItemTVAuthTVItemID1, "1"), new[] { "TVItemID1" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVItemTVAuthTVItemID1", "1"), new[] { "TVItemID1" });
             }
 
             if (string.IsNullOrWhiteSpace(tvItemTVAuth.TVTypeStr))
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVAuthTVTypeStr), new[] { "TVTypeStr" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVAuthTVTypeStr"), new[] { "TVTypeStr" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemTVAuth.TVTypeStr) && (tvItemTVAuth.TVTypeStr.Length < 1 || tvItemTVAuth.TVTypeStr.Length > 255))
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVItemTVAuthTVTypeStr, "1", "255"), new[] { "TVTypeStr" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVItemTVAuthTVTypeStr", "1", "255"), new[] { "TVTypeStr" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVAuthEnum), (int?)tvItemTVAuth.TVAuth);
             if (tvItemTVAuth.TVAuth == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVAuthTVAuth), new[] { "TVAuth" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVAuthTVAuth"), new[] { "TVAuth" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemTVAuth.TVAuthText) && tvItemTVAuth.TVAuthText.Length > 100)
             {
                 tvItemTVAuth.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVAuthTVAuthText, "100"), new[] { "TVAuthText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVItemTVAuthTVAuthText", "100"), new[] { "TVAuthText" });
             }
 
             retStr = ""; // added to stop compiling error

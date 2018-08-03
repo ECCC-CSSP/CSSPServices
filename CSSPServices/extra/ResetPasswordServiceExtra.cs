@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,132 +7,42 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace CSSPServices
 {
     public partial class ResetPasswordService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        public string CleanResetPasswordWithEmail(string Email)
+        #region Functions private Generated ResetPasswordFillReport
+        private IQueryable<ResetPasswordReport> FillResetPasswordReport()
         {
-            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB))
-            {
-                db.ResetPasswords.RemoveRange((from r in db.ResetPasswords
-                                               where r.Email == Email
-                                               && r.ExpireDate_Local < DateTime.Today
-                                               select r));
+             IQueryable<ResetPasswordReport>  ResetPasswordReportQuery = (from c in db.ResetPasswords
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new ResetPasswordReport
+                    {
+                        ResetPasswordReportTest = "Testing Report",
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        ResetPasswordID = c.ResetPasswordID,
+                        Email = c.Email,
+                        ExpireDate_Local = c.ExpireDate_Local,
+                        Code = c.Code,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    return ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "");
-                }
-            }
-            return "";
+            return ResetPasswordReportQuery;
         }
-        public bool ResetPasswordDB(ResetPassword resetPassword)
-        {
-            //ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, db, ContactID);
+        #endregion Functions private Generated ResetPasswordFillReport
 
-            //using (TransactionScope ts = new TransactionScope())
-            //{
-            //    IEnumerable<ValidationResult> validationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Create);
-            //    if (validationResults.Count() > 0)
-            //    {
-            //        return false;
-            //    }
-
-            //    ResetPassword resetPasswordRet = GetRead().Where(c => c.Code == resetPassword.Code && c.Email == resetPassword.Email).FirstOrDefault();
-            //    if (resetPasswordRet == null)
-            //    {
-            //        validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ResetPassword, CSSPModelsRes.ResetPasswordCode + "," + CSSPModelsRes.ResetPasswordEmail, resetPassword.Code + "," + resetPassword.Email)) };
-            //        return false;
-            //    }
-
-            //    ContactLogin contactLogin = contactLoginService.GetEdit().Where(c => c.LoginEmail == resetPassword.Email).FirstOrDefault();
-            //    if (contactLogin == null)
-            //    {
-            //        validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ResetPasswordEmail, resetPassword.Email)) };
-            //        return false;
-            //    }
-
-            //    // -------------------------------------------------------------
-            //    // todo create passwordhash and save it to Contact
-            //    // -------------------------------------------------------------
-
-            //    contactLogin.PasswordHash = contactLogin.PasswordHash; // should be the new password hash
-            //    //aspNetUser.Password = resetPassword.Password;
-
-            //    if (!contactLoginService.Update(contactLogin))
-            //    {
-            //        validationResults = contactLogin.ValidationResults;
-            //        return false;
-            //    };
-
-            //    if (!Delete(resetPasswordRet))
-            //    {
-            //        validationResults = resetPasswordRet.ValidationResults;
-            //        return false;
-            //    }
-
-            //    ts.Complete();
-            //}
-            return true;
-        }
-        #endregion Function public
-
-        #region Function private
-        private IQueryable<ResetPassword> FillResetPasswordReport(IQueryable<ResetPassword> resetPasswordQuery)
-        {
-            resetPasswordQuery = (from c in resetPasswordQuery
-                                  let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                                 where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                 && cl.Language == LanguageRequest
-                                                                 select cl).FirstOrDefault()
-                                  select new ResetPassword
-                                  {
-                                      ResetPasswordID = c.ResetPasswordID,
-                                      Email = c.Email,
-                                      ExpireDate_Local = c.ExpireDate_Local,
-                                      Code = c.Code,
-                                      LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                      LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                      ResetPasswordWeb = new ResetPasswordWeb
-                                      {
-                                          LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                          //Password = Password,
-                                          //ConfirmPassword = ConfirmPassword,
-                                      },
-                                      ResetPasswordReport = new ResetPasswordReport
-                                      {
-                                          ResetPasswordReportTest = "ResetPasswordReportTest",
-                                      },
-                                      HasErrors = false,
-                                      ValidationResults = null,
-                                  });
-
-            return resetPasswordQuery;
-        }
-        #endregion Functions private    
     }
 }

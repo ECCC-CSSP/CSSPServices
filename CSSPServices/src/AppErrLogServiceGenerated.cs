@@ -47,38 +47,38 @@ namespace CSSPServices
                 if (appErrLog.AppErrLogID == 0)
                 {
                     appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogAppErrLogID), new[] { "AppErrLogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppErrLogAppErrLogID"), new[] { "AppErrLogID" });
                 }
 
                 if (!GetRead().Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
                 {
                     appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppErrLog, CSSPModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), new[] { "AppErrLogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppErrLog", "AppErrLogAppErrLogID", appErrLog.AppErrLogID.ToString()), new[] { "AppErrLogID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(appErrLog.Tag))
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogTag), new[] { "Tag" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppErrLogTag"), new[] { "Tag" });
             }
 
             if (!string.IsNullOrWhiteSpace(appErrLog.Tag) && appErrLog.Tag.Length > 100)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppErrLogTag, "100"), new[] { "Tag" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "AppErrLogTag", "100"), new[] { "Tag" });
             }
 
             if (appErrLog.LineNumber < 1)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.AppErrLogLineNumber, "1"), new[] { "LineNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "AppErrLogLineNumber", "1"), new[] { "LineNumber" });
             }
 
             if (string.IsNullOrWhiteSpace(appErrLog.Source))
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogSource), new[] { "Source" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppErrLogSource"), new[] { "Source" });
             }
 
             //Source has no StringLength Attribute
@@ -86,7 +86,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(appErrLog.Message))
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogMessage), new[] { "Message" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppErrLogMessage"), new[] { "Message" });
             }
 
             //Message has no StringLength Attribute
@@ -94,28 +94,28 @@ namespace CSSPServices
             if (appErrLog.DateTime_UTC.Year == 1)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogDateTime_UTC), new[] { "DateTime_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppErrLogDateTime_UTC"), new[] { "DateTime_UTC" });
             }
             else
             {
                 if (appErrLog.DateTime_UTC.Year < 1980)
                 {
                 appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppErrLogDateTime_UTC, "1980"), new[] { "DateTime_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppErrLogDateTime_UTC", "1980"), new[] { "DateTime_UTC" });
                 }
             }
 
             if (appErrLog.LastUpdateDate_UTC.Year == 1)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppErrLogLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (appErrLog.LastUpdateDate_UTC.Year < 1980)
                 {
                 appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppErrLogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppErrLogLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -124,7 +124,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppErrLogLastUpdateContactTVItemID", appErrLog.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -135,7 +135,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "AppErrLogLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -152,57 +152,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID)
         {
-            IQueryable<AppErrLog> appErrLogQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.AppErrLogID == AppErrLogID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.AppErrLogID == AppErrLogID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return appErrLogQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillAppErrLogWeb(appErrLogQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillAppErrLogReport(appErrLogQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<AppErrLog> GetAppErrLogList()
         {
-            IQueryable<AppErrLog> appErrLogQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<AppErrLog> AppErrLogQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        appErrLogQuery = EnhanceQueryStatements<AppErrLog>(appErrLogQuery) as IQueryable<AppErrLog>;
+            AppErrLogQuery = EnhanceQueryStatements<AppErrLog>(AppErrLogQuery) as IQueryable<AppErrLog>;
 
-                        return appErrLogQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        appErrLogQuery = FillAppErrLogWeb(appErrLogQuery);
+            return AppErrLogQuery;
+        }
+        public AppErrLogWeb GetAppErrLogWebWithAppErrLogID(int AppErrLogID)
+        {
+            return FillAppErrLogWeb().FirstOrDefault();
 
-                        appErrLogQuery = EnhanceQueryStatements<AppErrLog>(appErrLogQuery) as IQueryable<AppErrLog>;
+        }
+        public IQueryable<AppErrLogWeb> GetAppErrLogWebList()
+        {
+            IQueryable<AppErrLogWeb> AppErrLogWebQuery = FillAppErrLogWeb();
 
-                        return appErrLogQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        appErrLogQuery = FillAppErrLogReport(appErrLogQuery);
+            AppErrLogWebQuery = EnhanceQueryStatements<AppErrLogWeb>(AppErrLogWebQuery) as IQueryable<AppErrLogWeb>;
 
-                        appErrLogQuery = EnhanceQueryStatements<AppErrLog>(appErrLogQuery) as IQueryable<AppErrLog>;
+            return AppErrLogWebQuery;
+        }
+        public AppErrLogReport GetAppErrLogReportWithAppErrLogID(int AppErrLogID)
+        {
+            return FillAppErrLogReport().FirstOrDefault();
 
-                        return appErrLogQuery;
-                    }
-                default:
-                    {
-                        appErrLogQuery = appErrLogQuery.Where(c => c.AppErrLogID == 0);
+        }
+        public IQueryable<AppErrLogReport> GetAppErrLogReportList()
+        {
+            IQueryable<AppErrLogReport> AppErrLogReportQuery = FillAppErrLogReport();
 
-                        return appErrLogQuery;
-                    }
-            }
+            AppErrLogReportQuery = EnhanceQueryStatements<AppErrLogReport>(AppErrLogReportQuery) as IQueryable<AppErrLogReport>;
+
+            return AppErrLogReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -255,15 +242,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AppErrLogFillWeb
-        private IQueryable<AppErrLog> FillAppErrLogWeb(IQueryable<AppErrLog> appErrLogQuery)
+        private IQueryable<AppErrLogWeb> FillAppErrLogWeb()
         {
-            appErrLogQuery = (from c in appErrLogQuery
+             IQueryable<AppErrLogWeb>  AppErrLogWebQuery = (from c in db.AppErrLogs
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new AppErrLog
+                    select new AppErrLogWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         AppErrLogID = c.AppErrLogID,
                         Tag = c.Tag,
                         LineNumber = c.LineNumber,
@@ -272,16 +260,11 @@ namespace CSSPServices
                         DateTime_UTC = c.DateTime_UTC,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        AppErrLogWeb = new AppErrLogWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        AppErrLogReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return appErrLogQuery;
+            return AppErrLogWebQuery;
         }
         #endregion Functions private Generated AppErrLogFillWeb
 

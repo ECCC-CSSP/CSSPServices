@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (polSourceObservation.PolSourceObservationID == 0)
                 {
                     polSourceObservation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObservationPolSourceObservationID), new[] { "PolSourceObservationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObservationPolSourceObservationID"), new[] { "PolSourceObservationID" });
                 }
 
                 if (!GetRead().Where(c => c.PolSourceObservationID == polSourceObservation.PolSourceObservationID).Any())
                 {
                     polSourceObservation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.PolSourceObservation, CSSPModelsRes.PolSourceObservationPolSourceObservationID, polSourceObservation.PolSourceObservationID.ToString()), new[] { "PolSourceObservationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "PolSourceObservation", "PolSourceObservationPolSourceObservationID", polSourceObservation.PolSourceObservationID.ToString()), new[] { "PolSourceObservationID" });
                 }
             }
 
@@ -62,20 +62,20 @@ namespace CSSPServices
             if (PolSourceSitePolSourceSiteID == null)
             {
                 polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.PolSourceSite, CSSPModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), new[] { "PolSourceSiteID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "PolSourceSite", "PolSourceObservationPolSourceSiteID", polSourceObservation.PolSourceSiteID.ToString()), new[] { "PolSourceSiteID" });
             }
 
             if (polSourceObservation.ObservationDate_Local.Year == 1)
             {
                 polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObservationObservationDate_Local), new[] { "ObservationDate_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObservationObservationDate_Local"), new[] { "ObservationDate_Local" });
             }
             else
             {
                 if (polSourceObservation.ObservationDate_Local.Year < 1980)
                 {
                 polSourceObservation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.PolSourceObservationObservationDate_Local, "1980"), new[] { "ObservationDate_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "PolSourceObservationObservationDate_Local", "1980"), new[] { "ObservationDate_Local" });
                 }
             }
 
@@ -84,7 +84,7 @@ namespace CSSPServices
             if (TVItemContactTVItemID == null)
             {
                 polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "PolSourceObservationContactTVItemID", polSourceObservation.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
             }
             else
             {
@@ -95,14 +95,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
                     polSourceObservation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceObservationContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "PolSourceObservationContactTVItemID", "Contact"), new[] { "ContactTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(polSourceObservation.Observation_ToBeDeleted))
             {
                 polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObservationObservation_ToBeDeleted), new[] { "Observation_ToBeDeleted" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObservationObservation_ToBeDeleted"), new[] { "Observation_ToBeDeleted" });
             }
 
             //Observation_ToBeDeleted has no StringLength Attribute
@@ -110,14 +110,14 @@ namespace CSSPServices
             if (polSourceObservation.LastUpdateDate_UTC.Year == 1)
             {
                 polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObservationLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObservationLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (polSourceObservation.LastUpdateDate_UTC.Year < 1980)
                 {
                 polSourceObservation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.PolSourceObservationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "PolSourceObservationLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -126,7 +126,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 polSourceObservation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "PolSourceObservationLastUpdateContactTVItemID", polSourceObservation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -137,7 +137,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     polSourceObservation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "PolSourceObservationLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -154,57 +154,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public PolSourceObservation GetPolSourceObservationWithPolSourceObservationID(int PolSourceObservationID)
         {
-            IQueryable<PolSourceObservation> polSourceObservationQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.PolSourceObservationID == PolSourceObservationID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.PolSourceObservationID == PolSourceObservationID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return polSourceObservationQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillPolSourceObservationWeb(polSourceObservationQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillPolSourceObservationReport(polSourceObservationQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<PolSourceObservation> GetPolSourceObservationList()
         {
-            IQueryable<PolSourceObservation> polSourceObservationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<PolSourceObservation> PolSourceObservationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        polSourceObservationQuery = EnhanceQueryStatements<PolSourceObservation>(polSourceObservationQuery) as IQueryable<PolSourceObservation>;
+            PolSourceObservationQuery = EnhanceQueryStatements<PolSourceObservation>(PolSourceObservationQuery) as IQueryable<PolSourceObservation>;
 
-                        return polSourceObservationQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        polSourceObservationQuery = FillPolSourceObservationWeb(polSourceObservationQuery);
+            return PolSourceObservationQuery;
+        }
+        public PolSourceObservationWeb GetPolSourceObservationWebWithPolSourceObservationID(int PolSourceObservationID)
+        {
+            return FillPolSourceObservationWeb().FirstOrDefault();
 
-                        polSourceObservationQuery = EnhanceQueryStatements<PolSourceObservation>(polSourceObservationQuery) as IQueryable<PolSourceObservation>;
+        }
+        public IQueryable<PolSourceObservationWeb> GetPolSourceObservationWebList()
+        {
+            IQueryable<PolSourceObservationWeb> PolSourceObservationWebQuery = FillPolSourceObservationWeb();
 
-                        return polSourceObservationQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        polSourceObservationQuery = FillPolSourceObservationReport(polSourceObservationQuery);
+            PolSourceObservationWebQuery = EnhanceQueryStatements<PolSourceObservationWeb>(PolSourceObservationWebQuery) as IQueryable<PolSourceObservationWeb>;
 
-                        polSourceObservationQuery = EnhanceQueryStatements<PolSourceObservation>(polSourceObservationQuery) as IQueryable<PolSourceObservation>;
+            return PolSourceObservationWebQuery;
+        }
+        public PolSourceObservationReport GetPolSourceObservationReportWithPolSourceObservationID(int PolSourceObservationID)
+        {
+            return FillPolSourceObservationReport().FirstOrDefault();
 
-                        return polSourceObservationQuery;
-                    }
-                default:
-                    {
-                        polSourceObservationQuery = polSourceObservationQuery.Where(c => c.PolSourceObservationID == 0);
+        }
+        public IQueryable<PolSourceObservationReport> GetPolSourceObservationReportList()
+        {
+            IQueryable<PolSourceObservationReport> PolSourceObservationReportQuery = FillPolSourceObservationReport();
 
-                        return polSourceObservationQuery;
-                    }
-            }
+            PolSourceObservationReportQuery = EnhanceQueryStatements<PolSourceObservationReport>(PolSourceObservationReportQuery) as IQueryable<PolSourceObservationReport>;
+
+            return PolSourceObservationReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -257,9 +244,9 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated PolSourceObservationFillWeb
-        private IQueryable<PolSourceObservation> FillPolSourceObservationWeb(IQueryable<PolSourceObservation> polSourceObservationQuery)
+        private IQueryable<PolSourceObservationWeb> FillPolSourceObservationWeb()
         {
-            polSourceObservationQuery = (from c in polSourceObservationQuery
+             IQueryable<PolSourceObservationWeb>  PolSourceObservationWebQuery = (from c in db.PolSourceObservations
                 let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.PolSourceSiteID
                     && cl.Language == LanguageRequest
@@ -272,8 +259,11 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new PolSourceObservation
+                    select new PolSourceObservationWeb
                     {
+                        PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
+                        ContactTVItemLanguage = ContactTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         PolSourceObservationID = c.PolSourceObservationID,
                         PolSourceSiteID = c.PolSourceSiteID,
                         ObservationDate_Local = c.ObservationDate_Local,
@@ -281,18 +271,11 @@ namespace CSSPServices
                         Observation_ToBeDeleted = c.Observation_ToBeDeleted,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        PolSourceObservationWeb = new PolSourceObservationWeb
-                        {
-                            PolSourceSiteTVItemLanguage = PolSourceSiteTVItemLanguage,
-                            ContactTVItemLanguage = ContactTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        PolSourceObservationReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return polSourceObservationQuery;
+            return PolSourceObservationWebQuery;
         }
         #endregion Functions private Generated PolSourceObservationFillWeb
 

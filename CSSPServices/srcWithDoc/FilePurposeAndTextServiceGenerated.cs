@@ -46,13 +46,13 @@ namespace CSSPServices
             if (filePurposeAndText.FilePurpose == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 filePurposeAndText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FilePurposeAndTextFilePurpose), new[] { "FilePurpose" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "FilePurposeAndTextFilePurpose"), new[] { "FilePurpose" });
             }
 
             if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && filePurposeAndText.FilePurposeText.Length > 100)
             {
                 filePurposeAndText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.FilePurposeAndTextFilePurposeText, "100"), new[] { "FilePurposeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "FilePurposeAndTextFilePurposeText", "100"), new[] { "FilePurposeText" });
             }
 
             retStr = ""; // added to stop compiling error

@@ -45,13 +45,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(uRLNumberOfSamples.url))
             {
                 uRLNumberOfSamples.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.URLNumberOfSamplesurl), new[] { "url" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "URLNumberOfSamplesurl"), new[] { "url" });
             }
 
             if (!string.IsNullOrWhiteSpace(uRLNumberOfSamples.url) && (uRLNumberOfSamples.url.Length < 1 || uRLNumberOfSamples.url.Length > 255))
             {
                 uRLNumberOfSamples.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.URLNumberOfSamplesurl, "1", "255"), new[] { "url" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "URLNumberOfSamplesurl", "1", "255"), new[] { "url" });
             }
 
             //NumberOfSamples has no Range Attribute

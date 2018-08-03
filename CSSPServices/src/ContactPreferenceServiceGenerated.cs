@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (contactPreference.ContactPreferenceID == 0)
                 {
                     contactPreference.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactPreferenceContactPreferenceID), new[] { "ContactPreferenceID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactPreferenceContactPreferenceID"), new[] { "ContactPreferenceID" });
                 }
 
                 if (!GetRead().Where(c => c.ContactPreferenceID == contactPreference.ContactPreferenceID).Any())
                 {
                     contactPreference.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ContactPreference, CSSPModelsRes.ContactPreferenceContactPreferenceID, contactPreference.ContactPreferenceID.ToString()), new[] { "ContactPreferenceID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ContactPreference", "ContactPreferenceContactPreferenceID", contactPreference.ContactPreferenceID.ToString()), new[] { "ContactPreferenceID" });
                 }
             }
 
@@ -62,33 +62,33 @@ namespace CSSPServices
             if (ContactContactID == null)
             {
                 contactPreference.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactPreferenceContactID, contactPreference.ContactID.ToString()), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactPreferenceContactID", contactPreference.ContactID.ToString()), new[] { "ContactID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)contactPreference.TVType);
             if (contactPreference.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 contactPreference.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactPreferenceTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactPreferenceTVType"), new[] { "TVType" });
             }
 
             if (contactPreference.MarkerSize < 1 || contactPreference.MarkerSize > 1000)
             {
                 contactPreference.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContactPreferenceMarkerSize, "1", "1000"), new[] { "MarkerSize" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContactPreferenceMarkerSize", "1", "1000"), new[] { "MarkerSize" });
             }
 
             if (contactPreference.LastUpdateDate_UTC.Year == 1)
             {
                 contactPreference.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactPreferenceLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactPreferenceLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contactPreference.LastUpdateDate_UTC.Year < 1980)
                 {
                 contactPreference.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactPreferenceLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ContactPreferenceLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -97,7 +97,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contactPreference.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactPreferenceLastUpdateContactTVItemID, contactPreference.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ContactPreferenceLastUpdateContactTVItemID", contactPreference.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -108,7 +108,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     contactPreference.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactPreferenceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ContactPreferenceLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -125,57 +125,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ContactPreference GetContactPreferenceWithContactPreferenceID(int ContactPreferenceID)
         {
-            IQueryable<ContactPreference> contactPreferenceQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ContactPreferenceID == ContactPreferenceID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ContactPreferenceID == ContactPreferenceID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return contactPreferenceQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactPreferenceWeb(contactPreferenceQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactPreferenceReport(contactPreferenceQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ContactPreference> GetContactPreferenceList()
         {
-            IQueryable<ContactPreference> contactPreferenceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ContactPreference> ContactPreferenceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        contactPreferenceQuery = EnhanceQueryStatements<ContactPreference>(contactPreferenceQuery) as IQueryable<ContactPreference>;
+            ContactPreferenceQuery = EnhanceQueryStatements<ContactPreference>(ContactPreferenceQuery) as IQueryable<ContactPreference>;
 
-                        return contactPreferenceQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        contactPreferenceQuery = FillContactPreferenceWeb(contactPreferenceQuery);
+            return ContactPreferenceQuery;
+        }
+        public ContactPreferenceWeb GetContactPreferenceWebWithContactPreferenceID(int ContactPreferenceID)
+        {
+            return FillContactPreferenceWeb().FirstOrDefault();
 
-                        contactPreferenceQuery = EnhanceQueryStatements<ContactPreference>(contactPreferenceQuery) as IQueryable<ContactPreference>;
+        }
+        public IQueryable<ContactPreferenceWeb> GetContactPreferenceWebList()
+        {
+            IQueryable<ContactPreferenceWeb> ContactPreferenceWebQuery = FillContactPreferenceWeb();
 
-                        return contactPreferenceQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        contactPreferenceQuery = FillContactPreferenceReport(contactPreferenceQuery);
+            ContactPreferenceWebQuery = EnhanceQueryStatements<ContactPreferenceWeb>(ContactPreferenceWebQuery) as IQueryable<ContactPreferenceWeb>;
 
-                        contactPreferenceQuery = EnhanceQueryStatements<ContactPreference>(contactPreferenceQuery) as IQueryable<ContactPreference>;
+            return ContactPreferenceWebQuery;
+        }
+        public ContactPreferenceReport GetContactPreferenceReportWithContactPreferenceID(int ContactPreferenceID)
+        {
+            return FillContactPreferenceReport().FirstOrDefault();
 
-                        return contactPreferenceQuery;
-                    }
-                default:
-                    {
-                        contactPreferenceQuery = contactPreferenceQuery.Where(c => c.ContactPreferenceID == 0);
+        }
+        public IQueryable<ContactPreferenceReport> GetContactPreferenceReportList()
+        {
+            IQueryable<ContactPreferenceReport> ContactPreferenceReportQuery = FillContactPreferenceReport();
 
-                        return contactPreferenceQuery;
-                    }
-            }
+            ContactPreferenceReportQuery = EnhanceQueryStatements<ContactPreferenceReport>(ContactPreferenceReportQuery) as IQueryable<ContactPreferenceReport>;
+
+            return ContactPreferenceReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -228,38 +215,34 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ContactPreferenceFillWeb
-        private IQueryable<ContactPreference> FillContactPreferenceWeb(IQueryable<ContactPreference> contactPreferenceQuery)
+        private IQueryable<ContactPreferenceWeb> FillContactPreferenceWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-            contactPreferenceQuery = (from c in contactPreferenceQuery
+             IQueryable<ContactPreferenceWeb>  ContactPreferenceWebQuery = (from c in db.ContactPreferences
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ContactPreference
+                    select new ContactPreferenceWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
                         ContactPreferenceID = c.ContactPreferenceID,
                         ContactID = c.ContactID,
                         TVType = c.TVType,
                         MarkerSize = c.MarkerSize,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ContactPreferenceWeb = new ContactPreferenceWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        ContactPreferenceReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return contactPreferenceQuery;
+            return ContactPreferenceWebQuery;
         }
         #endregion Functions private Generated ContactPreferenceFillWeb
 

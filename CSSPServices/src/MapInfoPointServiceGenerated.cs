@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mapInfoPoint.MapInfoPointID == 0)
                 {
                     mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoPointMapInfoPointID), new[] { "MapInfoPointID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoPointMapInfoPointID"), new[] { "MapInfoPointID" });
                 }
 
                 if (!GetRead().Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
                 {
                     mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfoPoint, CSSPModelsRes.MapInfoPointMapInfoPointID, mapInfoPoint.MapInfoPointID.ToString()), new[] { "MapInfoPointID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointMapInfoPointID", mapInfoPoint.MapInfoPointID.ToString()), new[] { "MapInfoPointID" });
                 }
             }
 
@@ -62,38 +62,38 @@ namespace CSSPServices
             if (MapInfoMapInfoID == null)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfo, CSSPModelsRes.MapInfoPointMapInfoID, mapInfoPoint.MapInfoID.ToString()), new[] { "MapInfoID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoPointMapInfoID", mapInfoPoint.MapInfoID.ToString()), new[] { "MapInfoID" });
             }
 
             if (mapInfoPoint.Ordinal < 0)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.MapInfoPointOrdinal, "0"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "MapInfoPointOrdinal", "0"), new[] { "Ordinal" });
             }
 
             if (mapInfoPoint.Lat < -90 || mapInfoPoint.Lat > 90)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLat, "-90", "90"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLat", "-90", "90"), new[] { "Lat" });
             }
 
             if (mapInfoPoint.Lng < -180 || mapInfoPoint.Lng > 180)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLng, "-180", "180"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLng", "-180", "180"), new[] { "Lng" });
             }
 
             if (mapInfoPoint.LastUpdateDate_UTC.Year == 1)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoPointLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoPointLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mapInfoPoint.LastUpdateDate_UTC.Year < 1980)
                 {
                 mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MapInfoPointLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MapInfoPointLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -102,7 +102,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mapInfoPoint.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, mapInfoPoint.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MapInfoPointLastUpdateContactTVItemID", mapInfoPoint.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -113,7 +113,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mapInfoPoint.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MapInfoPointLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -130,57 +130,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID)
         {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MapInfoPointID == MapInfoPointID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MapInfoPointID == MapInfoPointID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mapInfoPointQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMapInfoPointWeb(mapInfoPointQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMapInfoPointReport(mapInfoPointQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MapInfoPoint> GetMapInfoPointList()
         {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MapInfoPoint> MapInfoPointQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(mapInfoPointQuery) as IQueryable<MapInfoPoint>;
+            MapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(MapInfoPointQuery) as IQueryable<MapInfoPoint>;
 
-                        return mapInfoPointQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mapInfoPointQuery = FillMapInfoPointWeb(mapInfoPointQuery);
+            return MapInfoPointQuery;
+        }
+        public MapInfoPointWeb GetMapInfoPointWebWithMapInfoPointID(int MapInfoPointID)
+        {
+            return FillMapInfoPointWeb().FirstOrDefault();
 
-                        mapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(mapInfoPointQuery) as IQueryable<MapInfoPoint>;
+        }
+        public IQueryable<MapInfoPointWeb> GetMapInfoPointWebList()
+        {
+            IQueryable<MapInfoPointWeb> MapInfoPointWebQuery = FillMapInfoPointWeb();
 
-                        return mapInfoPointQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mapInfoPointQuery = FillMapInfoPointReport(mapInfoPointQuery);
+            MapInfoPointWebQuery = EnhanceQueryStatements<MapInfoPointWeb>(MapInfoPointWebQuery) as IQueryable<MapInfoPointWeb>;
 
-                        mapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(mapInfoPointQuery) as IQueryable<MapInfoPoint>;
+            return MapInfoPointWebQuery;
+        }
+        public MapInfoPointReport GetMapInfoPointReportWithMapInfoPointID(int MapInfoPointID)
+        {
+            return FillMapInfoPointReport().FirstOrDefault();
 
-                        return mapInfoPointQuery;
-                    }
-                default:
-                    {
-                        mapInfoPointQuery = mapInfoPointQuery.Where(c => c.MapInfoPointID == 0);
+        }
+        public IQueryable<MapInfoPointReport> GetMapInfoPointReportList()
+        {
+            IQueryable<MapInfoPointReport> MapInfoPointReportQuery = FillMapInfoPointReport();
 
-                        return mapInfoPointQuery;
-                    }
-            }
+            MapInfoPointReportQuery = EnhanceQueryStatements<MapInfoPointReport>(MapInfoPointReportQuery) as IQueryable<MapInfoPointReport>;
+
+            return MapInfoPointReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -233,15 +220,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MapInfoPointFillWeb
-        private IQueryable<MapInfoPoint> FillMapInfoPointWeb(IQueryable<MapInfoPoint> mapInfoPointQuery)
+        private IQueryable<MapInfoPointWeb> FillMapInfoPointWeb()
         {
-            mapInfoPointQuery = (from c in mapInfoPointQuery
+             IQueryable<MapInfoPointWeb>  MapInfoPointWebQuery = (from c in db.MapInfoPoints
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MapInfoPoint
+                    select new MapInfoPointWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         MapInfoPointID = c.MapInfoPointID,
                         MapInfoID = c.MapInfoID,
                         Ordinal = c.Ordinal,
@@ -249,16 +237,11 @@ namespace CSSPServices
                         Lng = c.Lng,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MapInfoPointWeb = new MapInfoPointWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        MapInfoPointReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mapInfoPointQuery;
+            return MapInfoPointWebQuery;
         }
         #endregion Functions private Generated MapInfoPointFillWeb
 

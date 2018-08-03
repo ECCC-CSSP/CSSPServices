@@ -47,20 +47,20 @@ namespace CSSPServices
                 if (labSheet.LabSheetID == 0)
                 {
                     labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetLabSheetID), new[] { "LabSheetID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetLabSheetID"), new[] { "LabSheetID" });
                 }
 
                 if (!GetRead().Where(c => c.LabSheetID == labSheet.LabSheetID).Any())
                 {
                     labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.LabSheet, CSSPModelsRes.LabSheetLabSheetID, labSheet.LabSheetID.ToString()), new[] { "LabSheetID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "LabSheet", "LabSheetLabSheetID", labSheet.LabSheetID.ToString()), new[] { "LabSheetID" });
                 }
             }
 
             if (labSheet.OtherServerLabSheetID < 1)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LabSheetOtherServerLabSheetID, "1"), new[] { "OtherServerLabSheetID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LabSheetOtherServerLabSheetID", "1"), new[] { "OtherServerLabSheetID" });
             }
 
             SamplingPlan SamplingPlanSamplingPlanID = (from c in db.SamplingPlans where c.SamplingPlanID == labSheet.SamplingPlanID select c).FirstOrDefault();
@@ -68,43 +68,43 @@ namespace CSSPServices
             if (SamplingPlanSamplingPlanID == null)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.LabSheetSamplingPlanID, labSheet.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlan", "LabSheetSamplingPlanID", labSheet.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
             }
 
             if (string.IsNullOrWhiteSpace(labSheet.SamplingPlanName))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetSamplingPlanName), new[] { "SamplingPlanName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetSamplingPlanName"), new[] { "SamplingPlanName" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.SamplingPlanName) && (labSheet.SamplingPlanName.Length < 1 || labSheet.SamplingPlanName.Length > 250))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.LabSheetSamplingPlanName, "1", "250"), new[] { "SamplingPlanName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LabSheetSamplingPlanName", "1", "250"), new[] { "SamplingPlanName" });
             }
 
             if (labSheet.Year < 1980)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LabSheetYear, "1980"), new[] { "Year" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LabSheetYear", "1980"), new[] { "Year" });
             }
 
             if (labSheet.Month < 1 || labSheet.Month > 12)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetMonth, "1", "12"), new[] { "Month" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetMonth", "1", "12"), new[] { "Month" });
             }
 
             if (labSheet.Day < 1 || labSheet.Day > 31)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetDay, "1", "31"), new[] { "Day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetDay", "1", "31"), new[] { "Day" });
             }
 
             if (labSheet.RunNumber < 1 || labSheet.RunNumber > 100)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetRunNumber, "1", "100"), new[] { "RunNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetRunNumber", "1", "100"), new[] { "RunNumber" });
             }
 
             TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == labSheet.SubsectorTVItemID select c).FirstOrDefault();
@@ -112,7 +112,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetSubsectorTVItemID, labSheet.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LabSheetSubsectorTVItemID", labSheet.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -123,7 +123,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LabSheetSubsectorTVItemID", "Subsector"), new[] { "SubsectorTVItemID" });
                 }
             }
 
@@ -134,7 +134,7 @@ namespace CSSPServices
                 if (TVItemMWQMRunTVItemID == null)
                 {
                     labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetMWQMRunTVItemID, (labSheet.MWQMRunTVItemID == null ? "" : labSheet.MWQMRunTVItemID.ToString())), new[] { "MWQMRunTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LabSheetMWQMRunTVItemID", (labSheet.MWQMRunTVItemID == null ? "" : labSheet.MWQMRunTVItemID.ToString())), new[] { "MWQMRunTVItemID" });
                 }
                 else
                 {
@@ -145,7 +145,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemMWQMRunTVItemID.TVType))
                     {
                         labSheet.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LabSheetMWQMRunTVItemID", "MWQMRun"), new[] { "MWQMRunTVItemID" });
                     }
                 }
             }
@@ -154,60 +154,60 @@ namespace CSSPServices
             if (labSheet.SamplingPlanType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetSamplingPlanType), new[] { "SamplingPlanType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetSamplingPlanType"), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheet.SampleType);
             if (labSheet.SampleType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetSampleType), new[] { "SampleType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetSampleType"), new[] { "SampleType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LabSheetTypeEnum), (int?)labSheet.LabSheetType);
             if (labSheet.LabSheetType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetLabSheetType), new[] { "LabSheetType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetLabSheetType"), new[] { "LabSheetType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LabSheetStatusEnum), (int?)labSheet.LabSheetStatus);
             if (labSheet.LabSheetStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetLabSheetStatus), new[] { "LabSheetStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetLabSheetStatus"), new[] { "LabSheetStatus" });
             }
 
             if (string.IsNullOrWhiteSpace(labSheet.FileName))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetFileName), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetFileName"), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.FileName) && (labSheet.FileName.Length < 1 || labSheet.FileName.Length > 250))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.LabSheetFileName, "1", "250"), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LabSheetFileName", "1", "250"), new[] { "FileName" });
             }
 
             if (labSheet.FileLastModifiedDate_Local.Year == 1)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetFileLastModifiedDate_Local), new[] { "FileLastModifiedDate_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetFileLastModifiedDate_Local"), new[] { "FileLastModifiedDate_Local" });
             }
             else
             {
                 if (labSheet.FileLastModifiedDate_Local.Year < 1980)
                 {
                 labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetFileLastModifiedDate_Local, "1980"), new[] { "FileLastModifiedDate_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LabSheetFileLastModifiedDate_Local", "1980"), new[] { "FileLastModifiedDate_Local" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(labSheet.FileContent))
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetFileContent), new[] { "FileContent" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetFileContent"), new[] { "FileContent" });
             }
 
             //FileContent has no StringLength Attribute
@@ -219,7 +219,7 @@ namespace CSSPServices
                 if (TVItemAcceptedOrRejectedByContactTVItemID == null)
                 {
                     labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, (labSheet.AcceptedOrRejectedByContactTVItemID == null ? "" : labSheet.AcceptedOrRejectedByContactTVItemID.ToString())), new[] { "AcceptedOrRejectedByContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LabSheetAcceptedOrRejectedByContactTVItemID", (labSheet.AcceptedOrRejectedByContactTVItemID == null ? "" : labSheet.AcceptedOrRejectedByContactTVItemID.ToString())), new[] { "AcceptedOrRejectedByContactTVItemID" });
                 }
                 else
                 {
@@ -230,7 +230,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemAcceptedOrRejectedByContactTVItemID.TVType))
                     {
                         labSheet.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, "Contact"), new[] { "AcceptedOrRejectedByContactTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LabSheetAcceptedOrRejectedByContactTVItemID", "Contact"), new[] { "AcceptedOrRejectedByContactTVItemID" });
                     }
                 }
             }
@@ -238,26 +238,26 @@ namespace CSSPServices
             if (labSheet.AcceptedOrRejectedDateTime != null && ((DateTime)labSheet.AcceptedOrRejectedDateTime).Year < 1980)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetAcceptedOrRejectedDateTime, "1980"), new[] { CSSPModelsRes.LabSheetAcceptedOrRejectedDateTime });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LabSheetAcceptedOrRejectedDateTime", "1980"), new[] { "LabSheetAcceptedOrRejectedDateTime" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.RejectReason) && labSheet.RejectReason.Length > 250)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetRejectReason, "250"), new[] { "RejectReason" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "LabSheetRejectReason", "250"), new[] { "RejectReason" });
             }
 
             if (labSheet.LastUpdateDate_UTC.Year == 1)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (labSheet.LastUpdateDate_UTC.Year < 1980)
                 {
                 labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LabSheetLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -266,7 +266,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 labSheet.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetLastUpdateContactTVItemID, labSheet.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LabSheetLastUpdateContactTVItemID", labSheet.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -277,7 +277,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     labSheet.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LabSheetLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -294,57 +294,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public LabSheet GetLabSheetWithLabSheetID(int LabSheetID)
         {
-            IQueryable<LabSheet> labSheetQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.LabSheetID == LabSheetID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.LabSheetID == LabSheetID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return labSheetQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLabSheetWeb(labSheetQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheetReport(labSheetQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<LabSheet> GetLabSheetList()
         {
-            IQueryable<LabSheet> labSheetQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<LabSheet> LabSheetQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        labSheetQuery = EnhanceQueryStatements<LabSheet>(labSheetQuery) as IQueryable<LabSheet>;
+            LabSheetQuery = EnhanceQueryStatements<LabSheet>(LabSheetQuery) as IQueryable<LabSheet>;
 
-                        return labSheetQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        labSheetQuery = FillLabSheetWeb(labSheetQuery);
+            return LabSheetQuery;
+        }
+        public LabSheetWeb GetLabSheetWebWithLabSheetID(int LabSheetID)
+        {
+            return FillLabSheetWeb().FirstOrDefault();
 
-                        labSheetQuery = EnhanceQueryStatements<LabSheet>(labSheetQuery) as IQueryable<LabSheet>;
+        }
+        public IQueryable<LabSheetWeb> GetLabSheetWebList()
+        {
+            IQueryable<LabSheetWeb> LabSheetWebQuery = FillLabSheetWeb();
 
-                        return labSheetQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        labSheetQuery = FillLabSheetReport(labSheetQuery);
+            LabSheetWebQuery = EnhanceQueryStatements<LabSheetWeb>(LabSheetWebQuery) as IQueryable<LabSheetWeb>;
 
-                        labSheetQuery = EnhanceQueryStatements<LabSheet>(labSheetQuery) as IQueryable<LabSheet>;
+            return LabSheetWebQuery;
+        }
+        public LabSheetReport GetLabSheetReportWithLabSheetID(int LabSheetID)
+        {
+            return FillLabSheetReport().FirstOrDefault();
 
-                        return labSheetQuery;
-                    }
-                default:
-                    {
-                        labSheetQuery = labSheetQuery.Where(c => c.LabSheetID == 0);
+        }
+        public IQueryable<LabSheetReport> GetLabSheetReportList()
+        {
+            IQueryable<LabSheetReport> LabSheetReportQuery = FillLabSheetReport();
 
-                        return labSheetQuery;
-                    }
-            }
+            LabSheetReportQuery = EnhanceQueryStatements<LabSheetReport>(LabSheetReportQuery) as IQueryable<LabSheetReport>;
+
+            return LabSheetReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -397,7 +384,7 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LabSheetFillWeb
-        private IQueryable<LabSheet> FillLabSheetWeb(IQueryable<LabSheet> labSheetQuery)
+        private IQueryable<LabSheetWeb> FillLabSheetWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -406,7 +393,7 @@ namespace CSSPServices
             List<EnumIDAndText> LabSheetTypeEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetTypeEnum));
             List<EnumIDAndText> LabSheetStatusEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetStatusEnum));
 
-            labSheetQuery = (from c in labSheetQuery
+             IQueryable<LabSheetWeb>  LabSheetWebQuery = (from c in db.LabSheets
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest
@@ -423,8 +410,24 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new LabSheet
+                    select new LabSheetWeb
                     {
+                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                        MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
+                        AcceptedOrRejectedByContactTVItemLanguage = AcceptedOrRejectedByContactTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
+                                where e.EnumID == (int?)c.SamplingPlanType
+                                select e.EnumText).FirstOrDefault(),
+                        SampleTypeText = (from e in SampleTypeEnumList
+                                where e.EnumID == (int?)c.SampleType
+                                select e.EnumText).FirstOrDefault(),
+                        LabSheetTypeText = (from e in LabSheetTypeEnumList
+                                where e.EnumID == (int?)c.LabSheetType
+                                select e.EnumText).FirstOrDefault(),
+                        LabSheetStatusText = (from e in LabSheetStatusEnumList
+                                where e.EnumID == (int?)c.LabSheetStatus
+                                select e.EnumText).FirstOrDefault(),
                         LabSheetID = c.LabSheetID,
                         OtherServerLabSheetID = c.OtherServerLabSheetID,
                         SamplingPlanID = c.SamplingPlanID,
@@ -447,31 +450,11 @@ namespace CSSPServices
                         RejectReason = c.RejectReason,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LabSheetWeb = new LabSheetWeb
-                        {
-                            SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                            MWQMRunTVItemLanguage = MWQMRunTVItemLanguage,
-                            AcceptedOrRejectedByContactTVItemLanguage = AcceptedOrRejectedByContactTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            SamplingPlanTypeText = (from e in SamplingPlanTypeEnumList
-                                where e.EnumID == (int?)c.SamplingPlanType
-                                select e.EnumText).FirstOrDefault(),
-                            SampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType
-                                select e.EnumText).FirstOrDefault(),
-                            LabSheetTypeText = (from e in LabSheetTypeEnumList
-                                where e.EnumID == (int?)c.LabSheetType
-                                select e.EnumText).FirstOrDefault(),
-                            LabSheetStatusText = (from e in LabSheetStatusEnumList
-                                where e.EnumID == (int?)c.LabSheetStatus
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        LabSheetReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return labSheetQuery;
+            return LabSheetWebQuery;
         }
         #endregion Functions private Generated LabSheetFillWeb
 

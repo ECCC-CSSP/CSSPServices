@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (vpScenario.VPScenarioID == 0)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioID), new[] { "VPScenarioID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioVPScenarioID"), new[] { "VPScenarioID" });
                 }
 
                 if (!GetRead().Where(c => c.VPScenarioID == vpScenario.VPScenarioID).Any())
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPScenarioVPScenarioID, vpScenario.VPScenarioID.ToString()), new[] { "VPScenarioID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioVPScenarioID", vpScenario.VPScenarioID.ToString()), new[] { "VPScenarioID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemInfrastructureTVItemID == null)
             {
                 vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioInfrastructureTVItemID, vpScenario.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPScenarioInfrastructureTVItemID", vpScenario.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
             }
             else
             {
@@ -73,7 +73,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "VPScenarioInfrastructureTVItemID", "Infrastructure"), new[] { "InfrastructureTVItemID" });
                 }
             }
 
@@ -81,7 +81,7 @@ namespace CSSPServices
             if (vpScenario.VPScenarioStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioStatus), new[] { "VPScenarioStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioVPScenarioStatus"), new[] { "VPScenarioStatus" });
             }
 
             if (vpScenario.EffluentFlow_m3_s != null)
@@ -89,7 +89,7 @@ namespace CSSPServices
                 if (vpScenario.EffluentFlow_m3_s < 0 || vpScenario.EffluentFlow_m3_s > 1000)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), new[] { "EffluentFlow_m3_s" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentFlow_m3_s", "0", "1000"), new[] { "EffluentFlow_m3_s" });
                 }
             }
 
@@ -98,7 +98,7 @@ namespace CSSPServices
                 if (vpScenario.EffluentConcentration_MPN_100ml < 0 || vpScenario.EffluentConcentration_MPN_100ml > 10000000)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), new[] { "EffluentConcentration_MPN_100ml" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentConcentration_MPN_100ml", "0", "10000000"), new[] { "EffluentConcentration_MPN_100ml" });
                 }
             }
 
@@ -107,7 +107,7 @@ namespace CSSPServices
                 if (vpScenario.FroudeNumber < 0 || vpScenario.FroudeNumber > 10000)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioFroudeNumber, "0", "10000"), new[] { "FroudeNumber" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioFroudeNumber", "0", "10000"), new[] { "FroudeNumber" });
                 }
             }
 
@@ -116,7 +116,7 @@ namespace CSSPServices
                 if (vpScenario.PortDiameter_m < 0 || vpScenario.PortDiameter_m > 10)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDiameter_m, "0", "10"), new[] { "PortDiameter_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDiameter_m", "0", "10"), new[] { "PortDiameter_m" });
                 }
             }
 
@@ -125,7 +125,7 @@ namespace CSSPServices
                 if (vpScenario.PortDepth_m < 0 || vpScenario.PortDepth_m > 1000)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDepth_m, "0", "1000"), new[] { "PortDepth_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDepth_m", "0", "1000"), new[] { "PortDepth_m" });
                 }
             }
 
@@ -134,7 +134,7 @@ namespace CSSPServices
                 if (vpScenario.PortElevation_m < 0 || vpScenario.PortElevation_m > 1000)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortElevation_m, "0", "1000"), new[] { "PortElevation_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortElevation_m", "0", "1000"), new[] { "PortElevation_m" });
                 }
             }
 
@@ -143,7 +143,7 @@ namespace CSSPServices
                 if (vpScenario.VerticalAngle_deg < -90 || vpScenario.VerticalAngle_deg > 90)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), new[] { "VerticalAngle_deg" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioVerticalAngle_deg", "-90", "90"), new[] { "VerticalAngle_deg" });
                 }
             }
 
@@ -152,7 +152,7 @@ namespace CSSPServices
                 if (vpScenario.HorizontalAngle_deg < -180 || vpScenario.HorizontalAngle_deg > 180)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), new[] { "HorizontalAngle_deg" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioHorizontalAngle_deg", "-180", "180"), new[] { "HorizontalAngle_deg" });
                 }
             }
 
@@ -161,7 +161,7 @@ namespace CSSPServices
                 if (vpScenario.NumberOfPorts < 1 || vpScenario.NumberOfPorts > 100)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioNumberOfPorts, "1", "100"), new[] { "NumberOfPorts" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioNumberOfPorts", "1", "100"), new[] { "NumberOfPorts" });
                 }
             }
 
@@ -170,7 +170,7 @@ namespace CSSPServices
                 if (vpScenario.PortSpacing_m < 0 || vpScenario.PortSpacing_m > 1000)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortSpacing_m, "0", "1000"), new[] { "PortSpacing_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortSpacing_m", "0", "1000"), new[] { "PortSpacing_m" });
                 }
             }
 
@@ -179,7 +179,7 @@ namespace CSSPServices
                 if (vpScenario.AcuteMixZone_m < 0 || vpScenario.AcuteMixZone_m > 100)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), new[] { "AcuteMixZone_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioAcuteMixZone_m", "0", "100"), new[] { "AcuteMixZone_m" });
                 }
             }
 
@@ -188,7 +188,7 @@ namespace CSSPServices
                 if (vpScenario.ChronicMixZone_m < 0 || vpScenario.ChronicMixZone_m > 40000)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), new[] { "ChronicMixZone_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioChronicMixZone_m", "0", "40000"), new[] { "ChronicMixZone_m" });
                 }
             }
 
@@ -197,7 +197,7 @@ namespace CSSPServices
                 if (vpScenario.EffluentSalinity_PSU < 0 || vpScenario.EffluentSalinity_PSU > 40)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), new[] { "EffluentSalinity_PSU" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentSalinity_PSU", "0", "40"), new[] { "EffluentSalinity_PSU" });
                 }
             }
 
@@ -206,7 +206,7 @@ namespace CSSPServices
                 if (vpScenario.EffluentTemperature_C < -10 || vpScenario.EffluentTemperature_C > 40)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), new[] { "EffluentTemperature_C" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentTemperature_C", "-10", "40"), new[] { "EffluentTemperature_C" });
                 }
             }
 
@@ -215,7 +215,7 @@ namespace CSSPServices
                 if (vpScenario.EffluentVelocity_m_s < 0 || vpScenario.EffluentVelocity_m_s > 100)
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), new[] { "EffluentVelocity_m_s" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentVelocity_m_s", "0", "100"), new[] { "EffluentVelocity_m_s" });
                 }
             }
 
@@ -224,14 +224,14 @@ namespace CSSPServices
             if (vpScenario.LastUpdateDate_UTC.Year == 1)
             {
                 vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpScenario.LastUpdateDate_UTC.Year < 1980)
                 {
                 vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPScenarioLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "VPScenarioLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -240,7 +240,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, vpScenario.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPScenarioLastUpdateContactTVItemID", vpScenario.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -251,7 +251,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     vpScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "VPScenarioLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -268,57 +268,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID)
         {
-            IQueryable<VPScenario> vpScenarioQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.VPScenarioID == VPScenarioID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.VPScenarioID == VPScenarioID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return vpScenarioQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPScenarioWeb(vpScenarioQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPScenarioReport(vpScenarioQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<VPScenario> GetVPScenarioList()
         {
-            IQueryable<VPScenario> vpScenarioQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<VPScenario> VPScenarioQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        vpScenarioQuery = EnhanceQueryStatements<VPScenario>(vpScenarioQuery) as IQueryable<VPScenario>;
+            VPScenarioQuery = EnhanceQueryStatements<VPScenario>(VPScenarioQuery) as IQueryable<VPScenario>;
 
-                        return vpScenarioQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        vpScenarioQuery = FillVPScenarioWeb(vpScenarioQuery);
+            return VPScenarioQuery;
+        }
+        public VPScenarioWeb GetVPScenarioWebWithVPScenarioID(int VPScenarioID)
+        {
+            return FillVPScenarioWeb().FirstOrDefault();
 
-                        vpScenarioQuery = EnhanceQueryStatements<VPScenario>(vpScenarioQuery) as IQueryable<VPScenario>;
+        }
+        public IQueryable<VPScenarioWeb> GetVPScenarioWebList()
+        {
+            IQueryable<VPScenarioWeb> VPScenarioWebQuery = FillVPScenarioWeb();
 
-                        return vpScenarioQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        vpScenarioQuery = FillVPScenarioReport(vpScenarioQuery);
+            VPScenarioWebQuery = EnhanceQueryStatements<VPScenarioWeb>(VPScenarioWebQuery) as IQueryable<VPScenarioWeb>;
 
-                        vpScenarioQuery = EnhanceQueryStatements<VPScenario>(vpScenarioQuery) as IQueryable<VPScenario>;
+            return VPScenarioWebQuery;
+        }
+        public VPScenarioReport GetVPScenarioReportWithVPScenarioID(int VPScenarioID)
+        {
+            return FillVPScenarioReport().FirstOrDefault();
 
-                        return vpScenarioQuery;
-                    }
-                default:
-                    {
-                        vpScenarioQuery = vpScenarioQuery.Where(c => c.VPScenarioID == 0);
+        }
+        public IQueryable<VPScenarioReport> GetVPScenarioReportList()
+        {
+            IQueryable<VPScenarioReport> VPScenarioReportQuery = FillVPScenarioReport();
 
-                        return vpScenarioQuery;
-                    }
-            }
+            VPScenarioReportQuery = EnhanceQueryStatements<VPScenarioReport>(VPScenarioReportQuery) as IQueryable<VPScenarioReport>;
+
+            return VPScenarioReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -371,13 +358,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPScenarioFillWeb
-        private IQueryable<VPScenario> FillVPScenarioWeb(IQueryable<VPScenario> vpScenarioQuery)
+        private IQueryable<VPScenarioWeb> FillVPScenarioWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
-            vpScenarioQuery = (from c in vpScenarioQuery
+             IQueryable<VPScenarioWeb>  VPScenarioWebQuery = (from c in db.VPScenarios
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest
@@ -386,8 +373,13 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new VPScenario
+                    select new VPScenarioWeb
                     {
+                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        VPScenarioStatusText = (from e in ScenarioStatusEnumList
+                                where e.EnumID == (int?)c.VPScenarioStatus
+                                select e.EnumText).FirstOrDefault(),
                         VPScenarioID = c.VPScenarioID,
                         InfrastructureTVItemID = c.InfrastructureTVItemID,
                         VPScenarioStatus = c.VPScenarioStatus,
@@ -410,20 +402,11 @@ namespace CSSPServices
                         RawResults = c.RawResults,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        VPScenarioWeb = new VPScenarioWeb
-                        {
-                            SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            VPScenarioStatusText = (from e in ScenarioStatusEnumList
-                                where e.EnumID == (int?)c.VPScenarioStatus
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        VPScenarioReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return vpScenarioQuery;
+            return VPScenarioWebQuery;
         }
         #endregion Functions private Generated VPScenarioFillWeb
 

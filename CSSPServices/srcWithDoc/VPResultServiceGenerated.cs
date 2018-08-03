@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (vpResult.VPResultID == 0)
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPResultVPResultID), new[] { "VPResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPResultVPResultID"), new[] { "VPResultID" });
                 }
 
                 if (!GetRead().Where(c => c.VPResultID == vpResult.VPResultID).Any())
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPResult, CSSPModelsRes.VPResultVPResultID, vpResult.VPResultID.ToString()), new[] { "VPResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultVPResultID", vpResult.VPResultID.ToString()), new[] { "VPResultID" });
                 }
             }
 
@@ -62,56 +62,56 @@ namespace CSSPServices
             if (VPScenarioVPScenarioID == null)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPResultVPScenarioID", vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
             if (vpResult.Ordinal < 0 || vpResult.Ordinal > 1000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultOrdinal, "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultOrdinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             if (vpResult.Concentration_MPN_100ml < 0 || vpResult.Concentration_MPN_100ml > 10000000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), new[] { "Concentration_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultConcentration_MPN_100ml", "0", "10000000"), new[] { "Concentration_MPN_100ml" });
             }
 
             if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDilution, "0", "1000000"), new[] { "Dilution" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultDilution", "0", "1000000"), new[] { "Dilution" });
             }
 
             if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 10000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultFarFieldWidth_m, "0", "10000"), new[] { "FarFieldWidth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultFarFieldWidth_m", "0", "10000"), new[] { "FarFieldWidth_m" });
             }
 
             if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { "DispersionDistance_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultDispersionDistance_m", "0", "100000"), new[] { "DispersionDistance_m" });
             }
 
             if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 100)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultTravelTime_hour, "0", "100"), new[] { "TravelTime_hour" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPResultTravelTime_hour", "0", "100"), new[] { "TravelTime_hour" });
             }
 
             if (vpResult.LastUpdateDate_UTC.Year == 1)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPResultLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPResultLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpResult.LastUpdateDate_UTC.Year < 1980)
                 {
                 vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPResultLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "VPResultLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -120,7 +120,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPResultLastUpdateContactTVItemID", vpResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -131,7 +131,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "VPResultLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -148,57 +148,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public VPResult GetVPResultWithVPResultID(int VPResultID)
         {
-            IQueryable<VPResult> vpResultQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.VPResultID == VPResultID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.VPResultID == VPResultID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return vpResultQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPResultWeb(vpResultQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPResultReport(vpResultQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<VPResult> GetVPResultList()
         {
-            IQueryable<VPResult> vpResultQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<VPResult> VPResultQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        vpResultQuery = EnhanceQueryStatements<VPResult>(vpResultQuery) as IQueryable<VPResult>;
+            VPResultQuery = EnhanceQueryStatements<VPResult>(VPResultQuery) as IQueryable<VPResult>;
 
-                        return vpResultQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        vpResultQuery = FillVPResultWeb(vpResultQuery);
+            return VPResultQuery;
+        }
+        public VPResultWeb GetVPResultWebWithVPResultID(int VPResultID)
+        {
+            return FillVPResultWeb().FirstOrDefault();
 
-                        vpResultQuery = EnhanceQueryStatements<VPResult>(vpResultQuery) as IQueryable<VPResult>;
+        }
+        public IQueryable<VPResultWeb> GetVPResultWebList()
+        {
+            IQueryable<VPResultWeb> VPResultWebQuery = FillVPResultWeb();
 
-                        return vpResultQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        vpResultQuery = FillVPResultReport(vpResultQuery);
+            VPResultWebQuery = EnhanceQueryStatements<VPResultWeb>(VPResultWebQuery) as IQueryable<VPResultWeb>;
 
-                        vpResultQuery = EnhanceQueryStatements<VPResult>(vpResultQuery) as IQueryable<VPResult>;
+            return VPResultWebQuery;
+        }
+        public VPResultReport GetVPResultReportWithVPResultID(int VPResultID)
+        {
+            return FillVPResultReport().FirstOrDefault();
 
-                        return vpResultQuery;
-                    }
-                default:
-                    {
-                        vpResultQuery = vpResultQuery.Where(c => c.VPResultID == 0);
+        }
+        public IQueryable<VPResultReport> GetVPResultReportList()
+        {
+            IQueryable<VPResultReport> VPResultReportQuery = FillVPResultReport();
 
-                        return vpResultQuery;
-                    }
-            }
+            VPResultReportQuery = EnhanceQueryStatements<VPResultReport>(VPResultReportQuery) as IQueryable<VPResultReport>;
+
+            return VPResultReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -251,15 +238,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPResultFillWeb
-        private IQueryable<VPResult> FillVPResultWeb(IQueryable<VPResult> vpResultQuery)
+        private IQueryable<VPResultWeb> FillVPResultWeb()
         {
-            vpResultQuery = (from c in vpResultQuery
+             IQueryable<VPResultWeb>  VPResultWebQuery = (from c in db.VPResults
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new VPResult
+                    select new VPResultWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         VPResultID = c.VPResultID,
                         VPScenarioID = c.VPScenarioID,
                         Ordinal = c.Ordinal,
@@ -270,16 +258,11 @@ namespace CSSPServices
                         TravelTime_hour = c.TravelTime_hour,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        VPResultWeb = new VPResultWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        VPResultReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return vpResultQuery;
+            return VPResultWebQuery;
         }
         #endregion Functions private Generated VPResultFillWeb
 

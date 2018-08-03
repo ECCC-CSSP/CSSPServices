@@ -45,56 +45,56 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(boxModelCalNumb.Error))
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelCalNumbError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelCalNumbError"), new[] { "Error" });
             }
 
             if (!string.IsNullOrWhiteSpace(boxModelCalNumb.Error) && boxModelCalNumb.Error.Length > 255)
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelCalNumbError, "255"), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "BoxModelCalNumbError", "255"), new[] { "Error" });
             }
 
             retStr = enums.EnumTypeOK(typeof(BoxModelResultTypeEnum), (int?)boxModelCalNumb.BoxModelResultType);
             if (boxModelCalNumb.BoxModelResultType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelCalNumbBoxModelResultType), new[] { "BoxModelResultType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelCalNumbBoxModelResultType"), new[] { "BoxModelResultType" });
             }
 
             if (boxModelCalNumb.CalLength_m < 0)
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelCalNumbCalLength_m, "0"), new[] { "CalLength_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelCalNumbCalLength_m", "0"), new[] { "CalLength_m" });
             }
 
             if (boxModelCalNumb.CalRadius_m < 0)
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelCalNumbCalRadius_m, "0"), new[] { "CalRadius_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelCalNumbCalRadius_m", "0"), new[] { "CalRadius_m" });
             }
 
             if (boxModelCalNumb.CalSurface_m2 < 0)
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelCalNumbCalSurface_m2, "0"), new[] { "CalSurface_m2" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelCalNumbCalSurface_m2", "0"), new[] { "CalSurface_m2" });
             }
 
             if (boxModelCalNumb.CalVolume_m3 < 0)
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelCalNumbCalVolume_m3, "0"), new[] { "CalVolume_m3" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelCalNumbCalVolume_m3", "0"), new[] { "CalVolume_m3" });
             }
 
             if (boxModelCalNumb.CalWidth_m < 0)
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelCalNumbCalWidth_m, "0"), new[] { "CalWidth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelCalNumbCalWidth_m", "0"), new[] { "CalWidth_m" });
             }
 
             if (!string.IsNullOrWhiteSpace(boxModelCalNumb.BoxModelResultTypeText) && boxModelCalNumb.BoxModelResultTypeText.Length > 100)
             {
                 boxModelCalNumb.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelCalNumbBoxModelResultTypeText, "100"), new[] { "BoxModelResultTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "BoxModelCalNumbBoxModelResultTypeText", "100"), new[] { "BoxModelResultTypeText" });
             }
 
             retStr = ""; // added to stop compiling error

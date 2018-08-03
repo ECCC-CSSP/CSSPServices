@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mikeSourceStartEnd.MikeSourceStartEndID == 0)
                 {
                     mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndMikeSourceStartEndID), new[] { "MikeSourceStartEndID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceStartEndMikeSourceStartEndID"), new[] { "MikeSourceStartEndID" });
                 }
 
                 if (!GetRead().Where(c => c.MikeSourceStartEndID == mikeSourceStartEnd.MikeSourceStartEndID).Any())
                 {
                     mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeSourceStartEnd, CSSPModelsRes.MikeSourceStartEndMikeSourceStartEndID, mikeSourceStartEnd.MikeSourceStartEndID.ToString()), new[] { "MikeSourceStartEndID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeSourceStartEnd", "MikeSourceStartEndMikeSourceStartEndID", mikeSourceStartEnd.MikeSourceStartEndID.ToString()), new[] { "MikeSourceStartEndID" });
                 }
             }
 
@@ -62,102 +62,102 @@ namespace CSSPServices
             if (MikeSourceMikeSourceID == null)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeSource, CSSPModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), new[] { "MikeSourceID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeSource", "MikeSourceStartEndMikeSourceID", mikeSourceStartEnd.MikeSourceID.ToString()), new[] { "MikeSourceID" });
             }
 
             if (mikeSourceStartEnd.StartDateAndTime_Local.Year == 1)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { "StartDateAndTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceStartEndStartDateAndTime_Local"), new[] { "StartDateAndTime_Local" });
             }
             else
             {
                 if (mikeSourceStartEnd.StartDateAndTime_Local.Year < 1980)
                 {
                 mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local, "1980"), new[] { "StartDateAndTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeSourceStartEndStartDateAndTime_Local", "1980"), new[] { "StartDateAndTime_Local" });
                 }
             }
 
             if (mikeSourceStartEnd.EndDateAndTime_Local.Year == 1)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local), new[] { "EndDateAndTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceStartEndEndDateAndTime_Local"), new[] { "EndDateAndTime_Local" });
             }
             else
             {
                 if (mikeSourceStartEnd.EndDateAndTime_Local.Year < 1980)
                 {
                 mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), new[] { "EndDateAndTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeSourceStartEndEndDateAndTime_Local", "1980"), new[] { "EndDateAndTime_Local" });
                 }
             }
 
             if (mikeSourceStartEnd.StartDateAndTime_Local > mikeSourceStartEnd.EndDateAndTime_Local)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "MikeSourceStartEndEndDateAndTime_Local", "MikeSourceStartEndStartDateAndTime_Local"), new[] { "MikeSourceStartEndEndDateAndTime_Local" });
             }
 
             if (mikeSourceStartEnd.SourceFlowStart_m3_day < 0 || mikeSourceStartEnd.SourceFlowStart_m3_day > 1000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), new[] { "SourceFlowStart_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourceFlowStart_m3_day", "0", "1000000"), new[] { "SourceFlowStart_m3_day" });
             }
 
             if (mikeSourceStartEnd.SourceFlowEnd_m3_day < 0 || mikeSourceStartEnd.SourceFlowEnd_m3_day > 1000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), new[] { "SourceFlowEnd_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourceFlowEnd_m3_day", "0", "1000000"), new[] { "SourceFlowEnd_m3_day" });
             }
 
             if (mikeSourceStartEnd.SourcePollutionStart_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionStart_MPN_100ml > 10000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionStart_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourcePollutionStart_MPN_100ml", "0", "10000000"), new[] { "SourcePollutionStart_MPN_100ml" });
             }
 
             if (mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml > 10000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionEnd_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourcePollutionEnd_MPN_100ml", "0", "10000000"), new[] { "SourcePollutionEnd_MPN_100ml" });
             }
 
             if (mikeSourceStartEnd.SourceTemperatureStart_C < -10 || mikeSourceStartEnd.SourceTemperatureStart_C > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), new[] { "SourceTemperatureStart_C" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourceTemperatureStart_C", "-10", "40"), new[] { "SourceTemperatureStart_C" });
             }
 
             if (mikeSourceStartEnd.SourceTemperatureEnd_C < -10 || mikeSourceStartEnd.SourceTemperatureEnd_C > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), new[] { "SourceTemperatureEnd_C" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourceTemperatureEnd_C", "-10", "40"), new[] { "SourceTemperatureEnd_C" });
             }
 
             if (mikeSourceStartEnd.SourceSalinityStart_PSU < 0 || mikeSourceStartEnd.SourceSalinityStart_PSU > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), new[] { "SourceSalinityStart_PSU" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourceSalinityStart_PSU", "0", "40"), new[] { "SourceSalinityStart_PSU" });
             }
 
             if (mikeSourceStartEnd.SourceSalinityEnd_PSU < 0 || mikeSourceStartEnd.SourceSalinityEnd_PSU > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), new[] { "SourceSalinityEnd_PSU" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeSourceStartEndSourceSalinityEnd_PSU", "0", "40"), new[] { "SourceSalinityEnd_PSU" });
             }
 
             if (mikeSourceStartEnd.LastUpdateDate_UTC.Year == 1)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceStartEndLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mikeSourceStartEnd.LastUpdateDate_UTC.Year < 1980)
                 {
                 mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeSourceStartEndLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -166,7 +166,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceStartEndLastUpdateContactTVItemID", mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -177,7 +177,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceStartEndLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -194,57 +194,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MikeSourceStartEndID == MikeSourceStartEndID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MikeSourceStartEndID == MikeSourceStartEndID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mikeSourceStartEndQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeSourceStartEndWeb(mikeSourceStartEndQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceStartEndReport(mikeSourceStartEndQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MikeSourceStartEnd> GetMikeSourceStartEndList()
         {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeSourceStartEnd> MikeSourceStartEndQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(mikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
+            MikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(MikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
 
-                        return mikeSourceStartEndQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mikeSourceStartEndQuery = FillMikeSourceStartEndWeb(mikeSourceStartEndQuery);
+            return MikeSourceStartEndQuery;
+        }
+        public MikeSourceStartEndWeb GetMikeSourceStartEndWebWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        {
+            return FillMikeSourceStartEndWeb().FirstOrDefault();
 
-                        mikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(mikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
+        }
+        public IQueryable<MikeSourceStartEndWeb> GetMikeSourceStartEndWebList()
+        {
+            IQueryable<MikeSourceStartEndWeb> MikeSourceStartEndWebQuery = FillMikeSourceStartEndWeb();
 
-                        return mikeSourceStartEndQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mikeSourceStartEndQuery = FillMikeSourceStartEndReport(mikeSourceStartEndQuery);
+            MikeSourceStartEndWebQuery = EnhanceQueryStatements<MikeSourceStartEndWeb>(MikeSourceStartEndWebQuery) as IQueryable<MikeSourceStartEndWeb>;
 
-                        mikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(mikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
+            return MikeSourceStartEndWebQuery;
+        }
+        public MikeSourceStartEndReport GetMikeSourceStartEndReportWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        {
+            return FillMikeSourceStartEndReport().FirstOrDefault();
 
-                        return mikeSourceStartEndQuery;
-                    }
-                default:
-                    {
-                        mikeSourceStartEndQuery = mikeSourceStartEndQuery.Where(c => c.MikeSourceStartEndID == 0);
+        }
+        public IQueryable<MikeSourceStartEndReport> GetMikeSourceStartEndReportList()
+        {
+            IQueryable<MikeSourceStartEndReport> MikeSourceStartEndReportQuery = FillMikeSourceStartEndReport();
 
-                        return mikeSourceStartEndQuery;
-                    }
-            }
+            MikeSourceStartEndReportQuery = EnhanceQueryStatements<MikeSourceStartEndReport>(MikeSourceStartEndReportQuery) as IQueryable<MikeSourceStartEndReport>;
+
+            return MikeSourceStartEndReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -297,15 +284,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeSourceStartEndFillWeb
-        private IQueryable<MikeSourceStartEnd> FillMikeSourceStartEndWeb(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery)
+        private IQueryable<MikeSourceStartEndWeb> FillMikeSourceStartEndWeb()
         {
-            mikeSourceStartEndQuery = (from c in mikeSourceStartEndQuery
+             IQueryable<MikeSourceStartEndWeb>  MikeSourceStartEndWebQuery = (from c in db.MikeSourceStartEnds
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MikeSourceStartEnd
+                    select new MikeSourceStartEndWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         MikeSourceStartEndID = c.MikeSourceStartEndID,
                         MikeSourceID = c.MikeSourceID,
                         StartDateAndTime_Local = c.StartDateAndTime_Local,
@@ -320,16 +308,11 @@ namespace CSSPServices
                         SourceSalinityEnd_PSU = c.SourceSalinityEnd_PSU,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MikeSourceStartEndWeb = new MikeSourceStartEndWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        MikeSourceStartEndReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mikeSourceStartEndQuery;
+            return MikeSourceStartEndWebQuery;
         }
         #endregion Functions private Generated MikeSourceStartEndFillWeb
 

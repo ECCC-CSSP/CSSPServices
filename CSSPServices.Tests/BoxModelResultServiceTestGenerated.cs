@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelResultID = 0;
                     boxModelResultService.Update(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "BoxModelResultBoxModelResultID"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelResultID = 10000000;
                     boxModelResultService.Update(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModelResult, CSSPModelsRes.BoxModelResultBoxModelResultID, boxModelResult.BoxModelResultID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "BoxModelResult", "BoxModelResultBoxModelResultID", boxModelResult.BoxModelResultID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,7 +117,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelID = 0;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModel, CSSPModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "BoxModel", "BoxModelResultBoxModelID", boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -130,7 +130,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)1000000;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultBoxModelResultType), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "BoxModelResultBoxModelResultType"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -147,7 +147,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Volume_m3 = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelResultVolume_m3, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelResultVolume_m3", "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -164,7 +164,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Surface_m2 = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelResultSurface_m2, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelResultSurface_m2", "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -181,13 +181,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Radius_m = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRadius_m", "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Radius_m = 100001.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRadius_m", "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -204,13 +204,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideDiameterLineAngle_deg = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideDiameterLineAngle_deg", "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideDiameterLineAngle_deg = 361.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideDiameterLineAngle_deg", "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -227,13 +227,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLatitude = -91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultCircleCenterLatitude", "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLatitude = 91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultCircleCenterLatitude", "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -250,13 +250,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLongitude = -181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultCircleCenterLongitude", "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLongitude = 181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultCircleCenterLongitude", "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -285,13 +285,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectLength_m = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRectLength_m", "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectLength_m = 100001.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRectLength_m", "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -308,13 +308,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectWidth_m = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRectWidth_m", "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectWidth_m = 100001.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRectWidth_m", "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -331,13 +331,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineAngle_deg = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineAngle_deg", "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineAngle_deg = 361.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineAngle_deg", "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -354,13 +354,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLatitude = -91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineStartLatitude", "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLatitude = 91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineStartLatitude", "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -377,46 +377,14 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLongitude = -181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineStartLongitude", "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLongitude = 181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineStartLongitude", "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // boxModelResult.BoxModelResultWeb   (BoxModelResultWeb)
-                    // -----------------------------------
-
-                    boxModelResult = null;
-                    boxModelResult = GetFilledRandomBoxModelResult("");
-                    boxModelResult.BoxModelResultWeb = null;
-                    Assert.IsNull(boxModelResult.BoxModelResultWeb);
-
-                    boxModelResult = null;
-                    boxModelResult = GetFilledRandomBoxModelResult("");
-                    boxModelResult.BoxModelResultWeb = new BoxModelResultWeb();
-                    Assert.IsNotNull(boxModelResult.BoxModelResultWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // boxModelResult.BoxModelResultReport   (BoxModelResultReport)
-                    // -----------------------------------
-
-                    boxModelResult = null;
-                    boxModelResult = GetFilledRandomBoxModelResult("");
-                    boxModelResult.BoxModelResultReport = null;
-                    Assert.IsNull(boxModelResult.BoxModelResultReport);
-
-                    boxModelResult = null;
-                    boxModelResult = GetFilledRandomBoxModelResult("");
-                    boxModelResult.BoxModelResultReport = new BoxModelResultReport();
-                    Assert.IsNotNull(boxModelResult.BoxModelResultReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -428,12 +396,12 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LastUpdateDate_UTC = new DateTime();
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultLastUpdateDate_UTC), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "BoxModelResultLastUpdateDate_UTC"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.BoxModelResultLastUpdateDate_UTC, "1980"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "BoxModelResultLastUpdateDate_UTC", "1980"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -445,13 +413,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LastUpdateContactTVItemID = 0;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "BoxModelResultLastUpdateContactTVItemID", boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LastUpdateContactTVItemID = 1;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "BoxModelResultLastUpdateContactTVItemID", "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -488,34 +456,32 @@ namespace CSSPServices.Tests
                     BoxModelResult boxModelResult = (from c in boxModelResultService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelResult);
 
-                    BoxModelResult boxModelResultRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         boxModelResultService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
-                            Assert.IsNull(boxModelResultRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            BoxModelResult boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            CheckBoxModelResultFields(new List<BoxModelResult>() { boxModelResultRet });
+                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultRet.BoxModelResultID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            BoxModelResultWeb boxModelResultWebRet = boxModelResultService.GetBoxModelResultWebWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            CheckBoxModelResultWebFields(new List<BoxModelResultWeb>() { boxModelResultWebRet });
+                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultWebRet.BoxModelResultID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            BoxModelResultReport boxModelResultReportRet = boxModelResultService.GetBoxModelResultReportWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                            CheckBoxModelResultReportFields(new List<BoxModelResultReport>() { boxModelResultReportRet });
+                            Assert.AreEqual(boxModelResult.BoxModelResultID, boxModelResultReportRet.BoxModelResultID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(new List<BoxModelResult>() { boxModelResultRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -536,34 +502,38 @@ namespace CSSPServices.Tests
                     BoxModelResult boxModelResult = (from c in boxModelResultService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelResult);
 
-                    List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
+                    List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
+                    boxModelResultDirectQueryList = boxModelResultService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         boxModelResultService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
-                            Assert.AreEqual(0, boxModelResultList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
+                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
+                            CheckBoxModelResultWebFields(boxModelResultWebList);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
+                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
+                            CheckBoxModelResultReportFields(boxModelResultReportList);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(boxModelResultList, entityQueryDetailType);
                     }
                 }
             }
@@ -580,41 +550,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
-                    List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
-                            Assert.AreEqual(0, boxModelResultList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
+                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
+                            CheckBoxModelResultWebFields(boxModelResultWebList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
+                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
+                            CheckBoxModelResultReportFields(boxModelResultReportList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(boxModelResultList, entityQueryDetailType);
-                        Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                        Assert.AreEqual(1, boxModelResultList.Count);
                     }
                 }
             }
@@ -631,41 +603,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
-                    List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelResultID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
-                            Assert.AreEqual(0, boxModelResultList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
+                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
+                            CheckBoxModelResultWebFields(boxModelResultWebList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
+                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
+                            CheckBoxModelResultReportFields(boxModelResultReportList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(boxModelResultList, entityQueryDetailType);
-                        Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                        Assert.AreEqual(1, boxModelResultList.Count);
                     }
                 }
             }
@@ -682,41 +656,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
-                    List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelResultID,BoxModelID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelResultID).ThenBy(c => c.BoxModelID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
-                            Assert.AreEqual(0, boxModelResultList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
+                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
+                            CheckBoxModelResultWebFields(boxModelResultWebList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
+                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
+                            CheckBoxModelResultReportFields(boxModelResultReportList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(boxModelResultList, entityQueryDetailType);
-                        Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                        Assert.AreEqual(1, boxModelResultList.Count);
                     }
                 }
             }
@@ -733,41 +709,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
-                    List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Where(c => c.BoxModelResultID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
-                            Assert.AreEqual(0, boxModelResultList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
+                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
+                            CheckBoxModelResultWebFields(boxModelResultWebList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
+                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
+                            CheckBoxModelResultReportFields(boxModelResultReportList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(boxModelResultList, entityQueryDetailType);
-                        Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                        Assert.AreEqual(1, boxModelResultList.Count);
                     }
                 }
             }
@@ -784,41 +762,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
-                    List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelResultID", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelResultID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
-                            Assert.AreEqual(0, boxModelResultList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
+                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
+                            CheckBoxModelResultWebFields(boxModelResultWebList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
+                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
+                            CheckBoxModelResultReportFields(boxModelResultReportList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(boxModelResultList, entityQueryDetailType);
-                        Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                        Assert.AreEqual(1, boxModelResultList.Count);
                     }
                 }
             }
@@ -835,41 +815,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
-                    List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         BoxModelResultService boxModelResultService = new BoxModelResultService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         boxModelResultService.Query = boxModelResultService.FillQuery(typeof(BoxModelResult), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelResultID,GT,2|BoxModelResultID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<BoxModelResult> boxModelResultDirectQueryList = new List<BoxModelResult>();
                         boxModelResultDirectQueryList = boxModelResultService.GetRead().Where(c => c.BoxModelResultID > 2 && c.BoxModelResultID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<BoxModelResult> boxModelResultList = new List<BoxModelResult>();
                             boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
-                            Assert.AreEqual(0, boxModelResultList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            CheckBoxModelResultFields(boxModelResultList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultWeb> boxModelResultWebList = new List<BoxModelResultWeb>();
+                            boxModelResultWebList = boxModelResultService.GetBoxModelResultWebList().ToList();
+                            CheckBoxModelResultWebFields(boxModelResultWebList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultWebList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            boxModelResultList = boxModelResultService.GetBoxModelResultList().ToList();
+                            List<BoxModelResultReport> boxModelResultReportList = new List<BoxModelResultReport>();
+                            boxModelResultReportList = boxModelResultService.GetBoxModelResultReportList().ToList();
+                            CheckBoxModelResultReportFields(boxModelResultReportList);
+                            Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultReportList[0].BoxModelResultID);
+                            Assert.AreEqual(boxModelResultDirectQueryList.Count, boxModelResultReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckBoxModelResultFields(boxModelResultList, entityQueryDetailType);
-                        Assert.AreEqual(boxModelResultDirectQueryList[0].BoxModelResultID, boxModelResultList[0].BoxModelResultID);
-                        Assert.AreEqual(2, boxModelResultList.Count);
                     }
                 }
             }
@@ -877,9 +859,8 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetBoxModelResultList() 2Where
 
         #region Functions private
-        private void CheckBoxModelResultFields(List<BoxModelResult> boxModelResultList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckBoxModelResultFields(List<BoxModelResult> boxModelResultList)
         {
-            // BoxModelResult fields
             Assert.IsNotNull(boxModelResultList[0].BoxModelResultID);
             Assert.IsNotNull(boxModelResultList[0].BoxModelID);
             Assert.IsNotNull(boxModelResultList[0].BoxModelResultType);
@@ -916,36 +897,101 @@ namespace CSSPServices.Tests
             }
             Assert.IsNotNull(boxModelResultList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(boxModelResultList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(boxModelResultList[0].HasErrors);
+        }
+        private void CheckBoxModelResultWebFields(List<BoxModelResultWeb> boxModelResultWebList)
+        {
+            Assert.IsNotNull(boxModelResultWebList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelResultWebList[0].BoxModelResultTypeText))
             {
-                // BoxModelResultWeb and BoxModelResultReport fields should be null here
-                Assert.IsNull(boxModelResultList[0].BoxModelResultWeb);
-                Assert.IsNull(boxModelResultList[0].BoxModelResultReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultWebList[0].BoxModelResultTypeText));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            Assert.IsNotNull(boxModelResultWebList[0].BoxModelResultID);
+            Assert.IsNotNull(boxModelResultWebList[0].BoxModelID);
+            Assert.IsNotNull(boxModelResultWebList[0].BoxModelResultType);
+            Assert.IsNotNull(boxModelResultWebList[0].Volume_m3);
+            Assert.IsNotNull(boxModelResultWebList[0].Surface_m2);
+            Assert.IsNotNull(boxModelResultWebList[0].Radius_m);
+            if (boxModelResultWebList[0].LeftSideDiameterLineAngle_deg != null)
             {
-                // BoxModelResultWeb fields should not be null and BoxModelResultReport fields should be null here
-                Assert.IsNotNull(boxModelResultList[0].BoxModelResultWeb.LastUpdateContactTVItemLanguage);
-                if (!string.IsNullOrWhiteSpace(boxModelResultList[0].BoxModelResultWeb.BoxModelResultTypeText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultList[0].BoxModelResultWeb.BoxModelResultTypeText));
-                }
-                Assert.IsNull(boxModelResultList[0].BoxModelResultReport);
+                Assert.IsNotNull(boxModelResultWebList[0].LeftSideDiameterLineAngle_deg);
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            if (boxModelResultWebList[0].CircleCenterLatitude != null)
             {
-                // BoxModelResultWeb and BoxModelResultReport fields should NOT be null here
-                Assert.IsNotNull(boxModelResultList[0].BoxModelResultWeb.LastUpdateContactTVItemLanguage);
-                if (boxModelResultList[0].BoxModelResultWeb.BoxModelResultTypeText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultList[0].BoxModelResultWeb.BoxModelResultTypeText));
-                }
-                if (boxModelResultList[0].BoxModelResultReport.BoxModelResultReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultList[0].BoxModelResultReport.BoxModelResultReportTest));
-                }
+                Assert.IsNotNull(boxModelResultWebList[0].CircleCenterLatitude);
             }
+            if (boxModelResultWebList[0].CircleCenterLongitude != null)
+            {
+                Assert.IsNotNull(boxModelResultWebList[0].CircleCenterLongitude);
+            }
+            Assert.IsNotNull(boxModelResultWebList[0].FixLength);
+            Assert.IsNotNull(boxModelResultWebList[0].FixWidth);
+            Assert.IsNotNull(boxModelResultWebList[0].RectLength_m);
+            Assert.IsNotNull(boxModelResultWebList[0].RectWidth_m);
+            if (boxModelResultWebList[0].LeftSideLineAngle_deg != null)
+            {
+                Assert.IsNotNull(boxModelResultWebList[0].LeftSideLineAngle_deg);
+            }
+            if (boxModelResultWebList[0].LeftSideLineStartLatitude != null)
+            {
+                Assert.IsNotNull(boxModelResultWebList[0].LeftSideLineStartLatitude);
+            }
+            if (boxModelResultWebList[0].LeftSideLineStartLongitude != null)
+            {
+                Assert.IsNotNull(boxModelResultWebList[0].LeftSideLineStartLongitude);
+            }
+            Assert.IsNotNull(boxModelResultWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelResultWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelResultWebList[0].HasErrors);
+        }
+        private void CheckBoxModelResultReportFields(List<BoxModelResultReport> boxModelResultReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultReportTest))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultReportTest));
+            }
+            Assert.IsNotNull(boxModelResultReportList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultTypeText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultReportList[0].BoxModelResultTypeText));
+            }
+            Assert.IsNotNull(boxModelResultReportList[0].BoxModelResultID);
+            Assert.IsNotNull(boxModelResultReportList[0].BoxModelID);
+            Assert.IsNotNull(boxModelResultReportList[0].BoxModelResultType);
+            Assert.IsNotNull(boxModelResultReportList[0].Volume_m3);
+            Assert.IsNotNull(boxModelResultReportList[0].Surface_m2);
+            Assert.IsNotNull(boxModelResultReportList[0].Radius_m);
+            if (boxModelResultReportList[0].LeftSideDiameterLineAngle_deg != null)
+            {
+                Assert.IsNotNull(boxModelResultReportList[0].LeftSideDiameterLineAngle_deg);
+            }
+            if (boxModelResultReportList[0].CircleCenterLatitude != null)
+            {
+                Assert.IsNotNull(boxModelResultReportList[0].CircleCenterLatitude);
+            }
+            if (boxModelResultReportList[0].CircleCenterLongitude != null)
+            {
+                Assert.IsNotNull(boxModelResultReportList[0].CircleCenterLongitude);
+            }
+            Assert.IsNotNull(boxModelResultReportList[0].FixLength);
+            Assert.IsNotNull(boxModelResultReportList[0].FixWidth);
+            Assert.IsNotNull(boxModelResultReportList[0].RectLength_m);
+            Assert.IsNotNull(boxModelResultReportList[0].RectWidth_m);
+            if (boxModelResultReportList[0].LeftSideLineAngle_deg != null)
+            {
+                Assert.IsNotNull(boxModelResultReportList[0].LeftSideLineAngle_deg);
+            }
+            if (boxModelResultReportList[0].LeftSideLineStartLatitude != null)
+            {
+                Assert.IsNotNull(boxModelResultReportList[0].LeftSideLineStartLatitude);
+            }
+            if (boxModelResultReportList[0].LeftSideLineStartLongitude != null)
+            {
+                Assert.IsNotNull(boxModelResultReportList[0].LeftSideLineStartLongitude);
+            }
+            Assert.IsNotNull(boxModelResultReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(boxModelResultReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(boxModelResultReportList[0].HasErrors);
         }
         private BoxModelResult GetFilledRandomBoxModelResult(string OmitPropName)
         {

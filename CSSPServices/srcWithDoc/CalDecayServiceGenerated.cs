@@ -45,13 +45,13 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(calDecay.Error) && calDecay.Error.Length > 255)
             {
                 calDecay.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.CalDecayError, "255"), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "CalDecayError", "255"), new[] { "Error" });
             }
 
             if (calDecay.Decay < 0)
             {
                 calDecay.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.CalDecayDecay, "0"), new[] { "Decay" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "CalDecayDecay", "0"), new[] { "Decay" });
             }
 
             retStr = ""; // added to stop compiling error

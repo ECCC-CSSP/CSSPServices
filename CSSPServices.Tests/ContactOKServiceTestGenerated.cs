@@ -32,67 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void ContactOK_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    ContactOKService contactOKService = new ContactOKService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    ContactOK contactOK = GetFilledRandomContactOK("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetContactOKWithContactOKID(contactOK.ContactOKID)
-        #endregion Tests Generated for GetContactOKWithContactOKID(contactOK.ContactOKID)
-
-        #region Tests Generated for GetContactOKList()
-        #endregion Tests Generated for GetContactOKList()
-
-        #region Tests Generated for GetContactOKList() Skip Take
-        #endregion Tests Generated for GetContactOKList() Skip Take
-
-        #region Tests Generated for GetContactOKList() Skip Take Order
-        #endregion Tests Generated for GetContactOKList() Skip Take Order
-
-        #region Tests Generated for GetContactOKList() Skip Take 2Order
-        #endregion Tests Generated for GetContactOKList() Skip Take 2Order
-
-        #region Tests Generated for GetContactOKList() Skip Take Order Where
-        #endregion Tests Generated for GetContactOKList() Skip Take Order Where
-
-        #region Tests Generated for GetContactOKList() Skip Take Order 2Where
-        #endregion Tests Generated for GetContactOKList() Skip Take Order 2Where
-
-        #region Tests Generated for GetContactOKList() 2Where
-        #endregion Tests Generated for GetContactOKList() 2Where
-
         #region Functions private
         private ContactOK GetFilledRandomContactOK(string OmitPropName)
         {

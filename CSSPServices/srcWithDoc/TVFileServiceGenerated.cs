@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (tvFile.TVFileID == 0)
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTVFileID), new[] { "TVFileID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileTVFileID"), new[] { "TVFileID" });
                 }
 
                 if (!GetRead().Where(c => c.TVFileID == tvFile.TVFileID).Any())
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVFile, CSSPModelsRes.TVFileTVFileID, tvFile.TVFileID.ToString()), new[] { "TVFileID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVFile", "TVFileTVFileID", tvFile.TVFileID.ToString()), new[] { "TVFileID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTVFileTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVFileTVFileTVItemID", tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
             {
@@ -73,7 +73,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVFileTVFileTVItemID", "File"), new[] { "TVFileTVItemID" });
                 }
             }
 
@@ -83,7 +83,7 @@ namespace CSSPServices
                 if (tvFile.TemplateTVType == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileTemplateTVType"), new[] { "TemplateTVType" });
                 }
             }
 
@@ -94,7 +94,7 @@ namespace CSSPServices
                 if (ReportTypeReportTypeID == null)
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.TVFileReportTypeID, (tvFile.ReportTypeID == null ? "" : tvFile.ReportTypeID.ToString())), new[] { "ReportTypeID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "TVFileReportTypeID", (tvFile.ReportTypeID == null ? "" : tvFile.ReportTypeID.ToString())), new[] { "ReportTypeID" });
                 }
             }
 
@@ -105,7 +105,7 @@ namespace CSSPServices
                 if (tvFile.Year < 1980 || tvFile.Year > 2050)
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileYear, "1980", "2050"), new[] { "Year" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TVFileYear", "1980", "2050"), new[] { "Year" });
                 }
             }
 
@@ -113,27 +113,27 @@ namespace CSSPServices
             if (tvFile.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileLanguage"), new[] { "Language" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FilePurposeEnum), (int?)tvFile.FilePurpose);
             if (tvFile.FilePurpose == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFilePurpose), new[] { "FilePurpose" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileFilePurpose"), new[] { "FilePurpose" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FileTypeEnum), (int?)tvFile.FileType);
             if (tvFile.FileType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileType), new[] { "FileType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileFileType"), new[] { "FileType" });
             }
 
             if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 100000000)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "100000000"), new[] { "FileSize_kb" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TVFileFileSize_kb", "0", "100000000"), new[] { "FileSize_kb" });
             }
 
             //FileInfo has no StringLength Attribute
@@ -141,58 +141,58 @@ namespace CSSPServices
             if (tvFile.FileCreatedDate_UTC.Year == 1)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileCreatedDate_UTC), new[] { "FileCreatedDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileFileCreatedDate_UTC"), new[] { "FileCreatedDate_UTC" });
             }
             else
             {
                 if (tvFile.FileCreatedDate_UTC.Year < 1980)
                 {
                 tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { "FileCreatedDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TVFileFileCreatedDate_UTC", "1980"), new[] { "FileCreatedDate_UTC" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ClientFilePath) && tvFile.ClientFilePath.Length > 250)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileClientFilePath, "250"), new[] { "ClientFilePath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVFileClientFilePath", "250"), new[] { "ClientFilePath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFileName))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileServerFileName), new[] { "ServerFileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileServerFileName"), new[] { "ServerFileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFileName) && tvFile.ServerFileName.Length > 250)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFileName, "250"), new[] { "ServerFileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVFileServerFileName", "250"), new[] { "ServerFileName" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFilePath))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileServerFilePath), new[] { "ServerFilePath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileServerFilePath"), new[] { "ServerFilePath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFilePath) && tvFile.ServerFilePath.Length > 250)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFilePath, "250"), new[] { "ServerFilePath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVFileServerFilePath", "250"), new[] { "ServerFilePath" });
             }
 
             if (tvFile.LastUpdateDate_UTC.Year == 1)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvFile.LastUpdateDate_UTC.Year < 1980)
                 {
                 tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TVFileLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -201,7 +201,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVFileLastUpdateContactTVItemID", tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -212,7 +212,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVFileLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -229,57 +229,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVFile GetTVFileWithTVFileID(int TVFileID)
         {
-            IQueryable<TVFile> tvFileQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.TVFileID == TVFileID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.TVFileID == TVFileID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tvFileQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVFileWeb(tvFileQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVFileReport(tvFileQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<TVFile> GetTVFileList()
         {
-            IQueryable<TVFile> tvFileQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVFile> TVFileQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        tvFileQuery = EnhanceQueryStatements<TVFile>(tvFileQuery) as IQueryable<TVFile>;
+            TVFileQuery = EnhanceQueryStatements<TVFile>(TVFileQuery) as IQueryable<TVFile>;
 
-                        return tvFileQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        tvFileQuery = FillTVFileWeb(tvFileQuery);
+            return TVFileQuery;
+        }
+        public TVFileWeb GetTVFileWebWithTVFileID(int TVFileID)
+        {
+            return FillTVFileWeb().FirstOrDefault();
 
-                        tvFileQuery = EnhanceQueryStatements<TVFile>(tvFileQuery) as IQueryable<TVFile>;
+        }
+        public IQueryable<TVFileWeb> GetTVFileWebList()
+        {
+            IQueryable<TVFileWeb> TVFileWebQuery = FillTVFileWeb();
 
-                        return tvFileQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        tvFileQuery = FillTVFileReport(tvFileQuery);
+            TVFileWebQuery = EnhanceQueryStatements<TVFileWeb>(TVFileWebQuery) as IQueryable<TVFileWeb>;
 
-                        tvFileQuery = EnhanceQueryStatements<TVFile>(tvFileQuery) as IQueryable<TVFile>;
+            return TVFileWebQuery;
+        }
+        public TVFileReport GetTVFileReportWithTVFileID(int TVFileID)
+        {
+            return FillTVFileReport().FirstOrDefault();
 
-                        return tvFileQuery;
-                    }
-                default:
-                    {
-                        tvFileQuery = tvFileQuery.Where(c => c.TVFileID == 0);
+        }
+        public IQueryable<TVFileReport> GetTVFileReportList()
+        {
+            IQueryable<TVFileReport> TVFileReportQuery = FillTVFileReport();
 
-                        return tvFileQuery;
-                    }
-            }
+            TVFileReportQuery = EnhanceQueryStatements<TVFileReport>(TVFileReportQuery) as IQueryable<TVFileReport>;
+
+            return TVFileReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -332,7 +319,7 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVFileFillWeb
-        private IQueryable<TVFile> FillTVFileWeb(IQueryable<TVFile> tvFileQuery)
+        private IQueryable<TVFileWeb> FillTVFileWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -341,7 +328,7 @@ namespace CSSPServices
             List<EnumIDAndText> FilePurposeEnumList = enums.GetEnumTextOrderedList(typeof(FilePurposeEnum));
             List<EnumIDAndText> FileTypeEnumList = enums.GetEnumTextOrderedList(typeof(FileTypeEnum));
 
-            tvFileQuery = (from c in tvFileQuery
+             IQueryable<TVFileWeb>  TVFileWebQuery = (from c in db.TVFiles
                 let TVFileTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVFileTVItemID
                     && cl.Language == LanguageRequest
@@ -350,8 +337,22 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new TVFile
+                    select new TVFileWeb
                     {
+                        TVFileTVItemLanguage = TVFileTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TemplateTVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TemplateTVType
+                                select e.EnumText).FirstOrDefault(),
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        FilePurposeText = (from e in FilePurposeEnumList
+                                where e.EnumID == (int?)c.FilePurpose
+                                select e.EnumText).FirstOrDefault(),
+                        FileTypeText = (from e in FileTypeEnumList
+                                where e.EnumID == (int?)c.FileType
+                                select e.EnumText).FirstOrDefault(),
                         TVFileID = c.TVFileID,
                         TVFileTVItemID = c.TVFileTVItemID,
                         TemplateTVType = c.TemplateTVType,
@@ -370,29 +371,11 @@ namespace CSSPServices
                         ServerFilePath = c.ServerFilePath,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVFileWeb = new TVFileWeb
-                        {
-                            TVFileTVItemLanguage = TVFileTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            TemplateTVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TemplateTVType
-                                select e.EnumText).FirstOrDefault(),
-                            LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                            FilePurposeText = (from e in FilePurposeEnumList
-                                where e.EnumID == (int?)c.FilePurpose
-                                select e.EnumText).FirstOrDefault(),
-                            FileTypeText = (from e in FileTypeEnumList
-                                where e.EnumID == (int?)c.FileType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        TVFileReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return tvFileQuery;
+            return TVFileWebQuery;
         }
         #endregion Functions private Generated TVFileFillWeb
 

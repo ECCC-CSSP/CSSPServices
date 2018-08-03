@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mwqmSite.MWQMSiteID == 0)
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteID), new[] { "MWQMSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteID"), new[] { "MWQMSiteID" });
                 }
 
                 if (!GetRead().Where(c => c.MWQMSiteID == mwqmSite.MWQMSiteID).Any())
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSite, CSSPModelsRes.MWQMSiteMWQMSiteID, mwqmSite.MWQMSiteID.ToString()), new[] { "MWQMSiteID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSite", "MWQMSiteMWQMSiteID", mwqmSite.MWQMSiteID.ToString()), new[] { "MWQMSiteID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteMWQMSiteTVItemID", mwqmSite.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -73,58 +73,58 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteMWQMSiteTVItemID", "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteNumber))
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteNumber), new[] { "MWQMSiteNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteNumber"), new[] { "MWQMSiteNumber" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteNumber) && mwqmSite.MWQMSiteNumber.Length > 8)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteNumber, "8"), new[] { "MWQMSiteNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteNumber", "8"), new[] { "MWQMSiteNumber" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteDescription))
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteDescription), new[] { "MWQMSiteDescription" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteDescription"), new[] { "MWQMSiteDescription" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteDescription) && mwqmSite.MWQMSiteDescription.Length > 200)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteDescription, "200"), new[] { "MWQMSiteDescription" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteDescription", "200"), new[] { "MWQMSiteDescription" });
             }
 
             retStr = enums.EnumTypeOK(typeof(MWQMSiteLatestClassificationEnum), (int?)mwqmSite.MWQMSiteLatestClassification);
             if (mwqmSite.MWQMSiteLatestClassification == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteLatestClassification), new[] { "MWQMSiteLatestClassification" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteLatestClassification"), new[] { "MWQMSiteLatestClassification" });
             }
 
             if (mwqmSite.Ordinal < 0 || mwqmSite.Ordinal > 1000)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteOrdinal, "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSiteOrdinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             if (mwqmSite.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSite.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSiteLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -133,7 +133,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSite.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSiteLastUpdateContactTVItemID", mwqmSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -144,7 +144,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmSite.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSiteLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -161,57 +161,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID)
         {
-            IQueryable<MWQMSite> mwqmSiteQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MWQMSiteID == MWQMSiteID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MWQMSiteID == MWQMSiteID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSiteQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSiteWeb(mwqmSiteQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSiteReport(mwqmSiteQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MWQMSite> GetMWQMSiteList()
         {
-            IQueryable<MWQMSite> mwqmSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSite> MWQMSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mwqmSiteQuery = EnhanceQueryStatements<MWQMSite>(mwqmSiteQuery) as IQueryable<MWQMSite>;
+            MWQMSiteQuery = EnhanceQueryStatements<MWQMSite>(MWQMSiteQuery) as IQueryable<MWQMSite>;
 
-                        return mwqmSiteQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mwqmSiteQuery = FillMWQMSiteWeb(mwqmSiteQuery);
+            return MWQMSiteQuery;
+        }
+        public MWQMSiteWeb GetMWQMSiteWebWithMWQMSiteID(int MWQMSiteID)
+        {
+            return FillMWQMSiteWeb().FirstOrDefault();
 
-                        mwqmSiteQuery = EnhanceQueryStatements<MWQMSite>(mwqmSiteQuery) as IQueryable<MWQMSite>;
+        }
+        public IQueryable<MWQMSiteWeb> GetMWQMSiteWebList()
+        {
+            IQueryable<MWQMSiteWeb> MWQMSiteWebQuery = FillMWQMSiteWeb();
 
-                        return mwqmSiteQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mwqmSiteQuery = FillMWQMSiteReport(mwqmSiteQuery);
+            MWQMSiteWebQuery = EnhanceQueryStatements<MWQMSiteWeb>(MWQMSiteWebQuery) as IQueryable<MWQMSiteWeb>;
 
-                        mwqmSiteQuery = EnhanceQueryStatements<MWQMSite>(mwqmSiteQuery) as IQueryable<MWQMSite>;
+            return MWQMSiteWebQuery;
+        }
+        public MWQMSiteReport GetMWQMSiteReportWithMWQMSiteID(int MWQMSiteID)
+        {
+            return FillMWQMSiteReport().FirstOrDefault();
 
-                        return mwqmSiteQuery;
-                    }
-                default:
-                    {
-                        mwqmSiteQuery = mwqmSiteQuery.Where(c => c.MWQMSiteID == 0);
+        }
+        public IQueryable<MWQMSiteReport> GetMWQMSiteReportList()
+        {
+            IQueryable<MWQMSiteReport> MWQMSiteReportQuery = FillMWQMSiteReport();
 
-                        return mwqmSiteQuery;
-                    }
-            }
+            MWQMSiteReportQuery = EnhanceQueryStatements<MWQMSiteReport>(MWQMSiteReportQuery) as IQueryable<MWQMSiteReport>;
+
+            return MWQMSiteReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -264,13 +251,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSiteFillWeb
-        private IQueryable<MWQMSite> FillMWQMSiteWeb(IQueryable<MWQMSite> mwqmSiteQuery)
+        private IQueryable<MWQMSiteWeb> FillMWQMSiteWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> MWQMSiteLatestClassificationEnumList = enums.GetEnumTextOrderedList(typeof(MWQMSiteLatestClassificationEnum));
 
-            mwqmSiteQuery = (from c in mwqmSiteQuery
+             IQueryable<MWQMSiteWeb>  MWQMSiteWebQuery = (from c in db.MWQMSites
                 let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
@@ -279,8 +266,13 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MWQMSite
+                    select new MWQMSiteWeb
                     {
+                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
+                                where e.EnumID == (int?)c.MWQMSiteLatestClassification
+                                select e.EnumText).FirstOrDefault(),
                         MWQMSiteID = c.MWQMSiteID,
                         MWQMSiteTVItemID = c.MWQMSiteTVItemID,
                         MWQMSiteNumber = c.MWQMSiteNumber,
@@ -289,20 +281,11 @@ namespace CSSPServices
                         Ordinal = c.Ordinal,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSiteWeb = new MWQMSiteWeb
-                        {
-                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            MWQMSiteLatestClassificationText = (from e in MWQMSiteLatestClassificationEnumList
-                                where e.EnumID == (int?)c.MWQMSiteLatestClassification
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        MWQMSiteReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mwqmSiteQuery;
+            return MWQMSiteWebQuery;
         }
         #endregion Functions private Generated MWQMSiteFillWeb
 

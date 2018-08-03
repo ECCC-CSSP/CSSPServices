@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (reportTypeLanguage.ReportTypeLanguageID == 0)
                 {
                     reportTypeLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageReportTypeLanguageID), new[] { "ReportTypeLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageReportTypeLanguageID"), new[] { "ReportTypeLanguageID" });
                 }
 
                 if (!GetRead().Where(c => c.ReportTypeLanguageID == reportTypeLanguage.ReportTypeLanguageID).Any())
                 {
                     reportTypeLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportTypeLanguage, CSSPModelsRes.ReportTypeLanguageReportTypeLanguageID, reportTypeLanguage.ReportTypeLanguageID.ToString()), new[] { "ReportTypeLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportTypeLanguage", "ReportTypeLanguageReportTypeLanguageID", reportTypeLanguage.ReportTypeLanguageID.ToString()), new[] { "ReportTypeLanguageID" });
                 }
             }
 
@@ -62,84 +62,84 @@ namespace CSSPServices
             if (ReportTypeReportTypeID == null)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ReportType, CSSPModelsRes.ReportTypeLanguageReportTypeID, reportTypeLanguage.ReportTypeID.ToString()), new[] { "ReportTypeID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportTypeLanguageReportTypeID", reportTypeLanguage.ReportTypeID.ToString()), new[] { "ReportTypeID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)reportTypeLanguage.Language);
             if (reportTypeLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageLanguage"), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(reportTypeLanguage.Name))
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageName"), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportTypeLanguage.Name) && reportTypeLanguage.Name.Length > 100)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ReportTypeLanguageName, "100"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeLanguageName", "100"), new[] { "Name" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportTypeLanguage.TranslationStatusName);
             if (reportTypeLanguage.TranslationStatusName == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageTranslationStatusName), new[] { "TranslationStatusName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageTranslationStatusName"), new[] { "TranslationStatusName" });
             }
 
             if (string.IsNullOrWhiteSpace(reportTypeLanguage.Description))
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageDescription), new[] { "Description" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageDescription"), new[] { "Description" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportTypeLanguage.Description) && reportTypeLanguage.Description.Length > 1000)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ReportTypeLanguageDescription, "1000"), new[] { "Description" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeLanguageDescription", "1000"), new[] { "Description" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportTypeLanguage.TranslationStatusDescription);
             if (reportTypeLanguage.TranslationStatusDescription == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageTranslationStatusDescription), new[] { "TranslationStatusDescription" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageTranslationStatusDescription"), new[] { "TranslationStatusDescription" });
             }
 
             if (string.IsNullOrWhiteSpace(reportTypeLanguage.StartOfFileName))
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageStartOfFileName), new[] { "StartOfFileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageStartOfFileName"), new[] { "StartOfFileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(reportTypeLanguage.StartOfFileName) && reportTypeLanguage.StartOfFileName.Length > 100)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ReportTypeLanguageStartOfFileName, "100"), new[] { "StartOfFileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeLanguageStartOfFileName", "100"), new[] { "StartOfFileName" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)reportTypeLanguage.TranslationStatusStartOfFileName);
             if (reportTypeLanguage.TranslationStatusStartOfFileName == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageTranslationStatusStartOfFileName), new[] { "TranslationStatusStartOfFileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageTranslationStatusStartOfFileName"), new[] { "TranslationStatusStartOfFileName" });
             }
 
             if (reportTypeLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ReportTypeLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (reportTypeLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 reportTypeLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ReportTypeLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ReportTypeLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -148,7 +148,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 reportTypeLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ReportTypeLanguageLastUpdateContactTVItemID, reportTypeLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ReportTypeLanguageLastUpdateContactTVItemID", reportTypeLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -159,7 +159,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     reportTypeLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ReportTypeLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ReportTypeLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -176,57 +176,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ReportTypeLanguage GetReportTypeLanguageWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ReportTypeLanguageID == ReportTypeLanguageID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ReportTypeLanguageID == ReportTypeLanguageID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return reportTypeLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillReportTypeLanguageWeb(reportTypeLanguageQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillReportTypeLanguageReport(reportTypeLanguageQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ReportTypeLanguage> GetReportTypeLanguageList()
         {
-            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ReportTypeLanguage> ReportTypeLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        reportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(reportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
+            ReportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(ReportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
 
-                        return reportTypeLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        reportTypeLanguageQuery = FillReportTypeLanguageWeb(reportTypeLanguageQuery);
+            return ReportTypeLanguageQuery;
+        }
+        public ReportTypeLanguageWeb GetReportTypeLanguageWebWithReportTypeLanguageID(int ReportTypeLanguageID)
+        {
+            return FillReportTypeLanguageWeb().FirstOrDefault();
 
-                        reportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(reportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
+        }
+        public IQueryable<ReportTypeLanguageWeb> GetReportTypeLanguageWebList()
+        {
+            IQueryable<ReportTypeLanguageWeb> ReportTypeLanguageWebQuery = FillReportTypeLanguageWeb();
 
-                        return reportTypeLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        reportTypeLanguageQuery = FillReportTypeLanguageReport(reportTypeLanguageQuery);
+            ReportTypeLanguageWebQuery = EnhanceQueryStatements<ReportTypeLanguageWeb>(ReportTypeLanguageWebQuery) as IQueryable<ReportTypeLanguageWeb>;
 
-                        reportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(reportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
+            return ReportTypeLanguageWebQuery;
+        }
+        public ReportTypeLanguageReport GetReportTypeLanguageReportWithReportTypeLanguageID(int ReportTypeLanguageID)
+        {
+            return FillReportTypeLanguageReport().FirstOrDefault();
 
-                        return reportTypeLanguageQuery;
-                    }
-                default:
-                    {
-                        reportTypeLanguageQuery = reportTypeLanguageQuery.Where(c => c.ReportTypeLanguageID == 0);
+        }
+        public IQueryable<ReportTypeLanguageReport> GetReportTypeLanguageReportList()
+        {
+            IQueryable<ReportTypeLanguageReport> ReportTypeLanguageReportQuery = FillReportTypeLanguageReport();
 
-                        return reportTypeLanguageQuery;
-                    }
-            }
+            ReportTypeLanguageReportQuery = EnhanceQueryStatements<ReportTypeLanguageReport>(ReportTypeLanguageReportQuery) as IQueryable<ReportTypeLanguageReport>;
+
+            return ReportTypeLanguageReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -279,20 +266,33 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportTypeLanguageFillWeb
-        private IQueryable<ReportTypeLanguage> FillReportTypeLanguageWeb(IQueryable<ReportTypeLanguage> reportTypeLanguageQuery)
+        private IQueryable<ReportTypeLanguageWeb> FillReportTypeLanguageWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            reportTypeLanguageQuery = (from c in reportTypeLanguageQuery
+             IQueryable<ReportTypeLanguageWeb>  ReportTypeLanguageWebQuery = (from c in db.ReportTypeLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ReportTypeLanguage
+                    select new ReportTypeLanguageWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusNameText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusName
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusDescriptionText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusDescription
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusStartOfFileNameText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatusStartOfFileName
+                                select e.EnumText).FirstOrDefault(),
                         ReportTypeLanguageID = c.ReportTypeLanguageID,
                         ReportTypeID = c.ReportTypeID,
                         Language = c.Language,
@@ -304,28 +304,11 @@ namespace CSSPServices
                         TranslationStatusStartOfFileName = c.TranslationStatusStartOfFileName,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ReportTypeLanguageWeb = new ReportTypeLanguageWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusName
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusDescriptionText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusDescription
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusStartOfFileNameText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatusStartOfFileName
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        ReportTypeLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return reportTypeLanguageQuery;
+            return ReportTypeLanguageWebQuery;
         }
         #endregion Functions private Generated ReportTypeLanguageFillWeb
 

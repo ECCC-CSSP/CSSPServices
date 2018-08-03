@@ -45,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvFullText.TVPath))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFullTextTVPath), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFullTextTVPath"), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.TVPath) && (tvFullText.TVPath.Length < 1 || tvFullText.TVPath.Length > 255))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVFullTextTVPath, "1", "255"), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVFullTextTVPath", "1", "255"), new[] { "TVPath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFullText.FullText))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFullTextFullText), new[] { "FullText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFullTextFullText"), new[] { "FullText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.FullText) && (tvFullText.FullText.Length < 1 || tvFullText.FullText.Length > 255))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVFullTextFullText, "1", "255"), new[] { "FullText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVFullTextFullText", "1", "255"), new[] { "FullText" });
             }
 
             retStr = ""; // added to stop compiling error

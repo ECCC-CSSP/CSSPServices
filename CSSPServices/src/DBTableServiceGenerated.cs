@@ -45,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(dBTable.TableName))
             {
                 dBTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DBTableTableName), new[] { "TableName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DBTableTableName"), new[] { "TableName" });
             }
 
             if (!string.IsNullOrWhiteSpace(dBTable.TableName) && (dBTable.TableName.Length < 1 || dBTable.TableName.Length > 200))
             {
                 dBTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.DBTableTableName, "1", "200"), new[] { "TableName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "DBTableTableName", "1", "200"), new[] { "TableName" });
             }
 
             if (string.IsNullOrWhiteSpace(dBTable.Plurial))
             {
                 dBTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DBTablePlurial), new[] { "Plurial" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DBTablePlurial"), new[] { "Plurial" });
             }
 
             if (!string.IsNullOrWhiteSpace(dBTable.Plurial) && (dBTable.Plurial.Length < 1 || dBTable.Plurial.Length > 3))
             {
                 dBTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.DBTablePlurial, "1", "3"), new[] { "Plurial" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "DBTablePlurial", "1", "3"), new[] { "Plurial" });
             }
 
             retStr = ""; // added to stop compiling error

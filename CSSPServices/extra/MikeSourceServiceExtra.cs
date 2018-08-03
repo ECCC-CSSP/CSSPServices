@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,66 +7,49 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class MikeSourceService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<MikeSource> FillMikeSourceReport(IQueryable<MikeSource> mikeSourceQuery)
+        #region Functions private Generated MikeSourceFillReport
+        private IQueryable<MikeSourceReport> FillMikeSourceReport()
         {
-            mikeSourceQuery = (from c in mikeSourceQuery
-                               let MikeSourceTVItemLanguage = (from cl in db.TVItemLanguages
-                                                       where cl.TVItemID == c.MikeSourceTVItemID
-                                                       && cl.Language == LanguageRequest
-                                                       select cl).FirstOrDefault()
-                               let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl).FirstOrDefault()
-                               select new MikeSource
-                               {
-                                   MikeSourceID = c.MikeSourceID,
-                                   MikeSourceTVItemID = c.MikeSourceTVItemID,
-                                   IsContinuous = c.IsContinuous,
-                                   Include = c.Include,
-                                   IsRiver = c.IsRiver,
-                                   SourceNumberString = c.SourceNumberString,
-                                   LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                   LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                   MikeSourceWeb = new MikeSourceWeb
-                                   {
-                                       MikeSourceTVItemLanguage = MikeSourceTVItemLanguage,
-                                       LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                   },
-                                   MikeSourceReport = new MikeSourceReport
-                                   {
-                                       MikeSourceReportTest = "MikeSourceReportTest",
-                                   },
-                                   HasErrors = false,
-                                   ValidationResults = null,
-                               });
+             IQueryable<MikeSourceReport>  MikeSourceReportQuery = (from c in db.MikeSources
+                let MikeSourceTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.MikeSourceTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new MikeSourceReport
+                    {
+                        MikeSourceReportTest = "Testing Report",
+                        MikeSourceTVItemLanguage = MikeSourceTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        MikeSourceID = c.MikeSourceID,
+                        MikeSourceTVItemID = c.MikeSourceTVItemID,
+                        IsContinuous = c.IsContinuous,
+                        Include = c.Include,
+                        IsRiver = c.IsRiver,
+                        SourceNumberString = c.SourceNumberString,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return mikeSourceQuery;
+            return MikeSourceReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated MikeSourceFillReport
+
     }
 }

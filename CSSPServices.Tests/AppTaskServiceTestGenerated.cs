@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskID = 0;
                     appTaskService.Update(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "AppTaskAppTaskID"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskID = 10000000;
                     appTaskService.Update(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppTask, CSSPModelsRes.AppTaskAppTaskID, appTask.AppTaskID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppTask", "AppTaskAppTaskID", appTask.AppTaskID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,13 +117,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID = 0;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppTaskTVItemID", appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID = 2;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "AppTaskTVItemID", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -136,13 +136,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID2 = 0;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppTaskTVItemID2", appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID2 = 2;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID2, "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "AppTaskTVItemID2", "Root,Address,Area,ClimateSite,Country,File,HydrometricSite,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,TideSite,WasteWaterTreatmentPlant,LiftStation,Spill,Outfall,OtherInfrastructure,SeeOther,LineOverflow"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -155,7 +155,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskCommand = (AppTaskCommandEnum)1000000;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskCommand), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "AppTaskAppTaskCommand"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -168,7 +168,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskStatus = (AppTaskStatusEnum)1000000;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskStatus), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "AppTaskAppTaskStatus"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -181,13 +181,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.PercentCompleted = -1;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskPercentCompleted", "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.PercentCompleted = 101;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskPercentCompleted", "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -199,7 +199,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("Parameters");
                     Assert.AreEqual(false, appTaskService.Add(appTask));
                     Assert.AreEqual(1, appTask.ValidationResults.Count());
-                    Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskParameters)).Any());
+                    Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "AppTaskParameters")).Any());
                     Assert.AreEqual(null, appTask.Parameters);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
@@ -214,7 +214,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.Language = (LanguageEnum)1000000;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguage), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "AppTaskLanguage"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -227,12 +227,12 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.StartDateTime_UTC = new DateTime();
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskStartDateTime_UTC), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "AppTaskStartDateTime_UTC"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.StartDateTime_UTC = new DateTime(1979, 1, 1);
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskStartDateTime_UTC, "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppTaskStartDateTime_UTC", "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -245,7 +245,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.EndDateTime_UTC = new DateTime(1979, 1, 1);
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskEndDateTime_UTC, "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppTaskEndDateTime_UTC", "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is Nullable
@@ -257,13 +257,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.EstimatedLength_second = -1;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskEstimatedLength_second", "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.EstimatedLength_second = 1000001;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskEstimatedLength_second", "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -276,46 +276,14 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.RemainingTime_second = -1;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskRemainingTime_second", "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.RemainingTime_second = 1000001;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "AppTaskRemainingTime_second", "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // appTask.AppTaskWeb   (AppTaskWeb)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.AppTaskWeb = null;
-                    Assert.IsNull(appTask.AppTaskWeb);
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.AppTaskWeb = new AppTaskWeb();
-                    Assert.IsNotNull(appTask.AppTaskWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // appTask.AppTaskReport   (AppTaskReport)
-                    // -----------------------------------
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.AppTaskReport = null;
-                    Assert.IsNull(appTask.AppTaskReport);
-
-                    appTask = null;
-                    appTask = GetFilledRandomAppTask("");
-                    appTask.AppTaskReport = new AppTaskReport();
-                    Assert.IsNotNull(appTask.AppTaskReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -327,12 +295,12 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.LastUpdateDate_UTC = new DateTime();
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLastUpdateDate_UTC), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "AppTaskLastUpdateDate_UTC"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppTaskLastUpdateDate_UTC, "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "AppTaskLastUpdateDate_UTC", "1980"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -344,13 +312,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.LastUpdateContactTVItemID = 0;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "AppTaskLastUpdateContactTVItemID", appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.LastUpdateContactTVItemID = 1;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "AppTaskLastUpdateContactTVItemID", "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -387,34 +355,32 @@ namespace CSSPServices.Tests
                     AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(appTask);
 
-                    AppTask appTaskRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         appTaskService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
-                            Assert.IsNull(appTaskRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
+                            AppTask appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
+                            CheckAppTaskFields(new List<AppTask>() { appTaskRet });
+                            Assert.AreEqual(appTask.AppTaskID, appTaskRet.AppTaskID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
+                            AppTaskWeb appTaskWebRet = appTaskService.GetAppTaskWebWithAppTaskID(appTask.AppTaskID);
+                            CheckAppTaskWebFields(new List<AppTaskWeb>() { appTaskWebRet });
+                            Assert.AreEqual(appTask.AppTaskID, appTaskWebRet.AppTaskID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
+                            AppTaskReport appTaskReportRet = appTaskService.GetAppTaskReportWithAppTaskID(appTask.AppTaskID);
+                            CheckAppTaskReportFields(new List<AppTaskReport>() { appTaskReportRet });
+                            Assert.AreEqual(appTask.AppTaskID, appTaskReportRet.AppTaskID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(new List<AppTask>() { appTaskRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -435,34 +401,38 @@ namespace CSSPServices.Tests
                     AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(appTask);
 
-                    List<AppTask> appTaskList = new List<AppTask>();
+                    List<AppTask> appTaskDirectQueryList = new List<AppTask>();
+                    appTaskDirectQueryList = appTaskService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         appTaskService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
-                            Assert.AreEqual(0, appTaskList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskWeb> appTaskWebList = new List<AppTaskWeb>();
+                            appTaskWebList = appTaskService.GetAppTaskWebList().ToList();
+                            CheckAppTaskWebFields(appTaskWebList);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskReport> appTaskReportList = new List<AppTaskReport>();
+                            appTaskReportList = appTaskService.GetAppTaskReportList().ToList();
+                            CheckAppTaskReportFields(appTaskReportList);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(appTaskList, entityQueryDetailType);
                     }
                 }
             }
@@ -479,41 +449,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<AppTask> appTaskList = new List<AppTask>();
-                    List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = appTaskService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
-                            Assert.AreEqual(0, appTaskList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskWeb> appTaskWebList = new List<AppTaskWeb>();
+                            appTaskWebList = appTaskService.GetAppTaskWebList().ToList();
+                            CheckAppTaskWebFields(appTaskWebList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskWebList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskReport> appTaskReportList = new List<AppTaskReport>();
+                            appTaskReportList = appTaskService.GetAppTaskReportList().ToList();
+                            CheckAppTaskReportFields(appTaskReportList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskReportList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(appTaskList, entityQueryDetailType);
-                        Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        Assert.AreEqual(1, appTaskList.Count);
                     }
                 }
             }
@@ -530,41 +502,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<AppTask> appTaskList = new List<AppTask>();
-                    List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1,  "AppTaskID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = appTaskService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
-                            Assert.AreEqual(0, appTaskList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskWeb> appTaskWebList = new List<AppTaskWeb>();
+                            appTaskWebList = appTaskService.GetAppTaskWebList().ToList();
+                            CheckAppTaskWebFields(appTaskWebList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskWebList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskReport> appTaskReportList = new List<AppTaskReport>();
+                            appTaskReportList = appTaskService.GetAppTaskReportList().ToList();
+                            CheckAppTaskReportFields(appTaskReportList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskReportList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(appTaskList, entityQueryDetailType);
-                        Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        Assert.AreEqual(1, appTaskList.Count);
                     }
                 }
             }
@@ -581,41 +555,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<AppTask> appTaskList = new List<AppTask>();
-                    List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 1, 1, "AppTaskID,TVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = appTaskService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppTaskID).ThenBy(c => c.TVItemID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
-                            Assert.AreEqual(0, appTaskList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskWeb> appTaskWebList = new List<AppTaskWeb>();
+                            appTaskWebList = appTaskService.GetAppTaskWebList().ToList();
+                            CheckAppTaskWebFields(appTaskWebList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskWebList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskReport> appTaskReportList = new List<AppTaskReport>();
+                            appTaskReportList = appTaskService.GetAppTaskReportList().ToList();
+                            CheckAppTaskReportFields(appTaskReportList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskReportList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(appTaskList, entityQueryDetailType);
-                        Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        Assert.AreEqual(1, appTaskList.Count);
                     }
                 }
             }
@@ -632,41 +608,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<AppTask> appTaskList = new List<AppTask>();
-                    List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskID", "AppTaskID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = appTaskService.GetRead().Where(c => c.AppTaskID == 4).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
-                            Assert.AreEqual(0, appTaskList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskWeb> appTaskWebList = new List<AppTaskWeb>();
+                            appTaskWebList = appTaskService.GetAppTaskWebList().ToList();
+                            CheckAppTaskWebFields(appTaskWebList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskWebList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskReport> appTaskReportList = new List<AppTaskReport>();
+                            appTaskReportList = appTaskService.GetAppTaskReportList().ToList();
+                            CheckAppTaskReportFields(appTaskReportList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskReportList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(appTaskList, entityQueryDetailType);
-                        Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        Assert.AreEqual(1, appTaskList.Count);
                     }
                 }
             }
@@ -683,41 +661,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<AppTask> appTaskList = new List<AppTask>();
-                    List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskID", "AppTaskID,GT,2|AppTaskID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = appTaskService.GetRead().Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).Skip(0).Take(1).OrderBy(c => c.AppTaskID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
-                            Assert.AreEqual(0, appTaskList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskWeb> appTaskWebList = new List<AppTaskWeb>();
+                            appTaskWebList = appTaskService.GetAppTaskWebList().ToList();
+                            CheckAppTaskWebFields(appTaskWebList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskWebList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskReport> appTaskReportList = new List<AppTaskReport>();
+                            appTaskReportList = appTaskService.GetAppTaskReportList().ToList();
+                            CheckAppTaskReportFields(appTaskReportList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskReportList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(appTaskList, entityQueryDetailType);
-                        Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        Assert.AreEqual(1, appTaskList.Count);
                     }
                 }
             }
@@ -734,41 +714,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<AppTask> appTaskList = new List<AppTask>();
-                    List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         AppTaskService appTaskService = new AppTaskService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         appTaskService.Query = appTaskService.FillQuery(typeof(AppTask), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppTaskID,GT,2|AppTaskID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<AppTask> appTaskDirectQueryList = new List<AppTask>();
                         appTaskDirectQueryList = appTaskService.GetRead().Where(c => c.AppTaskID > 2 && c.AppTaskID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<AppTask> appTaskList = new List<AppTask>();
                             appTaskList = appTaskService.GetAppTaskList().ToList();
-                            Assert.AreEqual(0, appTaskList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            CheckAppTaskFields(appTaskList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskWeb> appTaskWebList = new List<AppTaskWeb>();
+                            appTaskWebList = appTaskService.GetAppTaskWebList().ToList();
+                            CheckAppTaskWebFields(appTaskWebList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskWebList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            appTaskList = appTaskService.GetAppTaskList().ToList();
+                            List<AppTaskReport> appTaskReportList = new List<AppTaskReport>();
+                            appTaskReportList = appTaskService.GetAppTaskReportList().ToList();
+                            CheckAppTaskReportFields(appTaskReportList);
+                            Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskReportList[0].AppTaskID);
+                            Assert.AreEqual(appTaskDirectQueryList.Count, appTaskReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckAppTaskFields(appTaskList, entityQueryDetailType);
-                        Assert.AreEqual(appTaskDirectQueryList[0].AppTaskID, appTaskList[0].AppTaskID);
-                        Assert.AreEqual(2, appTaskList.Count);
                     }
                 }
             }
@@ -776,9 +758,8 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetAppTaskList() 2Where
 
         #region Functions private
-        private void CheckAppTaskFields(List<AppTask> appTaskList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckAppTaskFields(List<AppTask> appTaskList)
         {
-            // AppTask fields
             Assert.IsNotNull(appTaskList[0].AppTaskID);
             Assert.IsNotNull(appTaskList[0].TVItemID);
             Assert.IsNotNull(appTaskList[0].TVItemID2);
@@ -802,56 +783,95 @@ namespace CSSPServices.Tests
             }
             Assert.IsNotNull(appTaskList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(appTaskList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(appTaskList[0].HasErrors);
+        }
+        private void CheckAppTaskWebFields(List<AppTaskWeb> appTaskWebList)
+        {
+            Assert.IsNotNull(appTaskWebList[0].TVItemTVItemLanguage);
+            Assert.IsNotNull(appTaskWebList[0].TVItem2TVItemLanguage);
+            Assert.IsNotNull(appTaskWebList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(appTaskWebList[0].AppTaskCommandText))
             {
-                // AppTaskWeb and AppTaskReport fields should be null here
-                Assert.IsNull(appTaskList[0].AppTaskWeb);
-                Assert.IsNull(appTaskList[0].AppTaskReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskWebList[0].AppTaskCommandText));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            if (!string.IsNullOrWhiteSpace(appTaskWebList[0].AppTaskStatusText))
             {
-                // AppTaskWeb fields should not be null and AppTaskReport fields should be null here
-                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItemTVItemLanguage);
-                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItem2TVItemLanguage);
-                Assert.IsNotNull(appTaskList[0].AppTaskWeb.LastUpdateContactTVItemLanguage);
-                if (!string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText));
-                }
-                if (!string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskStatusText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskStatusText));
-                }
-                if (!string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LanguageText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LanguageText));
-                }
-                Assert.IsNull(appTaskList[0].AppTaskReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskWebList[0].AppTaskStatusText));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            if (!string.IsNullOrWhiteSpace(appTaskWebList[0].LanguageText))
             {
-                // AppTaskWeb and AppTaskReport fields should NOT be null here
-                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItemTVItemLanguage);
-                Assert.IsNotNull(appTaskList[0].AppTaskWeb.TVItem2TVItemLanguage);
-                Assert.IsNotNull(appTaskList[0].AppTaskWeb.LastUpdateContactTVItemLanguage);
-                if (appTaskList[0].AppTaskWeb.AppTaskCommandText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskCommandText));
-                }
-                if (appTaskList[0].AppTaskWeb.AppTaskStatusText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.AppTaskStatusText));
-                }
-                if (appTaskList[0].AppTaskWeb.LanguageText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskWeb.LanguageText));
-                }
-                if (appTaskList[0].AppTaskReport.AppTaskReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskList[0].AppTaskReport.AppTaskReportTest));
-                }
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskWebList[0].LanguageText));
             }
+            Assert.IsNotNull(appTaskWebList[0].AppTaskID);
+            Assert.IsNotNull(appTaskWebList[0].TVItemID);
+            Assert.IsNotNull(appTaskWebList[0].TVItemID2);
+            Assert.IsNotNull(appTaskWebList[0].AppTaskCommand);
+            Assert.IsNotNull(appTaskWebList[0].AppTaskStatus);
+            Assert.IsNotNull(appTaskWebList[0].PercentCompleted);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskWebList[0].Parameters));
+            Assert.IsNotNull(appTaskWebList[0].Language);
+            Assert.IsNotNull(appTaskWebList[0].StartDateTime_UTC);
+            if (appTaskWebList[0].EndDateTime_UTC != null)
+            {
+                Assert.IsNotNull(appTaskWebList[0].EndDateTime_UTC);
+            }
+            if (appTaskWebList[0].EstimatedLength_second != null)
+            {
+                Assert.IsNotNull(appTaskWebList[0].EstimatedLength_second);
+            }
+            if (appTaskWebList[0].RemainingTime_second != null)
+            {
+                Assert.IsNotNull(appTaskWebList[0].RemainingTime_second);
+            }
+            Assert.IsNotNull(appTaskWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(appTaskWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(appTaskWebList[0].HasErrors);
+        }
+        private void CheckAppTaskReportFields(List<AppTaskReport> appTaskReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(appTaskReportList[0].AppTaskReportTest))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskReportList[0].AppTaskReportTest));
+            }
+            Assert.IsNotNull(appTaskReportList[0].TVItemTVItemLanguage);
+            Assert.IsNotNull(appTaskReportList[0].TVItem2TVItemLanguage);
+            Assert.IsNotNull(appTaskReportList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(appTaskReportList[0].AppTaskCommandText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskReportList[0].AppTaskCommandText));
+            }
+            if (!string.IsNullOrWhiteSpace(appTaskReportList[0].AppTaskStatusText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskReportList[0].AppTaskStatusText));
+            }
+            if (!string.IsNullOrWhiteSpace(appTaskReportList[0].LanguageText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskReportList[0].LanguageText));
+            }
+            Assert.IsNotNull(appTaskReportList[0].AppTaskID);
+            Assert.IsNotNull(appTaskReportList[0].TVItemID);
+            Assert.IsNotNull(appTaskReportList[0].TVItemID2);
+            Assert.IsNotNull(appTaskReportList[0].AppTaskCommand);
+            Assert.IsNotNull(appTaskReportList[0].AppTaskStatus);
+            Assert.IsNotNull(appTaskReportList[0].PercentCompleted);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskReportList[0].Parameters));
+            Assert.IsNotNull(appTaskReportList[0].Language);
+            Assert.IsNotNull(appTaskReportList[0].StartDateTime_UTC);
+            if (appTaskReportList[0].EndDateTime_UTC != null)
+            {
+                Assert.IsNotNull(appTaskReportList[0].EndDateTime_UTC);
+            }
+            if (appTaskReportList[0].EstimatedLength_second != null)
+            {
+                Assert.IsNotNull(appTaskReportList[0].EstimatedLength_second);
+            }
+            if (appTaskReportList[0].RemainingTime_second != null)
+            {
+                Assert.IsNotNull(appTaskReportList[0].RemainingTime_second);
+            }
+            Assert.IsNotNull(appTaskReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(appTaskReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(appTaskReportList[0].HasErrors);
         }
         private AppTask GetFilledRandomAppTask(string OmitPropName)
         {

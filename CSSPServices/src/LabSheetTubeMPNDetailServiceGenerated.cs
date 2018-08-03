@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (labSheetTubeMPNDetail.LabSheetTubeMPNDetailID == 0)
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetTubeMPNDetailLabSheetTubeMPNDetailID), new[] { "LabSheetTubeMPNDetailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetTubeMPNDetailLabSheetTubeMPNDetailID"), new[] { "LabSheetTubeMPNDetailID" });
                 }
 
                 if (!GetRead().Where(c => c.LabSheetTubeMPNDetailID == labSheetTubeMPNDetail.LabSheetTubeMPNDetailID).Any())
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.LabSheetTubeMPNDetail, CSSPModelsRes.LabSheetTubeMPNDetailLabSheetTubeMPNDetailID, labSheetTubeMPNDetail.LabSheetTubeMPNDetailID.ToString()), new[] { "LabSheetTubeMPNDetailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "LabSheetTubeMPNDetail", "LabSheetTubeMPNDetailLabSheetTubeMPNDetailID", labSheetTubeMPNDetail.LabSheetTubeMPNDetailID.ToString()), new[] { "LabSheetTubeMPNDetailID" });
                 }
             }
 
@@ -62,13 +62,13 @@ namespace CSSPServices
             if (LabSheetDetailLabSheetDetailID == null)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.LabSheetDetail, CSSPModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, labSheetTubeMPNDetail.LabSheetDetailID.ToString()), new[] { "LabSheetDetailID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "LabSheetDetail", "LabSheetTubeMPNDetailLabSheetDetailID", labSheetTubeMPNDetail.LabSheetDetailID.ToString()), new[] { "LabSheetDetailID" });
             }
 
             if (labSheetTubeMPNDetail.Ordinal < 0 || labSheetTubeMPNDetail.Ordinal > 1000)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailOrdinal, "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetTubeMPNDetailOrdinal", "0", "1000"), new[] { "Ordinal" });
             }
 
             TVItem TVItemMWQMSiteTVItemID = (from c in db.TVItems where c.TVItemID == labSheetTubeMPNDetail.MWQMSiteTVItemID select c).FirstOrDefault();
@@ -76,7 +76,7 @@ namespace CSSPServices
             if (TVItemMWQMSiteTVItemID == null)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LabSheetTubeMPNDetailMWQMSiteTVItemID", labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
             {
@@ -87,14 +87,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LabSheetTubeMPNDetailMWQMSiteTVItemID", "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
             }
 
             if (labSheetTubeMPNDetail.SampleDateTime != null && ((DateTime)labSheetTubeMPNDetail.SampleDateTime).Year < 1980)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetTubeMPNDetailSampleDateTime, "1980"), new[] { CSSPModelsRes.LabSheetTubeMPNDetailSampleDateTime });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LabSheetTubeMPNDetailSampleDateTime", "1980"), new[] { "LabSheetTubeMPNDetailSampleDateTime" });
             }
 
             if (labSheetTubeMPNDetail.MPN != null)
@@ -102,7 +102,7 @@ namespace CSSPServices
                 if (labSheetTubeMPNDetail.MPN < 1 || labSheetTubeMPNDetail.MPN > 10000000)
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailMPN, "1", "10000000"), new[] { "MPN" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetTubeMPNDetailMPN", "1", "10000000"), new[] { "MPN" });
                 }
             }
 
@@ -111,7 +111,7 @@ namespace CSSPServices
                 if (labSheetTubeMPNDetail.Tube10 < 0 || labSheetTubeMPNDetail.Tube10 > 5)
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailTube10, "0", "5"), new[] { "Tube10" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetTubeMPNDetailTube10", "0", "5"), new[] { "Tube10" });
                 }
             }
 
@@ -120,7 +120,7 @@ namespace CSSPServices
                 if (labSheetTubeMPNDetail.Tube1_0 < 0 || labSheetTubeMPNDetail.Tube1_0 > 5)
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailTube1_0, "0", "5"), new[] { "Tube1_0" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetTubeMPNDetailTube1_0", "0", "5"), new[] { "Tube1_0" });
                 }
             }
 
@@ -129,7 +129,7 @@ namespace CSSPServices
                 if (labSheetTubeMPNDetail.Tube0_1 < 0 || labSheetTubeMPNDetail.Tube0_1 > 5)
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailTube0_1, "0", "5"), new[] { "Tube0_1" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetTubeMPNDetailTube0_1", "0", "5"), new[] { "Tube0_1" });
                 }
             }
 
@@ -138,7 +138,7 @@ namespace CSSPServices
                 if (labSheetTubeMPNDetail.Salinity < 0 || labSheetTubeMPNDetail.Salinity > 40)
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailSalinity, "0", "40"), new[] { "Salinity" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetTubeMPNDetailSalinity", "0", "40"), new[] { "Salinity" });
                 }
             }
 
@@ -147,40 +147,40 @@ namespace CSSPServices
                 if (labSheetTubeMPNDetail.Temperature < -10 || labSheetTubeMPNDetail.Temperature > 40)
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LabSheetTubeMPNDetailTemperature, "-10", "40"), new[] { "Temperature" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetTubeMPNDetailTemperature", "-10", "40"), new[] { "Temperature" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.ProcessedBy) && labSheetTubeMPNDetail.ProcessedBy.Length > 10)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailProcessedBy, "10"), new[] { "ProcessedBy" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "LabSheetTubeMPNDetailProcessedBy", "10"), new[] { "ProcessedBy" });
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheetTubeMPNDetail.SampleType);
             if (labSheetTubeMPNDetail.SampleType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetTubeMPNDetailSampleType), new[] { "SampleType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetTubeMPNDetailSampleType"), new[] { "SampleType" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.SiteComment) && labSheetTubeMPNDetail.SiteComment.Length > 250)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetTubeMPNDetailSiteComment, "250"), new[] { "SiteComment" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "LabSheetTubeMPNDetailSiteComment", "250"), new[] { "SiteComment" });
             }
 
             if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year == 1)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetTubeMPNDetailLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year < 1980)
                 {
                 labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LabSheetTubeMPNDetailLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -189,7 +189,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 labSheetTubeMPNDetail.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, labSheetTubeMPNDetail.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LabSheetTubeMPNDetailLastUpdateContactTVItemID", labSheetTubeMPNDetail.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -200,7 +200,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LabSheetTubeMPNDetailLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -217,57 +217,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public LabSheetTubeMPNDetail GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return labSheetTubeMPNDetailQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<LabSheetTubeMPNDetail> GetLabSheetTubeMPNDetailList()
         {
-            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<LabSheetTubeMPNDetail> LabSheetTubeMPNDetailQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        labSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(labSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
+            LabSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(LabSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
 
-                        return labSheetTubeMPNDetailQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailWeb(labSheetTubeMPNDetailQuery);
+            return LabSheetTubeMPNDetailQuery;
+        }
+        public LabSheetTubeMPNDetailWeb GetLabSheetTubeMPNDetailWebWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
+        {
+            return FillLabSheetTubeMPNDetailWeb().FirstOrDefault();
 
-                        labSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(labSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
+        }
+        public IQueryable<LabSheetTubeMPNDetailWeb> GetLabSheetTubeMPNDetailWebList()
+        {
+            IQueryable<LabSheetTubeMPNDetailWeb> LabSheetTubeMPNDetailWebQuery = FillLabSheetTubeMPNDetailWeb();
 
-                        return labSheetTubeMPNDetailQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        labSheetTubeMPNDetailQuery = FillLabSheetTubeMPNDetailReport(labSheetTubeMPNDetailQuery);
+            LabSheetTubeMPNDetailWebQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailWeb>(LabSheetTubeMPNDetailWebQuery) as IQueryable<LabSheetTubeMPNDetailWeb>;
 
-                        labSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(labSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
+            return LabSheetTubeMPNDetailWebQuery;
+        }
+        public LabSheetTubeMPNDetailReport GetLabSheetTubeMPNDetailReportWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
+        {
+            return FillLabSheetTubeMPNDetailReport().FirstOrDefault();
 
-                        return labSheetTubeMPNDetailQuery;
-                    }
-                default:
-                    {
-                        labSheetTubeMPNDetailQuery = labSheetTubeMPNDetailQuery.Where(c => c.LabSheetTubeMPNDetailID == 0);
+        }
+        public IQueryable<LabSheetTubeMPNDetailReport> GetLabSheetTubeMPNDetailReportList()
+        {
+            IQueryable<LabSheetTubeMPNDetailReport> LabSheetTubeMPNDetailReportQuery = FillLabSheetTubeMPNDetailReport();
 
-                        return labSheetTubeMPNDetailQuery;
-                    }
-            }
+            LabSheetTubeMPNDetailReportQuery = EnhanceQueryStatements<LabSheetTubeMPNDetailReport>(LabSheetTubeMPNDetailReportQuery) as IQueryable<LabSheetTubeMPNDetailReport>;
+
+            return LabSheetTubeMPNDetailReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -320,13 +307,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LabSheetTubeMPNDetailFillWeb
-        private IQueryable<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetailWeb(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery)
+        private IQueryable<LabSheetTubeMPNDetailWeb> FillLabSheetTubeMPNDetailWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
-            labSheetTubeMPNDetailQuery = (from c in labSheetTubeMPNDetailQuery
+             IQueryable<LabSheetTubeMPNDetailWeb>  LabSheetTubeMPNDetailWebQuery = (from c in db.LabSheetTubeMPNDetails
                 let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest
@@ -335,8 +322,13 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new LabSheetTubeMPNDetail
+                    select new LabSheetTubeMPNDetailWeb
                     {
+                        MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        SampleTypeText = (from e in SampleTypeEnumList
+                                where e.EnumID == (int?)c.SampleType
+                                select e.EnumText).FirstOrDefault(),
                         LabSheetTubeMPNDetailID = c.LabSheetTubeMPNDetailID,
                         LabSheetDetailID = c.LabSheetDetailID,
                         Ordinal = c.Ordinal,
@@ -353,20 +345,11 @@ namespace CSSPServices
                         SiteComment = c.SiteComment,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LabSheetTubeMPNDetailWeb = new LabSheetTubeMPNDetailWeb
-                        {
-                            MWQMSiteTVItemLanguage = MWQMSiteTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            SampleTypeText = (from e in SampleTypeEnumList
-                                where e.EnumID == (int?)c.SampleType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        LabSheetTubeMPNDetailReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return labSheetTubeMPNDetailQuery;
+            return LabSheetTubeMPNDetailWebQuery;
         }
         #endregion Functions private Generated LabSheetTubeMPNDetailFillWeb
 

@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (tvItem.TVItemID == 0)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVItemID), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVItemID"), new[] { "TVItemID" });
                 }
 
                 if (!GetRead().Where(c => c.TVItemID == tvItem.TVItemID).Any())
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemTVItemID, tvItem.TVItemID.ToString()), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemTVItemID", tvItem.TVItemID.ToString()), new[] { "TVItemID" });
                 }
             }
 
@@ -62,33 +62,33 @@ namespace CSSPServices
                 if (GetRead().Count() > 0)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(CSSPServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { CSSPModelsRes.TVItemTVItemID });
+                    yield return new ValidationResult(CSSPServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { "TVItemTVItemID" });
                 }
             }
 
             if (tvItem.TVLevel < 0 || tvItem.TVLevel > 100)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVItemTVLevel, "0", "100"), new[] { "TVLevel" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TVItemTVLevel", "0", "100"), new[] { "TVLevel" });
             }
 
             if (string.IsNullOrWhiteSpace(tvItem.TVPath))
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVPath), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVPath"), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItem.TVPath) && tvItem.TVPath.Length > 250)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVPath, "250"), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVItemTVPath", "250"), new[] { "TVPath" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItem.TVType);
             if (tvItem.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVType"), new[] { "TVType" });
             }
 
             if (tvItem.TVType != TVTypeEnum.Root)
@@ -98,7 +98,7 @@ namespace CSSPServices
                 if (TVItemParentID == null)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { "ParentID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemParentID", tvItem.ParentID.ToString()), new[] { "ParentID" });
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemParentID.TVType))
                     {
                         tvItem.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemParentID, "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), new[] { "ParentID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemParentID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), new[] { "ParentID" });
                     }
                 }
             }
@@ -138,14 +138,14 @@ namespace CSSPServices
             if (tvItem.LastUpdateDate_UTC.Year == 1)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvItem.LastUpdateDate_UTC.Year < 1980)
                 {
                 tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TVItemLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -156,7 +156,7 @@ namespace CSSPServices
                 if (TVItemLastUpdateContactTVItemID == null)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemLastUpdateContactTVItemID, tvItem.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemLastUpdateContactTVItemID", tvItem.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
                 }
                 else
                 {
@@ -167,7 +167,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                     {
                         tvItem.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                     }
                 }
             }
@@ -185,57 +185,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVItem GetTVItemWithTVItemID(int TVItemID)
         {
-            IQueryable<TVItem> tvItemQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.TVItemID == TVItemID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.TVItemID == TVItemID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tvItemQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVItemWeb(tvItemQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemReport(tvItemQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<TVItem> GetTVItemList()
         {
-            IQueryable<TVItem> tvItemQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVItem> TVItemQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        tvItemQuery = EnhanceQueryStatements<TVItem>(tvItemQuery) as IQueryable<TVItem>;
+            TVItemQuery = EnhanceQueryStatements<TVItem>(TVItemQuery) as IQueryable<TVItem>;
 
-                        return tvItemQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        tvItemQuery = FillTVItemWeb(tvItemQuery);
+            return TVItemQuery;
+        }
+        public TVItemWeb GetTVItemWebWithTVItemID(int TVItemID)
+        {
+            return FillTVItemWeb().FirstOrDefault();
 
-                        tvItemQuery = EnhanceQueryStatements<TVItem>(tvItemQuery) as IQueryable<TVItem>;
+        }
+        public IQueryable<TVItemWeb> GetTVItemWebList()
+        {
+            IQueryable<TVItemWeb> TVItemWebQuery = FillTVItemWeb();
 
-                        return tvItemQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        tvItemQuery = FillTVItemReport(tvItemQuery);
+            TVItemWebQuery = EnhanceQueryStatements<TVItemWeb>(TVItemWebQuery) as IQueryable<TVItemWeb>;
 
-                        tvItemQuery = EnhanceQueryStatements<TVItem>(tvItemQuery) as IQueryable<TVItem>;
+            return TVItemWebQuery;
+        }
+        public TVItemReport GetTVItemReportWithTVItemID(int TVItemID)
+        {
+            return FillTVItemReport().FirstOrDefault();
 
-                        return tvItemQuery;
-                    }
-                default:
-                    {
-                        tvItemQuery = tvItemQuery.Where(c => c.TVItemID == 0);
+        }
+        public IQueryable<TVItemReport> GetTVItemReportList()
+        {
+            IQueryable<TVItemReport> TVItemReportQuery = FillTVItemReport();
 
-                        return tvItemQuery;
-                    }
-            }
+            TVItemReportQuery = EnhanceQueryStatements<TVItemReport>(TVItemReportQuery) as IQueryable<TVItemReport>;
+
+            return TVItemReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -288,13 +275,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVItemFillWeb
-        private IQueryable<TVItem> FillTVItemWeb(IQueryable<TVItem> tvItemQuery)
+        private IQueryable<TVItemWeb> FillTVItemWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-            tvItemQuery = (from c in tvItemQuery
+             IQueryable<TVItemWeb>  TVItemWebQuery = (from c in db.TVItems
                 let TVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID
                     && cl.Language == LanguageRequest
@@ -303,8 +290,13 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new TVItem
+                    select new TVItemWeb
                     {
+                        TVItemLanguage = TVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TVTypeText = (from e in TVTypeEnumList
+                                where e.EnumID == (int?)c.TVType
+                                select e.EnumText).FirstOrDefault(),
                         TVItemID = c.TVItemID,
                         TVLevel = c.TVLevel,
                         TVPath = c.TVPath,
@@ -313,20 +305,11 @@ namespace CSSPServices
                         IsActive = c.IsActive,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVItemWeb = new TVItemWeb
-                        {
-                            TVItemLanguage = TVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            TVTypeText = (from e in TVTypeEnumList
-                                where e.EnumID == (int?)c.TVType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        TVItemReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return tvItemQuery;
+            return TVItemWebQuery;
         }
         #endregion Functions private Generated TVItemFillWeb
 

@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (hydrometricDataValue.HydrometricDataValueID == 0)
                 {
                     hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueHydrometricDataValueID), new[] { "HydrometricDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "HydrometricDataValueHydrometricDataValueID"), new[] { "HydrometricDataValueID" });
                 }
 
                 if (!GetRead().Where(c => c.HydrometricDataValueID == hydrometricDataValue.HydrometricDataValueID).Any())
                 {
                     hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.HydrometricDataValue, CSSPModelsRes.HydrometricDataValueHydrometricDataValueID, hydrometricDataValue.HydrometricDataValueID.ToString()), new[] { "HydrometricDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "HydrometricDataValue", "HydrometricDataValueHydrometricDataValueID", hydrometricDataValue.HydrometricDataValueID.ToString()), new[] { "HydrometricDataValueID" });
                 }
             }
 
@@ -62,20 +62,20 @@ namespace CSSPServices
             if (HydrometricSiteHydrometricSiteID == null)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.HydrometricSite, CSSPModelsRes.HydrometricDataValueHydrometricSiteID, hydrometricDataValue.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "HydrometricSite", "HydrometricDataValueHydrometricSiteID", hydrometricDataValue.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
             }
 
             if (hydrometricDataValue.DateTime_Local.Year == 1)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueDateTime_Local), new[] { "DateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "HydrometricDataValueDateTime_Local"), new[] { "DateTime_Local" });
             }
             else
             {
                 if (hydrometricDataValue.DateTime_Local.Year < 1980)
                 {
                 hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricDataValueDateTime_Local, "1980"), new[] { "DateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "HydrometricDataValueDateTime_Local", "1980"), new[] { "DateTime_Local" });
                 }
             }
 
@@ -83,13 +83,13 @@ namespace CSSPServices
             if (hydrometricDataValue.StorageDataType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueStorageDataType), new[] { "StorageDataType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "HydrometricDataValueStorageDataType"), new[] { "StorageDataType" });
             }
 
             if (hydrometricDataValue.Flow_m3_s < 0 || hydrometricDataValue.Flow_m3_s > 10000)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), new[] { "Flow_m3_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricDataValueFlow_m3_s", "0", "10000"), new[] { "Flow_m3_s" });
             }
 
             //HourlyValues has no StringLength Attribute
@@ -97,14 +97,14 @@ namespace CSSPServices
             if (hydrometricDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "HydrometricDataValueLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (hydrometricDataValue.LastUpdateDate_UTC.Year < 1980)
                 {
                 hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "HydrometricDataValueLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -113,7 +113,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.HydrometricDataValueLastUpdateContactTVItemID, hydrometricDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "HydrometricDataValueLastUpdateContactTVItemID", hydrometricDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -124,7 +124,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "HydrometricDataValueLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -141,57 +141,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public HydrometricDataValue GetHydrometricDataValueWithHydrometricDataValueID(int HydrometricDataValueID)
         {
-            IQueryable<HydrometricDataValue> hydrometricDataValueQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.HydrometricDataValueID == HydrometricDataValueID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.HydrometricDataValueID == HydrometricDataValueID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return hydrometricDataValueQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillHydrometricDataValueWeb(hydrometricDataValueQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillHydrometricDataValueReport(hydrometricDataValueQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<HydrometricDataValue> GetHydrometricDataValueList()
         {
-            IQueryable<HydrometricDataValue> hydrometricDataValueQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<HydrometricDataValue> HydrometricDataValueQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        hydrometricDataValueQuery = EnhanceQueryStatements<HydrometricDataValue>(hydrometricDataValueQuery) as IQueryable<HydrometricDataValue>;
+            HydrometricDataValueQuery = EnhanceQueryStatements<HydrometricDataValue>(HydrometricDataValueQuery) as IQueryable<HydrometricDataValue>;
 
-                        return hydrometricDataValueQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        hydrometricDataValueQuery = FillHydrometricDataValueWeb(hydrometricDataValueQuery);
+            return HydrometricDataValueQuery;
+        }
+        public HydrometricDataValueWeb GetHydrometricDataValueWebWithHydrometricDataValueID(int HydrometricDataValueID)
+        {
+            return FillHydrometricDataValueWeb().FirstOrDefault();
 
-                        hydrometricDataValueQuery = EnhanceQueryStatements<HydrometricDataValue>(hydrometricDataValueQuery) as IQueryable<HydrometricDataValue>;
+        }
+        public IQueryable<HydrometricDataValueWeb> GetHydrometricDataValueWebList()
+        {
+            IQueryable<HydrometricDataValueWeb> HydrometricDataValueWebQuery = FillHydrometricDataValueWeb();
 
-                        return hydrometricDataValueQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        hydrometricDataValueQuery = FillHydrometricDataValueReport(hydrometricDataValueQuery);
+            HydrometricDataValueWebQuery = EnhanceQueryStatements<HydrometricDataValueWeb>(HydrometricDataValueWebQuery) as IQueryable<HydrometricDataValueWeb>;
 
-                        hydrometricDataValueQuery = EnhanceQueryStatements<HydrometricDataValue>(hydrometricDataValueQuery) as IQueryable<HydrometricDataValue>;
+            return HydrometricDataValueWebQuery;
+        }
+        public HydrometricDataValueReport GetHydrometricDataValueReportWithHydrometricDataValueID(int HydrometricDataValueID)
+        {
+            return FillHydrometricDataValueReport().FirstOrDefault();
 
-                        return hydrometricDataValueQuery;
-                    }
-                default:
-                    {
-                        hydrometricDataValueQuery = hydrometricDataValueQuery.Where(c => c.HydrometricDataValueID == 0);
+        }
+        public IQueryable<HydrometricDataValueReport> GetHydrometricDataValueReportList()
+        {
+            IQueryable<HydrometricDataValueReport> HydrometricDataValueReportQuery = FillHydrometricDataValueReport();
 
-                        return hydrometricDataValueQuery;
-                    }
-            }
+            HydrometricDataValueReportQuery = EnhanceQueryStatements<HydrometricDataValueReport>(HydrometricDataValueReportQuery) as IQueryable<HydrometricDataValueReport>;
+
+            return HydrometricDataValueReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -244,19 +231,23 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated HydrometricDataValueFillWeb
-        private IQueryable<HydrometricDataValue> FillHydrometricDataValueWeb(IQueryable<HydrometricDataValue> hydrometricDataValueQuery)
+        private IQueryable<HydrometricDataValueWeb> FillHydrometricDataValueWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
 
-            hydrometricDataValueQuery = (from c in hydrometricDataValueQuery
+             IQueryable<HydrometricDataValueWeb>  HydrometricDataValueWebQuery = (from c in db.HydrometricDataValues
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new HydrometricDataValue
+                    select new HydrometricDataValueWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        StorageDataTypeText = (from e in StorageDataTypeEnumList
+                                where e.EnumID == (int?)c.StorageDataType
+                                select e.EnumText).FirstOrDefault(),
                         HydrometricDataValueID = c.HydrometricDataValueID,
                         HydrometricSiteID = c.HydrometricSiteID,
                         DateTime_Local = c.DateTime_Local,
@@ -266,19 +257,11 @@ namespace CSSPServices
                         HourlyValues = c.HourlyValues,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        HydrometricDataValueWeb = new HydrometricDataValueWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            StorageDataTypeText = (from e in StorageDataTypeEnumList
-                                where e.EnumID == (int?)c.StorageDataType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        HydrometricDataValueReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return hydrometricDataValueQuery;
+            return HydrometricDataValueWebQuery;
         }
         #endregion Functions private Generated HydrometricDataValueFillWeb
 

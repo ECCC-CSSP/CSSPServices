@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (tideDataValue.TideDataValueID == 0)
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideDataValueID), new[] { "TideDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueTideDataValueID"), new[] { "TideDataValueID" });
                 }
 
                 if (!GetRead().Where(c => c.TideDataValueID == tideDataValue.TideDataValueID).Any())
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TideDataValue, CSSPModelsRes.TideDataValueTideDataValueID, tideDataValue.TideDataValueID.ToString()), new[] { "TideDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TideDataValue", "TideDataValueTideDataValueID", tideDataValue.TideDataValueID.ToString()), new[] { "TideDataValueID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTideSiteTVItemID == null)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueTideSiteTVItemID, tideDataValue.TideSiteTVItemID.ToString()), new[] { "TideSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TideDataValueTideSiteTVItemID", tideDataValue.TideSiteTVItemID.ToString()), new[] { "TideSiteTVItemID" });
             }
             else
             {
@@ -73,21 +73,21 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTideSiteTVItemID.TVType))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideDataValueTideSiteTVItemID, "TideSite"), new[] { "TideSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TideDataValueTideSiteTVItemID", "TideSite"), new[] { "TideSiteTVItemID" });
                 }
             }
 
             if (tideDataValue.DateTime_Local.Year == 1)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueDateTime_Local), new[] { "DateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueDateTime_Local"), new[] { "DateTime_Local" });
             }
             else
             {
                 if (tideDataValue.DateTime_Local.Year < 1980)
                 {
                 tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideDataValueDateTime_Local, "1980"), new[] { "DateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TideDataValueDateTime_Local", "1980"), new[] { "DateTime_Local" });
                 }
             }
 
@@ -95,32 +95,32 @@ namespace CSSPServices
             if (tideDataValue.TideDataType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideDataType), new[] { "TideDataType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueTideDataType"), new[] { "TideDataType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)tideDataValue.StorageDataType);
             if (tideDataValue.StorageDataType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueStorageDataType), new[] { "StorageDataType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueStorageDataType"), new[] { "StorageDataType" });
             }
 
             if (tideDataValue.Depth_m < 0 || tideDataValue.Depth_m > 10000)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueDepth_m, "0", "10000"), new[] { "Depth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueDepth_m", "0", "10000"), new[] { "Depth_m" });
             }
 
             if (tideDataValue.UVelocity_m_s < 0 || tideDataValue.UVelocity_m_s > 10)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueUVelocity_m_s, "0", "10"), new[] { "UVelocity_m_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueUVelocity_m_s", "0", "10"), new[] { "UVelocity_m_s" });
             }
 
             if (tideDataValue.VVelocity_m_s < 0 || tideDataValue.VVelocity_m_s > 10)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueVVelocity_m_s, "0", "10"), new[] { "VVelocity_m_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueVVelocity_m_s", "0", "10"), new[] { "VVelocity_m_s" });
             }
 
             if (tideDataValue.TideStart != null)
@@ -129,7 +129,7 @@ namespace CSSPServices
                 if (tideDataValue.TideStart == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideStart), new[] { "TideStart" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueTideStart"), new[] { "TideStart" });
                 }
             }
 
@@ -139,21 +139,21 @@ namespace CSSPServices
                 if (tideDataValue.TideEnd == null || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideEnd), new[] { "TideEnd" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueTideEnd"), new[] { "TideEnd" });
                 }
             }
 
             if (tideDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tideDataValue.LastUpdateDate_UTC.Year < 1980)
                 {
                 tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TideDataValueLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -162,7 +162,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueLastUpdateContactTVItemID, tideDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TideDataValueLastUpdateContactTVItemID", tideDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -173,7 +173,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TideDataValueLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -190,57 +190,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID)
         {
-            IQueryable<TideDataValue> tideDataValueQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.TideDataValueID == TideDataValueID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.TideDataValueID == TideDataValueID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tideDataValueQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTideDataValueWeb(tideDataValueQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTideDataValueReport(tideDataValueQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<TideDataValue> GetTideDataValueList()
         {
-            IQueryable<TideDataValue> tideDataValueQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TideDataValue> TideDataValueQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        tideDataValueQuery = EnhanceQueryStatements<TideDataValue>(tideDataValueQuery) as IQueryable<TideDataValue>;
+            TideDataValueQuery = EnhanceQueryStatements<TideDataValue>(TideDataValueQuery) as IQueryable<TideDataValue>;
 
-                        return tideDataValueQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        tideDataValueQuery = FillTideDataValueWeb(tideDataValueQuery);
+            return TideDataValueQuery;
+        }
+        public TideDataValueWeb GetTideDataValueWebWithTideDataValueID(int TideDataValueID)
+        {
+            return FillTideDataValueWeb().FirstOrDefault();
 
-                        tideDataValueQuery = EnhanceQueryStatements<TideDataValue>(tideDataValueQuery) as IQueryable<TideDataValue>;
+        }
+        public IQueryable<TideDataValueWeb> GetTideDataValueWebList()
+        {
+            IQueryable<TideDataValueWeb> TideDataValueWebQuery = FillTideDataValueWeb();
 
-                        return tideDataValueQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        tideDataValueQuery = FillTideDataValueReport(tideDataValueQuery);
+            TideDataValueWebQuery = EnhanceQueryStatements<TideDataValueWeb>(TideDataValueWebQuery) as IQueryable<TideDataValueWeb>;
 
-                        tideDataValueQuery = EnhanceQueryStatements<TideDataValue>(tideDataValueQuery) as IQueryable<TideDataValue>;
+            return TideDataValueWebQuery;
+        }
+        public TideDataValueReport GetTideDataValueReportWithTideDataValueID(int TideDataValueID)
+        {
+            return FillTideDataValueReport().FirstOrDefault();
 
-                        return tideDataValueQuery;
-                    }
-                default:
-                    {
-                        tideDataValueQuery = tideDataValueQuery.Where(c => c.TideDataValueID == 0);
+        }
+        public IQueryable<TideDataValueReport> GetTideDataValueReportList()
+        {
+            IQueryable<TideDataValueReport> TideDataValueReportQuery = FillTideDataValueReport();
 
-                        return tideDataValueQuery;
-                    }
-            }
+            TideDataValueReportQuery = EnhanceQueryStatements<TideDataValueReport>(TideDataValueReportQuery) as IQueryable<TideDataValueReport>;
+
+            return TideDataValueReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -293,7 +280,7 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TideDataValueFillWeb
-        private IQueryable<TideDataValue> FillTideDataValueWeb(IQueryable<TideDataValue> tideDataValueQuery)
+        private IQueryable<TideDataValueWeb> FillTideDataValueWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
@@ -301,7 +288,7 @@ namespace CSSPServices
             List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
             List<EnumIDAndText> TideTextEnumList = enums.GetEnumTextOrderedList(typeof(TideTextEnum));
 
-            tideDataValueQuery = (from c in tideDataValueQuery
+             IQueryable<TideDataValueWeb>  TideDataValueWebQuery = (from c in db.TideDataValues
                 let TideSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TideSiteTVItemID
                     && cl.Language == LanguageRequest
@@ -310,8 +297,22 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new TideDataValue
+                    select new TideDataValueWeb
                     {
+                        TideSiteTVItemLanguage = TideSiteTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TideDataTypeText = (from e in TideDataTypeEnumList
+                                where e.EnumID == (int?)c.TideDataType
+                                select e.EnumText).FirstOrDefault(),
+                        StorageDataTypeText = (from e in StorageDataTypeEnumList
+                                where e.EnumID == (int?)c.StorageDataType
+                                select e.EnumText).FirstOrDefault(),
+                        TideStartText = (from e in TideTextEnumList
+                                where e.EnumID == (int?)c.TideStart
+                                select e.EnumText).FirstOrDefault(),
+                        TideEndText = (from e in TideTextEnumList
+                                where e.EnumID == (int?)c.TideEnd
+                                select e.EnumText).FirstOrDefault(),
                         TideDataValueID = c.TideDataValueID,
                         TideSiteTVItemID = c.TideSiteTVItemID,
                         DateTime_Local = c.DateTime_Local,
@@ -325,29 +326,11 @@ namespace CSSPServices
                         TideEnd = c.TideEnd,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TideDataValueWeb = new TideDataValueWeb
-                        {
-                            TideSiteTVItemLanguage = TideSiteTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            TideDataTypeText = (from e in TideDataTypeEnumList
-                                where e.EnumID == (int?)c.TideDataType
-                                select e.EnumText).FirstOrDefault(),
-                            StorageDataTypeText = (from e in StorageDataTypeEnumList
-                                where e.EnumID == (int?)c.StorageDataType
-                                select e.EnumText).FirstOrDefault(),
-                            TideStartText = (from e in TideTextEnumList
-                                where e.EnumID == (int?)c.TideStart
-                                select e.EnumText).FirstOrDefault(),
-                            TideEndText = (from e in TideTextEnumList
-                                where e.EnumID == (int?)c.TideEnd
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        TideDataValueReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return tideDataValueQuery;
+            return TideDataValueWebQuery;
         }
         #endregion Functions private Generated TideDataValueFillWeb
 

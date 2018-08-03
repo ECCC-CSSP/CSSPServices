@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VPScenarioID = 0;
                     vpScenarioService.Update(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioID), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "VPScenarioVPScenarioID"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VPScenarioID = 10000000;
                     vpScenarioService.Update(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPScenarioVPScenarioID, vpScenario.VPScenarioID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioVPScenarioID", vpScenario.VPScenarioID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,13 +117,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.InfrastructureTVItemID = 0;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioInfrastructureTVItemID, vpScenario.InfrastructureTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPScenarioInfrastructureTVItemID", vpScenario.InfrastructureTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.InfrastructureTVItemID = 1;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioInfrastructureTVItemID, "Infrastructure"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "VPScenarioInfrastructureTVItemID", "Infrastructure"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -136,7 +136,7 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VPScenarioStatus = (ScenarioStatusEnum)1000000;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioStatus), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "VPScenarioVPScenarioStatus"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -159,13 +159,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentFlow_m3_s = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentFlow_m3_s", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentFlow_m3_s = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentFlow_m3_s", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -178,13 +178,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentConcentration_MPN_100ml = -1;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentConcentration_MPN_100ml", "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentConcentration_MPN_100ml = 10000001;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentConcentration_MPN_100ml", "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -201,13 +201,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.FroudeNumber = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioFroudeNumber, "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioFroudeNumber", "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.FroudeNumber = 10001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioFroudeNumber, "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioFroudeNumber", "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -224,13 +224,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDiameter_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDiameter_m, "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDiameter_m", "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDiameter_m = 11.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDiameter_m, "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDiameter_m", "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -247,13 +247,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDepth_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDepth_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDepth_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDepth_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDepth_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDepth_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -270,13 +270,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortElevation_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortElevation_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortElevation_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortElevation_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortElevation_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortElevation_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -293,13 +293,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VerticalAngle_deg = -91.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioVerticalAngle_deg", "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VerticalAngle_deg = 91.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioVerticalAngle_deg", "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -316,13 +316,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.HorizontalAngle_deg = -181.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioHorizontalAngle_deg", "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.HorizontalAngle_deg = 181.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioHorizontalAngle_deg", "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -335,13 +335,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.NumberOfPorts = 0;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioNumberOfPorts, "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioNumberOfPorts", "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.NumberOfPorts = 101;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioNumberOfPorts, "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioNumberOfPorts", "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -358,13 +358,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortSpacing_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortSpacing_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortSpacing_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortSpacing_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortSpacing_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortSpacing_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -381,13 +381,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.AcuteMixZone_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioAcuteMixZone_m", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.AcuteMixZone_m = 101.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioAcuteMixZone_m", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -404,13 +404,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.ChronicMixZone_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioChronicMixZone_m", "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.ChronicMixZone_m = 40001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioChronicMixZone_m", "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -427,13 +427,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentSalinity_PSU = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentSalinity_PSU", "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentSalinity_PSU = 41.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentSalinity_PSU", "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -450,13 +450,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentTemperature_C = -11.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentTemperature_C", "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentTemperature_C = 41.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentTemperature_C", "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -473,13 +473,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentVelocity_m_s", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentVelocity_m_s = 101.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentVelocity_m_s", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -487,38 +487,6 @@ namespace CSSPServices.Tests
                     // vpScenario.RawResults   (String)
                     // -----------------------------------
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // vpScenario.VPScenarioWeb   (VPScenarioWeb)
-                    // -----------------------------------
-
-                    vpScenario = null;
-                    vpScenario = GetFilledRandomVPScenario("");
-                    vpScenario.VPScenarioWeb = null;
-                    Assert.IsNull(vpScenario.VPScenarioWeb);
-
-                    vpScenario = null;
-                    vpScenario = GetFilledRandomVPScenario("");
-                    vpScenario.VPScenarioWeb = new VPScenarioWeb();
-                    Assert.IsNotNull(vpScenario.VPScenarioWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // vpScenario.VPScenarioReport   (VPScenarioReport)
-                    // -----------------------------------
-
-                    vpScenario = null;
-                    vpScenario = GetFilledRandomVPScenario("");
-                    vpScenario.VPScenarioReport = null;
-                    Assert.IsNull(vpScenario.VPScenarioReport);
-
-                    vpScenario = null;
-                    vpScenario = GetFilledRandomVPScenario("");
-                    vpScenario.VPScenarioReport = new VPScenarioReport();
-                    Assert.IsNotNull(vpScenario.VPScenarioReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -530,12 +498,12 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.LastUpdateDate_UTC = new DateTime();
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLastUpdateDate_UTC), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLastUpdateDate_UTC"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPScenarioLastUpdateDate_UTC, "1980"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "VPScenarioLastUpdateDate_UTC", "1980"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -547,13 +515,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.LastUpdateContactTVItemID = 0;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, vpScenario.LastUpdateContactTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPScenarioLastUpdateContactTVItemID", vpScenario.LastUpdateContactTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.LastUpdateContactTVItemID = 1;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, "Contact"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "VPScenarioLastUpdateContactTVItemID", "Contact"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -590,34 +558,32 @@ namespace CSSPServices.Tests
                     VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
-                    VPScenario vpScenarioRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
-                            Assert.IsNull(vpScenarioRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
+                            VPScenario vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
+                            CheckVPScenarioFields(new List<VPScenario>() { vpScenarioRet });
+                            Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioRet.VPScenarioID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
+                            VPScenarioWeb vpScenarioWebRet = vpScenarioService.GetVPScenarioWebWithVPScenarioID(vpScenario.VPScenarioID);
+                            CheckVPScenarioWebFields(new List<VPScenarioWeb>() { vpScenarioWebRet });
+                            Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioWebRet.VPScenarioID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
+                            VPScenarioReport vpScenarioReportRet = vpScenarioService.GetVPScenarioReportWithVPScenarioID(vpScenario.VPScenarioID);
+                            CheckVPScenarioReportFields(new List<VPScenarioReport>() { vpScenarioReportRet });
+                            Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioReportRet.VPScenarioID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(new List<VPScenario>() { vpScenarioRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -638,34 +604,38 @@ namespace CSSPServices.Tests
                     VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
-                    List<VPScenario> vpScenarioList = new List<VPScenario>();
+                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
+                    vpScenarioDirectQueryList = vpScenarioService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         vpScenarioService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
-                            Assert.AreEqual(0, vpScenarioList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioWeb> vpScenarioWebList = new List<VPScenarioWeb>();
+                            vpScenarioWebList = vpScenarioService.GetVPScenarioWebList().ToList();
+                            CheckVPScenarioWebFields(vpScenarioWebList);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioReport> vpScenarioReportList = new List<VPScenarioReport>();
+                            vpScenarioReportList = vpScenarioService.GetVPScenarioReportList().ToList();
+                            CheckVPScenarioReportFields(vpScenarioReportList);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
                     }
                 }
             }
@@ -682,41 +652,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<VPScenario> vpScenarioList = new List<VPScenario>();
-                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
-                            Assert.AreEqual(0, vpScenarioList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioWeb> vpScenarioWebList = new List<VPScenarioWeb>();
+                            vpScenarioWebList = vpScenarioService.GetVPScenarioWebList().ToList();
+                            CheckVPScenarioWebFields(vpScenarioWebList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioWebList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioReport> vpScenarioReportList = new List<VPScenarioReport>();
+                            vpScenarioReportList = vpScenarioService.GetVPScenarioReportList().ToList();
+                            CheckVPScenarioReportFields(vpScenarioReportList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioReportList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
-                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
-                        Assert.AreEqual(1, vpScenarioList.Count);
                     }
                 }
             }
@@ -733,41 +705,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<VPScenario> vpScenarioList = new List<VPScenario>();
-                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
-                            Assert.AreEqual(0, vpScenarioList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioWeb> vpScenarioWebList = new List<VPScenarioWeb>();
+                            vpScenarioWebList = vpScenarioService.GetVPScenarioWebList().ToList();
+                            CheckVPScenarioWebFields(vpScenarioWebList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioWebList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioReport> vpScenarioReportList = new List<VPScenarioReport>();
+                            vpScenarioReportList = vpScenarioService.GetVPScenarioReportList().ToList();
+                            CheckVPScenarioReportFields(vpScenarioReportList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioReportList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
-                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
-                        Assert.AreEqual(1, vpScenarioList.Count);
                     }
                 }
             }
@@ -784,41 +758,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<VPScenario> vpScenarioList = new List<VPScenario>();
-                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioID,InfrastructureTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
-                            Assert.AreEqual(0, vpScenarioList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioWeb> vpScenarioWebList = new List<VPScenarioWeb>();
+                            vpScenarioWebList = vpScenarioService.GetVPScenarioWebList().ToList();
+                            CheckVPScenarioWebFields(vpScenarioWebList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioWebList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioReport> vpScenarioReportList = new List<VPScenarioReport>();
+                            vpScenarioReportList = vpScenarioService.GetVPScenarioReportList().ToList();
+                            CheckVPScenarioReportFields(vpScenarioReportList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioReportList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
-                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
-                        Assert.AreEqual(1, vpScenarioList.Count);
                     }
                 }
             }
@@ -835,41 +811,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<VPScenario> vpScenarioList = new List<VPScenario>();
-                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
-                            Assert.AreEqual(0, vpScenarioList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioWeb> vpScenarioWebList = new List<VPScenarioWeb>();
+                            vpScenarioWebList = vpScenarioService.GetVPScenarioWebList().ToList();
+                            CheckVPScenarioWebFields(vpScenarioWebList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioWebList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioReport> vpScenarioReportList = new List<VPScenarioReport>();
+                            vpScenarioReportList = vpScenarioService.GetVPScenarioReportList().ToList();
+                            CheckVPScenarioReportFields(vpScenarioReportList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioReportList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
-                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
-                        Assert.AreEqual(1, vpScenarioList.Count);
                     }
                 }
             }
@@ -886,41 +864,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<VPScenario> vpScenarioList = new List<VPScenario>();
-                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,GT,2|VPScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
-                            Assert.AreEqual(0, vpScenarioList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioWeb> vpScenarioWebList = new List<VPScenarioWeb>();
+                            vpScenarioWebList = vpScenarioService.GetVPScenarioWebList().ToList();
+                            CheckVPScenarioWebFields(vpScenarioWebList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioWebList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioReport> vpScenarioReportList = new List<VPScenarioReport>();
+                            vpScenarioReportList = vpScenarioService.GetVPScenarioReportList().ToList();
+                            CheckVPScenarioReportFields(vpScenarioReportList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioReportList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
-                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
-                        Assert.AreEqual(1, vpScenarioList.Count);
                     }
                 }
             }
@@ -937,41 +917,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<VPScenario> vpScenarioList = new List<VPScenario>();
-                    List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPScenarioID,GT,2|VPScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
                         vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<VPScenario> vpScenarioList = new List<VPScenario>();
                             vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
-                            Assert.AreEqual(0, vpScenarioList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            CheckVPScenarioFields(vpScenarioList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioWeb> vpScenarioWebList = new List<VPScenarioWeb>();
+                            vpScenarioWebList = vpScenarioService.GetVPScenarioWebList().ToList();
+                            CheckVPScenarioWebFields(vpScenarioWebList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioWebList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            vpScenarioList = vpScenarioService.GetVPScenarioList().ToList();
+                            List<VPScenarioReport> vpScenarioReportList = new List<VPScenarioReport>();
+                            vpScenarioReportList = vpScenarioService.GetVPScenarioReportList().ToList();
+                            CheckVPScenarioReportFields(vpScenarioReportList);
+                            Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioReportList[0].VPScenarioID);
+                            Assert.AreEqual(vpScenarioDirectQueryList.Count, vpScenarioReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckVPScenarioFields(vpScenarioList, entityQueryDetailType);
-                        Assert.AreEqual(vpScenarioDirectQueryList[0].VPScenarioID, vpScenarioList[0].VPScenarioID);
-                        Assert.AreEqual(2, vpScenarioList.Count);
                     }
                 }
             }
@@ -979,9 +961,8 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetVPScenarioList() 2Where
 
         #region Functions private
-        private void CheckVPScenarioFields(List<VPScenario> vpScenarioList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckVPScenarioFields(List<VPScenario> vpScenarioList)
         {
-            // VPScenario fields
             Assert.IsNotNull(vpScenarioList[0].VPScenarioID);
             Assert.IsNotNull(vpScenarioList[0].InfrastructureTVItemID);
             Assert.IsNotNull(vpScenarioList[0].VPScenarioStatus);
@@ -1052,38 +1033,171 @@ namespace CSSPServices.Tests
             }
             Assert.IsNotNull(vpScenarioList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(vpScenarioList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(vpScenarioList[0].HasErrors);
+        }
+        private void CheckVPScenarioWebFields(List<VPScenarioWeb> vpScenarioWebList)
+        {
+            Assert.IsNotNull(vpScenarioWebList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(vpScenarioWebList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(vpScenarioWebList[0].VPScenarioStatusText))
             {
-                // VPScenarioWeb and VPScenarioReport fields should be null here
-                Assert.IsNull(vpScenarioList[0].VPScenarioWeb);
-                Assert.IsNull(vpScenarioList[0].VPScenarioReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioWebList[0].VPScenarioStatusText));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            Assert.IsNotNull(vpScenarioWebList[0].VPScenarioID);
+            Assert.IsNotNull(vpScenarioWebList[0].InfrastructureTVItemID);
+            Assert.IsNotNull(vpScenarioWebList[0].VPScenarioStatus);
+            Assert.IsNotNull(vpScenarioWebList[0].UseAsBestEstimate);
+            if (vpScenarioWebList[0].EffluentFlow_m3_s != null)
             {
-                // VPScenarioWeb fields should not be null and VPScenarioReport fields should be null here
-                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.SubsectorTVItemLanguage);
-                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVItemLanguage);
-                if (!string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));
-                }
-                Assert.IsNull(vpScenarioList[0].VPScenarioReport);
+                Assert.IsNotNull(vpScenarioWebList[0].EffluentFlow_m3_s);
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            if (vpScenarioWebList[0].EffluentConcentration_MPN_100ml != null)
             {
-                // VPScenarioWeb and VPScenarioReport fields should NOT be null here
-                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.SubsectorTVItemLanguage);
-                Assert.IsNotNull(vpScenarioList[0].VPScenarioWeb.LastUpdateContactTVItemLanguage);
-                if (vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioWeb.VPScenarioStatusText));
-                }
-                if (vpScenarioList[0].VPScenarioReport.VPScenarioReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioList[0].VPScenarioReport.VPScenarioReportTest));
-                }
+                Assert.IsNotNull(vpScenarioWebList[0].EffluentConcentration_MPN_100ml);
             }
+            if (vpScenarioWebList[0].FroudeNumber != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].FroudeNumber);
+            }
+            if (vpScenarioWebList[0].PortDiameter_m != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].PortDiameter_m);
+            }
+            if (vpScenarioWebList[0].PortDepth_m != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].PortDepth_m);
+            }
+            if (vpScenarioWebList[0].PortElevation_m != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].PortElevation_m);
+            }
+            if (vpScenarioWebList[0].VerticalAngle_deg != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].VerticalAngle_deg);
+            }
+            if (vpScenarioWebList[0].HorizontalAngle_deg != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].HorizontalAngle_deg);
+            }
+            if (vpScenarioWebList[0].NumberOfPorts != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].NumberOfPorts);
+            }
+            if (vpScenarioWebList[0].PortSpacing_m != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].PortSpacing_m);
+            }
+            if (vpScenarioWebList[0].AcuteMixZone_m != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].AcuteMixZone_m);
+            }
+            if (vpScenarioWebList[0].ChronicMixZone_m != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].ChronicMixZone_m);
+            }
+            if (vpScenarioWebList[0].EffluentSalinity_PSU != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].EffluentSalinity_PSU);
+            }
+            if (vpScenarioWebList[0].EffluentTemperature_C != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].EffluentTemperature_C);
+            }
+            if (vpScenarioWebList[0].EffluentVelocity_m_s != null)
+            {
+                Assert.IsNotNull(vpScenarioWebList[0].EffluentVelocity_m_s);
+            }
+            if (!string.IsNullOrWhiteSpace(vpScenarioWebList[0].RawResults))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioWebList[0].RawResults));
+            }
+            Assert.IsNotNull(vpScenarioWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpScenarioWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpScenarioWebList[0].HasErrors);
+        }
+        private void CheckVPScenarioReportFields(List<VPScenarioReport> vpScenarioReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(vpScenarioReportList[0].VPScenarioReportTest))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioReportList[0].VPScenarioReportTest));
+            }
+            Assert.IsNotNull(vpScenarioReportList[0].SubsectorTVItemLanguage);
+            Assert.IsNotNull(vpScenarioReportList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(vpScenarioReportList[0].VPScenarioStatusText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioReportList[0].VPScenarioStatusText));
+            }
+            Assert.IsNotNull(vpScenarioReportList[0].VPScenarioID);
+            Assert.IsNotNull(vpScenarioReportList[0].InfrastructureTVItemID);
+            Assert.IsNotNull(vpScenarioReportList[0].VPScenarioStatus);
+            Assert.IsNotNull(vpScenarioReportList[0].UseAsBestEstimate);
+            if (vpScenarioReportList[0].EffluentFlow_m3_s != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].EffluentFlow_m3_s);
+            }
+            if (vpScenarioReportList[0].EffluentConcentration_MPN_100ml != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].EffluentConcentration_MPN_100ml);
+            }
+            if (vpScenarioReportList[0].FroudeNumber != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].FroudeNumber);
+            }
+            if (vpScenarioReportList[0].PortDiameter_m != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].PortDiameter_m);
+            }
+            if (vpScenarioReportList[0].PortDepth_m != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].PortDepth_m);
+            }
+            if (vpScenarioReportList[0].PortElevation_m != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].PortElevation_m);
+            }
+            if (vpScenarioReportList[0].VerticalAngle_deg != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].VerticalAngle_deg);
+            }
+            if (vpScenarioReportList[0].HorizontalAngle_deg != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].HorizontalAngle_deg);
+            }
+            if (vpScenarioReportList[0].NumberOfPorts != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].NumberOfPorts);
+            }
+            if (vpScenarioReportList[0].PortSpacing_m != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].PortSpacing_m);
+            }
+            if (vpScenarioReportList[0].AcuteMixZone_m != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].AcuteMixZone_m);
+            }
+            if (vpScenarioReportList[0].ChronicMixZone_m != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].ChronicMixZone_m);
+            }
+            if (vpScenarioReportList[0].EffluentSalinity_PSU != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].EffluentSalinity_PSU);
+            }
+            if (vpScenarioReportList[0].EffluentTemperature_C != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].EffluentTemperature_C);
+            }
+            if (vpScenarioReportList[0].EffluentVelocity_m_s != null)
+            {
+                Assert.IsNotNull(vpScenarioReportList[0].EffluentVelocity_m_s);
+            }
+            if (!string.IsNullOrWhiteSpace(vpScenarioReportList[0].RawResults))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioReportList[0].RawResults));
+            }
+            Assert.IsNotNull(vpScenarioReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(vpScenarioReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(vpScenarioReportList[0].HasErrors);
         }
         private VPScenario GetFilledRandomVPScenario(string OmitPropName)
         {

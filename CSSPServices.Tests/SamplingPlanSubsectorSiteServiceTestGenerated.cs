@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 0;
                     samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlanSubsectorSite = null;
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 10000000;
                     samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlanSubsectorSite, CSSPModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID, samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlanSubsectorSite", "SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID", samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,7 +117,7 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.SamplingPlanSubsectorID = 0;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlanSubsector, CSSPModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlanSubsector", "SamplingPlanSubsectorSiteSamplingPlanSubsectorID", samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -130,13 +130,13 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.MWQMSiteTVItemID = 0;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SamplingPlanSubsectorSiteMWQMSiteTVItemID", samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlanSubsectorSite = null;
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.MWQMSiteTVItemID = 1;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "MWQMSite"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "SamplingPlanSubsectorSiteMWQMSiteTVItemID", "MWQMSite"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -144,38 +144,6 @@ namespace CSSPServices.Tests
                     // samplingPlanSubsectorSite.IsDuplicate   (Boolean)
                     // -----------------------------------
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // samplingPlanSubsectorSite.SamplingPlanSubsectorSiteWeb   (SamplingPlanSubsectorSiteWeb)
-                    // -----------------------------------
-
-                    samplingPlanSubsectorSite = null;
-                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                    samplingPlanSubsectorSite.SamplingPlanSubsectorSiteWeb = null;
-                    Assert.IsNull(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteWeb);
-
-                    samplingPlanSubsectorSite = null;
-                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                    samplingPlanSubsectorSite.SamplingPlanSubsectorSiteWeb = new SamplingPlanSubsectorSiteWeb();
-                    Assert.IsNotNull(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // samplingPlanSubsectorSite.SamplingPlanSubsectorSiteReport   (SamplingPlanSubsectorSiteReport)
-                    // -----------------------------------
-
-                    samplingPlanSubsectorSite = null;
-                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                    samplingPlanSubsectorSite.SamplingPlanSubsectorSiteReport = null;
-                    Assert.IsNull(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteReport);
-
-                    samplingPlanSubsectorSite = null;
-                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                    samplingPlanSubsectorSite.SamplingPlanSubsectorSiteReport = new SamplingPlanSubsectorSiteReport();
-                    Assert.IsNotNull(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -187,12 +155,12 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.LastUpdateDate_UTC = new DateTime();
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanSubsectorSiteLastUpdateDate_UTC"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     samplingPlanSubsectorSite = null;
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC, "1980"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "SamplingPlanSubsectorSiteLastUpdateDate_UTC", "1980"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -204,13 +172,13 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.LastUpdateContactTVItemID = 0;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "SamplingPlanSubsectorSiteLastUpdateContactTVItemID", samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlanSubsectorSite = null;
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.LastUpdateContactTVItemID = 1;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "SamplingPlanSubsectorSiteLastUpdateContactTVItemID", "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -247,34 +215,32 @@ namespace CSSPServices.Tests
                     SamplingPlanSubsectorSite samplingPlanSubsectorSite = (from c in samplingPlanSubsectorSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsectorSite);
 
-                    SamplingPlanSubsectorSite samplingPlanSubsectorSiteRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         samplingPlanSubsectorSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
-                            Assert.IsNull(samplingPlanSubsectorSiteRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                            SamplingPlanSubsectorSite samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                            CheckSamplingPlanSubsectorSiteFields(new List<SamplingPlanSubsectorSite>() { samplingPlanSubsectorSiteRet });
+                            Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                            SamplingPlanSubsectorSiteWeb samplingPlanSubsectorSiteWebRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                            CheckSamplingPlanSubsectorSiteWebFields(new List<SamplingPlanSubsectorSiteWeb>() { samplingPlanSubsectorSiteWebRet });
+                            Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteWebRet.SamplingPlanSubsectorSiteID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                            SamplingPlanSubsectorSiteReport samplingPlanSubsectorSiteReportRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                            CheckSamplingPlanSubsectorSiteReportFields(new List<SamplingPlanSubsectorSiteReport>() { samplingPlanSubsectorSiteReportRet });
+                            Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteReportRet.SamplingPlanSubsectorSiteID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(new List<SamplingPlanSubsectorSite>() { samplingPlanSubsectorSiteRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -295,34 +261,38 @@ namespace CSSPServices.Tests
                     SamplingPlanSubsectorSite samplingPlanSubsectorSite = (from c in samplingPlanSubsectorSiteService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsectorSite);
 
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
+                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
+                    samplingPlanSubsectorSiteDirectQueryList = samplingPlanSubsectorSiteService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         samplingPlanSubsectorSiteService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
-                            Assert.AreEqual(0, samplingPlanSubsectorSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList = new List<SamplingPlanSubsectorSiteWeb>();
+                            samplingPlanSubsectorSiteWebList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebList().ToList();
+                            CheckSamplingPlanSubsectorSiteWebFields(samplingPlanSubsectorSiteWebList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList = new List<SamplingPlanSubsectorSiteReport>();
+                            samplingPlanSubsectorSiteReportList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportList().ToList();
+                            CheckSamplingPlanSubsectorSiteReportFields(samplingPlanSubsectorSiteReportList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList, entityQueryDetailType);
                     }
                 }
             }
@@ -339,41 +309,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                         samplingPlanSubsectorSiteDirectQueryList = samplingPlanSubsectorSiteService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
-                            Assert.AreEqual(0, samplingPlanSubsectorSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList = new List<SamplingPlanSubsectorSiteWeb>();
+                            samplingPlanSubsectorSiteWebList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebList().ToList();
+                            CheckSamplingPlanSubsectorSiteWebFields(samplingPlanSubsectorSiteWebList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList = new List<SamplingPlanSubsectorSiteReport>();
+                            samplingPlanSubsectorSiteReportList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportList().ToList();
+                            CheckSamplingPlanSubsectorSiteReportFields(samplingPlanSubsectorSiteReportList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList, entityQueryDetailType);
-                        Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        Assert.AreEqual(1, samplingPlanSubsectorSiteList.Count);
                     }
                 }
             }
@@ -390,41 +362,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), culture.TwoLetterISOLanguageName, 1, 1,  "SamplingPlanSubsectorSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                         samplingPlanSubsectorSiteDirectQueryList = samplingPlanSubsectorSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
-                            Assert.AreEqual(0, samplingPlanSubsectorSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList = new List<SamplingPlanSubsectorSiteWeb>();
+                            samplingPlanSubsectorSiteWebList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebList().ToList();
+                            CheckSamplingPlanSubsectorSiteWebFields(samplingPlanSubsectorSiteWebList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList = new List<SamplingPlanSubsectorSiteReport>();
+                            samplingPlanSubsectorSiteReportList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportList().ToList();
+                            CheckSamplingPlanSubsectorSiteReportFields(samplingPlanSubsectorSiteReportList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList, entityQueryDetailType);
-                        Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        Assert.AreEqual(1, samplingPlanSubsectorSiteList.Count);
                     }
                 }
             }
@@ -441,41 +415,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), culture.TwoLetterISOLanguageName, 1, 1, "SamplingPlanSubsectorSiteID,SamplingPlanSubsectorID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                         samplingPlanSubsectorSiteDirectQueryList = samplingPlanSubsectorSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorSiteID).ThenBy(c => c.SamplingPlanSubsectorID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
-                            Assert.AreEqual(0, samplingPlanSubsectorSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList = new List<SamplingPlanSubsectorSiteWeb>();
+                            samplingPlanSubsectorSiteWebList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebList().ToList();
+                            CheckSamplingPlanSubsectorSiteWebFields(samplingPlanSubsectorSiteWebList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList = new List<SamplingPlanSubsectorSiteReport>();
+                            samplingPlanSubsectorSiteReportList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportList().ToList();
+                            CheckSamplingPlanSubsectorSiteReportFields(samplingPlanSubsectorSiteReportList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList, entityQueryDetailType);
-                        Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        Assert.AreEqual(1, samplingPlanSubsectorSiteList.Count);
                     }
                 }
             }
@@ -492,41 +468,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanSubsectorSiteID", "SamplingPlanSubsectorSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                         samplingPlanSubsectorSiteDirectQueryList = samplingPlanSubsectorSiteService.GetRead().Where(c => c.SamplingPlanSubsectorSiteID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
-                            Assert.AreEqual(0, samplingPlanSubsectorSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList = new List<SamplingPlanSubsectorSiteWeb>();
+                            samplingPlanSubsectorSiteWebList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebList().ToList();
+                            CheckSamplingPlanSubsectorSiteWebFields(samplingPlanSubsectorSiteWebList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList = new List<SamplingPlanSubsectorSiteReport>();
+                            samplingPlanSubsectorSiteReportList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportList().ToList();
+                            CheckSamplingPlanSubsectorSiteReportFields(samplingPlanSubsectorSiteReportList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList, entityQueryDetailType);
-                        Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        Assert.AreEqual(1, samplingPlanSubsectorSiteList.Count);
                     }
                 }
             }
@@ -543,41 +521,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanSubsectorSiteID", "SamplingPlanSubsectorSiteID,GT,2|SamplingPlanSubsectorSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                         samplingPlanSubsectorSiteDirectQueryList = samplingPlanSubsectorSiteService.GetRead().Where(c => c.SamplingPlanSubsectorSiteID > 2 && c.SamplingPlanSubsectorSiteID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorSiteID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
-                            Assert.AreEqual(0, samplingPlanSubsectorSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList = new List<SamplingPlanSubsectorSiteWeb>();
+                            samplingPlanSubsectorSiteWebList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebList().ToList();
+                            CheckSamplingPlanSubsectorSiteWebFields(samplingPlanSubsectorSiteWebList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList = new List<SamplingPlanSubsectorSiteReport>();
+                            samplingPlanSubsectorSiteReportList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportList().ToList();
+                            CheckSamplingPlanSubsectorSiteReportFields(samplingPlanSubsectorSiteReportList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList, entityQueryDetailType);
-                        Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        Assert.AreEqual(1, samplingPlanSubsectorSiteList.Count);
                     }
                 }
             }
@@ -594,41 +574,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
-                    List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         samplingPlanSubsectorSiteService.Query = samplingPlanSubsectorSiteService.FillQuery(typeof(SamplingPlanSubsectorSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "SamplingPlanSubsectorSiteID,GT,2|SamplingPlanSubsectorSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteDirectQueryList = new List<SamplingPlanSubsectorSite>();
                         samplingPlanSubsectorSiteDirectQueryList = samplingPlanSubsectorSiteService.GetRead().Where(c => c.SamplingPlanSubsectorSiteID > 2 && c.SamplingPlanSubsectorSiteID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList = new List<SamplingPlanSubsectorSite>();
                             samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
-                            Assert.AreEqual(0, samplingPlanSubsectorSiteList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList = new List<SamplingPlanSubsectorSiteWeb>();
+                            samplingPlanSubsectorSiteWebList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWebList().ToList();
+                            CheckSamplingPlanSubsectorSiteWebFields(samplingPlanSubsectorSiteWebList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            samplingPlanSubsectorSiteList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteList().ToList();
+                            List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList = new List<SamplingPlanSubsectorSiteReport>();
+                            samplingPlanSubsectorSiteReportList = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteReportList().ToList();
+                            CheckSamplingPlanSubsectorSiteReportFields(samplingPlanSubsectorSiteReportList);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteID);
+                            Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList.Count, samplingPlanSubsectorSiteReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckSamplingPlanSubsectorSiteFields(samplingPlanSubsectorSiteList, entityQueryDetailType);
-                        Assert.AreEqual(samplingPlanSubsectorSiteDirectQueryList[0].SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
-                        Assert.AreEqual(2, samplingPlanSubsectorSiteList.Count);
                     }
                 }
             }
@@ -636,39 +618,43 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetSamplingPlanSubsectorSiteList() 2Where
 
         #region Functions private
-        private void CheckSamplingPlanSubsectorSiteFields(List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckSamplingPlanSubsectorSiteFields(List<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteList)
         {
-            // SamplingPlanSubsectorSite fields
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteID);
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorID);
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].MWQMSiteTVItemID);
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].IsDuplicate);
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(samplingPlanSubsectorSiteList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(samplingPlanSubsectorSiteList[0].HasErrors);
+        }
+        private void CheckSamplingPlanSubsectorSiteWebFields(List<SamplingPlanSubsectorSiteWeb> samplingPlanSubsectorSiteWebList)
+        {
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorSiteID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].SamplingPlanSubsectorID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].MWQMSiteTVItemID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].IsDuplicate);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteWebList[0].HasErrors);
+        }
+        private void CheckSamplingPlanSubsectorSiteReportFields(List<SamplingPlanSubsectorSiteReport> samplingPlanSubsectorSiteReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteReportTest))
             {
-                // SamplingPlanSubsectorSiteWeb and SamplingPlanSubsectorSiteReport fields should be null here
-                Assert.IsNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteWeb);
-                Assert.IsNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteReportTest));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
-            {
-                // SamplingPlanSubsectorSiteWeb fields should not be null and SamplingPlanSubsectorSiteReport fields should be null here
-                Assert.IsNotNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteWeb.MWQMSiteTVItemLanguage);
-                Assert.IsNotNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteWeb.LastUpdateContactTVItemLanguage);
-                Assert.IsNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteReport);
-            }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
-            {
-                // SamplingPlanSubsectorSiteWeb and SamplingPlanSubsectorSiteReport fields should NOT be null here
-                Assert.IsNotNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteWeb.MWQMSiteTVItemLanguage);
-                Assert.IsNotNull(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteWeb.LastUpdateContactTVItemLanguage);
-                if (samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteReport.SamplingPlanSubsectorSiteReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteList[0].SamplingPlanSubsectorSiteReport.SamplingPlanSubsectorSiteReportTest));
-                }
-            }
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].MWQMSiteTVItemLanguage);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].LastUpdateContactTVItemLanguage);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorSiteID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].SamplingPlanSubsectorID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].MWQMSiteTVItemID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].IsDuplicate);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(samplingPlanSubsectorSiteReportList[0].HasErrors);
         }
         private SamplingPlanSubsectorSite GetFilledRandomSamplingPlanSubsectorSite(string OmitPropName)
         {

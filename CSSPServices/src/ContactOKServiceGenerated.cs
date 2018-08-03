@@ -45,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(contactOK.Error))
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactOKError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactOKError"), new[] { "Error" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactOK.Error) && contactOK.Error.Length > 255)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactOKError, "255"), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactOKError", "255"), new[] { "Error" });
             }
 
             if (contactOK.ContactID < 1)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactOKContactID, "1"), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactOKContactID", "1"), new[] { "ContactID" });
             }
 
             if (contactOK.ContactTVItemID < 1)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactOKContactTVItemID, "1"), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "ContactOKContactTVItemID", "1"), new[] { "ContactTVItemID" });
             }
 
             retStr = ""; // added to stop compiling error

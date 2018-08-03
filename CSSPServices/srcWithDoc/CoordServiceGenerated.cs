@@ -45,19 +45,19 @@ namespace CSSPServices
             if (coord.Lat < -180 || coord.Lat > 180)
             {
                 coord.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CoordLat, "-180", "180"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CoordLat", "-180", "180"), new[] { "Lat" });
             }
 
             if (coord.Lng < -90 || coord.Lng > 90)
             {
                 coord.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CoordLng, "-90", "90"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CoordLng", "-90", "90"), new[] { "Lng" });
             }
 
             if (coord.Ordinal < 0 || coord.Ordinal > 10000)
             {
                 coord.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CoordOrdinal, "0", "10000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CoordOrdinal", "0", "10000"), new[] { "Ordinal" });
             }
 
             retStr = ""; // added to stop compiling error

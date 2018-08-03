@@ -47,65 +47,65 @@ namespace CSSPServices
                 if (resetPassword.ResetPasswordID == 0)
                 {
                     resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordResetPasswordID), new[] { "ResetPasswordID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordResetPasswordID"), new[] { "ResetPasswordID" });
                 }
 
                 if (!GetRead().Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
                 {
                     resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ResetPassword, CSSPModelsRes.ResetPasswordResetPasswordID, resetPassword.ResetPasswordID.ToString()), new[] { "ResetPasswordID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordResetPasswordID", resetPassword.ResetPasswordID.ToString()), new[] { "ResetPasswordID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Email))
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordEmail), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordEmail"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Email) && resetPassword.Email.Length > 256)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordEmail, "256"), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordEmail", "256"), new[] { "Email" });
             }
 
             if (resetPassword.ExpireDate_Local.Year == 1)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordExpireDate_Local), new[] { "ExpireDate_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordExpireDate_Local"), new[] { "ExpireDate_Local" });
             }
             else
             {
                 if (resetPassword.ExpireDate_Local.Year < 1980)
                 {
                 resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ResetPasswordExpireDate_Local, "1980"), new[] { "ExpireDate_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ResetPasswordExpireDate_Local", "1980"), new[] { "ExpireDate_Local" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Code))
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordCode), new[] { "Code" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordCode"), new[] { "Code" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Code) && resetPassword.Code.Length > 8)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordCode, "8"), new[] { "Code" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordCode", "8"), new[] { "Code" });
             }
 
             if (resetPassword.LastUpdateDate_UTC.Year == 1)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (resetPassword.LastUpdateDate_UTC.Year < 1980)
                 {
                 resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ResetPasswordLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ResetPasswordLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -114,7 +114,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 resetPassword.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ResetPasswordLastUpdateContactTVItemID, resetPassword.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ResetPasswordLastUpdateContactTVItemID", resetPassword.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -125,7 +125,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     resetPassword.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ResetPasswordLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -142,57 +142,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID)
         {
-            IQueryable<ResetPassword> resetPasswordQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ResetPasswordID == ResetPasswordID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ResetPasswordID == ResetPasswordID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return resetPasswordQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillResetPasswordWeb(resetPasswordQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillResetPasswordReport(resetPasswordQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ResetPassword> GetResetPasswordList()
         {
-            IQueryable<ResetPassword> resetPasswordQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ResetPassword> ResetPasswordQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        resetPasswordQuery = EnhanceQueryStatements<ResetPassword>(resetPasswordQuery) as IQueryable<ResetPassword>;
+            ResetPasswordQuery = EnhanceQueryStatements<ResetPassword>(ResetPasswordQuery) as IQueryable<ResetPassword>;
 
-                        return resetPasswordQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        resetPasswordQuery = FillResetPasswordWeb(resetPasswordQuery);
+            return ResetPasswordQuery;
+        }
+        public ResetPasswordWeb GetResetPasswordWebWithResetPasswordID(int ResetPasswordID)
+        {
+            return FillResetPasswordWeb().FirstOrDefault();
 
-                        resetPasswordQuery = EnhanceQueryStatements<ResetPassword>(resetPasswordQuery) as IQueryable<ResetPassword>;
+        }
+        public IQueryable<ResetPasswordWeb> GetResetPasswordWebList()
+        {
+            IQueryable<ResetPasswordWeb> ResetPasswordWebQuery = FillResetPasswordWeb();
 
-                        return resetPasswordQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        resetPasswordQuery = FillResetPasswordReport(resetPasswordQuery);
+            ResetPasswordWebQuery = EnhanceQueryStatements<ResetPasswordWeb>(ResetPasswordWebQuery) as IQueryable<ResetPasswordWeb>;
 
-                        resetPasswordQuery = EnhanceQueryStatements<ResetPassword>(resetPasswordQuery) as IQueryable<ResetPassword>;
+            return ResetPasswordWebQuery;
+        }
+        public ResetPasswordReport GetResetPasswordReportWithResetPasswordID(int ResetPasswordID)
+        {
+            return FillResetPasswordReport().FirstOrDefault();
 
-                        return resetPasswordQuery;
-                    }
-                default:
-                    {
-                        resetPasswordQuery = resetPasswordQuery.Where(c => c.ResetPasswordID == 0);
+        }
+        public IQueryable<ResetPasswordReport> GetResetPasswordReportList()
+        {
+            IQueryable<ResetPasswordReport> ResetPasswordReportQuery = FillResetPasswordReport();
 
-                        return resetPasswordQuery;
-                    }
-            }
+            ResetPasswordReportQuery = EnhanceQueryStatements<ResetPasswordReport>(ResetPasswordReportQuery) as IQueryable<ResetPasswordReport>;
+
+            return ResetPasswordReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -245,31 +232,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ResetPasswordFillWeb
-        private IQueryable<ResetPassword> FillResetPasswordWeb(IQueryable<ResetPassword> resetPasswordQuery)
+        private IQueryable<ResetPasswordWeb> FillResetPasswordWeb()
         {
-            resetPasswordQuery = (from c in resetPasswordQuery
+             IQueryable<ResetPasswordWeb>  ResetPasswordWebQuery = (from c in db.ResetPasswords
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ResetPassword
+                    select new ResetPasswordWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         ResetPasswordID = c.ResetPasswordID,
                         Email = c.Email,
                         ExpireDate_Local = c.ExpireDate_Local,
                         Code = c.Code,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ResetPasswordWeb = new ResetPasswordWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        ResetPasswordReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return resetPasswordQuery;
+            return ResetPasswordWebQuery;
         }
         #endregion Functions private Generated ResetPasswordFillWeb
 

@@ -45,7 +45,7 @@ namespace CSSPServices
             if (elementLayer.Layer < 1 || elementLayer.Layer > 1000)
             {
                 elementLayer.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ElementLayerLayer, "1", "1000"), new[] { "Layer" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ElementLayerLayer", "1", "1000"), new[] { "Layer" });
             }
 
             //ZMin has no Range Attribute

@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (tvItemLanguage.TVItemLanguageID == 0)
                 {
                     tvItemLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageTVItemLanguageID), new[] { "TVItemLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemLanguageTVItemLanguageID"), new[] { "TVItemLanguageID" });
                 }
 
                 if (!GetRead().Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
                 {
                     tvItemLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItemLanguage, CSSPModelsRes.TVItemLanguageTVItemLanguageID, tvItemLanguage.TVItemLanguageID.ToString()), new[] { "TVItemLanguageID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItemLanguage", "TVItemLanguageTVItemLanguageID", tvItemLanguage.TVItemLanguageID.ToString()), new[] { "TVItemLanguageID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemTVItemID == null)
             {
                 tvItemLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemLanguageTVItemID, tvItemLanguage.TVItemID.ToString()), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemLanguageTVItemID", tvItemLanguage.TVItemID.ToString()), new[] { "TVItemID" });
             }
             else
             {
@@ -94,7 +94,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
                     tvItemLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLanguageTVItemID, "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemLanguageTVItemID", "Root,Address,Area,ClimateSite,Contact,Country,Email,HydrometricSite,Infrastructure,MikeBoundaryConditionWebTide,MikeBoundaryConditionMesh,MikeScenario,MikeSource,Municipality,MWQMSite,PolSourceSite,Province,Sector,Subsector,Tel,MWQMRun,Classification"), new[] { "TVItemID" });
                 }
             }
 
@@ -102,39 +102,39 @@ namespace CSSPServices
             if (tvItemLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemLanguageLanguage"), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(tvItemLanguage.TVText))
             {
                 tvItemLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageTVText), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemLanguageTVText"), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemLanguage.TVText) && tvItemLanguage.TVText.Length > 200)
             {
                 tvItemLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLanguageTVText, "200"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVItemLanguageTVText", "200"), new[] { "TVText" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)tvItemLanguage.TranslationStatus);
             if (tvItemLanguage.TranslationStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageTranslationStatus), new[] { "TranslationStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemLanguageTranslationStatus"), new[] { "TranslationStatus" });
             }
 
             if (tvItemLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 tvItemLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemLanguageLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvItemLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
                 tvItemLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "TVItemLanguageLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -143,7 +143,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tvItemLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemLanguageLastUpdateContactTVItemID, tvItemLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemLanguageLastUpdateContactTVItemID", tvItemLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -154,7 +154,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tvItemLanguage.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "TVItemLanguageLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -171,57 +171,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVItemLanguage GetTVItemLanguageWithTVItemLanguageID(int TVItemLanguageID)
         {
-            IQueryable<TVItemLanguage> tvItemLanguageQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.TVItemLanguageID == TVItemLanguageID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.TVItemLanguageID == TVItemLanguageID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return tvItemLanguageQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillTVItemLanguageWeb(tvItemLanguageQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillTVItemLanguageReport(tvItemLanguageQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<TVItemLanguage> GetTVItemLanguageList()
         {
-            IQueryable<TVItemLanguage> tvItemLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVItemLanguage> TVItemLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        tvItemLanguageQuery = EnhanceQueryStatements<TVItemLanguage>(tvItemLanguageQuery) as IQueryable<TVItemLanguage>;
+            TVItemLanguageQuery = EnhanceQueryStatements<TVItemLanguage>(TVItemLanguageQuery) as IQueryable<TVItemLanguage>;
 
-                        return tvItemLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        tvItemLanguageQuery = FillTVItemLanguageWeb(tvItemLanguageQuery);
+            return TVItemLanguageQuery;
+        }
+        public TVItemLanguageWeb GetTVItemLanguageWebWithTVItemLanguageID(int TVItemLanguageID)
+        {
+            return FillTVItemLanguageWeb().FirstOrDefault();
 
-                        tvItemLanguageQuery = EnhanceQueryStatements<TVItemLanguage>(tvItemLanguageQuery) as IQueryable<TVItemLanguage>;
+        }
+        public IQueryable<TVItemLanguageWeb> GetTVItemLanguageWebList()
+        {
+            IQueryable<TVItemLanguageWeb> TVItemLanguageWebQuery = FillTVItemLanguageWeb();
 
-                        return tvItemLanguageQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        tvItemLanguageQuery = FillTVItemLanguageReport(tvItemLanguageQuery);
+            TVItemLanguageWebQuery = EnhanceQueryStatements<TVItemLanguageWeb>(TVItemLanguageWebQuery) as IQueryable<TVItemLanguageWeb>;
 
-                        tvItemLanguageQuery = EnhanceQueryStatements<TVItemLanguage>(tvItemLanguageQuery) as IQueryable<TVItemLanguage>;
+            return TVItemLanguageWebQuery;
+        }
+        public TVItemLanguageReport GetTVItemLanguageReportWithTVItemLanguageID(int TVItemLanguageID)
+        {
+            return FillTVItemLanguageReport().FirstOrDefault();
 
-                        return tvItemLanguageQuery;
-                    }
-                default:
-                    {
-                        tvItemLanguageQuery = tvItemLanguageQuery.Where(c => c.TVItemLanguageID == 0);
+        }
+        public IQueryable<TVItemLanguageReport> GetTVItemLanguageReportList()
+        {
+            IQueryable<TVItemLanguageReport> TVItemLanguageReportQuery = FillTVItemLanguageReport();
 
-                        return tvItemLanguageQuery;
-                    }
-            }
+            TVItemLanguageReportQuery = EnhanceQueryStatements<TVItemLanguageReport>(TVItemLanguageReportQuery) as IQueryable<TVItemLanguageReport>;
+
+            return TVItemLanguageReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -274,20 +261,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVItemLanguageFillWeb
-        private IQueryable<TVItemLanguage> FillTVItemLanguageWeb(IQueryable<TVItemLanguage> tvItemLanguageQuery)
+        private IQueryable<TVItemLanguageWeb> FillTVItemLanguageWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-            tvItemLanguageQuery = (from c in tvItemLanguageQuery
+             IQueryable<TVItemLanguageWeb>  TVItemLanguageWebQuery = (from c in db.TVItemLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new TVItemLanguage
+                    select new TVItemLanguageWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LanguageText = (from e in LanguageEnumList
+                                where e.EnumID == (int?)c.Language
+                                select e.EnumText).FirstOrDefault(),
+                        TranslationStatusText = (from e in TranslationStatusEnumList
+                                where e.EnumID == (int?)c.TranslationStatus
+                                select e.EnumText).FirstOrDefault(),
                         TVItemLanguageID = c.TVItemLanguageID,
                         TVItemID = c.TVItemID,
                         Language = c.Language,
@@ -295,22 +289,11 @@ namespace CSSPServices
                         TranslationStatus = c.TranslationStatus,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        TVItemLanguageWeb = new TVItemLanguageWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            LanguageText = (from e in LanguageEnumList
-                                where e.EnumID == (int?)c.Language
-                                select e.EnumText).FirstOrDefault(),
-                            TranslationStatusText = (from e in TranslationStatusEnumList
-                                where e.EnumID == (int?)c.TranslationStatus
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        TVItemLanguageReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return tvItemLanguageQuery;
+            return TVItemLanguageWebQuery;
         }
         #endregion Functions private Generated TVItemLanguageFillWeb
 

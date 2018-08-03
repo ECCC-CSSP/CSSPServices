@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (boxModelResult.BoxModelResultID == 0)
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultBoxModelResultID), new[] { "BoxModelResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelResultBoxModelResultID"), new[] { "BoxModelResultID" });
                 }
 
                 if (!GetRead().Where(c => c.BoxModelResultID == boxModelResult.BoxModelResultID).Any())
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModelResult, CSSPModelsRes.BoxModelResultBoxModelResultID, boxModelResult.BoxModelResultID.ToString()), new[] { "BoxModelResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "BoxModelResult", "BoxModelResultBoxModelResultID", boxModelResult.BoxModelResultID.ToString()), new[] { "BoxModelResultID" });
                 }
             }
 
@@ -62,32 +62,32 @@ namespace CSSPServices
             if (BoxModelBoxModelID == null)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModel, CSSPModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), new[] { "BoxModelID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "BoxModel", "BoxModelResultBoxModelID", boxModelResult.BoxModelID.ToString()), new[] { "BoxModelID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(BoxModelResultTypeEnum), (int?)boxModelResult.BoxModelResultType);
             if (boxModelResult.BoxModelResultType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultBoxModelResultType), new[] { "BoxModelResultType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelResultBoxModelResultType"), new[] { "BoxModelResultType" });
             }
 
             if (boxModelResult.Volume_m3 < 0)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelResultVolume_m3, "0"), new[] { "Volume_m3" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelResultVolume_m3", "0"), new[] { "Volume_m3" });
             }
 
             if (boxModelResult.Surface_m2 < 0)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelResultSurface_m2, "0"), new[] { "Surface_m2" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "BoxModelResultSurface_m2", "0"), new[] { "Surface_m2" });
             }
 
             if (boxModelResult.Radius_m < 0 || boxModelResult.Radius_m > 100000)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRadius_m, "0", "100000"), new[] { "Radius_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRadius_m", "0", "100000"), new[] { "Radius_m" });
             }
 
             if (boxModelResult.LeftSideDiameterLineAngle_deg != null)
@@ -95,7 +95,7 @@ namespace CSSPServices
                 if (boxModelResult.LeftSideDiameterLineAngle_deg < 0 || boxModelResult.LeftSideDiameterLineAngle_deg > 360)
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), new[] { "LeftSideDiameterLineAngle_deg" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideDiameterLineAngle_deg", "0", "360"), new[] { "LeftSideDiameterLineAngle_deg" });
                 }
             }
 
@@ -104,7 +104,7 @@ namespace CSSPServices
                 if (boxModelResult.CircleCenterLatitude < -90 || boxModelResult.CircleCenterLatitude > 90)
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), new[] { "CircleCenterLatitude" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultCircleCenterLatitude", "-90", "90"), new[] { "CircleCenterLatitude" });
                 }
             }
 
@@ -113,20 +113,20 @@ namespace CSSPServices
                 if (boxModelResult.CircleCenterLongitude < -180 || boxModelResult.CircleCenterLongitude > 180)
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), new[] { "CircleCenterLongitude" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultCircleCenterLongitude", "-180", "180"), new[] { "CircleCenterLongitude" });
                 }
             }
 
             if (boxModelResult.RectLength_m < 0 || boxModelResult.RectLength_m > 100000)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectLength_m, "0", "100000"), new[] { "RectLength_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRectLength_m", "0", "100000"), new[] { "RectLength_m" });
             }
 
             if (boxModelResult.RectWidth_m < 0 || boxModelResult.RectWidth_m > 100000)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectWidth_m, "0", "100000"), new[] { "RectWidth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultRectWidth_m", "0", "100000"), new[] { "RectWidth_m" });
             }
 
             if (boxModelResult.LeftSideLineAngle_deg != null)
@@ -134,7 +134,7 @@ namespace CSSPServices
                 if (boxModelResult.LeftSideLineAngle_deg < 0 || boxModelResult.LeftSideLineAngle_deg > 360)
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), new[] { "LeftSideLineAngle_deg" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineAngle_deg", "0", "360"), new[] { "LeftSideLineAngle_deg" });
                 }
             }
 
@@ -143,7 +143,7 @@ namespace CSSPServices
                 if (boxModelResult.LeftSideLineStartLatitude < -90 || boxModelResult.LeftSideLineStartLatitude > 90)
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), new[] { "LeftSideLineStartLatitude" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineStartLatitude", "-90", "90"), new[] { "LeftSideLineStartLatitude" });
                 }
             }
 
@@ -152,21 +152,21 @@ namespace CSSPServices
                 if (boxModelResult.LeftSideLineStartLongitude < -180 || boxModelResult.LeftSideLineStartLongitude > 180)
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), new[] { "LeftSideLineStartLongitude" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "BoxModelResultLeftSideLineStartLongitude", "-180", "180"), new[] { "LeftSideLineStartLongitude" });
                 }
             }
 
             if (boxModelResult.LastUpdateDate_UTC.Year == 1)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelResultLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (boxModelResult.LastUpdateDate_UTC.Year < 1980)
                 {
                 boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.BoxModelResultLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "BoxModelResultLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -175,7 +175,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 boxModelResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "BoxModelResultLastUpdateContactTVItemID", boxModelResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -186,7 +186,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     boxModelResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "BoxModelResultLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -203,57 +203,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public BoxModelResult GetBoxModelResultWithBoxModelResultID(int BoxModelResultID)
         {
-            IQueryable<BoxModelResult> boxModelResultQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.BoxModelResultID == BoxModelResultID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.BoxModelResultID == BoxModelResultID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return boxModelResultQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillBoxModelResultWeb(boxModelResultQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillBoxModelResultReport(boxModelResultQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<BoxModelResult> GetBoxModelResultList()
         {
-            IQueryable<BoxModelResult> boxModelResultQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<BoxModelResult> BoxModelResultQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        boxModelResultQuery = EnhanceQueryStatements<BoxModelResult>(boxModelResultQuery) as IQueryable<BoxModelResult>;
+            BoxModelResultQuery = EnhanceQueryStatements<BoxModelResult>(BoxModelResultQuery) as IQueryable<BoxModelResult>;
 
-                        return boxModelResultQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        boxModelResultQuery = FillBoxModelResultWeb(boxModelResultQuery);
+            return BoxModelResultQuery;
+        }
+        public BoxModelResultWeb GetBoxModelResultWebWithBoxModelResultID(int BoxModelResultID)
+        {
+            return FillBoxModelResultWeb().FirstOrDefault();
 
-                        boxModelResultQuery = EnhanceQueryStatements<BoxModelResult>(boxModelResultQuery) as IQueryable<BoxModelResult>;
+        }
+        public IQueryable<BoxModelResultWeb> GetBoxModelResultWebList()
+        {
+            IQueryable<BoxModelResultWeb> BoxModelResultWebQuery = FillBoxModelResultWeb();
 
-                        return boxModelResultQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        boxModelResultQuery = FillBoxModelResultReport(boxModelResultQuery);
+            BoxModelResultWebQuery = EnhanceQueryStatements<BoxModelResultWeb>(BoxModelResultWebQuery) as IQueryable<BoxModelResultWeb>;
 
-                        boxModelResultQuery = EnhanceQueryStatements<BoxModelResult>(boxModelResultQuery) as IQueryable<BoxModelResult>;
+            return BoxModelResultWebQuery;
+        }
+        public BoxModelResultReport GetBoxModelResultReportWithBoxModelResultID(int BoxModelResultID)
+        {
+            return FillBoxModelResultReport().FirstOrDefault();
 
-                        return boxModelResultQuery;
-                    }
-                default:
-                    {
-                        boxModelResultQuery = boxModelResultQuery.Where(c => c.BoxModelResultID == 0);
+        }
+        public IQueryable<BoxModelResultReport> GetBoxModelResultReportList()
+        {
+            IQueryable<BoxModelResultReport> BoxModelResultReportQuery = FillBoxModelResultReport();
 
-                        return boxModelResultQuery;
-                    }
-            }
+            BoxModelResultReportQuery = EnhanceQueryStatements<BoxModelResultReport>(BoxModelResultReportQuery) as IQueryable<BoxModelResultReport>;
+
+            return BoxModelResultReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -306,19 +293,23 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated BoxModelResultFillWeb
-        private IQueryable<BoxModelResult> FillBoxModelResultWeb(IQueryable<BoxModelResult> boxModelResultQuery)
+        private IQueryable<BoxModelResultWeb> FillBoxModelResultWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> BoxModelResultTypeEnumList = enums.GetEnumTextOrderedList(typeof(BoxModelResultTypeEnum));
 
-            boxModelResultQuery = (from c in boxModelResultQuery
+             IQueryable<BoxModelResultWeb>  BoxModelResultWebQuery = (from c in db.BoxModelResults
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new BoxModelResult
+                    select new BoxModelResultWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
+                                where e.EnumID == (int?)c.BoxModelResultType
+                                select e.EnumText).FirstOrDefault(),
                         BoxModelResultID = c.BoxModelResultID,
                         BoxModelID = c.BoxModelID,
                         BoxModelResultType = c.BoxModelResultType,
@@ -337,19 +328,11 @@ namespace CSSPServices
                         LeftSideLineStartLongitude = c.LeftSideLineStartLongitude,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        BoxModelResultWeb = new BoxModelResultWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            BoxModelResultTypeText = (from e in BoxModelResultTypeEnumList
-                                where e.EnumID == (int?)c.BoxModelResultType
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        BoxModelResultReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return boxModelResultQuery;
+            return BoxModelResultWebQuery;
         }
         #endregion Functions private Generated BoxModelResultFillWeb
 

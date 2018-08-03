@@ -16,24 +16,24 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
-    public partial class MWQMSampleLanguageService
+    public partial class AppTaskLanguageService
     {
-        #region Functions private Generated MWQMSampleLanguageFillReport
-        private IQueryable<MWQMSampleLanguageReport> FillMWQMSampleLanguageReport()
+        #region Functions private Generated AppTaskLanguageFillReport
+        private IQueryable<AppTaskLanguageReport> FillAppTaskLanguageReport()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-             IQueryable<MWQMSampleLanguageReport>  MWQMSampleLanguageReportQuery = (from c in db.MWQMSampleLanguages
+             IQueryable<AppTaskLanguageReport>  AppTaskLanguageReportQuery = (from c in db.AppTaskLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MWQMSampleLanguageReport
+                    select new AppTaskLanguageReport
                     {
-                        MWQMSampleLanguageReportTest = "Testing Report",
+                        AppTaskLanguageReportTest = "Testing Report",
                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         LanguageText = (from e in LanguageEnumList
                                 where e.EnumID == (int?)c.Language
@@ -41,10 +41,11 @@ namespace CSSPServices
                         TranslationStatusText = (from e in TranslationStatusEnumList
                                 where e.EnumID == (int?)c.TranslationStatus
                                 select e.EnumText).FirstOrDefault(),
-                        MWQMSampleLanguageID = c.MWQMSampleLanguageID,
-                        MWQMSampleID = c.MWQMSampleID,
+                        AppTaskLanguageID = c.AppTaskLanguageID,
+                        AppTaskID = c.AppTaskID,
                         Language = c.Language,
-                        MWQMSampleNote = c.MWQMSampleNote,
+                        StatusText = c.StatusText,
+                        ErrorText = c.ErrorText,
                         TranslationStatus = c.TranslationStatus,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
@@ -52,9 +53,9 @@ namespace CSSPServices
                         ValidationResults = null,
                     });
 
-            return MWQMSampleLanguageReportQuery;
+            return AppTaskLanguageReportQuery;
         }
-        #endregion Functions private Generated MWQMSampleLanguageFillReport
+        #endregion Functions private Generated AppTaskLanguageFillReport
 
     }
 }

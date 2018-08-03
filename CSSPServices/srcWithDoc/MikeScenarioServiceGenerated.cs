@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mikeScenario.MikeScenarioID == 0)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioMikeScenarioID), new[] { "MikeScenarioID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeScenarioMikeScenarioID"), new[] { "MikeScenarioID" });
                 }
 
                 if (!GetRead().Where(c => c.MikeScenarioID == mikeScenario.MikeScenarioID).Any())
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeScenario, CSSPModelsRes.MikeScenarioMikeScenarioID, mikeScenario.MikeScenarioID.ToString()), new[] { "MikeScenarioID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeScenario", "MikeScenarioMikeScenarioID", mikeScenario.MikeScenarioID.ToString()), new[] { "MikeScenarioID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMikeScenarioTVItemID == null)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeScenarioMikeScenarioTVItemID, mikeScenario.MikeScenarioTVItemID.ToString()), new[] { "MikeScenarioTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeScenarioMikeScenarioTVItemID", mikeScenario.MikeScenarioTVItemID.ToString()), new[] { "MikeScenarioTVItemID" });
             }
             else
             {
@@ -73,7 +73,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMikeScenarioTVItemID.TVType))
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeScenarioMikeScenarioTVItemID, "MikeScenario"), new[] { "MikeScenarioTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeScenarioMikeScenarioTVItemID", "MikeScenario"), new[] { "MikeScenarioTVItemID" });
                 }
             }
 
@@ -84,7 +84,7 @@ namespace CSSPServices
                 if (TVItemParentMikeScenarioID == null)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeScenarioParentMikeScenarioID, (mikeScenario.ParentMikeScenarioID == null ? "" : mikeScenario.ParentMikeScenarioID.ToString())), new[] { "ParentMikeScenarioID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeScenarioParentMikeScenarioID", (mikeScenario.ParentMikeScenarioID == null ? "" : mikeScenario.ParentMikeScenarioID.ToString())), new[] { "ParentMikeScenarioID" });
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemParentMikeScenarioID.TVType))
                     {
                         mikeScenario.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeScenarioParentMikeScenarioID, "MikeScenario"), new[] { "ParentMikeScenarioID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeScenarioParentMikeScenarioID", "MikeScenario"), new[] { "ParentMikeScenarioID" });
                     }
                 }
             }
@@ -104,7 +104,7 @@ namespace CSSPServices
             if (mikeScenario.ScenarioStatus == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioScenarioStatus), new[] { "ScenarioStatus" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeScenarioScenarioStatus"), new[] { "ScenarioStatus" });
             }
 
             //ErrorInfo has no StringLength Attribute
@@ -112,35 +112,35 @@ namespace CSSPServices
             if (mikeScenario.MikeScenarioStartDateTime_Local.Year == 1)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioMikeScenarioStartDateTime_Local), new[] { "MikeScenarioStartDateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeScenarioMikeScenarioStartDateTime_Local"), new[] { "MikeScenarioStartDateTime_Local" });
             }
             else
             {
                 if (mikeScenario.MikeScenarioStartDateTime_Local.Year < 1980)
                 {
                 mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioMikeScenarioStartDateTime_Local, "1980"), new[] { "MikeScenarioStartDateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeScenarioMikeScenarioStartDateTime_Local", "1980"), new[] { "MikeScenarioStartDateTime_Local" });
                 }
             }
 
             if (mikeScenario.MikeScenarioEndDateTime_Local.Year == 1)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioMikeScenarioEndDateTime_Local), new[] { "MikeScenarioEndDateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeScenarioMikeScenarioEndDateTime_Local"), new[] { "MikeScenarioEndDateTime_Local" });
             }
             else
             {
                 if (mikeScenario.MikeScenarioEndDateTime_Local.Year < 1980)
                 {
                 mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioMikeScenarioEndDateTime_Local, "1980"), new[] { "MikeScenarioEndDateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeScenarioMikeScenarioEndDateTime_Local", "1980"), new[] { "MikeScenarioEndDateTime_Local" });
                 }
             }
 
             if (mikeScenario.MikeScenarioStartExecutionDateTime_Local != null && ((DateTime)mikeScenario.MikeScenarioStartExecutionDateTime_Local).Year < 1980)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioMikeScenarioStartExecutionDateTime_Local, "1980"), new[] { CSSPModelsRes.MikeScenarioMikeScenarioStartExecutionDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeScenarioMikeScenarioStartExecutionDateTime_Local", "1980"), new[] { "MikeScenarioMikeScenarioStartExecutionDateTime_Local" });
             }
 
             if (mikeScenario.MikeScenarioExecutionTime_min != null)
@@ -148,56 +148,56 @@ namespace CSSPServices
                 if (mikeScenario.MikeScenarioExecutionTime_min < 1 || mikeScenario.MikeScenarioExecutionTime_min > 100000)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "1", "100000"), new[] { "MikeScenarioExecutionTime_min" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioMikeScenarioExecutionTime_min", "1", "100000"), new[] { "MikeScenarioExecutionTime_min" });
                 }
             }
 
             if (mikeScenario.WindSpeed_km_h < 0 || mikeScenario.WindSpeed_km_h > 100)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioWindSpeed_km_h, "0", "100"), new[] { "WindSpeed_km_h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioWindSpeed_km_h", "0", "100"), new[] { "WindSpeed_km_h" });
             }
 
             if (mikeScenario.WindDirection_deg < 0 || mikeScenario.WindDirection_deg > 360)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioWindDirection_deg, "0", "360"), new[] { "WindDirection_deg" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioWindDirection_deg", "0", "360"), new[] { "WindDirection_deg" });
             }
 
             if (mikeScenario.DecayFactor_per_day < 0 || mikeScenario.DecayFactor_per_day > 100)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioDecayFactor_per_day, "0", "100"), new[] { "DecayFactor_per_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioDecayFactor_per_day", "0", "100"), new[] { "DecayFactor_per_day" });
             }
 
             if (mikeScenario.DecayFactorAmplitude < 0 || mikeScenario.DecayFactorAmplitude > 100)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioDecayFactorAmplitude, "0", "100"), new[] { "DecayFactorAmplitude" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioDecayFactorAmplitude", "0", "100"), new[] { "DecayFactorAmplitude" });
             }
 
             if (mikeScenario.ResultFrequency_min < 0 || mikeScenario.ResultFrequency_min > 100)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioResultFrequency_min, "0", "100"), new[] { "ResultFrequency_min" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioResultFrequency_min", "0", "100"), new[] { "ResultFrequency_min" });
             }
 
             if (mikeScenario.AmbientTemperature_C < -10 || mikeScenario.AmbientTemperature_C > 40)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioAmbientTemperature_C, "-10", "40"), new[] { "AmbientTemperature_C" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioAmbientTemperature_C", "-10", "40"), new[] { "AmbientTemperature_C" });
             }
 
             if (mikeScenario.AmbientSalinity_PSU < 0 || mikeScenario.AmbientSalinity_PSU > 40)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioAmbientSalinity_PSU, "0", "40"), new[] { "AmbientSalinity_PSU" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioAmbientSalinity_PSU", "0", "40"), new[] { "AmbientSalinity_PSU" });
             }
 
             if (mikeScenario.ManningNumber < 0 || mikeScenario.ManningNumber > 100)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioManningNumber, "0", "100"), new[] { "ManningNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioManningNumber", "0", "100"), new[] { "ManningNumber" });
             }
 
             if (mikeScenario.NumberOfElements != null)
@@ -205,7 +205,7 @@ namespace CSSPServices
                 if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 1000000)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfElements, "1", "1000000"), new[] { "NumberOfElements" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioNumberOfElements", "1", "1000000"), new[] { "NumberOfElements" });
                 }
             }
 
@@ -214,7 +214,7 @@ namespace CSSPServices
                 if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 1000000)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTimeSteps, "1", "1000000"), new[] { "NumberOfTimeSteps" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioNumberOfTimeSteps", "1", "1000000"), new[] { "NumberOfTimeSteps" });
                 }
             }
 
@@ -223,7 +223,7 @@ namespace CSSPServices
                 if (mikeScenario.NumberOfSigmaLayers < 0 || mikeScenario.NumberOfSigmaLayers > 100)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfSigmaLayers, "0", "100"), new[] { "NumberOfSigmaLayers" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioNumberOfSigmaLayers", "0", "100"), new[] { "NumberOfSigmaLayers" });
                 }
             }
 
@@ -232,7 +232,7 @@ namespace CSSPServices
                 if (mikeScenario.NumberOfZLayers < 0 || mikeScenario.NumberOfZLayers > 100)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfZLayers, "0", "100"), new[] { "NumberOfZLayers" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioNumberOfZLayers", "0", "100"), new[] { "NumberOfZLayers" });
                 }
             }
 
@@ -241,7 +241,7 @@ namespace CSSPServices
                 if (mikeScenario.NumberOfHydroOutputParameters < 0 || mikeScenario.NumberOfHydroOutputParameters > 100)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfHydroOutputParameters, "0", "100"), new[] { "NumberOfHydroOutputParameters" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioNumberOfHydroOutputParameters", "0", "100"), new[] { "NumberOfHydroOutputParameters" });
                 }
             }
 
@@ -250,7 +250,7 @@ namespace CSSPServices
                 if (mikeScenario.NumberOfTransOutputParameters < 0 || mikeScenario.NumberOfTransOutputParameters > 100)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioNumberOfTransOutputParameters, "0", "100"), new[] { "NumberOfTransOutputParameters" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioNumberOfTransOutputParameters", "0", "100"), new[] { "NumberOfTransOutputParameters" });
                 }
             }
 
@@ -259,7 +259,7 @@ namespace CSSPServices
                 if (mikeScenario.EstimatedHydroFileSize < 0 || mikeScenario.EstimatedHydroFileSize > 100000000)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioEstimatedHydroFileSize, "0", "100000000"), new[] { "EstimatedHydroFileSize" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioEstimatedHydroFileSize", "0", "100000000"), new[] { "EstimatedHydroFileSize" });
                 }
             }
 
@@ -268,21 +268,21 @@ namespace CSSPServices
                 if (mikeScenario.EstimatedTransFileSize < 0 || mikeScenario.EstimatedTransFileSize > 100000000)
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeScenarioEstimatedTransFileSize, "0", "100000000"), new[] { "EstimatedTransFileSize" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeScenarioEstimatedTransFileSize", "0", "100000000"), new[] { "EstimatedTransFileSize" });
                 }
             }
 
             if (mikeScenario.LastUpdateDate_UTC.Year == 1)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeScenarioLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeScenarioLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mikeScenario.LastUpdateDate_UTC.Year < 1980)
                 {
                 mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeScenarioLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeScenarioLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -291,7 +291,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeScenario.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeScenarioLastUpdateContactTVItemID, mikeScenario.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeScenarioLastUpdateContactTVItemID", mikeScenario.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -302,7 +302,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mikeScenario.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeScenarioLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeScenarioLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -319,57 +319,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeScenario GetMikeScenarioWithMikeScenarioID(int MikeScenarioID)
         {
-            IQueryable<MikeScenario> mikeScenarioQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MikeScenarioID == MikeScenarioID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MikeScenarioID == MikeScenarioID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mikeScenarioQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeScenarioWeb(mikeScenarioQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeScenarioReport(mikeScenarioQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MikeScenario> GetMikeScenarioList()
         {
-            IQueryable<MikeScenario> mikeScenarioQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeScenario> MikeScenarioQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(mikeScenarioQuery) as IQueryable<MikeScenario>;
+            MikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(MikeScenarioQuery) as IQueryable<MikeScenario>;
 
-                        return mikeScenarioQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mikeScenarioQuery = FillMikeScenarioWeb(mikeScenarioQuery);
+            return MikeScenarioQuery;
+        }
+        public MikeScenarioWeb GetMikeScenarioWebWithMikeScenarioID(int MikeScenarioID)
+        {
+            return FillMikeScenarioWeb().FirstOrDefault();
 
-                        mikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(mikeScenarioQuery) as IQueryable<MikeScenario>;
+        }
+        public IQueryable<MikeScenarioWeb> GetMikeScenarioWebList()
+        {
+            IQueryable<MikeScenarioWeb> MikeScenarioWebQuery = FillMikeScenarioWeb();
 
-                        return mikeScenarioQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mikeScenarioQuery = FillMikeScenarioReport(mikeScenarioQuery);
+            MikeScenarioWebQuery = EnhanceQueryStatements<MikeScenarioWeb>(MikeScenarioWebQuery) as IQueryable<MikeScenarioWeb>;
 
-                        mikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(mikeScenarioQuery) as IQueryable<MikeScenario>;
+            return MikeScenarioWebQuery;
+        }
+        public MikeScenarioReport GetMikeScenarioReportWithMikeScenarioID(int MikeScenarioID)
+        {
+            return FillMikeScenarioReport().FirstOrDefault();
 
-                        return mikeScenarioQuery;
-                    }
-                default:
-                    {
-                        mikeScenarioQuery = mikeScenarioQuery.Where(c => c.MikeScenarioID == 0);
+        }
+        public IQueryable<MikeScenarioReport> GetMikeScenarioReportList()
+        {
+            IQueryable<MikeScenarioReport> MikeScenarioReportQuery = FillMikeScenarioReport();
 
-                        return mikeScenarioQuery;
-                    }
-            }
+            MikeScenarioReportQuery = EnhanceQueryStatements<MikeScenarioReport>(MikeScenarioReportQuery) as IQueryable<MikeScenarioReport>;
+
+            return MikeScenarioReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -422,13 +409,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeScenarioFillWeb
-        private IQueryable<MikeScenario> FillMikeScenarioWeb(IQueryable<MikeScenario> mikeScenarioQuery)
+        private IQueryable<MikeScenarioWeb> FillMikeScenarioWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
-            mikeScenarioQuery = (from c in mikeScenarioQuery
+             IQueryable<MikeScenarioWeb>  MikeScenarioWebQuery = (from c in db.MikeScenarios
                 let MikeScenarioTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeScenarioTVItemID
                     && cl.Language == LanguageRequest
@@ -437,8 +424,13 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MikeScenario
+                    select new MikeScenarioWeb
                     {
+                        MikeScenarioTVItemLanguage = MikeScenarioTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        ScenarioStatusText = (from e in ScenarioStatusEnumList
+                                where e.EnumID == (int?)c.ScenarioStatus
+                                select e.EnumText).FirstOrDefault(),
                         MikeScenarioID = c.MikeScenarioID,
                         MikeScenarioTVItemID = c.MikeScenarioTVItemID,
                         ParentMikeScenarioID = c.ParentMikeScenarioID,
@@ -467,20 +459,11 @@ namespace CSSPServices
                         EstimatedTransFileSize = c.EstimatedTransFileSize,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MikeScenarioWeb = new MikeScenarioWeb
-                        {
-                            MikeScenarioTVItemLanguage = MikeScenarioTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            ScenarioStatusText = (from e in ScenarioStatusEnumList
-                                where e.EnumID == (int?)c.ScenarioStatus
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        MikeScenarioReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mikeScenarioQuery;
+            return MikeScenarioWebQuery;
         }
         #endregion Functions private Generated MikeScenarioFillWeb
 

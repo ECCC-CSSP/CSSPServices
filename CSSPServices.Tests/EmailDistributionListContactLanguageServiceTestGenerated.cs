@@ -98,13 +98,13 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.EmailDistributionListContactLanguageID = 0;
                     emailDistributionListContactLanguageService.Update(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageEmailDistributionListContactLanguageID), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageEmailDistributionListContactLanguageID"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     emailDistributionListContactLanguage = null;
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.EmailDistributionListContactLanguageID = 10000000;
                     emailDistributionListContactLanguageService.Update(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListContactLanguage, CSSPModelsRes.EmailDistributionListContactLanguageEmailDistributionListContactLanguageID, emailDistributionListContactLanguage.EmailDistributionListContactLanguageID.ToString()), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContactLanguage", "EmailDistributionListContactLanguageEmailDistributionListContactLanguageID", emailDistributionListContactLanguage.EmailDistributionListContactLanguageID.ToString()), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -117,7 +117,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.EmailDistributionListContactID = 0;
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListContact, CSSPModelsRes.EmailDistributionListContactLanguageEmailDistributionListContactID, emailDistributionListContactLanguage.EmailDistributionListContactID.ToString()), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContact", "EmailDistributionListContactLanguageEmailDistributionListContactID", emailDistributionListContactLanguage.EmailDistributionListContactID.ToString()), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -130,7 +130,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.Language = (LanguageEnum)1000000;
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageLanguage), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageLanguage"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -143,7 +143,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("Agency");
                     Assert.AreEqual(false, emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage));
                     Assert.AreEqual(1, emailDistributionListContactLanguage.ValidationResults.Count());
-                    Assert.IsTrue(emailDistributionListContactLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageAgency)).Any());
+                    Assert.IsTrue(emailDistributionListContactLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageAgency")).Any());
                     Assert.AreEqual(null, emailDistributionListContactLanguage.Agency);
                     Assert.AreEqual(count, emailDistributionListContactLanguageService.GetRead().Count());
 
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.Agency = GetRandomString("", 101);
                     Assert.AreEqual(false, emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage));
-                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.EmailDistributionListContactLanguageAgency, "1", "100"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "EmailDistributionListContactLanguageAgency", "1", "100"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListContactLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -166,40 +166,8 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageTranslationStatus), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageTranslationStatus"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb   (EmailDistributionListContactLanguageWeb)
-                    // -----------------------------------
-
-                    emailDistributionListContactLanguage = null;
-                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
-                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb = null;
-                    Assert.IsNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb);
-
-                    emailDistributionListContactLanguage = null;
-                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
-                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb = new EmailDistributionListContactLanguageWeb();
-                    Assert.IsNotNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageWeb);
-
-                    // -----------------------------------
-                    // Is Nullable
-                    // [NotMapped]
-                    // emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport   (EmailDistributionListContactLanguageReport)
-                    // -----------------------------------
-
-                    emailDistributionListContactLanguage = null;
-                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
-                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport = null;
-                    Assert.IsNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport);
-
-                    emailDistributionListContactLanguage = null;
-                    emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
-                    emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport = new EmailDistributionListContactLanguageReport();
-                    Assert.IsNotNull(emailDistributionListContactLanguage.EmailDistributionListContactLanguageReport);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -211,12 +179,12 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.LastUpdateDate_UTC = new DateTime();
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateDate_UTC), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLanguageLastUpdateDate_UTC"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     emailDistributionListContactLanguage = null;
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.LastUpdateDate_UTC = new DateTime(1979, 1, 1);
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateDate_UTC, "1980"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "EmailDistributionListContactLanguageLastUpdateDate_UTC", "1980"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -228,13 +196,13 @@ namespace CSSPServices.Tests
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.LastUpdateContactTVItemID = 0;
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateContactTVItemID, emailDistributionListContactLanguage.LastUpdateContactTVItemID.ToString()), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "EmailDistributionListContactLanguageLastUpdateContactTVItemID", emailDistributionListContactLanguage.LastUpdateContactTVItemID.ToString()), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     emailDistributionListContactLanguage = null;
                     emailDistributionListContactLanguage = GetFilledRandomEmailDistributionListContactLanguage("");
                     emailDistributionListContactLanguage.LastUpdateContactTVItemID = 1;
                     emailDistributionListContactLanguageService.Add(emailDistributionListContactLanguage);
-                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListContactLanguageLastUpdateContactTVItemID, "Contact"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, "EmailDistributionListContactLanguageLastUpdateContactTVItemID", "Contact"), emailDistributionListContactLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -271,34 +239,32 @@ namespace CSSPServices.Tests
                     EmailDistributionListContactLanguage emailDistributionListContactLanguage = (from c in emailDistributionListContactLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionListContactLanguage);
 
-                    EmailDistributionListContactLanguage emailDistributionListContactLanguageRet = null;
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         emailDistributionListContactLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
-                            emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
-                            Assert.IsNull(emailDistributionListContactLanguageRet);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
+                            EmailDistributionListContactLanguage emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
+                            CheckEmailDistributionListContactLanguageFields(new List<EmailDistributionListContactLanguage>() { emailDistributionListContactLanguageRet });
+                            Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageRet.EmailDistributionListContactLanguageID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
+                            EmailDistributionListContactLanguageWeb emailDistributionListContactLanguageWebRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
+                            CheckEmailDistributionListContactLanguageWebFields(new List<EmailDistributionListContactLanguageWeb>() { emailDistributionListContactLanguageWebRet });
+                            Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageWebRet.EmailDistributionListContactLanguageID);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
+                            EmailDistributionListContactLanguageReport emailDistributionListContactLanguageReportRet = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportWithEmailDistributionListContactLanguageID(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID);
+                            CheckEmailDistributionListContactLanguageReportFields(new List<EmailDistributionListContactLanguageReport>() { emailDistributionListContactLanguageReportRet });
+                            Assert.AreEqual(emailDistributionListContactLanguage.EmailDistributionListContactLanguageID, emailDistributionListContactLanguageReportRet.EmailDistributionListContactLanguageID);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(new List<EmailDistributionListContactLanguage>() { emailDistributionListContactLanguageRet }, entityQueryDetailType);
                     }
                 }
             }
@@ -319,34 +285,38 @@ namespace CSSPServices.Tests
                     EmailDistributionListContactLanguage emailDistributionListContactLanguage = (from c in emailDistributionListContactLanguageService.GetRead() select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionListContactLanguage);
 
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
+                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
+                    emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Take(100).ToList();
+
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         emailDistributionListContactLanguageService.Query.EntityQueryDetailType = entityQueryDetailType;
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
-                            Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList = new List<EmailDistributionListContactLanguageWeb>();
+                            emailDistributionListContactLanguageWebList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebList().ToList();
+                            CheckEmailDistributionListContactLanguageWebFields(emailDistributionListContactLanguageWebList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList = new List<EmailDistributionListContactLanguageReport>();
+                            emailDistributionListContactLanguageReportList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportList().ToList();
+                            CheckEmailDistributionListContactLanguageReportFields(emailDistributionListContactLanguageReportList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList, entityQueryDetailType);
                     }
                 }
             }
@@ -363,41 +333,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         emailDistributionListContactLanguageService.Query = emailDistributionListContactLanguageService.FillQuery(typeof(EmailDistributionListContactLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Skip(1).Take(1).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
-                            Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList = new List<EmailDistributionListContactLanguageWeb>();
+                            emailDistributionListContactLanguageWebList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebList().ToList();
+                            CheckEmailDistributionListContactLanguageWebFields(emailDistributionListContactLanguageWebList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageWebList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList = new List<EmailDistributionListContactLanguageReport>();
+                            emailDistributionListContactLanguageReportList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportList().ToList();
+                            CheckEmailDistributionListContactLanguageReportFields(emailDistributionListContactLanguageReportList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList, entityQueryDetailType);
-                        Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        Assert.AreEqual(1, emailDistributionListContactLanguageList.Count);
                     }
                 }
             }
@@ -414,41 +386,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         emailDistributionListContactLanguageService.Query = emailDistributionListContactLanguageService.FillQuery(typeof(EmailDistributionListContactLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "EmailDistributionListContactLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
-                            Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList = new List<EmailDistributionListContactLanguageWeb>();
+                            emailDistributionListContactLanguageWebList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebList().ToList();
+                            CheckEmailDistributionListContactLanguageWebFields(emailDistributionListContactLanguageWebList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageWebList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList = new List<EmailDistributionListContactLanguageReport>();
+                            emailDistributionListContactLanguageReportList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportList().ToList();
+                            CheckEmailDistributionListContactLanguageReportFields(emailDistributionListContactLanguageReportList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList, entityQueryDetailType);
-                        Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        Assert.AreEqual(1, emailDistributionListContactLanguageList.Count);
                     }
                 }
             }
@@ -465,41 +439,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         emailDistributionListContactLanguageService.Query = emailDistributionListContactLanguageService.FillQuery(typeof(EmailDistributionListContactLanguage), culture.TwoLetterISOLanguageName, 1, 1, "EmailDistributionListContactLanguageID,EmailDistributionListContactID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ThenBy(c => c.EmailDistributionListContactID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
-                            Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList = new List<EmailDistributionListContactLanguageWeb>();
+                            emailDistributionListContactLanguageWebList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebList().ToList();
+                            CheckEmailDistributionListContactLanguageWebFields(emailDistributionListContactLanguageWebList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageWebList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList = new List<EmailDistributionListContactLanguageReport>();
+                            emailDistributionListContactLanguageReportList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportList().ToList();
+                            CheckEmailDistributionListContactLanguageReportFields(emailDistributionListContactLanguageReportList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList, entityQueryDetailType);
-                        Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        Assert.AreEqual(1, emailDistributionListContactLanguageList.Count);
                     }
                 }
             }
@@ -516,41 +492,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         emailDistributionListContactLanguageService.Query = emailDistributionListContactLanguageService.FillQuery(typeof(EmailDistributionListContactLanguage), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactLanguageID", "EmailDistributionListContactLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Where(c => c.EmailDistributionListContactLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
-                            Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList = new List<EmailDistributionListContactLanguageWeb>();
+                            emailDistributionListContactLanguageWebList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebList().ToList();
+                            CheckEmailDistributionListContactLanguageWebFields(emailDistributionListContactLanguageWebList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageWebList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList = new List<EmailDistributionListContactLanguageReport>();
+                            emailDistributionListContactLanguageReportList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportList().ToList();
+                            CheckEmailDistributionListContactLanguageReportFields(emailDistributionListContactLanguageReportList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList, entityQueryDetailType);
-                        Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        Assert.AreEqual(1, emailDistributionListContactLanguageList.Count);
                     }
                 }
             }
@@ -567,41 +545,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         emailDistributionListContactLanguageService.Query = emailDistributionListContactLanguageService.FillQuery(typeof(EmailDistributionListContactLanguage), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactLanguageID", "EmailDistributionListContactLanguageID,GT,2|EmailDistributionListContactLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Where(c => c.EmailDistributionListContactLanguageID > 2 && c.EmailDistributionListContactLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactLanguageID).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
-                            Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList = new List<EmailDistributionListContactLanguageWeb>();
+                            emailDistributionListContactLanguageWebList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebList().ToList();
+                            CheckEmailDistributionListContactLanguageWebFields(emailDistributionListContactLanguageWebList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageWebList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList = new List<EmailDistributionListContactLanguageReport>();
+                            emailDistributionListContactLanguageReportList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportList().ToList();
+                            CheckEmailDistributionListContactLanguageReportFields(emailDistributionListContactLanguageReportList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList, entityQueryDetailType);
-                        Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        Assert.AreEqual(1, emailDistributionListContactLanguageList.Count);
                     }
                 }
             }
@@ -618,41 +598,43 @@ namespace CSSPServices.Tests
 
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
-                    List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
                         EmailDistributionListContactLanguageService emailDistributionListContactLanguageService = new EmailDistributionListContactLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
 
                         emailDistributionListContactLanguageService.Query = emailDistributionListContactLanguageService.FillQuery(typeof(EmailDistributionListContactLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "EmailDistributionListContactLanguageID,GT,2|EmailDistributionListContactLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
+                        List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageDirectQueryList = new List<EmailDistributionListContactLanguage>();
                         emailDistributionListContactLanguageDirectQueryList = emailDistributionListContactLanguageService.GetRead().Where(c => c.EmailDistributionListContactLanguageID > 2 && c.EmailDistributionListContactLanguageID < 5).ToList();
 
-                        if (entityQueryDetailType == null)
+                        if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
+                            List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList = new List<EmailDistributionListContactLanguage>();
                             emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
-                            Assert.AreEqual(0, emailDistributionListContactLanguageList.Count);
-                            continue;
-                        }
-                        else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
-                        {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList = new List<EmailDistributionListContactLanguageWeb>();
+                            emailDistributionListContactLanguageWebList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageWebList().ToList();
+                            CheckEmailDistributionListContactLanguageWebFields(emailDistributionListContactLanguageWebList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageWebList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageWebList.Count);
                         }
                         else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
                         {
-                            emailDistributionListContactLanguageList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageList().ToList();
+                            List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList = new List<EmailDistributionListContactLanguageReport>();
+                            emailDistributionListContactLanguageReportList = emailDistributionListContactLanguageService.GetEmailDistributionListContactLanguageReportList().ToList();
+                            CheckEmailDistributionListContactLanguageReportFields(emailDistributionListContactLanguageReportList);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageID);
+                            Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList.Count, emailDistributionListContactLanguageReportList.Count);
                         }
                         else
                         {
                             // nothing for now
                         }
-                        CheckEmailDistributionListContactLanguageFields(emailDistributionListContactLanguageList, entityQueryDetailType);
-                        Assert.AreEqual(emailDistributionListContactLanguageDirectQueryList[0].EmailDistributionListContactLanguageID, emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
-                        Assert.AreEqual(2, emailDistributionListContactLanguageList.Count);
                     }
                 }
             }
@@ -660,9 +642,8 @@ namespace CSSPServices.Tests
         #endregion Tests Generated for GetEmailDistributionListContactLanguageList() 2Where
 
         #region Functions private
-        private void CheckEmailDistributionListContactLanguageFields(List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList, EntityQueryDetailTypeEnum? entityQueryDetailType)
+        private void CheckEmailDistributionListContactLanguageFields(List<EmailDistributionListContactLanguage> emailDistributionListContactLanguageList)
         {
-            // EmailDistributionListContactLanguage fields
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageID);
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactID);
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].Language);
@@ -670,44 +651,51 @@ namespace CSSPServices.Tests
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].TranslationStatus);
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].LastUpdateDate_UTC);
             Assert.IsNotNull(emailDistributionListContactLanguageList[0].LastUpdateContactTVItemID);
-
-            if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
+            Assert.IsNotNull(emailDistributionListContactLanguageList[0].HasErrors);
+        }
+        private void CheckEmailDistributionListContactLanguageWebFields(List<EmailDistributionListContactLanguageWeb> emailDistributionListContactLanguageWebList)
+        {
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageWebList[0].LanguageText))
             {
-                // EmailDistributionListContactLanguageWeb and EmailDistributionListContactLanguageReport fields should be null here
-                Assert.IsNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb);
-                Assert.IsNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageWebList[0].LanguageText));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityWeb)
+            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageWebList[0].TranslationStatusText))
             {
-                // EmailDistributionListContactLanguageWeb fields should not be null and EmailDistributionListContactLanguageReport fields should be null here
-                Assert.IsNotNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVItemLanguage);
-                if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText));
-                }
-                if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.TranslationStatusText))
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.TranslationStatusText));
-                }
-                Assert.IsNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageReport);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageWebList[0].TranslationStatusText));
             }
-            else if (entityQueryDetailType == EntityQueryDetailTypeEnum.EntityReport)
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].EmailDistributionListContactLanguageID);
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].EmailDistributionListContactID);
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageWebList[0].Agency));
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].TranslationStatus);
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(emailDistributionListContactLanguageWebList[0].HasErrors);
+        }
+        private void CheckEmailDistributionListContactLanguageReportFields(List<EmailDistributionListContactLanguageReport> emailDistributionListContactLanguageReportList)
+        {
+            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageReportTest))
             {
-                // EmailDistributionListContactLanguageWeb and EmailDistributionListContactLanguageReport fields should NOT be null here
-                Assert.IsNotNull(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LastUpdateContactTVItemLanguage);
-                if (emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.LanguageText));
-                }
-                if (emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.TranslationStatusText != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageWeb.TranslationStatusText));
-                }
-                if (emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageReport.EmailDistributionListContactLanguageReportTest != null)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageList[0].EmailDistributionListContactLanguageReport.EmailDistributionListContactLanguageReportTest));
-                }
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageReportTest));
             }
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].LastUpdateContactTVItemLanguage);
+            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageReportList[0].LanguageText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageReportList[0].LanguageText));
+            }
+            if (!string.IsNullOrWhiteSpace(emailDistributionListContactLanguageReportList[0].TranslationStatusText))
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageReportList[0].TranslationStatusText));
+            }
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].EmailDistributionListContactLanguageID);
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].EmailDistributionListContactID);
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].Language);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactLanguageReportList[0].Agency));
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].TranslationStatus);
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].LastUpdateDate_UTC);
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].LastUpdateContactTVItemID);
+            Assert.IsNotNull(emailDistributionListContactLanguageReportList[0].HasErrors);
         }
         private EmailDistributionListContactLanguage GetFilledRandomEmailDistributionListContactLanguage(string OmitPropName)
         {

@@ -45,31 +45,31 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVTypeName))
             {
                 tvTypeNamesAndPath.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTypeNamesAndPathTVTypeName), new[] { "TVTypeName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVTypeNamesAndPathTVTypeName"), new[] { "TVTypeName" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVTypeName) && (tvTypeNamesAndPath.TVTypeName.Length < 1 || tvTypeNamesAndPath.TVTypeName.Length > 255))
             {
                 tvTypeNamesAndPath.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVTypeNamesAndPathTVTypeName, "1", "255"), new[] { "TVTypeName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVTypeNamesAndPathTVTypeName", "1", "255"), new[] { "TVTypeName" });
             }
 
             if (tvTypeNamesAndPath.Index < 1)
             {
                 tvTypeNamesAndPath.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.TVTypeNamesAndPathIndex, "1"), new[] { "Index" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVTypeNamesAndPathIndex", "1"), new[] { "Index" });
             }
 
             if (string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVPath))
             {
                 tvTypeNamesAndPath.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTypeNamesAndPathTVPath), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVTypeNamesAndPathTVPath"), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVPath) && (tvTypeNamesAndPath.TVPath.Length < 1 || tvTypeNamesAndPath.TVPath.Length > 255))
             {
                 tvTypeNamesAndPath.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVTypeNamesAndPathTVPath, "1", "255"), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVTypeNamesAndPathTVPath", "1", "255"), new[] { "TVPath" });
             }
 
             retStr = ""; // added to stop compiling error

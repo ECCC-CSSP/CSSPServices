@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (vpAmbient.VPAmbientID == 0)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPAmbientVPAmbientID), new[] { "VPAmbientID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPAmbientVPAmbientID"), new[] { "VPAmbientID" });
                 }
 
                 if (!GetRead().Where(c => c.VPAmbientID == vpAmbient.VPAmbientID).Any())
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPAmbient, CSSPModelsRes.VPAmbientVPAmbientID, vpAmbient.VPAmbientID.ToString()), new[] { "VPAmbientID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPAmbient", "VPAmbientVPAmbientID", vpAmbient.VPAmbientID.ToString()), new[] { "VPAmbientID" });
                 }
             }
 
@@ -62,13 +62,13 @@ namespace CSSPServices
             if (VPScenarioVPScenarioID == null)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPAmbientVPScenarioID", vpAmbient.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
             if (vpAmbient.Row < 0 || vpAmbient.Row > 10)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientRow, "0", "10"), new[] { "Row" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientRow", "0", "10"), new[] { "Row" });
             }
 
             if (vpAmbient.MeasurementDepth_m != null)
@@ -76,7 +76,7 @@ namespace CSSPServices
                 if (vpAmbient.MeasurementDepth_m < 0 || vpAmbient.MeasurementDepth_m > 1000)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), new[] { "MeasurementDepth_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientMeasurementDepth_m", "0", "1000"), new[] { "MeasurementDepth_m" });
                 }
             }
 
@@ -85,7 +85,7 @@ namespace CSSPServices
                 if (vpAmbient.CurrentSpeed_m_s < 0 || vpAmbient.CurrentSpeed_m_s > 10)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), new[] { "CurrentSpeed_m_s" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientCurrentSpeed_m_s", "0", "10"), new[] { "CurrentSpeed_m_s" });
                 }
             }
 
@@ -94,7 +94,7 @@ namespace CSSPServices
                 if (vpAmbient.CurrentDirection_deg < -180 || vpAmbient.CurrentDirection_deg > 180)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), new[] { "CurrentDirection_deg" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientCurrentDirection_deg", "-180", "180"), new[] { "CurrentDirection_deg" });
                 }
             }
 
@@ -103,7 +103,7 @@ namespace CSSPServices
                 if (vpAmbient.AmbientSalinity_PSU < 0 || vpAmbient.AmbientSalinity_PSU > 40)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), new[] { "AmbientSalinity_PSU" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientAmbientSalinity_PSU", "0", "40"), new[] { "AmbientSalinity_PSU" });
                 }
             }
 
@@ -112,7 +112,7 @@ namespace CSSPServices
                 if (vpAmbient.AmbientTemperature_C < -10 || vpAmbient.AmbientTemperature_C > 40)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), new[] { "AmbientTemperature_C" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientAmbientTemperature_C", "-10", "40"), new[] { "AmbientTemperature_C" });
                 }
             }
 
@@ -121,7 +121,7 @@ namespace CSSPServices
                 if (vpAmbient.BackgroundConcentration_MPN_100ml < 0 || vpAmbient.BackgroundConcentration_MPN_100ml > 10000000)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), new[] { "BackgroundConcentration_MPN_100ml" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientBackgroundConcentration_MPN_100ml", "0", "10000000"), new[] { "BackgroundConcentration_MPN_100ml" });
                 }
             }
 
@@ -130,7 +130,7 @@ namespace CSSPServices
                 if (vpAmbient.PollutantDecayRate_per_day < 0 || vpAmbient.PollutantDecayRate_per_day > 100)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), new[] { "PollutantDecayRate_per_day" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientPollutantDecayRate_per_day", "0", "100"), new[] { "PollutantDecayRate_per_day" });
                 }
             }
 
@@ -139,7 +139,7 @@ namespace CSSPServices
                 if (vpAmbient.FarFieldCurrentSpeed_m_s < 0 || vpAmbient.FarFieldCurrentSpeed_m_s > 10)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), new[] { "FarFieldCurrentSpeed_m_s" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientFarFieldCurrentSpeed_m_s", "0", "10"), new[] { "FarFieldCurrentSpeed_m_s" });
                 }
             }
 
@@ -148,7 +148,7 @@ namespace CSSPServices
                 if (vpAmbient.FarFieldCurrentDirection_deg < -180 || vpAmbient.FarFieldCurrentDirection_deg > 180)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), new[] { "FarFieldCurrentDirection_deg" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientFarFieldCurrentDirection_deg", "-180", "180"), new[] { "FarFieldCurrentDirection_deg" });
                 }
             }
 
@@ -157,21 +157,21 @@ namespace CSSPServices
                 if (vpAmbient.FarFieldDiffusionCoefficient < 0 || vpAmbient.FarFieldDiffusionCoefficient > 1)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), new[] { "FarFieldDiffusionCoefficient" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPAmbientFarFieldDiffusionCoefficient", "0", "1"), new[] { "FarFieldDiffusionCoefficient" });
                 }
             }
 
             if (vpAmbient.LastUpdateDate_UTC.Year == 1)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPAmbientLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPAmbientLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpAmbient.LastUpdateDate_UTC.Year < 1980)
                 {
                 vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPAmbientLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "VPAmbientLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -180,7 +180,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "VPAmbientLastUpdateContactTVItemID", vpAmbient.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -191,7 +191,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "VPAmbientLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -208,57 +208,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID)
         {
-            IQueryable<VPAmbient> vpAmbientQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.VPAmbientID == VPAmbientID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.VPAmbientID == VPAmbientID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return vpAmbientQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillVPAmbientWeb(vpAmbientQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillVPAmbientReport(vpAmbientQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<VPAmbient> GetVPAmbientList()
         {
-            IQueryable<VPAmbient> vpAmbientQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<VPAmbient> VPAmbientQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        vpAmbientQuery = EnhanceQueryStatements<VPAmbient>(vpAmbientQuery) as IQueryable<VPAmbient>;
+            VPAmbientQuery = EnhanceQueryStatements<VPAmbient>(VPAmbientQuery) as IQueryable<VPAmbient>;
 
-                        return vpAmbientQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        vpAmbientQuery = FillVPAmbientWeb(vpAmbientQuery);
+            return VPAmbientQuery;
+        }
+        public VPAmbientWeb GetVPAmbientWebWithVPAmbientID(int VPAmbientID)
+        {
+            return FillVPAmbientWeb().FirstOrDefault();
 
-                        vpAmbientQuery = EnhanceQueryStatements<VPAmbient>(vpAmbientQuery) as IQueryable<VPAmbient>;
+        }
+        public IQueryable<VPAmbientWeb> GetVPAmbientWebList()
+        {
+            IQueryable<VPAmbientWeb> VPAmbientWebQuery = FillVPAmbientWeb();
 
-                        return vpAmbientQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        vpAmbientQuery = FillVPAmbientReport(vpAmbientQuery);
+            VPAmbientWebQuery = EnhanceQueryStatements<VPAmbientWeb>(VPAmbientWebQuery) as IQueryable<VPAmbientWeb>;
 
-                        vpAmbientQuery = EnhanceQueryStatements<VPAmbient>(vpAmbientQuery) as IQueryable<VPAmbient>;
+            return VPAmbientWebQuery;
+        }
+        public VPAmbientReport GetVPAmbientReportWithVPAmbientID(int VPAmbientID)
+        {
+            return FillVPAmbientReport().FirstOrDefault();
 
-                        return vpAmbientQuery;
-                    }
-                default:
-                    {
-                        vpAmbientQuery = vpAmbientQuery.Where(c => c.VPAmbientID == 0);
+        }
+        public IQueryable<VPAmbientReport> GetVPAmbientReportList()
+        {
+            IQueryable<VPAmbientReport> VPAmbientReportQuery = FillVPAmbientReport();
 
-                        return vpAmbientQuery;
-                    }
-            }
+            VPAmbientReportQuery = EnhanceQueryStatements<VPAmbientReport>(VPAmbientReportQuery) as IQueryable<VPAmbientReport>;
+
+            return VPAmbientReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -311,15 +298,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPAmbientFillWeb
-        private IQueryable<VPAmbient> FillVPAmbientWeb(IQueryable<VPAmbient> vpAmbientQuery)
+        private IQueryable<VPAmbientWeb> FillVPAmbientWeb()
         {
-            vpAmbientQuery = (from c in vpAmbientQuery
+             IQueryable<VPAmbientWeb>  VPAmbientWebQuery = (from c in db.VPAmbients
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new VPAmbient
+                    select new VPAmbientWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         VPAmbientID = c.VPAmbientID,
                         VPScenarioID = c.VPScenarioID,
                         Row = c.Row,
@@ -335,16 +323,11 @@ namespace CSSPServices
                         FarFieldDiffusionCoefficient = c.FarFieldDiffusionCoefficient,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        VPAmbientWeb = new VPAmbientWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        VPAmbientReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return vpAmbientQuery;
+            return VPAmbientWebQuery;
         }
         #endregion Functions private Generated VPAmbientFillWeb
 

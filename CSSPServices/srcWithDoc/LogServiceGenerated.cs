@@ -47,45 +47,45 @@ namespace CSSPServices
                 if (log.LogID == 0)
                 {
                     log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogLogID), new[] { "LogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogLogID"), new[] { "LogID" });
                 }
 
                 if (!GetRead().Where(c => c.LogID == log.LogID).Any())
                 {
                     log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Log, CSSPModelsRes.LogLogID, log.LogID.ToString()), new[] { "LogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Log", "LogLogID", log.LogID.ToString()), new[] { "LogID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(log.TableName))
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogTableName), new[] { "TableName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogTableName"), new[] { "TableName" });
             }
 
             if (!string.IsNullOrWhiteSpace(log.TableName) && log.TableName.Length > 50)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogTableName, "50"), new[] { "TableName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "LogTableName", "50"), new[] { "TableName" });
             }
 
             if (log.ID < 1)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LogID, "1"), new[] { "ID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "LogID", "1"), new[] { "ID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LogCommandEnum), (int?)log.LogCommand);
             if (log.LogCommand == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogLogCommand), new[] { "LogCommand" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogLogCommand"), new[] { "LogCommand" });
             }
 
             if (string.IsNullOrWhiteSpace(log.Information))
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogInformation), new[] { "Information" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogInformation"), new[] { "Information" });
             }
 
             //Information has no StringLength Attribute
@@ -93,14 +93,14 @@ namespace CSSPServices
             if (log.LastUpdateDate_UTC.Year == 1)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (log.LastUpdateDate_UTC.Year < 1980)
                 {
                 log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "LogLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -109,7 +109,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 log.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "LogLastUpdateContactTVItemID", log.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -120,7 +120,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     log.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "LogLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -137,57 +137,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Log GetLogWithLogID(int LogID)
         {
-            IQueryable<Log> logQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.LogID == LogID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.LogID == LogID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return logQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillLogWeb(logQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillLogReport(logQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<Log> GetLogList()
         {
-            IQueryable<Log> logQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Log> LogQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        logQuery = EnhanceQueryStatements<Log>(logQuery) as IQueryable<Log>;
+            LogQuery = EnhanceQueryStatements<Log>(LogQuery) as IQueryable<Log>;
 
-                        return logQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        logQuery = FillLogWeb(logQuery);
+            return LogQuery;
+        }
+        public LogWeb GetLogWebWithLogID(int LogID)
+        {
+            return FillLogWeb().FirstOrDefault();
 
-                        logQuery = EnhanceQueryStatements<Log>(logQuery) as IQueryable<Log>;
+        }
+        public IQueryable<LogWeb> GetLogWebList()
+        {
+            IQueryable<LogWeb> LogWebQuery = FillLogWeb();
 
-                        return logQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        logQuery = FillLogReport(logQuery);
+            LogWebQuery = EnhanceQueryStatements<LogWeb>(LogWebQuery) as IQueryable<LogWeb>;
 
-                        logQuery = EnhanceQueryStatements<Log>(logQuery) as IQueryable<Log>;
+            return LogWebQuery;
+        }
+        public LogReport GetLogReportWithLogID(int LogID)
+        {
+            return FillLogReport().FirstOrDefault();
 
-                        return logQuery;
-                    }
-                default:
-                    {
-                        logQuery = logQuery.Where(c => c.LogID == 0);
+        }
+        public IQueryable<LogReport> GetLogReportList()
+        {
+            IQueryable<LogReport> LogReportQuery = FillLogReport();
 
-                        return logQuery;
-                    }
-            }
+            LogReportQuery = EnhanceQueryStatements<LogReport>(LogReportQuery) as IQueryable<LogReport>;
+
+            return LogReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -240,19 +227,23 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LogFillWeb
-        private IQueryable<Log> FillLogWeb(IQueryable<Log> logQuery)
+        private IQueryable<LogWeb> FillLogWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> LogCommandEnumList = enums.GetEnumTextOrderedList(typeof(LogCommandEnum));
 
-            logQuery = (from c in logQuery
+             IQueryable<LogWeb>  LogWebQuery = (from c in db.Logs
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new Log
+                    select new LogWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        LogCommandText = (from e in LogCommandEnumList
+                                where e.EnumID == (int?)c.LogCommand
+                                select e.EnumText).FirstOrDefault(),
                         LogID = c.LogID,
                         TableName = c.TableName,
                         ID = c.ID,
@@ -260,19 +251,11 @@ namespace CSSPServices
                         Information = c.Information,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        LogWeb = new LogWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                            LogCommandText = (from e in LogCommandEnumList
-                                where e.EnumID == (int?)c.LogCommand
-                                select e.EnumText).FirstOrDefault(),
-                        },
-                        LogReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return logQuery;
+            return LogWebQuery;
         }
         #endregion Functions private Generated LogFillWeb
 

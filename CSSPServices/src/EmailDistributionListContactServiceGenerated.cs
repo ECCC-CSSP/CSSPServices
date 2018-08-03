@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (emailDistributionListContact.EmailDistributionListContactID == 0)
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactEmailDistributionListContactID), new[] { "EmailDistributionListContactID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactEmailDistributionListContactID"), new[] { "EmailDistributionListContactID" });
                 }
 
                 if (!GetRead().Where(c => c.EmailDistributionListContactID == emailDistributionListContact.EmailDistributionListContactID).Any())
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListContact, CSSPModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), new[] { "EmailDistributionListContactID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContact", "EmailDistributionListContactEmailDistributionListContactID", emailDistributionListContact.EmailDistributionListContactID.ToString()), new[] { "EmailDistributionListContactID" });
                 }
             }
 
@@ -62,31 +62,31 @@ namespace CSSPServices
             if (EmailDistributionListEmailDistributionListID == null)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionList, CSSPModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), new[] { "EmailDistributionListID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionList", "EmailDistributionListContactEmailDistributionListID", emailDistributionListContact.EmailDistributionListID.ToString()), new[] { "EmailDistributionListID" });
             }
 
             if (string.IsNullOrWhiteSpace(emailDistributionListContact.Name))
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactName"), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContact.Name) && emailDistributionListContact.Name.Length > 100)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactName, "100"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "EmailDistributionListContactName", "100"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(emailDistributionListContact.Email))
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactEmail), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactEmail"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContact.Email) && emailDistributionListContact.Email.Length > 200)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactEmail, "200"), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "EmailDistributionListContactEmail", "200"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContact.Email))
@@ -95,21 +95,21 @@ namespace CSSPServices
                 if (!regex.IsMatch(emailDistributionListContact.Email))
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, CSSPModelsRes.EmailDistributionListContactEmail), new[] { "Email" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, "EmailDistributionListContactEmail"), new[] { "Email" });
                 }
             }
 
             if (emailDistributionListContact.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (emailDistributionListContact.LastUpdateDate_UTC.Year < 1980)
                 {
                 emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "EmailDistributionListContactLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -118,7 +118,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "EmailDistributionListContactLastUpdateContactTVItemID", emailDistributionListContact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -129,7 +129,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "EmailDistributionListContactLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -146,57 +146,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public EmailDistributionListContact GetEmailDistributionListContactWithEmailDistributionListContactID(int EmailDistributionListContactID)
         {
-            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.EmailDistributionListContactID == EmailDistributionListContactID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.EmailDistributionListContactID == EmailDistributionListContactID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return emailDistributionListContactQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillEmailDistributionListContactWeb(emailDistributionListContactQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillEmailDistributionListContactReport(emailDistributionListContactQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<EmailDistributionListContact> GetEmailDistributionListContactList()
         {
-            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<EmailDistributionListContact> EmailDistributionListContactQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        emailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(emailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
+            EmailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(EmailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
 
-                        return emailDistributionListContactQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        emailDistributionListContactQuery = FillEmailDistributionListContactWeb(emailDistributionListContactQuery);
+            return EmailDistributionListContactQuery;
+        }
+        public EmailDistributionListContactWeb GetEmailDistributionListContactWebWithEmailDistributionListContactID(int EmailDistributionListContactID)
+        {
+            return FillEmailDistributionListContactWeb().FirstOrDefault();
 
-                        emailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(emailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
+        }
+        public IQueryable<EmailDistributionListContactWeb> GetEmailDistributionListContactWebList()
+        {
+            IQueryable<EmailDistributionListContactWeb> EmailDistributionListContactWebQuery = FillEmailDistributionListContactWeb();
 
-                        return emailDistributionListContactQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        emailDistributionListContactQuery = FillEmailDistributionListContactReport(emailDistributionListContactQuery);
+            EmailDistributionListContactWebQuery = EnhanceQueryStatements<EmailDistributionListContactWeb>(EmailDistributionListContactWebQuery) as IQueryable<EmailDistributionListContactWeb>;
 
-                        emailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(emailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
+            return EmailDistributionListContactWebQuery;
+        }
+        public EmailDistributionListContactReport GetEmailDistributionListContactReportWithEmailDistributionListContactID(int EmailDistributionListContactID)
+        {
+            return FillEmailDistributionListContactReport().FirstOrDefault();
 
-                        return emailDistributionListContactQuery;
-                    }
-                default:
-                    {
-                        emailDistributionListContactQuery = emailDistributionListContactQuery.Where(c => c.EmailDistributionListContactID == 0);
+        }
+        public IQueryable<EmailDistributionListContactReport> GetEmailDistributionListContactReportList()
+        {
+            IQueryable<EmailDistributionListContactReport> EmailDistributionListContactReportQuery = FillEmailDistributionListContactReport();
 
-                        return emailDistributionListContactQuery;
-                    }
-            }
+            EmailDistributionListContactReportQuery = EnhanceQueryStatements<EmailDistributionListContactReport>(EmailDistributionListContactReportQuery) as IQueryable<EmailDistributionListContactReport>;
+
+            return EmailDistributionListContactReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -249,15 +236,16 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailDistributionListContactFillWeb
-        private IQueryable<EmailDistributionListContact> FillEmailDistributionListContactWeb(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery)
+        private IQueryable<EmailDistributionListContactWeb> FillEmailDistributionListContactWeb()
         {
-            emailDistributionListContactQuery = (from c in emailDistributionListContactQuery
+             IQueryable<EmailDistributionListContactWeb>  EmailDistributionListContactWebQuery = (from c in db.EmailDistributionListContacts
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new EmailDistributionListContact
+                    select new EmailDistributionListContactWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         EmailDistributionListContactID = c.EmailDistributionListContactID,
                         EmailDistributionListID = c.EmailDistributionListID,
                         IsCC = c.IsCC,
@@ -270,16 +258,11 @@ namespace CSSPServices
                         ReopeningAllTypes = c.ReopeningAllTypes,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        EmailDistributionListContactWeb = new EmailDistributionListContactWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        EmailDistributionListContactReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return emailDistributionListContactQuery;
+            return EmailDistributionListContactWebQuery;
         }
         #endregion Functions private Generated EmailDistributionListContactFillWeb
 

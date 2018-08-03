@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mikeSource.MikeSourceID == 0)
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceMikeSourceID), new[] { "MikeSourceID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceMikeSourceID"), new[] { "MikeSourceID" });
                 }
 
                 if (!GetRead().Where(c => c.MikeSourceID == mikeSource.MikeSourceID).Any())
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeSource, CSSPModelsRes.MikeSourceMikeSourceID, mikeSource.MikeSourceID.ToString()), new[] { "MikeSourceID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeSource", "MikeSourceMikeSourceID", mikeSource.MikeSourceID.ToString()), new[] { "MikeSourceID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMikeSourceTVItemID == null)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceMikeSourceTVItemID, mikeSource.MikeSourceTVItemID.ToString()), new[] { "MikeSourceTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceMikeSourceTVItemID", mikeSource.MikeSourceTVItemID.ToString()), new[] { "MikeSourceTVItemID" });
             }
             else
             {
@@ -73,33 +73,33 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMikeSourceTVItemID.TVType))
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceMikeSourceTVItemID, "MikeSource"), new[] { "MikeSourceTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceMikeSourceTVItemID", "MikeSource"), new[] { "MikeSourceTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mikeSource.SourceNumberString))
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceSourceNumberString), new[] { "SourceNumberString" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceSourceNumberString"), new[] { "SourceNumberString" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeSource.SourceNumberString) && mikeSource.SourceNumberString.Length > 50)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceSourceNumberString, "50"), new[] { "SourceNumberString" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MikeSourceSourceNumberString", "50"), new[] { "SourceNumberString" });
             }
 
             if (mikeSource.LastUpdateDate_UTC.Year == 1)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mikeSource.LastUpdateDate_UTC.Year < 1980)
                 {
                 mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MikeSourceLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -108,7 +108,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeSource.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceLastUpdateContactTVItemID, mikeSource.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MikeSourceLastUpdateContactTVItemID", mikeSource.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -119,7 +119,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mikeSource.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MikeSourceLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -136,57 +136,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID)
         {
-            IQueryable<MikeSource> mikeSourceQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MikeSourceID == MikeSourceID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MikeSourceID == MikeSourceID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mikeSourceQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMikeSourceWeb(mikeSourceQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMikeSourceReport(mikeSourceQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MikeSource> GetMikeSourceList()
         {
-            IQueryable<MikeSource> mikeSourceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeSource> MikeSourceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mikeSourceQuery = EnhanceQueryStatements<MikeSource>(mikeSourceQuery) as IQueryable<MikeSource>;
+            MikeSourceQuery = EnhanceQueryStatements<MikeSource>(MikeSourceQuery) as IQueryable<MikeSource>;
 
-                        return mikeSourceQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mikeSourceQuery = FillMikeSourceWeb(mikeSourceQuery);
+            return MikeSourceQuery;
+        }
+        public MikeSourceWeb GetMikeSourceWebWithMikeSourceID(int MikeSourceID)
+        {
+            return FillMikeSourceWeb().FirstOrDefault();
 
-                        mikeSourceQuery = EnhanceQueryStatements<MikeSource>(mikeSourceQuery) as IQueryable<MikeSource>;
+        }
+        public IQueryable<MikeSourceWeb> GetMikeSourceWebList()
+        {
+            IQueryable<MikeSourceWeb> MikeSourceWebQuery = FillMikeSourceWeb();
 
-                        return mikeSourceQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mikeSourceQuery = FillMikeSourceReport(mikeSourceQuery);
+            MikeSourceWebQuery = EnhanceQueryStatements<MikeSourceWeb>(MikeSourceWebQuery) as IQueryable<MikeSourceWeb>;
 
-                        mikeSourceQuery = EnhanceQueryStatements<MikeSource>(mikeSourceQuery) as IQueryable<MikeSource>;
+            return MikeSourceWebQuery;
+        }
+        public MikeSourceReport GetMikeSourceReportWithMikeSourceID(int MikeSourceID)
+        {
+            return FillMikeSourceReport().FirstOrDefault();
 
-                        return mikeSourceQuery;
-                    }
-                default:
-                    {
-                        mikeSourceQuery = mikeSourceQuery.Where(c => c.MikeSourceID == 0);
+        }
+        public IQueryable<MikeSourceReport> GetMikeSourceReportList()
+        {
+            IQueryable<MikeSourceReport> MikeSourceReportQuery = FillMikeSourceReport();
 
-                        return mikeSourceQuery;
-                    }
-            }
+            MikeSourceReportQuery = EnhanceQueryStatements<MikeSourceReport>(MikeSourceReportQuery) as IQueryable<MikeSourceReport>;
+
+            return MikeSourceReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -239,9 +226,9 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeSourceFillWeb
-        private IQueryable<MikeSource> FillMikeSourceWeb(IQueryable<MikeSource> mikeSourceQuery)
+        private IQueryable<MikeSourceWeb> FillMikeSourceWeb()
         {
-            mikeSourceQuery = (from c in mikeSourceQuery
+             IQueryable<MikeSourceWeb>  MikeSourceWebQuery = (from c in db.MikeSources
                 let MikeSourceTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeSourceTVItemID
                     && cl.Language == LanguageRequest
@@ -250,8 +237,10 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MikeSource
+                    select new MikeSourceWeb
                     {
+                        MikeSourceTVItemLanguage = MikeSourceTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         MikeSourceID = c.MikeSourceID,
                         MikeSourceTVItemID = c.MikeSourceTVItemID,
                         IsContinuous = c.IsContinuous,
@@ -260,17 +249,11 @@ namespace CSSPServices
                         SourceNumberString = c.SourceNumberString,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MikeSourceWeb = new MikeSourceWeb
-                        {
-                            MikeSourceTVItemLanguage = MikeSourceTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        MikeSourceReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mikeSourceQuery;
+            return MikeSourceWebQuery;
         }
         #endregion Functions private Generated MikeSourceFillWeb
 

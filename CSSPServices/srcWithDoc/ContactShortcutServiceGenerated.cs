@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (contactShortcut.ContactShortcutID == 0)
                 {
                     contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutContactShortcutID), new[] { "ContactShortcutID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutContactShortcutID"), new[] { "ContactShortcutID" });
                 }
 
                 if (!GetRead().Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
                 {
                     contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ContactShortcut, CSSPModelsRes.ContactShortcutContactShortcutID, contactShortcut.ContactShortcutID.ToString()), new[] { "ContactShortcutID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutContactShortcutID", contactShortcut.ContactShortcutID.ToString()), new[] { "ContactShortcutID" });
                 }
             }
 
@@ -62,44 +62,44 @@ namespace CSSPServices
             if (ContactContactID == null)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactShortcutContactID, contactShortcut.ContactID.ToString()), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactShortcutContactID", contactShortcut.ContactID.ToString()), new[] { "ContactID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutText))
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutShortCutText), new[] { "ShortCutText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutShortCutText"), new[] { "ShortCutText" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutText) && contactShortcut.ShortCutText.Length > 100)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactShortcutShortCutText, "100"), new[] { "ShortCutText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactShortcutShortCutText", "100"), new[] { "ShortCutText" });
             }
 
             if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress))
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutShortCutAddress), new[] { "ShortCutAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutShortCutAddress"), new[] { "ShortCutAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress) && contactShortcut.ShortCutAddress.Length > 200)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactShortcutShortCutAddress, "200"), new[] { "ShortCutAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactShortcutShortCutAddress", "200"), new[] { "ShortCutAddress" });
             }
 
             if (contactShortcut.LastUpdateDate_UTC.Year == 1)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contactShortcut.LastUpdateDate_UTC.Year < 1980)
                 {
                 contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactShortcutLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "ContactShortcutLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -108,7 +108,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contactShortcut.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactShortcutLastUpdateContactTVItemID, contactShortcut.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "ContactShortcutLastUpdateContactTVItemID", contactShortcut.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -119,7 +119,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     contactShortcut.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactShortcutLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "ContactShortcutLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -136,57 +136,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID)
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.ContactShortcutID == ContactShortcutID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.ContactShortcutID == ContactShortcutID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return contactShortcutQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillContactShortcutWeb(contactShortcutQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillContactShortcutReport(contactShortcutQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<ContactShortcut> GetContactShortcutList()
         {
-            IQueryable<ContactShortcut> contactShortcutQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ContactShortcut> ContactShortcutQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        contactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(contactShortcutQuery) as IQueryable<ContactShortcut>;
+            ContactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(ContactShortcutQuery) as IQueryable<ContactShortcut>;
 
-                        return contactShortcutQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        contactShortcutQuery = FillContactShortcutWeb(contactShortcutQuery);
+            return ContactShortcutQuery;
+        }
+        public ContactShortcutWeb GetContactShortcutWebWithContactShortcutID(int ContactShortcutID)
+        {
+            return FillContactShortcutWeb().FirstOrDefault();
 
-                        contactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(contactShortcutQuery) as IQueryable<ContactShortcut>;
+        }
+        public IQueryable<ContactShortcutWeb> GetContactShortcutWebList()
+        {
+            IQueryable<ContactShortcutWeb> ContactShortcutWebQuery = FillContactShortcutWeb();
 
-                        return contactShortcutQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        contactShortcutQuery = FillContactShortcutReport(contactShortcutQuery);
+            ContactShortcutWebQuery = EnhanceQueryStatements<ContactShortcutWeb>(ContactShortcutWebQuery) as IQueryable<ContactShortcutWeb>;
 
-                        contactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(contactShortcutQuery) as IQueryable<ContactShortcut>;
+            return ContactShortcutWebQuery;
+        }
+        public ContactShortcutReport GetContactShortcutReportWithContactShortcutID(int ContactShortcutID)
+        {
+            return FillContactShortcutReport().FirstOrDefault();
 
-                        return contactShortcutQuery;
-                    }
-                default:
-                    {
-                        contactShortcutQuery = contactShortcutQuery.Where(c => c.ContactShortcutID == 0);
+        }
+        public IQueryable<ContactShortcutReport> GetContactShortcutReportList()
+        {
+            IQueryable<ContactShortcutReport> ContactShortcutReportQuery = FillContactShortcutReport();
 
-                        return contactShortcutQuery;
-                    }
-            }
+            ContactShortcutReportQuery = EnhanceQueryStatements<ContactShortcutReport>(ContactShortcutReportQuery) as IQueryable<ContactShortcutReport>;
+
+            return ContactShortcutReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -239,31 +226,27 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ContactShortcutFillWeb
-        private IQueryable<ContactShortcut> FillContactShortcutWeb(IQueryable<ContactShortcut> contactShortcutQuery)
+        private IQueryable<ContactShortcutWeb> FillContactShortcutWeb()
         {
-            contactShortcutQuery = (from c in contactShortcutQuery
+             IQueryable<ContactShortcutWeb>  ContactShortcutWebQuery = (from c in db.ContactShortcuts
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new ContactShortcut
+                    select new ContactShortcutWeb
                     {
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         ContactShortcutID = c.ContactShortcutID,
                         ContactID = c.ContactID,
                         ShortCutText = c.ShortCutText,
                         ShortCutAddress = c.ShortCutAddress,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        ContactShortcutWeb = new ContactShortcutWeb
-                        {
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        ContactShortcutReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return contactShortcutQuery;
+            return ContactShortcutWebQuery;
         }
         #endregion Functions private Generated ContactShortcutFillWeb
 

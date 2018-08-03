@@ -45,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvTextLanguage.TVText))
             {
                 tvTextLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTextLanguageTVText), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVTextLanguageTVText"), new[] { "TVText" });
             }
 
             //TVText has no StringLength Attribute
@@ -54,13 +54,13 @@ namespace CSSPServices
             if (tvTextLanguage.Language == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvTextLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTextLanguageLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVTextLanguageLanguage"), new[] { "Language" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvTextLanguage.LanguageText) && tvTextLanguage.LanguageText.Length > 100)
             {
                 tvTextLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVTextLanguageLanguageText, "100"), new[] { "LanguageText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVTextLanguageLanguageText", "100"), new[] { "LanguageText" });
             }
 
             retStr = ""; // added to stop compiling error

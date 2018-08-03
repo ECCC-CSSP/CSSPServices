@@ -32,67 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void LastUpdateAndContact_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    LastUpdateAndContactService lastUpdateAndContactService = new LastUpdateAndContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    LastUpdateAndContact lastUpdateAndContact = GetFilledRandomLastUpdateAndContact("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetLastUpdateAndContactWithLastUpdateAndContactID(lastUpdateAndContact.LastUpdateAndContactID)
-        #endregion Tests Generated for GetLastUpdateAndContactWithLastUpdateAndContactID(lastUpdateAndContact.LastUpdateAndContactID)
-
-        #region Tests Generated for GetLastUpdateAndContactList()
-        #endregion Tests Generated for GetLastUpdateAndContactList()
-
-        #region Tests Generated for GetLastUpdateAndContactList() Skip Take
-        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take
-
-        #region Tests Generated for GetLastUpdateAndContactList() Skip Take Order
-        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take Order
-
-        #region Tests Generated for GetLastUpdateAndContactList() Skip Take 2Order
-        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take 2Order
-
-        #region Tests Generated for GetLastUpdateAndContactList() Skip Take Order Where
-        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take Order Where
-
-        #region Tests Generated for GetLastUpdateAndContactList() Skip Take Order 2Where
-        #endregion Tests Generated for GetLastUpdateAndContactList() Skip Take Order 2Where
-
-        #region Tests Generated for GetLastUpdateAndContactList() 2Where
-        #endregion Tests Generated for GetLastUpdateAndContactList() 2Where
-
         #region Functions private
         private LastUpdateAndContact GetFilledRandomLastUpdateAndContact(string OmitPropName)
         {

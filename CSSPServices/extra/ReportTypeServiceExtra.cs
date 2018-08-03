@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,63 +7,45 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class ReportTypeService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<ReportType> FillReportTypeReport(IQueryable<ReportType> ReportTypeQuery)
+        #region Functions private Generated ReportTypeFillReport
+        private IQueryable<ReportTypeReport> FillReportTypeReport()
         {
             Enums enums = new Enums(LanguageRequest);
 
-            List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
-            ReportTypeQuery = (from c in ReportTypeQuery
-                               let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl).FirstOrDefault()
-                               select new ReportType
-                               {
-                                   ReportTypeID = c.ReportTypeID,
-                                   TVType = c.TVType,
-                                   FileType = c.FileType,
-                                   UniqueCode = c.UniqueCode,
-                                   LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                   LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                   ReportTypeWeb = new ReportTypeWeb
-                                   {
-                                       LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                   },
-                                   ReportTypeReport = new ReportTypeReport
-                                   {
-                                       ReportTypeReportTest = "ReportTypeReportTest",
-                                   },
-                                   HasErrors = false,
-                                   ValidationResults = null,
-                               });
+             IQueryable<ReportTypeReport>  ReportTypeReportQuery = (from c in db.ReportTypes
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new ReportTypeReport
+                    {
+                        ReportTypeReportTest = "Testing Report",
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        ReportTypeID = c.ReportTypeID,
+                        TVType = c.TVType,
+                        FileType = c.FileType,
+                        UniqueCode = c.UniqueCode,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return ReportTypeQuery;
+            return ReportTypeReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated ReportTypeFillReport
+
     }
 }

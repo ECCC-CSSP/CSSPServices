@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,87 +7,70 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class VPScenarioService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<VPScenario> FillVPScenarioReport(IQueryable<VPScenario> vpScenarioQuery)
+        #region Functions private Generated VPScenarioFillReport
+        private IQueryable<VPScenarioReport> FillVPScenarioReport()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
-            vpScenarioQuery = (from c in vpScenarioQuery
-                               let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
-                                                      where cl.TVItemID == c.InfrastructureTVItemID
-                                                      && cl.Language == LanguageRequest
-                                                      select cl).FirstOrDefault()
-                               let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                              && cl.Language == LanguageRequest
-                                                              select cl).FirstOrDefault()
-                               select new VPScenario
-                               {
-                                   VPScenarioID = c.VPScenarioID,
-                                   InfrastructureTVItemID = c.InfrastructureTVItemID,
-                                   VPScenarioStatus = c.VPScenarioStatus,
-                                   UseAsBestEstimate = c.UseAsBestEstimate,
-                                   EffluentFlow_m3_s = c.EffluentFlow_m3_s,
-                                   EffluentConcentration_MPN_100ml = c.EffluentConcentration_MPN_100ml,
-                                   FroudeNumber = c.FroudeNumber,
-                                   PortDiameter_m = c.PortDiameter_m,
-                                   PortDepth_m = c.PortDepth_m,
-                                   PortElevation_m = c.PortElevation_m,
-                                   VerticalAngle_deg = c.VerticalAngle_deg,
-                                   HorizontalAngle_deg = c.HorizontalAngle_deg,
-                                   NumberOfPorts = c.NumberOfPorts,
-                                   PortSpacing_m = c.PortSpacing_m,
-                                   AcuteMixZone_m = c.AcuteMixZone_m,
-                                   ChronicMixZone_m = c.ChronicMixZone_m,
-                                   EffluentSalinity_PSU = c.EffluentSalinity_PSU,
-                                   EffluentTemperature_C = c.EffluentTemperature_C,
-                                   EffluentVelocity_m_s = c.EffluentVelocity_m_s,
-                                   RawResults = c.RawResults,
-                                   LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                   LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                   VPScenarioWeb = new VPScenarioWeb
-                                   {
-                                       SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                                       LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                       VPScenarioStatusText = (from e in ScenarioStatusEnumList
-                                                               where e.EnumID == (int?)c.VPScenarioStatus
-                                                               select e.EnumText).FirstOrDefault(),
-                                   },
-                                   VPScenarioReport = new VPScenarioReport
-                                   {
-                                       VPScenarioReportTest = "VPScenarioReportTest",
-                                   },
-                                   HasErrors = false,
-                                   ValidationResults = null,
-                               });
+             IQueryable<VPScenarioReport>  VPScenarioReportQuery = (from c in db.VPScenarios
+                let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.InfrastructureTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new VPScenarioReport
+                    {
+                        VPScenarioReportTest = "Testing Report",
+                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        VPScenarioStatusText = (from e in ScenarioStatusEnumList
+                                where e.EnumID == (int?)c.VPScenarioStatus
+                                select e.EnumText).FirstOrDefault(),
+                        VPScenarioID = c.VPScenarioID,
+                        InfrastructureTVItemID = c.InfrastructureTVItemID,
+                        VPScenarioStatus = c.VPScenarioStatus,
+                        UseAsBestEstimate = c.UseAsBestEstimate,
+                        EffluentFlow_m3_s = c.EffluentFlow_m3_s,
+                        EffluentConcentration_MPN_100ml = c.EffluentConcentration_MPN_100ml,
+                        FroudeNumber = c.FroudeNumber,
+                        PortDiameter_m = c.PortDiameter_m,
+                        PortDepth_m = c.PortDepth_m,
+                        PortElevation_m = c.PortElevation_m,
+                        VerticalAngle_deg = c.VerticalAngle_deg,
+                        HorizontalAngle_deg = c.HorizontalAngle_deg,
+                        NumberOfPorts = c.NumberOfPorts,
+                        PortSpacing_m = c.PortSpacing_m,
+                        AcuteMixZone_m = c.AcuteMixZone_m,
+                        ChronicMixZone_m = c.ChronicMixZone_m,
+                        EffluentSalinity_PSU = c.EffluentSalinity_PSU,
+                        EffluentTemperature_C = c.EffluentTemperature_C,
+                        EffluentVelocity_m_s = c.EffluentVelocity_m_s,
+                        RawResults = c.RawResults,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return vpScenarioQuery;
+            return VPScenarioReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated VPScenarioFillReport
+
     }
 }

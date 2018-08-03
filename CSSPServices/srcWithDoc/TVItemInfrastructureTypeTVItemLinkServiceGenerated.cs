@@ -46,7 +46,7 @@ namespace CSSPServices
             if (tvItemInfrastructureTypeTVItemLink.InfrastructureType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemInfrastructureTypeTVItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType), new[] { "InfrastructureType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemInfrastructureTypeTVItemLinkInfrastructureType"), new[] { "InfrastructureType" });
             }
 
             //SeeOtherTVItemID has no Range Attribute
@@ -54,7 +54,7 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText) && tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText.Length > 100)
             {
                 tvItemInfrastructureTypeTVItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVItemInfrastructureTypeTVItemLinkInfrastructureTypeText", "100"), new[] { "InfrastructureTypeText" });
             }
 
                 //Error: Type not implemented [TVItem] of type [TVItem]

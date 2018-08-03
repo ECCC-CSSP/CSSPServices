@@ -32,67 +32,6 @@ namespace CSSPServices.Tests
         }
         #endregion Constructors
 
-        #region Tests Generated CRUD and Properties
-        [TestMethod]
-        public void SubsectorMWQMSampleYear_CRUD_And_Properties_Test()
-        {
-            foreach (CultureInfo culture in AllowableCulture)
-            {
-                ChangeCulture(culture);
-
-                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
-                {
-                    SubsectorMWQMSampleYearService subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-
-                    int count = 0;
-                    if (count == 1)
-                    {
-                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                    }
-
-                    SubsectorMWQMSampleYear subsectorMWQMSampleYear = GetFilledRandomSubsectorMWQMSampleYear("");
-
-                    // -------------------------------
-                    // -------------------------------
-                    // CRUD testing
-                    // -------------------------------
-                    // -------------------------------
-
-                    // -------------------------------
-                    // -------------------------------
-                    // Properties testing
-                    // -------------------------------
-                    // -------------------------------
-
-                }
-            }
-        }
-        #endregion Tests Generated CRUD and Properties
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearWithSubsectorMWQMSampleYearID(subsectorMWQMSampleYear.SubsectorMWQMSampleYearID)
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearWithSubsectorMWQMSampleYearID(subsectorMWQMSampleYear.SubsectorMWQMSampleYearID)
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearList()
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearList()
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take 2Order
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take 2Order
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order Where
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order Where
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order 2Where
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() Skip Take Order 2Where
-
-        #region Tests Generated for GetSubsectorMWQMSampleYearList() 2Where
-        #endregion Tests Generated for GetSubsectorMWQMSampleYearList() 2Where
-
         #region Functions private
         private SubsectorMWQMSampleYear GetFilledRandomSubsectorMWQMSampleYear(string OmitPropName)
         {

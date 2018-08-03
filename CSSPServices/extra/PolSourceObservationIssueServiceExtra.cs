@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,59 +7,43 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class PolSourceObservationIssueService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<PolSourceObservationIssue> FillPolSourceObservationIssueReport(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery)
+        #region Functions private Generated PolSourceObservationIssueFillReport
+        private IQueryable<PolSourceObservationIssueReport> FillPolSourceObservationIssueReport()
         {
-            polSourceObservationIssueQuery = (from c in polSourceObservationIssueQuery
-                                              let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                                             where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                             && cl.Language == LanguageRequest
-                                                                             select cl).FirstOrDefault()
-                                              select new PolSourceObservationIssue
-                                              {
-                                                  PolSourceObservationIssueID = c.PolSourceObservationIssueID,
-                                                  PolSourceObservationID = c.PolSourceObservationID,
-                                                  ObservationInfo = c.ObservationInfo,
-                                                  Ordinal = c.Ordinal,
-                                                  LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                                  LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                                  PolSourceObservationIssueWeb = new PolSourceObservationIssueWeb
-                                                  {
-                                                      LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                                  },
-                                                  PolSourceObservationIssueReport = new PolSourceObservationIssueReport
-                                                  {
-                                                      PolSourceObservationIssueReportTest = "PolSourceObservationIssueReportTest",
-                                                  },
-                                                  HasErrors = false,
-                                                  ValidationResults = null,
-                                              });
+             IQueryable<PolSourceObservationIssueReport>  PolSourceObservationIssueReportQuery = (from c in db.PolSourceObservationIssues
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new PolSourceObservationIssueReport
+                    {
+                        PolSourceObservationIssueReportTest = "Testing Report",
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        PolSourceObservationIssueID = c.PolSourceObservationIssueID,
+                        PolSourceObservationID = c.PolSourceObservationID,
+                        ObservationInfo = c.ObservationInfo,
+                        Ordinal = c.Ordinal,
+                        ExtraComment = c.ExtraComment,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return polSourceObservationIssueQuery;
+            return PolSourceObservationIssueReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated PolSourceObservationIssueFillReport
+
     }
 }

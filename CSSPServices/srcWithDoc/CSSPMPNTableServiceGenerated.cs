@@ -45,25 +45,25 @@ namespace CSSPServices
             if (cSSPMPNTable.Tube10 < 0 || cSSPMPNTable.Tube10 > 5)
             {
                 cSSPMPNTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CSSPMPNTableTube10, "0", "5"), new[] { "Tube10" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CSSPMPNTableTube10", "0", "5"), new[] { "Tube10" });
             }
 
             if (cSSPMPNTable.Tube1_0 < 0 || cSSPMPNTable.Tube1_0 > 5)
             {
                 cSSPMPNTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CSSPMPNTableTube1_0, "0", "5"), new[] { "Tube1_0" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CSSPMPNTableTube1_0", "0", "5"), new[] { "Tube1_0" });
             }
 
             if (cSSPMPNTable.Tube0_1 < 0 || cSSPMPNTable.Tube0_1 > 5)
             {
                 cSSPMPNTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CSSPMPNTableTube0_1, "0", "5"), new[] { "Tube0_1" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CSSPMPNTableTube0_1", "0", "5"), new[] { "Tube0_1" });
             }
 
             if (cSSPMPNTable.MPN < 0 || cSSPMPNTable.MPN > 100000000)
             {
                 cSSPMPNTable.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.CSSPMPNTableMPN, "0", "100000000"), new[] { "MPN" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "CSSPMPNTableMPN", "0", "100000000"), new[] { "MPN" });
             }
 
             retStr = ""; // added to stop compiling error

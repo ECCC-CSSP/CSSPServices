@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID == 0)
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterMWQMAnalysisReportParameterID), new[] { "MWQMAnalysisReportParameterID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterMWQMAnalysisReportParameterID"), new[] { "MWQMAnalysisReportParameterID" });
                 }
 
                 if (!GetRead().Where(c => c.MWQMAnalysisReportParameterID == mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID).Any())
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMAnalysisReportParameter, CSSPModelsRes.MWQMAnalysisReportParameterMWQMAnalysisReportParameterID, mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID.ToString()), new[] { "MWQMAnalysisReportParameterID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMAnalysisReportParameter", "MWQMAnalysisReportParameterMWQMAnalysisReportParameterID", mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID.ToString()), new[] { "MWQMAnalysisReportParameterID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, mwqmAnalysisReportParameter.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMAnalysisReportParameterSubsectorTVItemID", mwqmAnalysisReportParameter.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -73,20 +73,20 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMAnalysisReportParameterSubsectorTVItemID", "Subsector"), new[] { "SubsectorTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.AnalysisName))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisName), new[] { "AnalysisName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterAnalysisName"), new[] { "AnalysisName" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.AnalysisName) && (mwqmAnalysisReportParameter.AnalysisName.Length < 5 || mwqmAnalysisReportParameter.AnalysisName.Length > 250))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisName, "5", "250"), new[] { "AnalysisName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "MWQMAnalysisReportParameterAnalysisName", "5", "250"), new[] { "AnalysisName" });
             }
 
             if (mwqmAnalysisReportParameter.AnalysisReportYear != null)
@@ -94,139 +94,139 @@ namespace CSSPServices
                 if (mwqmAnalysisReportParameter.AnalysisReportYear < 1980 || mwqmAnalysisReportParameter.AnalysisReportYear > 2050)
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisReportYear, "1980", "2050"), new[] { "AnalysisReportYear" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterAnalysisReportYear", "1980", "2050"), new[] { "AnalysisReportYear" });
                 }
             }
 
             if (mwqmAnalysisReportParameter.StartDate.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterStartDate), new[] { "StartDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterStartDate"), new[] { "StartDate" });
             }
             else
             {
                 if (mwqmAnalysisReportParameter.StartDate.Year < 1980)
                 {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMAnalysisReportParameterStartDate, "1980"), new[] { "StartDate" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMAnalysisReportParameterStartDate", "1980"), new[] { "StartDate" });
                 }
             }
 
             if (mwqmAnalysisReportParameter.EndDate.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterEndDate), new[] { "EndDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterEndDate"), new[] { "EndDate" });
             }
             else
             {
                 if (mwqmAnalysisReportParameter.EndDate.Year < 1980)
                 {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMAnalysisReportParameterEndDate, "1980"), new[] { "EndDate" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMAnalysisReportParameterEndDate", "1980"), new[] { "EndDate" });
                 }
             }
 
             if (mwqmAnalysisReportParameter.StartDate > mwqmAnalysisReportParameter.EndDate)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.MWQMAnalysisReportParameterEndDate, CSSPModelsRes.MWQMAnalysisReportParameterStartDate), new[] { CSSPModelsRes.MWQMAnalysisReportParameterEndDate });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, "MWQMAnalysisReportParameterEndDate", "MWQMAnalysisReportParameterStartDate"), new[] { "MWQMAnalysisReportParameterEndDate" });
             }
 
             retStr = enums.EnumTypeOK(typeof(AnalysisCalculationTypeEnum), (int?)mwqmAnalysisReportParameter.AnalysisCalculationType);
             if (mwqmAnalysisReportParameter.AnalysisCalculationType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisCalculationType), new[] { "AnalysisCalculationType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterAnalysisCalculationType"), new[] { "AnalysisCalculationType" });
             }
 
             if (mwqmAnalysisReportParameter.NumberOfRuns < 1 || mwqmAnalysisReportParameter.NumberOfRuns > 1000)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterNumberOfRuns, "1", "1000"), new[] { "NumberOfRuns" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterNumberOfRuns", "1", "1000"), new[] { "NumberOfRuns" });
             }
 
             if (mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage < 1 || mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage > 20)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterSalinityHighlightDeviationFromAverage, "1", "20"), new[] { "SalinityHighlightDeviationFromAverage" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterSalinityHighlightDeviationFromAverage", "1", "20"), new[] { "SalinityHighlightDeviationFromAverage" });
             }
 
             if (mwqmAnalysisReportParameter.ShortRangeNumberOfDays < 0 || mwqmAnalysisReportParameter.ShortRangeNumberOfDays > 5)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterShortRangeNumberOfDays, "0", "5"), new[] { "ShortRangeNumberOfDays" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterShortRangeNumberOfDays", "0", "5"), new[] { "ShortRangeNumberOfDays" });
             }
 
             if (mwqmAnalysisReportParameter.MidRangeNumberOfDays < 2 || mwqmAnalysisReportParameter.MidRangeNumberOfDays > 7)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterMidRangeNumberOfDays, "2", "7"), new[] { "MidRangeNumberOfDays" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterMidRangeNumberOfDays", "2", "7"), new[] { "MidRangeNumberOfDays" });
             }
 
             if (mwqmAnalysisReportParameter.DryLimit24h < 1 || mwqmAnalysisReportParameter.DryLimit24h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit24h, "1", "100"), new[] { "DryLimit24h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit24h", "1", "100"), new[] { "DryLimit24h" });
             }
 
             if (mwqmAnalysisReportParameter.DryLimit48h < 1 || mwqmAnalysisReportParameter.DryLimit48h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit48h, "1", "100"), new[] { "DryLimit48h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit48h", "1", "100"), new[] { "DryLimit48h" });
             }
 
             if (mwqmAnalysisReportParameter.DryLimit72h < 1 || mwqmAnalysisReportParameter.DryLimit72h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit72h, "1", "100"), new[] { "DryLimit72h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit72h", "1", "100"), new[] { "DryLimit72h" });
             }
 
             if (mwqmAnalysisReportParameter.DryLimit96h < 1 || mwqmAnalysisReportParameter.DryLimit96h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterDryLimit96h, "1", "100"), new[] { "DryLimit96h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit96h", "1", "100"), new[] { "DryLimit96h" });
             }
 
             if (mwqmAnalysisReportParameter.WetLimit24h < 1 || mwqmAnalysisReportParameter.WetLimit24h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterWetLimit24h, "1", "100"), new[] { "WetLimit24h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit24h", "1", "100"), new[] { "WetLimit24h" });
             }
 
             if (mwqmAnalysisReportParameter.WetLimit48h < 1 || mwqmAnalysisReportParameter.WetLimit48h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterWetLimit48h, "1", "100"), new[] { "WetLimit48h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit48h", "1", "100"), new[] { "WetLimit48h" });
             }
 
             if (mwqmAnalysisReportParameter.WetLimit72h < 1 || mwqmAnalysisReportParameter.WetLimit72h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterWetLimit72h, "1", "100"), new[] { "WetLimit72h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit72h", "1", "100"), new[] { "WetLimit72h" });
             }
 
             if (mwqmAnalysisReportParameter.WetLimit96h < 1 || mwqmAnalysisReportParameter.WetLimit96h > 100)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterWetLimit96h, "1", "100"), new[] { "WetLimit96h" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit96h", "1", "100"), new[] { "WetLimit96h" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.RunsToOmit))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterRunsToOmit), new[] { "RunsToOmit" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterRunsToOmit"), new[] { "RunsToOmit" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.RunsToOmit) && mwqmAnalysisReportParameter.RunsToOmit.Length > 250)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterRunsToOmit, "250"), new[] { "RunsToOmit" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMAnalysisReportParameterRunsToOmit", "250"), new[] { "RunsToOmit" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.ShowDataTypes) && mwqmAnalysisReportParameter.ShowDataTypes.Length > 20)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterShowDataTypes, "20"), new[] { "ShowDataTypes" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMAnalysisReportParameterShowDataTypes", "20"), new[] { "ShowDataTypes" });
             }
 
             if (mwqmAnalysisReportParameter.ExcelTVFileTVItemID != null)
@@ -236,7 +236,7 @@ namespace CSSPServices
                 if (TVItemExcelTVFileTVItemID == null)
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVItemID, (mwqmAnalysisReportParameter.ExcelTVFileTVItemID == null ? "" : mwqmAnalysisReportParameter.ExcelTVFileTVItemID.ToString())), new[] { "ExcelTVFileTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMAnalysisReportParameterExcelTVFileTVItemID", (mwqmAnalysisReportParameter.ExcelTVFileTVItemID == null ? "" : mwqmAnalysisReportParameter.ExcelTVFileTVItemID.ToString())), new[] { "ExcelTVFileTVItemID" });
                 }
                 else
                 {
@@ -247,7 +247,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemExcelTVFileTVItemID.TVType))
                     {
                         mwqmAnalysisReportParameter.HasErrors = true;
-                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVItemID, "File"), new[] { "ExcelTVFileTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMAnalysisReportParameterExcelTVFileTVItemID", "File"), new[] { "ExcelTVFileTVItemID" });
                     }
                 }
             }
@@ -256,20 +256,20 @@ namespace CSSPServices
             if (mwqmAnalysisReportParameter.Command == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterCommand), new[] { "Command" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterCommand"), new[] { "Command" });
             }
 
             if (mwqmAnalysisReportParameter.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmAnalysisReportParameter.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMAnalysisReportParameterLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -278,7 +278,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, mwqmAnalysisReportParameter.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMAnalysisReportParameterLastUpdateContactTVItemID", mwqmAnalysisReportParameter.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -289,7 +289,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMAnalysisReportParameterLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -306,57 +306,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMAnalysisReportParameter GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmAnalysisReportParameterQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MWQMAnalysisReportParameter> GetMWQMAnalysisReportParameterList()
         {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMAnalysisReportParameter> MWQMAnalysisReportParameterQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mwqmAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(mwqmAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
+            MWQMAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(MWQMAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
 
-                        return mwqmAnalysisReportParameterQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterWeb(mwqmAnalysisReportParameterQuery);
+            return MWQMAnalysisReportParameterQuery;
+        }
+        public MWQMAnalysisReportParameterWeb GetMWQMAnalysisReportParameterWebWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
+        {
+            return FillMWQMAnalysisReportParameterWeb().FirstOrDefault();
 
-                        mwqmAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(mwqmAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
+        }
+        public IQueryable<MWQMAnalysisReportParameterWeb> GetMWQMAnalysisReportParameterWebList()
+        {
+            IQueryable<MWQMAnalysisReportParameterWeb> MWQMAnalysisReportParameterWebQuery = FillMWQMAnalysisReportParameterWeb();
 
-                        return mwqmAnalysisReportParameterQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mwqmAnalysisReportParameterQuery = FillMWQMAnalysisReportParameterReport(mwqmAnalysisReportParameterQuery);
+            MWQMAnalysisReportParameterWebQuery = EnhanceQueryStatements<MWQMAnalysisReportParameterWeb>(MWQMAnalysisReportParameterWebQuery) as IQueryable<MWQMAnalysisReportParameterWeb>;
 
-                        mwqmAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(mwqmAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
+            return MWQMAnalysisReportParameterWebQuery;
+        }
+        public MWQMAnalysisReportParameterReport GetMWQMAnalysisReportParameterReportWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
+        {
+            return FillMWQMAnalysisReportParameterReport().FirstOrDefault();
 
-                        return mwqmAnalysisReportParameterQuery;
-                    }
-                default:
-                    {
-                        mwqmAnalysisReportParameterQuery = mwqmAnalysisReportParameterQuery.Where(c => c.MWQMAnalysisReportParameterID == 0);
+        }
+        public IQueryable<MWQMAnalysisReportParameterReport> GetMWQMAnalysisReportParameterReportList()
+        {
+            IQueryable<MWQMAnalysisReportParameterReport> MWQMAnalysisReportParameterReportQuery = FillMWQMAnalysisReportParameterReport();
 
-                        return mwqmAnalysisReportParameterQuery;
-                    }
-            }
+            MWQMAnalysisReportParameterReportQuery = EnhanceQueryStatements<MWQMAnalysisReportParameterReport>(MWQMAnalysisReportParameterReportQuery) as IQueryable<MWQMAnalysisReportParameterReport>;
+
+            return MWQMAnalysisReportParameterReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -409,13 +396,13 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMAnalysisReportParameterFillWeb
-        private IQueryable<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameterWeb(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery)
+        private IQueryable<MWQMAnalysisReportParameterWeb> FillMWQMAnalysisReportParameterWeb()
         {
             Enums enums = new Enums(LanguageRequest);
 
             List<EnumIDAndText> AnalysisReportExportCommandEnumList = enums.GetEnumTextOrderedList(typeof(AnalysisReportExportCommandEnum));
 
-            mwqmAnalysisReportParameterQuery = (from c in mwqmAnalysisReportParameterQuery
+             IQueryable<MWQMAnalysisReportParameterWeb>  MWQMAnalysisReportParameterWebQuery = (from c in db.MWQMAnalysisReportParameters
                 let ExcelTVFileTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ExcelTVFileTVItemID
                     && cl.Language == LanguageRequest
@@ -424,8 +411,13 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MWQMAnalysisReportParameter
+                    select new MWQMAnalysisReportParameterWeb
                     {
+                        ExcelTVFileTVItemLanguage = ExcelTVFileTVItemLanguage,
+                        CommandText = (from e in AnalysisReportExportCommandEnumList
+                                where e.EnumID == (int?)c.Command
+                                select e.EnumText).FirstOrDefault(),
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         MWQMAnalysisReportParameterID = c.MWQMAnalysisReportParameterID,
                         SubsectorTVItemID = c.SubsectorTVItemID,
                         AnalysisName = c.AnalysisName,
@@ -452,20 +444,11 @@ namespace CSSPServices
                         Command = c.Command,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMAnalysisReportParameterWeb = new MWQMAnalysisReportParameterWeb
-                        {
-                            ExcelTVFileTVItemLanguage = ExcelTVFileTVItemLanguage,
-                            CommandText = (from e in AnalysisReportExportCommandEnumList
-                                where e.EnumID == (int?)c.Command
-                                select e.EnumText).FirstOrDefault(),
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        MWQMAnalysisReportParameterReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mwqmAnalysisReportParameterQuery;
+            return MWQMAnalysisReportParameterWebQuery;
         }
         #endregion Functions private Generated MWQMAnalysisReportParameterFillWeb
 

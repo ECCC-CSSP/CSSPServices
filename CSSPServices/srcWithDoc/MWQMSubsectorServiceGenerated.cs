@@ -47,13 +47,13 @@ namespace CSSPServices
                 if (mwqmSubsector.MWQMSubsectorID == 0)
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSubsectorMWQMSubsectorID), new[] { "MWQMSubsectorID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorMWQMSubsectorID"), new[] { "MWQMSubsectorID" });
                 }
 
                 if (!GetRead().Where(c => c.MWQMSubsectorID == mwqmSubsector.MWQMSubsectorID).Any())
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSubsector, CSSPModelsRes.MWQMSubsectorMWQMSubsectorID, mwqmSubsector.MWQMSubsectorID.ToString()), new[] { "MWQMSubsectorID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSubsector", "MWQMSubsectorMWQMSubsectorID", mwqmSubsector.MWQMSubsectorID.ToString()), new[] { "MWQMSubsectorID" });
                 }
             }
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             if (TVItemMWQMSubsectorTVItemID == null)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, mwqmSubsector.MWQMSubsectorTVItemID.ToString()), new[] { "MWQMSubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSubsectorMWQMSubsectorTVItemID", mwqmSubsector.MWQMSubsectorTVItemID.ToString()), new[] { "MWQMSubsectorTVItemID" });
             }
             else
             {
@@ -73,39 +73,39 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMSubsectorTVItemID.TVType))
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, "Subsector"), new[] { "MWQMSubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSubsectorMWQMSubsectorTVItemID", "Subsector"), new[] { "MWQMSubsectorTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSubsector.SubsectorHistoricKey))
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSubsectorSubsectorHistoricKey), new[] { "SubsectorHistoricKey" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorSubsectorHistoricKey"), new[] { "SubsectorHistoricKey" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSubsector.SubsectorHistoricKey) && mwqmSubsector.SubsectorHistoricKey.Length > 20)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorSubsectorHistoricKey, "20"), new[] { "SubsectorHistoricKey" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSubsectorSubsectorHistoricKey", "20"), new[] { "SubsectorHistoricKey" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSubsector.TideLocationSIDText) && mwqmSubsector.TideLocationSIDText.Length > 20)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorTideLocationSIDText, "20"), new[] { "TideLocationSIDText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSubsectorTideLocationSIDText", "20"), new[] { "TideLocationSIDText" });
             }
 
             if (mwqmSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSubsectorLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorLastUpdateDate_UTC"), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSubsector.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSubsectorLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, "MWQMSubsectorLastUpdateDate_UTC", "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -114,7 +114,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, mwqmSubsector.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "MWQMSubsectorLastUpdateContactTVItemID", mwqmSubsector.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -125,7 +125,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, "MWQMSubsectorLastUpdateContactTVItemID", "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
@@ -142,57 +142,44 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                where c.MWQMSubsectorID == MWQMSubsectorID
-                                                select c);
+            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+                    where c.MWQMSubsectorID == MWQMSubsectorID
+                    select c).FirstOrDefault();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return mwqmSubsectorQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return FillMWQMSubsectorWeb(mwqmSubsectorQuery).FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return FillMWQMSubsectorReport(mwqmSubsectorQuery).FirstOrDefault();
-                default:
-                    return null;
-            }
         }
         public IQueryable<MWQMSubsector> GetMWQMSubsectorList()
         {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSubsector> MWQMSubsectorQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
 
-            switch (Query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        mwqmSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(mwqmSubsectorQuery) as IQueryable<MWQMSubsector>;
+            MWQMSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(MWQMSubsectorQuery) as IQueryable<MWQMSubsector>;
 
-                        return mwqmSubsectorQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    {
-                        mwqmSubsectorQuery = FillMWQMSubsectorWeb(mwqmSubsectorQuery);
+            return MWQMSubsectorQuery;
+        }
+        public MWQMSubsectorWeb GetMWQMSubsectorWebWithMWQMSubsectorID(int MWQMSubsectorID)
+        {
+            return FillMWQMSubsectorWeb().FirstOrDefault();
 
-                        mwqmSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(mwqmSubsectorQuery) as IQueryable<MWQMSubsector>;
+        }
+        public IQueryable<MWQMSubsectorWeb> GetMWQMSubsectorWebList()
+        {
+            IQueryable<MWQMSubsectorWeb> MWQMSubsectorWebQuery = FillMWQMSubsectorWeb();
 
-                        return mwqmSubsectorQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    {
-                        mwqmSubsectorQuery = FillMWQMSubsectorReport(mwqmSubsectorQuery);
+            MWQMSubsectorWebQuery = EnhanceQueryStatements<MWQMSubsectorWeb>(MWQMSubsectorWebQuery) as IQueryable<MWQMSubsectorWeb>;
 
-                        mwqmSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(mwqmSubsectorQuery) as IQueryable<MWQMSubsector>;
+            return MWQMSubsectorWebQuery;
+        }
+        public MWQMSubsectorReport GetMWQMSubsectorReportWithMWQMSubsectorID(int MWQMSubsectorID)
+        {
+            return FillMWQMSubsectorReport().FirstOrDefault();
 
-                        return mwqmSubsectorQuery;
-                    }
-                default:
-                    {
-                        mwqmSubsectorQuery = mwqmSubsectorQuery.Where(c => c.MWQMSubsectorID == 0);
+        }
+        public IQueryable<MWQMSubsectorReport> GetMWQMSubsectorReportList()
+        {
+            IQueryable<MWQMSubsectorReport> MWQMSubsectorReportQuery = FillMWQMSubsectorReport();
 
-                        return mwqmSubsectorQuery;
-                    }
-            }
+            MWQMSubsectorReportQuery = EnhanceQueryStatements<MWQMSubsectorReport>(MWQMSubsectorReportQuery) as IQueryable<MWQMSubsectorReport>;
+
+            return MWQMSubsectorReportQuery;
         }
         #endregion Functions public Generated Get
 
@@ -245,9 +232,9 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSubsectorFillWeb
-        private IQueryable<MWQMSubsector> FillMWQMSubsectorWeb(IQueryable<MWQMSubsector> mwqmSubsectorQuery)
+        private IQueryable<MWQMSubsectorWeb> FillMWQMSubsectorWeb()
         {
-            mwqmSubsectorQuery = (from c in mwqmSubsectorQuery
+             IQueryable<MWQMSubsectorWeb>  MWQMSubsectorWebQuery = (from c in db.MWQMSubsectors
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSubsectorTVItemID
                     && cl.Language == LanguageRequest
@@ -256,25 +243,21 @@ namespace CSSPServices
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
                     select cl).FirstOrDefault()
-                    select new MWQMSubsector
+                    select new MWQMSubsectorWeb
                     {
+                        SubsectorTVItemLanguage = SubsectorTVItemLanguage,
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         MWQMSubsectorID = c.MWQMSubsectorID,
                         MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
                         SubsectorHistoricKey = c.SubsectorHistoricKey,
                         TideLocationSIDText = c.TideLocationSIDText,
                         LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                        MWQMSubsectorWeb = new MWQMSubsectorWeb
-                        {
-                            SubsectorTVItemLanguage = SubsectorTVItemLanguage,
-                            LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                        },
-                        MWQMSubsectorReport = null,
                         HasErrors = false,
                         ValidationResults = null,
                     });
 
-            return mwqmSubsectorQuery;
+            return MWQMSubsectorWebQuery;
         }
         #endregion Functions private Generated MWQMSubsectorFillWeb
 

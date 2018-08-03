@@ -45,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvLocation.Error))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationError"), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -53,45 +53,45 @@ namespace CSSPServices
             if (tvLocation.TVItemID < 1)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.TVLocationTVItemID, "1"), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, "TVLocationTVItemID", "1"), new[] { "TVItemID" });
             }
 
             if (string.IsNullOrWhiteSpace(tvLocation.TVText))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationTVText), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationTVText"), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVText) && (tvLocation.TVText.Length < 1 || tvLocation.TVText.Length > 255))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVLocationTVText, "1", "255"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "TVLocationTVText", "1", "255"), new[] { "TVText" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.TVType);
             if (tvLocation.TVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationTVType"), new[] { "TVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.SubTVType);
             if (tvLocation.SubTVType == null || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationSubTVType), new[] { "SubTVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVLocationSubTVType"), new[] { "SubTVType" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVTypeText) && tvLocation.TVTypeText.Length > 100)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVLocationTVTypeText, "100"), new[] { "TVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVLocationTVTypeText", "100"), new[] { "TVTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.SubTVTypeText) && tvLocation.SubTVTypeText.Length > 100)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVLocationSubTVTypeText, "100"), new[] { "SubTVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, "TVLocationSubTVTypeText", "100"), new[] { "SubTVTypeText" });
             }
 
                 //Error: Type not implemented [MapObjList] of type [List`1]

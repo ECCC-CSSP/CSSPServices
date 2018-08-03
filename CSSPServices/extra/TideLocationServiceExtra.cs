@@ -1,4 +1,4 @@
-﻿using CSSPEnums;
+using CSSPEnums;
 using CSSPModels;
 using CSSPModels.Resources;
 using CSSPServices.Resources;
@@ -7,62 +7,45 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSSPServices
 {
     public partial class TideLocationService
     {
-        #region Variables
-        #endregion Variables
-
-        #region Properties
-        #endregion Properties
-
-        #region Constructors
-        #endregion Constructors
-
-        #region Validation
-        #endregion Validation
-
-        #region Functions public
-        #endregion Functions public
-
-        #region Functions private
-        private IQueryable<TideLocation> FillTideLocationReport(IQueryable<TideLocation> tideLocationQuery)
+        #region Functions private Generated TideLocationFillReport
+        private IQueryable<TideLocationReport> FillTideLocationReport()
         {
-            tideLocationQuery = (from c in tideLocationQuery
-                                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
-                                                                where cl.TVItemID == c.LastUpdateContactTVItemID
-                                                                && cl.Language == LanguageRequest
-                                                                select cl).FirstOrDefault()
-                                 select new TideLocation
-                                 {
-                                     TideLocationID = c.TideLocationID,
-                                     Zone = c.Zone,
-                                     Name = c.Name,
-                                     Prov = c.Prov,
-                                     sid = c.sid,
-                                     Lat = c.Lat,
-                                     Lng = c.Lng,
-                                     LastUpdateDate_UTC = c.LastUpdateDate_UTC,
-                                     LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
-                                     TideLocationWeb = new TideLocationWeb
-                                     {
-                                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
-                                     },
-                                     TideLocationReport = new TideLocationReport
-                                     {
-                                         TideLocationReportTest = "TideLocationReportTest",
-                                     },
-                                     HasErrors = false,
-                                     ValidationResults = null,
-                                 });
+             IQueryable<TideLocationReport>  TideLocationReportQuery = (from c in db.TideLocations
+                let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
+                    where cl.TVItemID == c.LastUpdateContactTVItemID
+                    && cl.Language == LanguageRequest
+                    select cl).FirstOrDefault()
+                    select new TideLocationReport
+                    {
+                        TideLocationReportTest = "Testing Report",
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        TideLocationID = c.TideLocationID,
+                        Zone = c.Zone,
+                        Name = c.Name,
+                        Prov = c.Prov,
+                        sid = c.sid,
+                        Lat = c.Lat,
+                        Lng = c.Lng,
+                        LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                        LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                        HasErrors = false,
+                        ValidationResults = null,
+                    });
 
-            return tideLocationQuery;
+            return TideLocationReportQuery;
         }
-        #endregion Functions private
+        #endregion Functions private Generated TideLocationFillReport
+
     }
 }
