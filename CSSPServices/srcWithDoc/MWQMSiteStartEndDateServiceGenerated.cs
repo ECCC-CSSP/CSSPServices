@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteStartEndDateMWQMSiteStartEndDateID"), new[] { "MWQMSiteStartEndDateID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
+                if (!(from c in db.MWQMSiteStartEndDates select c).Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
                 {
                     mwqmSiteStartEndDate.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateMWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), new[] { "MWQMSiteStartEndDateID" });
@@ -150,14 +150,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMSiteStartEndDates
                     where c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMSiteStartEndDate> GetMWQMSiteStartEndDateList()
         {
-            IQueryable<MWQMSiteStartEndDate> MWQMSiteStartEndDateQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSiteStartEndDate> MWQMSiteStartEndDateQuery = (from c in db.MWQMSiteStartEndDates select c);
 
             MWQMSiteStartEndDateQuery = EnhanceQueryStatements<MWQMSiteStartEndDate>(MWQMSiteStartEndDateQuery) as IQueryable<MWQMSiteStartEndDate>;
 
@@ -165,7 +165,7 @@ namespace CSSPServices
         }
         public MWQMSiteStartEndDateWeb GetMWQMSiteStartEndDateWebWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            return FillMWQMSiteStartEndDateWeb().FirstOrDefault();
+            return FillMWQMSiteStartEndDateWeb().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSiteStartEndDateWeb> GetMWQMSiteStartEndDateWebList()
@@ -178,7 +178,7 @@ namespace CSSPServices
         }
         public MWQMSiteStartEndDateReport GetMWQMSiteStartEndDateReportWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
         {
-            return FillMWQMSiteStartEndDateReport().FirstOrDefault();
+            return FillMWQMSiteStartEndDateReport().Where(c => c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSiteStartEndDateReport> GetMWQMSiteStartEndDateReportList()
@@ -225,18 +225,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MWQMSiteStartEndDate> GetRead()
-        {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = db.MWQMSiteStartEndDates.AsNoTracking();
-
-            return mwqmSiteStartEndDateQuery;
-        }
-        public IQueryable<MWQMSiteStartEndDate> GetEdit()
-        {
-            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = db.MWQMSiteStartEndDates;
-
-            return mwqmSiteStartEndDateQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSiteStartEndDateFillWeb
@@ -263,7 +251,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMSiteStartEndDateWebQuery;
         }

@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mapInfoService.GetRead().Count();
+                    count = mapInfoService.GetMapInfoList().Count();
 
-                    Assert.AreEqual(mapInfoService.GetRead().Count(), mapInfoService.GetEdit().Count());
+                    Assert.AreEqual(mapInfoService.GetMapInfoList().Count(), (from c in dbTestDB.MapInfos select c).Take(200).Count());
 
                     mapInfoService.Add(mapInfo);
                     if (mapInfo.HasErrors)
                     {
                         Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mapInfoService.GetRead().Where(c => c == mapInfo).Any());
+                    Assert.AreEqual(true, mapInfoService.GetMapInfoList().Where(c => c == mapInfo).Any());
                     mapInfoService.Update(mapInfo);
                     if (mapInfo.HasErrors)
                     {
                         Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mapInfoService.GetMapInfoList().Count());
                     mapInfoService.Delete(mapInfo);
                     if (mapInfo.HasErrors)
                     {
                         Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -154,13 +154,13 @@ namespace CSSPServices.Tests
                     mapInfo.LatMin = -91.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLatMin", "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
                     mapInfo.LatMin = 91.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLatMin", "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -177,13 +177,13 @@ namespace CSSPServices.Tests
                     mapInfo.LatMax = -91.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLatMax", "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
                     mapInfo.LatMax = 91.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLatMax", "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -200,13 +200,13 @@ namespace CSSPServices.Tests
                     mapInfo.LngMin = -181.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLngMin", "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
                     mapInfo.LngMin = 181.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLngMin", "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -223,13 +223,13 @@ namespace CSSPServices.Tests
                     mapInfo.LngMax = -181.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLngMax", "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
                     mapInfo = null;
                     mapInfo = GetFilledRandomMapInfo("");
                     mapInfo.LngMax = 181.0D;
                     Assert.AreEqual(false, mapInfoService.Add(mapInfo));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoLngMax", "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoService.GetMapInfoList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -311,7 +311,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
+                    MapInfo mapInfo = (from c in dbTestDB.MapInfos select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -357,11 +357,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MapInfoService mapInfoService = new MapInfoService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
+                    MapInfo mapInfo = (from c in dbTestDB.MapInfos select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfo);
 
                     List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                    mapInfoDirectQueryList = mapInfoService.GetRead().Take(100).ToList();
+                    mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -415,7 +415,7 @@ namespace CSSPServices.Tests
                         mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                        mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).ToList();
+                        mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -468,7 +468,7 @@ namespace CSSPServices.Tests
                         mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1,  "MapInfoID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                        mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoID).ToList();
+                        mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -521,7 +521,7 @@ namespace CSSPServices.Tests
                         mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 1, 1, "MapInfoID,TVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                        mapInfoDirectQueryList = mapInfoService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoID).ThenBy(c => c.TVItemID).ToList();
+                        mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Skip(1).Take(1).OrderBy(c => c.MapInfoID).ThenBy(c => c.TVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -574,7 +574,7 @@ namespace CSSPServices.Tests
                         mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                        mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
+                        mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -627,7 +627,7 @@ namespace CSSPServices.Tests
                         mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoID", "MapInfoID,GT,2|MapInfoID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                        mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
+                        mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -680,7 +680,7 @@ namespace CSSPServices.Tests
                         mapInfoService.Query = mapInfoService.FillQuery(typeof(MapInfo), culture.TwoLetterISOLanguageName, 0, 10000, "", "MapInfoID,GT,2|MapInfoID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfo> mapInfoDirectQueryList = new List<MapInfo>();
-                        mapInfoDirectQueryList = mapInfoService.GetRead().Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).ToList();
+                        mapInfoDirectQueryList = (from c in dbTestDB.MapInfos select c).Where(c => c.MapInfoID > 2 && c.MapInfoID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

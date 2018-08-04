@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "DocTemplateDocTemplateID"), new[] { "DocTemplateID" });
                 }
 
-                if (!GetRead().Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
+                if (!(from c in db.DocTemplates select c).Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
                 {
                     docTemplate.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateDocTemplateID", docTemplate.DocTemplateID.ToString()), new[] { "DocTemplateID" });
@@ -150,14 +150,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.DocTemplates
                     where c.DocTemplateID == DocTemplateID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<DocTemplate> GetDocTemplateList()
         {
-            IQueryable<DocTemplate> DocTemplateQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<DocTemplate> DocTemplateQuery = (from c in db.DocTemplates select c);
 
             DocTemplateQuery = EnhanceQueryStatements<DocTemplate>(DocTemplateQuery) as IQueryable<DocTemplate>;
 
@@ -165,7 +165,7 @@ namespace CSSPServices
         }
         public DocTemplateWeb GetDocTemplateWebWithDocTemplateID(int DocTemplateID)
         {
-            return FillDocTemplateWeb().FirstOrDefault();
+            return FillDocTemplateWeb().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
 
         }
         public IQueryable<DocTemplateWeb> GetDocTemplateWebList()
@@ -178,7 +178,7 @@ namespace CSSPServices
         }
         public DocTemplateReport GetDocTemplateReportWithDocTemplateID(int DocTemplateID)
         {
-            return FillDocTemplateReport().FirstOrDefault();
+            return FillDocTemplateReport().Where(c => c.DocTemplateID == DocTemplateID).FirstOrDefault();
 
         }
         public IQueryable<DocTemplateReport> GetDocTemplateReportList()
@@ -225,18 +225,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<DocTemplate> GetRead()
-        {
-            IQueryable<DocTemplate> docTemplateQuery = db.DocTemplates.AsNoTracking();
-
-            return docTemplateQuery;
-        }
-        public IQueryable<DocTemplate> GetEdit()
-        {
-            IQueryable<DocTemplate> docTemplateQuery = db.DocTemplates;
-
-            return docTemplateQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated DocTemplateFillWeb
@@ -270,7 +258,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return DocTemplateWebQuery;
         }

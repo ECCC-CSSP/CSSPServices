@@ -32,6 +32,7 @@ namespace CSSPServices
                     select cl).FirstOrDefault()
                     select new EmailDistributionListReport
                     {
+                        EmailDistributionListReportTest = "Testing Report",
                         CountryTVItemLanguage = CountryTVItemLanguage,
                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         EmailDistributionListID = c.EmailDistributionListID,
@@ -41,7 +42,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return EmailDistributionListReportQuery;
         }

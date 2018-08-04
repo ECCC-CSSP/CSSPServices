@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillSpillID"), new[] { "SpillID" });
                 }
 
-                if (!GetRead().Where(c => c.SpillID == spill.SpillID).Any())
+                if (!(from c in db.Spills select c).Where(c => c.SpillID == spill.SpillID).Any())
                 {
                     spill.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Spill", "SpillSpillID", spill.SpillID.ToString()), new[] { "SpillID" });
@@ -179,14 +179,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Spill GetSpillWithSpillID(int SpillID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Spills
                     where c.SpillID == SpillID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Spill> GetSpillList()
         {
-            IQueryable<Spill> SpillQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Spill> SpillQuery = (from c in db.Spills select c);
 
             SpillQuery = EnhanceQueryStatements<Spill>(SpillQuery) as IQueryable<Spill>;
 
@@ -194,7 +194,7 @@ namespace CSSPServices
         }
         public SpillWeb GetSpillWebWithSpillID(int SpillID)
         {
-            return FillSpillWeb().FirstOrDefault();
+            return FillSpillWeb().Where(c => c.SpillID == SpillID).FirstOrDefault();
 
         }
         public IQueryable<SpillWeb> GetSpillWebList()
@@ -207,7 +207,7 @@ namespace CSSPServices
         }
         public SpillReport GetSpillReportWithSpillID(int SpillID)
         {
-            return FillSpillReport().FirstOrDefault();
+            return FillSpillReport().Where(c => c.SpillID == SpillID).FirstOrDefault();
 
         }
         public IQueryable<SpillReport> GetSpillReportList()
@@ -254,18 +254,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<Spill> GetRead()
-        {
-            IQueryable<Spill> spillQuery = db.Spills.AsNoTracking();
-
-            return spillQuery;
-        }
-        public IQueryable<Spill> GetEdit()
-        {
-            IQueryable<Spill> spillQuery = db.Spills;
-
-            return spillQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SpillFillWeb
@@ -299,7 +287,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return SpillWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SpillLanguageSpillLanguageID"), new[] { "SpillLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
+                if (!(from c in db.SpillLanguages select c).Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
                 {
                     spillLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SpillLanguage", "SpillLanguageSpillLanguageID", spillLanguage.SpillLanguageID.ToString()), new[] { "SpillLanguageID" });
@@ -134,14 +134,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public SpillLanguage GetSpillLanguageWithSpillLanguageID(int SpillLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.SpillLanguages
                     where c.SpillLanguageID == SpillLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<SpillLanguage> GetSpillLanguageList()
         {
-            IQueryable<SpillLanguage> SpillLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<SpillLanguage> SpillLanguageQuery = (from c in db.SpillLanguages select c);
 
             SpillLanguageQuery = EnhanceQueryStatements<SpillLanguage>(SpillLanguageQuery) as IQueryable<SpillLanguage>;
 
@@ -149,7 +149,7 @@ namespace CSSPServices
         }
         public SpillLanguageWeb GetSpillLanguageWebWithSpillLanguageID(int SpillLanguageID)
         {
-            return FillSpillLanguageWeb().FirstOrDefault();
+            return FillSpillLanguageWeb().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
 
         }
         public IQueryable<SpillLanguageWeb> GetSpillLanguageWebList()
@@ -162,7 +162,7 @@ namespace CSSPServices
         }
         public SpillLanguageReport GetSpillLanguageReportWithSpillLanguageID(int SpillLanguageID)
         {
-            return FillSpillLanguageReport().FirstOrDefault();
+            return FillSpillLanguageReport().Where(c => c.SpillLanguageID == SpillLanguageID).FirstOrDefault();
 
         }
         public IQueryable<SpillLanguageReport> GetSpillLanguageReportList()
@@ -209,18 +209,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<SpillLanguage> GetRead()
-        {
-            IQueryable<SpillLanguage> spillLanguageQuery = db.SpillLanguages.AsNoTracking();
-
-            return spillLanguageQuery;
-        }
-        public IQueryable<SpillLanguage> GetEdit()
-        {
-            IQueryable<SpillLanguage> spillLanguageQuery = db.SpillLanguages;
-
-            return spillLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SpillLanguageFillWeb
@@ -254,7 +242,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return SpillLanguageWebQuery;
         }

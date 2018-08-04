@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mwqmSiteStartEndDateService.GetRead().Count();
+                    count = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().Count();
 
-                    Assert.AreEqual(mwqmSiteStartEndDateService.GetRead().Count(), mwqmSiteStartEndDateService.GetEdit().Count());
+                    Assert.AreEqual(mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().Count(), (from c in dbTestDB.MWQMSiteStartEndDates select c).Take(200).Count());
 
                     mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
                     if (mwqmSiteStartEndDate.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mwqmSiteStartEndDateService.GetRead().Where(c => c == mwqmSiteStartEndDate).Any());
+                    Assert.AreEqual(true, mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().Where(c => c == mwqmSiteStartEndDate).Any());
                     mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
                     if (mwqmSiteStartEndDate.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mwqmSiteStartEndDateService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().Count());
                     mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate);
                     if (mwqmSiteStartEndDate.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -223,7 +223,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in mwqmSiteStartEndDateService.GetRead() select c).FirstOrDefault();
+                    MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in dbTestDB.MWQMSiteStartEndDates select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSiteStartEndDate);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -269,11 +269,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in mwqmSiteStartEndDateService.GetRead() select c).FirstOrDefault();
+                    MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in dbTestDB.MWQMSiteStartEndDates select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSiteStartEndDate);
 
                     List<MWQMSiteStartEndDate> mwqmSiteStartEndDateDirectQueryList = new List<MWQMSiteStartEndDate>();
-                    mwqmSiteStartEndDateDirectQueryList = mwqmSiteStartEndDateService.GetRead().Take(100).ToList();
+                    mwqmSiteStartEndDateDirectQueryList = (from c in dbTestDB.MWQMSiteStartEndDates select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -327,7 +327,7 @@ namespace CSSPServices.Tests
                         mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSiteStartEndDate> mwqmSiteStartEndDateDirectQueryList = new List<MWQMSiteStartEndDate>();
-                        mwqmSiteStartEndDateDirectQueryList = mwqmSiteStartEndDateService.GetRead().Skip(1).Take(1).ToList();
+                        mwqmSiteStartEndDateDirectQueryList = (from c in dbTestDB.MWQMSiteStartEndDates select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -380,7 +380,7 @@ namespace CSSPServices.Tests
                         mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSiteStartEndDateID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSiteStartEndDate> mwqmSiteStartEndDateDirectQueryList = new List<MWQMSiteStartEndDate>();
-                        mwqmSiteStartEndDateDirectQueryList = mwqmSiteStartEndDateService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ToList();
+                        mwqmSiteStartEndDateDirectQueryList = (from c in dbTestDB.MWQMSiteStartEndDates select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -433,7 +433,7 @@ namespace CSSPServices.Tests
                         mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSiteStartEndDateID,MWQMSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSiteStartEndDate> mwqmSiteStartEndDateDirectQueryList = new List<MWQMSiteStartEndDate>();
-                        mwqmSiteStartEndDateDirectQueryList = mwqmSiteStartEndDateService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
+                        mwqmSiteStartEndDateDirectQueryList = (from c in dbTestDB.MWQMSiteStartEndDates select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -486,7 +486,7 @@ namespace CSSPServices.Tests
                         mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteStartEndDateID", "MWQMSiteStartEndDateID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSiteStartEndDate> mwqmSiteStartEndDateDirectQueryList = new List<MWQMSiteStartEndDate>();
-                        mwqmSiteStartEndDateDirectQueryList = mwqmSiteStartEndDateService.GetRead().Where(c => c.MWQMSiteStartEndDateID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ToList();
+                        mwqmSiteStartEndDateDirectQueryList = (from c in dbTestDB.MWQMSiteStartEndDates select c).Where(c => c.MWQMSiteStartEndDateID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -539,7 +539,7 @@ namespace CSSPServices.Tests
                         mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteStartEndDateID", "MWQMSiteStartEndDateID,GT,2|MWQMSiteStartEndDateID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSiteStartEndDate> mwqmSiteStartEndDateDirectQueryList = new List<MWQMSiteStartEndDate>();
-                        mwqmSiteStartEndDateDirectQueryList = mwqmSiteStartEndDateService.GetRead().Where(c => c.MWQMSiteStartEndDateID > 2 && c.MWQMSiteStartEndDateID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ToList();
+                        mwqmSiteStartEndDateDirectQueryList = (from c in dbTestDB.MWQMSiteStartEndDates select c).Where(c => c.MWQMSiteStartEndDateID > 2 && c.MWQMSiteStartEndDateID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSiteStartEndDateID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -592,7 +592,7 @@ namespace CSSPServices.Tests
                         mwqmSiteStartEndDateService.Query = mwqmSiteStartEndDateService.FillQuery(typeof(MWQMSiteStartEndDate), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSiteStartEndDateID,GT,2|MWQMSiteStartEndDateID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSiteStartEndDate> mwqmSiteStartEndDateDirectQueryList = new List<MWQMSiteStartEndDate>();
-                        mwqmSiteStartEndDateDirectQueryList = mwqmSiteStartEndDateService.GetRead().Where(c => c.MWQMSiteStartEndDateID > 2 && c.MWQMSiteStartEndDateID < 5).ToList();
+                        mwqmSiteStartEndDateDirectQueryList = (from c in dbTestDB.MWQMSiteStartEndDates select c).Where(c => c.MWQMSiteStartEndDateID > 2 && c.MWQMSiteStartEndDateID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

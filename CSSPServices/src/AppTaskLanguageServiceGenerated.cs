@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskLanguageAppTaskLanguageID"), new[] { "AppTaskLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.AppTaskLanguageID == appTaskLanguage.AppTaskLanguageID).Any())
+                if (!(from c in db.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID == appTaskLanguage.AppTaskLanguageID).Any())
                 {
                     appTaskLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppTaskLanguage", "AppTaskLanguageAppTaskLanguageID", appTaskLanguage.AppTaskLanguageID.ToString()), new[] { "AppTaskLanguageID" });
@@ -138,14 +138,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public AppTaskLanguage GetAppTaskLanguageWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.AppTaskLanguages
                     where c.AppTaskLanguageID == AppTaskLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<AppTaskLanguage> GetAppTaskLanguageList()
         {
-            IQueryable<AppTaskLanguage> AppTaskLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<AppTaskLanguage> AppTaskLanguageQuery = (from c in db.AppTaskLanguages select c);
 
             AppTaskLanguageQuery = EnhanceQueryStatements<AppTaskLanguage>(AppTaskLanguageQuery) as IQueryable<AppTaskLanguage>;
 
@@ -153,7 +153,7 @@ namespace CSSPServices
         }
         public AppTaskLanguageWeb GetAppTaskLanguageWebWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            return FillAppTaskLanguageWeb().FirstOrDefault();
+            return FillAppTaskLanguageWeb().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
 
         }
         public IQueryable<AppTaskLanguageWeb> GetAppTaskLanguageWebList()
@@ -166,7 +166,7 @@ namespace CSSPServices
         }
         public AppTaskLanguageReport GetAppTaskLanguageReportWithAppTaskLanguageID(int AppTaskLanguageID)
         {
-            return FillAppTaskLanguageReport().FirstOrDefault();
+            return FillAppTaskLanguageReport().Where(c => c.AppTaskLanguageID == AppTaskLanguageID).FirstOrDefault();
 
         }
         public IQueryable<AppTaskLanguageReport> GetAppTaskLanguageReportList()
@@ -213,18 +213,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<AppTaskLanguage> GetRead()
-        {
-            IQueryable<AppTaskLanguage> appTaskLanguageQuery = db.AppTaskLanguages.AsNoTracking();
-
-            return appTaskLanguageQuery;
-        }
-        public IQueryable<AppTaskLanguage> GetEdit()
-        {
-            IQueryable<AppTaskLanguage> appTaskLanguageQuery = db.AppTaskLanguages;
-
-            return appTaskLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AppTaskLanguageFillWeb
@@ -259,7 +247,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return AppTaskLanguageWebQuery;
         }

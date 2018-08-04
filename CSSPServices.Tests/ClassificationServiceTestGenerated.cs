@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = classificationService.GetRead().Count();
+                    count = classificationService.GetClassificationList().Count();
 
-                    Assert.AreEqual(classificationService.GetRead().Count(), classificationService.GetEdit().Count());
+                    Assert.AreEqual(classificationService.GetClassificationList().Count(), (from c in dbTestDB.Classifications select c).Take(200).Count());
 
                     classificationService.Add(classification);
                     if (classification.HasErrors)
                     {
                         Assert.AreEqual("", classification.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, classificationService.GetRead().Where(c => c == classification).Any());
+                    Assert.AreEqual(true, classificationService.GetClassificationList().Where(c => c == classification).Any());
                     classificationService.Update(classification);
                     if (classification.HasErrors)
                     {
                         Assert.AreEqual("", classification.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, classificationService.GetRead().Count());
+                    Assert.AreEqual(count + 1, classificationService.GetClassificationList().Count());
                     classificationService.Delete(classification);
                     if (classification.HasErrors)
                     {
                         Assert.AreEqual("", classification.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, classificationService.GetRead().Count());
+                    Assert.AreEqual(count, classificationService.GetClassificationList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -150,13 +150,13 @@ namespace CSSPServices.Tests
                     classification.Ordinal = -1;
                     Assert.AreEqual(false, classificationService.Add(classification));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClassificationOrdinal", "0", "10000"), classification.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, classificationService.GetRead().Count());
+                    Assert.AreEqual(count, classificationService.GetClassificationList().Count());
                     classification = null;
                     classification = GetFilledRandomClassification("");
                     classification.Ordinal = 10001;
                     Assert.AreEqual(false, classificationService.Add(classification));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClassificationOrdinal", "0", "10000"), classification.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, classificationService.GetRead().Count());
+                    Assert.AreEqual(count, classificationService.GetClassificationList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -225,7 +225,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Classification classification = (from c in classificationService.GetRead() select c).FirstOrDefault();
+                    Classification classification = (from c in dbTestDB.Classifications select c).FirstOrDefault();
                     Assert.IsNotNull(classification);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -271,11 +271,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ClassificationService classificationService = new ClassificationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Classification classification = (from c in classificationService.GetRead() select c).FirstOrDefault();
+                    Classification classification = (from c in dbTestDB.Classifications select c).FirstOrDefault();
                     Assert.IsNotNull(classification);
 
                     List<Classification> classificationDirectQueryList = new List<Classification>();
-                    classificationDirectQueryList = classificationService.GetRead().Take(100).ToList();
+                    classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -329,7 +329,7 @@ namespace CSSPServices.Tests
                         classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = classificationService.GetRead().Skip(1).Take(1).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -382,7 +382,7 @@ namespace CSSPServices.Tests
                         classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1,  "ClassificationID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = classificationService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClassificationID).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Skip(1).Take(1).OrderBy(c => c.ClassificationID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -435,7 +435,7 @@ namespace CSSPServices.Tests
                         classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 1, 1, "ClassificationID,ClassificationTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = classificationService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClassificationID).ThenBy(c => c.ClassificationTVItemID).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Skip(1).Take(1).OrderBy(c => c.ClassificationID).ThenBy(c => c.ClassificationTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -488,7 +488,7 @@ namespace CSSPServices.Tests
                         classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "ClassificationID", "ClassificationID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = classificationService.GetRead().Where(c => c.ClassificationID == 4).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID == 4).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -541,7 +541,7 @@ namespace CSSPServices.Tests
                         classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 1, "ClassificationID", "ClassificationID,GT,2|ClassificationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = classificationService.GetRead().Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).Skip(0).Take(1).OrderBy(c => c.ClassificationID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -594,7 +594,7 @@ namespace CSSPServices.Tests
                         classificationService.Query = classificationService.FillQuery(typeof(Classification), culture.TwoLetterISOLanguageName, 0, 10000, "", "ClassificationID,GT,2|ClassificationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Classification> classificationDirectQueryList = new List<Classification>();
-                        classificationDirectQueryList = classificationService.GetRead().Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).ToList();
+                        classificationDirectQueryList = (from c in dbTestDB.Classifications select c).Where(c => c.ClassificationID > 2 && c.ClassificationID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

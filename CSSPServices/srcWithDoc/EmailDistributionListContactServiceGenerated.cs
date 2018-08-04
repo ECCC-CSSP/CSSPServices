@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactEmailDistributionListContactID"), new[] { "EmailDistributionListContactID" });
                 }
 
-                if (!GetRead().Where(c => c.EmailDistributionListContactID == emailDistributionListContact.EmailDistributionListContactID).Any())
+                if (!(from c in db.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID == emailDistributionListContact.EmailDistributionListContactID).Any())
                 {
                     emailDistributionListContact.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContact", "EmailDistributionListContactEmailDistributionListContactID", emailDistributionListContact.EmailDistributionListContactID.ToString()), new[] { "EmailDistributionListContactID" });
@@ -146,14 +146,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public EmailDistributionListContact GetEmailDistributionListContactWithEmailDistributionListContactID(int EmailDistributionListContactID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.EmailDistributionListContacts
                     where c.EmailDistributionListContactID == EmailDistributionListContactID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListContact> GetEmailDistributionListContactList()
         {
-            IQueryable<EmailDistributionListContact> EmailDistributionListContactQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<EmailDistributionListContact> EmailDistributionListContactQuery = (from c in db.EmailDistributionListContacts select c);
 
             EmailDistributionListContactQuery = EnhanceQueryStatements<EmailDistributionListContact>(EmailDistributionListContactQuery) as IQueryable<EmailDistributionListContact>;
 
@@ -161,7 +161,7 @@ namespace CSSPServices
         }
         public EmailDistributionListContactWeb GetEmailDistributionListContactWebWithEmailDistributionListContactID(int EmailDistributionListContactID)
         {
-            return FillEmailDistributionListContactWeb().FirstOrDefault();
+            return FillEmailDistributionListContactWeb().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListContactWeb> GetEmailDistributionListContactWebList()
@@ -174,7 +174,7 @@ namespace CSSPServices
         }
         public EmailDistributionListContactReport GetEmailDistributionListContactReportWithEmailDistributionListContactID(int EmailDistributionListContactID)
         {
-            return FillEmailDistributionListContactReport().FirstOrDefault();
+            return FillEmailDistributionListContactReport().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListContactReport> GetEmailDistributionListContactReportList()
@@ -221,18 +221,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<EmailDistributionListContact> GetRead()
-        {
-            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = db.EmailDistributionListContacts.AsNoTracking();
-
-            return emailDistributionListContactQuery;
-        }
-        public IQueryable<EmailDistributionListContact> GetEdit()
-        {
-            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = db.EmailDistributionListContacts;
-
-            return emailDistributionListContactQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailDistributionListContactFillWeb
@@ -260,7 +248,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return EmailDistributionListContactWebQuery;
         }

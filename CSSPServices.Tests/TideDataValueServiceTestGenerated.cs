@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = tideDataValueService.GetRead().Count();
+                    count = tideDataValueService.GetTideDataValueList().Count();
 
-                    Assert.AreEqual(tideDataValueService.GetRead().Count(), tideDataValueService.GetEdit().Count());
+                    Assert.AreEqual(tideDataValueService.GetTideDataValueList().Count(), (from c in dbTestDB.TideDataValues select c).Take(200).Count());
 
                     tideDataValueService.Add(tideDataValue);
                     if (tideDataValue.HasErrors)
                     {
                         Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, tideDataValueService.GetRead().Where(c => c == tideDataValue).Any());
+                    Assert.AreEqual(true, tideDataValueService.GetTideDataValueList().Where(c => c == tideDataValue).Any());
                     tideDataValueService.Update(tideDataValue);
                     if (tideDataValue.HasErrors)
                     {
                         Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count + 1, tideDataValueService.GetTideDataValueList().Count());
                     tideDataValueService.Delete(tideDataValue);
                     if (tideDataValue.HasErrors)
                     {
                         Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count, tideDataValueService.GetTideDataValueList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -190,13 +190,13 @@ namespace CSSPServices.Tests
                     tideDataValue.Depth_m = -1.0D;
                     Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueDepth_m", "0", "10000"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count, tideDataValueService.GetTideDataValueList().Count());
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
                     tideDataValue.Depth_m = 10001.0D;
                     Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueDepth_m", "0", "10000"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count, tideDataValueService.GetTideDataValueList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -213,13 +213,13 @@ namespace CSSPServices.Tests
                     tideDataValue.UVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueUVelocity_m_s", "0", "10"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count, tideDataValueService.GetTideDataValueList().Count());
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
                     tideDataValue.UVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueUVelocity_m_s", "0", "10"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count, tideDataValueService.GetTideDataValueList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -236,13 +236,13 @@ namespace CSSPServices.Tests
                     tideDataValue.VVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueVVelocity_m_s", "0", "10"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count, tideDataValueService.GetTideDataValueList().Count());
                     tideDataValue = null;
                     tideDataValue = GetFilledRandomTideDataValue("");
                     tideDataValue.VVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TideDataValueVVelocity_m_s", "0", "10"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+                    Assert.AreEqual(count, tideDataValueService.GetTideDataValueList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -337,7 +337,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    TideDataValue tideDataValue = (from c in tideDataValueService.GetRead() select c).FirstOrDefault();
+                    TideDataValue tideDataValue = (from c in dbTestDB.TideDataValues select c).FirstOrDefault();
                     Assert.IsNotNull(tideDataValue);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -383,11 +383,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TideDataValueService tideDataValueService = new TideDataValueService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    TideDataValue tideDataValue = (from c in tideDataValueService.GetRead() select c).FirstOrDefault();
+                    TideDataValue tideDataValue = (from c in dbTestDB.TideDataValues select c).FirstOrDefault();
                     Assert.IsNotNull(tideDataValue);
 
                     List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
-                    tideDataValueDirectQueryList = tideDataValueService.GetRead().Take(100).ToList();
+                    tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -441,7 +441,7 @@ namespace CSSPServices.Tests
                         tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
-                        tideDataValueDirectQueryList = tideDataValueService.GetRead().Skip(1).Take(1).ToList();
+                        tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -494,7 +494,7 @@ namespace CSSPServices.Tests
                         tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), culture.TwoLetterISOLanguageName, 1, 1,  "TideDataValueID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
-                        tideDataValueDirectQueryList = tideDataValueService.GetRead().Skip(1).Take(1).OrderBy(c => c.TideDataValueID).ToList();
+                        tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Skip(1).Take(1).OrderBy(c => c.TideDataValueID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -547,7 +547,7 @@ namespace CSSPServices.Tests
                         tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), culture.TwoLetterISOLanguageName, 1, 1, "TideDataValueID,TideSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
-                        tideDataValueDirectQueryList = tideDataValueService.GetRead().Skip(1).Take(1).OrderBy(c => c.TideDataValueID).ThenBy(c => c.TideSiteTVItemID).ToList();
+                        tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Skip(1).Take(1).OrderBy(c => c.TideDataValueID).ThenBy(c => c.TideSiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -600,7 +600,7 @@ namespace CSSPServices.Tests
                         tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), culture.TwoLetterISOLanguageName, 0, 1, "TideDataValueID", "TideDataValueID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
-                        tideDataValueDirectQueryList = tideDataValueService.GetRead().Where(c => c.TideDataValueID == 4).Skip(0).Take(1).OrderBy(c => c.TideDataValueID).ToList();
+                        tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Where(c => c.TideDataValueID == 4).Skip(0).Take(1).OrderBy(c => c.TideDataValueID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -653,7 +653,7 @@ namespace CSSPServices.Tests
                         tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), culture.TwoLetterISOLanguageName, 0, 1, "TideDataValueID", "TideDataValueID,GT,2|TideDataValueID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
-                        tideDataValueDirectQueryList = tideDataValueService.GetRead().Where(c => c.TideDataValueID > 2 && c.TideDataValueID < 5).Skip(0).Take(1).OrderBy(c => c.TideDataValueID).ToList();
+                        tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Where(c => c.TideDataValueID > 2 && c.TideDataValueID < 5).Skip(0).Take(1).OrderBy(c => c.TideDataValueID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -706,7 +706,7 @@ namespace CSSPServices.Tests
                         tideDataValueService.Query = tideDataValueService.FillQuery(typeof(TideDataValue), culture.TwoLetterISOLanguageName, 0, 10000, "", "TideDataValueID,GT,2|TideDataValueID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TideDataValue> tideDataValueDirectQueryList = new List<TideDataValue>();
-                        tideDataValueDirectQueryList = tideDataValueService.GetRead().Where(c => c.TideDataValueID > 2 && c.TideDataValueID < 5).ToList();
+                        tideDataValueDirectQueryList = (from c in dbTestDB.TideDataValues select c).Where(c => c.TideDataValueID > 2 && c.TideDataValueID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

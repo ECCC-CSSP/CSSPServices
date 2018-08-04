@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorLanguageMWQMSubsectorLanguageID"), new[] { "MWQMSubsectorLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMSubsectorLanguageID == mwqmSubsectorLanguage.MWQMSubsectorLanguageID).Any())
+                if (!(from c in db.MWQMSubsectorLanguages select c).Where(c => c.MWQMSubsectorLanguageID == mwqmSubsectorLanguage.MWQMSubsectorLanguageID).Any())
                 {
                     mwqmSubsectorLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSubsectorLanguage", "MWQMSubsectorLanguageMWQMSubsectorLanguageID", mwqmSubsectorLanguage.MWQMSubsectorLanguageID.ToString()), new[] { "MWQMSubsectorLanguageID" });
@@ -150,14 +150,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSubsectorLanguage GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMSubsectorLanguages
                     where c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMSubsectorLanguage> GetMWQMSubsectorLanguageList()
         {
-            IQueryable<MWQMSubsectorLanguage> MWQMSubsectorLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSubsectorLanguage> MWQMSubsectorLanguageQuery = (from c in db.MWQMSubsectorLanguages select c);
 
             MWQMSubsectorLanguageQuery = EnhanceQueryStatements<MWQMSubsectorLanguage>(MWQMSubsectorLanguageQuery) as IQueryable<MWQMSubsectorLanguage>;
 
@@ -165,7 +165,7 @@ namespace CSSPServices
         }
         public MWQMSubsectorLanguageWeb GetMWQMSubsectorLanguageWebWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
         {
-            return FillMWQMSubsectorLanguageWeb().FirstOrDefault();
+            return FillMWQMSubsectorLanguageWeb().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSubsectorLanguageWeb> GetMWQMSubsectorLanguageWebList()
@@ -178,7 +178,7 @@ namespace CSSPServices
         }
         public MWQMSubsectorLanguageReport GetMWQMSubsectorLanguageReportWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
         {
-            return FillMWQMSubsectorLanguageReport().FirstOrDefault();
+            return FillMWQMSubsectorLanguageReport().Where(c => c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSubsectorLanguageReport> GetMWQMSubsectorLanguageReportList()
@@ -225,18 +225,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MWQMSubsectorLanguage> GetRead()
-        {
-            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = db.MWQMSubsectorLanguages.AsNoTracking();
-
-            return mwqmSubsectorLanguageQuery;
-        }
-        public IQueryable<MWQMSubsectorLanguage> GetEdit()
-        {
-            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = db.MWQMSubsectorLanguages;
-
-            return mwqmSubsectorLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSubsectorLanguageFillWeb
@@ -275,7 +263,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMSubsectorLanguageWebQuery;
         }

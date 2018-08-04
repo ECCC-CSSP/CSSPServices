@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSampleMWQMSampleID"), new[] { "MWQMSampleID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMSampleID == mwqmSample.MWQMSampleID).Any())
+                if (!(from c in db.MWQMSamples select c).Where(c => c.MWQMSampleID == mwqmSample.MWQMSampleID).Any())
                 {
                     mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSample", "MWQMSampleMWQMSampleID", mwqmSample.MWQMSampleID.ToString()), new[] { "MWQMSampleID" });
@@ -255,14 +255,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMSamples
                     where c.MWQMSampleID == MWQMSampleID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMSample> GetMWQMSampleList()
         {
-            IQueryable<MWQMSample> MWQMSampleQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSample> MWQMSampleQuery = (from c in db.MWQMSamples select c);
 
             MWQMSampleQuery = EnhanceQueryStatements<MWQMSample>(MWQMSampleQuery) as IQueryable<MWQMSample>;
 
@@ -270,7 +270,7 @@ namespace CSSPServices
         }
         public MWQMSampleWeb GetMWQMSampleWebWithMWQMSampleID(int MWQMSampleID)
         {
-            return FillMWQMSampleWeb().FirstOrDefault();
+            return FillMWQMSampleWeb().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSampleWeb> GetMWQMSampleWebList()
@@ -283,7 +283,7 @@ namespace CSSPServices
         }
         public MWQMSampleReport GetMWQMSampleReportWithMWQMSampleID(int MWQMSampleID)
         {
-            return FillMWQMSampleReport().FirstOrDefault();
+            return FillMWQMSampleReport().Where(c => c.MWQMSampleID == MWQMSampleID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSampleReport> GetMWQMSampleReportList()
@@ -329,18 +329,6 @@ namespace CSSPServices
             if (!TryToSave(mwqmSample)) return false;
 
             return true;
-        }
-        public IQueryable<MWQMSample> GetRead()
-        {
-            IQueryable<MWQMSample> mwqmSampleQuery = db.MWQMSamples.AsNoTracking();
-
-            return mwqmSampleQuery;
-        }
-        public IQueryable<MWQMSample> GetEdit()
-        {
-            IQueryable<MWQMSample> mwqmSampleQuery = db.MWQMSamples;
-
-            return mwqmSampleQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -392,7 +380,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMSampleWebQuery;
         }

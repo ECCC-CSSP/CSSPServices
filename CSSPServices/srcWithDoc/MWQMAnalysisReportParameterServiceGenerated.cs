@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterMWQMAnalysisReportParameterID"), new[] { "MWQMAnalysisReportParameterID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMAnalysisReportParameterID == mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID).Any())
+                if (!(from c in db.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID == mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID).Any())
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMAnalysisReportParameter", "MWQMAnalysisReportParameterMWQMAnalysisReportParameterID", mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID.ToString()), new[] { "MWQMAnalysisReportParameterID" });
@@ -306,14 +306,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMAnalysisReportParameter GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMAnalysisReportParameters
                     where c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMAnalysisReportParameter> GetMWQMAnalysisReportParameterList()
         {
-            IQueryable<MWQMAnalysisReportParameter> MWQMAnalysisReportParameterQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMAnalysisReportParameter> MWQMAnalysisReportParameterQuery = (from c in db.MWQMAnalysisReportParameters select c);
 
             MWQMAnalysisReportParameterQuery = EnhanceQueryStatements<MWQMAnalysisReportParameter>(MWQMAnalysisReportParameterQuery) as IQueryable<MWQMAnalysisReportParameter>;
 
@@ -321,7 +321,7 @@ namespace CSSPServices
         }
         public MWQMAnalysisReportParameterWeb GetMWQMAnalysisReportParameterWebWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            return FillMWQMAnalysisReportParameterWeb().FirstOrDefault();
+            return FillMWQMAnalysisReportParameterWeb().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
 
         }
         public IQueryable<MWQMAnalysisReportParameterWeb> GetMWQMAnalysisReportParameterWebList()
@@ -334,7 +334,7 @@ namespace CSSPServices
         }
         public MWQMAnalysisReportParameterReport GetMWQMAnalysisReportParameterReportWithMWQMAnalysisReportParameterID(int MWQMAnalysisReportParameterID)
         {
-            return FillMWQMAnalysisReportParameterReport().FirstOrDefault();
+            return FillMWQMAnalysisReportParameterReport().Where(c => c.MWQMAnalysisReportParameterID == MWQMAnalysisReportParameterID).FirstOrDefault();
 
         }
         public IQueryable<MWQMAnalysisReportParameterReport> GetMWQMAnalysisReportParameterReportList()
@@ -380,18 +380,6 @@ namespace CSSPServices
             if (!TryToSave(mwqmAnalysisReportParameter)) return false;
 
             return true;
-        }
-        public IQueryable<MWQMAnalysisReportParameter> GetRead()
-        {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = db.MWQMAnalysisReportParameters.AsNoTracking();
-
-            return mwqmAnalysisReportParameterQuery;
-        }
-        public IQueryable<MWQMAnalysisReportParameter> GetEdit()
-        {
-            IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery = db.MWQMAnalysisReportParameters;
-
-            return mwqmAnalysisReportParameterQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -446,7 +434,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMAnalysisReportParameterWebQuery;
         }

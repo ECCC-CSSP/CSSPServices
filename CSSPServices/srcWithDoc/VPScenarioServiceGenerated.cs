@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioVPScenarioID"), new[] { "VPScenarioID" });
                 }
 
-                if (!GetRead().Where(c => c.VPScenarioID == vpScenario.VPScenarioID).Any())
+                if (!(from c in db.VPScenarios select c).Where(c => c.VPScenarioID == vpScenario.VPScenarioID).Any())
                 {
                     vpScenario.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioVPScenarioID", vpScenario.VPScenarioID.ToString()), new[] { "VPScenarioID" });
@@ -268,14 +268,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public VPScenario GetVPScenarioWithVPScenarioID(int VPScenarioID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.VPScenarios
                     where c.VPScenarioID == VPScenarioID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<VPScenario> GetVPScenarioList()
         {
-            IQueryable<VPScenario> VPScenarioQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<VPScenario> VPScenarioQuery = (from c in db.VPScenarios select c);
 
             VPScenarioQuery = EnhanceQueryStatements<VPScenario>(VPScenarioQuery) as IQueryable<VPScenario>;
 
@@ -283,7 +283,7 @@ namespace CSSPServices
         }
         public VPScenarioWeb GetVPScenarioWebWithVPScenarioID(int VPScenarioID)
         {
-            return FillVPScenarioWeb().FirstOrDefault();
+            return FillVPScenarioWeb().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
 
         }
         public IQueryable<VPScenarioWeb> GetVPScenarioWebList()
@@ -296,7 +296,7 @@ namespace CSSPServices
         }
         public VPScenarioReport GetVPScenarioReportWithVPScenarioID(int VPScenarioID)
         {
-            return FillVPScenarioReport().FirstOrDefault();
+            return FillVPScenarioReport().Where(c => c.VPScenarioID == VPScenarioID).FirstOrDefault();
 
         }
         public IQueryable<VPScenarioReport> GetVPScenarioReportList()
@@ -342,18 +342,6 @@ namespace CSSPServices
             if (!TryToSave(vpScenario)) return false;
 
             return true;
-        }
-        public IQueryable<VPScenario> GetRead()
-        {
-            IQueryable<VPScenario> vpScenarioQuery = db.VPScenarios.AsNoTracking();
-
-            return vpScenarioQuery;
-        }
-        public IQueryable<VPScenario> GetEdit()
-        {
-            IQueryable<VPScenario> vpScenarioQuery = db.VPScenarios;
-
-            return vpScenarioQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -404,7 +392,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return VPScenarioWebQuery;
         }

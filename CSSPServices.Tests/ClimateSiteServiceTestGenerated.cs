@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = climateSiteService.GetRead().Count();
+                    count = climateSiteService.GetClimateSiteList().Count();
 
-                    Assert.AreEqual(climateSiteService.GetRead().Count(), climateSiteService.GetEdit().Count());
+                    Assert.AreEqual(climateSiteService.GetClimateSiteList().Count(), (from c in dbTestDB.ClimateSites select c).Take(200).Count());
 
                     climateSiteService.Add(climateSite);
                     if (climateSite.HasErrors)
                     {
                         Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, climateSiteService.GetRead().Where(c => c == climateSite).Any());
+                    Assert.AreEqual(true, climateSiteService.GetClimateSiteList().Where(c => c == climateSite).Any());
                     climateSiteService.Update(climateSite);
                     if (climateSite.HasErrors)
                     {
                         Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count + 1, climateSiteService.GetClimateSiteList().Count());
                     climateSiteService.Delete(climateSite);
                     if (climateSite.HasErrors)
                     {
                         Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -137,13 +137,13 @@ namespace CSSPServices.Tests
                     climateSite.ECDBID = 0;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteECDBID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ECDBID = 100001;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteECDBID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -157,14 +157,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, climateSite.ValidationResults.Count());
                     Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ClimateSiteClimateSiteName")).Any());
                     Assert.AreEqual(null, climateSite.ClimateSiteName);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.ClimateSiteName = GetRandomString("", 101);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteClimateSiteName", "100"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -178,14 +178,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, climateSite.ValidationResults.Count());
                     Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ClimateSiteProvince")).Any());
                     Assert.AreEqual(null, climateSite.Province);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.Province = GetRandomString("", 5);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteProvince", "4"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -202,13 +202,13 @@ namespace CSSPServices.Tests
                     climateSite.Elevation_m = -1.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteElevation_m", "0", "10000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.Elevation_m = 10001.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteElevation_m", "0", "10000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -221,7 +221,7 @@ namespace CSSPServices.Tests
                     climateSite.ClimateID = GetRandomString("", 11);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteClimateID", "10"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -234,13 +234,13 @@ namespace CSSPServices.Tests
                     climateSite.WMOID = 0;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteWMOID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.WMOID = 100001;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteWMOID", "1", "100000"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -253,7 +253,7 @@ namespace CSSPServices.Tests
                     climateSite.TCID = GetRandomString("", 4);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteTCID", "3"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -272,7 +272,7 @@ namespace CSSPServices.Tests
                     climateSite.ProvSiteID = GetRandomString("", 51);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteProvSiteID", "50"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -289,13 +289,13 @@ namespace CSSPServices.Tests
                     climateSite.TimeOffset_hour = -11.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteTimeOffset_hour", "-10", "0"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
                     climateSite = null;
                     climateSite = GetFilledRandomClimateSite("");
                     climateSite.TimeOffset_hour = 1.0D;
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ClimateSiteTimeOffset_hour", "-10", "0"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -308,7 +308,7 @@ namespace CSSPServices.Tests
                     climateSite.File_desc = GetRandomString("", 51);
                     Assert.AreEqual(false, climateSiteService.Add(climateSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ClimateSiteFile_desc", "50"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, climateSiteService.GetRead().Count());
+                    Assert.AreEqual(count, climateSiteService.GetClimateSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -467,7 +467,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ClimateSite climateSite = (from c in climateSiteService.GetRead() select c).FirstOrDefault();
+                    ClimateSite climateSite = (from c in dbTestDB.ClimateSites select c).FirstOrDefault();
                     Assert.IsNotNull(climateSite);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -513,11 +513,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ClimateSiteService climateSiteService = new ClimateSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ClimateSite climateSite = (from c in climateSiteService.GetRead() select c).FirstOrDefault();
+                    ClimateSite climateSite = (from c in dbTestDB.ClimateSites select c).FirstOrDefault();
                     Assert.IsNotNull(climateSite);
 
                     List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                    climateSiteDirectQueryList = climateSiteService.GetRead().Take(100).ToList();
+                    climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -571,7 +571,7 @@ namespace CSSPServices.Tests
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                        climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).ToList();
+                        climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -624,7 +624,7 @@ namespace CSSPServices.Tests
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 1, 1,  "ClimateSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                        climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
+                        climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -677,7 +677,7 @@ namespace CSSPServices.Tests
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 1, 1, "ClimateSiteID,ClimateSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                        climateSiteDirectQueryList = climateSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ThenBy(c => c.ClimateSiteTVItemID).ToList();
+                        climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Skip(1).Take(1).OrderBy(c => c.ClimateSiteID).ThenBy(c => c.ClimateSiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -730,7 +730,7 @@ namespace CSSPServices.Tests
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 0, 1, "ClimateSiteID", "ClimateSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                        climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID == 4).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
+                        climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Where(c => c.ClimateSiteID == 4).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -783,7 +783,7 @@ namespace CSSPServices.Tests
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 0, 1, "ClimateSiteID", "ClimateSiteID,GT,2|ClimateSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                        climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
+                        climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).Skip(0).Take(1).OrderBy(c => c.ClimateSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -836,7 +836,7 @@ namespace CSSPServices.Tests
                         climateSiteService.Query = climateSiteService.FillQuery(typeof(ClimateSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "ClimateSiteID,GT,2|ClimateSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ClimateSite> climateSiteDirectQueryList = new List<ClimateSite>();
-                        climateSiteDirectQueryList = climateSiteService.GetRead().Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).ToList();
+                        climateSiteDirectQueryList = (from c in dbTestDB.ClimateSites select c).Where(c => c.ClimateSiteID > 2 && c.ClimateSiteID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

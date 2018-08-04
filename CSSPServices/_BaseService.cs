@@ -537,7 +537,7 @@ namespace CSSPServices
 
             return query;
         }
-        public Query FillQuery(Type modelType, string lang = "en", int skip = 0, int take = 100, string order = "", string where = "",
+        public Query FillQuery(Type modelType, string lang = "en", int skip = 0, int take = 200, string order = "", string where = "",
                 EntityQueryDetailTypeEnum? EntityQueryDetailType = EntityQueryDetailTypeEnum.EntityOnly,
                 EntityQueryTypeEnum? EntityQueryType = EntityQueryTypeEnum.AsNoTracking)
         {

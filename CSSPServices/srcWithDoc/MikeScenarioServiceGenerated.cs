@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeScenarioMikeScenarioID"), new[] { "MikeScenarioID" });
                 }
 
-                if (!GetRead().Where(c => c.MikeScenarioID == mikeScenario.MikeScenarioID).Any())
+                if (!(from c in db.MikeScenarios select c).Where(c => c.MikeScenarioID == mikeScenario.MikeScenarioID).Any())
                 {
                     mikeScenario.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeScenario", "MikeScenarioMikeScenarioID", mikeScenario.MikeScenarioID.ToString()), new[] { "MikeScenarioID" });
@@ -319,14 +319,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeScenario GetMikeScenarioWithMikeScenarioID(int MikeScenarioID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MikeScenarios
                     where c.MikeScenarioID == MikeScenarioID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MikeScenario> GetMikeScenarioList()
         {
-            IQueryable<MikeScenario> MikeScenarioQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeScenario> MikeScenarioQuery = (from c in db.MikeScenarios select c);
 
             MikeScenarioQuery = EnhanceQueryStatements<MikeScenario>(MikeScenarioQuery) as IQueryable<MikeScenario>;
 
@@ -334,7 +334,7 @@ namespace CSSPServices
         }
         public MikeScenarioWeb GetMikeScenarioWebWithMikeScenarioID(int MikeScenarioID)
         {
-            return FillMikeScenarioWeb().FirstOrDefault();
+            return FillMikeScenarioWeb().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
 
         }
         public IQueryable<MikeScenarioWeb> GetMikeScenarioWebList()
@@ -347,7 +347,7 @@ namespace CSSPServices
         }
         public MikeScenarioReport GetMikeScenarioReportWithMikeScenarioID(int MikeScenarioID)
         {
-            return FillMikeScenarioReport().FirstOrDefault();
+            return FillMikeScenarioReport().Where(c => c.MikeScenarioID == MikeScenarioID).FirstOrDefault();
 
         }
         public IQueryable<MikeScenarioReport> GetMikeScenarioReportList()
@@ -393,18 +393,6 @@ namespace CSSPServices
             if (!TryToSave(mikeScenario)) return false;
 
             return true;
-        }
-        public IQueryable<MikeScenario> GetRead()
-        {
-            IQueryable<MikeScenario> mikeScenarioQuery = db.MikeScenarios.AsNoTracking();
-
-            return mikeScenarioQuery;
-        }
-        public IQueryable<MikeScenario> GetEdit()
-        {
-            IQueryable<MikeScenario> mikeScenarioQuery = db.MikeScenarios;
-
-            return mikeScenarioQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -461,7 +449,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MikeScenarioWebQuery;
         }

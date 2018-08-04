@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ResetPasswordResetPasswordID"), new[] { "ResetPasswordID" });
                 }
 
-                if (!GetRead().Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
+                if (!(from c in db.ResetPasswords select c).Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
                 {
                     resetPassword.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordResetPasswordID", resetPassword.ResetPasswordID.ToString()), new[] { "ResetPasswordID" });
@@ -142,14 +142,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ResetPasswords
                     where c.ResetPasswordID == ResetPasswordID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ResetPassword> GetResetPasswordList()
         {
-            IQueryable<ResetPassword> ResetPasswordQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ResetPassword> ResetPasswordQuery = (from c in db.ResetPasswords select c);
 
             ResetPasswordQuery = EnhanceQueryStatements<ResetPassword>(ResetPasswordQuery) as IQueryable<ResetPassword>;
 
@@ -157,7 +157,7 @@ namespace CSSPServices
         }
         public ResetPasswordWeb GetResetPasswordWebWithResetPasswordID(int ResetPasswordID)
         {
-            return FillResetPasswordWeb().FirstOrDefault();
+            return FillResetPasswordWeb().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
 
         }
         public IQueryable<ResetPasswordWeb> GetResetPasswordWebList()
@@ -170,7 +170,7 @@ namespace CSSPServices
         }
         public ResetPasswordReport GetResetPasswordReportWithResetPasswordID(int ResetPasswordID)
         {
-            return FillResetPasswordReport().FirstOrDefault();
+            return FillResetPasswordReport().Where(c => c.ResetPasswordID == ResetPasswordID).FirstOrDefault();
 
         }
         public IQueryable<ResetPasswordReport> GetResetPasswordReportList()
@@ -217,18 +217,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ResetPassword> GetRead()
-        {
-            IQueryable<ResetPassword> resetPasswordQuery = db.ResetPasswords.AsNoTracking();
-
-            return resetPasswordQuery;
-        }
-        public IQueryable<ResetPassword> GetEdit()
-        {
-            IQueryable<ResetPassword> resetPasswordQuery = db.ResetPasswords;
-
-            return resetPasswordQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ResetPasswordFillWeb
@@ -250,7 +238,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ResetPasswordWebQuery;
         }

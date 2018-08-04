@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = labSheetService.GetRead().Count();
+                    count = labSheetService.GetLabSheetList().Count();
 
-                    Assert.AreEqual(labSheetService.GetRead().Count(), labSheetService.GetEdit().Count());
+                    Assert.AreEqual(labSheetService.GetLabSheetList().Count(), (from c in dbTestDB.LabSheets select c).Take(200).Count());
 
                     labSheetService.Add(labSheet);
                     if (labSheet.HasErrors)
                     {
                         Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, labSheetService.GetRead().Where(c => c == labSheet).Any());
+                    Assert.AreEqual(true, labSheetService.GetLabSheetList().Where(c => c == labSheet).Any());
                     labSheetService.Update(labSheet);
                     if (labSheet.HasErrors)
                     {
                         Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count + 1, labSheetService.GetLabSheetList().Count());
                     labSheetService.Delete(labSheet);
                     if (labSheet.HasErrors)
                     {
                         Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -118,7 +118,7 @@ namespace CSSPServices.Tests
                     labSheet.OtherServerLabSheetID = 0;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "LabSheetOtherServerLabSheetID", "1"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -145,7 +145,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, labSheet.ValidationResults.Count());
                     Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "LabSheetSamplingPlanName")).Any());
                     Assert.AreEqual(null, labSheet.SamplingPlanName);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     labSheet = null;
                     labSheet = GetFilledRandomLabSheet("");
@@ -154,7 +154,7 @@ namespace CSSPServices.Tests
                     labSheet.SamplingPlanName = GetRandomString("", 251);
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LabSheetSamplingPlanName", "1", "250"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -167,7 +167,7 @@ namespace CSSPServices.Tests
                     labSheet.Year = 1979;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "LabSheetYear", "1980"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -180,13 +180,13 @@ namespace CSSPServices.Tests
                     labSheet.Month = 0;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetMonth", "1", "12"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
                     labSheet = null;
                     labSheet = GetFilledRandomLabSheet("");
                     labSheet.Month = 13;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetMonth", "1", "12"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -199,13 +199,13 @@ namespace CSSPServices.Tests
                     labSheet.Day = 0;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetDay", "1", "31"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
                     labSheet = null;
                     labSheet = GetFilledRandomLabSheet("");
                     labSheet.Day = 32;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetDay", "1", "31"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -218,13 +218,13 @@ namespace CSSPServices.Tests
                     labSheet.RunNumber = 0;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetRunNumber", "1", "100"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
                     labSheet = null;
                     labSheet = GetFilledRandomLabSheet("");
                     labSheet.RunNumber = 101;
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "LabSheetRunNumber", "1", "100"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -328,7 +328,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, labSheet.ValidationResults.Count());
                     Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "LabSheetFileName")).Any());
                     Assert.AreEqual(null, labSheet.FileName);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     labSheet = null;
                     labSheet = GetFilledRandomLabSheet("");
@@ -337,7 +337,7 @@ namespace CSSPServices.Tests
                     labSheet.FileName = GetRandomString("", 251);
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "LabSheetFileName", "1", "250"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -367,7 +367,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, labSheet.ValidationResults.Count());
                     Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "LabSheetFileContent")).Any());
                     Assert.AreEqual(null, labSheet.FileContent);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
 
                     // -----------------------------------
@@ -412,7 +412,7 @@ namespace CSSPServices.Tests
                     labSheet.RejectReason = GetRandomString("", 251);
                     Assert.AreEqual(false, labSheetService.Add(labSheet));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "LabSheetRejectReason", "250"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, labSheetService.GetRead().Count());
+                    Assert.AreEqual(count, labSheetService.GetLabSheetList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -481,7 +481,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    LabSheet labSheet = (from c in labSheetService.GetRead() select c).FirstOrDefault();
+                    LabSheet labSheet = (from c in dbTestDB.LabSheets select c).FirstOrDefault();
                     Assert.IsNotNull(labSheet);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -527,11 +527,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     LabSheetService labSheetService = new LabSheetService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    LabSheet labSheet = (from c in labSheetService.GetRead() select c).FirstOrDefault();
+                    LabSheet labSheet = (from c in dbTestDB.LabSheets select c).FirstOrDefault();
                     Assert.IsNotNull(labSheet);
 
                     List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                    labSheetDirectQueryList = labSheetService.GetRead().Take(100).ToList();
+                    labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -585,7 +585,7 @@ namespace CSSPServices.Tests
                         labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = labSheetService.GetRead().Skip(1).Take(1).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -638,7 +638,7 @@ namespace CSSPServices.Tests
                         labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1,  "LabSheetID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = labSheetService.GetRead().Skip(1).Take(1).OrderBy(c => c.LabSheetID).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Skip(1).Take(1).OrderBy(c => c.LabSheetID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -691,7 +691,7 @@ namespace CSSPServices.Tests
                         labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 1, 1, "LabSheetID,OtherServerLabSheetID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = labSheetService.GetRead().Skip(1).Take(1).OrderBy(c => c.LabSheetID).ThenBy(c => c.OtherServerLabSheetID).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Skip(1).Take(1).OrderBy(c => c.LabSheetID).ThenBy(c => c.OtherServerLabSheetID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -744,7 +744,7 @@ namespace CSSPServices.Tests
                         labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetID", "LabSheetID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = labSheetService.GetRead().Where(c => c.LabSheetID == 4).Skip(0).Take(1).OrderBy(c => c.LabSheetID).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID == 4).Skip(0).Take(1).OrderBy(c => c.LabSheetID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -797,7 +797,7 @@ namespace CSSPServices.Tests
                         labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 1, "LabSheetID", "LabSheetID,GT,2|LabSheetID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = labSheetService.GetRead().Where(c => c.LabSheetID > 2 && c.LabSheetID < 5).Skip(0).Take(1).OrderBy(c => c.LabSheetID).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID > 2 && c.LabSheetID < 5).Skip(0).Take(1).OrderBy(c => c.LabSheetID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -850,7 +850,7 @@ namespace CSSPServices.Tests
                         labSheetService.Query = labSheetService.FillQuery(typeof(LabSheet), culture.TwoLetterISOLanguageName, 0, 10000, "", "LabSheetID,GT,2|LabSheetID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<LabSheet> labSheetDirectQueryList = new List<LabSheet>();
-                        labSheetDirectQueryList = labSheetService.GetRead().Where(c => c.LabSheetID > 2 && c.LabSheetID < 5).ToList();
+                        labSheetDirectQueryList = (from c in dbTestDB.LabSheets select c).Where(c => c.LabSheetID > 2 && c.LabSheetID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

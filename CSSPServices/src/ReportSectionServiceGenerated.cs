@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportSectionReportSectionID"), new[] { "ReportSectionID" });
                 }
 
-                if (!GetRead().Where(c => c.ReportSectionID == reportSection.ReportSectionID).Any())
+                if (!(from c in db.ReportSections select c).Where(c => c.ReportSectionID == reportSection.ReportSectionID).Any())
                 {
                     reportSection.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportSection", "ReportSectionReportSectionID", reportSection.ReportSectionID.ToString()), new[] { "ReportSectionID" });
@@ -171,14 +171,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ReportSection GetReportSectionWithReportSectionID(int ReportSectionID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ReportSections
                     where c.ReportSectionID == ReportSectionID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ReportSection> GetReportSectionList()
         {
-            IQueryable<ReportSection> ReportSectionQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ReportSection> ReportSectionQuery = (from c in db.ReportSections select c);
 
             ReportSectionQuery = EnhanceQueryStatements<ReportSection>(ReportSectionQuery) as IQueryable<ReportSection>;
 
@@ -186,7 +186,7 @@ namespace CSSPServices
         }
         public ReportSectionWeb GetReportSectionWebWithReportSectionID(int ReportSectionID)
         {
-            return FillReportSectionWeb().FirstOrDefault();
+            return FillReportSectionWeb().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
 
         }
         public IQueryable<ReportSectionWeb> GetReportSectionWebList()
@@ -199,7 +199,7 @@ namespace CSSPServices
         }
         public ReportSectionReport GetReportSectionReportWithReportSectionID(int ReportSectionID)
         {
-            return FillReportSectionReport().FirstOrDefault();
+            return FillReportSectionReport().Where(c => c.ReportSectionID == ReportSectionID).FirstOrDefault();
 
         }
         public IQueryable<ReportSectionReport> GetReportSectionReportList()
@@ -246,18 +246,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ReportSection> GetRead()
-        {
-            IQueryable<ReportSection> reportSectionQuery = db.ReportSections.AsNoTracking();
-
-            return reportSectionQuery;
-        }
-        public IQueryable<ReportSection> GetEdit()
-        {
-            IQueryable<ReportSection> reportSectionQuery = db.ReportSections;
-
-            return reportSectionQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportSectionFillWeb
@@ -294,7 +282,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ReportSectionWebQuery;
         }

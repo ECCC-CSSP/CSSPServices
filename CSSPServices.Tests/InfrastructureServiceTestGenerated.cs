@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = infrastructureService.GetRead().Count();
+                    count = infrastructureService.GetInfrastructureList().Count();
 
-                    Assert.AreEqual(infrastructureService.GetRead().Count(), infrastructureService.GetEdit().Count());
+                    Assert.AreEqual(infrastructureService.GetInfrastructureList().Count(), (from c in dbTestDB.Infrastructures select c).Take(200).Count());
 
                     infrastructureService.Add(infrastructure);
                     if (infrastructure.HasErrors)
                     {
                         Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, infrastructureService.GetRead().Where(c => c == infrastructure).Any());
+                    Assert.AreEqual(true, infrastructureService.GetInfrastructureList().Where(c => c == infrastructure).Any());
                     infrastructureService.Update(infrastructure);
                     if (infrastructure.HasErrors)
                     {
                         Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count + 1, infrastructureService.GetInfrastructureList().Count());
                     infrastructureService.Delete(infrastructure);
                     if (infrastructure.HasErrors)
                     {
                         Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -137,13 +137,13 @@ namespace CSSPServices.Tests
                     infrastructure.PrismID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePrismID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrismID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePrismID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -156,13 +156,13 @@ namespace CSSPServices.Tests
                     infrastructure.TPID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTPID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TPID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTPID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -175,13 +175,13 @@ namespace CSSPServices.Tests
                     infrastructure.LSID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureLSID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LSID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureLSID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -194,13 +194,13 @@ namespace CSSPServices.Tests
                     infrastructure.SiteID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSiteID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SiteID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSiteID", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -213,13 +213,13 @@ namespace CSSPServices.Tests
                     infrastructure.Site = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSite", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.Site = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureSite", "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -234,7 +234,7 @@ namespace CSSPServices.Tests
                     infrastructure.InfrastructureCategory = GetRandomString("", 2);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "InfrastructureInfrastructureCategory", "1", "1"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -279,13 +279,13 @@ namespace CSSPServices.Tests
                     infrastructure.NumberOfCells = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfCells = 11;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -298,13 +298,13 @@ namespace CSSPServices.Tests
                     infrastructure.NumberOfAeratedCells = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfAeratedCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfAeratedCells = 11;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfAeratedCells", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -438,13 +438,13 @@ namespace CSSPServices.Tests
                     infrastructure.DesignFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDesignFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DesignFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDesignFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -461,13 +461,13 @@ namespace CSSPServices.Tests
                     infrastructure.AverageFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -484,13 +484,13 @@ namespace CSSPServices.Tests
                     infrastructure.PeakFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePeakFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PeakFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePeakFlow_m3_day", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -503,13 +503,13 @@ namespace CSSPServices.Tests
                     infrastructure.PopServed = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePopServed", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PopServed = 1000001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePopServed", "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -532,13 +532,13 @@ namespace CSSPServices.Tests
                     infrastructure.PercFlowOfTotal = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePercFlowOfTotal", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PercFlowOfTotal = 101.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePercFlowOfTotal", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -555,13 +555,13 @@ namespace CSSPServices.Tests
                     infrastructure.TimeOffset_hour = -11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTimeOffset_hour", "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TimeOffset_hour = 1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureTimeOffset_hour", "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -584,13 +584,13 @@ namespace CSSPServices.Tests
                     infrastructure.AverageDepth_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageDepth_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageDepth_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureAverageDepth_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -603,13 +603,13 @@ namespace CSSPServices.Tests
                     infrastructure.NumberOfPorts = 0;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfPorts", "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfPorts = 1001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNumberOfPorts", "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -626,13 +626,13 @@ namespace CSSPServices.Tests
                     infrastructure.PortDiameter_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortDiameter_m", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortDiameter_m = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortDiameter_m", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -649,13 +649,13 @@ namespace CSSPServices.Tests
                     infrastructure.PortSpacing_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortSpacing_m", "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortSpacing_m = 10001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortSpacing_m", "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -672,13 +672,13 @@ namespace CSSPServices.Tests
                     infrastructure.PortElevation_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortElevation_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortElevation_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructurePortElevation_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -695,13 +695,13 @@ namespace CSSPServices.Tests
                     infrastructure.VerticalAngle_deg = -91.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureVerticalAngle_deg", "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.VerticalAngle_deg = 91.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureVerticalAngle_deg", "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -718,13 +718,13 @@ namespace CSSPServices.Tests
                     infrastructure.HorizontalAngle_deg = -181.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureHorizontalAngle_deg", "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.HorizontalAngle_deg = 181.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureHorizontalAngle_deg", "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -741,13 +741,13 @@ namespace CSSPServices.Tests
                     infrastructure.DecayRate_per_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDecayRate_per_day", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DecayRate_per_day = 101.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDecayRate_per_day", "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -764,13 +764,13 @@ namespace CSSPServices.Tests
                     infrastructure.NearFieldVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNearFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NearFieldVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureNearFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -787,13 +787,13 @@ namespace CSSPServices.Tests
                     infrastructure.FarFieldVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureFarFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FarFieldVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureFarFieldVelocity_m_s", "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -810,13 +810,13 @@ namespace CSSPServices.Tests
                     infrastructure.ReceivingWaterSalinity_PSU = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterSalinity_PSU", "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterSalinity_PSU = 41.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterSalinity_PSU", "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -833,13 +833,13 @@ namespace CSSPServices.Tests
                     infrastructure.ReceivingWaterTemperature_C = -11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterTemperature_C", "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterTemperature_C = 41.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWaterTemperature_C", "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -852,13 +852,13 @@ namespace CSSPServices.Tests
                     infrastructure.ReceivingWater_MPN_per_100ml = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWater_MPN_per_100ml", "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWater_MPN_per_100ml = 10000001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureReceivingWater_MPN_per_100ml", "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -875,13 +875,13 @@ namespace CSSPServices.Tests
                     infrastructure.DistanceFromShore_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDistanceFromShore_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DistanceFromShore_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "InfrastructureDistanceFromShore_m", "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, infrastructureService.GetRead().Count());
+                    Assert.AreEqual(count, infrastructureService.GetInfrastructureList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -988,7 +988,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
+                    Infrastructure infrastructure = (from c in dbTestDB.Infrastructures select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -1034,11 +1034,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     InfrastructureService infrastructureService = new InfrastructureService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
+                    Infrastructure infrastructure = (from c in dbTestDB.Infrastructures select c).FirstOrDefault();
                     Assert.IsNotNull(infrastructure);
 
                     List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                    infrastructureDirectQueryList = infrastructureService.GetRead().Take(100).ToList();
+                    infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -1092,7 +1092,7 @@ namespace CSSPServices.Tests
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1145,7 +1145,7 @@ namespace CSSPServices.Tests
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1,  "InfrastructureID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1198,7 +1198,7 @@ namespace CSSPServices.Tests
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 1, 1, "InfrastructureID,InfrastructureTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = infrastructureService.GetRead().Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ThenBy(c => c.InfrastructureTVItemID).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Skip(1).Take(1).OrderBy(c => c.InfrastructureID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1251,7 +1251,7 @@ namespace CSSPServices.Tests
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "InfrastructureID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID == 4).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1304,7 +1304,7 @@ namespace CSSPServices.Tests
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 1, "InfrastructureID", "InfrastructureID,GT,2|InfrastructureID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).Skip(0).Take(1).OrderBy(c => c.InfrastructureID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1357,7 +1357,7 @@ namespace CSSPServices.Tests
                         infrastructureService.Query = infrastructureService.FillQuery(typeof(Infrastructure), culture.TwoLetterISOLanguageName, 0, 10000, "", "InfrastructureID,GT,2|InfrastructureID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Infrastructure> infrastructureDirectQueryList = new List<Infrastructure>();
-                        infrastructureDirectQueryList = infrastructureService.GetRead().Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).ToList();
+                        infrastructureDirectQueryList = (from c in dbTestDB.Infrastructures select c).Where(c => c.InfrastructureID > 2 && c.InfrastructureID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

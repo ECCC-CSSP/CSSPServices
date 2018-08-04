@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetTubeMPNDetailLabSheetTubeMPNDetailID"), new[] { "LabSheetTubeMPNDetailID" });
                 }
 
-                if (!GetRead().Where(c => c.LabSheetTubeMPNDetailID == labSheetTubeMPNDetail.LabSheetTubeMPNDetailID).Any())
+                if (!(from c in db.LabSheetTubeMPNDetails select c).Where(c => c.LabSheetTubeMPNDetailID == labSheetTubeMPNDetail.LabSheetTubeMPNDetailID).Any())
                 {
                     labSheetTubeMPNDetail.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "LabSheetTubeMPNDetail", "LabSheetTubeMPNDetailLabSheetTubeMPNDetailID", labSheetTubeMPNDetail.LabSheetTubeMPNDetailID.ToString()), new[] { "LabSheetTubeMPNDetailID" });
@@ -217,14 +217,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public LabSheetTubeMPNDetail GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.LabSheetTubeMPNDetails
                     where c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<LabSheetTubeMPNDetail> GetLabSheetTubeMPNDetailList()
         {
-            IQueryable<LabSheetTubeMPNDetail> LabSheetTubeMPNDetailQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<LabSheetTubeMPNDetail> LabSheetTubeMPNDetailQuery = (from c in db.LabSheetTubeMPNDetails select c);
 
             LabSheetTubeMPNDetailQuery = EnhanceQueryStatements<LabSheetTubeMPNDetail>(LabSheetTubeMPNDetailQuery) as IQueryable<LabSheetTubeMPNDetail>;
 
@@ -232,7 +232,7 @@ namespace CSSPServices
         }
         public LabSheetTubeMPNDetailWeb GetLabSheetTubeMPNDetailWebWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            return FillLabSheetTubeMPNDetailWeb().FirstOrDefault();
+            return FillLabSheetTubeMPNDetailWeb().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
 
         }
         public IQueryable<LabSheetTubeMPNDetailWeb> GetLabSheetTubeMPNDetailWebList()
@@ -245,7 +245,7 @@ namespace CSSPServices
         }
         public LabSheetTubeMPNDetailReport GetLabSheetTubeMPNDetailReportWithLabSheetTubeMPNDetailID(int LabSheetTubeMPNDetailID)
         {
-            return FillLabSheetTubeMPNDetailReport().FirstOrDefault();
+            return FillLabSheetTubeMPNDetailReport().Where(c => c.LabSheetTubeMPNDetailID == LabSheetTubeMPNDetailID).FirstOrDefault();
 
         }
         public IQueryable<LabSheetTubeMPNDetailReport> GetLabSheetTubeMPNDetailReportList()
@@ -292,18 +292,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<LabSheetTubeMPNDetail> GetRead()
-        {
-            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = db.LabSheetTubeMPNDetails.AsNoTracking();
-
-            return labSheetTubeMPNDetailQuery;
-        }
-        public IQueryable<LabSheetTubeMPNDetail> GetEdit()
-        {
-            IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery = db.LabSheetTubeMPNDetails;
-
-            return labSheetTubeMPNDetailQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LabSheetTubeMPNDetailFillWeb
@@ -347,7 +335,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return LabSheetTubeMPNDetailWebQuery;
         }

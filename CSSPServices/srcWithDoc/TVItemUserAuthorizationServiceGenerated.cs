@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemUserAuthorizationTVItemUserAuthorizationID"), new[] { "TVItemUserAuthorizationID" });
                 }
 
-                if (!GetRead().Where(c => c.TVItemUserAuthorizationID == tvItemUserAuthorization.TVItemUserAuthorizationID).Any())
+                if (!(from c in db.TVItemUserAuthorizations select c).Where(c => c.TVItemUserAuthorizationID == tvItemUserAuthorization.TVItemUserAuthorizationID).Any())
                 {
                     tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItemUserAuthorization", "TVItemUserAuthorizationTVItemUserAuthorizationID", tvItemUserAuthorization.TVItemUserAuthorizationID.ToString()), new[] { "TVItemUserAuthorizationID" });
@@ -352,14 +352,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVItemUserAuthorization GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TVItemUserAuthorizations
                     where c.TVItemUserAuthorizationID == TVItemUserAuthorizationID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TVItemUserAuthorization> GetTVItemUserAuthorizationList()
         {
-            IQueryable<TVItemUserAuthorization> TVItemUserAuthorizationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVItemUserAuthorization> TVItemUserAuthorizationQuery = (from c in db.TVItemUserAuthorizations select c);
 
             TVItemUserAuthorizationQuery = EnhanceQueryStatements<TVItemUserAuthorization>(TVItemUserAuthorizationQuery) as IQueryable<TVItemUserAuthorization>;
 
@@ -367,7 +367,7 @@ namespace CSSPServices
         }
         public TVItemUserAuthorizationWeb GetTVItemUserAuthorizationWebWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID)
         {
-            return FillTVItemUserAuthorizationWeb().FirstOrDefault();
+            return FillTVItemUserAuthorizationWeb().Where(c => c.TVItemUserAuthorizationID == TVItemUserAuthorizationID).FirstOrDefault();
 
         }
         public IQueryable<TVItemUserAuthorizationWeb> GetTVItemUserAuthorizationWebList()
@@ -380,7 +380,7 @@ namespace CSSPServices
         }
         public TVItemUserAuthorizationReport GetTVItemUserAuthorizationReportWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID)
         {
-            return FillTVItemUserAuthorizationReport().FirstOrDefault();
+            return FillTVItemUserAuthorizationReport().Where(c => c.TVItemUserAuthorizationID == TVItemUserAuthorizationID).FirstOrDefault();
 
         }
         public IQueryable<TVItemUserAuthorizationReport> GetTVItemUserAuthorizationReportList()
@@ -426,18 +426,6 @@ namespace CSSPServices
             if (!TryToSave(tvItemUserAuthorization)) return false;
 
             return true;
-        }
-        public IQueryable<TVItemUserAuthorization> GetRead()
-        {
-            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = db.TVItemUserAuthorizations.AsNoTracking();
-
-            return tvItemUserAuthorizationQuery;
-        }
-        public IQueryable<TVItemUserAuthorization> GetEdit()
-        {
-            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = db.TVItemUserAuthorizations;
-
-            return tvItemUserAuthorizationQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -495,7 +483,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TVItemUserAuthorizationWebQuery;
         }

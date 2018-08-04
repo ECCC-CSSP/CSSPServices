@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideSiteTideSiteID"), new[] { "TideSiteID" });
                 }
 
-                if (!GetRead().Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
+                if (!(from c in db.TideSites select c).Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
                 {
                     tideSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TideSite", "TideSiteTideSiteID", tideSite.TideSiteID.ToString()), new[] { "TideSiteID" });
@@ -142,14 +142,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TideSite GetTideSiteWithTideSiteID(int TideSiteID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TideSites
                     where c.TideSiteID == TideSiteID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TideSite> GetTideSiteList()
         {
-            IQueryable<TideSite> TideSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TideSite> TideSiteQuery = (from c in db.TideSites select c);
 
             TideSiteQuery = EnhanceQueryStatements<TideSite>(TideSiteQuery) as IQueryable<TideSite>;
 
@@ -157,7 +157,7 @@ namespace CSSPServices
         }
         public TideSiteWeb GetTideSiteWebWithTideSiteID(int TideSiteID)
         {
-            return FillTideSiteWeb().FirstOrDefault();
+            return FillTideSiteWeb().Where(c => c.TideSiteID == TideSiteID).FirstOrDefault();
 
         }
         public IQueryable<TideSiteWeb> GetTideSiteWebList()
@@ -170,7 +170,7 @@ namespace CSSPServices
         }
         public TideSiteReport GetTideSiteReportWithTideSiteID(int TideSiteID)
         {
-            return FillTideSiteReport().FirstOrDefault();
+            return FillTideSiteReport().Where(c => c.TideSiteID == TideSiteID).FirstOrDefault();
 
         }
         public IQueryable<TideSiteReport> GetTideSiteReportList()
@@ -217,18 +217,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<TideSite> GetRead()
-        {
-            IQueryable<TideSite> tideSiteQuery = db.TideSites.AsNoTracking();
-
-            return tideSiteQuery;
-        }
-        public IQueryable<TideSite> GetEdit()
-        {
-            IQueryable<TideSite> tideSiteQuery = db.TideSites;
-
-            return tideSiteQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TideSiteFillWeb
@@ -255,7 +243,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TideSiteWebQuery;
         }

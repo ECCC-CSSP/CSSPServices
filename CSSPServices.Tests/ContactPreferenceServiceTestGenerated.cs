@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = contactPreferenceService.GetRead().Count();
+                    count = contactPreferenceService.GetContactPreferenceList().Count();
 
-                    Assert.AreEqual(contactPreferenceService.GetRead().Count(), contactPreferenceService.GetEdit().Count());
+                    Assert.AreEqual(contactPreferenceService.GetContactPreferenceList().Count(), (from c in dbTestDB.ContactPreferences select c).Take(200).Count());
 
                     contactPreferenceService.Add(contactPreference);
                     if (contactPreference.HasErrors)
                     {
                         Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, contactPreferenceService.GetRead().Where(c => c == contactPreference).Any());
+                    Assert.AreEqual(true, contactPreferenceService.GetContactPreferenceList().Where(c => c == contactPreference).Any());
                     contactPreferenceService.Update(contactPreference);
                     if (contactPreference.HasErrors)
                     {
                         Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, contactPreferenceService.GetRead().Count());
+                    Assert.AreEqual(count + 1, contactPreferenceService.GetContactPreferenceList().Count());
                     contactPreferenceService.Delete(contactPreference);
                     if (contactPreference.HasErrors)
                     {
                         Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
+                    Assert.AreEqual(count, contactPreferenceService.GetContactPreferenceList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -144,13 +144,13 @@ namespace CSSPServices.Tests
                     contactPreference.MarkerSize = 0;
                     Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContactPreferenceMarkerSize", "1", "1000"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
+                    Assert.AreEqual(count, contactPreferenceService.GetContactPreferenceList().Count());
                     contactPreference = null;
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.MarkerSize = 1001;
                     Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "ContactPreferenceMarkerSize", "1", "1000"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
+                    Assert.AreEqual(count, contactPreferenceService.GetContactPreferenceList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -219,7 +219,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ContactPreference contactPreference = (from c in contactPreferenceService.GetRead() select c).FirstOrDefault();
+                    ContactPreference contactPreference = (from c in dbTestDB.ContactPreferences select c).FirstOrDefault();
                     Assert.IsNotNull(contactPreference);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -265,11 +265,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ContactPreferenceService contactPreferenceService = new ContactPreferenceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ContactPreference contactPreference = (from c in contactPreferenceService.GetRead() select c).FirstOrDefault();
+                    ContactPreference contactPreference = (from c in dbTestDB.ContactPreferences select c).FirstOrDefault();
                     Assert.IsNotNull(contactPreference);
 
                     List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                    contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Take(100).ToList();
+                    contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -323,7 +323,7 @@ namespace CSSPServices.Tests
                         contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Skip(1).Take(1).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -376,7 +376,7 @@ namespace CSSPServices.Tests
                         contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1,  "ContactPreferenceID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -429,7 +429,7 @@ namespace CSSPServices.Tests
                         contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 1, 1, "ContactPreferenceID,ContactID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ThenBy(c => c.ContactID).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Skip(1).Take(1).OrderBy(c => c.ContactPreferenceID).ThenBy(c => c.ContactID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -482,7 +482,7 @@ namespace CSSPServices.Tests
                         contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Where(c => c.ContactPreferenceID == 4).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID == 4).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -535,7 +535,7 @@ namespace CSSPServices.Tests
                         contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 1, "ContactPreferenceID", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).Skip(0).Take(1).OrderBy(c => c.ContactPreferenceID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -588,7 +588,7 @@ namespace CSSPServices.Tests
                         contactPreferenceService.Query = contactPreferenceService.FillQuery(typeof(ContactPreference), culture.TwoLetterISOLanguageName, 0, 10000, "", "ContactPreferenceID,GT,2|ContactPreferenceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ContactPreference> contactPreferenceDirectQueryList = new List<ContactPreference>();
-                        contactPreferenceDirectQueryList = contactPreferenceService.GetRead().Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).ToList();
+                        contactPreferenceDirectQueryList = (from c in dbTestDB.ContactPreferences select c).Where(c => c.ContactPreferenceID > 2 && c.ContactPreferenceID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

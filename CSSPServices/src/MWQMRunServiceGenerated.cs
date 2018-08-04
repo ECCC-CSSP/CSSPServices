@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMRunMWQMRunID"), new[] { "MWQMRunID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMRunID == mwqmRun.MWQMRunID).Any())
+                if (!(from c in db.MWQMRuns select c).Where(c => c.MWQMRunID == mwqmRun.MWQMRunID).Any())
                 {
                     mwqmRun.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMRun", "MWQMRunMWQMRunID", mwqmRun.MWQMRunID.ToString()), new[] { "MWQMRunID" });
@@ -472,14 +472,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMRun GetMWQMRunWithMWQMRunID(int MWQMRunID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMRuns
                     where c.MWQMRunID == MWQMRunID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMRun> GetMWQMRunList()
         {
-            IQueryable<MWQMRun> MWQMRunQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMRun> MWQMRunQuery = (from c in db.MWQMRuns select c);
 
             MWQMRunQuery = EnhanceQueryStatements<MWQMRun>(MWQMRunQuery) as IQueryable<MWQMRun>;
 
@@ -487,7 +487,7 @@ namespace CSSPServices
         }
         public MWQMRunWeb GetMWQMRunWebWithMWQMRunID(int MWQMRunID)
         {
-            return FillMWQMRunWeb().FirstOrDefault();
+            return FillMWQMRunWeb().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
 
         }
         public IQueryable<MWQMRunWeb> GetMWQMRunWebList()
@@ -500,7 +500,7 @@ namespace CSSPServices
         }
         public MWQMRunReport GetMWQMRunReportWithMWQMRunID(int MWQMRunID)
         {
-            return FillMWQMRunReport().FirstOrDefault();
+            return FillMWQMRunReport().Where(c => c.MWQMRunID == MWQMRunID).FirstOrDefault();
 
         }
         public IQueryable<MWQMRunReport> GetMWQMRunReportList()
@@ -546,18 +546,6 @@ namespace CSSPServices
             if (!TryToSave(mwqmRun)) return false;
 
             return true;
-        }
-        public IQueryable<MWQMRun> GetRead()
-        {
-            IQueryable<MWQMRun> mwqmRunQuery = db.MWQMRuns.AsNoTracking();
-
-            return mwqmRunQuery;
-        }
-        public IQueryable<MWQMRun> GetEdit()
-        {
-            IQueryable<MWQMRun> mwqmRunQuery = db.MWQMRuns;
-
-            return mwqmRunQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -668,7 +656,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMRunWebQuery;
         }

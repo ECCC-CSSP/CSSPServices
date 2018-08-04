@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = vpScenarioLanguageService.GetRead().Count();
+                    count = vpScenarioLanguageService.GetVPScenarioLanguageList().Count();
 
-                    Assert.AreEqual(vpScenarioLanguageService.GetRead().Count(), vpScenarioLanguageService.GetEdit().Count());
+                    Assert.AreEqual(vpScenarioLanguageService.GetVPScenarioLanguageList().Count(), (from c in dbTestDB.VPScenarioLanguages select c).Take(200).Count());
 
                     vpScenarioLanguageService.Add(vpScenarioLanguage);
                     if (vpScenarioLanguage.HasErrors)
                     {
                         Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, vpScenarioLanguageService.GetRead().Where(c => c == vpScenarioLanguage).Any());
+                    Assert.AreEqual(true, vpScenarioLanguageService.GetVPScenarioLanguageList().Where(c => c == vpScenarioLanguage).Any());
                     vpScenarioLanguageService.Update(vpScenarioLanguage);
                     if (vpScenarioLanguage.HasErrors)
                     {
                         Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, vpScenarioLanguageService.GetRead().Count());
+                    Assert.AreEqual(count + 1, vpScenarioLanguageService.GetVPScenarioLanguageList().Count());
                     vpScenarioLanguageService.Delete(vpScenarioLanguage);
                     if (vpScenarioLanguage.HasErrors)
                     {
                         Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioLanguageService.GetVPScenarioLanguageList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -145,14 +145,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, vpScenarioLanguage.ValidationResults.Count());
                     Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageVPScenarioName")).Any());
                     Assert.AreEqual(null, vpScenarioLanguage.VPScenarioName);
-                    Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioLanguageService.GetVPScenarioLanguageList().Count());
 
                     vpScenarioLanguage = null;
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.VPScenarioName = GetRandomString("", 101);
                     Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "VPScenarioLanguageVPScenarioName", "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioLanguageService.GetVPScenarioLanguageList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -234,7 +234,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    VPScenarioLanguage vpScenarioLanguage = (from c in vpScenarioLanguageService.GetRead() select c).FirstOrDefault();
+                    VPScenarioLanguage vpScenarioLanguage = (from c in dbTestDB.VPScenarioLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenarioLanguage);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -280,11 +280,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    VPScenarioLanguage vpScenarioLanguage = (from c in vpScenarioLanguageService.GetRead() select c).FirstOrDefault();
+                    VPScenarioLanguage vpScenarioLanguage = (from c in dbTestDB.VPScenarioLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenarioLanguage);
 
                     List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
-                    vpScenarioLanguageDirectQueryList = vpScenarioLanguageService.GetRead().Take(100).ToList();
+                    vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -338,7 +338,7 @@ namespace CSSPServices.Tests
                         vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
-                        vpScenarioLanguageDirectQueryList = vpScenarioLanguageService.GetRead().Skip(1).Take(1).ToList();
+                        vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -391,7 +391,7 @@ namespace CSSPServices.Tests
                         vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
-                        vpScenarioLanguageDirectQueryList = vpScenarioLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
+                        vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -444,7 +444,7 @@ namespace CSSPServices.Tests
                         vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioLanguageID,VPScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
-                        vpScenarioLanguageDirectQueryList = vpScenarioLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioLanguageID).ThenBy(c => c.VPScenarioID).ToList();
+                        vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioLanguageID).ThenBy(c => c.VPScenarioID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -497,7 +497,7 @@ namespace CSSPServices.Tests
                         vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioLanguageID", "VPScenarioLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
-                        vpScenarioLanguageDirectQueryList = vpScenarioLanguageService.GetRead().Where(c => c.VPScenarioLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
+                        vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -550,7 +550,7 @@ namespace CSSPServices.Tests
                         vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioLanguageID", "VPScenarioLanguageID,GT,2|VPScenarioLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
-                        vpScenarioLanguageDirectQueryList = vpScenarioLanguageService.GetRead().Where(c => c.VPScenarioLanguageID > 2 && c.VPScenarioLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
+                        vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID > 2 && c.VPScenarioLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -603,7 +603,7 @@ namespace CSSPServices.Tests
                         vpScenarioLanguageService.Query = vpScenarioLanguageService.FillQuery(typeof(VPScenarioLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPScenarioLanguageID,GT,2|VPScenarioLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenarioLanguage> vpScenarioLanguageDirectQueryList = new List<VPScenarioLanguage>();
-                        vpScenarioLanguageDirectQueryList = vpScenarioLanguageService.GetRead().Where(c => c.VPScenarioLanguageID > 2 && c.VPScenarioLanguageID < 5).ToList();
+                        vpScenarioLanguageDirectQueryList = (from c in dbTestDB.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID > 2 && c.VPScenarioLanguageID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

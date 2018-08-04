@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = reportTypeLanguageService.GetRead().Count();
+                    count = reportTypeLanguageService.GetReportTypeLanguageList().Count();
 
-                    Assert.AreEqual(reportTypeLanguageService.GetRead().Count(), reportTypeLanguageService.GetEdit().Count());
+                    Assert.AreEqual(reportTypeLanguageService.GetReportTypeLanguageList().Count(), (from c in dbTestDB.ReportTypeLanguages select c).Take(200).Count());
 
                     reportTypeLanguageService.Add(reportTypeLanguage);
                     if (reportTypeLanguage.HasErrors)
                     {
                         Assert.AreEqual("", reportTypeLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, reportTypeLanguageService.GetRead().Where(c => c == reportTypeLanguage).Any());
+                    Assert.AreEqual(true, reportTypeLanguageService.GetReportTypeLanguageList().Where(c => c == reportTypeLanguage).Any());
                     reportTypeLanguageService.Update(reportTypeLanguage);
                     if (reportTypeLanguage.HasErrors)
                     {
                         Assert.AreEqual("", reportTypeLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count + 1, reportTypeLanguageService.GetReportTypeLanguageList().Count());
                     reportTypeLanguageService.Delete(reportTypeLanguage);
                     if (reportTypeLanguage.HasErrors)
                     {
                         Assert.AreEqual("", reportTypeLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, reportTypeLanguageService.GetReportTypeLanguageList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -145,14 +145,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, reportTypeLanguage.ValidationResults.Count());
                     Assert.IsTrue(reportTypeLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageName")).Any());
                     Assert.AreEqual(null, reportTypeLanguage.Name);
-                    Assert.AreEqual(count, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, reportTypeLanguageService.GetReportTypeLanguageList().Count());
 
                     reportTypeLanguage = null;
                     reportTypeLanguage = GetFilledRandomReportTypeLanguage("");
                     reportTypeLanguage.Name = GetRandomString("", 101);
                     Assert.AreEqual(false, reportTypeLanguageService.Add(reportTypeLanguage));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeLanguageName", "100"), reportTypeLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, reportTypeLanguageService.GetReportTypeLanguageList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -179,14 +179,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, reportTypeLanguage.ValidationResults.Count());
                     Assert.IsTrue(reportTypeLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageDescription")).Any());
                     Assert.AreEqual(null, reportTypeLanguage.Description);
-                    Assert.AreEqual(count, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, reportTypeLanguageService.GetReportTypeLanguageList().Count());
 
                     reportTypeLanguage = null;
                     reportTypeLanguage = GetFilledRandomReportTypeLanguage("");
                     reportTypeLanguage.Description = GetRandomString("", 1001);
                     Assert.AreEqual(false, reportTypeLanguageService.Add(reportTypeLanguage));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeLanguageDescription", "1000"), reportTypeLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, reportTypeLanguageService.GetReportTypeLanguageList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -213,14 +213,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, reportTypeLanguage.ValidationResults.Count());
                     Assert.IsTrue(reportTypeLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageStartOfFileName")).Any());
                     Assert.AreEqual(null, reportTypeLanguage.StartOfFileName);
-                    Assert.AreEqual(count, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, reportTypeLanguageService.GetReportTypeLanguageList().Count());
 
                     reportTypeLanguage = null;
                     reportTypeLanguage = GetFilledRandomReportTypeLanguage("");
                     reportTypeLanguage.StartOfFileName = GetRandomString("", 101);
                     Assert.AreEqual(false, reportTypeLanguageService.Add(reportTypeLanguage));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ReportTypeLanguageStartOfFileName", "100"), reportTypeLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, reportTypeLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, reportTypeLanguageService.GetReportTypeLanguageList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -302,7 +302,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ReportTypeLanguage reportTypeLanguage = (from c in reportTypeLanguageService.GetRead() select c).FirstOrDefault();
+                    ReportTypeLanguage reportTypeLanguage = (from c in dbTestDB.ReportTypeLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(reportTypeLanguage);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -348,11 +348,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ReportTypeLanguageService reportTypeLanguageService = new ReportTypeLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ReportTypeLanguage reportTypeLanguage = (from c in reportTypeLanguageService.GetRead() select c).FirstOrDefault();
+                    ReportTypeLanguage reportTypeLanguage = (from c in dbTestDB.ReportTypeLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(reportTypeLanguage);
 
                     List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
-                    reportTypeLanguageDirectQueryList = reportTypeLanguageService.GetRead().Take(100).ToList();
+                    reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -406,7 +406,7 @@ namespace CSSPServices.Tests
                         reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
-                        reportTypeLanguageDirectQueryList = reportTypeLanguageService.GetRead().Skip(1).Take(1).ToList();
+                        reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -459,7 +459,7 @@ namespace CSSPServices.Tests
                         reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "ReportTypeLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
-                        reportTypeLanguageDirectQueryList = reportTypeLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
+                        reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -512,7 +512,7 @@ namespace CSSPServices.Tests
                         reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 1, 1, "ReportTypeLanguageID,ReportTypeID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
-                        reportTypeLanguageDirectQueryList = reportTypeLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ThenBy(c => c.ReportTypeID).ToList();
+                        reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Skip(1).Take(1).OrderBy(c => c.ReportTypeLanguageID).ThenBy(c => c.ReportTypeID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -565,7 +565,7 @@ namespace CSSPServices.Tests
                         reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 1, "ReportTypeLanguageID", "ReportTypeLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
-                        reportTypeLanguageDirectQueryList = reportTypeLanguageService.GetRead().Where(c => c.ReportTypeLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
+                        reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -618,7 +618,7 @@ namespace CSSPServices.Tests
                         reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 1, "ReportTypeLanguageID", "ReportTypeLanguageID,GT,2|ReportTypeLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
-                        reportTypeLanguageDirectQueryList = reportTypeLanguageService.GetRead().Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
+                        reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.ReportTypeLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -671,7 +671,7 @@ namespace CSSPServices.Tests
                         reportTypeLanguageService.Query = reportTypeLanguageService.FillQuery(typeof(ReportTypeLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "ReportTypeLanguageID,GT,2|ReportTypeLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ReportTypeLanguage> reportTypeLanguageDirectQueryList = new List<ReportTypeLanguage>();
-                        reportTypeLanguageDirectQueryList = reportTypeLanguageService.GetRead().Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).ToList();
+                        reportTypeLanguageDirectQueryList = (from c in dbTestDB.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID > 2 && c.ReportTypeLanguageID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

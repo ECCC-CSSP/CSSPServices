@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mwqmSiteService.GetRead().Count();
+                    count = mwqmSiteService.GetMWQMSiteList().Count();
 
-                    Assert.AreEqual(mwqmSiteService.GetRead().Count(), mwqmSiteService.GetEdit().Count());
+                    Assert.AreEqual(mwqmSiteService.GetMWQMSiteList().Count(), (from c in dbTestDB.MWQMSites select c).Take(200).Count());
 
                     mwqmSiteService.Add(mwqmSite);
                     if (mwqmSite.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mwqmSiteService.GetRead().Where(c => c == mwqmSite).Any());
+                    Assert.AreEqual(true, mwqmSiteService.GetMWQMSiteList().Where(c => c == mwqmSite).Any());
                     mwqmSiteService.Update(mwqmSite);
                     if (mwqmSite.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mwqmSiteService.GetMWQMSiteList().Count());
                     mwqmSiteService.Delete(mwqmSite);
                     if (mwqmSite.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -138,14 +138,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
                     Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteNumber")).Any());
                     Assert.AreEqual(null, mwqmSite.MWQMSiteNumber);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteNumber = GetRandomString("", 9);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteNumber", "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -159,14 +159,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
                     Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteDescription")).Any());
                     Assert.AreEqual(null, mwqmSite.MWQMSiteDescription);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteDescription = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSiteMWQMSiteDescription", "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -192,13 +192,13 @@ namespace CSSPServices.Tests
                     mwqmSite.Ordinal = -1;
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSiteOrdinal", "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.Ordinal = 1001;
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSiteOrdinal", "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSiteService.GetMWQMSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -267,7 +267,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSite mwqmSite = (from c in mwqmSiteService.GetRead() select c).FirstOrDefault();
+                    MWQMSite mwqmSite = (from c in dbTestDB.MWQMSites select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSite);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -313,11 +313,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSiteService mwqmSiteService = new MWQMSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSite mwqmSite = (from c in mwqmSiteService.GetRead() select c).FirstOrDefault();
+                    MWQMSite mwqmSite = (from c in dbTestDB.MWQMSites select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSite);
 
                     List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                    mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Take(100).ToList();
+                    mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -371,7 +371,7 @@ namespace CSSPServices.Tests
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Skip(1).Take(1).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -424,7 +424,7 @@ namespace CSSPServices.Tests
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -477,7 +477,7 @@ namespace CSSPServices.Tests
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSiteID,MWQMSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Skip(1).Take(1).OrderBy(c => c.MWQMSiteID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -530,7 +530,7 @@ namespace CSSPServices.Tests
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "MWQMSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Where(c => c.MWQMSiteID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -583,7 +583,7 @@ namespace CSSPServices.Tests
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSiteID", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -636,7 +636,7 @@ namespace CSSPServices.Tests
                         mwqmSiteService.Query = mwqmSiteService.FillQuery(typeof(MWQMSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSiteID,GT,2|MWQMSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSite> mwqmSiteDirectQueryList = new List<MWQMSite>();
-                        mwqmSiteDirectQueryList = mwqmSiteService.GetRead().Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).ToList();
+                        mwqmSiteDirectQueryList = (from c in dbTestDB.MWQMSites select c).Where(c => c.MWQMSiteID > 2 && c.MWQMSiteID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

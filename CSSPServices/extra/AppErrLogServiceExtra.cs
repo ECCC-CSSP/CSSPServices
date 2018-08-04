@@ -28,7 +28,8 @@ namespace CSSPServices
                     select cl).FirstOrDefault()
                     select new AppErrLogReport
                     {
-                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
+                        AppErrLogReportTest = "Testing Report",
+                        LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         AppErrLogID = c.AppErrLogID,
                         Tag = c.Tag,
                         LineNumber = c.LineNumber,
@@ -39,7 +40,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return AppErrLogReportQuery;
         }

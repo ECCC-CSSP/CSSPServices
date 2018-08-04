@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppTaskAppTaskID"), new[] { "AppTaskID" });
                 }
 
-                if (!GetRead().Where(c => c.AppTaskID == appTask.AppTaskID).Any())
+                if (!(from c in db.AppTasks select c).Where(c => c.AppTaskID == appTask.AppTaskID).Any())
                 {
                     appTask.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppTask", "AppTaskAppTaskID", appTask.AppTaskID.ToString()), new[] { "AppTaskID" });
@@ -269,14 +269,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public AppTask GetAppTaskWithAppTaskID(int AppTaskID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.AppTasks
                     where c.AppTaskID == AppTaskID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<AppTask> GetAppTaskList()
         {
-            IQueryable<AppTask> AppTaskQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<AppTask> AppTaskQuery = (from c in db.AppTasks select c);
 
             AppTaskQuery = EnhanceQueryStatements<AppTask>(AppTaskQuery) as IQueryable<AppTask>;
 
@@ -284,7 +284,7 @@ namespace CSSPServices
         }
         public AppTaskWeb GetAppTaskWebWithAppTaskID(int AppTaskID)
         {
-            return FillAppTaskWeb().FirstOrDefault();
+            return FillAppTaskWeb().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
 
         }
         public IQueryable<AppTaskWeb> GetAppTaskWebList()
@@ -297,7 +297,7 @@ namespace CSSPServices
         }
         public AppTaskReport GetAppTaskReportWithAppTaskID(int AppTaskID)
         {
-            return FillAppTaskReport().FirstOrDefault();
+            return FillAppTaskReport().Where(c => c.AppTaskID == AppTaskID).FirstOrDefault();
 
         }
         public IQueryable<AppTaskReport> GetAppTaskReportList()
@@ -343,18 +343,6 @@ namespace CSSPServices
             if (!TryToSave(appTask)) return false;
 
             return true;
-        }
-        public IQueryable<AppTask> GetRead()
-        {
-            IQueryable<AppTask> appTaskQuery = db.AppTasks.AsNoTracking();
-
-            return appTaskQuery;
-        }
-        public IQueryable<AppTask> GetEdit()
-        {
-            IQueryable<AppTask> appTaskQuery = db.AppTasks;
-
-            return appTaskQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -410,7 +398,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return AppTaskWebQuery;
         }

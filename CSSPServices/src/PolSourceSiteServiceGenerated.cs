@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceSitePolSourceSiteID"), new[] { "PolSourceSiteID" });
                 }
 
-                if (!GetRead().Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
+                if (!(from c in db.PolSourceSites select c).Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
                 {
                     polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "PolSourceSite", "PolSourceSitePolSourceSiteID", polSourceSite.PolSourceSiteID.ToString()), new[] { "PolSourceSiteID" });
@@ -190,14 +190,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public PolSourceSite GetPolSourceSiteWithPolSourceSiteID(int PolSourceSiteID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.PolSourceSites
                     where c.PolSourceSiteID == PolSourceSiteID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<PolSourceSite> GetPolSourceSiteList()
         {
-            IQueryable<PolSourceSite> PolSourceSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<PolSourceSite> PolSourceSiteQuery = (from c in db.PolSourceSites select c);
 
             PolSourceSiteQuery = EnhanceQueryStatements<PolSourceSite>(PolSourceSiteQuery) as IQueryable<PolSourceSite>;
 
@@ -205,7 +205,7 @@ namespace CSSPServices
         }
         public PolSourceSiteWeb GetPolSourceSiteWebWithPolSourceSiteID(int PolSourceSiteID)
         {
-            return FillPolSourceSiteWeb().FirstOrDefault();
+            return FillPolSourceSiteWeb().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
 
         }
         public IQueryable<PolSourceSiteWeb> GetPolSourceSiteWebList()
@@ -218,7 +218,7 @@ namespace CSSPServices
         }
         public PolSourceSiteReport GetPolSourceSiteReportWithPolSourceSiteID(int PolSourceSiteID)
         {
-            return FillPolSourceSiteReport().FirstOrDefault();
+            return FillPolSourceSiteReport().Where(c => c.PolSourceSiteID == PolSourceSiteID).FirstOrDefault();
 
         }
         public IQueryable<PolSourceSiteReport> GetPolSourceSiteReportList()
@@ -265,18 +265,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<PolSourceSite> GetRead()
-        {
-            IQueryable<PolSourceSite> polSourceSiteQuery = db.PolSourceSites.AsNoTracking();
-
-            return polSourceSiteQuery;
-        }
-        public IQueryable<PolSourceSite> GetEdit()
-        {
-            IQueryable<PolSourceSite> polSourceSiteQuery = db.PolSourceSites;
-
-            return polSourceSiteQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated PolSourceSiteFillWeb
@@ -315,7 +303,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return PolSourceSiteWebQuery;
         }

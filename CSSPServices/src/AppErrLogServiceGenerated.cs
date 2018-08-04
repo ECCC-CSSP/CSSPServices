@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AppErrLogAppErrLogID"), new[] { "AppErrLogID" });
                 }
 
-                if (!GetRead().Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
+                if (!(from c in db.AppErrLogs select c).Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
                 {
                     appErrLog.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "AppErrLog", "AppErrLogAppErrLogID", appErrLog.AppErrLogID.ToString()), new[] { "AppErrLogID" });
@@ -152,14 +152,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.AppErrLogs
                     where c.AppErrLogID == AppErrLogID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<AppErrLog> GetAppErrLogList()
         {
-            IQueryable<AppErrLog> AppErrLogQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<AppErrLog> AppErrLogQuery = (from c in db.AppErrLogs select c);
 
             AppErrLogQuery = EnhanceQueryStatements<AppErrLog>(AppErrLogQuery) as IQueryable<AppErrLog>;
 
@@ -167,7 +167,7 @@ namespace CSSPServices
         }
         public AppErrLogWeb GetAppErrLogWebWithAppErrLogID(int AppErrLogID)
         {
-            return FillAppErrLogWeb().FirstOrDefault();
+            return FillAppErrLogWeb().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
 
         }
         public IQueryable<AppErrLogWeb> GetAppErrLogWebList()
@@ -180,7 +180,7 @@ namespace CSSPServices
         }
         public AppErrLogReport GetAppErrLogReportWithAppErrLogID(int AppErrLogID)
         {
-            return FillAppErrLogReport().FirstOrDefault();
+            return FillAppErrLogReport().Where(c => c.AppErrLogID == AppErrLogID).FirstOrDefault();
 
         }
         public IQueryable<AppErrLogReport> GetAppErrLogReportList()
@@ -227,18 +227,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<AppErrLog> GetRead()
-        {
-            IQueryable<AppErrLog> appErrLogQuery = db.AppErrLogs.AsNoTracking();
-
-            return appErrLogQuery;
-        }
-        public IQueryable<AppErrLog> GetEdit()
-        {
-            IQueryable<AppErrLog> appErrLogQuery = db.AppErrLogs;
-
-            return appErrLogQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated AppErrLogFillWeb
@@ -262,7 +250,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return AppErrLogWebQuery;
         }

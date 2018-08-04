@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanSubsectorSamplingPlanSubsectorID"), new[] { "SamplingPlanSubsectorID" });
                 }
 
-                if (!GetRead().Where(c => c.SamplingPlanSubsectorID == samplingPlanSubsector.SamplingPlanSubsectorID).Any())
+                if (!(from c in db.SamplingPlanSubsectors select c).Where(c => c.SamplingPlanSubsectorID == samplingPlanSubsector.SamplingPlanSubsectorID).Any())
                 {
                     samplingPlanSubsector.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlanSubsector", "SamplingPlanSubsectorSamplingPlanSubsectorID", samplingPlanSubsector.SamplingPlanSubsectorID.ToString()), new[] { "SamplingPlanSubsectorID" });
@@ -132,14 +132,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public SamplingPlanSubsector GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.SamplingPlanSubsectors
                     where c.SamplingPlanSubsectorID == SamplingPlanSubsectorID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<SamplingPlanSubsector> GetSamplingPlanSubsectorList()
         {
-            IQueryable<SamplingPlanSubsector> SamplingPlanSubsectorQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<SamplingPlanSubsector> SamplingPlanSubsectorQuery = (from c in db.SamplingPlanSubsectors select c);
 
             SamplingPlanSubsectorQuery = EnhanceQueryStatements<SamplingPlanSubsector>(SamplingPlanSubsectorQuery) as IQueryable<SamplingPlanSubsector>;
 
@@ -147,7 +147,7 @@ namespace CSSPServices
         }
         public SamplingPlanSubsectorWeb GetSamplingPlanSubsectorWebWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID)
         {
-            return FillSamplingPlanSubsectorWeb().FirstOrDefault();
+            return FillSamplingPlanSubsectorWeb().Where(c => c.SamplingPlanSubsectorID == SamplingPlanSubsectorID).FirstOrDefault();
 
         }
         public IQueryable<SamplingPlanSubsectorWeb> GetSamplingPlanSubsectorWebList()
@@ -160,7 +160,7 @@ namespace CSSPServices
         }
         public SamplingPlanSubsectorReport GetSamplingPlanSubsectorReportWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID)
         {
-            return FillSamplingPlanSubsectorReport().FirstOrDefault();
+            return FillSamplingPlanSubsectorReport().Where(c => c.SamplingPlanSubsectorID == SamplingPlanSubsectorID).FirstOrDefault();
 
         }
         public IQueryable<SamplingPlanSubsectorReport> GetSamplingPlanSubsectorReportList()
@@ -207,18 +207,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<SamplingPlanSubsector> GetRead()
-        {
-            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = db.SamplingPlanSubsectors.AsNoTracking();
-
-            return samplingPlanSubsectorQuery;
-        }
-        public IQueryable<SamplingPlanSubsector> GetEdit()
-        {
-            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = db.SamplingPlanSubsectors;
-
-            return samplingPlanSubsectorQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SamplingPlanSubsectorFillWeb
@@ -244,7 +232,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return SamplingPlanSubsectorWebQuery;
         }

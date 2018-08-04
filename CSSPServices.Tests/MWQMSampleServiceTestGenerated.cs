@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mwqmSampleService.GetRead().Count();
+                    count = mwqmSampleService.GetMWQMSampleList().Count();
 
-                    Assert.AreEqual(mwqmSampleService.GetRead().Count(), mwqmSampleService.GetEdit().Count());
+                    Assert.AreEqual(mwqmSampleService.GetMWQMSampleList().Count(), (from c in dbTestDB.MWQMSamples select c).Take(200).Count());
 
                     mwqmSampleService.Add(mwqmSample);
                     if (mwqmSample.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mwqmSampleService.GetRead().Where(c => c == mwqmSample).Any());
+                    Assert.AreEqual(true, mwqmSampleService.GetMWQMSampleList().Where(c => c == mwqmSample).Any());
                     mwqmSampleService.Update(mwqmSample);
                     if (mwqmSample.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSampleService.Delete(mwqmSample);
                     if (mwqmSample.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -177,13 +177,13 @@ namespace CSSPServices.Tests
                     mwqmSample.Depth_m = -1.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleDepth_m", "0", "1000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Depth_m = 1001.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleDepth_m", "0", "1000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -196,13 +196,13 @@ namespace CSSPServices.Tests
                     mwqmSample.FecCol_MPN_100ml = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleFecCol_MPN_100ml", "0", "10000000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.FecCol_MPN_100ml = 10000001;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleFecCol_MPN_100ml", "0", "10000000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -219,13 +219,13 @@ namespace CSSPServices.Tests
                     mwqmSample.Salinity_PPT = -1.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleSalinity_PPT", "0", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Salinity_PPT = 41.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleSalinity_PPT", "0", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -242,13 +242,13 @@ namespace CSSPServices.Tests
                     mwqmSample.WaterTemp_C = -11.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleWaterTemp_C", "-10", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.WaterTemp_C = 41.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleWaterTemp_C", "-10", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -265,13 +265,13 @@ namespace CSSPServices.Tests
                     mwqmSample.PH = -1.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSamplePH", "0", "14"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.PH = 15.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSamplePH", "0", "14"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -285,14 +285,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mwqmSample.ValidationResults.Count());
                     Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMSampleSampleTypesText")).Any());
                     Assert.AreEqual(null, mwqmSample.SampleTypesText);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.SampleTypesText = GetRandomString("", 51);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSampleSampleTypesText", "50"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -318,13 +318,13 @@ namespace CSSPServices.Tests
                     mwqmSample.Tube_10 = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleTube_10", "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_10 = 6;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleTube_10", "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -337,13 +337,13 @@ namespace CSSPServices.Tests
                     mwqmSample.Tube_1_0 = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleTube_1_0", "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_1_0 = 6;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleTube_1_0", "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -356,13 +356,13 @@ namespace CSSPServices.Tests
                     mwqmSample.Tube_0_1 = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleTube_0_1", "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_0_1 = 6;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMSampleTube_0_1", "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -375,7 +375,7 @@ namespace CSSPServices.Tests
                     mwqmSample.ProcessedBy = GetRandomString("", 11);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMSampleProcessedBy", "10"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleService.GetMWQMSampleList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -450,7 +450,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSample mwqmSample = (from c in mwqmSampleService.GetRead() select c).FirstOrDefault();
+                    MWQMSample mwqmSample = (from c in dbTestDB.MWQMSamples select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSample);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -496,11 +496,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSampleService mwqmSampleService = new MWQMSampleService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSample mwqmSample = (from c in mwqmSampleService.GetRead() select c).FirstOrDefault();
+                    MWQMSample mwqmSample = (from c in dbTestDB.MWQMSamples select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSample);
 
                     List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                    mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Take(100).ToList();
+                    mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -554,7 +554,7 @@ namespace CSSPServices.Tests
                         mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).ToList();
+                        mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -607,7 +607,7 @@ namespace CSSPServices.Tests
                         mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSampleID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
+                        mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -660,7 +660,7 @@ namespace CSSPServices.Tests
                         mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSampleID,MWQMSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
+                        mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleID).ThenBy(c => c.MWQMSiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -713,7 +713,7 @@ namespace CSSPServices.Tests
                         mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleID", "MWQMSampleID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
+                        mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Where(c => c.MWQMSampleID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -766,7 +766,7 @@ namespace CSSPServices.Tests
                         mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleID", "MWQMSampleID,GT,2|MWQMSampleID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
+                        mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -819,7 +819,7 @@ namespace CSSPServices.Tests
                         mwqmSampleService.Query = mwqmSampleService.FillQuery(typeof(MWQMSample), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSampleID,GT,2|MWQMSampleID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSample> mwqmSampleDirectQueryList = new List<MWQMSample>();
-                        mwqmSampleDirectQueryList = mwqmSampleService.GetRead().Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).ToList();
+                        mwqmSampleDirectQueryList = (from c in dbTestDB.MWQMSamples select c).Where(c => c.MWQMSampleID > 2 && c.MWQMSampleID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactShortcutContactShortcutID"), new[] { "ContactShortcutID" });
                 }
 
-                if (!GetRead().Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
+                if (!(from c in db.ContactShortcuts select c).Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
                 {
                     contactShortcut.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutContactShortcutID", contactShortcut.ContactShortcutID.ToString()), new[] { "ContactShortcutID" });
@@ -136,14 +136,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ContactShortcuts
                     where c.ContactShortcutID == ContactShortcutID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ContactShortcut> GetContactShortcutList()
         {
-            IQueryable<ContactShortcut> ContactShortcutQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ContactShortcut> ContactShortcutQuery = (from c in db.ContactShortcuts select c);
 
             ContactShortcutQuery = EnhanceQueryStatements<ContactShortcut>(ContactShortcutQuery) as IQueryable<ContactShortcut>;
 
@@ -151,7 +151,7 @@ namespace CSSPServices
         }
         public ContactShortcutWeb GetContactShortcutWebWithContactShortcutID(int ContactShortcutID)
         {
-            return FillContactShortcutWeb().FirstOrDefault();
+            return FillContactShortcutWeb().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
 
         }
         public IQueryable<ContactShortcutWeb> GetContactShortcutWebList()
@@ -164,7 +164,7 @@ namespace CSSPServices
         }
         public ContactShortcutReport GetContactShortcutReportWithContactShortcutID(int ContactShortcutID)
         {
-            return FillContactShortcutReport().FirstOrDefault();
+            return FillContactShortcutReport().Where(c => c.ContactShortcutID == ContactShortcutID).FirstOrDefault();
 
         }
         public IQueryable<ContactShortcutReport> GetContactShortcutReportList()
@@ -211,18 +211,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ContactShortcut> GetRead()
-        {
-            IQueryable<ContactShortcut> contactShortcutQuery = db.ContactShortcuts.AsNoTracking();
-
-            return contactShortcutQuery;
-        }
-        public IQueryable<ContactShortcut> GetEdit()
-        {
-            IQueryable<ContactShortcut> contactShortcutQuery = db.ContactShortcuts;
-
-            return contactShortcutQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ContactShortcutFillWeb
@@ -244,7 +232,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ContactShortcutWebQuery;
         }

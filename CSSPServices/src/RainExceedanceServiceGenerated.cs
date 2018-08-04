@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RainExceedanceRainExceedanceID"), new[] { "RainExceedanceID" });
                 }
 
-                if (!GetRead().Where(c => c.RainExceedanceID == rainExceedance.RainExceedanceID).Any())
+                if (!(from c in db.RainExceedances select c).Where(c => c.RainExceedanceID == rainExceedance.RainExceedanceID).Any())
                 {
                     rainExceedance.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "RainExceedance", "RainExceedanceRainExceedanceID", rainExceedance.RainExceedanceID.ToString()), new[] { "RainExceedanceID" });
@@ -194,14 +194,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.RainExceedances
                     where c.RainExceedanceID == RainExceedanceID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<RainExceedance> GetRainExceedanceList()
         {
-            IQueryable<RainExceedance> RainExceedanceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<RainExceedance> RainExceedanceQuery = (from c in db.RainExceedances select c);
 
             RainExceedanceQuery = EnhanceQueryStatements<RainExceedance>(RainExceedanceQuery) as IQueryable<RainExceedance>;
 
@@ -209,7 +209,7 @@ namespace CSSPServices
         }
         public RainExceedanceWeb GetRainExceedanceWebWithRainExceedanceID(int RainExceedanceID)
         {
-            return FillRainExceedanceWeb().FirstOrDefault();
+            return FillRainExceedanceWeb().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
 
         }
         public IQueryable<RainExceedanceWeb> GetRainExceedanceWebList()
@@ -222,7 +222,7 @@ namespace CSSPServices
         }
         public RainExceedanceReport GetRainExceedanceReportWithRainExceedanceID(int RainExceedanceID)
         {
-            return FillRainExceedanceReport().FirstOrDefault();
+            return FillRainExceedanceReport().Where(c => c.RainExceedanceID == RainExceedanceID).FirstOrDefault();
 
         }
         public IQueryable<RainExceedanceReport> GetRainExceedanceReportList()
@@ -269,18 +269,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<RainExceedance> GetRead()
-        {
-            IQueryable<RainExceedance> rainExceedanceQuery = db.RainExceedances.AsNoTracking();
-
-            return rainExceedanceQuery;
-        }
-        public IQueryable<RainExceedance> GetEdit()
-        {
-            IQueryable<RainExceedance> rainExceedanceQuery = db.RainExceedances;
-
-            return rainExceedanceQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated RainExceedanceFillWeb
@@ -310,7 +298,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return RainExceedanceWebQuery;
         }

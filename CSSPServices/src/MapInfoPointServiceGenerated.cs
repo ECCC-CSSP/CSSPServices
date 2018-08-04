@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MapInfoPointMapInfoPointID"), new[] { "MapInfoPointID" });
                 }
 
-                if (!GetRead().Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
+                if (!(from c in db.MapInfoPoints select c).Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
                 {
                     mapInfoPoint.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointMapInfoPointID", mapInfoPoint.MapInfoPointID.ToString()), new[] { "MapInfoPointID" });
@@ -130,14 +130,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MapInfoPoints
                     where c.MapInfoPointID == MapInfoPointID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MapInfoPoint> GetMapInfoPointList()
         {
-            IQueryable<MapInfoPoint> MapInfoPointQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MapInfoPoint> MapInfoPointQuery = (from c in db.MapInfoPoints select c);
 
             MapInfoPointQuery = EnhanceQueryStatements<MapInfoPoint>(MapInfoPointQuery) as IQueryable<MapInfoPoint>;
 
@@ -145,7 +145,7 @@ namespace CSSPServices
         }
         public MapInfoPointWeb GetMapInfoPointWebWithMapInfoPointID(int MapInfoPointID)
         {
-            return FillMapInfoPointWeb().FirstOrDefault();
+            return FillMapInfoPointWeb().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
 
         }
         public IQueryable<MapInfoPointWeb> GetMapInfoPointWebList()
@@ -158,7 +158,7 @@ namespace CSSPServices
         }
         public MapInfoPointReport GetMapInfoPointReportWithMapInfoPointID(int MapInfoPointID)
         {
-            return FillMapInfoPointReport().FirstOrDefault();
+            return FillMapInfoPointReport().Where(c => c.MapInfoPointID == MapInfoPointID).FirstOrDefault();
 
         }
         public IQueryable<MapInfoPointReport> GetMapInfoPointReportList()
@@ -205,18 +205,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MapInfoPoint> GetRead()
-        {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = db.MapInfoPoints.AsNoTracking();
-
-            return mapInfoPointQuery;
-        }
-        public IQueryable<MapInfoPoint> GetEdit()
-        {
-            IQueryable<MapInfoPoint> mapInfoPointQuery = db.MapInfoPoints;
-
-            return mapInfoPointQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MapInfoPointFillWeb
@@ -239,7 +227,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MapInfoPointWebQuery;
         }

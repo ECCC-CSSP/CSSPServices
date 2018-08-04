@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClassificationClassificationID"), new[] { "ClassificationID" });
                 }
 
-                if (!GetRead().Where(c => c.ClassificationID == classification.ClassificationID).Any())
+                if (!(from c in db.Classifications select c).Where(c => c.ClassificationID == classification.ClassificationID).Any())
                 {
                     classification.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Classification", "ClassificationClassificationID", classification.ClassificationID.ToString()), new[] { "ClassificationID" });
@@ -137,14 +137,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Classification GetClassificationWithClassificationID(int ClassificationID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Classifications
                     where c.ClassificationID == ClassificationID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Classification> GetClassificationList()
         {
-            IQueryable<Classification> ClassificationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Classification> ClassificationQuery = (from c in db.Classifications select c);
 
             ClassificationQuery = EnhanceQueryStatements<Classification>(ClassificationQuery) as IQueryable<Classification>;
 
@@ -152,7 +152,7 @@ namespace CSSPServices
         }
         public ClassificationWeb GetClassificationWebWithClassificationID(int ClassificationID)
         {
-            return FillClassificationWeb().FirstOrDefault();
+            return FillClassificationWeb().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
 
         }
         public IQueryable<ClassificationWeb> GetClassificationWebList()
@@ -165,7 +165,7 @@ namespace CSSPServices
         }
         public ClassificationReport GetClassificationReportWithClassificationID(int ClassificationID)
         {
-            return FillClassificationReport().FirstOrDefault();
+            return FillClassificationReport().Where(c => c.ClassificationID == ClassificationID).FirstOrDefault();
 
         }
         public IQueryable<ClassificationReport> GetClassificationReportList()
@@ -212,18 +212,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<Classification> GetRead()
-        {
-            IQueryable<Classification> classificationQuery = db.Classifications.AsNoTracking();
-
-            return classificationQuery;
-        }
-        public IQueryable<Classification> GetEdit()
-        {
-            IQueryable<Classification> classificationQuery = db.Classifications;
-
-            return classificationQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ClassificationFillWeb
@@ -252,7 +240,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ClassificationWebQuery;
         }

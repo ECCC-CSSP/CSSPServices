@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClimateDataValueClimateDataValueID"), new[] { "ClimateDataValueID" });
                 }
 
-                if (!GetRead().Where(c => c.ClimateDataValueID == climateDataValue.ClimateDataValueID).Any())
+                if (!(from c in db.ClimateDataValues select c).Where(c => c.ClimateDataValueID == climateDataValue.ClimateDataValueID).Any())
                 {
                     climateDataValue.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ClimateDataValue", "ClimateDataValueClimateDataValueID", climateDataValue.ClimateDataValueID.ToString()), new[] { "ClimateDataValueID" });
@@ -234,14 +234,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ClimateDataValue GetClimateDataValueWithClimateDataValueID(int ClimateDataValueID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ClimateDataValues
                     where c.ClimateDataValueID == ClimateDataValueID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ClimateDataValue> GetClimateDataValueList()
         {
-            IQueryable<ClimateDataValue> ClimateDataValueQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ClimateDataValue> ClimateDataValueQuery = (from c in db.ClimateDataValues select c);
 
             ClimateDataValueQuery = EnhanceQueryStatements<ClimateDataValue>(ClimateDataValueQuery) as IQueryable<ClimateDataValue>;
 
@@ -249,7 +249,7 @@ namespace CSSPServices
         }
         public ClimateDataValueWeb GetClimateDataValueWebWithClimateDataValueID(int ClimateDataValueID)
         {
-            return FillClimateDataValueWeb().FirstOrDefault();
+            return FillClimateDataValueWeb().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
 
         }
         public IQueryable<ClimateDataValueWeb> GetClimateDataValueWebList()
@@ -262,7 +262,7 @@ namespace CSSPServices
         }
         public ClimateDataValueReport GetClimateDataValueReportWithClimateDataValueID(int ClimateDataValueID)
         {
-            return FillClimateDataValueReport().FirstOrDefault();
+            return FillClimateDataValueReport().Where(c => c.ClimateDataValueID == ClimateDataValueID).FirstOrDefault();
 
         }
         public IQueryable<ClimateDataValueReport> GetClimateDataValueReportList()
@@ -309,18 +309,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ClimateDataValue> GetRead()
-        {
-            IQueryable<ClimateDataValue> climateDataValueQuery = db.ClimateDataValues.AsNoTracking();
-
-            return climateDataValueQuery;
-        }
-        public IQueryable<ClimateDataValue> GetEdit()
-        {
-            IQueryable<ClimateDataValue> climateDataValueQuery = db.ClimateDataValues;
-
-            return climateDataValueQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ClimateDataValueFillWeb
@@ -363,7 +351,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ClimateDataValueWebQuery;
         }

@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = emailService.GetRead().Count();
+                    count = emailService.GetEmailList().Count();
 
-                    Assert.AreEqual(emailService.GetRead().Count(), emailService.GetEdit().Count());
+                    Assert.AreEqual(emailService.GetEmailList().Count(), (from c in dbTestDB.Emails select c).Take(200).Count());
 
                     emailService.Add(email);
                     if (email.HasErrors)
                     {
                         Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, emailService.GetRead().Where(c => c == email).Any());
+                    Assert.AreEqual(true, emailService.GetEmailList().Where(c => c == email).Any());
                     emailService.Update(email);
                     if (email.HasErrors)
                     {
                         Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, emailService.GetRead().Count());
+                    Assert.AreEqual(count + 1, emailService.GetEmailList().Count());
                     emailService.Delete(email);
                     if (email.HasErrors)
                     {
                         Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, emailService.GetRead().Count());
+                    Assert.AreEqual(count, emailService.GetEmailList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -139,14 +139,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, email.ValidationResults.Count());
                     Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "EmailEmailAddress")).Any());
                     Assert.AreEqual(null, email.EmailAddress);
-                    Assert.AreEqual(count, emailService.GetRead().Count());
+                    Assert.AreEqual(count, emailService.GetEmailList().Count());
 
                     email = null;
                     email = GetFilledRandomEmail("");
                     email.EmailAddress = GetRandomString("", 256);
                     Assert.AreEqual(false, emailService.Add(email));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "EmailEmailAddress", "255"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, emailService.GetRead().Count());
+                    Assert.AreEqual(count, emailService.GetEmailList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -228,7 +228,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
+                    Email email = (from c in dbTestDB.Emails select c).FirstOrDefault();
                     Assert.IsNotNull(email);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -274,11 +274,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     EmailService emailService = new EmailService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
+                    Email email = (from c in dbTestDB.Emails select c).FirstOrDefault();
                     Assert.IsNotNull(email);
 
                     List<Email> emailDirectQueryList = new List<Email>();
-                    emailDirectQueryList = emailService.GetRead().Take(100).ToList();
+                    emailDirectQueryList = (from c in dbTestDB.Emails select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -332,7 +332,7 @@ namespace CSSPServices.Tests
                         emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Email> emailDirectQueryList = new List<Email>();
-                        emailDirectQueryList = emailService.GetRead().Skip(1).Take(1).ToList();
+                        emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -385,7 +385,7 @@ namespace CSSPServices.Tests
                         emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1,  "EmailID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Email> emailDirectQueryList = new List<Email>();
-                        emailDirectQueryList = emailService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailID).ToList();
+                        emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).OrderBy(c => c.EmailID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -438,7 +438,7 @@ namespace CSSPServices.Tests
                         emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 1, 1, "EmailID,EmailTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Email> emailDirectQueryList = new List<Email>();
-                        emailDirectQueryList = emailService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailID).ThenBy(c => c.EmailTVItemID).ToList();
+                        emailDirectQueryList = (from c in dbTestDB.Emails select c).Skip(1).Take(1).OrderBy(c => c.EmailID).ThenBy(c => c.EmailTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -491,7 +491,7 @@ namespace CSSPServices.Tests
                         emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 1, "EmailID", "EmailID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Email> emailDirectQueryList = new List<Email>();
-                        emailDirectQueryList = emailService.GetRead().Where(c => c.EmailID == 4).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
+                        emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID == 4).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -544,7 +544,7 @@ namespace CSSPServices.Tests
                         emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 1, "EmailID", "EmailID,GT,2|EmailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Email> emailDirectQueryList = new List<Email>();
-                        emailDirectQueryList = emailService.GetRead().Where(c => c.EmailID > 2 && c.EmailID < 5).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
+                        emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID > 2 && c.EmailID < 5).Skip(0).Take(1).OrderBy(c => c.EmailID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -597,7 +597,7 @@ namespace CSSPServices.Tests
                         emailService.Query = emailService.FillQuery(typeof(Email), culture.TwoLetterISOLanguageName, 0, 10000, "", "EmailID,GT,2|EmailID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Email> emailDirectQueryList = new List<Email>();
-                        emailDirectQueryList = emailService.GetRead().Where(c => c.EmailID > 2 && c.EmailID < 5).ToList();
+                        emailDirectQueryList = (from c in dbTestDB.Emails select c).Where(c => c.EmailID > 2 && c.EmailID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

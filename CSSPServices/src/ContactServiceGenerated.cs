@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactContactID"), new[] { "ContactID" });
                 }
 
-                if (!GetRead().Where(c => c.ContactID == contact.ContactID).Any())
+                if (!(from c in db.Contacts select c).Where(c => c.ContactID == contact.ContactID).Any())
                 {
                     contact.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactContactID", contact.ContactID.ToString()), new[] { "ContactID" });
@@ -224,14 +224,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Contact GetContactWithContactID(int ContactID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Contacts
                     where c.ContactID == ContactID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Contact> GetContactList()
         {
-            IQueryable<Contact> ContactQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Contact> ContactQuery = (from c in db.Contacts select c);
 
             ContactQuery = EnhanceQueryStatements<Contact>(ContactQuery) as IQueryable<Contact>;
 
@@ -239,7 +239,7 @@ namespace CSSPServices
         }
         public ContactWeb GetContactWebWithContactID(int ContactID)
         {
-            return FillContactWeb().FirstOrDefault();
+            return FillContactWeb().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
         }
         public IQueryable<ContactWeb> GetContactWebList()
@@ -252,7 +252,7 @@ namespace CSSPServices
         }
         public ContactReport GetContactReportWithContactID(int ContactID)
         {
-            return FillContactReport().FirstOrDefault();
+            return FillContactReport().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
         }
         public IQueryable<ContactReport> GetContactReportList()
@@ -298,18 +298,6 @@ namespace CSSPServices
             if (!TryToSave(contact)) return false;
 
             return true;
-        }
-        public IQueryable<Contact> GetRead()
-        {
-            IQueryable<Contact> contactQuery = db.Contacts.AsNoTracking();
-
-            return contactQuery;
-        }
-        public IQueryable<Contact> GetEdit()
-        {
-            IQueryable<Contact> contactQuery = db.Contacts;
-
-            return contactQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -358,7 +346,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ContactWebQuery;
         }

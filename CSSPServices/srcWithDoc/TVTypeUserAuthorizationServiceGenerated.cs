@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVTypeUserAuthorizationTVTypeUserAuthorizationID"), new[] { "TVTypeUserAuthorizationID" });
                 }
 
-                if (!GetRead().Where(c => c.TVTypeUserAuthorizationID == tvTypeUserAuthorization.TVTypeUserAuthorizationID).Any())
+                if (!(from c in db.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID == tvTypeUserAuthorization.TVTypeUserAuthorizationID).Any())
                 {
                     tvTypeUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVTypeUserAuthorization", "TVTypeUserAuthorizationTVTypeUserAuthorizationID", tvTypeUserAuthorization.TVTypeUserAuthorizationID.ToString()), new[] { "TVTypeUserAuthorizationID" });
@@ -138,14 +138,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVTypeUserAuthorization GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TVTypeUserAuthorizations
                     where c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TVTypeUserAuthorization> GetTVTypeUserAuthorizationList()
         {
-            IQueryable<TVTypeUserAuthorization> TVTypeUserAuthorizationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVTypeUserAuthorization> TVTypeUserAuthorizationQuery = (from c in db.TVTypeUserAuthorizations select c);
 
             TVTypeUserAuthorizationQuery = EnhanceQueryStatements<TVTypeUserAuthorization>(TVTypeUserAuthorizationQuery) as IQueryable<TVTypeUserAuthorization>;
 
@@ -153,7 +153,7 @@ namespace CSSPServices
         }
         public TVTypeUserAuthorizationWeb GetTVTypeUserAuthorizationWebWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
         {
-            return FillTVTypeUserAuthorizationWeb().FirstOrDefault();
+            return FillTVTypeUserAuthorizationWeb().Where(c => c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID).FirstOrDefault();
 
         }
         public IQueryable<TVTypeUserAuthorizationWeb> GetTVTypeUserAuthorizationWebList()
@@ -166,7 +166,7 @@ namespace CSSPServices
         }
         public TVTypeUserAuthorizationReport GetTVTypeUserAuthorizationReportWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
         {
-            return FillTVTypeUserAuthorizationReport().FirstOrDefault();
+            return FillTVTypeUserAuthorizationReport().Where(c => c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID).FirstOrDefault();
 
         }
         public IQueryable<TVTypeUserAuthorizationReport> GetTVTypeUserAuthorizationReportList()
@@ -213,18 +213,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<TVTypeUserAuthorization> GetRead()
-        {
-            IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery = db.TVTypeUserAuthorizations.AsNoTracking();
-
-            return tvTypeUserAuthorizationQuery;
-        }
-        public IQueryable<TVTypeUserAuthorization> GetEdit()
-        {
-            IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery = db.TVTypeUserAuthorizations;
-
-            return tvTypeUserAuthorizationQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVTypeUserAuthorizationFillWeb
@@ -262,7 +250,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TVTypeUserAuthorizationWebQuery;
         }

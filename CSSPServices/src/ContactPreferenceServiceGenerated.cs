@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ContactPreferenceContactPreferenceID"), new[] { "ContactPreferenceID" });
                 }
 
-                if (!GetRead().Where(c => c.ContactPreferenceID == contactPreference.ContactPreferenceID).Any())
+                if (!(from c in db.ContactPreferences select c).Where(c => c.ContactPreferenceID == contactPreference.ContactPreferenceID).Any())
                 {
                     contactPreference.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ContactPreference", "ContactPreferenceContactPreferenceID", contactPreference.ContactPreferenceID.ToString()), new[] { "ContactPreferenceID" });
@@ -125,14 +125,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ContactPreference GetContactPreferenceWithContactPreferenceID(int ContactPreferenceID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ContactPreferences
                     where c.ContactPreferenceID == ContactPreferenceID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ContactPreference> GetContactPreferenceList()
         {
-            IQueryable<ContactPreference> ContactPreferenceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ContactPreference> ContactPreferenceQuery = (from c in db.ContactPreferences select c);
 
             ContactPreferenceQuery = EnhanceQueryStatements<ContactPreference>(ContactPreferenceQuery) as IQueryable<ContactPreference>;
 
@@ -140,7 +140,7 @@ namespace CSSPServices
         }
         public ContactPreferenceWeb GetContactPreferenceWebWithContactPreferenceID(int ContactPreferenceID)
         {
-            return FillContactPreferenceWeb().FirstOrDefault();
+            return FillContactPreferenceWeb().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
 
         }
         public IQueryable<ContactPreferenceWeb> GetContactPreferenceWebList()
@@ -153,7 +153,7 @@ namespace CSSPServices
         }
         public ContactPreferenceReport GetContactPreferenceReportWithContactPreferenceID(int ContactPreferenceID)
         {
-            return FillContactPreferenceReport().FirstOrDefault();
+            return FillContactPreferenceReport().Where(c => c.ContactPreferenceID == ContactPreferenceID).FirstOrDefault();
 
         }
         public IQueryable<ContactPreferenceReport> GetContactPreferenceReportList()
@@ -200,18 +200,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ContactPreference> GetRead()
-        {
-            IQueryable<ContactPreference> contactPreferenceQuery = db.ContactPreferences.AsNoTracking();
-
-            return contactPreferenceQuery;
-        }
-        public IQueryable<ContactPreference> GetEdit()
-        {
-            IQueryable<ContactPreference> contactPreferenceQuery = db.ContactPreferences;
-
-            return contactPreferenceQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ContactPreferenceFillWeb
@@ -240,7 +228,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ContactPreferenceWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "PolSourceObservationIssuePolSourceObservationIssueID"), new[] { "PolSourceObservationIssueID" });
                 }
 
-                if (!GetRead().Where(c => c.PolSourceObservationIssueID == polSourceObservationIssue.PolSourceObservationIssueID).Any())
+                if (!(from c in db.PolSourceObservationIssues select c).Where(c => c.PolSourceObservationIssueID == polSourceObservationIssue.PolSourceObservationIssueID).Any())
                 {
                     polSourceObservationIssue.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "PolSourceObservationIssue", "PolSourceObservationIssuePolSourceObservationIssueID", polSourceObservationIssue.PolSourceObservationIssueID.ToString()), new[] { "PolSourceObservationIssueID" });
@@ -132,14 +132,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public PolSourceObservationIssue GetPolSourceObservationIssueWithPolSourceObservationIssueID(int PolSourceObservationIssueID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.PolSourceObservationIssues
                     where c.PolSourceObservationIssueID == PolSourceObservationIssueID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<PolSourceObservationIssue> GetPolSourceObservationIssueList()
         {
-            IQueryable<PolSourceObservationIssue> PolSourceObservationIssueQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<PolSourceObservationIssue> PolSourceObservationIssueQuery = (from c in db.PolSourceObservationIssues select c);
 
             PolSourceObservationIssueQuery = EnhanceQueryStatements<PolSourceObservationIssue>(PolSourceObservationIssueQuery) as IQueryable<PolSourceObservationIssue>;
 
@@ -147,7 +147,7 @@ namespace CSSPServices
         }
         public PolSourceObservationIssueWeb GetPolSourceObservationIssueWebWithPolSourceObservationIssueID(int PolSourceObservationIssueID)
         {
-            return FillPolSourceObservationIssueWeb().FirstOrDefault();
+            return FillPolSourceObservationIssueWeb().Where(c => c.PolSourceObservationIssueID == PolSourceObservationIssueID).FirstOrDefault();
 
         }
         public IQueryable<PolSourceObservationIssueWeb> GetPolSourceObservationIssueWebList()
@@ -160,7 +160,7 @@ namespace CSSPServices
         }
         public PolSourceObservationIssueReport GetPolSourceObservationIssueReportWithPolSourceObservationIssueID(int PolSourceObservationIssueID)
         {
-            return FillPolSourceObservationIssueReport().FirstOrDefault();
+            return FillPolSourceObservationIssueReport().Where(c => c.PolSourceObservationIssueID == PolSourceObservationIssueID).FirstOrDefault();
 
         }
         public IQueryable<PolSourceObservationIssueReport> GetPolSourceObservationIssueReportList()
@@ -207,18 +207,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<PolSourceObservationIssue> GetRead()
-        {
-            IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery = db.PolSourceObservationIssues.AsNoTracking();
-
-            return polSourceObservationIssueQuery;
-        }
-        public IQueryable<PolSourceObservationIssue> GetEdit()
-        {
-            IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery = db.PolSourceObservationIssues;
-
-            return polSourceObservationIssueQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated PolSourceObservationIssueFillWeb
@@ -241,7 +229,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return PolSourceObservationIssueWebQuery;
         }

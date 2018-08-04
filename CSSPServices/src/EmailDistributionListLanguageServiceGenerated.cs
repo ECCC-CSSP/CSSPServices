@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListLanguageEmailDistributionListLanguageID"), new[] { "EmailDistributionListLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.EmailDistributionListLanguageID == emailDistributionListLanguage.EmailDistributionListLanguageID).Any())
+                if (!(from c in db.EmailDistributionListLanguages select c).Where(c => c.EmailDistributionListLanguageID == emailDistributionListLanguage.EmailDistributionListLanguageID).Any())
                 {
                     emailDistributionListLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListLanguage", "EmailDistributionListLanguageEmailDistributionListLanguageID", emailDistributionListLanguage.EmailDistributionListLanguageID.ToString()), new[] { "EmailDistributionListLanguageID" });
@@ -138,14 +138,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public EmailDistributionListLanguage GetEmailDistributionListLanguageWithEmailDistributionListLanguageID(int EmailDistributionListLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.EmailDistributionListLanguages
                     where c.EmailDistributionListLanguageID == EmailDistributionListLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListLanguage> GetEmailDistributionListLanguageList()
         {
-            IQueryable<EmailDistributionListLanguage> EmailDistributionListLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<EmailDistributionListLanguage> EmailDistributionListLanguageQuery = (from c in db.EmailDistributionListLanguages select c);
 
             EmailDistributionListLanguageQuery = EnhanceQueryStatements<EmailDistributionListLanguage>(EmailDistributionListLanguageQuery) as IQueryable<EmailDistributionListLanguage>;
 
@@ -153,7 +153,7 @@ namespace CSSPServices
         }
         public EmailDistributionListLanguageWeb GetEmailDistributionListLanguageWebWithEmailDistributionListLanguageID(int EmailDistributionListLanguageID)
         {
-            return FillEmailDistributionListLanguageWeb().FirstOrDefault();
+            return FillEmailDistributionListLanguageWeb().Where(c => c.EmailDistributionListLanguageID == EmailDistributionListLanguageID).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListLanguageWeb> GetEmailDistributionListLanguageWebList()
@@ -166,7 +166,7 @@ namespace CSSPServices
         }
         public EmailDistributionListLanguageReport GetEmailDistributionListLanguageReportWithEmailDistributionListLanguageID(int EmailDistributionListLanguageID)
         {
-            return FillEmailDistributionListLanguageReport().FirstOrDefault();
+            return FillEmailDistributionListLanguageReport().Where(c => c.EmailDistributionListLanguageID == EmailDistributionListLanguageID).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListLanguageReport> GetEmailDistributionListLanguageReportList()
@@ -213,18 +213,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<EmailDistributionListLanguage> GetRead()
-        {
-            IQueryable<EmailDistributionListLanguage> emailDistributionListLanguageQuery = db.EmailDistributionListLanguages.AsNoTracking();
-
-            return emailDistributionListLanguageQuery;
-        }
-        public IQueryable<EmailDistributionListLanguage> GetEdit()
-        {
-            IQueryable<EmailDistributionListLanguage> emailDistributionListLanguageQuery = db.EmailDistributionListLanguages;
-
-            return emailDistributionListLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailDistributionListLanguageFillWeb
@@ -258,7 +246,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return EmailDistributionListLanguageWebQuery;
         }

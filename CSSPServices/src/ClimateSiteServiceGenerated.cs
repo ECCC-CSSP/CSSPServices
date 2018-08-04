@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ClimateSiteClimateSiteID"), new[] { "ClimateSiteID" });
                 }
 
-                if (!GetRead().Where(c => c.ClimateSiteID == climateSite.ClimateSiteID).Any())
+                if (!(from c in db.ClimateSites select c).Where(c => c.ClimateSiteID == climateSite.ClimateSiteID).Any())
                 {
                     climateSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ClimateSite", "ClimateSiteClimateSiteID", climateSite.ClimateSiteID.ToString()), new[] { "ClimateSiteID" });
@@ -241,14 +241,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ClimateSite GetClimateSiteWithClimateSiteID(int ClimateSiteID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ClimateSites
                     where c.ClimateSiteID == ClimateSiteID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ClimateSite> GetClimateSiteList()
         {
-            IQueryable<ClimateSite> ClimateSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ClimateSite> ClimateSiteQuery = (from c in db.ClimateSites select c);
 
             ClimateSiteQuery = EnhanceQueryStatements<ClimateSite>(ClimateSiteQuery) as IQueryable<ClimateSite>;
 
@@ -256,7 +256,7 @@ namespace CSSPServices
         }
         public ClimateSiteWeb GetClimateSiteWebWithClimateSiteID(int ClimateSiteID)
         {
-            return FillClimateSiteWeb().FirstOrDefault();
+            return FillClimateSiteWeb().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
 
         }
         public IQueryable<ClimateSiteWeb> GetClimateSiteWebList()
@@ -269,7 +269,7 @@ namespace CSSPServices
         }
         public ClimateSiteReport GetClimateSiteReportWithClimateSiteID(int ClimateSiteID)
         {
-            return FillClimateSiteReport().FirstOrDefault();
+            return FillClimateSiteReport().Where(c => c.ClimateSiteID == ClimateSiteID).FirstOrDefault();
 
         }
         public IQueryable<ClimateSiteReport> GetClimateSiteReportList()
@@ -316,18 +316,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ClimateSite> GetRead()
-        {
-            IQueryable<ClimateSite> climateSiteQuery = db.ClimateSites.AsNoTracking();
-
-            return climateSiteQuery;
-        }
-        public IQueryable<ClimateSite> GetEdit()
-        {
-            IQueryable<ClimateSite> climateSiteQuery = db.ClimateSites;
-
-            return climateSiteQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ClimateSiteFillWeb
@@ -372,7 +360,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ClimateSiteWebQuery;
         }

@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = samplingPlanService.GetRead().Count();
+                    count = samplingPlanService.GetSamplingPlanList().Count();
 
-                    Assert.AreEqual(samplingPlanService.GetRead().Count(), samplingPlanService.GetEdit().Count());
+                    Assert.AreEqual(samplingPlanService.GetSamplingPlanList().Count(), (from c in dbTestDB.SamplingPlans select c).Take(200).Count());
 
                     samplingPlanService.Add(samplingPlan);
                     if (samplingPlan.HasErrors)
                     {
                         Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, samplingPlanService.GetRead().Where(c => c == samplingPlan).Any());
+                    Assert.AreEqual(true, samplingPlanService.GetSamplingPlanList().Where(c => c == samplingPlan).Any());
                     samplingPlanService.Update(samplingPlan);
                     if (samplingPlan.HasErrors)
                     {
                         Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count + 1, samplingPlanService.GetSamplingPlanList().Count());
                     samplingPlanService.Delete(samplingPlan);
                     if (samplingPlan.HasErrors)
                     {
                         Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -125,14 +125,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
                     Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "SamplingPlanSamplingPlanName")).Any());
                     Assert.AreEqual(null, samplingPlan.SamplingPlanName);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanName = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanSamplingPlanName", "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -146,14 +146,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
                     Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "SamplingPlanForGroupName")).Any());
                     Assert.AreEqual(null, samplingPlan.ForGroupName);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.ForGroupName = GetRandomString("", 101);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanForGroupName", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -243,13 +243,13 @@ namespace CSSPServices.Tests
                     samplingPlan.Year = 1999;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SamplingPlanYear", "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.Year = 2051;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SamplingPlanYear", "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -263,14 +263,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
                     Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "SamplingPlanAccessCode")).Any());
                     Assert.AreEqual(null, samplingPlan.AccessCode);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.AccessCode = GetRandomString("", 16);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanAccessCode", "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -287,13 +287,13 @@ namespace CSSPServices.Tests
                     samplingPlan.DailyDuplicatePrecisionCriteria = -1.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SamplingPlanDailyDuplicatePrecisionCriteria", "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.DailyDuplicatePrecisionCriteria = 101.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SamplingPlanDailyDuplicatePrecisionCriteria", "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -310,13 +310,13 @@ namespace CSSPServices.Tests
                     samplingPlan.IntertechDuplicatePrecisionCriteria = -1.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SamplingPlanIntertechDuplicatePrecisionCriteria", "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.IntertechDuplicatePrecisionCriteria = 101.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SamplingPlanIntertechDuplicatePrecisionCriteria", "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -336,14 +336,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
                     Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "SamplingPlanApprovalCode")).Any());
                     Assert.AreEqual(null, samplingPlan.ApprovalCode);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.ApprovalCode = GetRandomString("", 16);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanApprovalCode", "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -415,14 +415,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
                     Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "SamplingPlanBackupDirectory")).Any());
                     Assert.AreEqual(null, samplingPlan.BackupDirectory);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.BackupDirectory = GetRandomString("", 251);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "SamplingPlanBackupDirectory", "250"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanService.GetSamplingPlanList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -491,7 +491,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    SamplingPlan samplingPlan = (from c in samplingPlanService.GetRead() select c).FirstOrDefault();
+                    SamplingPlan samplingPlan = (from c in dbTestDB.SamplingPlans select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlan);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -537,11 +537,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SamplingPlanService samplingPlanService = new SamplingPlanService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    SamplingPlan samplingPlan = (from c in samplingPlanService.GetRead() select c).FirstOrDefault();
+                    SamplingPlan samplingPlan = (from c in dbTestDB.SamplingPlans select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlan);
 
                     List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                    samplingPlanDirectQueryList = samplingPlanService.GetRead().Take(100).ToList();
+                    samplingPlanDirectQueryList = (from c in dbTestDB.SamplingPlans select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -595,7 +595,7 @@ namespace CSSPServices.Tests
                         samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                        samplingPlanDirectQueryList = samplingPlanService.GetRead().Skip(1).Take(1).ToList();
+                        samplingPlanDirectQueryList = (from c in dbTestDB.SamplingPlans select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -648,7 +648,7 @@ namespace CSSPServices.Tests
                         samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), culture.TwoLetterISOLanguageName, 1, 1,  "SamplingPlanID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                        samplingPlanDirectQueryList = samplingPlanService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
+                        samplingPlanDirectQueryList = (from c in dbTestDB.SamplingPlans select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -701,7 +701,7 @@ namespace CSSPServices.Tests
                         samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), culture.TwoLetterISOLanguageName, 1, 1, "SamplingPlanID,IsActive", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                        samplingPlanDirectQueryList = samplingPlanService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanID).ThenBy(c => c.IsActive).ToList();
+                        samplingPlanDirectQueryList = (from c in dbTestDB.SamplingPlans select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanID).ThenBy(c => c.IsActive).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -754,7 +754,7 @@ namespace CSSPServices.Tests
                         samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanID", "SamplingPlanID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                        samplingPlanDirectQueryList = samplingPlanService.GetRead().Where(c => c.SamplingPlanID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
+                        samplingPlanDirectQueryList = (from c in dbTestDB.SamplingPlans select c).Where(c => c.SamplingPlanID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -807,7 +807,7 @@ namespace CSSPServices.Tests
                         samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanID", "SamplingPlanID,GT,2|SamplingPlanID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                        samplingPlanDirectQueryList = samplingPlanService.GetRead().Where(c => c.SamplingPlanID > 2 && c.SamplingPlanID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
+                        samplingPlanDirectQueryList = (from c in dbTestDB.SamplingPlans select c).Where(c => c.SamplingPlanID > 2 && c.SamplingPlanID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -860,7 +860,7 @@ namespace CSSPServices.Tests
                         samplingPlanService.Query = samplingPlanService.FillQuery(typeof(SamplingPlan), culture.TwoLetterISOLanguageName, 0, 10000, "", "SamplingPlanID,GT,2|SamplingPlanID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlan> samplingPlanDirectQueryList = new List<SamplingPlan>();
-                        samplingPlanDirectQueryList = samplingPlanService.GetRead().Where(c => c.SamplingPlanID > 2 && c.SamplingPlanID < 5).ToList();
+                        samplingPlanDirectQueryList = (from c in dbTestDB.SamplingPlans select c).Where(c => c.SamplingPlanID > 2 && c.SamplingPlanID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

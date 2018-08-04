@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = appTaskLanguageService.GetRead().Count();
+                    count = appTaskLanguageService.GetAppTaskLanguageList().Count();
 
-                    Assert.AreEqual(appTaskLanguageService.GetRead().Count(), appTaskLanguageService.GetEdit().Count());
+                    Assert.AreEqual(appTaskLanguageService.GetAppTaskLanguageList().Count(), (from c in dbTestDB.AppTaskLanguages select c).Take(200).Count());
 
                     appTaskLanguageService.Add(appTaskLanguage);
                     if (appTaskLanguage.HasErrors)
                     {
                         Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, appTaskLanguageService.GetRead().Where(c => c == appTaskLanguage).Any());
+                    Assert.AreEqual(true, appTaskLanguageService.GetAppTaskLanguageList().Where(c => c == appTaskLanguage).Any());
                     appTaskLanguageService.Update(appTaskLanguage);
                     if (appTaskLanguage.HasErrors)
                     {
                         Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, appTaskLanguageService.GetRead().Count());
+                    Assert.AreEqual(count + 1, appTaskLanguageService.GetAppTaskLanguageList().Count());
                     appTaskLanguageService.Delete(appTaskLanguage);
                     if (appTaskLanguage.HasErrors)
                     {
                         Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, appTaskLanguageService.GetAppTaskLanguageList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -144,7 +144,7 @@ namespace CSSPServices.Tests
                     appTaskLanguage.StatusText = GetRandomString("", 251);
                     Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "AppTaskLanguageStatusText", "250"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, appTaskLanguageService.GetAppTaskLanguageList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
                     appTaskLanguage.ErrorText = GetRandomString("", 251);
                     Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "AppTaskLanguageErrorText", "250"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, appTaskLanguageService.GetAppTaskLanguageList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -239,7 +239,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    AppTaskLanguage appTaskLanguage = (from c in appTaskLanguageService.GetRead() select c).FirstOrDefault();
+                    AppTaskLanguage appTaskLanguage = (from c in dbTestDB.AppTaskLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(appTaskLanguage);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -285,11 +285,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    AppTaskLanguage appTaskLanguage = (from c in appTaskLanguageService.GetRead() select c).FirstOrDefault();
+                    AppTaskLanguage appTaskLanguage = (from c in dbTestDB.AppTaskLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(appTaskLanguage);
 
                     List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                    appTaskLanguageDirectQueryList = appTaskLanguageService.GetRead().Take(100).ToList();
+                    appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -343,7 +343,7 @@ namespace CSSPServices.Tests
                         appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = appTaskLanguageService.GetRead().Skip(1).Take(1).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -396,7 +396,7 @@ namespace CSSPServices.Tests
                         appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "AppTaskLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = appTaskLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Skip(1).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -449,7 +449,7 @@ namespace CSSPServices.Tests
                         appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 1, 1, "AppTaskLanguageID,AppTaskID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = appTaskLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppTaskLanguageID).ThenBy(c => c.AppTaskID).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Skip(1).Take(1).OrderBy(c => c.AppTaskLanguageID).ThenBy(c => c.AppTaskID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -502,7 +502,7 @@ namespace CSSPServices.Tests
                         appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskLanguageID", "AppTaskLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = appTaskLanguageService.GetRead().Where(c => c.AppTaskLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -555,7 +555,7 @@ namespace CSSPServices.Tests
                         appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 1, "AppTaskLanguageID", "AppTaskLanguageID,GT,2|AppTaskLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = appTaskLanguageService.GetRead().Where(c => c.AppTaskLanguageID > 2 && c.AppTaskLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID > 2 && c.AppTaskLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.AppTaskLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -608,7 +608,7 @@ namespace CSSPServices.Tests
                         appTaskLanguageService.Query = appTaskLanguageService.FillQuery(typeof(AppTaskLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppTaskLanguageID,GT,2|AppTaskLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppTaskLanguage> appTaskLanguageDirectQueryList = new List<AppTaskLanguage>();
-                        appTaskLanguageDirectQueryList = appTaskLanguageService.GetRead().Where(c => c.AppTaskLanguageID > 2 && c.AppTaskLanguageID < 5).ToList();
+                        appTaskLanguageDirectQueryList = (from c in dbTestDB.AppTaskLanguages select c).Where(c => c.AppTaskLanguageID > 2 && c.AppTaskLanguageID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = appErrLogService.GetRead().Count();
+                    count = appErrLogService.GetAppErrLogList().Count();
 
-                    Assert.AreEqual(appErrLogService.GetRead().Count(), appErrLogService.GetEdit().Count());
+                    Assert.AreEqual(appErrLogService.GetAppErrLogList().Count(), (from c in dbTestDB.AppErrLogs select c).Take(200).Count());
 
                     appErrLogService.Add(appErrLog);
                     if (appErrLog.HasErrors)
                     {
                         Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, appErrLogService.GetRead().Where(c => c == appErrLog).Any());
+                    Assert.AreEqual(true, appErrLogService.GetAppErrLogList().Where(c => c == appErrLog).Any());
                     appErrLogService.Update(appErrLog);
                     if (appErrLog.HasErrors)
                     {
                         Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, appErrLogService.GetRead().Count());
+                    Assert.AreEqual(count + 1, appErrLogService.GetAppErrLogList().Count());
                     appErrLogService.Delete(appErrLog);
                     if (appErrLog.HasErrors)
                     {
                         Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    Assert.AreEqual(count, appErrLogService.GetAppErrLogList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -119,14 +119,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, appErrLog.ValidationResults.Count());
                     Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "AppErrLogTag")).Any());
                     Assert.AreEqual(null, appErrLog.Tag);
-                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    Assert.AreEqual(count, appErrLogService.GetAppErrLogList().Count());
 
                     appErrLog = null;
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.Tag = GetRandomString("", 101);
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "AppErrLogTag", "100"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    Assert.AreEqual(count, appErrLogService.GetAppErrLogList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -139,7 +139,7 @@ namespace CSSPServices.Tests
                     appErrLog.LineNumber = 0;
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "AppErrLogLineNumber", "1"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    Assert.AreEqual(count, appErrLogService.GetAppErrLogList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -152,7 +152,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, appErrLog.ValidationResults.Count());
                     Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "AppErrLogSource")).Any());
                     Assert.AreEqual(null, appErrLog.Source);
-                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    Assert.AreEqual(count, appErrLogService.GetAppErrLogList().Count());
 
 
                     // -----------------------------------
@@ -166,7 +166,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, appErrLog.ValidationResults.Count());
                     Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "AppErrLogMessage")).Any());
                     Assert.AreEqual(null, appErrLog.Message);
-                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    Assert.AreEqual(count, appErrLogService.GetAppErrLogList().Count());
 
 
                     // -----------------------------------
@@ -253,7 +253,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
+                    AppErrLog appErrLog = (from c in dbTestDB.AppErrLogs select c).FirstOrDefault();
                     Assert.IsNotNull(appErrLog);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -299,11 +299,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     AppErrLogService appErrLogService = new AppErrLogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
+                    AppErrLog appErrLog = (from c in dbTestDB.AppErrLogs select c).FirstOrDefault();
                     Assert.IsNotNull(appErrLog);
 
                     List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                    appErrLogDirectQueryList = appErrLogService.GetRead().Take(100).ToList();
+                    appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -357,7 +357,7 @@ namespace CSSPServices.Tests
                         appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = appErrLogService.GetRead().Skip(1).Take(1).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -410,7 +410,7 @@ namespace CSSPServices.Tests
                         appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1,  "AppErrLogID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = appErrLogService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -463,7 +463,7 @@ namespace CSSPServices.Tests
                         appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 1, 1, "AppErrLogID,Tag", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = appErrLogService.GetRead().Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ThenBy(c => c.Tag).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Skip(1).Take(1).OrderBy(c => c.AppErrLogID).ThenBy(c => c.Tag).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -516,7 +516,7 @@ namespace CSSPServices.Tests
                         appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = appErrLogService.GetRead().Where(c => c.AppErrLogID == 4).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID == 4).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -569,7 +569,7 @@ namespace CSSPServices.Tests
                         appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 1, "AppErrLogID", "AppErrLogID,GT,2|AppErrLogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = appErrLogService.GetRead().Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).Skip(0).Take(1).OrderBy(c => c.AppErrLogID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -622,7 +622,7 @@ namespace CSSPServices.Tests
                         appErrLogService.Query = appErrLogService.FillQuery(typeof(AppErrLog), culture.TwoLetterISOLanguageName, 0, 10000, "", "AppErrLogID,GT,2|AppErrLogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<AppErrLog> appErrLogDirectQueryList = new List<AppErrLog>();
-                        appErrLogDirectQueryList = appErrLogService.GetRead().Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).ToList();
+                        appErrLogDirectQueryList = (from c in dbTestDB.AppErrLogs select c).Where(c => c.AppErrLogID > 2 && c.AppErrLogID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

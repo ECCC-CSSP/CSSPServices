@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceStartEndMikeSourceStartEndID"), new[] { "MikeSourceStartEndID" });
                 }
 
-                if (!GetRead().Where(c => c.MikeSourceStartEndID == mikeSourceStartEnd.MikeSourceStartEndID).Any())
+                if (!(from c in db.MikeSourceStartEnds select c).Where(c => c.MikeSourceStartEndID == mikeSourceStartEnd.MikeSourceStartEndID).Any())
                 {
                     mikeSourceStartEnd.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeSourceStartEnd", "MikeSourceStartEndMikeSourceStartEndID", mikeSourceStartEnd.MikeSourceStartEndID.ToString()), new[] { "MikeSourceStartEndID" });
@@ -194,14 +194,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MikeSourceStartEnds
                     where c.MikeSourceStartEndID == MikeSourceStartEndID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MikeSourceStartEnd> GetMikeSourceStartEndList()
         {
-            IQueryable<MikeSourceStartEnd> MikeSourceStartEndQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeSourceStartEnd> MikeSourceStartEndQuery = (from c in db.MikeSourceStartEnds select c);
 
             MikeSourceStartEndQuery = EnhanceQueryStatements<MikeSourceStartEnd>(MikeSourceStartEndQuery) as IQueryable<MikeSourceStartEnd>;
 
@@ -209,7 +209,7 @@ namespace CSSPServices
         }
         public MikeSourceStartEndWeb GetMikeSourceStartEndWebWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            return FillMikeSourceStartEndWeb().FirstOrDefault();
+            return FillMikeSourceStartEndWeb().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
 
         }
         public IQueryable<MikeSourceStartEndWeb> GetMikeSourceStartEndWebList()
@@ -222,7 +222,7 @@ namespace CSSPServices
         }
         public MikeSourceStartEndReport GetMikeSourceStartEndReportWithMikeSourceStartEndID(int MikeSourceStartEndID)
         {
-            return FillMikeSourceStartEndReport().FirstOrDefault();
+            return FillMikeSourceStartEndReport().Where(c => c.MikeSourceStartEndID == MikeSourceStartEndID).FirstOrDefault();
 
         }
         public IQueryable<MikeSourceStartEndReport> GetMikeSourceStartEndReportList()
@@ -269,18 +269,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MikeSourceStartEnd> GetRead()
-        {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = db.MikeSourceStartEnds.AsNoTracking();
-
-            return mikeSourceStartEndQuery;
-        }
-        public IQueryable<MikeSourceStartEnd> GetEdit()
-        {
-            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = db.MikeSourceStartEnds;
-
-            return mikeSourceStartEndQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeSourceStartEndFillWeb
@@ -310,7 +298,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MikeSourceStartEndWebQuery;
         }

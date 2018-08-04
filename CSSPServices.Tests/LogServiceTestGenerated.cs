@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = logService.GetRead().Count();
+                    count = logService.GetLogList().Count();
 
-                    Assert.AreEqual(logService.GetRead().Count(), logService.GetEdit().Count());
+                    Assert.AreEqual(logService.GetLogList().Count(), (from c in dbTestDB.Logs select c).Take(200).Count());
 
                     logService.Add(log);
                     if (log.HasErrors)
                     {
                         Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, logService.GetRead().Where(c => c == log).Any());
+                    Assert.AreEqual(true, logService.GetLogList().Where(c => c == log).Any());
                     logService.Update(log);
                     if (log.HasErrors)
                     {
                         Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, logService.GetRead().Count());
+                    Assert.AreEqual(count + 1, logService.GetLogList().Count());
                     logService.Delete(log);
                     if (log.HasErrors)
                     {
                         Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, logService.GetRead().Count());
+                    Assert.AreEqual(count, logService.GetLogList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -119,14 +119,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, log.ValidationResults.Count());
                     Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "LogTableName")).Any());
                     Assert.AreEqual(null, log.TableName);
-                    Assert.AreEqual(count, logService.GetRead().Count());
+                    Assert.AreEqual(count, logService.GetLogList().Count());
 
                     log = null;
                     log = GetFilledRandomLog("");
                     log.TableName = GetRandomString("", 51);
                     Assert.AreEqual(false, logService.Add(log));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "LogTableName", "50"), log.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, logService.GetRead().Count());
+                    Assert.AreEqual(count, logService.GetLogList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -139,7 +139,7 @@ namespace CSSPServices.Tests
                     log.ID = 0;
                     Assert.AreEqual(false, logService.Add(log));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "LogID", "1"), log.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, logService.GetRead().Count());
+                    Assert.AreEqual(count, logService.GetLogList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, log.ValidationResults.Count());
                     Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "LogInformation")).Any());
                     Assert.AreEqual(null, log.Information);
-                    Assert.AreEqual(count, logService.GetRead().Count());
+                    Assert.AreEqual(count, logService.GetLogList().Count());
 
 
                     // -----------------------------------
@@ -235,7 +235,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Log log = (from c in logService.GetRead() select c).FirstOrDefault();
+                    Log log = (from c in dbTestDB.Logs select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -281,11 +281,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     LogService logService = new LogService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Log log = (from c in logService.GetRead() select c).FirstOrDefault();
+                    Log log = (from c in dbTestDB.Logs select c).FirstOrDefault();
                     Assert.IsNotNull(log);
 
                     List<Log> logDirectQueryList = new List<Log>();
-                    logDirectQueryList = logService.GetRead().Take(100).ToList();
+                    logDirectQueryList = (from c in dbTestDB.Logs select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -339,7 +339,7 @@ namespace CSSPServices.Tests
                         logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = logService.GetRead().Skip(1).Take(1).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -392,7 +392,7 @@ namespace CSSPServices.Tests
                         logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1,  "LogID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = logService.GetRead().Skip(1).Take(1).OrderBy(c => c.LogID).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).OrderBy(c => c.LogID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -445,7 +445,7 @@ namespace CSSPServices.Tests
                         logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 1, 1, "LogID,TableName", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = logService.GetRead().Skip(1).Take(1).OrderBy(c => c.LogID).ThenBy(c => c.TableName).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Skip(1).Take(1).OrderBy(c => c.LogID).ThenBy(c => c.TableName).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -498,7 +498,7 @@ namespace CSSPServices.Tests
                         logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = logService.GetRead().Where(c => c.LogID == 4).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID == 4).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -551,7 +551,7 @@ namespace CSSPServices.Tests
                         logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 1, "LogID", "LogID,GT,2|LogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = logService.GetRead().Where(c => c.LogID > 2 && c.LogID < 5).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID > 2 && c.LogID < 5).Skip(0).Take(1).OrderBy(c => c.LogID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -604,7 +604,7 @@ namespace CSSPServices.Tests
                         logService.Query = logService.FillQuery(typeof(Log), culture.TwoLetterISOLanguageName, 0, 10000, "", "LogID,GT,2|LogID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Log> logDirectQueryList = new List<Log>();
-                        logDirectQueryList = logService.GetRead().Where(c => c.LogID > 2 && c.LogID < 5).ToList();
+                        logDirectQueryList = (from c in dbTestDB.Logs select c).Where(c => c.LogID > 2 && c.LogID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

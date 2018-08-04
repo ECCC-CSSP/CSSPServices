@@ -50,7 +50,7 @@ namespace CSSPServices
         //    //        yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AspNetUserId), new[] { "Id" });
         //    //    }
 
-        //    //    if (!GetRead().Where(c => c.Id == aspNetUser.Id).Any())
+        //    //    if (!(from c in db.AspNetUsers select c).Where(c => c.Id == aspNetUser.Id).Any())
         //    //    {
         //    //        aspNetUser.HasErrors = true;
         //    //        yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AspNetUser, CSSPModelsRes.AspNetUserId, (aspNetUser.Id == null ? "" : aspNetUser.Id.ToString())), new[] { "Id" });
@@ -116,93 +116,57 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        public AspNetUser GetAspNetUserWithAspNetUserID(string Id, Query query)
+        public AspNetUser GetAspNetUserWithAspNetUserID(string Id)
         {
-            IQueryable<AspNetUser> aspNetUserQuery = (from c in (query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                      where c.Id == Id
-                                                      select c);
-
-            switch (query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    return aspNetUserQuery.FirstOrDefault();
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return null;
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return null;
-                default:
-                    return null;
-            }
+            return (from c in db.AspNetUsers
+                    where c.Id == Id
+                    select c).FirstOrDefault();
         }
-        public IQueryable<AspNetUser> GetAspNetUserList(Query query, string FilterAndOrderText = "")
+        public IQueryable<AspNetUser> GetAspNetUserList()
         {
-            IQueryable<AspNetUser> aspNetUserQuery = (from c in (query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
-                                                      select c);
+            IQueryable<AspNetUser> AspNetUserQuery = (from c in db.AspNetUsers select c);
 
-            switch (query.EntityQueryDetailType)
-            {
-                case EntityQueryDetailTypeEnum.EntityOnly:
-                    {
-                        if (!string.IsNullOrWhiteSpace(query.Order))
-                        {
-                            aspNetUserQuery = aspNetUserQuery.OrderByDescending(c => c.Email);
-                        }
-                        aspNetUserQuery = aspNetUserQuery.Skip(query.Skip).Take(query.Take);
-                        return aspNetUserQuery;
-                    }
-                case EntityQueryDetailTypeEnum.EntityWeb:
-                    return null;
-                case EntityQueryDetailTypeEnum.EntityReport:
-                    return null;
-                default:
-                    return null;
-            }
+            //AspNetUserQuery = EnhanceQueryStatements<AspNetUser>(AspNetUserQuery) as IQueryable<AspNetUser>;
+
+            return AspNetUserQuery;
         }
         #endregion Functions public Generated Get
 
-        #region Functions public Generated CRUD
-        public bool Add(AspNetUser aspNetUser)
-        {
-            //aspNetUser.ValidationResults = Validate(new ValidationContext(aspNetUser), ActionDBTypeEnum.Create);
-            //if (aspNetUser.ValidationResults.Count() > 0) return false;
+        //#region Functions public Generated CRUD
+        //public bool Add(AspNetUser aspNetUser)
+        //{
+        //    //aspNetUser.ValidationResults = Validate(new ValidationContext(aspNetUser), ActionDBTypeEnum.Create);
+        //    //if (aspNetUser.ValidationResults.Count() > 0) return false;
 
-            db.AspNetUsers.Add(aspNetUser);
+        //    db.AspNetUsers.Add(aspNetUser);
 
-            if (!TryToSave(aspNetUser)) return false;
+        //    if (!TryToSave(aspNetUser)) return false;
 
-            return true;
-        }
-        public bool Delete(AspNetUser aspNetUser)
-        {
-            //aspNetUser.ValidationResults = Validate(new ValidationContext(aspNetUser), ActionDBTypeEnum.Delete);
-            //if (aspNetUser.ValidationResults.Count() > 0) return false;
+        //    return true;
+        //}
+        //public bool Delete(AspNetUser aspNetUser)
+        //{
+        //    //aspNetUser.ValidationResults = Validate(new ValidationContext(aspNetUser), ActionDBTypeEnum.Delete);
+        //    //if (aspNetUser.ValidationResults.Count() > 0) return false;
 
-            db.AspNetUsers.Remove(aspNetUser);
+        //    db.AspNetUsers.Remove(aspNetUser);
 
-            if (!TryToSave(aspNetUser)) return false;
+        //    if (!TryToSave(aspNetUser)) return false;
 
-            return true;
-        }
-        public bool Update(AspNetUser aspNetUser)
-        {
-            //aspNetUser.ValidationResults = Validate(new ValidationContext(aspNetUser), ActionDBTypeEnum.Update);
-            //if (aspNetUser.ValidationResults.Count() > 0) return false;
+        //    return true;
+        //}
+        //public bool Update(AspNetUser aspNetUser)
+        //{
+        //    //aspNetUser.ValidationResults = Validate(new ValidationContext(aspNetUser), ActionDBTypeEnum.Update);
+        //    //if (aspNetUser.ValidationResults.Count() > 0) return false;
 
-            db.AspNetUsers.Update(aspNetUser);
+        //    db.AspNetUsers.Update(aspNetUser);
 
-            if (!TryToSave(aspNetUser)) return false;
+        //    if (!TryToSave(aspNetUser)) return false;
 
-            return true;
-        }
-        public IQueryable<AspNetUser> GetRead()
-        {
-            return db.AspNetUsers.AsNoTracking();
-        }
-        public IQueryable<AspNetUser> GetEdit()
-        {
-            return db.AspNetUsers;
-        }
-        #endregion Functions public Generated CRUD
+        //    return true;
+        //}
+        //#endregion Functions public Generated CRUD
 
         #region Functions private Generated TryToSave
         private bool TryToSave(AspNetUser aspNetUser)

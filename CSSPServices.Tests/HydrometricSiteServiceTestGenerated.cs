@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = hydrometricSiteService.GetRead().Count();
+                    count = hydrometricSiteService.GetHydrometricSiteList().Count();
 
-                    Assert.AreEqual(hydrometricSiteService.GetRead().Count(), hydrometricSiteService.GetEdit().Count());
+                    Assert.AreEqual(hydrometricSiteService.GetHydrometricSiteList().Count(), (from c in dbTestDB.HydrometricSites select c).Take(200).Count());
 
                     hydrometricSiteService.Add(hydrometricSite);
                     if (hydrometricSite.HasErrors)
                     {
                         Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, hydrometricSiteService.GetRead().Where(c => c == hydrometricSite).Any());
+                    Assert.AreEqual(true, hydrometricSiteService.GetHydrometricSiteList().Where(c => c == hydrometricSite).Any());
                     hydrometricSiteService.Update(hydrometricSite);
                     if (hydrometricSite.HasErrors)
                     {
                         Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count + 1, hydrometricSiteService.GetHydrometricSiteList().Count());
                     hydrometricSiteService.Delete(hydrometricSite);
                     if (hydrometricSite.HasErrors)
                     {
                         Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -137,7 +137,7 @@ namespace CSSPServices.Tests
                     hydrometricSite.FedSiteNumber = GetRandomString("", 8);
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "HydrometricSiteFedSiteNumber", "7"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -150,7 +150,7 @@ namespace CSSPServices.Tests
                     hydrometricSite.QuebecSiteNumber = GetRandomString("", 8);
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "HydrometricSiteQuebecSiteNumber", "7"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -164,14 +164,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, hydrometricSite.ValidationResults.Count());
                     Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "HydrometricSiteHydrometricSiteName")).Any());
                     Assert.AreEqual(null, hydrometricSite.HydrometricSiteName);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
                     hydrometricSite.HydrometricSiteName = GetRandomString("", 201);
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "HydrometricSiteHydrometricSiteName", "200"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -184,7 +184,7 @@ namespace CSSPServices.Tests
                     hydrometricSite.Description = GetRandomString("", 201);
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "HydrometricSiteDescription", "200"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -198,14 +198,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, hydrometricSite.ValidationResults.Count());
                     Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "HydrometricSiteProvince")).Any());
                     Assert.AreEqual(null, hydrometricSite.Province);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
                     hydrometricSite.Province = GetRandomString("", 5);
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "HydrometricSiteProvince", "4"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -222,13 +222,13 @@ namespace CSSPServices.Tests
                     hydrometricSite.Elevation_m = -1.0D;
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricSiteElevation_m", "0", "10000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
                     hydrometricSite.Elevation_m = 10001.0D;
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricSiteElevation_m", "0", "10000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -270,13 +270,13 @@ namespace CSSPServices.Tests
                     hydrometricSite.TimeOffset_hour = -11.0D;
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricSiteTimeOffset_hour", "-10", "0"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
                     hydrometricSite.TimeOffset_hour = 1.0D;
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricSiteTimeOffset_hour", "-10", "0"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -293,13 +293,13 @@ namespace CSSPServices.Tests
                     hydrometricSite.DrainageArea_km2 = -1.0D;
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricSiteDrainageArea_km2", "0", "1000000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
                     hydrometricSite = null;
                     hydrometricSite = GetFilledRandomHydrometricSite("");
                     hydrometricSite.DrainageArea_km2 = 1000001.0D;
                     Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "HydrometricSiteDrainageArea_km2", "0", "1000000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+                    Assert.AreEqual(count, hydrometricSiteService.GetHydrometricSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -404,7 +404,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    HydrometricSite hydrometricSite = (from c in hydrometricSiteService.GetRead() select c).FirstOrDefault();
+                    HydrometricSite hydrometricSite = (from c in dbTestDB.HydrometricSites select c).FirstOrDefault();
                     Assert.IsNotNull(hydrometricSite);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -450,11 +450,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    HydrometricSite hydrometricSite = (from c in hydrometricSiteService.GetRead() select c).FirstOrDefault();
+                    HydrometricSite hydrometricSite = (from c in dbTestDB.HydrometricSites select c).FirstOrDefault();
                     Assert.IsNotNull(hydrometricSite);
 
                     List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                    hydrometricSiteDirectQueryList = hydrometricSiteService.GetRead().Take(100).ToList();
+                    hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -508,7 +508,7 @@ namespace CSSPServices.Tests
                         hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = hydrometricSiteService.GetRead().Skip(1).Take(1).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -561,7 +561,7 @@ namespace CSSPServices.Tests
                         hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1,  "HydrometricSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = hydrometricSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Skip(1).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -614,7 +614,7 @@ namespace CSSPServices.Tests
                         hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 1, 1, "HydrometricSiteID,HydrometricSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = hydrometricSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.HydrometricSiteID).ThenBy(c => c.HydrometricSiteTVItemID).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Skip(1).Take(1).OrderBy(c => c.HydrometricSiteID).ThenBy(c => c.HydrometricSiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -667,7 +667,7 @@ namespace CSSPServices.Tests
                         hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricSiteID", "HydrometricSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = hydrometricSiteService.GetRead().Where(c => c.HydrometricSiteID == 4).Skip(0).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID == 4).Skip(0).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -720,7 +720,7 @@ namespace CSSPServices.Tests
                         hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 1, "HydrometricSiteID", "HydrometricSiteID,GT,2|HydrometricSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = hydrometricSiteService.GetRead().Where(c => c.HydrometricSiteID > 2 && c.HydrometricSiteID < 5).Skip(0).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID > 2 && c.HydrometricSiteID < 5).Skip(0).Take(1).OrderBy(c => c.HydrometricSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -773,7 +773,7 @@ namespace CSSPServices.Tests
                         hydrometricSiteService.Query = hydrometricSiteService.FillQuery(typeof(HydrometricSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "HydrometricSiteID,GT,2|HydrometricSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<HydrometricSite> hydrometricSiteDirectQueryList = new List<HydrometricSite>();
-                        hydrometricSiteDirectQueryList = hydrometricSiteService.GetRead().Where(c => c.HydrometricSiteID > 2 && c.HydrometricSiteID < 5).ToList();
+                        hydrometricSiteDirectQueryList = (from c in dbTestDB.HydrometricSites select c).Where(c => c.HydrometricSiteID > 2 && c.HydrometricSiteID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

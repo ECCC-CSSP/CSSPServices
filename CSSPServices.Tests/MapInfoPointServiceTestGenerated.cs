@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mapInfoPointService.GetRead().Count();
+                    count = mapInfoPointService.GetMapInfoPointList().Count();
 
-                    Assert.AreEqual(mapInfoPointService.GetRead().Count(), mapInfoPointService.GetEdit().Count());
+                    Assert.AreEqual(mapInfoPointService.GetMapInfoPointList().Count(), (from c in dbTestDB.MapInfoPoints select c).Take(200).Count());
 
                     mapInfoPointService.Add(mapInfoPoint);
                     if (mapInfoPoint.HasErrors)
                     {
                         Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mapInfoPointService.GetRead().Where(c => c == mapInfoPoint).Any());
+                    Assert.AreEqual(true, mapInfoPointService.GetMapInfoPointList().Where(c => c == mapInfoPoint).Any());
                     mapInfoPointService.Update(mapInfoPoint);
                     if (mapInfoPoint.HasErrors)
                     {
                         Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mapInfoPointService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mapInfoPointService.GetMapInfoPointList().Count());
                     mapInfoPointService.Delete(mapInfoPoint);
                     if (mapInfoPoint.HasErrors)
                     {
                         Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoPointService.GetMapInfoPointList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -131,7 +131,7 @@ namespace CSSPServices.Tests
                     mapInfoPoint.Ordinal = -1;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, "MapInfoPointOrdinal", "0"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoPointService.GetMapInfoPointList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -148,13 +148,13 @@ namespace CSSPServices.Tests
                     mapInfoPoint.Lat = -91.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLat", "-90", "90"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoPointService.GetMapInfoPointList().Count());
                     mapInfoPoint = null;
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.Lat = 91.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLat", "-90", "90"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoPointService.GetMapInfoPointList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -171,13 +171,13 @@ namespace CSSPServices.Tests
                     mapInfoPoint.Lng = -181.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLng", "-180", "180"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoPointService.GetMapInfoPointList().Count());
                     mapInfoPoint = null;
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.Lng = 181.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MapInfoPointLng", "-180", "180"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+                    Assert.AreEqual(count, mapInfoPointService.GetMapInfoPointList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -246,7 +246,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MapInfoPoint mapInfoPoint = (from c in mapInfoPointService.GetRead() select c).FirstOrDefault();
+                    MapInfoPoint mapInfoPoint = (from c in dbTestDB.MapInfoPoints select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfoPoint);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -292,11 +292,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MapInfoPointService mapInfoPointService = new MapInfoPointService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MapInfoPoint mapInfoPoint = (from c in mapInfoPointService.GetRead() select c).FirstOrDefault();
+                    MapInfoPoint mapInfoPoint = (from c in dbTestDB.MapInfoPoints select c).FirstOrDefault();
                     Assert.IsNotNull(mapInfoPoint);
 
                     List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                    mapInfoPointDirectQueryList = mapInfoPointService.GetRead().Take(100).ToList();
+                    mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -350,7 +350,7 @@ namespace CSSPServices.Tests
                         mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = mapInfoPointService.GetRead().Skip(1).Take(1).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -403,7 +403,7 @@ namespace CSSPServices.Tests
                         mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1,  "MapInfoPointID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = mapInfoPointService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Skip(1).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -456,7 +456,7 @@ namespace CSSPServices.Tests
                         mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 1, 1, "MapInfoPointID,MapInfoID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = mapInfoPointService.GetRead().Skip(1).Take(1).OrderBy(c => c.MapInfoPointID).ThenBy(c => c.MapInfoID).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Skip(1).Take(1).OrderBy(c => c.MapInfoPointID).ThenBy(c => c.MapInfoID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -509,7 +509,7 @@ namespace CSSPServices.Tests
                         mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoPointID", "MapInfoPointID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = mapInfoPointService.GetRead().Where(c => c.MapInfoPointID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID == 4).Skip(0).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -562,7 +562,7 @@ namespace CSSPServices.Tests
                         mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 1, "MapInfoPointID", "MapInfoPointID,GT,2|MapInfoPointID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = mapInfoPointService.GetRead().Where(c => c.MapInfoPointID > 2 && c.MapInfoPointID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID > 2 && c.MapInfoPointID < 5).Skip(0).Take(1).OrderBy(c => c.MapInfoPointID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -615,7 +615,7 @@ namespace CSSPServices.Tests
                         mapInfoPointService.Query = mapInfoPointService.FillQuery(typeof(MapInfoPoint), culture.TwoLetterISOLanguageName, 0, 10000, "", "MapInfoPointID,GT,2|MapInfoPointID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MapInfoPoint> mapInfoPointDirectQueryList = new List<MapInfoPoint>();
-                        mapInfoPointDirectQueryList = mapInfoPointService.GetRead().Where(c => c.MapInfoPointID > 2 && c.MapInfoPointID < 5).ToList();
+                        mapInfoPointDirectQueryList = (from c in dbTestDB.MapInfoPoints select c).Where(c => c.MapInfoPointID > 2 && c.MapInfoPointID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

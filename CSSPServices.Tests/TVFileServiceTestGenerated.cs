@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = tvFileService.GetRead().Count();
+                    count = tvFileService.GetTVFileList().Count();
 
-                    Assert.AreEqual(tvFileService.GetRead().Count(), tvFileService.GetEdit().Count());
+                    Assert.AreEqual(tvFileService.GetTVFileList().Count(), (from c in dbTestDB.TVFiles select c).Take(200).Count());
 
                     tvFileService.Add(tvFile);
                     if (tvFile.HasErrors)
                     {
                         Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, tvFileService.GetRead().Where(c => c == tvFile).Any());
+                    Assert.AreEqual(true, tvFileService.GetTVFileList().Where(c => c == tvFile).Any());
                     tvFileService.Update(tvFile);
                     if (tvFile.HasErrors)
                     {
                         Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count + 1, tvFileService.GetTVFileList().Count());
                     tvFileService.Delete(tvFile);
                     if (tvFile.HasErrors)
                     {
                         Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -169,13 +169,13 @@ namespace CSSPServices.Tests
                     tvFile.Year = 1979;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TVFileYear", "1980", "2050"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.Year = 2051;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TVFileYear", "1980", "2050"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -227,13 +227,13 @@ namespace CSSPServices.Tests
                     tvFile.FileSize_kb = -1;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TVFileFileSize_kb", "0", "100000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FileSize_kb = 100000001;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "TVFileFileSize_kb", "0", "100000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -275,7 +275,7 @@ namespace CSSPServices.Tests
                     tvFile.ClientFilePath = GetRandomString("", 251);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "TVFileClientFilePath", "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -289,14 +289,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, tvFile.ValidationResults.Count());
                     Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "TVFileServerFileName")).Any());
                     Assert.AreEqual(null, tvFile.ServerFileName);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.ServerFileName = GetRandomString("", 251);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "TVFileServerFileName", "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -310,14 +310,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, tvFile.ValidationResults.Count());
                     Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "TVFileServerFilePath")).Any());
                     Assert.AreEqual(null, tvFile.ServerFilePath);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.ServerFilePath = GetRandomString("", 251);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "TVFileServerFilePath", "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, tvFileService.GetRead().Count());
+                    Assert.AreEqual(count, tvFileService.GetTVFileList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -386,7 +386,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    TVFile tvFile = (from c in tvFileService.GetRead() select c).FirstOrDefault();
+                    TVFile tvFile = (from c in dbTestDB.TVFiles select c).FirstOrDefault();
                     Assert.IsNotNull(tvFile);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -432,11 +432,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TVFileService tvFileService = new TVFileService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    TVFile tvFile = (from c in tvFileService.GetRead() select c).FirstOrDefault();
+                    TVFile tvFile = (from c in dbTestDB.TVFiles select c).FirstOrDefault();
                     Assert.IsNotNull(tvFile);
 
                     List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                    tvFileDirectQueryList = tvFileService.GetRead().Take(100).ToList();
+                    tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -490,7 +490,7 @@ namespace CSSPServices.Tests
                         tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = tvFileService.GetRead().Skip(1).Take(1).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -543,7 +543,7 @@ namespace CSSPServices.Tests
                         tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1,  "TVFileID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = tvFileService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVFileID).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Skip(1).Take(1).OrderBy(c => c.TVFileID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -596,7 +596,7 @@ namespace CSSPServices.Tests
                         tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 1, 1, "TVFileID,TVFileTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = tvFileService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVFileID).ThenBy(c => c.TVFileTVItemID).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Skip(1).Take(1).OrderBy(c => c.TVFileID).ThenBy(c => c.TVFileTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -649,7 +649,7 @@ namespace CSSPServices.Tests
                         tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "TVFileID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = tvFileService.GetRead().Where(c => c.TVFileID == 4).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID == 4).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -702,7 +702,7 @@ namespace CSSPServices.Tests
                         tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 1, "TVFileID", "TVFileID,GT,2|TVFileID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = tvFileService.GetRead().Where(c => c.TVFileID > 2 && c.TVFileID < 5).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID > 2 && c.TVFileID < 5).Skip(0).Take(1).OrderBy(c => c.TVFileID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -755,7 +755,7 @@ namespace CSSPServices.Tests
                         tvFileService.Query = tvFileService.FillQuery(typeof(TVFile), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVFileID,GT,2|TVFileID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVFile> tvFileDirectQueryList = new List<TVFile>();
-                        tvFileDirectQueryList = tvFileService.GetRead().Where(c => c.TVFileID > 2 && c.TVFileID < 5).ToList();
+                        tvFileDirectQueryList = (from c in dbTestDB.TVFiles select c).Where(c => c.TVFileID > 2 && c.TVFileID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

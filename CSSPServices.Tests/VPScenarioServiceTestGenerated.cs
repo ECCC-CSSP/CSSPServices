@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = vpScenarioService.GetRead().Count();
+                    count = vpScenarioService.GetVPScenarioList().Count();
 
-                    Assert.AreEqual(vpScenarioService.GetRead().Count(), vpScenarioService.GetEdit().Count());
+                    Assert.AreEqual(vpScenarioService.GetVPScenarioList().Count(), (from c in dbTestDB.VPScenarios select c).Take(200).Count());
 
                     vpScenarioService.Add(vpScenario);
                     if (vpScenario.HasErrors)
                     {
                         Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, vpScenarioService.GetRead().Where(c => c == vpScenario).Any());
+                    Assert.AreEqual(true, vpScenarioService.GetVPScenarioList().Where(c => c == vpScenario).Any());
                     vpScenarioService.Update(vpScenario);
                     if (vpScenario.HasErrors)
                     {
                         Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count + 1, vpScenarioService.GetVPScenarioList().Count());
                     vpScenarioService.Delete(vpScenario);
                     if (vpScenario.HasErrors)
                     {
                         Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -160,13 +160,13 @@ namespace CSSPServices.Tests
                     vpScenario.EffluentFlow_m3_s = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentFlow_m3_s", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentFlow_m3_s = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentFlow_m3_s", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -179,13 +179,13 @@ namespace CSSPServices.Tests
                     vpScenario.EffluentConcentration_MPN_100ml = -1;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentConcentration_MPN_100ml", "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentConcentration_MPN_100ml = 10000001;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentConcentration_MPN_100ml", "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -202,13 +202,13 @@ namespace CSSPServices.Tests
                     vpScenario.FroudeNumber = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioFroudeNumber", "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.FroudeNumber = 10001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioFroudeNumber", "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -225,13 +225,13 @@ namespace CSSPServices.Tests
                     vpScenario.PortDiameter_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDiameter_m", "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDiameter_m = 11.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDiameter_m", "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -248,13 +248,13 @@ namespace CSSPServices.Tests
                     vpScenario.PortDepth_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDepth_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDepth_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortDepth_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -271,13 +271,13 @@ namespace CSSPServices.Tests
                     vpScenario.PortElevation_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortElevation_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortElevation_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortElevation_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -294,13 +294,13 @@ namespace CSSPServices.Tests
                     vpScenario.VerticalAngle_deg = -91.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioVerticalAngle_deg", "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VerticalAngle_deg = 91.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioVerticalAngle_deg", "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -317,13 +317,13 @@ namespace CSSPServices.Tests
                     vpScenario.HorizontalAngle_deg = -181.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioHorizontalAngle_deg", "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.HorizontalAngle_deg = 181.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioHorizontalAngle_deg", "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -336,13 +336,13 @@ namespace CSSPServices.Tests
                     vpScenario.NumberOfPorts = 0;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioNumberOfPorts", "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.NumberOfPorts = 101;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioNumberOfPorts", "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -359,13 +359,13 @@ namespace CSSPServices.Tests
                     vpScenario.PortSpacing_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortSpacing_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortSpacing_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioPortSpacing_m", "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -382,13 +382,13 @@ namespace CSSPServices.Tests
                     vpScenario.AcuteMixZone_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioAcuteMixZone_m", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.AcuteMixZone_m = 101.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioAcuteMixZone_m", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -405,13 +405,13 @@ namespace CSSPServices.Tests
                     vpScenario.ChronicMixZone_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioChronicMixZone_m", "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.ChronicMixZone_m = 40001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioChronicMixZone_m", "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -428,13 +428,13 @@ namespace CSSPServices.Tests
                     vpScenario.EffluentSalinity_PSU = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentSalinity_PSU", "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentSalinity_PSU = 41.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentSalinity_PSU", "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -451,13 +451,13 @@ namespace CSSPServices.Tests
                     vpScenario.EffluentTemperature_C = -11.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentTemperature_C", "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentTemperature_C = 41.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentTemperature_C", "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -474,13 +474,13 @@ namespace CSSPServices.Tests
                     vpScenario.EffluentVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentVelocity_m_s", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentVelocity_m_s = 101.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "VPScenarioEffluentVelocity_m_s", "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+                    Assert.AreEqual(count, vpScenarioService.GetVPScenarioList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -555,7 +555,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
+                    VPScenario vpScenario = (from c in dbTestDB.VPScenarios select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -601,11 +601,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     VPScenarioService vpScenarioService = new VPScenarioService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
+                    VPScenario vpScenario = (from c in dbTestDB.VPScenarios select c).FirstOrDefault();
                     Assert.IsNotNull(vpScenario);
 
                     List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                    vpScenarioDirectQueryList = vpScenarioService.GetRead().Take(100).ToList();
+                    vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -659,7 +659,7 @@ namespace CSSPServices.Tests
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -712,7 +712,7 @@ namespace CSSPServices.Tests
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1,  "VPScenarioID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -765,7 +765,7 @@ namespace CSSPServices.Tests
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 1, 1, "VPScenarioID,InfrastructureTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ThenBy(c => c.InfrastructureTVItemID).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Skip(1).Take(1).OrderBy(c => c.VPScenarioID).ThenBy(c => c.InfrastructureTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -818,7 +818,7 @@ namespace CSSPServices.Tests
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID == 4).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -871,7 +871,7 @@ namespace CSSPServices.Tests
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 1, "VPScenarioID", "VPScenarioID,GT,2|VPScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).Skip(0).Take(1).OrderBy(c => c.VPScenarioID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -924,7 +924,7 @@ namespace CSSPServices.Tests
                         vpScenarioService.Query = vpScenarioService.FillQuery(typeof(VPScenario), culture.TwoLetterISOLanguageName, 0, 10000, "", "VPScenarioID,GT,2|VPScenarioID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<VPScenario> vpScenarioDirectQueryList = new List<VPScenario>();
-                        vpScenarioDirectQueryList = vpScenarioService.GetRead().Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).ToList();
+                        vpScenarioDirectQueryList = (from c in dbTestDB.VPScenarios select c).Where(c => c.VPScenarioID > 2 && c.VPScenarioID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

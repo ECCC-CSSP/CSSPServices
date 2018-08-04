@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mwqmSampleLanguageService.GetRead().Count();
+                    count = mwqmSampleLanguageService.GetMWQMSampleLanguageList().Count();
 
-                    Assert.AreEqual(mwqmSampleLanguageService.GetRead().Count(), mwqmSampleLanguageService.GetEdit().Count());
+                    Assert.AreEqual(mwqmSampleLanguageService.GetMWQMSampleLanguageList().Count(), (from c in dbTestDB.MWQMSampleLanguages select c).Take(200).Count());
 
                     mwqmSampleLanguageService.Add(mwqmSampleLanguage);
                     if (mwqmSampleLanguage.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mwqmSampleLanguageService.GetRead().Where(c => c == mwqmSampleLanguage).Any());
+                    Assert.AreEqual(true, mwqmSampleLanguageService.GetMWQMSampleLanguageList().Where(c => c == mwqmSampleLanguage).Any());
                     mwqmSampleLanguageService.Update(mwqmSampleLanguage);
                     if (mwqmSampleLanguage.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mwqmSampleLanguageService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mwqmSampleLanguageService.GetMWQMSampleLanguageList().Count());
                     mwqmSampleLanguageService.Delete(mwqmSampleLanguage);
                     if (mwqmSampleLanguage.HasErrors)
                     {
                         Assert.AreEqual("", mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleLanguageService.GetMWQMSampleLanguageList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -144,7 +144,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mwqmSampleLanguage.ValidationResults.Count());
                     Assert.IsTrue(mwqmSampleLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMSampleLanguageMWQMSampleNote")).Any());
                     Assert.AreEqual(null, mwqmSampleLanguage.MWQMSampleNote);
-                    Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmSampleLanguageService.GetMWQMSampleLanguageList().Count());
 
 
                     // -----------------------------------
@@ -227,7 +227,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSampleLanguage mwqmSampleLanguage = (from c in mwqmSampleLanguageService.GetRead() select c).FirstOrDefault();
+                    MWQMSampleLanguage mwqmSampleLanguage = (from c in dbTestDB.MWQMSampleLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSampleLanguage);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -273,11 +273,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMSampleLanguage mwqmSampleLanguage = (from c in mwqmSampleLanguageService.GetRead() select c).FirstOrDefault();
+                    MWQMSampleLanguage mwqmSampleLanguage = (from c in dbTestDB.MWQMSampleLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmSampleLanguage);
 
                     List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
-                    mwqmSampleLanguageDirectQueryList = mwqmSampleLanguageService.GetRead().Take(100).ToList();
+                    mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -331,7 +331,7 @@ namespace CSSPServices.Tests
                         mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
-                        mwqmSampleLanguageDirectQueryList = mwqmSampleLanguageService.GetRead().Skip(1).Take(1).ToList();
+                        mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -384,7 +384,7 @@ namespace CSSPServices.Tests
                         mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMSampleLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
-                        mwqmSampleLanguageDirectQueryList = mwqmSampleLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
+                        mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -437,7 +437,7 @@ namespace CSSPServices.Tests
                         mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 1, 1, "MWQMSampleLanguageID,MWQMSampleID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
-                        mwqmSampleLanguageDirectQueryList = mwqmSampleLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ThenBy(c => c.MWQMSampleID).ToList();
+                        mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Skip(1).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ThenBy(c => c.MWQMSampleID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -490,7 +490,7 @@ namespace CSSPServices.Tests
                         mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleLanguageID", "MWQMSampleLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
-                        mwqmSampleLanguageDirectQueryList = mwqmSampleLanguageService.GetRead().Where(c => c.MWQMSampleLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
+                        mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -543,7 +543,7 @@ namespace CSSPServices.Tests
                         mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 1, "MWQMSampleLanguageID", "MWQMSampleLanguageID,GT,2|MWQMSampleLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
-                        mwqmSampleLanguageDirectQueryList = mwqmSampleLanguageService.GetRead().Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
+                        mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMSampleLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -596,7 +596,7 @@ namespace CSSPServices.Tests
                         mwqmSampleLanguageService.Query = mwqmSampleLanguageService.FillQuery(typeof(MWQMSampleLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMSampleLanguageID,GT,2|MWQMSampleLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMSampleLanguage> mwqmSampleLanguageDirectQueryList = new List<MWQMSampleLanguage>();
-                        mwqmSampleLanguageDirectQueryList = mwqmSampleLanguageService.GetRead().Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).ToList();
+                        mwqmSampleLanguageDirectQueryList = (from c in dbTestDB.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID > 2 && c.MWQMSampleLanguageID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = polSourceSiteService.GetRead().Count();
+                    count = polSourceSiteService.GetPolSourceSiteList().Count();
 
-                    Assert.AreEqual(polSourceSiteService.GetRead().Count(), polSourceSiteService.GetEdit().Count());
+                    Assert.AreEqual(polSourceSiteService.GetPolSourceSiteList().Count(), (from c in dbTestDB.PolSourceSites select c).Take(200).Count());
 
                     polSourceSiteService.Add(polSourceSite);
                     if (polSourceSite.HasErrors)
                     {
                         Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, polSourceSiteService.GetRead().Where(c => c == polSourceSite).Any());
+                    Assert.AreEqual(true, polSourceSiteService.GetPolSourceSiteList().Where(c => c == polSourceSite).Any());
                     polSourceSiteService.Update(polSourceSite);
                     if (polSourceSite.HasErrors)
                     {
                         Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count + 1, polSourceSiteService.GetPolSourceSiteList().Count());
                     polSourceSiteService.Delete(polSourceSite);
                     if (polSourceSite.HasErrors)
                     {
                         Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -137,7 +137,7 @@ namespace CSSPServices.Tests
                     polSourceSite.Temp_Locator_CanDelete = GetRandomString("", 51);
                     Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "PolSourceSiteTemp_Locator_CanDelete", "50"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -150,13 +150,13 @@ namespace CSSPServices.Tests
                     polSourceSite.Oldsiteid = -1;
                     Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolSourceSiteOldsiteid", "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
                     polSourceSite = null;
                     polSourceSite = GetFilledRandomPolSourceSite("");
                     polSourceSite.Oldsiteid = 1001;
                     Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolSourceSiteOldsiteid", "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -169,13 +169,13 @@ namespace CSSPServices.Tests
                     polSourceSite.Site = -1;
                     Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolSourceSiteSite", "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
                     polSourceSite = null;
                     polSourceSite = GetFilledRandomPolSourceSite("");
                     polSourceSite.Site = 1001;
                     Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolSourceSiteSite", "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -188,13 +188,13 @@ namespace CSSPServices.Tests
                     polSourceSite.SiteID = -1;
                     Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolSourceSiteSiteID", "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
                     polSourceSite = null;
                     polSourceSite = GetFilledRandomPolSourceSite("");
                     polSourceSite.SiteID = 1001;
                     Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "PolSourceSiteSiteID", "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+                    Assert.AreEqual(count, polSourceSiteService.GetPolSourceSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -301,7 +301,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead() select c).FirstOrDefault();
+                    PolSourceSite polSourceSite = (from c in dbTestDB.PolSourceSites select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceSite);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -347,11 +347,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     PolSourceSiteService polSourceSiteService = new PolSourceSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead() select c).FirstOrDefault();
+                    PolSourceSite polSourceSite = (from c in dbTestDB.PolSourceSites select c).FirstOrDefault();
                     Assert.IsNotNull(polSourceSite);
 
                     List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                    polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Take(100).ToList();
+                    polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -405,7 +405,7 @@ namespace CSSPServices.Tests
                         polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                        polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Skip(1).Take(1).ToList();
+                        polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -458,7 +458,7 @@ namespace CSSPServices.Tests
                         polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1,  "PolSourceSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                        polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
+                        polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -511,7 +511,7 @@ namespace CSSPServices.Tests
                         polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 1, 1, "PolSourceSiteID,PolSourceSiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                        polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ThenBy(c => c.PolSourceSiteTVItemID).ToList();
+                        polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Skip(1).Take(1).OrderBy(c => c.PolSourceSiteID).ThenBy(c => c.PolSourceSiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -564,7 +564,7 @@ namespace CSSPServices.Tests
                         polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceSiteID", "PolSourceSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                        polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Where(c => c.PolSourceSiteID == 4).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
+                        polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Where(c => c.PolSourceSiteID == 4).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -617,7 +617,7 @@ namespace CSSPServices.Tests
                         polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 1, "PolSourceSiteID", "PolSourceSiteID,GT,2|PolSourceSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                        polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
+                        polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).Skip(0).Take(1).OrderBy(c => c.PolSourceSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -670,7 +670,7 @@ namespace CSSPServices.Tests
                         polSourceSiteService.Query = polSourceSiteService.FillQuery(typeof(PolSourceSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "PolSourceSiteID,GT,2|PolSourceSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<PolSourceSite> polSourceSiteDirectQueryList = new List<PolSourceSite>();
-                        polSourceSiteDirectQueryList = polSourceSiteService.GetRead().Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).ToList();
+                        polSourceSiteDirectQueryList = (from c in dbTestDB.PolSourceSites select c).Where(c => c.PolSourceSiteID > 2 && c.PolSourceSiteID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

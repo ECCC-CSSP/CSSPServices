@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TelTelID"), new[] { "TelID" });
                 }
 
-                if (!GetRead().Where(c => c.TelID == tel.TelID).Any())
+                if (!(from c in db.Tels select c).Where(c => c.TelID == tel.TelID).Any())
                 {
                     tel.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Tel", "TelTelID", tel.TelID.ToString()), new[] { "TelID" });
@@ -143,14 +143,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Tel GetTelWithTelID(int TelID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Tels
                     where c.TelID == TelID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Tel> GetTelList()
         {
-            IQueryable<Tel> TelQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Tel> TelQuery = (from c in db.Tels select c);
 
             TelQuery = EnhanceQueryStatements<Tel>(TelQuery) as IQueryable<Tel>;
 
@@ -158,7 +158,7 @@ namespace CSSPServices
         }
         public TelWeb GetTelWebWithTelID(int TelID)
         {
-            return FillTelWeb().FirstOrDefault();
+            return FillTelWeb().Where(c => c.TelID == TelID).FirstOrDefault();
 
         }
         public IQueryable<TelWeb> GetTelWebList()
@@ -171,7 +171,7 @@ namespace CSSPServices
         }
         public TelReport GetTelReportWithTelID(int TelID)
         {
-            return FillTelReport().FirstOrDefault();
+            return FillTelReport().Where(c => c.TelID == TelID).FirstOrDefault();
 
         }
         public IQueryable<TelReport> GetTelReportList()
@@ -218,18 +218,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<Tel> GetRead()
-        {
-            IQueryable<Tel> telQuery = db.Tels.AsNoTracking();
-
-            return telQuery;
-        }
-        public IQueryable<Tel> GetEdit()
-        {
-            IQueryable<Tel> telQuery = db.Tels;
-
-            return telQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TelFillWeb
@@ -263,7 +251,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TelWebQuery;
         }

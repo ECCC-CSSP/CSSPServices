@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemTVItemID"), new[] { "TVItemID" });
                 }
 
-                if (!GetRead().Where(c => c.TVItemID == tvItem.TVItemID).Any())
+                if (!(from c in db.TVItems select c).Where(c => c.TVItemID == tvItem.TVItemID).Any())
                 {
                     tvItem.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemTVItemID", tvItem.TVItemID.ToString()), new[] { "TVItemID" });
@@ -59,7 +59,7 @@ namespace CSSPServices
 
             if (tvItem.TVType == TVTypeEnum.Root)
             {
-                if (GetRead().Count() > 0)
+                if ((from c in db.TVItems select c).Count() > 0)
                 {
                     tvItem.HasErrors = true;
                     yield return new ValidationResult(CSSPServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { "TVItemTVItemID" });
@@ -185,14 +185,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVItem GetTVItemWithTVItemID(int TVItemID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TVItems
                     where c.TVItemID == TVItemID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TVItem> GetTVItemList()
         {
-            IQueryable<TVItem> TVItemQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVItem> TVItemQuery = (from c in db.TVItems select c);
 
             TVItemQuery = EnhanceQueryStatements<TVItem>(TVItemQuery) as IQueryable<TVItem>;
 
@@ -200,7 +200,7 @@ namespace CSSPServices
         }
         public TVItemWeb GetTVItemWebWithTVItemID(int TVItemID)
         {
-            return FillTVItemWeb().FirstOrDefault();
+            return FillTVItemWeb().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
 
         }
         public IQueryable<TVItemWeb> GetTVItemWebList()
@@ -213,7 +213,7 @@ namespace CSSPServices
         }
         public TVItemReport GetTVItemReportWithTVItemID(int TVItemID)
         {
-            return FillTVItemReport().FirstOrDefault();
+            return FillTVItemReport().Where(c => c.TVItemID == TVItemID).FirstOrDefault();
 
         }
         public IQueryable<TVItemReport> GetTVItemReportList()
@@ -260,18 +260,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<TVItem> GetRead()
-        {
-            IQueryable<TVItem> tvItemQuery = db.TVItems.AsNoTracking();
-
-            return tvItemQuery;
-        }
-        public IQueryable<TVItem> GetEdit()
-        {
-            IQueryable<TVItem> tvItemQuery = db.TVItems;
-
-            return tvItemQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVItemFillWeb
@@ -307,7 +295,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TVItemWebQuery;
         }

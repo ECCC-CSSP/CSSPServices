@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = rainExceedanceService.GetRead().Count();
+                    count = rainExceedanceService.GetRainExceedanceList().Count();
 
-                    Assert.AreEqual(rainExceedanceService.GetRead().Count(), rainExceedanceService.GetEdit().Count());
+                    Assert.AreEqual(rainExceedanceService.GetRainExceedanceList().Count(), (from c in dbTestDB.RainExceedances select c).Take(200).Count());
 
                     rainExceedanceService.Add(rainExceedance);
                     if (rainExceedance.HasErrors)
                     {
                         Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, rainExceedanceService.GetRead().Where(c => c == rainExceedance).Any());
+                    Assert.AreEqual(true, rainExceedanceService.GetRainExceedanceList().Where(c => c == rainExceedance).Any());
                     rainExceedanceService.Update(rainExceedance);
                     if (rainExceedance.HasErrors)
                     {
                         Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count + 1, rainExceedanceService.GetRainExceedanceList().Count());
                     rainExceedanceService.Delete(rainExceedance);
                     if (rainExceedance.HasErrors)
                     {
                         Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -153,13 +153,13 @@ namespace CSSPServices.Tests
                     rainExceedance.RainMaximum_mm = -1.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RainExceedanceRainMaximum_mm", "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainMaximum_mm = 301.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RainExceedanceRainMaximum_mm", "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -176,13 +176,13 @@ namespace CSSPServices.Tests
                     rainExceedance.RainExtreme_mm = -1.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RainExceedanceRainExtreme_mm", "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainExtreme_mm = 301.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RainExceedanceRainExtreme_mm", "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -195,13 +195,13 @@ namespace CSSPServices.Tests
                     rainExceedance.DaysPriorToStart = -1;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RainExceedanceDaysPriorToStart", "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.DaysPriorToStart = 31;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "RainExceedanceDaysPriorToStart", "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -221,14 +221,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
                     Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "RainExceedanceProvinceTVItemIDs")).Any());
                     Assert.AreEqual(null, rainExceedance.ProvinceTVItemIDs);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.ProvinceTVItemIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "RainExceedanceProvinceTVItemIDs", "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -242,14 +242,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
                     Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "RainExceedanceSubsectorTVItemIDs")).Any());
                     Assert.AreEqual(null, rainExceedance.SubsectorTVItemIDs);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.SubsectorTVItemIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "RainExceedanceSubsectorTVItemIDs", "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -263,14 +263,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
                     Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "RainExceedanceClimateSiteTVItemIDs")).Any());
                     Assert.AreEqual(null, rainExceedance.ClimateSiteTVItemIDs);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "RainExceedanceClimateSiteTVItemIDs", "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -284,14 +284,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
                     Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "RainExceedanceEmailDistributionListIDs")).Any());
                     Assert.AreEqual(null, rainExceedance.EmailDistributionListIDs);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.EmailDistributionListIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "RainExceedanceEmailDistributionListIDs", "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    Assert.AreEqual(count, rainExceedanceService.GetRainExceedanceList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -360,7 +360,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead() select c).FirstOrDefault();
+                    RainExceedance rainExceedance = (from c in dbTestDB.RainExceedances select c).FirstOrDefault();
                     Assert.IsNotNull(rainExceedance);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -406,11 +406,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     RainExceedanceService rainExceedanceService = new RainExceedanceService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead() select c).FirstOrDefault();
+                    RainExceedance rainExceedance = (from c in dbTestDB.RainExceedances select c).FirstOrDefault();
                     Assert.IsNotNull(rainExceedance);
 
                     List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                    rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Take(100).ToList();
+                    rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -464,7 +464,7 @@ namespace CSSPServices.Tests
                         rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Skip(1).Take(1).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -517,7 +517,7 @@ namespace CSSPServices.Tests
                         rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1,  "RainExceedanceID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -570,7 +570,7 @@ namespace CSSPServices.Tests
                         rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 1, 1, "RainExceedanceID,YearRound", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ThenBy(c => c.YearRound).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Skip(1).Take(1).OrderBy(c => c.RainExceedanceID).ThenBy(c => c.YearRound).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -623,7 +623,7 @@ namespace CSSPServices.Tests
                         rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "RainExceedanceID", "RainExceedanceID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Where(c => c.RainExceedanceID == 4).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID == 4).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -676,7 +676,7 @@ namespace CSSPServices.Tests
                         rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 1, "RainExceedanceID", "RainExceedanceID,GT,2|RainExceedanceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).Skip(0).Take(1).OrderBy(c => c.RainExceedanceID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -729,7 +729,7 @@ namespace CSSPServices.Tests
                         rainExceedanceService.Query = rainExceedanceService.FillQuery(typeof(RainExceedance), culture.TwoLetterISOLanguageName, 0, 10000, "", "RainExceedanceID,GT,2|RainExceedanceID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<RainExceedance> rainExceedanceDirectQueryList = new List<RainExceedance>();
-                        rainExceedanceDirectQueryList = rainExceedanceService.GetRead().Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).ToList();
+                        rainExceedanceDirectQueryList = (from c in dbTestDB.RainExceedances select c).Where(c => c.RainExceedanceID > 2 && c.RainExceedanceID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

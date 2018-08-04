@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPResultVPResultID"), new[] { "VPResultID" });
                 }
 
-                if (!GetRead().Where(c => c.VPResultID == vpResult.VPResultID).Any())
+                if (!(from c in db.VPResults select c).Where(c => c.VPResultID == vpResult.VPResultID).Any())
                 {
                     vpResult.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultVPResultID", vpResult.VPResultID.ToString()), new[] { "VPResultID" });
@@ -148,14 +148,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public VPResult GetVPResultWithVPResultID(int VPResultID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.VPResults
                     where c.VPResultID == VPResultID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<VPResult> GetVPResultList()
         {
-            IQueryable<VPResult> VPResultQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<VPResult> VPResultQuery = (from c in db.VPResults select c);
 
             VPResultQuery = EnhanceQueryStatements<VPResult>(VPResultQuery) as IQueryable<VPResult>;
 
@@ -163,7 +163,7 @@ namespace CSSPServices
         }
         public VPResultWeb GetVPResultWebWithVPResultID(int VPResultID)
         {
-            return FillVPResultWeb().FirstOrDefault();
+            return FillVPResultWeb().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
 
         }
         public IQueryable<VPResultWeb> GetVPResultWebList()
@@ -176,7 +176,7 @@ namespace CSSPServices
         }
         public VPResultReport GetVPResultReportWithVPResultID(int VPResultID)
         {
-            return FillVPResultReport().FirstOrDefault();
+            return FillVPResultReport().Where(c => c.VPResultID == VPResultID).FirstOrDefault();
 
         }
         public IQueryable<VPResultReport> GetVPResultReportList()
@@ -223,18 +223,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<VPResult> GetRead()
-        {
-            IQueryable<VPResult> vpResultQuery = db.VPResults.AsNoTracking();
-
-            return vpResultQuery;
-        }
-        public IQueryable<VPResult> GetEdit()
-        {
-            IQueryable<VPResult> vpResultQuery = db.VPResults;
-
-            return vpResultQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPResultFillWeb
@@ -260,7 +248,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return VPResultWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSampleLanguageMWQMSampleLanguageID"), new[] { "MWQMSampleLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMSampleLanguageID == mwqmSampleLanguage.MWQMSampleLanguageID).Any())
+                if (!(from c in db.MWQMSampleLanguages select c).Where(c => c.MWQMSampleLanguageID == mwqmSampleLanguage.MWQMSampleLanguageID).Any())
                 {
                     mwqmSampleLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSampleLanguage", "MWQMSampleLanguageMWQMSampleLanguageID", mwqmSampleLanguage.MWQMSampleLanguageID.ToString()), new[] { "MWQMSampleLanguageID" });
@@ -134,14 +134,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSampleLanguage GetMWQMSampleLanguageWithMWQMSampleLanguageID(int MWQMSampleLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMSampleLanguages
                     where c.MWQMSampleLanguageID == MWQMSampleLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMSampleLanguage> GetMWQMSampleLanguageList()
         {
-            IQueryable<MWQMSampleLanguage> MWQMSampleLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSampleLanguage> MWQMSampleLanguageQuery = (from c in db.MWQMSampleLanguages select c);
 
             MWQMSampleLanguageQuery = EnhanceQueryStatements<MWQMSampleLanguage>(MWQMSampleLanguageQuery) as IQueryable<MWQMSampleLanguage>;
 
@@ -149,7 +149,7 @@ namespace CSSPServices
         }
         public MWQMSampleLanguageWeb GetMWQMSampleLanguageWebWithMWQMSampleLanguageID(int MWQMSampleLanguageID)
         {
-            return FillMWQMSampleLanguageWeb().FirstOrDefault();
+            return FillMWQMSampleLanguageWeb().Where(c => c.MWQMSampleLanguageID == MWQMSampleLanguageID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSampleLanguageWeb> GetMWQMSampleLanguageWebList()
@@ -162,7 +162,7 @@ namespace CSSPServices
         }
         public MWQMSampleLanguageReport GetMWQMSampleLanguageReportWithMWQMSampleLanguageID(int MWQMSampleLanguageID)
         {
-            return FillMWQMSampleLanguageReport().FirstOrDefault();
+            return FillMWQMSampleLanguageReport().Where(c => c.MWQMSampleLanguageID == MWQMSampleLanguageID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSampleLanguageReport> GetMWQMSampleLanguageReportList()
@@ -209,18 +209,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MWQMSampleLanguage> GetRead()
-        {
-            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = db.MWQMSampleLanguages.AsNoTracking();
-
-            return mwqmSampleLanguageQuery;
-        }
-        public IQueryable<MWQMSampleLanguage> GetEdit()
-        {
-            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = db.MWQMSampleLanguages;
-
-            return mwqmSampleLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSampleLanguageFillWeb
@@ -254,7 +242,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMSampleLanguageWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID"), new[] { "SamplingPlanSubsectorSiteID" });
                 }
 
-                if (!GetRead().Where(c => c.SamplingPlanSubsectorSiteID == samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID).Any())
+                if (!(from c in db.SamplingPlanSubsectorSites select c).Where(c => c.SamplingPlanSubsectorSiteID == samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID).Any())
                 {
                     samplingPlanSubsectorSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "SamplingPlanSubsectorSite", "SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID", samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), new[] { "SamplingPlanSubsectorSiteID" });
@@ -132,14 +132,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public SamplingPlanSubsectorSite GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.SamplingPlanSubsectorSites
                     where c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<SamplingPlanSubsectorSite> GetSamplingPlanSubsectorSiteList()
         {
-            IQueryable<SamplingPlanSubsectorSite> SamplingPlanSubsectorSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<SamplingPlanSubsectorSite> SamplingPlanSubsectorSiteQuery = (from c in db.SamplingPlanSubsectorSites select c);
 
             SamplingPlanSubsectorSiteQuery = EnhanceQueryStatements<SamplingPlanSubsectorSite>(SamplingPlanSubsectorSiteQuery) as IQueryable<SamplingPlanSubsectorSite>;
 
@@ -147,7 +147,7 @@ namespace CSSPServices
         }
         public SamplingPlanSubsectorSiteWeb GetSamplingPlanSubsectorSiteWebWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
         {
-            return FillSamplingPlanSubsectorSiteWeb().FirstOrDefault();
+            return FillSamplingPlanSubsectorSiteWeb().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
 
         }
         public IQueryable<SamplingPlanSubsectorSiteWeb> GetSamplingPlanSubsectorSiteWebList()
@@ -160,7 +160,7 @@ namespace CSSPServices
         }
         public SamplingPlanSubsectorSiteReport GetSamplingPlanSubsectorSiteReportWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
         {
-            return FillSamplingPlanSubsectorSiteReport().FirstOrDefault();
+            return FillSamplingPlanSubsectorSiteReport().Where(c => c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID).FirstOrDefault();
 
         }
         public IQueryable<SamplingPlanSubsectorSiteReport> GetSamplingPlanSubsectorSiteReportList()
@@ -207,18 +207,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<SamplingPlanSubsectorSite> GetRead()
-        {
-            IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery = db.SamplingPlanSubsectorSites.AsNoTracking();
-
-            return samplingPlanSubsectorSiteQuery;
-        }
-        public IQueryable<SamplingPlanSubsectorSite> GetEdit()
-        {
-            IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery = db.SamplingPlanSubsectorSites;
-
-            return samplingPlanSubsectorSiteQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated SamplingPlanSubsectorSiteFillWeb
@@ -245,7 +233,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return SamplingPlanSubsectorSiteWebQuery;
         }

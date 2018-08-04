@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "AddressAddressID"), new[] { "AddressID" });
                 }
 
-                if (!GetRead().Where(c => c.AddressID == address.AddressID).Any())
+                if (!(from c in db.Addresses select c).Where(c => c.AddressID == address.AddressID).Any())
                 {
                     address.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Address", "AddressAddressID", address.AddressID.ToString()), new[] { "AddressID" });
@@ -225,14 +225,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Address GetAddressWithAddressID(int AddressID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Addresses
                     where c.AddressID == AddressID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Address> GetAddressList()
         {
-            IQueryable<Address> AddressQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Address> AddressQuery = (from c in db.Addresses select c);
 
             AddressQuery = EnhanceQueryStatements<Address>(AddressQuery) as IQueryable<Address>;
 
@@ -240,7 +240,7 @@ namespace CSSPServices
         }
         public AddressWeb GetAddressWebWithAddressID(int AddressID)
         {
-            return FillAddressWeb().FirstOrDefault();
+            return FillAddressWeb().Where(c => c.AddressID == AddressID).FirstOrDefault();
 
         }
         public IQueryable<AddressWeb> GetAddressWebList()
@@ -253,7 +253,7 @@ namespace CSSPServices
         }
         public AddressReport GetAddressReportWithAddressID(int AddressID)
         {
-            return FillAddressReport().FirstOrDefault();
+            return FillAddressReport().Where(c => c.AddressID == AddressID).FirstOrDefault();
 
         }
         public IQueryable<AddressReport> GetAddressReportList()
@@ -299,18 +299,6 @@ namespace CSSPServices
             if (!TryToSave(address)) return false;
 
             return true;
-        }
-        public IQueryable<Address> GetRead()
-        {
-            IQueryable<Address> addressQuery = db.Addresses.AsNoTracking();
-
-            return addressQuery;
-        }
-        public IQueryable<Address> GetEdit()
-        {
-            IQueryable<Address> addressQuery = db.Addresses;
-
-            return addressQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -371,7 +359,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return AddressWebQuery;
         }

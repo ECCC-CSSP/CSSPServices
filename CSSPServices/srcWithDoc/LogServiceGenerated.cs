@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LogLogID"), new[] { "LogID" });
                 }
 
-                if (!GetRead().Where(c => c.LogID == log.LogID).Any())
+                if (!(from c in db.Logs select c).Where(c => c.LogID == log.LogID).Any())
                 {
                     log.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Log", "LogLogID", log.LogID.ToString()), new[] { "LogID" });
@@ -137,14 +137,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Log GetLogWithLogID(int LogID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Logs
                     where c.LogID == LogID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Log> GetLogList()
         {
-            IQueryable<Log> LogQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Log> LogQuery = (from c in db.Logs select c);
 
             LogQuery = EnhanceQueryStatements<Log>(LogQuery) as IQueryable<Log>;
 
@@ -152,7 +152,7 @@ namespace CSSPServices
         }
         public LogWeb GetLogWebWithLogID(int LogID)
         {
-            return FillLogWeb().FirstOrDefault();
+            return FillLogWeb().Where(c => c.LogID == LogID).FirstOrDefault();
 
         }
         public IQueryable<LogWeb> GetLogWebList()
@@ -165,7 +165,7 @@ namespace CSSPServices
         }
         public LogReport GetLogReportWithLogID(int LogID)
         {
-            return FillLogReport().FirstOrDefault();
+            return FillLogReport().Where(c => c.LogID == LogID).FirstOrDefault();
 
         }
         public IQueryable<LogReport> GetLogReportList()
@@ -212,18 +212,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<Log> GetRead()
-        {
-            IQueryable<Log> logQuery = db.Logs.AsNoTracking();
-
-            return logQuery;
-        }
-        public IQueryable<Log> GetEdit()
-        {
-            IQueryable<Log> logQuery = db.Logs;
-
-            return logQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated LogFillWeb
@@ -253,7 +241,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return LogWebQuery;
         }

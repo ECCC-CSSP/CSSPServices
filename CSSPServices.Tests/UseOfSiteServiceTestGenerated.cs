@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = useOfSiteService.GetRead().Count();
+                    count = useOfSiteService.GetUseOfSiteList().Count();
 
-                    Assert.AreEqual(useOfSiteService.GetRead().Count(), useOfSiteService.GetEdit().Count());
+                    Assert.AreEqual(useOfSiteService.GetUseOfSiteList().Count(), (from c in dbTestDB.UseOfSites select c).Take(200).Count());
 
                     useOfSiteService.Add(useOfSite);
                     if (useOfSite.HasErrors)
                     {
                         Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, useOfSiteService.GetRead().Where(c => c == useOfSite).Any());
+                    Assert.AreEqual(true, useOfSiteService.GetUseOfSiteList().Where(c => c == useOfSite).Any());
                     useOfSiteService.Update(useOfSite);
                     if (useOfSite.HasErrors)
                     {
                         Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count + 1, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSiteService.Delete(useOfSite);
                     if (useOfSite.HasErrors)
                     {
                         Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -169,13 +169,13 @@ namespace CSSPServices.Tests
                     useOfSite.Ordinal = -1;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteOrdinal", "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Ordinal = 1001;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteOrdinal", "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -188,13 +188,13 @@ namespace CSSPServices.Tests
                     useOfSite.StartYear = 1979;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteStartYear", "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.StartYear = 2051;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteStartYear", "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -207,13 +207,13 @@ namespace CSSPServices.Tests
                     useOfSite.EndYear = 1979;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteEndYear", "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.EndYear = 2051;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteEndYear", "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -236,13 +236,13 @@ namespace CSSPServices.Tests
                     useOfSite.Weight_perc = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteWeight_perc", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Weight_perc = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteWeight_perc", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -265,13 +265,13 @@ namespace CSSPServices.Tests
                     useOfSite.Param1 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam1", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param1 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam1", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -288,13 +288,13 @@ namespace CSSPServices.Tests
                     useOfSite.Param2 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam2", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param2 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam2", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -311,13 +311,13 @@ namespace CSSPServices.Tests
                     useOfSite.Param3 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam3", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param3 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam3", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -334,13 +334,13 @@ namespace CSSPServices.Tests
                     useOfSite.Param4 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam4", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param4 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "UseOfSiteParam4", "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    Assert.AreEqual(count, useOfSiteService.GetUseOfSiteList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -409,7 +409,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
+                    UseOfSite useOfSite = (from c in dbTestDB.UseOfSites select c).FirstOrDefault();
                     Assert.IsNotNull(useOfSite);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -455,11 +455,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     UseOfSiteService useOfSiteService = new UseOfSiteService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
+                    UseOfSite useOfSite = (from c in dbTestDB.UseOfSites select c).FirstOrDefault();
                     Assert.IsNotNull(useOfSite);
 
                     List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                    useOfSiteDirectQueryList = useOfSiteService.GetRead().Take(100).ToList();
+                    useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -513,7 +513,7 @@ namespace CSSPServices.Tests
                         useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                        useOfSiteDirectQueryList = useOfSiteService.GetRead().Skip(1).Take(1).ToList();
+                        useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -566,7 +566,7 @@ namespace CSSPServices.Tests
                         useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1,  "UseOfSiteID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                        useOfSiteDirectQueryList = useOfSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
+                        useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -619,7 +619,7 @@ namespace CSSPServices.Tests
                         useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 1, 1, "UseOfSiteID,SiteTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                        useOfSiteDirectQueryList = useOfSiteService.GetRead().Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ThenBy(c => c.SiteTVItemID).ToList();
+                        useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Skip(1).Take(1).OrderBy(c => c.UseOfSiteID).ThenBy(c => c.SiteTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -672,7 +672,7 @@ namespace CSSPServices.Tests
                         useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 1, "UseOfSiteID", "UseOfSiteID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                        useOfSiteDirectQueryList = useOfSiteService.GetRead().Where(c => c.UseOfSiteID == 4).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
+                        useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID == 4).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -725,7 +725,7 @@ namespace CSSPServices.Tests
                         useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 1, "UseOfSiteID", "UseOfSiteID,GT,2|UseOfSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                        useOfSiteDirectQueryList = useOfSiteService.GetRead().Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
+                        useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).Skip(0).Take(1).OrderBy(c => c.UseOfSiteID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -778,7 +778,7 @@ namespace CSSPServices.Tests
                         useOfSiteService.Query = useOfSiteService.FillQuery(typeof(UseOfSite), culture.TwoLetterISOLanguageName, 0, 10000, "", "UseOfSiteID,GT,2|UseOfSiteID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<UseOfSite> useOfSiteDirectQueryList = new List<UseOfSite>();
-                        useOfSiteDirectQueryList = useOfSiteService.GetRead().Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).ToList();
+                        useOfSiteDirectQueryList = (from c in dbTestDB.UseOfSites select c).Where(c => c.UseOfSiteID > 2 && c.UseOfSiteID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

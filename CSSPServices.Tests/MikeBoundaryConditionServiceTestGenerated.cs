@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mikeBoundaryConditionService.GetRead().Count();
+                    count = mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count();
 
-                    Assert.AreEqual(mikeBoundaryConditionService.GetRead().Count(), mikeBoundaryConditionService.GetEdit().Count());
+                    Assert.AreEqual(mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count(), (from c in dbTestDB.MikeBoundaryConditions select c).Take(200).Count());
 
                     mikeBoundaryConditionService.Add(mikeBoundaryCondition);
                     if (mikeBoundaryCondition.HasErrors)
                     {
                         Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mikeBoundaryConditionService.GetRead().Where(c => c == mikeBoundaryCondition).Any());
+                    Assert.AreEqual(true, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Where(c => c == mikeBoundaryCondition).Any());
                     mikeBoundaryConditionService.Update(mikeBoundaryCondition);
                     if (mikeBoundaryCondition.HasErrors)
                     {
                         Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
                     mikeBoundaryConditionService.Delete(mikeBoundaryCondition);
                     if (mikeBoundaryCondition.HasErrors)
                     {
                         Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -138,14 +138,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
                     Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MikeBoundaryConditionMikeBoundaryConditionCode")).Any());
                     Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionCode);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     mikeBoundaryCondition = null;
                     mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
                     mikeBoundaryCondition.MikeBoundaryConditionCode = GetRandomString("", 101);
                     Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MikeBoundaryConditionMikeBoundaryConditionCode", "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -159,14 +159,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
                     Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MikeBoundaryConditionMikeBoundaryConditionName")).Any());
                     Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionName);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     mikeBoundaryCondition = null;
                     mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
                     mikeBoundaryCondition.MikeBoundaryConditionName = GetRandomString("", 101);
                     Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MikeBoundaryConditionMikeBoundaryConditionName", "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -183,13 +183,13 @@ namespace CSSPServices.Tests
                     mikeBoundaryCondition.MikeBoundaryConditionLength_m = 0.0D;
                     Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeBoundaryConditionMikeBoundaryConditionLength_m", "1", "100000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
                     mikeBoundaryCondition = null;
                     mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
                     mikeBoundaryCondition.MikeBoundaryConditionLength_m = 100001.0D;
                     Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeBoundaryConditionMikeBoundaryConditionLength_m", "1", "100000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -203,14 +203,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
                     Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MikeBoundaryConditionMikeBoundaryConditionFormat")).Any());
                     Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionFormat);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     mikeBoundaryCondition = null;
                     mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
                     mikeBoundaryCondition.MikeBoundaryConditionFormat = GetRandomString("", 101);
                     Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MikeBoundaryConditionMikeBoundaryConditionFormat", "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -249,13 +249,13 @@ namespace CSSPServices.Tests
                     mikeBoundaryCondition.NumberOfWebTideNodes = -1;
                     Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeBoundaryConditionNumberOfWebTideNodes", "0", "1000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
                     mikeBoundaryCondition = null;
                     mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
                     mikeBoundaryCondition.NumberOfWebTideNodes = 1001;
                     Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MikeBoundaryConditionNumberOfWebTideNodes", "0", "1000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -268,7 +268,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
                     Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MikeBoundaryConditionWebTideDataFromStartToEndDate")).Any());
                     Assert.AreEqual(null, mikeBoundaryCondition.WebTideDataFromStartToEndDate);
-                    Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+                    Assert.AreEqual(count, mikeBoundaryConditionService.GetMikeBoundaryConditionList().Count());
 
 
                     // -----------------------------------
@@ -351,7 +351,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MikeBoundaryCondition mikeBoundaryCondition = (from c in mikeBoundaryConditionService.GetRead() select c).FirstOrDefault();
+                    MikeBoundaryCondition mikeBoundaryCondition = (from c in dbTestDB.MikeBoundaryConditions select c).FirstOrDefault();
                     Assert.IsNotNull(mikeBoundaryCondition);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -397,11 +397,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MikeBoundaryCondition mikeBoundaryCondition = (from c in mikeBoundaryConditionService.GetRead() select c).FirstOrDefault();
+                    MikeBoundaryCondition mikeBoundaryCondition = (from c in dbTestDB.MikeBoundaryConditions select c).FirstOrDefault();
                     Assert.IsNotNull(mikeBoundaryCondition);
 
                     List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
-                    mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Take(100).ToList();
+                    mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -455,7 +455,7 @@ namespace CSSPServices.Tests
                         mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
-                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Skip(1).Take(1).ToList();
+                        mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -508,7 +508,7 @@ namespace CSSPServices.Tests
                         mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 1, 1,  "MikeBoundaryConditionID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
-                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
+                        mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Skip(1).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -561,7 +561,7 @@ namespace CSSPServices.Tests
                         mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 1, 1, "MikeBoundaryConditionID,MikeBoundaryConditionTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
-                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Skip(1).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ThenBy(c => c.MikeBoundaryConditionTVItemID).ToList();
+                        mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Skip(1).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ThenBy(c => c.MikeBoundaryConditionTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -614,7 +614,7 @@ namespace CSSPServices.Tests
                         mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 0, 1, "MikeBoundaryConditionID", "MikeBoundaryConditionID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
-                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Where(c => c.MikeBoundaryConditionID == 4).Skip(0).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
+                        mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Where(c => c.MikeBoundaryConditionID == 4).Skip(0).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -667,7 +667,7 @@ namespace CSSPServices.Tests
                         mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 0, 1, "MikeBoundaryConditionID", "MikeBoundaryConditionID,GT,2|MikeBoundaryConditionID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
-                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Where(c => c.MikeBoundaryConditionID > 2 && c.MikeBoundaryConditionID < 5).Skip(0).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
+                        mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Where(c => c.MikeBoundaryConditionID > 2 && c.MikeBoundaryConditionID < 5).Skip(0).Take(1).OrderBy(c => c.MikeBoundaryConditionID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -720,7 +720,7 @@ namespace CSSPServices.Tests
                         mikeBoundaryConditionService.Query = mikeBoundaryConditionService.FillQuery(typeof(MikeBoundaryCondition), culture.TwoLetterISOLanguageName, 0, 10000, "", "MikeBoundaryConditionID,GT,2|MikeBoundaryConditionID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MikeBoundaryCondition> mikeBoundaryConditionDirectQueryList = new List<MikeBoundaryCondition>();
-                        mikeBoundaryConditionDirectQueryList = mikeBoundaryConditionService.GetRead().Where(c => c.MikeBoundaryConditionID > 2 && c.MikeBoundaryConditionID < 5).ToList();
+                        mikeBoundaryConditionDirectQueryList = (from c in dbTestDB.MikeBoundaryConditions select c).Where(c => c.MikeBoundaryConditionID > 2 && c.MikeBoundaryConditionID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

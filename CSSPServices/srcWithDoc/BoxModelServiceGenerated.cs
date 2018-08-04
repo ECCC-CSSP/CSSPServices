@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelBoxModelID"), new[] { "BoxModelID" });
                 }
 
-                if (!GetRead().Where(c => c.BoxModelID == boxModel.BoxModelID).Any())
+                if (!(from c in db.BoxModels select c).Where(c => c.BoxModelID == boxModel.BoxModelID).Any())
                 {
                     boxModel.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "BoxModel", "BoxModelBoxModelID", boxModel.BoxModelID.ToString()), new[] { "BoxModelID" });
@@ -184,14 +184,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public BoxModel GetBoxModelWithBoxModelID(int BoxModelID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.BoxModels
                     where c.BoxModelID == BoxModelID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<BoxModel> GetBoxModelList()
         {
-            IQueryable<BoxModel> BoxModelQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<BoxModel> BoxModelQuery = (from c in db.BoxModels select c);
 
             BoxModelQuery = EnhanceQueryStatements<BoxModel>(BoxModelQuery) as IQueryable<BoxModel>;
 
@@ -199,7 +199,7 @@ namespace CSSPServices
         }
         public BoxModelWeb GetBoxModelWebWithBoxModelID(int BoxModelID)
         {
-            return FillBoxModelWeb().FirstOrDefault();
+            return FillBoxModelWeb().Where(c => c.BoxModelID == BoxModelID).FirstOrDefault();
 
         }
         public IQueryable<BoxModelWeb> GetBoxModelWebList()
@@ -212,7 +212,7 @@ namespace CSSPServices
         }
         public BoxModelReport GetBoxModelReportWithBoxModelID(int BoxModelID)
         {
-            return FillBoxModelReport().FirstOrDefault();
+            return FillBoxModelReport().Where(c => c.BoxModelID == BoxModelID).FirstOrDefault();
 
         }
         public IQueryable<BoxModelReport> GetBoxModelReportList()
@@ -259,18 +259,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<BoxModel> GetRead()
-        {
-            IQueryable<BoxModel> boxModelQuery = db.BoxModels.AsNoTracking();
-
-            return boxModelQuery;
-        }
-        public IQueryable<BoxModel> GetEdit()
-        {
-            IQueryable<BoxModel> boxModelQuery = db.BoxModels;
-
-            return boxModelQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated BoxModelFillWeb
@@ -305,7 +293,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return BoxModelWebQuery;
         }

@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mwqmRunService.GetRead().Count();
+                    count = mwqmRunService.GetMWQMRunList().Count();
 
-                    Assert.AreEqual(mwqmRunService.GetRead().Count(), mwqmRunService.GetEdit().Count());
+                    Assert.AreEqual(mwqmRunService.GetMWQMRunList().Count(), (from c in dbTestDB.MWQMRuns select c).Take(200).Count());
 
                     mwqmRunService.Add(mwqmRun);
                     if (mwqmRun.HasErrors)
                     {
                         Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mwqmRunService.GetRead().Where(c => c == mwqmRun).Any());
+                    Assert.AreEqual(true, mwqmRunService.GetMWQMRunList().Where(c => c == mwqmRun).Any());
                     mwqmRunService.Update(mwqmRun);
                     if (mwqmRun.HasErrors)
                     {
                         Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRunService.Delete(mwqmRun);
                     if (mwqmRun.HasErrors)
                     {
                         Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -186,13 +186,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RunNumber = 0;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRunNumber", "1", "1000"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RunNumber = 1001;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRunNumber", "1", "1000"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -246,13 +246,13 @@ namespace CSSPServices.Tests
                     mwqmRun.TemperatureControl1_C = -11.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunTemperatureControl1_C", "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.TemperatureControl1_C = 41.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunTemperatureControl1_C", "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -269,13 +269,13 @@ namespace CSSPServices.Tests
                     mwqmRun.TemperatureControl2_C = -11.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunTemperatureControl2_C", "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.TemperatureControl2_C = 41.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunTemperatureControl2_C", "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -318,13 +318,13 @@ namespace CSSPServices.Tests
                     mwqmRun.WaterLevelAtBrook_m = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunWaterLevelAtBrook_m", "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaterLevelAtBrook_m = 101.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunWaterLevelAtBrook_m", "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -341,13 +341,13 @@ namespace CSSPServices.Tests
                     mwqmRun.WaveHightAtStart_m = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunWaveHightAtStart_m", "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaveHightAtStart_m = 101.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunWaveHightAtStart_m", "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -364,13 +364,13 @@ namespace CSSPServices.Tests
                     mwqmRun.WaveHightAtEnd_m = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunWaveHightAtEnd_m", "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaveHightAtEnd_m = 101.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunWaveHightAtEnd_m", "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -383,7 +383,7 @@ namespace CSSPServices.Tests
                     mwqmRun.SampleCrewInitials = GetRandomString("", 21);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMRunSampleCrewInitials", "20"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -545,13 +545,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay0_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay0_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay0_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay0_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -568,13 +568,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay1_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay1_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay1_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay1_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -591,13 +591,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay2_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay2_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay2_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay2_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -614,13 +614,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay3_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay3_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay3_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay3_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -637,13 +637,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay4_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay4_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay4_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay4_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -660,13 +660,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay5_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay5_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay5_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay5_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -683,13 +683,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay6_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay6_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay6_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay6_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -706,13 +706,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay7_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay7_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay7_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay7_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -729,13 +729,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay8_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay8_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay8_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay8_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -752,13 +752,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay9_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay9_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay9_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay9_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -775,13 +775,13 @@ namespace CSSPServices.Tests
                     mwqmRun.RainDay10_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay10_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay10_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMRunRainDay10_mm", "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmRunService.GetMWQMRunList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -856,7 +856,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMRun mwqmRun = (from c in mwqmRunService.GetRead() select c).FirstOrDefault();
+                    MWQMRun mwqmRun = (from c in dbTestDB.MWQMRuns select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmRun);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -902,11 +902,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMRunService mwqmRunService = new MWQMRunService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMRun mwqmRun = (from c in mwqmRunService.GetRead() select c).FirstOrDefault();
+                    MWQMRun mwqmRun = (from c in dbTestDB.MWQMRuns select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmRun);
 
                     List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                    mwqmRunDirectQueryList = mwqmRunService.GetRead().Take(100).ToList();
+                    mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -960,7 +960,7 @@ namespace CSSPServices.Tests
                         mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = mwqmRunService.GetRead().Skip(1).Take(1).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1013,7 +1013,7 @@ namespace CSSPServices.Tests
                         mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMRunID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = mwqmRunService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1066,7 +1066,7 @@ namespace CSSPServices.Tests
                         mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 1, 1, "MWQMRunID,SubsectorTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = mwqmRunService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ThenBy(c => c.SubsectorTVItemID).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Skip(1).Take(1).OrderBy(c => c.MWQMRunID).ThenBy(c => c.SubsectorTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1119,7 +1119,7 @@ namespace CSSPServices.Tests
                         mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "MWQMRunID", "MWQMRunID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = mwqmRunService.GetRead().Where(c => c.MWQMRunID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1172,7 +1172,7 @@ namespace CSSPServices.Tests
                         mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 1, "MWQMRunID", "MWQMRunID,GT,2|MWQMRunID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = mwqmRunService.GetRead().Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMRunID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -1225,7 +1225,7 @@ namespace CSSPServices.Tests
                         mwqmRunService.Query = mwqmRunService.FillQuery(typeof(MWQMRun), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMRunID,GT,2|MWQMRunID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMRun> mwqmRunDirectQueryList = new List<MWQMRun>();
-                        mwqmRunDirectQueryList = mwqmRunService.GetRead().Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).ToList();
+                        mwqmRunDirectQueryList = (from c in dbTestDB.MWQMRuns select c).Where(c => c.MWQMRunID > 2 && c.MWQMRunID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

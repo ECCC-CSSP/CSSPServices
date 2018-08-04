@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "InfrastructureLanguageInfrastructureLanguageID"), new[] { "InfrastructureLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.InfrastructureLanguageID == infrastructureLanguage.InfrastructureLanguageID).Any())
+                if (!(from c in db.InfrastructureLanguages select c).Where(c => c.InfrastructureLanguageID == infrastructureLanguage.InfrastructureLanguageID).Any())
                 {
                     infrastructureLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "InfrastructureLanguage", "InfrastructureLanguageInfrastructureLanguageID", infrastructureLanguage.InfrastructureLanguageID.ToString()), new[] { "InfrastructureLanguageID" });
@@ -134,14 +134,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public InfrastructureLanguage GetInfrastructureLanguageWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.InfrastructureLanguages
                     where c.InfrastructureLanguageID == InfrastructureLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<InfrastructureLanguage> GetInfrastructureLanguageList()
         {
-            IQueryable<InfrastructureLanguage> InfrastructureLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<InfrastructureLanguage> InfrastructureLanguageQuery = (from c in db.InfrastructureLanguages select c);
 
             InfrastructureLanguageQuery = EnhanceQueryStatements<InfrastructureLanguage>(InfrastructureLanguageQuery) as IQueryable<InfrastructureLanguage>;
 
@@ -149,7 +149,7 @@ namespace CSSPServices
         }
         public InfrastructureLanguageWeb GetInfrastructureLanguageWebWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            return FillInfrastructureLanguageWeb().FirstOrDefault();
+            return FillInfrastructureLanguageWeb().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
 
         }
         public IQueryable<InfrastructureLanguageWeb> GetInfrastructureLanguageWebList()
@@ -162,7 +162,7 @@ namespace CSSPServices
         }
         public InfrastructureLanguageReport GetInfrastructureLanguageReportWithInfrastructureLanguageID(int InfrastructureLanguageID)
         {
-            return FillInfrastructureLanguageReport().FirstOrDefault();
+            return FillInfrastructureLanguageReport().Where(c => c.InfrastructureLanguageID == InfrastructureLanguageID).FirstOrDefault();
 
         }
         public IQueryable<InfrastructureLanguageReport> GetInfrastructureLanguageReportList()
@@ -209,18 +209,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<InfrastructureLanguage> GetRead()
-        {
-            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = db.InfrastructureLanguages.AsNoTracking();
-
-            return infrastructureLanguageQuery;
-        }
-        public IQueryable<InfrastructureLanguage> GetEdit()
-        {
-            IQueryable<InfrastructureLanguage> infrastructureLanguageQuery = db.InfrastructureLanguages;
-
-            return infrastructureLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated InfrastructureLanguageFillWeb
@@ -254,7 +242,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return InfrastructureLanguageWebQuery;
         }

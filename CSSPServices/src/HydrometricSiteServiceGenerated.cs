@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "HydrometricSiteHydrometricSiteID"), new[] { "HydrometricSiteID" });
                 }
 
-                if (!GetRead().Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
+                if (!(from c in db.HydrometricSites select c).Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
                 {
                     hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "HydrometricSite", "HydrometricSiteHydrometricSiteID", hydrometricSite.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
@@ -211,14 +211,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.HydrometricSites
                     where c.HydrometricSiteID == HydrometricSiteID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<HydrometricSite> GetHydrometricSiteList()
         {
-            IQueryable<HydrometricSite> HydrometricSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<HydrometricSite> HydrometricSiteQuery = (from c in db.HydrometricSites select c);
 
             HydrometricSiteQuery = EnhanceQueryStatements<HydrometricSite>(HydrometricSiteQuery) as IQueryable<HydrometricSite>;
 
@@ -226,7 +226,7 @@ namespace CSSPServices
         }
         public HydrometricSiteWeb GetHydrometricSiteWebWithHydrometricSiteID(int HydrometricSiteID)
         {
-            return FillHydrometricSiteWeb().FirstOrDefault();
+            return FillHydrometricSiteWeb().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
 
         }
         public IQueryable<HydrometricSiteWeb> GetHydrometricSiteWebList()
@@ -239,7 +239,7 @@ namespace CSSPServices
         }
         public HydrometricSiteReport GetHydrometricSiteReportWithHydrometricSiteID(int HydrometricSiteID)
         {
-            return FillHydrometricSiteReport().FirstOrDefault();
+            return FillHydrometricSiteReport().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
 
         }
         public IQueryable<HydrometricSiteReport> GetHydrometricSiteReportList()
@@ -286,18 +286,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<HydrometricSite> GetRead()
-        {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = db.HydrometricSites.AsNoTracking();
-
-            return hydrometricSiteQuery;
-        }
-        public IQueryable<HydrometricSite> GetEdit()
-        {
-            IQueryable<HydrometricSite> hydrometricSiteQuery = db.HydrometricSites;
-
-            return hydrometricSiteQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated HydrometricSiteFillWeb
@@ -338,7 +326,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return HydrometricSiteWebQuery;
         }

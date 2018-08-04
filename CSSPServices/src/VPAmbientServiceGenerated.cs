@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPAmbientVPAmbientID"), new[] { "VPAmbientID" });
                 }
 
-                if (!GetRead().Where(c => c.VPAmbientID == vpAmbient.VPAmbientID).Any())
+                if (!(from c in db.VPAmbients select c).Where(c => c.VPAmbientID == vpAmbient.VPAmbientID).Any())
                 {
                     vpAmbient.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPAmbient", "VPAmbientVPAmbientID", vpAmbient.VPAmbientID.ToString()), new[] { "VPAmbientID" });
@@ -208,14 +208,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.VPAmbients
                     where c.VPAmbientID == VPAmbientID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<VPAmbient> GetVPAmbientList()
         {
-            IQueryable<VPAmbient> VPAmbientQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<VPAmbient> VPAmbientQuery = (from c in db.VPAmbients select c);
 
             VPAmbientQuery = EnhanceQueryStatements<VPAmbient>(VPAmbientQuery) as IQueryable<VPAmbient>;
 
@@ -223,7 +223,7 @@ namespace CSSPServices
         }
         public VPAmbientWeb GetVPAmbientWebWithVPAmbientID(int VPAmbientID)
         {
-            return FillVPAmbientWeb().FirstOrDefault();
+            return FillVPAmbientWeb().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
 
         }
         public IQueryable<VPAmbientWeb> GetVPAmbientWebList()
@@ -236,7 +236,7 @@ namespace CSSPServices
         }
         public VPAmbientReport GetVPAmbientReportWithVPAmbientID(int VPAmbientID)
         {
-            return FillVPAmbientReport().FirstOrDefault();
+            return FillVPAmbientReport().Where(c => c.VPAmbientID == VPAmbientID).FirstOrDefault();
 
         }
         public IQueryable<VPAmbientReport> GetVPAmbientReportList()
@@ -283,18 +283,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<VPAmbient> GetRead()
-        {
-            IQueryable<VPAmbient> vpAmbientQuery = db.VPAmbients.AsNoTracking();
-
-            return vpAmbientQuery;
-        }
-        public IQueryable<VPAmbient> GetEdit()
-        {
-            IQueryable<VPAmbient> vpAmbientQuery = db.VPAmbients;
-
-            return vpAmbientQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPAmbientFillWeb
@@ -325,7 +313,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return VPAmbientWebQuery;
         }

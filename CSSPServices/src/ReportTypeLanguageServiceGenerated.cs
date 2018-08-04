@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeLanguageReportTypeLanguageID"), new[] { "ReportTypeLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.ReportTypeLanguageID == reportTypeLanguage.ReportTypeLanguageID).Any())
+                if (!(from c in db.ReportTypeLanguages select c).Where(c => c.ReportTypeLanguageID == reportTypeLanguage.ReportTypeLanguageID).Any())
                 {
                     reportTypeLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportTypeLanguage", "ReportTypeLanguageReportTypeLanguageID", reportTypeLanguage.ReportTypeLanguageID.ToString()), new[] { "ReportTypeLanguageID" });
@@ -176,14 +176,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ReportTypeLanguage GetReportTypeLanguageWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ReportTypeLanguages
                     where c.ReportTypeLanguageID == ReportTypeLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ReportTypeLanguage> GetReportTypeLanguageList()
         {
-            IQueryable<ReportTypeLanguage> ReportTypeLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ReportTypeLanguage> ReportTypeLanguageQuery = (from c in db.ReportTypeLanguages select c);
 
             ReportTypeLanguageQuery = EnhanceQueryStatements<ReportTypeLanguage>(ReportTypeLanguageQuery) as IQueryable<ReportTypeLanguage>;
 
@@ -191,7 +191,7 @@ namespace CSSPServices
         }
         public ReportTypeLanguageWeb GetReportTypeLanguageWebWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            return FillReportTypeLanguageWeb().FirstOrDefault();
+            return FillReportTypeLanguageWeb().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
 
         }
         public IQueryable<ReportTypeLanguageWeb> GetReportTypeLanguageWebList()
@@ -204,7 +204,7 @@ namespace CSSPServices
         }
         public ReportTypeLanguageReport GetReportTypeLanguageReportWithReportTypeLanguageID(int ReportTypeLanguageID)
         {
-            return FillReportTypeLanguageReport().FirstOrDefault();
+            return FillReportTypeLanguageReport().Where(c => c.ReportTypeLanguageID == ReportTypeLanguageID).FirstOrDefault();
 
         }
         public IQueryable<ReportTypeLanguageReport> GetReportTypeLanguageReportList()
@@ -251,18 +251,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ReportTypeLanguage> GetRead()
-        {
-            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = db.ReportTypeLanguages.AsNoTracking();
-
-            return reportTypeLanguageQuery;
-        }
-        public IQueryable<ReportTypeLanguage> GetEdit()
-        {
-            IQueryable<ReportTypeLanguage> reportTypeLanguageQuery = db.ReportTypeLanguages;
-
-            return reportTypeLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportTypeLanguageFillWeb
@@ -306,7 +294,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ReportTypeLanguageWebQuery;
         }

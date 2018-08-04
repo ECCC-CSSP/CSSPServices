@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListEmailDistributionListID"), new[] { "EmailDistributionListID" });
                 }
 
-                if (!GetRead().Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
+                if (!(from c in db.EmailDistributionLists select c).Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
                 {
                     emailDistributionList.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "EmailDistributionList", "EmailDistributionListEmailDistributionListID", emailDistributionList.EmailDistributionListID.ToString()), new[] { "EmailDistributionListID" });
@@ -130,14 +130,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.EmailDistributionLists
                     where c.EmailDistributionListID == EmailDistributionListID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionList> GetEmailDistributionListList()
         {
-            IQueryable<EmailDistributionList> EmailDistributionListQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<EmailDistributionList> EmailDistributionListQuery = (from c in db.EmailDistributionLists select c);
 
             EmailDistributionListQuery = EnhanceQueryStatements<EmailDistributionList>(EmailDistributionListQuery) as IQueryable<EmailDistributionList>;
 
@@ -145,7 +145,7 @@ namespace CSSPServices
         }
         public EmailDistributionListWeb GetEmailDistributionListWebWithEmailDistributionListID(int EmailDistributionListID)
         {
-            return FillEmailDistributionListWeb().FirstOrDefault();
+            return FillEmailDistributionListWeb().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListWeb> GetEmailDistributionListWebList()
@@ -158,7 +158,7 @@ namespace CSSPServices
         }
         public EmailDistributionListReport GetEmailDistributionListReportWithEmailDistributionListID(int EmailDistributionListID)
         {
-            return FillEmailDistributionListReport().FirstOrDefault();
+            return FillEmailDistributionListReport().Where(c => c.EmailDistributionListID == EmailDistributionListID).FirstOrDefault();
 
         }
         public IQueryable<EmailDistributionListReport> GetEmailDistributionListReportList()
@@ -205,18 +205,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<EmailDistributionList> GetRead()
-        {
-            IQueryable<EmailDistributionList> emailDistributionListQuery = db.EmailDistributionLists.AsNoTracking();
-
-            return emailDistributionListQuery;
-        }
-        public IQueryable<EmailDistributionList> GetEdit()
-        {
-            IQueryable<EmailDistributionList> emailDistributionListQuery = db.EmailDistributionLists;
-
-            return emailDistributionListQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailDistributionListFillWeb
@@ -242,7 +230,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return EmailDistributionListWebQuery;
         }

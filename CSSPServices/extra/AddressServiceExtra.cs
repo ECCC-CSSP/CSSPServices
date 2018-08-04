@@ -76,11 +76,11 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return AddressReportQuery;
         }
-        #endregion Functions private Generated AddressFillWeb
+        #endregion Functions private Generated AddressFillReport
 
     }
 }

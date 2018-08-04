@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "EmailEmailID"), new[] { "EmailID" });
                 }
 
-                if (!GetRead().Where(c => c.EmailID == email.EmailID).Any())
+                if (!(from c in db.Emails select c).Where(c => c.EmailID == email.EmailID).Any())
                 {
                     email.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Email", "EmailEmailID", email.EmailID.ToString()), new[] { "EmailID" });
@@ -153,14 +153,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Email GetEmailWithEmailID(int EmailID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Emails
                     where c.EmailID == EmailID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Email> GetEmailList()
         {
-            IQueryable<Email> EmailQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Email> EmailQuery = (from c in db.Emails select c);
 
             EmailQuery = EnhanceQueryStatements<Email>(EmailQuery) as IQueryable<Email>;
 
@@ -168,7 +168,7 @@ namespace CSSPServices
         }
         public EmailWeb GetEmailWebWithEmailID(int EmailID)
         {
-            return FillEmailWeb().FirstOrDefault();
+            return FillEmailWeb().Where(c => c.EmailID == EmailID).FirstOrDefault();
 
         }
         public IQueryable<EmailWeb> GetEmailWebList()
@@ -181,7 +181,7 @@ namespace CSSPServices
         }
         public EmailReport GetEmailReportWithEmailID(int EmailID)
         {
-            return FillEmailReport().FirstOrDefault();
+            return FillEmailReport().Where(c => c.EmailID == EmailID).FirstOrDefault();
 
         }
         public IQueryable<EmailReport> GetEmailReportList()
@@ -228,18 +228,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<Email> GetRead()
-        {
-            IQueryable<Email> emailQuery = db.Emails.AsNoTracking();
-
-            return emailQuery;
-        }
-        public IQueryable<Email> GetEdit()
-        {
-            IQueryable<Email> emailQuery = db.Emails;
-
-            return emailQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated EmailFillWeb
@@ -273,7 +261,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return EmailWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideDataValueTideDataValueID"), new[] { "TideDataValueID" });
                 }
 
-                if (!GetRead().Where(c => c.TideDataValueID == tideDataValue.TideDataValueID).Any())
+                if (!(from c in db.TideDataValues select c).Where(c => c.TideDataValueID == tideDataValue.TideDataValueID).Any())
                 {
                     tideDataValue.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TideDataValue", "TideDataValueTideDataValueID", tideDataValue.TideDataValueID.ToString()), new[] { "TideDataValueID" });
@@ -190,14 +190,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TideDataValues
                     where c.TideDataValueID == TideDataValueID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TideDataValue> GetTideDataValueList()
         {
-            IQueryable<TideDataValue> TideDataValueQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TideDataValue> TideDataValueQuery = (from c in db.TideDataValues select c);
 
             TideDataValueQuery = EnhanceQueryStatements<TideDataValue>(TideDataValueQuery) as IQueryable<TideDataValue>;
 
@@ -205,7 +205,7 @@ namespace CSSPServices
         }
         public TideDataValueWeb GetTideDataValueWebWithTideDataValueID(int TideDataValueID)
         {
-            return FillTideDataValueWeb().FirstOrDefault();
+            return FillTideDataValueWeb().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
 
         }
         public IQueryable<TideDataValueWeb> GetTideDataValueWebList()
@@ -218,7 +218,7 @@ namespace CSSPServices
         }
         public TideDataValueReport GetTideDataValueReportWithTideDataValueID(int TideDataValueID)
         {
-            return FillTideDataValueReport().FirstOrDefault();
+            return FillTideDataValueReport().Where(c => c.TideDataValueID == TideDataValueID).FirstOrDefault();
 
         }
         public IQueryable<TideDataValueReport> GetTideDataValueReportList()
@@ -264,18 +264,6 @@ namespace CSSPServices
             if (!TryToSave(tideDataValue)) return false;
 
             return true;
-        }
-        public IQueryable<TideDataValue> GetRead()
-        {
-            IQueryable<TideDataValue> tideDataValueQuery = db.TideDataValues.AsNoTracking();
-
-            return tideDataValueQuery;
-        }
-        public IQueryable<TideDataValue> GetEdit()
-        {
-            IQueryable<TideDataValue> tideDataValueQuery = db.TideDataValues;
-
-            return tideDataValueQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -328,7 +316,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TideDataValueWebQuery;
         }

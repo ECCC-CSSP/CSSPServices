@@ -91,7 +91,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -106,7 +106,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.fr, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(1, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -151,7 +151,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual(orderByName, baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -170,7 +170,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual(orderByName, baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -189,7 +189,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -210,7 +210,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -231,7 +231,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -250,7 +250,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(BoxModelResult), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -269,7 +269,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -288,7 +288,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -307,7 +307,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -326,7 +326,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(BoxModelResult), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -345,7 +345,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -365,7 +365,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual(where, baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);
@@ -385,7 +385,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityReport, baseService.Query.EntityQueryDetailType);
@@ -400,7 +400,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(typeof(Address), baseService.Query.ModelType);
                     Assert.AreEqual(LanguageEnum.en, baseService.Query.Language);
                     Assert.AreEqual(0, baseService.Query.Skip);
-                    Assert.AreEqual(100, baseService.Query.Take);
+                    Assert.AreEqual(200, baseService.Query.Take);
                     Assert.AreEqual("", baseService.Query.Order);
                     Assert.AreEqual("", baseService.Query.Where);
                     Assert.AreEqual(EntityQueryDetailTypeEnum.EntityOnly, baseService.Query.EntityQueryDetailType);

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSiteMWQMSiteID"), new[] { "MWQMSiteID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMSiteID == mwqmSite.MWQMSiteID).Any())
+                if (!(from c in db.MWQMSites select c).Where(c => c.MWQMSiteID == mwqmSite.MWQMSiteID).Any())
                 {
                     mwqmSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSite", "MWQMSiteMWQMSiteID", mwqmSite.MWQMSiteID.ToString()), new[] { "MWQMSiteID" });
@@ -161,14 +161,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMSites
                     where c.MWQMSiteID == MWQMSiteID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMSite> GetMWQMSiteList()
         {
-            IQueryable<MWQMSite> MWQMSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSite> MWQMSiteQuery = (from c in db.MWQMSites select c);
 
             MWQMSiteQuery = EnhanceQueryStatements<MWQMSite>(MWQMSiteQuery) as IQueryable<MWQMSite>;
 
@@ -176,7 +176,7 @@ namespace CSSPServices
         }
         public MWQMSiteWeb GetMWQMSiteWebWithMWQMSiteID(int MWQMSiteID)
         {
-            return FillMWQMSiteWeb().FirstOrDefault();
+            return FillMWQMSiteWeb().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSiteWeb> GetMWQMSiteWebList()
@@ -189,7 +189,7 @@ namespace CSSPServices
         }
         public MWQMSiteReport GetMWQMSiteReportWithMWQMSiteID(int MWQMSiteID)
         {
-            return FillMWQMSiteReport().FirstOrDefault();
+            return FillMWQMSiteReport().Where(c => c.MWQMSiteID == MWQMSiteID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSiteReport> GetMWQMSiteReportList()
@@ -236,18 +236,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MWQMSite> GetRead()
-        {
-            IQueryable<MWQMSite> mwqmSiteQuery = db.MWQMSites.AsNoTracking();
-
-            return mwqmSiteQuery;
-        }
-        public IQueryable<MWQMSite> GetEdit()
-        {
-            IQueryable<MWQMSite> mwqmSiteQuery = db.MWQMSites;
-
-            return mwqmSiteQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSiteFillWeb
@@ -283,7 +271,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMSiteWebQuery;
         }

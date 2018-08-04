@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelResultBoxModelResultID"), new[] { "BoxModelResultID" });
                 }
 
-                if (!GetRead().Where(c => c.BoxModelResultID == boxModelResult.BoxModelResultID).Any())
+                if (!(from c in db.BoxModelResults select c).Where(c => c.BoxModelResultID == boxModelResult.BoxModelResultID).Any())
                 {
                     boxModelResult.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "BoxModelResult", "BoxModelResultBoxModelResultID", boxModelResult.BoxModelResultID.ToString()), new[] { "BoxModelResultID" });
@@ -203,14 +203,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public BoxModelResult GetBoxModelResultWithBoxModelResultID(int BoxModelResultID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.BoxModelResults
                     where c.BoxModelResultID == BoxModelResultID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<BoxModelResult> GetBoxModelResultList()
         {
-            IQueryable<BoxModelResult> BoxModelResultQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<BoxModelResult> BoxModelResultQuery = (from c in db.BoxModelResults select c);
 
             BoxModelResultQuery = EnhanceQueryStatements<BoxModelResult>(BoxModelResultQuery) as IQueryable<BoxModelResult>;
 
@@ -218,7 +218,7 @@ namespace CSSPServices
         }
         public BoxModelResultWeb GetBoxModelResultWebWithBoxModelResultID(int BoxModelResultID)
         {
-            return FillBoxModelResultWeb().FirstOrDefault();
+            return FillBoxModelResultWeb().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
 
         }
         public IQueryable<BoxModelResultWeb> GetBoxModelResultWebList()
@@ -231,7 +231,7 @@ namespace CSSPServices
         }
         public BoxModelResultReport GetBoxModelResultReportWithBoxModelResultID(int BoxModelResultID)
         {
-            return FillBoxModelResultReport().FirstOrDefault();
+            return FillBoxModelResultReport().Where(c => c.BoxModelResultID == BoxModelResultID).FirstOrDefault();
 
         }
         public IQueryable<BoxModelResultReport> GetBoxModelResultReportList()
@@ -278,18 +278,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<BoxModelResult> GetRead()
-        {
-            IQueryable<BoxModelResult> boxModelResultQuery = db.BoxModelResults.AsNoTracking();
-
-            return boxModelResultQuery;
-        }
-        public IQueryable<BoxModelResult> GetEdit()
-        {
-            IQueryable<BoxModelResult> boxModelResultQuery = db.BoxModelResults;
-
-            return boxModelResultQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated BoxModelResultFillWeb
@@ -330,7 +318,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return BoxModelResultWebQuery;
         }

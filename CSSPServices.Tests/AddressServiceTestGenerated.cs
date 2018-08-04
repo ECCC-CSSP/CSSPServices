@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = addressService.GetRead().Count();
+                    count = addressService.GetAddressList().Count();
 
-                    Assert.AreEqual(addressService.GetRead().Count(), addressService.GetEdit().Count());
+                    Assert.AreEqual(addressService.GetAddressList().Count(), (from c in dbTestDB.Addresses select c).Take(200).Count());
 
                     addressService.Add(address);
                     if (address.HasErrors)
                     {
                         Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, addressService.GetRead().Where(c => c == address).Any());
+                    Assert.AreEqual(true, addressService.GetAddressList().Where(c => c == address).Any());
                     addressService.Update(address);
                     if (address.HasErrors)
                     {
                         Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, addressService.GetRead().Count());
+                    Assert.AreEqual(count + 1, addressService.GetAddressList().Count());
                     addressService.Delete(address);
                     if (address.HasErrors)
                     {
                         Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, addressService.GetRead().Count());
+                    Assert.AreEqual(count, addressService.GetAddressList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -207,7 +207,7 @@ namespace CSSPServices.Tests
                     address.StreetName = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "AddressStreetName", "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
+                    Assert.AreEqual(count, addressService.GetAddressList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -220,7 +220,7 @@ namespace CSSPServices.Tests
                     address.StreetNumber = GetRandomString("", 51);
                     Assert.AreEqual(false, addressService.Add(address));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "AddressStreetNumber", "50"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
+                    Assert.AreEqual(count, addressService.GetAddressList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -246,13 +246,13 @@ namespace CSSPServices.Tests
                     address.PostalCode = GetRandomString("", 5);
                     Assert.AreEqual(false, addressService.Add(address));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "AddressPostalCode", "6", "11"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
+                    Assert.AreEqual(count, addressService.GetAddressList().Count());
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.PostalCode = GetRandomString("", 12);
                     Assert.AreEqual(false, addressService.Add(address));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "AddressPostalCode", "6", "11"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
+                    Assert.AreEqual(count, addressService.GetAddressList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -265,13 +265,13 @@ namespace CSSPServices.Tests
                     address.GoogleAddressText = GetRandomString("", 9);
                     Assert.AreEqual(false, addressService.Add(address));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "AddressGoogleAddressText", "10", "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
+                    Assert.AreEqual(count, addressService.GetAddressList().Count());
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.GoogleAddressText = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "AddressGoogleAddressText", "10", "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, addressService.GetRead().Count());
+                    Assert.AreEqual(count, addressService.GetAddressList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -340,7 +340,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Address address = (from c in addressService.GetRead() select c).FirstOrDefault();
+                    Address address = (from c in dbTestDB.Addresses select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -386,11 +386,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     AddressService addressService = new AddressService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Address address = (from c in addressService.GetRead() select c).FirstOrDefault();
+                    Address address = (from c in dbTestDB.Addresses select c).FirstOrDefault();
                     Assert.IsNotNull(address);
 
                     List<Address> addressDirectQueryList = new List<Address>();
-                    addressDirectQueryList = addressService.GetRead().Take(100).ToList();
+                    addressDirectQueryList = (from c in dbTestDB.Addresses select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -444,7 +444,7 @@ namespace CSSPServices.Tests
                         addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Address> addressDirectQueryList = new List<Address>();
-                        addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).ToList();
+                        addressDirectQueryList = (from c in dbTestDB.Addresses select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -497,7 +497,7 @@ namespace CSSPServices.Tests
                         addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1,  "AddressID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Address> addressDirectQueryList = new List<Address>();
-                        addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).OrderBy(c => c.AddressID).ToList();
+                        addressDirectQueryList = (from c in dbTestDB.Addresses select c).Skip(1).Take(1).OrderBy(c => c.AddressID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -550,7 +550,7 @@ namespace CSSPServices.Tests
                         addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 1, 1, "AddressID,AddressTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Address> addressDirectQueryList = new List<Address>();
-                        addressDirectQueryList = addressService.GetRead().Skip(1).Take(1).OrderBy(c => c.AddressID).ThenBy(c => c.AddressTVItemID).ToList();
+                        addressDirectQueryList = (from c in dbTestDB.Addresses select c).Skip(1).Take(1).OrderBy(c => c.AddressID).ThenBy(c => c.AddressTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -603,7 +603,7 @@ namespace CSSPServices.Tests
                         addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Address> addressDirectQueryList = new List<Address>();
-                        addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID == 4).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
+                        addressDirectQueryList = (from c in dbTestDB.Addresses select c).Where(c => c.AddressID == 4).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -656,7 +656,7 @@ namespace CSSPServices.Tests
                         addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 1, "AddressID", "AddressID,GT,2|AddressID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Address> addressDirectQueryList = new List<Address>();
-                        addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID > 2 && c.AddressID < 5).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
+                        addressDirectQueryList = (from c in dbTestDB.Addresses select c).Where(c => c.AddressID > 2 && c.AddressID < 5).Skip(0).Take(1).OrderBy(c => c.AddressID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -709,7 +709,7 @@ namespace CSSPServices.Tests
                         addressService.Query = addressService.FillQuery(typeof(Address), culture.TwoLetterISOLanguageName, 0, 10000, "", "AddressID,GT,2|AddressID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Address> addressDirectQueryList = new List<Address>();
-                        addressDirectQueryList = addressService.GetRead().Where(c => c.AddressID > 2 && c.AddressID < 5).ToList();
+                        addressDirectQueryList = (from c in dbTestDB.Addresses select c).Where(c => c.AddressID > 2 && c.AddressID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

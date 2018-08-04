@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeBoundaryConditionMikeBoundaryConditionID"), new[] { "MikeBoundaryConditionID" });
                 }
 
-                if (!GetRead().Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
+                if (!(from c in db.MikeBoundaryConditions select c).Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
                 {
                     mikeBoundaryCondition.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeBoundaryCondition", "MikeBoundaryConditionMikeBoundaryConditionID", mikeBoundaryCondition.MikeBoundaryConditionID.ToString()), new[] { "MikeBoundaryConditionID" });
@@ -202,14 +202,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeBoundaryCondition GetMikeBoundaryConditionWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MikeBoundaryConditions
                     where c.MikeBoundaryConditionID == MikeBoundaryConditionID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MikeBoundaryCondition> GetMikeBoundaryConditionList()
         {
-            IQueryable<MikeBoundaryCondition> MikeBoundaryConditionQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeBoundaryCondition> MikeBoundaryConditionQuery = (from c in db.MikeBoundaryConditions select c);
 
             MikeBoundaryConditionQuery = EnhanceQueryStatements<MikeBoundaryCondition>(MikeBoundaryConditionQuery) as IQueryable<MikeBoundaryCondition>;
 
@@ -217,7 +217,7 @@ namespace CSSPServices
         }
         public MikeBoundaryConditionWeb GetMikeBoundaryConditionWebWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
         {
-            return FillMikeBoundaryConditionWeb().FirstOrDefault();
+            return FillMikeBoundaryConditionWeb().Where(c => c.MikeBoundaryConditionID == MikeBoundaryConditionID).FirstOrDefault();
 
         }
         public IQueryable<MikeBoundaryConditionWeb> GetMikeBoundaryConditionWebList()
@@ -230,7 +230,7 @@ namespace CSSPServices
         }
         public MikeBoundaryConditionReport GetMikeBoundaryConditionReportWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
         {
-            return FillMikeBoundaryConditionReport().FirstOrDefault();
+            return FillMikeBoundaryConditionReport().Where(c => c.MikeBoundaryConditionID == MikeBoundaryConditionID).FirstOrDefault();
 
         }
         public IQueryable<MikeBoundaryConditionReport> GetMikeBoundaryConditionReportList()
@@ -276,18 +276,6 @@ namespace CSSPServices
             if (!TryToSave(mikeBoundaryCondition)) return false;
 
             return true;
-        }
-        public IQueryable<MikeBoundaryCondition> GetRead()
-        {
-            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = db.MikeBoundaryConditions.AsNoTracking();
-
-            return mikeBoundaryConditionQuery;
-        }
-        public IQueryable<MikeBoundaryCondition> GetEdit()
-        {
-            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = db.MikeBoundaryConditions;
-
-            return mikeBoundaryConditionQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -337,7 +325,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MikeBoundaryConditionWebQuery;
         }

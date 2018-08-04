@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = emailDistributionListContactService.GetRead().Count();
+                    count = emailDistributionListContactService.GetEmailDistributionListContactList().Count();
 
-                    Assert.AreEqual(emailDistributionListContactService.GetRead().Count(), emailDistributionListContactService.GetEdit().Count());
+                    Assert.AreEqual(emailDistributionListContactService.GetEmailDistributionListContactList().Count(), (from c in dbTestDB.EmailDistributionListContacts select c).Take(200).Count());
 
                     emailDistributionListContactService.Add(emailDistributionListContact);
                     if (emailDistributionListContact.HasErrors)
                     {
                         Assert.AreEqual("", emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, emailDistributionListContactService.GetRead().Where(c => c == emailDistributionListContact).Any());
+                    Assert.AreEqual(true, emailDistributionListContactService.GetEmailDistributionListContactList().Where(c => c == emailDistributionListContact).Any());
                     emailDistributionListContactService.Update(emailDistributionListContact);
                     if (emailDistributionListContact.HasErrors)
                     {
                         Assert.AreEqual("", emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, emailDistributionListContactService.GetRead().Count());
+                    Assert.AreEqual(count + 1, emailDistributionListContactService.GetEmailDistributionListContactList().Count());
                     emailDistributionListContactService.Delete(emailDistributionListContact);
                     if (emailDistributionListContact.HasErrors)
                     {
                         Assert.AreEqual("", emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+                    Assert.AreEqual(count, emailDistributionListContactService.GetEmailDistributionListContactList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -138,14 +138,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
                     Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactName")).Any());
                     Assert.AreEqual(null, emailDistributionListContact.Name);
-                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+                    Assert.AreEqual(count, emailDistributionListContactService.GetEmailDistributionListContactList().Count());
 
                     emailDistributionListContact = null;
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.Name = GetRandomString("", 101);
                     Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "EmailDistributionListContactName", "100"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+                    Assert.AreEqual(count, emailDistributionListContactService.GetEmailDistributionListContactList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -160,14 +160,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
                     Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "EmailDistributionListContactEmail")).Any());
                     Assert.AreEqual(null, emailDistributionListContact.Email);
-                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+                    Assert.AreEqual(count, emailDistributionListContactService.GetEmailDistributionListContactList().Count());
 
                     emailDistributionListContact = null;
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.Email = GetRandomString("", 201);
                     Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "EmailDistributionListContactEmail", "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+                    Assert.AreEqual(count, emailDistributionListContactService.GetEmailDistributionListContactList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -266,7 +266,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead() select c).FirstOrDefault();
+                    EmailDistributionListContact emailDistributionListContact = (from c in dbTestDB.EmailDistributionListContacts select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionListContact);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -312,11 +312,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead() select c).FirstOrDefault();
+                    EmailDistributionListContact emailDistributionListContact = (from c in dbTestDB.EmailDistributionListContacts select c).FirstOrDefault();
                     Assert.IsNotNull(emailDistributionListContact);
 
                     List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                    emailDistributionListContactDirectQueryList = emailDistributionListContactService.GetRead().Take(100).ToList();
+                    emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -370,7 +370,7 @@ namespace CSSPServices.Tests
                         emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = emailDistributionListContactService.GetRead().Skip(1).Take(1).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -423,7 +423,7 @@ namespace CSSPServices.Tests
                         emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1,  "EmailDistributionListContactID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = emailDistributionListContactService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -476,7 +476,7 @@ namespace CSSPServices.Tests
                         emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 1, 1, "EmailDistributionListContactID,EmailDistributionListID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = emailDistributionListContactService.GetRead().Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactID).ThenBy(c => c.EmailDistributionListID).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Skip(1).Take(1).OrderBy(c => c.EmailDistributionListContactID).ThenBy(c => c.EmailDistributionListID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -529,7 +529,7 @@ namespace CSSPServices.Tests
                         emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactID", "EmailDistributionListContactID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = emailDistributionListContactService.GetRead().Where(c => c.EmailDistributionListContactID == 4).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID == 4).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -582,7 +582,7 @@ namespace CSSPServices.Tests
                         emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 1, "EmailDistributionListContactID", "EmailDistributionListContactID,GT,2|EmailDistributionListContactID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = emailDistributionListContactService.GetRead().Where(c => c.EmailDistributionListContactID > 2 && c.EmailDistributionListContactID < 5).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID > 2 && c.EmailDistributionListContactID < 5).Skip(0).Take(1).OrderBy(c => c.EmailDistributionListContactID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -635,7 +635,7 @@ namespace CSSPServices.Tests
                         emailDistributionListContactService.Query = emailDistributionListContactService.FillQuery(typeof(EmailDistributionListContact), culture.TwoLetterISOLanguageName, 0, 10000, "", "EmailDistributionListContactID,GT,2|EmailDistributionListContactID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<EmailDistributionListContact> emailDistributionListContactDirectQueryList = new List<EmailDistributionListContact>();
-                        emailDistributionListContactDirectQueryList = emailDistributionListContactService.GetRead().Where(c => c.EmailDistributionListContactID > 2 && c.EmailDistributionListContactID < 5).ToList();
+                        emailDistributionListContactDirectQueryList = (from c in dbTestDB.EmailDistributionListContacts select c).Where(c => c.EmailDistributionListContactID > 2 && c.EmailDistributionListContactID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

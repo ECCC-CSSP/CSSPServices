@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = spillService.GetRead().Count();
+                    count = spillService.GetSpillList().Count();
 
-                    Assert.AreEqual(spillService.GetRead().Count(), spillService.GetEdit().Count());
+                    Assert.AreEqual(spillService.GetSpillList().Count(), (from c in dbTestDB.Spills select c).Take(200).Count());
 
                     spillService.Add(spill);
                     if (spill.HasErrors)
                     {
                         Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, spillService.GetRead().Where(c => c == spill).Any());
+                    Assert.AreEqual(true, spillService.GetSpillList().Where(c => c == spill).Any());
                     spillService.Update(spill);
                     if (spill.HasErrors)
                     {
                         Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, spillService.GetRead().Count());
+                    Assert.AreEqual(count + 1, spillService.GetSpillList().Count());
                     spillService.Delete(spill);
                     if (spill.HasErrors)
                     {
                         Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, spillService.GetRead().Count());
+                    Assert.AreEqual(count, spillService.GetSpillList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -190,13 +190,13 @@ namespace CSSPServices.Tests
                     spill.AverageFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, spillService.Add(spill));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SpillAverageFlow_m3_day", "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillService.GetRead().Count());
+                    Assert.AreEqual(count, spillService.GetSpillList().Count());
                     spill = null;
                     spill = GetFilledRandomSpill("");
                     spill.AverageFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, spillService.Add(spill));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "SpillAverageFlow_m3_day", "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, spillService.GetRead().Count());
+                    Assert.AreEqual(count, spillService.GetSpillList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -265,7 +265,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Spill spill = (from c in spillService.GetRead() select c).FirstOrDefault();
+                    Spill spill = (from c in dbTestDB.Spills select c).FirstOrDefault();
                     Assert.IsNotNull(spill);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -311,11 +311,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SpillService spillService = new SpillService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Spill spill = (from c in spillService.GetRead() select c).FirstOrDefault();
+                    Spill spill = (from c in dbTestDB.Spills select c).FirstOrDefault();
                     Assert.IsNotNull(spill);
 
                     List<Spill> spillDirectQueryList = new List<Spill>();
-                    spillDirectQueryList = spillService.GetRead().Take(100).ToList();
+                    spillDirectQueryList = (from c in dbTestDB.Spills select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -369,7 +369,7 @@ namespace CSSPServices.Tests
                         spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
-                        spillDirectQueryList = spillService.GetRead().Skip(1).Take(1).ToList();
+                        spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -422,7 +422,7 @@ namespace CSSPServices.Tests
                         spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1,  "SpillID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
-                        spillDirectQueryList = spillService.GetRead().Skip(1).Take(1).OrderBy(c => c.SpillID).ToList();
+                        spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).OrderBy(c => c.SpillID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -475,7 +475,7 @@ namespace CSSPServices.Tests
                         spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 1, 1, "SpillID,MunicipalityTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
-                        spillDirectQueryList = spillService.GetRead().Skip(1).Take(1).OrderBy(c => c.SpillID).ThenBy(c => c.MunicipalityTVItemID).ToList();
+                        spillDirectQueryList = (from c in dbTestDB.Spills select c).Skip(1).Take(1).OrderBy(c => c.SpillID).ThenBy(c => c.MunicipalityTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -528,7 +528,7 @@ namespace CSSPServices.Tests
                         spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 1, "SpillID", "SpillID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
-                        spillDirectQueryList = spillService.GetRead().Where(c => c.SpillID == 4).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
+                        spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID == 4).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -581,7 +581,7 @@ namespace CSSPServices.Tests
                         spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 1, "SpillID", "SpillID,GT,2|SpillID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
-                        spillDirectQueryList = spillService.GetRead().Where(c => c.SpillID > 2 && c.SpillID < 5).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
+                        spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID > 2 && c.SpillID < 5).Skip(0).Take(1).OrderBy(c => c.SpillID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -634,7 +634,7 @@ namespace CSSPServices.Tests
                         spillService.Query = spillService.FillQuery(typeof(Spill), culture.TwoLetterISOLanguageName, 0, 10000, "", "SpillID,GT,2|SpillID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Spill> spillDirectQueryList = new List<Spill>();
-                        spillDirectQueryList = spillService.GetRead().Where(c => c.SpillID > 2 && c.SpillID < 5).ToList();
+                        spillDirectQueryList = (from c in dbTestDB.Spills select c).Where(c => c.SpillID > 2 && c.SpillID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

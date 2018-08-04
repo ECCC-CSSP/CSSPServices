@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "BoxModelLanguageBoxModelLanguageID"), new[] { "BoxModelLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
+                if (!(from c in db.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
                 {
                     boxModelLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "BoxModelLanguage", "BoxModelLanguageBoxModelLanguageID", boxModelLanguage.BoxModelLanguageID.ToString()), new[] { "BoxModelLanguageID" });
@@ -138,14 +138,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public BoxModelLanguage GetBoxModelLanguageWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.BoxModelLanguages
                     where c.BoxModelLanguageID == BoxModelLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<BoxModelLanguage> GetBoxModelLanguageList()
         {
-            IQueryable<BoxModelLanguage> BoxModelLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<BoxModelLanguage> BoxModelLanguageQuery = (from c in db.BoxModelLanguages select c);
 
             BoxModelLanguageQuery = EnhanceQueryStatements<BoxModelLanguage>(BoxModelLanguageQuery) as IQueryable<BoxModelLanguage>;
 
@@ -153,7 +153,7 @@ namespace CSSPServices
         }
         public BoxModelLanguageWeb GetBoxModelLanguageWebWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            return FillBoxModelLanguageWeb().FirstOrDefault();
+            return FillBoxModelLanguageWeb().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
 
         }
         public IQueryable<BoxModelLanguageWeb> GetBoxModelLanguageWebList()
@@ -166,7 +166,7 @@ namespace CSSPServices
         }
         public BoxModelLanguageReport GetBoxModelLanguageReportWithBoxModelLanguageID(int BoxModelLanguageID)
         {
-            return FillBoxModelLanguageReport().FirstOrDefault();
+            return FillBoxModelLanguageReport().Where(c => c.BoxModelLanguageID == BoxModelLanguageID).FirstOrDefault();
 
         }
         public IQueryable<BoxModelLanguageReport> GetBoxModelLanguageReportList()
@@ -213,18 +213,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<BoxModelLanguage> GetRead()
-        {
-            IQueryable<BoxModelLanguage> boxModelLanguageQuery = db.BoxModelLanguages.AsNoTracking();
-
-            return boxModelLanguageQuery;
-        }
-        public IQueryable<BoxModelLanguage> GetEdit()
-        {
-            IQueryable<BoxModelLanguage> boxModelLanguageQuery = db.BoxModelLanguages;
-
-            return boxModelLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated BoxModelLanguageFillWeb
@@ -258,7 +246,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return BoxModelLanguageWebQuery;
         }

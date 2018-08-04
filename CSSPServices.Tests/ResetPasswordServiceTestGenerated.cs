@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = resetPasswordService.GetRead().Count();
+                    count = resetPasswordService.GetResetPasswordList().Count();
 
-                    Assert.AreEqual(resetPasswordService.GetRead().Count(), resetPasswordService.GetEdit().Count());
+                    Assert.AreEqual(resetPasswordService.GetResetPasswordList().Count(), (from c in dbTestDB.ResetPasswords select c).Take(200).Count());
 
                     resetPasswordService.Add(resetPassword);
                     if (resetPassword.HasErrors)
                     {
                         Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, resetPasswordService.GetRead().Where(c => c == resetPassword).Any());
+                    Assert.AreEqual(true, resetPasswordService.GetResetPasswordList().Where(c => c == resetPassword).Any());
                     resetPasswordService.Update(resetPassword);
                     if (resetPassword.HasErrors)
                     {
                         Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, resetPasswordService.GetRead().Count());
+                    Assert.AreEqual(count + 1, resetPasswordService.GetResetPasswordList().Count());
                     resetPasswordService.Delete(resetPassword);
                     if (resetPassword.HasErrors)
                     {
                         Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+                    Assert.AreEqual(count, resetPasswordService.GetResetPasswordList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -119,14 +119,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
                     Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ResetPasswordEmail")).Any());
                     Assert.AreEqual(null, resetPassword.Email);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+                    Assert.AreEqual(count, resetPasswordService.GetResetPasswordList().Count());
 
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Email = GetRandomString("", 257);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordEmail", "256"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+                    Assert.AreEqual(count, resetPasswordService.GetResetPasswordList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -157,14 +157,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
                     Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ResetPasswordCode")).Any());
                     Assert.AreEqual(null, resetPassword.Code);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+                    Assert.AreEqual(count, resetPasswordService.GetResetPasswordList().Count());
 
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Code = GetRandomString("", 9);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ResetPasswordCode", "8"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+                    Assert.AreEqual(count, resetPasswordService.GetResetPasswordList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -233,7 +233,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ResetPassword resetPassword = (from c in resetPasswordService.GetRead() select c).FirstOrDefault();
+                    ResetPassword resetPassword = (from c in dbTestDB.ResetPasswords select c).FirstOrDefault();
                     Assert.IsNotNull(resetPassword);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -279,11 +279,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ResetPasswordService resetPasswordService = new ResetPasswordService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    ResetPassword resetPassword = (from c in resetPasswordService.GetRead() select c).FirstOrDefault();
+                    ResetPassword resetPassword = (from c in dbTestDB.ResetPasswords select c).FirstOrDefault();
                     Assert.IsNotNull(resetPassword);
 
                     List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                    resetPasswordDirectQueryList = resetPasswordService.GetRead().Take(100).ToList();
+                    resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -337,7 +337,7 @@ namespace CSSPServices.Tests
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = resetPasswordService.GetRead().Skip(1).Take(1).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -390,7 +390,7 @@ namespace CSSPServices.Tests
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1,  "ResetPasswordID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = resetPasswordService.GetRead().Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -443,7 +443,7 @@ namespace CSSPServices.Tests
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 1, 1, "ResetPasswordID,Email", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = resetPasswordService.GetRead().Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ThenBy(c => c.Email).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Skip(1).Take(1).OrderBy(c => c.ResetPasswordID).ThenBy(c => c.Email).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -496,7 +496,7 @@ namespace CSSPServices.Tests
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "ResetPasswordID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = resetPasswordService.GetRead().Where(c => c.ResetPasswordID == 4).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID == 4).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -549,7 +549,7 @@ namespace CSSPServices.Tests
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 1, "ResetPasswordID", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = resetPasswordService.GetRead().Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).Skip(0).Take(1).OrderBy(c => c.ResetPasswordID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -602,7 +602,7 @@ namespace CSSPServices.Tests
                         resetPasswordService.Query = resetPasswordService.FillQuery(typeof(ResetPassword), culture.TwoLetterISOLanguageName, 0, 10000, "", "ResetPasswordID,GT,2|ResetPasswordID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<ResetPassword> resetPasswordDirectQueryList = new List<ResetPassword>();
-                        resetPasswordDirectQueryList = resetPasswordService.GetRead().Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).ToList();
+                        resetPasswordDirectQueryList = (from c in dbTestDB.ResetPasswords select c).Where(c => c.ResetPasswordID > 2 && c.ResetPasswordID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

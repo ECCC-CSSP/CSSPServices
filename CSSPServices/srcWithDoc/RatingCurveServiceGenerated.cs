@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "RatingCurveRatingCurveID"), new[] { "RatingCurveID" });
                 }
 
-                if (!GetRead().Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
+                if (!(from c in db.RatingCurves select c).Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
                 {
                     ratingCurve.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "RatingCurve", "RatingCurveRatingCurveID", ratingCurve.RatingCurveID.ToString()), new[] { "RatingCurveID" });
@@ -124,14 +124,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public RatingCurve GetRatingCurveWithRatingCurveID(int RatingCurveID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.RatingCurves
                     where c.RatingCurveID == RatingCurveID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<RatingCurve> GetRatingCurveList()
         {
-            IQueryable<RatingCurve> RatingCurveQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<RatingCurve> RatingCurveQuery = (from c in db.RatingCurves select c);
 
             RatingCurveQuery = EnhanceQueryStatements<RatingCurve>(RatingCurveQuery) as IQueryable<RatingCurve>;
 
@@ -139,7 +139,7 @@ namespace CSSPServices
         }
         public RatingCurveWeb GetRatingCurveWebWithRatingCurveID(int RatingCurveID)
         {
-            return FillRatingCurveWeb().FirstOrDefault();
+            return FillRatingCurveWeb().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
 
         }
         public IQueryable<RatingCurveWeb> GetRatingCurveWebList()
@@ -152,7 +152,7 @@ namespace CSSPServices
         }
         public RatingCurveReport GetRatingCurveReportWithRatingCurveID(int RatingCurveID)
         {
-            return FillRatingCurveReport().FirstOrDefault();
+            return FillRatingCurveReport().Where(c => c.RatingCurveID == RatingCurveID).FirstOrDefault();
 
         }
         public IQueryable<RatingCurveReport> GetRatingCurveReportList()
@@ -199,18 +199,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<RatingCurve> GetRead()
-        {
-            IQueryable<RatingCurve> ratingCurveQuery = db.RatingCurves.AsNoTracking();
-
-            return ratingCurveQuery;
-        }
-        public IQueryable<RatingCurve> GetEdit()
-        {
-            IQueryable<RatingCurve> ratingCurveQuery = db.RatingCurves;
-
-            return ratingCurveQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated RatingCurveFillWeb
@@ -231,7 +219,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return RatingCurveWebQuery;
         }

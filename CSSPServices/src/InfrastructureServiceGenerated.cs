@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "InfrastructureInfrastructureID"), new[] { "InfrastructureID" });
                 }
 
-                if (!GetRead().Where(c => c.InfrastructureID == infrastructure.InfrastructureID).Any())
+                if (!(from c in db.Infrastructures select c).Where(c => c.InfrastructureID == infrastructure.InfrastructureID).Any())
                 {
                     infrastructure.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "Infrastructure", "InfrastructureInfrastructureID", infrastructure.InfrastructureID.ToString()), new[] { "InfrastructureID" });
@@ -531,14 +531,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public Infrastructure GetInfrastructureWithInfrastructureID(int InfrastructureID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.Infrastructures
                     where c.InfrastructureID == InfrastructureID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<Infrastructure> GetInfrastructureList()
         {
-            IQueryable<Infrastructure> InfrastructureQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<Infrastructure> InfrastructureQuery = (from c in db.Infrastructures select c);
 
             InfrastructureQuery = EnhanceQueryStatements<Infrastructure>(InfrastructureQuery) as IQueryable<Infrastructure>;
 
@@ -546,7 +546,7 @@ namespace CSSPServices
         }
         public InfrastructureWeb GetInfrastructureWebWithInfrastructureID(int InfrastructureID)
         {
-            return FillInfrastructureWeb().FirstOrDefault();
+            return FillInfrastructureWeb().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
 
         }
         public IQueryable<InfrastructureWeb> GetInfrastructureWebList()
@@ -559,7 +559,7 @@ namespace CSSPServices
         }
         public InfrastructureReport GetInfrastructureReportWithInfrastructureID(int InfrastructureID)
         {
-            return FillInfrastructureReport().FirstOrDefault();
+            return FillInfrastructureReport().Where(c => c.InfrastructureID == InfrastructureID).FirstOrDefault();
 
         }
         public IQueryable<InfrastructureReport> GetInfrastructureReportList()
@@ -605,18 +605,6 @@ namespace CSSPServices
             if (!TryToSave(infrastructure)) return false;
 
             return true;
-        }
-        public IQueryable<Infrastructure> GetRead()
-        {
-            IQueryable<Infrastructure> infrastructureQuery = db.Infrastructures.AsNoTracking();
-
-            return infrastructureQuery;
-        }
-        public IQueryable<Infrastructure> GetEdit()
-        {
-            IQueryable<Infrastructure> infrastructureQuery = db.Infrastructures;
-
-            return infrastructureQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -743,7 +731,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return InfrastructureWebQuery;
         }

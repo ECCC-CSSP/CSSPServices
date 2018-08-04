@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = docTemplateService.GetRead().Count();
+                    count = docTemplateService.GetDocTemplateList().Count();
 
-                    Assert.AreEqual(docTemplateService.GetRead().Count(), docTemplateService.GetEdit().Count());
+                    Assert.AreEqual(docTemplateService.GetDocTemplateList().Count(), (from c in dbTestDB.DocTemplates select c).Take(200).Count());
 
                     docTemplateService.Add(docTemplate);
                     if (docTemplate.HasErrors)
                     {
                         Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, docTemplateService.GetRead().Where(c => c == docTemplate).Any());
+                    Assert.AreEqual(true, docTemplateService.GetDocTemplateList().Where(c => c == docTemplate).Any());
                     docTemplateService.Update(docTemplate);
                     if (docTemplate.HasErrors)
                     {
                         Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, docTemplateService.GetRead().Count());
+                    Assert.AreEqual(count + 1, docTemplateService.GetDocTemplateList().Count());
                     docTemplateService.Delete(docTemplate);
                     if (docTemplate.HasErrors)
                     {
                         Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+                    Assert.AreEqual(count, docTemplateService.GetDocTemplateList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -164,14 +164,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, docTemplate.ValidationResults.Count());
                     Assert.IsTrue(docTemplate.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "DocTemplateFileName")).Any());
                     Assert.AreEqual(null, docTemplate.FileName);
-                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+                    Assert.AreEqual(count, docTemplateService.GetDocTemplateList().Count());
 
                     docTemplate = null;
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.FileName = GetRandomString("", 151);
                     Assert.AreEqual(false, docTemplateService.Add(docTemplate));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "DocTemplateFileName", "150"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+                    Assert.AreEqual(count, docTemplateService.GetDocTemplateList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -240,7 +240,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
+                    DocTemplate docTemplate = (from c in dbTestDB.DocTemplates select c).FirstOrDefault();
                     Assert.IsNotNull(docTemplate);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -286,11 +286,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     DocTemplateService docTemplateService = new DocTemplateService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
+                    DocTemplate docTemplate = (from c in dbTestDB.DocTemplates select c).FirstOrDefault();
                     Assert.IsNotNull(docTemplate);
 
                     List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
-                    docTemplateDirectQueryList = docTemplateService.GetRead().Take(100).ToList();
+                    docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -344,7 +344,7 @@ namespace CSSPServices.Tests
                         docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
-                        docTemplateDirectQueryList = docTemplateService.GetRead().Skip(1).Take(1).ToList();
+                        docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -397,7 +397,7 @@ namespace CSSPServices.Tests
                         docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), culture.TwoLetterISOLanguageName, 1, 1,  "DocTemplateID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
-                        docTemplateDirectQueryList = docTemplateService.GetRead().Skip(1).Take(1).OrderBy(c => c.DocTemplateID).ToList();
+                        docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Skip(1).Take(1).OrderBy(c => c.DocTemplateID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -450,7 +450,7 @@ namespace CSSPServices.Tests
                         docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), culture.TwoLetterISOLanguageName, 1, 1, "DocTemplateID,Language", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
-                        docTemplateDirectQueryList = docTemplateService.GetRead().Skip(1).Take(1).OrderBy(c => c.DocTemplateID).ThenBy(c => c.Language).ToList();
+                        docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Skip(1).Take(1).OrderBy(c => c.DocTemplateID).ThenBy(c => c.Language).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -503,7 +503,7 @@ namespace CSSPServices.Tests
                         docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), culture.TwoLetterISOLanguageName, 0, 1, "DocTemplateID", "DocTemplateID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
-                        docTemplateDirectQueryList = docTemplateService.GetRead().Where(c => c.DocTemplateID == 4).Skip(0).Take(1).OrderBy(c => c.DocTemplateID).ToList();
+                        docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Where(c => c.DocTemplateID == 4).Skip(0).Take(1).OrderBy(c => c.DocTemplateID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -556,7 +556,7 @@ namespace CSSPServices.Tests
                         docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), culture.TwoLetterISOLanguageName, 0, 1, "DocTemplateID", "DocTemplateID,GT,2|DocTemplateID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
-                        docTemplateDirectQueryList = docTemplateService.GetRead().Where(c => c.DocTemplateID > 2 && c.DocTemplateID < 5).Skip(0).Take(1).OrderBy(c => c.DocTemplateID).ToList();
+                        docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Where(c => c.DocTemplateID > 2 && c.DocTemplateID < 5).Skip(0).Take(1).OrderBy(c => c.DocTemplateID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -609,7 +609,7 @@ namespace CSSPServices.Tests
                         docTemplateService.Query = docTemplateService.FillQuery(typeof(DocTemplate), culture.TwoLetterISOLanguageName, 0, 10000, "", "DocTemplateID,GT,2|DocTemplateID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<DocTemplate> docTemplateDirectQueryList = new List<DocTemplate>();
-                        docTemplateDirectQueryList = docTemplateService.GetRead().Where(c => c.DocTemplateID > 2 && c.DocTemplateID < 5).ToList();
+                        docTemplateDirectQueryList = (from c in dbTestDB.DocTemplates select c).Where(c => c.DocTemplateID > 2 && c.DocTemplateID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

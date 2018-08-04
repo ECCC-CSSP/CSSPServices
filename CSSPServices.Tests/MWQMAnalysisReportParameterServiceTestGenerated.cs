@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = mwqmAnalysisReportParameterService.GetRead().Count();
+                    count = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count();
 
-                    Assert.AreEqual(mwqmAnalysisReportParameterService.GetRead().Count(), mwqmAnalysisReportParameterService.GetEdit().Count());
+                    Assert.AreEqual(mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count(), (from c in dbTestDB.MWQMAnalysisReportParameters select c).Take(200).Count());
 
                     mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
                     if (mwqmAnalysisReportParameter.HasErrors)
                     {
                         Assert.AreEqual("", mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, mwqmAnalysisReportParameterService.GetRead().Where(c => c == mwqmAnalysisReportParameter).Any());
+                    Assert.AreEqual(true, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Where(c => c == mwqmAnalysisReportParameter).Any());
                     mwqmAnalysisReportParameterService.Update(mwqmAnalysisReportParameter);
                     if (mwqmAnalysisReportParameter.HasErrors)
                     {
                         Assert.AreEqual("", mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count + 1, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameterService.Delete(mwqmAnalysisReportParameter);
                     if (mwqmAnalysisReportParameter.HasErrors)
                     {
                         Assert.AreEqual("", mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -138,20 +138,20 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mwqmAnalysisReportParameter.ValidationResults.Count());
                     Assert.IsTrue(mwqmAnalysisReportParameter.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterAnalysisName")).Any());
                     Assert.AreEqual(null, mwqmAnalysisReportParameter.AnalysisName);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.AnalysisName = GetRandomString("", 4);
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "MWQMAnalysisReportParameterAnalysisName", "5", "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.AnalysisName = GetRandomString("", 251);
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "MWQMAnalysisReportParameterAnalysisName", "5", "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -164,13 +164,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.AnalysisReportYear = 1979;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterAnalysisReportYear", "1980", "2050"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.AnalysisReportYear = 2051;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterAnalysisReportYear", "1980", "2050"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -231,13 +231,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.NumberOfRuns = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterNumberOfRuns", "1", "1000"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.NumberOfRuns = 1001;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterNumberOfRuns", "1", "1000"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -260,13 +260,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage = 0.0D;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterSalinityHighlightDeviationFromAverage", "1", "20"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage = 21.0D;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterSalinityHighlightDeviationFromAverage", "1", "20"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -279,13 +279,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.ShortRangeNumberOfDays = -1;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterShortRangeNumberOfDays", "0", "5"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.ShortRangeNumberOfDays = 6;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterShortRangeNumberOfDays", "0", "5"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -298,13 +298,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.MidRangeNumberOfDays = 1;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterMidRangeNumberOfDays", "2", "7"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.MidRangeNumberOfDays = 8;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterMidRangeNumberOfDays", "2", "7"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -317,13 +317,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.DryLimit24h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit24h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.DryLimit24h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit24h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -336,13 +336,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.DryLimit48h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit48h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.DryLimit48h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit48h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -355,13 +355,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.DryLimit72h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit72h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.DryLimit72h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit72h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -374,13 +374,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.DryLimit96h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit96h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.DryLimit96h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterDryLimit96h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -393,13 +393,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.WetLimit24h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit24h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.WetLimit24h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit24h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -412,13 +412,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.WetLimit48h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit48h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.WetLimit48h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit48h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -431,13 +431,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.WetLimit72h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit72h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.WetLimit72h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit72h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -450,13 +450,13 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.WetLimit96h = 0;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit96h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.WetLimit96h = 101;
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, "MWQMAnalysisReportParameterWetLimit96h", "1", "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -470,14 +470,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, mwqmAnalysisReportParameter.ValidationResults.Count());
                     Assert.IsTrue(mwqmAnalysisReportParameter.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "MWQMAnalysisReportParameterRunsToOmit")).Any());
                     Assert.AreEqual(null, mwqmAnalysisReportParameter.RunsToOmit);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
                     mwqmAnalysisReportParameter.RunsToOmit = GetRandomString("", 251);
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMAnalysisReportParameterRunsToOmit", "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -490,7 +490,7 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameter.ShowDataTypes = GetRandomString("", 21);
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "MWQMAnalysisReportParameterShowDataTypes", "20"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -591,7 +591,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMAnalysisReportParameter mwqmAnalysisReportParameter = (from c in mwqmAnalysisReportParameterService.GetRead() select c).FirstOrDefault();
+                    MWQMAnalysisReportParameter mwqmAnalysisReportParameter = (from c in dbTestDB.MWQMAnalysisReportParameters select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmAnalysisReportParameter);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -637,11 +637,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     MWQMAnalysisReportParameterService mwqmAnalysisReportParameterService = new MWQMAnalysisReportParameterService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    MWQMAnalysisReportParameter mwqmAnalysisReportParameter = (from c in mwqmAnalysisReportParameterService.GetRead() select c).FirstOrDefault();
+                    MWQMAnalysisReportParameter mwqmAnalysisReportParameter = (from c in dbTestDB.MWQMAnalysisReportParameters select c).FirstOrDefault();
                     Assert.IsNotNull(mwqmAnalysisReportParameter);
 
                     List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                    mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Take(100).ToList();
+                    mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -695,7 +695,7 @@ namespace CSSPServices.Tests
                         mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                        mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Skip(1).Take(1).ToList();
+                        mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -748,7 +748,7 @@ namespace CSSPServices.Tests
                         mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1,  "MWQMAnalysisReportParameterID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                        mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
+                        mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -801,7 +801,7 @@ namespace CSSPServices.Tests
                         mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 1, 1, "MWQMAnalysisReportParameterID,SubsectorTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                        mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ThenBy(c => c.SubsectorTVItemID).ToList();
+                        mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Skip(1).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ThenBy(c => c.SubsectorTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -854,7 +854,7 @@ namespace CSSPServices.Tests
                         mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 1, "MWQMAnalysisReportParameterID", "MWQMAnalysisReportParameterID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                        mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Where(c => c.MWQMAnalysisReportParameterID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
+                        mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID == 4).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -907,7 +907,7 @@ namespace CSSPServices.Tests
                         mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 1, "MWQMAnalysisReportParameterID", "MWQMAnalysisReportParameterID,GT,2|MWQMAnalysisReportParameterID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                        mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
+                        mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).Skip(0).Take(1).OrderBy(c => c.MWQMAnalysisReportParameterID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -960,7 +960,7 @@ namespace CSSPServices.Tests
                         mwqmAnalysisReportParameterService.Query = mwqmAnalysisReportParameterService.FillQuery(typeof(MWQMAnalysisReportParameter), culture.TwoLetterISOLanguageName, 0, 10000, "", "MWQMAnalysisReportParameterID,GT,2|MWQMAnalysisReportParameterID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterDirectQueryList = new List<MWQMAnalysisReportParameter>();
-                        mwqmAnalysisReportParameterDirectQueryList = mwqmAnalysisReportParameterService.GetRead().Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).ToList();
+                        mwqmAnalysisReportParameterDirectQueryList = (from c in dbTestDB.MWQMAnalysisReportParameters select c).Where(c => c.MWQMAnalysisReportParameterID > 2 && c.MWQMAnalysisReportParameterID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

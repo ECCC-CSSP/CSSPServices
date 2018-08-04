@@ -32,6 +32,7 @@ namespace CSSPServices
                     select cl).FirstOrDefault()
                     select new ContactPreferenceReport
                     {
+                        ContactPreferenceReportTest = "Testing Report",
                         LastUpdateContactTVItemLanguage = LastUpdateContactTVItemLanguage,
                         TVTypeText = (from e in TVTypeEnumList
                                 where e.EnumID == (int?)c.TVType
@@ -44,7 +45,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ContactPreferenceReportQuery;
         }

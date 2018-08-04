@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "VPScenarioLanguageVPScenarioLanguageID"), new[] { "VPScenarioLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.VPScenarioLanguageID == vpScenarioLanguage.VPScenarioLanguageID).Any())
+                if (!(from c in db.VPScenarioLanguages select c).Where(c => c.VPScenarioLanguageID == vpScenarioLanguage.VPScenarioLanguageID).Any())
                 {
                     vpScenarioLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "VPScenarioLanguage", "VPScenarioLanguageVPScenarioLanguageID", vpScenarioLanguage.VPScenarioLanguageID.ToString()), new[] { "VPScenarioLanguageID" });
@@ -138,14 +138,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public VPScenarioLanguage GetVPScenarioLanguageWithVPScenarioLanguageID(int VPScenarioLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.VPScenarioLanguages
                     where c.VPScenarioLanguageID == VPScenarioLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<VPScenarioLanguage> GetVPScenarioLanguageList()
         {
-            IQueryable<VPScenarioLanguage> VPScenarioLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<VPScenarioLanguage> VPScenarioLanguageQuery = (from c in db.VPScenarioLanguages select c);
 
             VPScenarioLanguageQuery = EnhanceQueryStatements<VPScenarioLanguage>(VPScenarioLanguageQuery) as IQueryable<VPScenarioLanguage>;
 
@@ -153,7 +153,7 @@ namespace CSSPServices
         }
         public VPScenarioLanguageWeb GetVPScenarioLanguageWebWithVPScenarioLanguageID(int VPScenarioLanguageID)
         {
-            return FillVPScenarioLanguageWeb().FirstOrDefault();
+            return FillVPScenarioLanguageWeb().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
 
         }
         public IQueryable<VPScenarioLanguageWeb> GetVPScenarioLanguageWebList()
@@ -166,7 +166,7 @@ namespace CSSPServices
         }
         public VPScenarioLanguageReport GetVPScenarioLanguageReportWithVPScenarioLanguageID(int VPScenarioLanguageID)
         {
-            return FillVPScenarioLanguageReport().FirstOrDefault();
+            return FillVPScenarioLanguageReport().Where(c => c.VPScenarioLanguageID == VPScenarioLanguageID).FirstOrDefault();
 
         }
         public IQueryable<VPScenarioLanguageReport> GetVPScenarioLanguageReportList()
@@ -213,18 +213,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<VPScenarioLanguage> GetRead()
-        {
-            IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery = db.VPScenarioLanguages.AsNoTracking();
-
-            return vpScenarioLanguageQuery;
-        }
-        public IQueryable<VPScenarioLanguage> GetEdit()
-        {
-            IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery = db.VPScenarioLanguages;
-
-            return vpScenarioLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated VPScenarioLanguageFillWeb
@@ -258,7 +246,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return VPScenarioLanguageWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ReportTypeReportTypeID"), new[] { "ReportTypeID" });
                 }
 
-                if (!GetRead().Where(c => c.ReportTypeID == reportType.ReportTypeID).Any())
+                if (!(from c in db.ReportTypes select c).Where(c => c.ReportTypeID == reportType.ReportTypeID).Any())
                 {
                     reportType.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "ReportType", "ReportTypeReportTypeID", reportType.ReportTypeID.ToString()), new[] { "ReportTypeID" });
@@ -130,14 +130,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public ReportType GetReportTypeWithReportTypeID(int ReportTypeID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.ReportTypes
                     where c.ReportTypeID == ReportTypeID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<ReportType> GetReportTypeList()
         {
-            IQueryable<ReportType> ReportTypeQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<ReportType> ReportTypeQuery = (from c in db.ReportTypes select c);
 
             ReportTypeQuery = EnhanceQueryStatements<ReportType>(ReportTypeQuery) as IQueryable<ReportType>;
 
@@ -145,7 +145,7 @@ namespace CSSPServices
         }
         public ReportTypeWeb GetReportTypeWebWithReportTypeID(int ReportTypeID)
         {
-            return FillReportTypeWeb().FirstOrDefault();
+            return FillReportTypeWeb().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
 
         }
         public IQueryable<ReportTypeWeb> GetReportTypeWebList()
@@ -158,7 +158,7 @@ namespace CSSPServices
         }
         public ReportTypeReport GetReportTypeReportWithReportTypeID(int ReportTypeID)
         {
-            return FillReportTypeReport().FirstOrDefault();
+            return FillReportTypeReport().Where(c => c.ReportTypeID == ReportTypeID).FirstOrDefault();
 
         }
         public IQueryable<ReportTypeReport> GetReportTypeReportList()
@@ -205,18 +205,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<ReportType> GetRead()
-        {
-            IQueryable<ReportType> reportTypeQuery = db.ReportTypes.AsNoTracking();
-
-            return reportTypeQuery;
-        }
-        public IQueryable<ReportType> GetEdit()
-        {
-            IQueryable<ReportType> reportTypeQuery = db.ReportTypes;
-
-            return reportTypeQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated ReportTypeFillWeb
@@ -241,7 +229,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return ReportTypeWebQuery;
         }

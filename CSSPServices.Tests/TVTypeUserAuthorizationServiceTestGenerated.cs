@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = tvTypeUserAuthorizationService.GetRead().Count();
+                    count = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().Count();
 
-                    Assert.AreEqual(tvTypeUserAuthorizationService.GetRead().Count(), tvTypeUserAuthorizationService.GetEdit().Count());
+                    Assert.AreEqual(tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().Count(), (from c in dbTestDB.TVTypeUserAuthorizations select c).Take(200).Count());
 
                     tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
                     if (tvTypeUserAuthorization.HasErrors)
                     {
                         Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, tvTypeUserAuthorizationService.GetRead().Where(c => c == tvTypeUserAuthorization).Any());
+                    Assert.AreEqual(true, tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().Where(c => c == tvTypeUserAuthorization).Any());
                     tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
                     if (tvTypeUserAuthorization.HasErrors)
                     {
                         Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, tvTypeUserAuthorizationService.GetRead().Count());
+                    Assert.AreEqual(count + 1, tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().Count());
                     tvTypeUserAuthorizationService.Delete(tvTypeUserAuthorization);
                     if (tvTypeUserAuthorization.HasErrors)
                     {
                         Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
+                    Assert.AreEqual(count, tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -219,7 +219,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
+                    TVTypeUserAuthorization tvTypeUserAuthorization = (from c in dbTestDB.TVTypeUserAuthorizations select c).FirstOrDefault();
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -265,11 +265,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
+                    TVTypeUserAuthorization tvTypeUserAuthorization = (from c in dbTestDB.TVTypeUserAuthorizations select c).FirstOrDefault();
                     Assert.IsNotNull(tvTypeUserAuthorization);
 
                     List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                    tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Take(100).ToList();
+                    tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -323,7 +323,7 @@ namespace CSSPServices.Tests
                         tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Skip(1).Take(1).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -376,7 +376,7 @@ namespace CSSPServices.Tests
                         tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1,  "TVTypeUserAuthorizationID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -429,7 +429,7 @@ namespace CSSPServices.Tests
                         tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 1, 1, "TVTypeUserAuthorizationID,ContactTVItemID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ThenBy(c => c.ContactTVItemID).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Skip(1).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ThenBy(c => c.ContactTVItemID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -482,7 +482,7 @@ namespace CSSPServices.Tests
                         tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "TVTypeUserAuthorizationID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Where(c => c.TVTypeUserAuthorizationID == 4).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID == 4).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -535,7 +535,7 @@ namespace CSSPServices.Tests
                         tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 1, "TVTypeUserAuthorizationID", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).Skip(0).Take(1).OrderBy(c => c.TVTypeUserAuthorizationID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -588,7 +588,7 @@ namespace CSSPServices.Tests
                         tvTypeUserAuthorizationService.Query = tvTypeUserAuthorizationService.FillQuery(typeof(TVTypeUserAuthorization), culture.TwoLetterISOLanguageName, 0, 10000, "", "TVTypeUserAuthorizationID,GT,2|TVTypeUserAuthorizationID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<TVTypeUserAuthorization> tvTypeUserAuthorizationDirectQueryList = new List<TVTypeUserAuthorization>();
-                        tvTypeUserAuthorizationDirectQueryList = tvTypeUserAuthorizationService.GetRead().Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).ToList();
+                        tvTypeUserAuthorizationDirectQueryList = (from c in dbTestDB.TVTypeUserAuthorizations select c).Where(c => c.TVTypeUserAuthorizationID > 2 && c.TVTypeUserAuthorizationID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

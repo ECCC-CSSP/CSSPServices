@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVFileTVFileID"), new[] { "TVFileID" });
                 }
 
-                if (!GetRead().Where(c => c.TVFileID == tvFile.TVFileID).Any())
+                if (!(from c in db.TVFiles select c).Where(c => c.TVFileID == tvFile.TVFileID).Any())
                 {
                     tvFile.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVFile", "TVFileTVFileID", tvFile.TVFileID.ToString()), new[] { "TVFileID" });
@@ -229,14 +229,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVFile GetTVFileWithTVFileID(int TVFileID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TVFiles
                     where c.TVFileID == TVFileID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TVFile> GetTVFileList()
         {
-            IQueryable<TVFile> TVFileQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVFile> TVFileQuery = (from c in db.TVFiles select c);
 
             TVFileQuery = EnhanceQueryStatements<TVFile>(TVFileQuery) as IQueryable<TVFile>;
 
@@ -244,7 +244,7 @@ namespace CSSPServices
         }
         public TVFileWeb GetTVFileWebWithTVFileID(int TVFileID)
         {
-            return FillTVFileWeb().FirstOrDefault();
+            return FillTVFileWeb().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
 
         }
         public IQueryable<TVFileWeb> GetTVFileWebList()
@@ -257,7 +257,7 @@ namespace CSSPServices
         }
         public TVFileReport GetTVFileReportWithTVFileID(int TVFileID)
         {
-            return FillTVFileReport().FirstOrDefault();
+            return FillTVFileReport().Where(c => c.TVFileID == TVFileID).FirstOrDefault();
 
         }
         public IQueryable<TVFileReport> GetTVFileReportList()
@@ -303,18 +303,6 @@ namespace CSSPServices
             if (!TryToSave(tvFile)) return false;
 
             return true;
-        }
-        public IQueryable<TVFile> GetRead()
-        {
-            IQueryable<TVFile> tvFileQuery = db.TVFiles.AsNoTracking();
-
-            return tvFileQuery;
-        }
-        public IQueryable<TVFile> GetEdit()
-        {
-            IQueryable<TVFile> tvFileQuery = db.TVFiles;
-
-            return tvFileQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -373,7 +361,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TVFileWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MikeSourceMikeSourceID"), new[] { "MikeSourceID" });
                 }
 
-                if (!GetRead().Where(c => c.MikeSourceID == mikeSource.MikeSourceID).Any())
+                if (!(from c in db.MikeSources select c).Where(c => c.MikeSourceID == mikeSource.MikeSourceID).Any())
                 {
                     mikeSource.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MikeSource", "MikeSourceMikeSourceID", mikeSource.MikeSourceID.ToString()), new[] { "MikeSourceID" });
@@ -136,14 +136,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MikeSources
                     where c.MikeSourceID == MikeSourceID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MikeSource> GetMikeSourceList()
         {
-            IQueryable<MikeSource> MikeSourceQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MikeSource> MikeSourceQuery = (from c in db.MikeSources select c);
 
             MikeSourceQuery = EnhanceQueryStatements<MikeSource>(MikeSourceQuery) as IQueryable<MikeSource>;
 
@@ -151,7 +151,7 @@ namespace CSSPServices
         }
         public MikeSourceWeb GetMikeSourceWebWithMikeSourceID(int MikeSourceID)
         {
-            return FillMikeSourceWeb().FirstOrDefault();
+            return FillMikeSourceWeb().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
 
         }
         public IQueryable<MikeSourceWeb> GetMikeSourceWebList()
@@ -164,7 +164,7 @@ namespace CSSPServices
         }
         public MikeSourceReport GetMikeSourceReportWithMikeSourceID(int MikeSourceID)
         {
-            return FillMikeSourceReport().FirstOrDefault();
+            return FillMikeSourceReport().Where(c => c.MikeSourceID == MikeSourceID).FirstOrDefault();
 
         }
         public IQueryable<MikeSourceReport> GetMikeSourceReportList()
@@ -211,18 +211,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MikeSource> GetRead()
-        {
-            IQueryable<MikeSource> mikeSourceQuery = db.MikeSources.AsNoTracking();
-
-            return mikeSourceQuery;
-        }
-        public IQueryable<MikeSource> GetEdit()
-        {
-            IQueryable<MikeSource> mikeSourceQuery = db.MikeSources;
-
-            return mikeSourceQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MikeSourceFillWeb
@@ -251,7 +239,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MikeSourceWebQuery;
         }

@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = samplingPlanSubsectorService.GetRead().Count();
+                    count = samplingPlanSubsectorService.GetSamplingPlanSubsectorList().Count();
 
-                    Assert.AreEqual(samplingPlanSubsectorService.GetRead().Count(), samplingPlanSubsectorService.GetEdit().Count());
+                    Assert.AreEqual(samplingPlanSubsectorService.GetSamplingPlanSubsectorList().Count(), (from c in dbTestDB.SamplingPlanSubsectors select c).Take(200).Count());
 
                     samplingPlanSubsectorService.Add(samplingPlanSubsector);
                     if (samplingPlanSubsector.HasErrors)
                     {
                         Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, samplingPlanSubsectorService.GetRead().Where(c => c == samplingPlanSubsector).Any());
+                    Assert.AreEqual(true, samplingPlanSubsectorService.GetSamplingPlanSubsectorList().Where(c => c == samplingPlanSubsector).Any());
                     samplingPlanSubsectorService.Update(samplingPlanSubsector);
                     if (samplingPlanSubsector.HasErrors)
                     {
                         Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, samplingPlanSubsectorService.GetRead().Count());
+                    Assert.AreEqual(count + 1, samplingPlanSubsectorService.GetSamplingPlanSubsectorList().Count());
                     samplingPlanSubsectorService.Delete(samplingPlanSubsector);
                     if (samplingPlanSubsector.HasErrors)
                     {
                         Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
+                    Assert.AreEqual(count, samplingPlanSubsectorService.GetSamplingPlanSubsectorList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -206,7 +206,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    SamplingPlanSubsector samplingPlanSubsector = (from c in samplingPlanSubsectorService.GetRead() select c).FirstOrDefault();
+                    SamplingPlanSubsector samplingPlanSubsector = (from c in dbTestDB.SamplingPlanSubsectors select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsector);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -252,11 +252,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    SamplingPlanSubsector samplingPlanSubsector = (from c in samplingPlanSubsectorService.GetRead() select c).FirstOrDefault();
+                    SamplingPlanSubsector samplingPlanSubsector = (from c in dbTestDB.SamplingPlanSubsectors select c).FirstOrDefault();
                     Assert.IsNotNull(samplingPlanSubsector);
 
                     List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
-                    samplingPlanSubsectorDirectQueryList = samplingPlanSubsectorService.GetRead().Take(100).ToList();
+                    samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -310,7 +310,7 @@ namespace CSSPServices.Tests
                         samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
-                        samplingPlanSubsectorDirectQueryList = samplingPlanSubsectorService.GetRead().Skip(1).Take(1).ToList();
+                        samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -363,7 +363,7 @@ namespace CSSPServices.Tests
                         samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), culture.TwoLetterISOLanguageName, 1, 1,  "SamplingPlanSubsectorID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
-                        samplingPlanSubsectorDirectQueryList = samplingPlanSubsectorService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
+                        samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -416,7 +416,7 @@ namespace CSSPServices.Tests
                         samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), culture.TwoLetterISOLanguageName, 1, 1, "SamplingPlanSubsectorID,SamplingPlanID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
-                        samplingPlanSubsectorDirectQueryList = samplingPlanSubsectorService.GetRead().Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ThenBy(c => c.SamplingPlanID).ToList();
+                        samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Skip(1).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ThenBy(c => c.SamplingPlanID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -469,7 +469,7 @@ namespace CSSPServices.Tests
                         samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanSubsectorID", "SamplingPlanSubsectorID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
-                        samplingPlanSubsectorDirectQueryList = samplingPlanSubsectorService.GetRead().Where(c => c.SamplingPlanSubsectorID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
+                        samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Where(c => c.SamplingPlanSubsectorID == 4).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -522,7 +522,7 @@ namespace CSSPServices.Tests
                         samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), culture.TwoLetterISOLanguageName, 0, 1, "SamplingPlanSubsectorID", "SamplingPlanSubsectorID,GT,2|SamplingPlanSubsectorID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
-                        samplingPlanSubsectorDirectQueryList = samplingPlanSubsectorService.GetRead().Where(c => c.SamplingPlanSubsectorID > 2 && c.SamplingPlanSubsectorID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
+                        samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Where(c => c.SamplingPlanSubsectorID > 2 && c.SamplingPlanSubsectorID < 5).Skip(0).Take(1).OrderBy(c => c.SamplingPlanSubsectorID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -575,7 +575,7 @@ namespace CSSPServices.Tests
                         samplingPlanSubsectorService.Query = samplingPlanSubsectorService.FillQuery(typeof(SamplingPlanSubsector), culture.TwoLetterISOLanguageName, 0, 10000, "", "SamplingPlanSubsectorID,GT,2|SamplingPlanSubsectorID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<SamplingPlanSubsector> samplingPlanSubsectorDirectQueryList = new List<SamplingPlanSubsector>();
-                        samplingPlanSubsectorDirectQueryList = samplingPlanSubsectorService.GetRead().Where(c => c.SamplingPlanSubsectorID > 2 && c.SamplingPlanSubsectorID < 5).ToList();
+                        samplingPlanSubsectorDirectQueryList = (from c in dbTestDB.SamplingPlanSubsectors select c).Where(c => c.SamplingPlanSubsectorID > 2 && c.SamplingPlanSubsectorID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

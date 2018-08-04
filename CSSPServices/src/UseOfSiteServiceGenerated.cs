@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "UseOfSiteUseOfSiteID"), new[] { "UseOfSiteID" });
                 }
 
-                if (!GetRead().Where(c => c.UseOfSiteID == useOfSite.UseOfSiteID).Any())
+                if (!(from c in db.UseOfSites select c).Where(c => c.UseOfSiteID == useOfSite.UseOfSiteID).Any())
                 {
                     useOfSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "UseOfSite", "UseOfSiteUseOfSiteID", useOfSite.UseOfSiteID.ToString()), new[] { "UseOfSiteID" });
@@ -219,14 +219,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public UseOfSite GetUseOfSiteWithUseOfSiteID(int UseOfSiteID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.UseOfSites
                     where c.UseOfSiteID == UseOfSiteID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<UseOfSite> GetUseOfSiteList()
         {
-            IQueryable<UseOfSite> UseOfSiteQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<UseOfSite> UseOfSiteQuery = (from c in db.UseOfSites select c);
 
             UseOfSiteQuery = EnhanceQueryStatements<UseOfSite>(UseOfSiteQuery) as IQueryable<UseOfSite>;
 
@@ -234,7 +234,7 @@ namespace CSSPServices
         }
         public UseOfSiteWeb GetUseOfSiteWebWithUseOfSiteID(int UseOfSiteID)
         {
-            return FillUseOfSiteWeb().FirstOrDefault();
+            return FillUseOfSiteWeb().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
 
         }
         public IQueryable<UseOfSiteWeb> GetUseOfSiteWebList()
@@ -247,7 +247,7 @@ namespace CSSPServices
         }
         public UseOfSiteReport GetUseOfSiteReportWithUseOfSiteID(int UseOfSiteID)
         {
-            return FillUseOfSiteReport().FirstOrDefault();
+            return FillUseOfSiteReport().Where(c => c.UseOfSiteID == UseOfSiteID).FirstOrDefault();
 
         }
         public IQueryable<UseOfSiteReport> GetUseOfSiteReportList()
@@ -293,18 +293,6 @@ namespace CSSPServices
             if (!TryToSave(useOfSite)) return false;
 
             return true;
-        }
-        public IQueryable<UseOfSite> GetRead()
-        {
-            IQueryable<UseOfSite> useOfSiteQuery = db.UseOfSites.AsNoTracking();
-
-            return useOfSiteQuery;
-        }
-        public IQueryable<UseOfSite> GetEdit()
-        {
-            IQueryable<UseOfSite> useOfSiteQuery = db.UseOfSites;
-
-            return useOfSiteQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -354,7 +342,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return UseOfSiteWebQuery;
         }

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "LabSheetLabSheetID"), new[] { "LabSheetID" });
                 }
 
-                if (!GetRead().Where(c => c.LabSheetID == labSheet.LabSheetID).Any())
+                if (!(from c in db.LabSheets select c).Where(c => c.LabSheetID == labSheet.LabSheetID).Any())
                 {
                     labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "LabSheet", "LabSheetLabSheetID", labSheet.LabSheetID.ToString()), new[] { "LabSheetID" });
@@ -294,14 +294,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public LabSheet GetLabSheetWithLabSheetID(int LabSheetID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.LabSheets
                     where c.LabSheetID == LabSheetID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<LabSheet> GetLabSheetList()
         {
-            IQueryable<LabSheet> LabSheetQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<LabSheet> LabSheetQuery = (from c in db.LabSheets select c);
 
             LabSheetQuery = EnhanceQueryStatements<LabSheet>(LabSheetQuery) as IQueryable<LabSheet>;
 
@@ -309,7 +309,7 @@ namespace CSSPServices
         }
         public LabSheetWeb GetLabSheetWebWithLabSheetID(int LabSheetID)
         {
-            return FillLabSheetWeb().FirstOrDefault();
+            return FillLabSheetWeb().Where(c => c.LabSheetID == LabSheetID).FirstOrDefault();
 
         }
         public IQueryable<LabSheetWeb> GetLabSheetWebList()
@@ -322,7 +322,7 @@ namespace CSSPServices
         }
         public LabSheetReport GetLabSheetReportWithLabSheetID(int LabSheetID)
         {
-            return FillLabSheetReport().FirstOrDefault();
+            return FillLabSheetReport().Where(c => c.LabSheetID == LabSheetID).FirstOrDefault();
 
         }
         public IQueryable<LabSheetReport> GetLabSheetReportList()
@@ -368,18 +368,6 @@ namespace CSSPServices
             if (!TryToSave(labSheet)) return false;
 
             return true;
-        }
-        public IQueryable<LabSheet> GetRead()
-        {
-            IQueryable<LabSheet> labSheetQuery = db.LabSheets.AsNoTracking();
-
-            return labSheetQuery;
-        }
-        public IQueryable<LabSheet> GetEdit()
-        {
-            IQueryable<LabSheet> labSheetQuery = db.LabSheets;
-
-            return labSheetQuery;
         }
         #endregion Functions public Generated CRUD
 
@@ -452,7 +440,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return LabSheetWebQuery;
         }

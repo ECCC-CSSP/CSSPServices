@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = contactService.GetRead().Count();
+                    count = contactService.GetContactList().Count();
 
-                    Assert.AreEqual(contactService.GetRead().Count(), contactService.GetEdit().Count());
+                    Assert.AreEqual(contactService.GetContactList().Count(), (from c in dbTestDB.Contacts select c).Take(200).Count());
 
                     contactService.Add(contact, AddContactTypeEnum.LoggedIn);
                     if (contact.HasErrors)
                     {
                         Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, contactService.GetRead().Where(c => c == contact).Any());
+                    Assert.AreEqual(true, contactService.GetContactList().Where(c => c == contact).Any());
                     contactService.Update(contact);
                     if (contact.HasErrors)
                     {
                         Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, contactService.GetRead().Count());
+                    Assert.AreEqual(count + 1, contactService.GetContactList().Count());
                     contactService.Delete(contact);
                     if (contact.HasErrors)
                     {
                         Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -120,14 +120,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(2, contact.ValidationResults.Count());
                     Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ContactId")).Any());
                     Assert.AreEqual(null, contact.Id);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     contact = null;
                     contact = GetFilledRandomContact("");
                     contact.Id = GetRandomString("", 129);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactId", "128"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -161,20 +161,20 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, contact.ValidationResults.Count());
                     Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ContactLoginEmail")).Any());
                     Assert.AreEqual(null, contact.LoginEmail);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     contact = null;
                     contact = GetFilledRandomContact("");
                     contact.LoginEmail = GetRandomString("", 5);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "ContactLoginEmail", "6", "255"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
                     contact = null;
                     contact = GetFilledRandomContact("");
                     contact.LoginEmail = GetRandomString("", 256);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, "ContactLoginEmail", "6", "255"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -188,14 +188,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, contact.ValidationResults.Count());
                     Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ContactFirstName")).Any());
                     Assert.AreEqual(null, contact.FirstName);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     contact = null;
                     contact = GetFilledRandomContact("");
                     contact.FirstName = GetRandomString("", 101);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactFirstName", "100"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -209,14 +209,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, contact.ValidationResults.Count());
                     Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ContactLastName")).Any());
                     Assert.AreEqual(null, contact.LastName);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     contact = null;
                     contact = GetFilledRandomContact("");
                     contact.LastName = GetRandomString("", 101);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactLastName", "100"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -229,7 +229,7 @@ namespace CSSPServices.Tests
                     contact.Initial = GetRandomString("", 51);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactInitial", "50"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -243,14 +243,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, contact.ValidationResults.Count());
                     Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "ContactWebName")).Any());
                     Assert.AreEqual(null, contact.WebName);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     contact = null;
                     contact = GetFilledRandomContact("");
                     contact.WebName = GetRandomString("", 101);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactWebName", "100"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -300,7 +300,7 @@ namespace CSSPServices.Tests
                     contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 201);
                     Assert.AreEqual(false, contactService.Add(contact, AddContactTypeEnum.First));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "ContactSamplingPlanner_ProvincesTVItemID", "200"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, contactService.GetRead().Count());
+                    Assert.AreEqual(count, contactService.GetContactList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -369,7 +369,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Contact contact = (from c in contactService.GetRead() select c).FirstOrDefault();
+                    Contact contact = (from c in dbTestDB.Contacts select c).FirstOrDefault();
                     Assert.IsNotNull(contact);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -415,11 +415,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     ContactService contactService = new ContactService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    Contact contact = (from c in contactService.GetRead() select c).FirstOrDefault();
+                    Contact contact = (from c in dbTestDB.Contacts select c).FirstOrDefault();
                     Assert.IsNotNull(contact);
 
                     List<Contact> contactDirectQueryList = new List<Contact>();
-                    contactDirectQueryList = contactService.GetRead().Take(100).ToList();
+                    contactDirectQueryList = (from c in dbTestDB.Contacts select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -473,7 +473,7 @@ namespace CSSPServices.Tests
                         contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Contact> contactDirectQueryList = new List<Contact>();
-                        contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).ToList();
+                        contactDirectQueryList = (from c in dbTestDB.Contacts select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -526,7 +526,7 @@ namespace CSSPServices.Tests
                         contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 1, 1,  "ContactID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Contact> contactDirectQueryList = new List<Contact>();
-                        contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactID).ToList();
+                        contactDirectQueryList = (from c in dbTestDB.Contacts select c).Skip(1).Take(1).OrderBy(c => c.ContactID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -579,7 +579,7 @@ namespace CSSPServices.Tests
                         contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 1, 1, "ContactID,Id", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Contact> contactDirectQueryList = new List<Contact>();
-                        contactDirectQueryList = contactService.GetRead().Skip(1).Take(1).OrderBy(c => c.ContactID).ThenBy(c => c.Id).ToList();
+                        contactDirectQueryList = (from c in dbTestDB.Contacts select c).Skip(1).Take(1).OrderBy(c => c.ContactID).ThenBy(c => c.Id).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -632,7 +632,7 @@ namespace CSSPServices.Tests
                         contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 0, 1, "ContactID", "ContactID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Contact> contactDirectQueryList = new List<Contact>();
-                        contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID == 4).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
+                        contactDirectQueryList = (from c in dbTestDB.Contacts select c).Where(c => c.ContactID == 4).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -685,7 +685,7 @@ namespace CSSPServices.Tests
                         contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 0, 1, "ContactID", "ContactID,GT,2|ContactID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Contact> contactDirectQueryList = new List<Contact>();
-                        contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID > 2 && c.ContactID < 5).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
+                        contactDirectQueryList = (from c in dbTestDB.Contacts select c).Where(c => c.ContactID > 2 && c.ContactID < 5).Skip(0).Take(1).OrderBy(c => c.ContactID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -738,7 +738,7 @@ namespace CSSPServices.Tests
                         contactService.Query = contactService.FillQuery(typeof(Contact), culture.TwoLetterISOLanguageName, 0, 10000, "", "ContactID,GT,2|ContactID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<Contact> contactDirectQueryList = new List<Contact>();
-                        contactDirectQueryList = contactService.GetRead().Where(c => c.ContactID > 2 && c.ContactID < 5).ToList();
+                        contactDirectQueryList = (from c in dbTestDB.Contacts select c).Where(c => c.ContactID > 2 && c.ContactID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "MWQMSubsectorMWQMSubsectorID"), new[] { "MWQMSubsectorID" });
                 }
 
-                if (!GetRead().Where(c => c.MWQMSubsectorID == mwqmSubsector.MWQMSubsectorID).Any())
+                if (!(from c in db.MWQMSubsectors select c).Where(c => c.MWQMSubsectorID == mwqmSubsector.MWQMSubsectorID).Any())
                 {
                     mwqmSubsector.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "MWQMSubsector", "MWQMSubsectorMWQMSubsectorID", mwqmSubsector.MWQMSubsectorID.ToString()), new[] { "MWQMSubsectorID" });
@@ -142,14 +142,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.MWQMSubsectors
                     where c.MWQMSubsectorID == MWQMSubsectorID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<MWQMSubsector> GetMWQMSubsectorList()
         {
-            IQueryable<MWQMSubsector> MWQMSubsectorQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<MWQMSubsector> MWQMSubsectorQuery = (from c in db.MWQMSubsectors select c);
 
             MWQMSubsectorQuery = EnhanceQueryStatements<MWQMSubsector>(MWQMSubsectorQuery) as IQueryable<MWQMSubsector>;
 
@@ -157,7 +157,7 @@ namespace CSSPServices
         }
         public MWQMSubsectorWeb GetMWQMSubsectorWebWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            return FillMWQMSubsectorWeb().FirstOrDefault();
+            return FillMWQMSubsectorWeb().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSubsectorWeb> GetMWQMSubsectorWebList()
@@ -170,7 +170,7 @@ namespace CSSPServices
         }
         public MWQMSubsectorReport GetMWQMSubsectorReportWithMWQMSubsectorID(int MWQMSubsectorID)
         {
-            return FillMWQMSubsectorReport().FirstOrDefault();
+            return FillMWQMSubsectorReport().Where(c => c.MWQMSubsectorID == MWQMSubsectorID).FirstOrDefault();
 
         }
         public IQueryable<MWQMSubsectorReport> GetMWQMSubsectorReportList()
@@ -217,18 +217,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<MWQMSubsector> GetRead()
-        {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = db.MWQMSubsectors.AsNoTracking();
-
-            return mwqmSubsectorQuery;
-        }
-        public IQueryable<MWQMSubsector> GetEdit()
-        {
-            IQueryable<MWQMSubsector> mwqmSubsectorQuery = db.MWQMSubsectors;
-
-            return mwqmSubsectorQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated MWQMSubsectorFillWeb
@@ -255,7 +243,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return MWQMSubsectorWebQuery;
         }

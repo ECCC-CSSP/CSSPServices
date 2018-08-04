@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TideLocationTideLocationID"), new[] { "TideLocationID" });
                 }
 
-                if (!GetRead().Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
+                if (!(from c in db.TideLocations select c).Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
                 {
                     tideLocation.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TideLocation", "TideLocationTideLocationID", tideLocation.TideLocationID.ToString()), new[] { "TideLocationID" });
@@ -152,14 +152,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TideLocation GetTideLocationWithTideLocationID(int TideLocationID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TideLocations
                     where c.TideLocationID == TideLocationID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TideLocation> GetTideLocationList()
         {
-            IQueryable<TideLocation> TideLocationQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TideLocation> TideLocationQuery = (from c in db.TideLocations select c);
 
             TideLocationQuery = EnhanceQueryStatements<TideLocation>(TideLocationQuery) as IQueryable<TideLocation>;
 
@@ -167,7 +167,7 @@ namespace CSSPServices
         }
         public TideLocationWeb GetTideLocationWebWithTideLocationID(int TideLocationID)
         {
-            return FillTideLocationWeb().FirstOrDefault();
+            return FillTideLocationWeb().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
 
         }
         public IQueryable<TideLocationWeb> GetTideLocationWebList()
@@ -180,7 +180,7 @@ namespace CSSPServices
         }
         public TideLocationReport GetTideLocationReportWithTideLocationID(int TideLocationID)
         {
-            return FillTideLocationReport().FirstOrDefault();
+            return FillTideLocationReport().Where(c => c.TideLocationID == TideLocationID).FirstOrDefault();
 
         }
         public IQueryable<TideLocationReport> GetTideLocationReportList()
@@ -227,18 +227,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<TideLocation> GetRead()
-        {
-            IQueryable<TideLocation> tideLocationQuery = db.TideLocations.AsNoTracking();
-
-            return tideLocationQuery;
-        }
-        public IQueryable<TideLocation> GetEdit()
-        {
-            IQueryable<TideLocation> tideLocationQuery = db.TideLocations;
-
-            return tideLocationQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TideLocationFillWeb
@@ -263,7 +251,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TideLocationWebQuery;
         }

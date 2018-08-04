@@ -58,28 +58,28 @@ namespace CSSPServices.Tests
                     // -------------------------------
                     // -------------------------------
 
-                    count = boxModelLanguageService.GetRead().Count();
+                    count = boxModelLanguageService.GetBoxModelLanguageList().Count();
 
-                    Assert.AreEqual(boxModelLanguageService.GetRead().Count(), boxModelLanguageService.GetEdit().Count());
+                    Assert.AreEqual(boxModelLanguageService.GetBoxModelLanguageList().Count(), (from c in dbTestDB.BoxModelLanguages select c).Take(200).Count());
 
                     boxModelLanguageService.Add(boxModelLanguage);
                     if (boxModelLanguage.HasErrors)
                     {
                         Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(true, boxModelLanguageService.GetRead().Where(c => c == boxModelLanguage).Any());
+                    Assert.AreEqual(true, boxModelLanguageService.GetBoxModelLanguageList().Where(c => c == boxModelLanguage).Any());
                     boxModelLanguageService.Update(boxModelLanguage);
                     if (boxModelLanguage.HasErrors)
                     {
                         Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count + 1, boxModelLanguageService.GetRead().Count());
+                    Assert.AreEqual(count + 1, boxModelLanguageService.GetBoxModelLanguageList().Count());
                     boxModelLanguageService.Delete(boxModelLanguage);
                     if (boxModelLanguage.HasErrors)
                     {
                         Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     }
-                    Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, boxModelLanguageService.GetBoxModelLanguageList().Count());
 
                     // -------------------------------
                     // -------------------------------
@@ -145,14 +145,14 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(1, boxModelLanguage.ValidationResults.Count());
                     Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, "BoxModelLanguageScenarioName")).Any());
                     Assert.AreEqual(null, boxModelLanguage.ScenarioName);
-                    Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, boxModelLanguageService.GetBoxModelLanguageList().Count());
 
                     boxModelLanguage = null;
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.ScenarioName = GetRandomString("", 251);
                     Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
                     Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, "BoxModelLanguageScenarioName", "250"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                    Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
+                    Assert.AreEqual(count, boxModelLanguageService.GetBoxModelLanguageList().Count());
 
                     // -----------------------------------
                     // Is NOT Nullable
@@ -234,7 +234,7 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    BoxModelLanguage boxModelLanguage = (from c in boxModelLanguageService.GetRead() select c).FirstOrDefault();
+                    BoxModelLanguage boxModelLanguage = (from c in dbTestDB.BoxModelLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelLanguage);
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
@@ -280,11 +280,11 @@ namespace CSSPServices.Tests
                 using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
                     BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(new Query() { Lang = culture.TwoLetterISOLanguageName }, dbTestDB, ContactID);
-                    BoxModelLanguage boxModelLanguage = (from c in boxModelLanguageService.GetRead() select c).FirstOrDefault();
+                    BoxModelLanguage boxModelLanguage = (from c in dbTestDB.BoxModelLanguages select c).FirstOrDefault();
                     Assert.IsNotNull(boxModelLanguage);
 
                     List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                    boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Take(100).ToList();
+                    boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Take(200).ToList();
 
                     foreach (EntityQueryDetailTypeEnum? entityQueryDetailType in new List<EntityQueryDetailTypeEnum?>() { null, EntityQueryDetailTypeEnum.EntityOnly, EntityQueryDetailTypeEnum.EntityWeb, EntityQueryDetailTypeEnum.EntityReport })
                     {
@@ -338,7 +338,7 @@ namespace CSSPServices.Tests
                         boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1, "", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                        boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Skip(1).Take(1).ToList();
+                        boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -391,7 +391,7 @@ namespace CSSPServices.Tests
                         boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1,  "BoxModelLanguageID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                        boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
+                        boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -444,7 +444,7 @@ namespace CSSPServices.Tests
                         boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 1, 1, "BoxModelLanguageID,BoxModelID", "", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                        boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ThenBy(c => c.BoxModelID).ToList();
+                        boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Skip(1).Take(1).OrderBy(c => c.BoxModelLanguageID).ThenBy(c => c.BoxModelID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -497,7 +497,7 @@ namespace CSSPServices.Tests
                         boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelLanguageID", "BoxModelLanguageID,EQ,4", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                        boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Where(c => c.BoxModelLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
+                        boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID == 4).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -550,7 +550,7 @@ namespace CSSPServices.Tests
                         boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 1, "BoxModelLanguageID", "BoxModelLanguageID,GT,2|BoxModelLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                        boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
+                        boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).Skip(0).Take(1).OrderBy(c => c.BoxModelLanguageID).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {
@@ -603,7 +603,7 @@ namespace CSSPServices.Tests
                         boxModelLanguageService.Query = boxModelLanguageService.FillQuery(typeof(BoxModelLanguage), culture.TwoLetterISOLanguageName, 0, 10000, "", "BoxModelLanguageID,GT,2|BoxModelLanguageID,LT,5", entityQueryDetailType, EntityQueryTypeEnum.AsNoTracking);
 
                         List<BoxModelLanguage> boxModelLanguageDirectQueryList = new List<BoxModelLanguage>();
-                        boxModelLanguageDirectQueryList = boxModelLanguageService.GetRead().Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).ToList();
+                        boxModelLanguageDirectQueryList = (from c in dbTestDB.BoxModelLanguages select c).Where(c => c.BoxModelLanguageID > 2 && c.BoxModelLanguageID < 5).ToList();
 
                         if (entityQueryDetailType == null || entityQueryDetailType == EntityQueryDetailTypeEnum.EntityOnly)
                         {

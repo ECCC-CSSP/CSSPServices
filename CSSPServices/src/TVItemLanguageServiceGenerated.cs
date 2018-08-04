@@ -50,7 +50,7 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVItemLanguageTVItemLanguageID"), new[] { "TVItemLanguageID" });
                 }
 
-                if (!GetRead().Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
+                if (!(from c in db.TVItemLanguages select c).Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
                 {
                     tvItemLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, "TVItemLanguage", "TVItemLanguageTVItemLanguageID", tvItemLanguage.TVItemLanguageID.ToString()), new[] { "TVItemLanguageID" });
@@ -171,14 +171,14 @@ namespace CSSPServices
         #region Functions public Generated Get
         public TVItemLanguage GetTVItemLanguageWithTVItemLanguageID(int TVItemLanguageID)
         {
-            return (from c in (Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead())
+            return (from c in db.TVItemLanguages
                     where c.TVItemLanguageID == TVItemLanguageID
                     select c).FirstOrDefault();
 
         }
         public IQueryable<TVItemLanguage> GetTVItemLanguageList()
         {
-            IQueryable<TVItemLanguage> TVItemLanguageQuery = Query.EntityQueryType == EntityQueryTypeEnum.WithTracking ? GetEdit() : GetRead();
+            IQueryable<TVItemLanguage> TVItemLanguageQuery = (from c in db.TVItemLanguages select c);
 
             TVItemLanguageQuery = EnhanceQueryStatements<TVItemLanguage>(TVItemLanguageQuery) as IQueryable<TVItemLanguage>;
 
@@ -186,7 +186,7 @@ namespace CSSPServices
         }
         public TVItemLanguageWeb GetTVItemLanguageWebWithTVItemLanguageID(int TVItemLanguageID)
         {
-            return FillTVItemLanguageWeb().FirstOrDefault();
+            return FillTVItemLanguageWeb().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
 
         }
         public IQueryable<TVItemLanguageWeb> GetTVItemLanguageWebList()
@@ -199,7 +199,7 @@ namespace CSSPServices
         }
         public TVItemLanguageReport GetTVItemLanguageReportWithTVItemLanguageID(int TVItemLanguageID)
         {
-            return FillTVItemLanguageReport().FirstOrDefault();
+            return FillTVItemLanguageReport().Where(c => c.TVItemLanguageID == TVItemLanguageID).FirstOrDefault();
 
         }
         public IQueryable<TVItemLanguageReport> GetTVItemLanguageReportList()
@@ -246,18 +246,6 @@ namespace CSSPServices
 
             return true;
         }
-        public IQueryable<TVItemLanguage> GetRead()
-        {
-            IQueryable<TVItemLanguage> tvItemLanguageQuery = db.TVItemLanguages.AsNoTracking();
-
-            return tvItemLanguageQuery;
-        }
-        public IQueryable<TVItemLanguage> GetEdit()
-        {
-            IQueryable<TVItemLanguage> tvItemLanguageQuery = db.TVItemLanguages;
-
-            return tvItemLanguageQuery;
-        }
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated TVItemLanguageFillWeb
@@ -291,7 +279,7 @@ namespace CSSPServices
                         LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                         HasErrors = false,
                         ValidationResults = null,
-                    });
+                    }).AsNoTracking();
 
             return TVItemLanguageWebQuery;
         }
