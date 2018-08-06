@@ -254,7 +254,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-             IQueryable<TVItemStatWeb>  TVItemStatWebQuery = (from c in db.TVItemStats
+             IQueryable<TVItemStatWeb> TVItemStatWebQuery = (from c in db.TVItemStats
                 let TVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID
                     && cl.Language == LanguageRequest

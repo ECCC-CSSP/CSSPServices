@@ -228,7 +228,7 @@ namespace CSSPServices
         #region Functions private Generated VPResultFillWeb
         private IQueryable<VPResultWeb> FillVPResultWeb()
         {
-             IQueryable<VPResultWeb>  VPResultWebQuery = (from c in db.VPResults
+             IQueryable<VPResultWeb> VPResultWebQuery = (from c in db.VPResults
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

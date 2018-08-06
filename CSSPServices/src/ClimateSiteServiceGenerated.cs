@@ -321,7 +321,7 @@ namespace CSSPServices
         #region Functions private Generated ClimateSiteFillWeb
         private IQueryable<ClimateSiteWeb> FillClimateSiteWeb()
         {
-             IQueryable<ClimateSiteWeb>  ClimateSiteWebQuery = (from c in db.ClimateSites
+             IQueryable<ClimateSiteWeb> ClimateSiteWebQuery = (from c in db.ClimateSites
                 let ClimateSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ClimateSiteTVItemID
                     && cl.Language == LanguageRequest

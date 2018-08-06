@@ -226,7 +226,7 @@ namespace CSSPServices
         #region Functions private Generated EmailDistributionListContactFillWeb
         private IQueryable<EmailDistributionListContactWeb> FillEmailDistributionListContactWeb()
         {
-             IQueryable<EmailDistributionListContactWeb>  EmailDistributionListContactWebQuery = (from c in db.EmailDistributionListContacts
+             IQueryable<EmailDistributionListContactWeb> EmailDistributionListContactWebQuery = (from c in db.EmailDistributionListContacts
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

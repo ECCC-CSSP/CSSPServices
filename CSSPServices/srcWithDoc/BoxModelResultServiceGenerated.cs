@@ -287,7 +287,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> BoxModelResultTypeEnumList = enums.GetEnumTextOrderedList(typeof(BoxModelResultTypeEnum));
 
-             IQueryable<BoxModelResultWeb>  BoxModelResultWebQuery = (from c in db.BoxModelResults
+             IQueryable<BoxModelResultWeb> BoxModelResultWebQuery = (from c in db.BoxModelResults
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

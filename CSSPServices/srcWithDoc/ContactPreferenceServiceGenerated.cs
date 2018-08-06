@@ -209,7 +209,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-             IQueryable<ContactPreferenceWeb>  ContactPreferenceWebQuery = (from c in db.ContactPreferences
+             IQueryable<ContactPreferenceWeb> ContactPreferenceWebQuery = (from c in db.ContactPreferences
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

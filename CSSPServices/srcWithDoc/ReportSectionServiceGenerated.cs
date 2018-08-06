@@ -251,7 +251,7 @@ namespace CSSPServices
         #region Functions private Generated ReportSectionFillWeb
         private IQueryable<ReportSectionWeb> FillReportSectionWeb()
         {
-             IQueryable<ReportSectionWeb>  ReportSectionWebQuery = (from c in db.ReportSections
+             IQueryable<ReportSectionWeb> ReportSectionWebQuery = (from c in db.ReportSections
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

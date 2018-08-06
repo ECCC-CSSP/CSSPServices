@@ -274,7 +274,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> PolSourceInactiveReasonEnumList = enums.GetEnumTextOrderedList(typeof(PolSourceInactiveReasonEnum));
 
-             IQueryable<PolSourceSiteWeb>  PolSourceSiteWebQuery = (from c in db.PolSourceSites
+             IQueryable<PolSourceSiteWeb> PolSourceSiteWebQuery = (from c in db.PolSourceSites
                 let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.PolSourceSiteTVItemID
                     && cl.Language == LanguageRequest

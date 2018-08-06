@@ -276,7 +276,7 @@ namespace CSSPServices
             List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
             List<EnumIDAndText> TideTextEnumList = enums.GetEnumTextOrderedList(typeof(TideTextEnum));
 
-             IQueryable<TideDataValueWeb>  TideDataValueWebQuery = (from c in db.TideDataValues
+             IQueryable<TideDataValueWeb> TideDataValueWebQuery = (from c in db.TideDataValues
                 let TideSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TideSiteTVItemID
                     && cl.Language == LanguageRequest

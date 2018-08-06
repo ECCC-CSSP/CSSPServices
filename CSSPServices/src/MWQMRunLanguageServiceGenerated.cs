@@ -234,7 +234,7 @@ namespace CSSPServices
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-             IQueryable<MWQMRunLanguageWeb>  MWQMRunLanguageWebQuery = (from c in db.MWQMRunLanguages
+             IQueryable<MWQMRunLanguageWeb> MWQMRunLanguageWebQuery = (from c in db.MWQMRunLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

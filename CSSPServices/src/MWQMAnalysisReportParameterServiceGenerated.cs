@@ -390,7 +390,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> AnalysisReportExportCommandEnumList = enums.GetEnumTextOrderedList(typeof(AnalysisReportExportCommandEnum));
 
-             IQueryable<MWQMAnalysisReportParameterWeb>  MWQMAnalysisReportParameterWebQuery = (from c in db.MWQMAnalysisReportParameters
+             IQueryable<MWQMAnalysisReportParameterWeb> MWQMAnalysisReportParameterWebQuery = (from c in db.MWQMAnalysisReportParameters
                 let ExcelTVFileTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ExcelTVFileTVItemID
                     && cl.Language == LanguageRequest

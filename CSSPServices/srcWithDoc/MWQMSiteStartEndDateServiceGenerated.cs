@@ -230,7 +230,7 @@ namespace CSSPServices
         #region Functions private Generated MWQMSiteStartEndDateFillWeb
         private IQueryable<MWQMSiteStartEndDateWeb> FillMWQMSiteStartEndDateWeb()
         {
-             IQueryable<MWQMSiteStartEndDateWeb>  MWQMSiteStartEndDateWebQuery = (from c in db.MWQMSiteStartEndDates
+             IQueryable<MWQMSiteStartEndDateWeb> MWQMSiteStartEndDateWebQuery = (from c in db.MWQMSiteStartEndDates
                 let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest

@@ -276,7 +276,7 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
             List<EnumIDAndText> MapInfoDrawTypeEnumList = enums.GetEnumTextOrderedList(typeof(MapInfoDrawTypeEnum));
 
-             IQueryable<MapInfoWeb>  MapInfoWebQuery = (from c in db.MapInfos
+             IQueryable<MapInfoWeb> MapInfoWebQuery = (from c in db.MapInfos
                 let TVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID
                     && cl.Language == LanguageRequest

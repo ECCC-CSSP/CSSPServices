@@ -355,7 +355,7 @@ namespace CSSPServices
             List<EnumIDAndText> AppTaskStatusEnumList = enums.GetEnumTextOrderedList(typeof(AppTaskStatusEnum));
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
 
-             IQueryable<AppTaskWeb>  AppTaskWebQuery = (from c in db.AppTasks
+             IQueryable<AppTaskWeb> AppTaskWebQuery = (from c in db.AppTasks
                 let TVItemTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVItemID
                     && cl.Language == LanguageRequest

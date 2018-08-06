@@ -316,7 +316,7 @@ namespace CSSPServices
             List<EnumIDAndText> FilePurposeEnumList = enums.GetEnumTextOrderedList(typeof(FilePurposeEnum));
             List<EnumIDAndText> FileTypeEnumList = enums.GetEnumTextOrderedList(typeof(FileTypeEnum));
 
-             IQueryable<TVFileWeb>  TVFileWebQuery = (from c in db.TVFiles
+             IQueryable<TVFileWeb> TVFileWebQuery = (from c in db.TVFiles
                 let TVFileTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TVFileTVItemID
                     && cl.Language == LanguageRequest

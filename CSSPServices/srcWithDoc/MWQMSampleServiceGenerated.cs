@@ -339,7 +339,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
-             IQueryable<MWQMSampleWeb>  MWQMSampleWebQuery = (from c in db.MWQMSamples
+             IQueryable<MWQMSampleWeb> MWQMSampleWebQuery = (from c in db.MWQMSamples
                 let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest

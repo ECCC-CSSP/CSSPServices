@@ -303,7 +303,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> SiteTypeEnumList = enums.GetEnumTextOrderedList(typeof(SiteTypeEnum));
 
-             IQueryable<UseOfSiteWeb>  UseOfSiteWebQuery = (from c in db.UseOfSites
+             IQueryable<UseOfSiteWeb> UseOfSiteWebQuery = (from c in db.UseOfSites
                 let SiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SiteTVItemID
                     && cl.Language == LanguageRequest

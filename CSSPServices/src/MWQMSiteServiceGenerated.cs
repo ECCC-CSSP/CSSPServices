@@ -245,7 +245,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> MWQMSiteLatestClassificationEnumList = enums.GetEnumTextOrderedList(typeof(MWQMSiteLatestClassificationEnum));
 
-             IQueryable<MWQMSiteWeb>  MWQMSiteWebQuery = (from c in db.MWQMSites
+             IQueryable<MWQMSiteWeb> MWQMSiteWebQuery = (from c in db.MWQMSites
                 let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest

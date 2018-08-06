@@ -310,7 +310,7 @@ namespace CSSPServices
             List<EnumIDAndText> AddressTypeEnumList = enums.GetEnumTextOrderedList(typeof(AddressTypeEnum));
             List<EnumIDAndText> StreetTypeEnumList = enums.GetEnumTextOrderedList(typeof(StreetTypeEnum));
 
-             IQueryable<AddressWeb>  AddressWebQuery = (from c in db.Addresses
+             IQueryable<AddressWeb> AddressWebQuery = (from c in db.Addresses
                 let AddressTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.AddressTVItemID
                     && cl.Language == LanguageRequest

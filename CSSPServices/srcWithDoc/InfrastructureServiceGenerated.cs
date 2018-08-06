@@ -625,7 +625,7 @@ namespace CSSPServices
             List<EnumIDAndText> CollectionSystemTypeEnumList = enums.GetEnumTextOrderedList(typeof(CollectionSystemTypeEnum));
             List<EnumIDAndText> AlarmSystemTypeEnumList = enums.GetEnumTextOrderedList(typeof(AlarmSystemTypeEnum));
 
-             IQueryable<InfrastructureWeb>  InfrastructureWebQuery = (from c in db.Infrastructures
+             IQueryable<InfrastructureWeb> InfrastructureWebQuery = (from c in db.Infrastructures
                 let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest

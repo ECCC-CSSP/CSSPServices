@@ -403,7 +403,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
-             IQueryable<MikeScenarioWeb>  MikeScenarioWebQuery = (from c in db.MikeScenarios
+             IQueryable<MikeScenarioWeb> MikeScenarioWebQuery = (from c in db.MikeScenarios
                 let MikeScenarioTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeScenarioTVItemID
                     && cl.Language == LanguageRequest

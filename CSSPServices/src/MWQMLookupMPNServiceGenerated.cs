@@ -208,7 +208,7 @@ namespace CSSPServices
         #region Functions private Generated MWQMLookupMPNFillWeb
         private IQueryable<MWQMLookupMPNWeb> FillMWQMLookupMPNWeb()
         {
-             IQueryable<MWQMLookupMPNWeb>  MWQMLookupMPNWebQuery = (from c in db.MWQMLookupMPNs
+             IQueryable<MWQMLookupMPNWeb> MWQMLookupMPNWebQuery = (from c in db.MWQMLookupMPNs
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

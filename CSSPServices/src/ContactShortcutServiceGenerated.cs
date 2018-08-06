@@ -216,7 +216,7 @@ namespace CSSPServices
         #region Functions private Generated ContactShortcutFillWeb
         private IQueryable<ContactShortcutWeb> FillContactShortcutWeb()
         {
-             IQueryable<ContactShortcutWeb>  ContactShortcutWebQuery = (from c in db.ContactShortcuts
+             IQueryable<ContactShortcutWeb> ContactShortcutWebQuery = (from c in db.ContactShortcuts
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

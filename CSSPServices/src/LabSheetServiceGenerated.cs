@@ -381,7 +381,7 @@ namespace CSSPServices
             List<EnumIDAndText> LabSheetTypeEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetTypeEnum));
             List<EnumIDAndText> LabSheetStatusEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetStatusEnum));
 
-             IQueryable<LabSheetWeb>  LabSheetWebQuery = (from c in db.LabSheets
+             IQueryable<LabSheetWeb> LabSheetWebQuery = (from c in db.LabSheets
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest

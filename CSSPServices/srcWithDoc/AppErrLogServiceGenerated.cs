@@ -232,7 +232,7 @@ namespace CSSPServices
         #region Functions private Generated AppErrLogFillWeb
         private IQueryable<AppErrLogWeb> FillAppErrLogWeb()
         {
-             IQueryable<AppErrLogWeb>  AppErrLogWebQuery = (from c in db.AppErrLogs
+             IQueryable<AppErrLogWeb> AppErrLogWebQuery = (from c in db.AppErrLogs
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

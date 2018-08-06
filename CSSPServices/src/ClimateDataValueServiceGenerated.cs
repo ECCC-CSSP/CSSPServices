@@ -318,7 +318,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
 
-             IQueryable<ClimateDataValueWeb>  ClimateDataValueWebQuery = (from c in db.ClimateDataValues
+             IQueryable<ClimateDataValueWeb> ClimateDataValueWebQuery = (from c in db.ClimateDataValues
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

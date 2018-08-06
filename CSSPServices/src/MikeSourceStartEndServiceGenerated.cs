@@ -274,7 +274,7 @@ namespace CSSPServices
         #region Functions private Generated MikeSourceStartEndFillWeb
         private IQueryable<MikeSourceStartEndWeb> FillMikeSourceStartEndWeb()
         {
-             IQueryable<MikeSourceStartEndWeb>  MikeSourceStartEndWebQuery = (from c in db.MikeSourceStartEnds
+             IQueryable<MikeSourceStartEndWeb> MikeSourceStartEndWebQuery = (from c in db.MikeSourceStartEnds
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

@@ -562,7 +562,7 @@ namespace CSSPServices
             List<EnumIDAndText> SampleStatusEnumList = enums.GetEnumTextOrderedList(typeof(SampleStatusEnum));
             List<EnumIDAndText> TideTextEnumList = enums.GetEnumTextOrderedList(typeof(TideTextEnum));
 
-             IQueryable<MWQMRunWeb>  MWQMRunWebQuery = (from c in db.MWQMRuns
+             IQueryable<MWQMRunWeb> MWQMRunWebQuery = (from c in db.MWQMRuns
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest

@@ -291,7 +291,7 @@ namespace CSSPServices
         #region Functions private Generated HydrometricSiteFillWeb
         private IQueryable<HydrometricSiteWeb> FillHydrometricSiteWeb()
         {
-             IQueryable<HydrometricSiteWeb>  HydrometricSiteWebQuery = (from c in db.HydrometricSites
+             IQueryable<HydrometricSiteWeb> HydrometricSiteWebQuery = (from c in db.HydrometricSites
                 let HydrometricTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.HydrometricSiteTVItemID
                     && cl.Language == LanguageRequest

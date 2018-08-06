@@ -223,7 +223,7 @@ namespace CSSPServices
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
             List<EnumIDAndText> TVAuthEnumList = enums.GetEnumTextOrderedList(typeof(TVAuthEnum));
 
-             IQueryable<TVTypeUserAuthorizationWeb>  TVTypeUserAuthorizationWebQuery = (from c in db.TVTypeUserAuthorizations
+             IQueryable<TVTypeUserAuthorizationWeb> TVTypeUserAuthorizationWebQuery = (from c in db.TVTypeUserAuthorizations
                 let ContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest

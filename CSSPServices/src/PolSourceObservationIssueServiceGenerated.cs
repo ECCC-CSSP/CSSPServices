@@ -212,7 +212,7 @@ namespace CSSPServices
         #region Functions private Generated PolSourceObservationIssueFillWeb
         private IQueryable<PolSourceObservationIssueWeb> FillPolSourceObservationIssueWeb()
         {
-             IQueryable<PolSourceObservationIssueWeb>  PolSourceObservationIssueWebQuery = (from c in db.PolSourceObservationIssues
+             IQueryable<PolSourceObservationIssueWeb> PolSourceObservationIssueWebQuery = (from c in db.PolSourceObservationIssues
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

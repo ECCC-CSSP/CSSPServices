@@ -204,7 +204,7 @@ namespace CSSPServices
         #region Functions private Generated RatingCurveFillWeb
         private IQueryable<RatingCurveWeb> FillRatingCurveWeb()
         {
-             IQueryable<RatingCurveWeb>  RatingCurveWebQuery = (from c in db.RatingCurves
+             IQueryable<RatingCurveWeb> RatingCurveWebQuery = (from c in db.RatingCurves
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

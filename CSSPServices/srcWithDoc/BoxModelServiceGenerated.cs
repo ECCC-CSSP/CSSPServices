@@ -264,7 +264,7 @@ namespace CSSPServices
         #region Functions private Generated BoxModelFillWeb
         private IQueryable<BoxModelWeb> FillBoxModelWeb()
         {
-             IQueryable<BoxModelWeb>  BoxModelWebQuery = (from c in db.BoxModels
+             IQueryable<BoxModelWeb> BoxModelWebQuery = (from c in db.BoxModels
                 let InfrastructureTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest

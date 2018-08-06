@@ -216,7 +216,7 @@ namespace CSSPServices
         #region Functions private Generated MikeSourceFillWeb
         private IQueryable<MikeSourceWeb> FillMikeSourceWeb()
         {
-             IQueryable<MikeSourceWeb>  MikeSourceWebQuery = (from c in db.MikeSources
+             IQueryable<MikeSourceWeb> MikeSourceWebQuery = (from c in db.MikeSources
                 let MikeSourceTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeSourceTVItemID
                     && cl.Language == LanguageRequest

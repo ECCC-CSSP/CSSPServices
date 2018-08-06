@@ -222,7 +222,7 @@ namespace CSSPServices
         #region Functions private Generated ResetPasswordFillWeb
         private IQueryable<ResetPasswordWeb> FillResetPasswordWeb()
         {
-             IQueryable<ResetPasswordWeb>  ResetPasswordWebQuery = (from c in db.ResetPasswords
+             IQueryable<ResetPasswordWeb> ResetPasswordWebQuery = (from c in db.ResetPasswords
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

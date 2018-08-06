@@ -221,7 +221,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> LogCommandEnumList = enums.GetEnumTextOrderedList(typeof(LogCommandEnum));
 
-             IQueryable<LogWeb>  LogWebQuery = (from c in db.Logs
+             IQueryable<LogWeb> LogWebQuery = (from c in db.Logs
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

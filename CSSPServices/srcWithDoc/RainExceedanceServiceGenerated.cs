@@ -274,7 +274,7 @@ namespace CSSPServices
         #region Functions private Generated RainExceedanceFillWeb
         private IQueryable<RainExceedanceWeb> FillRainExceedanceWeb()
         {
-             IQueryable<RainExceedanceWeb>  RainExceedanceWebQuery = (from c in db.RainExceedances
+             IQueryable<RainExceedanceWeb> RainExceedanceWebQuery = (from c in db.RainExceedances
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

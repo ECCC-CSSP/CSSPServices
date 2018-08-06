@@ -227,7 +227,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> TelTypeEnumList = enums.GetEnumTextOrderedList(typeof(TelTypeEnum));
 
-             IQueryable<TelWeb>  TelWebQuery = (from c in db.Tels
+             IQueryable<TelWeb> TelWebQuery = (from c in db.Tels
                 let TelTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.TelTVItemID
                     && cl.Language == LanguageRequest

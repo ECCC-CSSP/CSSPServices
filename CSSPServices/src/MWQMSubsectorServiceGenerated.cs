@@ -222,7 +222,7 @@ namespace CSSPServices
         #region Functions private Generated MWQMSubsectorFillWeb
         private IQueryable<MWQMSubsectorWeb> FillMWQMSubsectorWeb()
         {
-             IQueryable<MWQMSubsectorWeb>  MWQMSubsectorWebQuery = (from c in db.MWQMSubsectors
+             IQueryable<MWQMSubsectorWeb> MWQMSubsectorWebQuery = (from c in db.MWQMSubsectors
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSubsectorTVItemID
                     && cl.Language == LanguageRequest

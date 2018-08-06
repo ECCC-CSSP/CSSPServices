@@ -232,7 +232,7 @@ namespace CSSPServices
         #region Functions private Generated TideLocationFillWeb
         private IQueryable<TideLocationWeb> FillTideLocationWeb()
         {
-             IQueryable<TideLocationWeb>  TideLocationWebQuery = (from c in db.TideLocations
+             IQueryable<TideLocationWeb> TideLocationWebQuery = (from c in db.TideLocations
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

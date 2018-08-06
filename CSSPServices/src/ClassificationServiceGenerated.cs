@@ -221,7 +221,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> ClassificationTypeEnumList = enums.GetEnumTextOrderedList(typeof(ClassificationTypeEnum));
 
-             IQueryable<ClassificationWeb>  ClassificationWebQuery = (from c in db.Classifications
+             IQueryable<ClassificationWeb> ClassificationWebQuery = (from c in db.Classifications
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

@@ -382,7 +382,7 @@ namespace CSSPServices
             List<EnumIDAndText> SamplingPlanTypeEnumList = enums.GetEnumTextOrderedList(typeof(SamplingPlanTypeEnum));
             List<EnumIDAndText> LabSheetTypeEnumList = enums.GetEnumTextOrderedList(typeof(LabSheetTypeEnum));
 
-             IQueryable<SamplingPlanWeb>  SamplingPlanWebQuery = (from c in db.SamplingPlans
+             IQueryable<SamplingPlanWeb> SamplingPlanWebQuery = (from c in db.SamplingPlans
                 let ProvinceTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ProvinceTVItemID
                     && cl.Language == LanguageRequest

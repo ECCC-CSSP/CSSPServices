@@ -212,7 +212,7 @@ namespace CSSPServices
         #region Functions private Generated SamplingPlanSubsectorFillWeb
         private IQueryable<SamplingPlanSubsectorWeb> FillSamplingPlanSubsectorWeb()
         {
-             IQueryable<SamplingPlanSubsectorWeb>  SamplingPlanSubsectorWebQuery = (from c in db.SamplingPlanSubsectors
+             IQueryable<SamplingPlanSubsectorWeb> SamplingPlanSubsectorWebQuery = (from c in db.SamplingPlanSubsectors
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest

@@ -301,7 +301,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> SampleTypeEnumList = enums.GetEnumTextOrderedList(typeof(SampleTypeEnum));
 
-             IQueryable<LabSheetTubeMPNDetailWeb>  LabSheetTubeMPNDetailWebQuery = (from c in db.LabSheetTubeMPNDetails
+             IQueryable<LabSheetTubeMPNDetailWeb> LabSheetTubeMPNDetailWebQuery = (from c in db.LabSheetTubeMPNDetails
                 let MWQMSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MWQMSiteTVItemID
                     && cl.Language == LanguageRequest

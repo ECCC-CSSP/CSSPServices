@@ -352,7 +352,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> ScenarioStatusEnumList = enums.GetEnumTextOrderedList(typeof(ScenarioStatusEnum));
 
-             IQueryable<VPScenarioWeb>  VPScenarioWebQuery = (from c in db.VPScenarios
+             IQueryable<VPScenarioWeb> VPScenarioWebQuery = (from c in db.VPScenarios
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.InfrastructureTVItemID
                     && cl.Language == LanguageRequest

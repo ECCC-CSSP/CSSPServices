@@ -436,7 +436,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> TVAuthEnumList = enums.GetEnumTextOrderedList(typeof(TVAuthEnum));
 
-             IQueryable<TVItemUserAuthorizationWeb>  TVItemUserAuthorizationWebQuery = (from c in db.TVItemUserAuthorizations
+             IQueryable<TVItemUserAuthorizationWeb> TVItemUserAuthorizationWebQuery = (from c in db.TVItemUserAuthorizations
                 let ContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest

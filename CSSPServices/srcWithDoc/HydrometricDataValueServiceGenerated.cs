@@ -225,7 +225,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> StorageDataTypeEnumList = enums.GetEnumTextOrderedList(typeof(StorageDataTypeEnum));
 
-             IQueryable<HydrometricDataValueWeb>  HydrometricDataValueWebQuery = (from c in db.HydrometricDataValues
+             IQueryable<HydrometricDataValueWeb> HydrometricDataValueWebQuery = (from c in db.HydrometricDataValues
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

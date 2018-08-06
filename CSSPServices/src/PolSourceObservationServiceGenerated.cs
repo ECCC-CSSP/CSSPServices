@@ -234,7 +234,7 @@ namespace CSSPServices
         #region Functions private Generated PolSourceObservationFillWeb
         private IQueryable<PolSourceObservationWeb> FillPolSourceObservationWeb()
         {
-             IQueryable<PolSourceObservationWeb>  PolSourceObservationWebQuery = (from c in db.PolSourceObservations
+             IQueryable<PolSourceObservationWeb> PolSourceObservationWebQuery = (from c in db.PolSourceObservations
                 let PolSourceSiteTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.PolSourceSiteID
                     && cl.Language == LanguageRequest

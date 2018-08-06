@@ -308,7 +308,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> ContactTitleEnumList = enums.GetEnumTextOrderedList(typeof(ContactTitleEnum));
 
-             IQueryable<ContactWeb>  ContactWebQuery = (from c in db.Contacts
+             IQueryable<ContactWeb> ContactWebQuery = (from c in db.Contacts
                 let ContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.ContactTVItemID
                     && cl.Language == LanguageRequest

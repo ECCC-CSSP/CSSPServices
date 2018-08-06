@@ -213,7 +213,7 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
 
 
-             IQueryable<ReportTypeWeb>  ReportTypeWebQuery = (from c in db.ReportTypes
+             IQueryable<ReportTypeWeb> ReportTypeWebQuery = (from c in db.ReportTypes
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

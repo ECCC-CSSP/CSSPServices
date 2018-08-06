@@ -288,7 +288,7 @@ namespace CSSPServices
         #region Functions private Generated VPAmbientFillWeb
         private IQueryable<VPAmbientWeb> FillVPAmbientWeb()
         {
-             IQueryable<VPAmbientWeb>  VPAmbientWebQuery = (from c in db.VPAmbients
+             IQueryable<VPAmbientWeb> VPAmbientWebQuery = (from c in db.VPAmbients
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

@@ -210,7 +210,7 @@ namespace CSSPServices
         #region Functions private Generated EmailDistributionListFillWeb
         private IQueryable<EmailDistributionListWeb> FillEmailDistributionListWeb()
         {
-             IQueryable<EmailDistributionListWeb>  EmailDistributionListWebQuery = (from c in db.EmailDistributionLists
+             IQueryable<EmailDistributionListWeb> EmailDistributionListWebQuery = (from c in db.EmailDistributionLists
                 let CountryTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.CountryTVItemID
                     && cl.Language == LanguageRequest

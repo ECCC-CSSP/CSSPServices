@@ -259,7 +259,7 @@ namespace CSSPServices
         #region Functions private Generated SpillFillWeb
         private IQueryable<SpillWeb> FillSpillWeb()
         {
-             IQueryable<SpillWeb>  SpillWebQuery = (from c in db.Spills
+             IQueryable<SpillWeb> SpillWebQuery = (from c in db.Spills
                 let MunicipalityTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MunicipalityTVItemID
                     && cl.Language == LanguageRequest

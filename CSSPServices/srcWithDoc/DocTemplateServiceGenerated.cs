@@ -235,7 +235,7 @@ namespace CSSPServices
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-             IQueryable<DocTemplateWeb>  DocTemplateWebQuery = (from c in db.DocTemplates
+             IQueryable<DocTemplateWeb> DocTemplateWebQuery = (from c in db.DocTemplates
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

@@ -210,7 +210,7 @@ namespace CSSPServices
         #region Functions private Generated MapInfoPointFillWeb
         private IQueryable<MapInfoPointWeb> FillMapInfoPointWeb()
         {
-             IQueryable<MapInfoPointWeb>  MapInfoPointWebQuery = (from c in db.MapInfoPoints
+             IQueryable<MapInfoPointWeb> MapInfoPointWebQuery = (from c in db.MapInfoPoints
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest

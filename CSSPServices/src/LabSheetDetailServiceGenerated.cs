@@ -612,7 +612,7 @@ namespace CSSPServices
         #region Functions private Generated LabSheetDetailFillWeb
         private IQueryable<LabSheetDetailWeb> FillLabSheetDetailWeb()
         {
-             IQueryable<LabSheetDetailWeb>  LabSheetDetailWebQuery = (from c in db.LabSheetDetails
+             IQueryable<LabSheetDetailWeb> LabSheetDetailWebQuery = (from c in db.LabSheetDetails
                 let SubsectorTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.SubsectorTVItemID
                     && cl.Language == LanguageRequest

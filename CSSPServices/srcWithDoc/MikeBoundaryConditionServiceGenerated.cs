@@ -288,7 +288,7 @@ namespace CSSPServices
             List<EnumIDAndText> WebTideDataSetEnumList = enums.GetEnumTextOrderedList(typeof(WebTideDataSetEnum));
             List<EnumIDAndText> TVTypeEnumList = enums.GetEnumTextOrderedList(typeof(TVTypeEnum));
 
-             IQueryable<MikeBoundaryConditionWeb>  MikeBoundaryConditionWebQuery = (from c in db.MikeBoundaryConditions
+             IQueryable<MikeBoundaryConditionWeb> MikeBoundaryConditionWebQuery = (from c in db.MikeBoundaryConditions
                 let MikeBoundaryConditionTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.MikeBoundaryConditionTVItemID
                     && cl.Language == LanguageRequest

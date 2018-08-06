@@ -237,7 +237,7 @@ namespace CSSPServices
 
             List<EnumIDAndText> EmailTypeEnumList = enums.GetEnumTextOrderedList(typeof(EmailTypeEnum));
 
-             IQueryable<EmailWeb>  EmailWebQuery = (from c in db.Emails
+             IQueryable<EmailWeb> EmailWebQuery = (from c in db.Emails
                 let EmailTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.EmailTVItemID
                     && cl.Language == LanguageRequest

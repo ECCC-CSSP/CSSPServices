@@ -256,7 +256,7 @@ namespace CSSPServices
             List<EnumIDAndText> LanguageEnumList = enums.GetEnumTextOrderedList(typeof(LanguageEnum));
             List<EnumIDAndText> TranslationStatusEnumList = enums.GetEnumTextOrderedList(typeof(TranslationStatusEnum));
 
-             IQueryable<TVItemLanguageWeb>  TVItemLanguageWebQuery = (from c in db.TVItemLanguages
+             IQueryable<TVItemLanguageWeb> TVItemLanguageWebQuery = (from c in db.TVItemLanguages
                 let LastUpdateContactTVItemLanguage = (from cl in db.TVItemLanguages
                     where cl.TVItemID == c.LastUpdateContactTVItemID
                     && cl.Language == LanguageRequest
